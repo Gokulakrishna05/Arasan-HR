@@ -297,7 +297,7 @@ namespace Arasan.Controllers.Sales
                     ca.Loc = Request.Cookies["Locationid"];
                 ca.Vocher = "Debit Note";
                 DataTable dt1 = DebitNoteBillService.GetPartyLedger(ca.Partyid);
-                ca.ledger = dt1.Rows[0]["LEDGERNAME"].ToString();
+                ca.ledger = dt1.Rows[0]["DISPLAY_NAME"].ToString();
 
             }
             

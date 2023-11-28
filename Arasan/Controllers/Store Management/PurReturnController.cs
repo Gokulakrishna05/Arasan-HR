@@ -455,7 +455,7 @@ namespace Arasan.Controllers
                     tda.unitid= dtt.Rows[i]["UNIT"].ToString();
                    
                     DataTable dt = new DataTable();
-                    dt = PurReturn.Getstkqty(grnid, loc, branch);
+                    dt = PurReturn.Getstkqty(grnid, "10001000000827", branch);
                     if(dt.Rows.Count > 0)
                     {
                         tda.stkqty = dt.Rows[0]["QTY"].ToString();
