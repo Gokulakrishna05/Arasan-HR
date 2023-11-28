@@ -55,8 +55,8 @@ namespace Arasan.Models
         public double Round { get; set; }
         public double otherdeduction { get; set; }
         public double Roundminus { get; set; }
-        public double Gross { get; set; }
-        public double Net { get; set; }
+        public string Gross { get; set; }
+        public string Net { get; set; }
         public List<RetItem> RetLst { get; set; }
         public List<ReturnItem> returnlist { get; set; }
         public string Addr { get; set; }
@@ -84,6 +84,7 @@ namespace Arasan.Models
         //public string grn { get; set; }
         //public string pdf { get; set; }
         public string view { get; set; }
+        public string create { get; set; }
         //public string acc { get; set; }
         //public string pono { get; set; }
         //public string Account { get; set; }

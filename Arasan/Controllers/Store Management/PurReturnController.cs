@@ -93,9 +93,10 @@ namespace Arasan.Controllers
                     //ca.Frig = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["FREIGHT"].ToString());
                     //ca.SpDisc = Convert.ToDouble(dt.Rows[0]["OTHERDISC"].ToString() == "" ? "0" : dt.Rows[0]["OTHERDISC"].ToString());
 
-                    ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
-                    ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
-
+                    //ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+                    //ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+                    ca.Gross = dt.Rows[0]["GROSS"].ToString();
+                    ca.Net = dt.Rows[0]["NET"].ToString();
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = PurReturn.GetPurchaseReturnDes(id);
@@ -440,14 +441,14 @@ namespace Arasan.Controllers
                     tda.amount = dtt.Rows[i]["AMOUNT"].ToString();
                     tda.disc= Convert.ToDouble(dtt.Rows[i]["DISCPER"].ToString());
                     tda.discAmount= Convert.ToDouble(dtt.Rows[i]["DISC"].ToString());
-                    tda.frigcharge= dtt.Rows[i]["IFREIGHTCH"].ToString() == "" ? 0 : Convert.ToDouble(dtt.Rows[i]["IFREIGHTCH"].ToString());
-                    tda.cgstamt= dtt.Rows[i]["CGSTAMT"].ToString() == "" ? 0 : Convert.ToDouble(dtt.Rows[i]["CGSTAMT"].ToString());
-                    tda.cgstper= dtt.Rows[i]["CGSTPER"].ToString() == "" ? 0 : Convert.ToDouble(dtt.Rows[i]["CGSTPER"].ToString());
-                    tda.sgstamt= dtt.Rows[i]["SGSTAMT"].ToString() == "" ? 0 : Convert.ToDouble(dtt.Rows[i]["SGSTAMT"].ToString());
-                    tda.sgstper= dtt.Rows[i]["SGSTPER"].ToString() == "" ? 0 : Convert.ToDouble(dtt.Rows[i]["SGSTPER"].ToString());
-                    tda.igstamt= dtt.Rows[i]["IGSTAMT"].ToString() == "" ? 0 : Convert.ToDouble(dtt.Rows[i]["IGSTAMT"].ToString());
-                    tda.igstper= dtt.Rows[i]["IGSTPER"].ToString() == "" ? 0 : Convert.ToDouble(dtt.Rows[i]["IGSTPER"].ToString());
-                    tda.totalamount= dtt.Rows[i]["TOTAMT"].ToString()=="" ? 0 : Convert.ToDouble(dtt.Rows[i]["TOTAMT"].ToString());
+                    tda.frigcharge= Convert.ToDouble( dtt.Rows[i]["IFREIGHTCH"].ToString() == "" ? "0" :dtt.Rows[i]["IFREIGHTCH"].ToString());
+                    tda.cgstamt= Convert.ToDouble(dtt.Rows[i]["CGST"].ToString() == "" ? "0" : dtt.Rows[i]["CGST"].ToString());
+                    tda.cgstper= Convert.ToDouble(dtt.Rows[i]["CGSTP"].ToString() == "" ? "0" : dtt.Rows[i]["CGSTP"].ToString());
+                    tda.sgstamt= Convert.ToDouble( dtt.Rows[i]["SGST"].ToString() == "" ? "0" : dtt.Rows[i]["SGST"].ToString());
+                    tda.sgstper= Convert.ToDouble(dtt.Rows[i]["SGSTP"].ToString() == "" ? "0" : dtt.Rows[i]["SGSTP"].ToString());
+                    tda.igstamt= Convert.ToDouble(dtt.Rows[i]["IGST"].ToString() == "" ? "0" : dtt.Rows[i]["IGST"].ToString());
+                    tda.igstper= Convert.ToDouble( dtt.Rows[i]["IGSTP"].ToString() == "" ? "0" : dtt.Rows[i]["IGSTP"].ToString());
+                    tda.totalamount= Convert.ToDouble(dtt.Rows[i]["TOTAMT"].ToString()=="" ? "0" : dtt.Rows[i]["TOTAMT"].ToString());
                     tda.binid= dtt.Rows[i]["BINID"].ToString();
                     tda.binid = "0";
                     
@@ -458,6 +459,10 @@ namespace Arasan.Controllers
                     if(dt.Rows.Count > 0)
                     {
                         tda.stkqty = dt.Rows[0]["QTY"].ToString();
+                    }
+                    if(tda.stkqty=="")
+                    {
+                        tda.stkqty = "0";
                     }
                    
                     Data.Add(tda);
@@ -500,6 +505,7 @@ namespace Arasan.Controllers
 
                 string party = "";
                 string currency = "";
+                string currencyid = "";
                 string ex = "";
                 string frig = "";
                 string other = "";
@@ -519,6 +525,7 @@ namespace Arasan.Controllers
                 {
                     party = dt.Rows[0]["PARTYNAME"].ToString();
                     currency = dt.Rows[0]["MAINCURR"].ToString();
+                    currencyid = dt.Rows[0]["MAINCURRENCY"].ToString();
                     ex = dt.Rows[0]["EXRATE"].ToString();
                     frig = dt.Rows[0]["FREIGHT"].ToString();
                     other = dt.Rows[0]["OTHER_CHARGES"].ToString();
@@ -533,7 +540,7 @@ namespace Arasan.Controllers
 
                 }
 
-                var result = new { ex = ex, frig = frig, other = other, roundoffplus = roundoffplus, roundoffmin = roundoffmin, otherdedu = otherdedu, gross = gross, net = net, packing = packing, party= party, currency= currency };
+                var result = new { ex = ex, frig = frig, other = other, roundoffplus = roundoffplus, roundoffmin = roundoffmin, otherdedu = otherdedu, gross = gross, net = net, packing = packing, party= party, currency= currency , currencyid = currencyid };
                 return Json(result);
             }
             catch (Exception ex)
@@ -618,11 +625,13 @@ namespace Arasan.Controllers
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
                
+                string Create = string.Empty;
                 string View = string.Empty;
                 //string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
 
-               
+                Create = "<a href=/DebitNoteBill/DebitNoteBill?id=" + dtUsers.Rows[i]["PRETBASICID"].ToString() + " tag='1'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+
                 View = "<a href=viewPurchaseReturn?id=" + dtUsers.Rows[i]["PRETBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 //EditRow = "<a href=PurchaseRet?id=" + dtUsers.Rows[i]["PRETBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PRETBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
@@ -634,13 +643,14 @@ namespace Arasan.Controllers
                     docNo = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     curr = dtUsers.Rows[i]["MAINCURR"].ToString(),
+                    create = Create,
                     view = View,
                     //editrow = EditRow,
                     delrow = DeleteRow,
 
 
 
-                });
+                }); 
             }
 
             return Json(new
@@ -706,10 +716,11 @@ namespace Arasan.Controllers
                 ca.Pin = dt.Rows[0]["PINCODE"].ToString();
                 ca.Phone = dt.Rows[0]["PHONE"].ToString();
                 
-                ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString());
-                ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString());
+                //ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString());
+                //ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString());
 
-
+                ca.Gross = dt.Rows[0]["GROSS"].ToString();
+                ca.Net = dt.Rows[0]["NET"].ToString();
                 ca.ID = id;
 
                 List<RetItem> Data = new List<RetItem>();

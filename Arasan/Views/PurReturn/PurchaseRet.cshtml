@@ -118,7 +118,7 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Currency, Model.currlst, new { @id = "ddlCurrency", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Currency, Model.currlst, new { @id = "ddlCurrency", @Class = "form-control _select", @TabIndex = 1,@readonly="readonly" })
 
                                         </div>
                                     </div>
@@ -801,7 +801,8 @@
             success: function (result) {
 
                 document.getElementById("txtSupplier").value = result.party;
-                document.getElementById("txtCurrency").value = result.currency;
+              @*  document.getElementById("ddlCurrency").value = result.currency;*@
+                document.getElementById("ddlCurrency").value = result.currencyid;
                 document.getElementById("txtPackingcharges").value = result.packing;
                 document.getElementById("txtExRate").value = result.ex;
                 document.getElementById("txtFrieghtcharge").value = result.frig;
@@ -998,11 +999,11 @@
             if (Disc == "")
                 Disc = 0;
 
-            if (eval(qty) >= eval(stkqty)) {
+            @*if (eval(qty) >= eval(stkqty)) {
                 document.getElementById("txtrqty" + i).value = "0";
                 alert("Stock Quantity Exceeds the Actual Quantity");
                 qty = 0;
-            }
+            }*@
 
 
             var tot = eval(qty) * eval(up) * eval(cf);

@@ -131,7 +131,7 @@
 
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Vocher Type<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Vocher, new { @id = "txtVocher", @class = "form-control", @TabIndex = 2 })
+                                            @Html.DisplayFor(C => C.Vocher, new { @id = "txtVocher"})
                                     </div>
                                 </div>
                             </div>
@@ -145,6 +145,21 @@
                                         </div>
                                     </div>
                          </div>
+                         <div class="row">
+                               <div class="col-md-6">
+                         <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Ledger Name<label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                                 @Html.DisplayFor(C => C.ledger, new { @id = "txtledger", @class = "form-control", @TabIndex = 2 })
+
+                                        
+                                        </div>
+                                </div>
+                                </div>
+                            </div>
+                       
+
                         
                             <div style="height:30px;"></div>
                             <div class="row">
@@ -171,6 +186,7 @@
                                                         <tr>
 
                                                             <th> Dr/Cr </th>
+                                                            <th> Account Group </th>
                                                             <th> Account Name </th>
                                                             <th> Debit Amount </th>
                                                             <th> Credit Amount </th>
@@ -189,8 +205,13 @@
                                                             {
                                                            <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                         <td>
-                                                            @Html.DropDownListFor(o => o.Creditlst[i].Dr, Model.Creditlst[i].Crlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlDr" + i, style = "width: 100px;",@onchange="changeentry(this.value," + i + ")" })
-                                                        </td>
+ @Html.RadioButtonFor(o => o.Creditlst[i].Dr, "Dr", new { @id = "txtCredit",@TabIndex = 2,@onchange="changeentry(this.value," + i + ")" })
+                                                            <label id="mt-radio">Dr</label>
+                                                            @Html.RadioButtonFor(o => o.Creditlst[i].Dr, "Cr", new { @id = "txtCredit",@TabIndex = 3,@onchange="changeentry(this.value," + i + ")" })
+                                                            <label id="mt-radio">Cr</label>                                                        </td>
+                                                            <td>
+                                                           @Html.DropDownListFor(o => o.Creditlst[i].accgrp, Model.Creditlst[i].grplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlaccgrp" + i, style = "width: 250px;",onchange = "LedgerChange(value,"+ i +")" })
+                                                         </td>
                                                         <td>
                                                            @Html.DropDownListFor(o => o.Creditlst[i].Account, Model.Creditlst[i].Acclst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlAccount" + i, style = "width: 250px;" })
                                                          </td>
@@ -355,25 +376,26 @@
     }
    function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
-        var Dr = "<td><select style = 'width: 100px;' class='form-control _select newcss' id='ddlDr" + index + "' name='Creditlst[" + index + "].Dr' onchange='changeentry(this.value," + index + ")'><option value=''>Please select</option><option value='Dr'>Dr</option><option value='Cr'>Cr</option></select></td>";
+        var Dr = "<td><input id='ddlDr" + index + "' name='Creditlst[" + index + "].Dr' onchange='changeentry(this.value," + index + ")' type='radio' value='Dr'> <label id='mt-radio'>Dr</label><input  id='ddlDr" + index + "' name='Creditlst[" + index + "].Dr' onchange='changeentry(this.value," + index + ")' type = 'radio' value='Cr'> <label id='mt-radio'>Cr</label></td>";
+        var group = "<td><select style = 'width: 250px;' class='form-control _select newcss' id='ddlaccgrp" + index + "' name='Creditlst[" + index + "].accgrp' >" + opt + "</select></td>";
         var Account = "<td><select style = 'width: 250px;' class='form-control _select newcss' id='ddlAccount" + index + "' name='Creditlst[" + index + "].Account' >" + opt + "</select></td>";
         var Debit = "<td><input class='form-control' id='txtDepitAmount" + index + "' name='Creditlst[" + index + "].DepitAmount'  style='width: 100px;text-align:right' type='text'  onkeydown = 'return isNumeric2(event.keyCode,this.value)' value='0' onchange = 'changeDeAmount(this, " + index + ")' /></td>";
         var Credit = "<td><input class='form-control' id='txtCreditAmount" + index + "' name='Creditlst[" + index + "].CreditAmount'  style='width: 100px;text-align:right' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)'  value='0' onchange = 'changeCrAmount(this," + index + ")' /></td>";
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='Creditlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DrumDetlst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Dr + Account + Debit + Credit + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Dr + group + Account + Debit + Credit + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
         $('._select').select2();
     }
-    function changeentry(typeid, i) {
+    function changeentry(typeid,i) {
         if (typeid == "Dr") {
             document.getElementById("txtCreditAmount" + i).readOnly = true;
             document.getElementById("txtDepitAmount" + i).readOnly = false;
         }
-
+        
         else {
             document.getElementById("txtDepitAmount" + i).readOnly = true;
             document.getElementById("txtCreditAmount" + i).readOnly = false;
@@ -457,4 +479,31 @@
     $(function () {
         $('._select').select2();
     });
+
+       function LedgerChange(itemid,i) {
+
+       
+        $.ajax({
+            url: "GetAccGroupJSON",
+            type: "post",
+            data: { 'itemid': itemid },
+            cache: false,
+            success: function (response) {
+                var newlist;
+
+                newlist = response.Ilst;
+                 var i = 0;
+                $('tr.chkitemlst').each(function () {
+                    if ($(this).css('display') !== 'none') {
+                        PopulateDropDown("#ddlAccount" + i, response);
+                        i += 1;
+                    }
+                });
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Account Group");
+            }
+        });
+    }
 </script>
