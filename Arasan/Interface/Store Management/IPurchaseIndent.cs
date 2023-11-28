@@ -8,7 +8,7 @@ namespace Arasan.Interface
         DataTable GetLocation();
         DataTable GetSLocation();
         DataTable GetItemSubGrp();
-        DataTable GetItem();
+        DataTable GetItem(string item);
         DataTable GetItemDetails(string ItemId);
         DataTable GetEmp();
         string IndentCRUD(PurchaseIndent cy);
@@ -27,6 +27,6 @@ namespace Arasan.Interface
         string GenerateEnquiry(string[] selectedRecord, string supid);
         DataTable GetIndentItembyItemd(string ItemId);
         DataTable GetIndetnPlacedDetails(string ItemId);
-
+        DataTable GetSTKDetails(string ItemId, string loc, string branch);
     }
 }

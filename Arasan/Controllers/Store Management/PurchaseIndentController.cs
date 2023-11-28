@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Interface.Master;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Arasan.Controllers.Store_Management
 {
@@ -19,6 +20,8 @@ namespace Arasan.Controllers.Store_Management
         {
             PurIndent = _PurService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
+
         }
         public IActionResult Purchase_Indent()
         {
@@ -36,8 +39,8 @@ namespace Arasan.Controllers.Store_Management
             for (int i = 0; i < 3; i++)
             {
                 tda = new PIndentItem();
-                //tda.ItemGrouplst = BindItemGrplst();
-                tda.Itemlst = BindItemlst();
+                tda.ItemGrouplst = BindItemGrplst();
+                tda.Itemlst = BindItemlst("");
                 tda.loclst = GetLoc();
                 tda.Isvalid = "Y";
                 TData.Add(tda);
@@ -345,11 +348,11 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public JsonResult GetItemJSON()
+        public JsonResult GetItemJSON(string item)
         {
             EnqItem model = new EnqItem();
-            model.Itemlst = BindItemlst();
-            return Json(BindItemlst());
+            model.Itemlst = BindItemlst(item);
+            return Json(BindItemlst(item));
 
         }
         //public JsonResult GetSuppJSON(string partytype)
@@ -413,11 +416,11 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public List<SelectListItem> BindItemlst()
+        public List<SelectListItem> BindItemlst(string item)
         {
             try
             {
-                DataTable dtDesg = PurIndent.GetItem();
+                DataTable dtDesg = PurIndent.GetItem(item);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -453,18 +456,23 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public ActionResult GetItemDetail(string ItemId)
+        public ActionResult GetItemDetail(string ItemId, string loc, string branch)
         {
             try
             {
                 DataTable dt = new DataTable();
                 DataTable dt1 = new DataTable();
+                DataTable dt2 = new DataTable();
                 string QC = "";
                 string unit = "";
                 string unitid = "";
                 string indentqty = "0";
+                string stk = "";
+                string totalstock = "";
+                string item = "";
                 dt = PurIndent.GetItemDetails(ItemId);
                 dt1= PurIndent.GetIndetnPlacedDetails(ItemId);
+                dt2 = PurIndent.GetSTKDetails(ItemId, loc, branch);
                 if (dt.Rows.Count > 0)
                 {
                     if (dt.Rows[0]["QCYNTEMP"].ToString() == "" || string.IsNullOrEmpty(dt.Rows[0]["QCYNTEMP"].ToString()))
@@ -483,8 +491,19 @@ namespace Arasan.Controllers.Store_Management
                 {
                     indentqty= dt1.Rows[0]["QTY"].ToString();
                 }
-                var result = new { QC = QC, unit = unit, unitid = unitid , indentqty = indentqty };
+                if (dt2.Rows.Count > 0)
+                {
+                    stk = dt2.Rows[0]["QTY"].ToString();
+                }
+                DataTable stock = datatrans.GetData("Select SUM(BALANCE_QTY) as qty from INVENTORY_ITEM where ITEM_ID='" + ItemId + "' AND BALANCE_QTY > 0 AND LOCATION_ID NOT IN '" + loc + "' AND BRANCH_ID='" + branch + "'  ");
+                if (stock.Rows.Count > 0)
+                {
+                    totalstock = stock.Rows[0]["qty"].ToString();
+                }
+                item = ItemId;
+                var result = new { QC = QC, unit = unit, unitid = unitid, indentqty = indentqty, stk = stk , totalstock = totalstock, item= item };
                 return Json(result);
+            
             }
             catch (Exception ex)
             {
@@ -527,6 +546,34 @@ namespace Arasan.Controllers.Store_Management
             {
                 throw ex;
             }
+        }
+        public IActionResult WholeStock(string id)
+        {
+            PurchaseIndent MR = new PurchaseIndent();
+            
+            List<TotalStockItem> TData = new List<TotalStockItem>();
+            TotalStockItem tda = new TotalStockItem();
+            DataTable dtt = datatrans.GetData("Select ITEMMASTER.ITEMID,ITEM_ID,LOCDETAILS.LOCID,INVENTORY_ITEM_ID,LOCATION_ID,to_char(GRN_DATE,'dd-MON-yyyy')GRN_DATE,ITEM_ID,BALANCE_QTY from INVENTORY_ITEM left outer join ITEMMASTER ON ITEMMASTERID=INVENTORY_ITEM.ITEM_ID left outer join LOCDETAILS ON LOCDETAILSID=INVENTORY_ITEM.LOCATION_ID where ITEM_ID=" + id + " AND BALANCE_QTY > 0 AND LOCATION_ID NOT IN '10001000000827' AND BRANCH_ID='10001000000001'  ");
+
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new TotalStockItem();
+                    tda.item = dtt.Rows[i]["ITEMID"].ToString();
+                    tda.itemid = dtt.Rows[i]["ITEM_ID"].ToString();
+                    tda.invid = dtt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
+
+                    tda.location = dtt.Rows[i]["LOCID"].ToString();
+                    tda.locationid = dtt.Rows[i]["LOCATION_ID"].ToString();
+                    tda.docDate = dtt.Rows[i]["GRN_DATE"].ToString();
+                    tda.qty = dtt.Rows[i]["BALANCE_QTY"].ToString();
+
+                    TData.Add(tda);
+                }
+            }
+            MR.stklst = TData;
+            return View(MR);
         }
         public IActionResult List_Purchase_Indent()
         {

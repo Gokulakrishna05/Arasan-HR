@@ -44,12 +44,14 @@ namespace Arasan.Models
         public string PreparedBy { get; set; }
 
         public string IndentId { get; set; }
+        public List<TotalStockItem> stklst { get; set; }
         public string TotalQty { get; set; }
 
     }
     public class PIndentItem
     {
         public string ItemId { get; set; }
+        public string saveItem { get; set; }
 
         public List<SelectListItem> Itemlst { get; set; }
 
@@ -148,5 +150,25 @@ namespace Arasan.Models
         public string PartyName { get; set; }
         public List<SelectListItem> Partylst { get; set; }
     }
-    
+    public class TotalStockItem
+    {
+        public string ID { get; set; }
+        public string branch { get; set; }
+        public string branchid { get; set; }
+        public string location { get; set; }
+        public string locationid { get; set; }
+        public string reqlocation { get; set; }
+        public string reqlocationid { get; set; }
+        public string docid { get; set; }
+        public string docDate { get; set; }
+        public bool select { get; set; }
+        public string user { get; set; }
+        public string item { get; set; }
+        public string invid { get; set; }
+        public string itemid { get; set; }
+        public string qty { get; set; }
+        public string reqqty { get; set; }
+
+
+    }
 }
