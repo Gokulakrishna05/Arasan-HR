@@ -95,6 +95,7 @@ namespace Arasan.Models
     public class PartyGrid
     {
         public string id { get; set; }
+        public string partyname { get; set; }
         public string partycategory { get; set; }
         public string partygroup { get; set; }
 
