@@ -2,6 +2,7 @@
 using Arasan.Models;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -76,7 +77,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  DOCID,to_char(PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,PAYMENTREQUEST.TYPE,PO_OR_GRN,AMOUNT,REQUESTEDBY,PAYMENTREQUEST.ACTIVE,PAYMENTREQUESTID,PAYMENTREQUEST.STATUS from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND PAYMENTREQUEST.ACTIVE = 'YES' ORDER BY PAYMENTREQUESTID DESC ";
+                    cmd.CommandText = "Select  DOCID,to_char(PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,PAYMENTREQUEST.TYPE,PO_OR_GRN,AMOUNT,REQUESTEDBY,PAYMENTREQUEST.IS_ACTIVE,PAYMENTREQUESTID,PAYMENTREQUEST.IS_APPROVED from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID  Where  PAYMENTREQUEST.IS_ACTIVE = 'Y' ORDER BY PAYMENTREQUESTID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -86,12 +87,12 @@ namespace Arasan.Services
                             DocId = rdr["DOCID"].ToString(),
                             Date = rdr["DOCDATE"].ToString(),
                             Supplier = rdr["PARTYNAME"].ToString(),
-                            status = rdr["ACTIVE"].ToString(),
+                            status = rdr["IS_ACTIVE"].ToString(),
                             GRN = rdr["PO_OR_GRN"].ToString(),
                             Type = rdr["TYPE"].ToString(),
                             Final = rdr["AMOUNT"].ToString(),
                             ReqBy = rdr["REQUESTEDBY"].ToString(),
-							Approve = rdr["STATUS"].ToString()
+							Approve = rdr["IS_APPROVED"].ToString()
                            
                         };
                         cmpList.Add(cmp);
@@ -106,16 +107,7 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-                if (cy.ID == null)
-                {
-
-                    svSQL = " SELECT Count(*) as cnt FROM PAYMENTREQUEST WHERE DOCID =LTRIM(RTRIM('" + cy.DocId + "')) ";
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "DocId Already Existed";
-                        return msg;
-                    }
-                }
+                
 				if (cy.ID == null)
 				{
 
@@ -154,13 +146,15 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Date);
                     objCmd.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = cy.Type;
-                    objCmd.Parameters.Add("SUPPLIERID", OracleDbType.NVarchar2).Value = cy.Supplier;
+                    objCmd.Parameters.Add("SUPPLIERID", OracleDbType.NVarchar2).Value = cy.Supplier; 
                     objCmd.Parameters.Add("PO_OR_GRN", OracleDbType.NVarchar2).Value = cy.GRN;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cy.Amount;
                     objCmd.Parameters.Add("REQUESTAMOUNT", OracleDbType.NVarchar2).Value = cy.Final;
                     objCmd.Parameters.Add("REQUESTEDBY", OracleDbType.NVarchar2).Value = cy.ReqBy;
-                    objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "YES";
+                    objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.createdby;
+                    objCmd.Parameters.Add("CREATED_ON", OracleDbType.NVarchar2).Value = DateTime.Now;
+                    // objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "YES";
                     //objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Approved";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
@@ -187,7 +181,7 @@ namespace Arasan.Services
         public DataTable EditPayment(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select  DOCID,to_char( PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,PAYMENTREQUEST.TYPE,PO_OR_GRN,AMOUNT,REQUESTAMOUNT,REQUESTEDBY,PAYMENTREQUEST.ACTIVE,PAYMENTREQUEST.AMOUNT,PAYMENTREQUESTID from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND PAYMENTREQUESTID='" + id +"' ";
+            SvSql = "Select  DOCID,to_char( PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,PAYMENTREQUEST.TYPE,PO_OR_GRN,AMOUNT,REQUESTAMOUNT,REQUESTEDBY,PAYMENTREQUEST.IS_ACTIVE,PAYMENTREQUEST.AMOUNT,PAYMENTREQUESTID from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID  Where  PAYMENTREQUESTID='" + id +"' ";
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
@@ -198,7 +192,7 @@ namespace Arasan.Services
         public DataTable EditPaymentRequest(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select  DOCID,to_char( PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,SUPPLIERID,PAYMENTREQUEST.TYPE,PO_OR_GRN,REQUESTAMOUNT,REQUESTEDBY,PAYMENTREQUEST.ACTIVE,PAYMENTREQUEST.AMOUNT,PAYMENTREQUESTID from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND PAYMENTREQUESTID='" + id + "' ";
+            SvSql = "Select  DOCID,to_char( PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,SUPPLIERID,PAYMENTREQUEST.TYPE,PO_OR_GRN,REQUESTAMOUNT,REQUESTEDBY,PAYMENTREQUEST.IS_ACTIVE,PAYMENTREQUEST.AMOUNT,PAYMENTREQUESTID from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID  Where  PAYMENTREQUESTID='" + id + "' ";
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
@@ -214,7 +208,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE PAYMENTREQUEST SET STATUS ='Approved' WHERE PAYMENTREQUESTID='" + cy.ID + "'";
+                    svSQL = "UPDATE PAYMENTREQUEST SET IS_APPROVED ='Y' WHERE PAYMENTREQUESTID='" + cy.ID + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -259,7 +253,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE PAYMENTREQUEST SET ACTIVE ='NO' WHERE PAYMENTREQUESTID='" + id + "' ";
+                    svSQL = "UPDATE PAYMENTREQUEST SET IS_ACTIVE ='N' WHERE PAYMENTREQUESTID='" + id + "' ";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -283,7 +277,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  DOCID,to_char( PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,PAYMENTREQUEST.TYPE,PO_OR_GRN,REQUESTAMOUNT,REQUESTEDBY,PAYMENTREQUEST.ACTIVE,PAYMENTREQUESTID from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND PAYMENTREQUEST.STATUS ='Approved'";
+                    cmd.CommandText = "Select  DOCID,to_char( PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,PAYMENTREQUEST.TYPE,PO_OR_GRN,REQUESTAMOUNT,REQUESTEDBY,PAYMENTREQUESTID,PAYMENTREQUEST.IS_ACTIVE from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID   AND PAYMENTREQUEST.IS_APPROVED ='Y' AND PAYMENTREQUEST.IS_ACTIVE='Y' ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -294,7 +288,7 @@ namespace Arasan.Services
                             DocId = rdr["DOCID"].ToString(),
                             Date = rdr["DOCDATE"].ToString(),
                             Supplier = rdr["PARTYNAME"].ToString(),
-                            status = rdr["ACTIVE"].ToString(),
+                            status = rdr["IS_ACTIVE"].ToString(),
                             GRN = rdr["PO_OR_GRN"].ToString(),
                             Type = rdr["TYPE"].ToString(),
                             Final = rdr["REQUESTAMOUNT"].ToString(),

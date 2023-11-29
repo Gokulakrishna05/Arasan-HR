@@ -67,6 +67,7 @@ namespace Arasan.Controllers
             try
             {
                 Cy.ID = id;
+                Cy.createdby= Request.Cookies["UserId"];
                 string Strout = request.PaymentCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {

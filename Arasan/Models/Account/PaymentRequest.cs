@@ -29,7 +29,7 @@ namespace Arasan.Models
         public string Amount { get; set; }
         public string Final { get; set; }
         public List<SelectListItem> Reqlst;
-
+        public string createdby { get;set; }
         public string ReqBy { get; set; }
         public string Reason { get; set; }
         public string DocId { get; set; }
