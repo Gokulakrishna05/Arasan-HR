@@ -1085,9 +1085,9 @@ namespace Arasan.Controllers
                     {
                         tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
                         tda.Unit = dtt.Rows[i]["UNITID"].ToString();
-                        tda.rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString());
-                        tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
-                        tda.CGSTPer = Convert.ToDouble(dtt.Rows[i]["CGSTP"].ToString() == "" ? "0" : dtt.Rows[i]["CGSTP"].ToString());
+                        tda.rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString() == "" ? "0" : dtt.Rows[i]["CGSTP"].ToString());
+                    tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["CGSTP"].ToString());
+                    tda.CGSTPer = Convert.ToDouble(dtt.Rows[i]["CGSTP"].ToString() == "" ? "0" : dtt.Rows[i]["CGSTP"].ToString());
                         tda.SGSTPer = Convert.ToDouble(dtt.Rows[i]["SGSTP"].ToString() == "" ? "0" : dtt.Rows[i]["SGSTP"].ToString());
                         tda.IGSTPer = Convert.ToDouble(dtt.Rows[i]["IGSTP"].ToString() == "" ? "0" : dtt.Rows[i]["IGSTP"].ToString());
                         tda.CGSTAmt = Convert.ToDouble(dtt.Rows[i]["CGST"].ToString() == "" ? "0" : dtt.Rows[i]["CGST"].ToString());

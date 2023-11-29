@@ -27,7 +27,9 @@
         var source =
         {
             url: "/ETariff/MyListItemgrid",
-
+            data: {
+                strstatus: ""
+            },
             datatype: "json",
             updaterow: function (rowid, rowdata) {
                 // synchronize with the server - send update command
@@ -36,8 +38,6 @@
                 { name: 'tariff', type: 'string' },
                 { name: 'tariffdes', type: 'string' },
                 { name: 'sgst', type: 'string' },
-                //{ name: 'cgst', type: 'string' },
-                //{ name: 'igst', type: 'string' },
 
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
@@ -58,7 +58,9 @@
             {
                 width: '100%',
                 source: dataAdapter,
-                height: 450,
+                //height: 450,
+                autorowheight: true,
+                autoheight: true,
                 source: source,
                 sortable: true,
                 filterable: true,
@@ -68,28 +70,25 @@
                 //showfilterrow: true,
                 theme: 'darkblue',
                 enablebrowserselection: true,
-               
-
                 columns: [
-
-
-                    { text: 'Tariff ID', datafield: 'tariff', width: 200 },
-                    { text: 'Tariff Des', datafield: 'tariffdes', width: 200 },
-                    { text: 'Percentage', datafield: 'sgst', width: 100 },
-                    //{ text: 'CGST', datafield: 'cgst', width: 100 },
-                    //{ text: 'IGST', datafield: 'igst', width: 100 },
 
                     { text: 'Tariff ID', filtertype: 'checkedlist', datafield: 'tariff', width: 200 },
                     { text: 'Tariff Des', filtertype: 'checkedlist', datafield: 'tariffdes', width: 200 },
-                    { text: 'SGST', filtertype: 'input', datafield: 'sgst', width: 100 },
-                    { text: 'CGST', datafield: 'cgst', width: 100 },
-                    { text: 'IGST', datafield: 'igst', width: 100 },
-
+                    { text: 'Percentage', filtertype: 'input', datafield: 'sgst', width: 100 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                 ]
         });
-
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
     });
 </script>
 

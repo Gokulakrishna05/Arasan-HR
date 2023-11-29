@@ -71,7 +71,7 @@ namespace Arasan.Services
         public DataTable GetGrpDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select LEDNAME from ACCLEDGER WHERE ACCLEDGER.LEDGERID = '" + id + "' ";
+            SvSql = "select ACCGROUP.ACCOUNTGROUP,ACCLEDGER.LEDNAME from ACCLEDGER left outer join ACCGROUP on ACCGROUPID=ACCLEDGER.ACCGROUP WHERE ACCLEDGER.ACCGROUP = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -82,8 +82,7 @@ namespace Arasan.Services
         public DataTable GetLedbyId(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ACCGROUP.ACCGROUPID,ACCLEDGER.LEDNAME,ACCLEDGER.LEDGERID FROM ACCLEDGER LEFT OUTER JOIN ACCGROUP ON ACCGROUPID = ACCLEDGER.LEDGERID WHERE ACCLEDGER.LEDGERID ='" + id + "'";
-
+            SvSql = "select LEDNAME,LEDGERID from ACCLEDGER where ACCGROUP = '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -92,7 +91,8 @@ namespace Arasan.Services
         } public DataTable GetGRPbyId(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ACCGROUP.ACCGROUPID,ACCGROUP.ACCOUNTGROUP,ACCLEDGER.LEDGERID FROM ACCGROUP LEFT OUTER JOIN ACCLEDGER  ON ACCLEDGER.LEDGERID = ACCGROUP.ACCGROUPID WHERE ACCGROUP.ACCGROUPID ='" + id + "'";
+            SvSql = "select ACCGROUP.ACCGROUPID,ACCGROUP.ACCOUNTGROUP,ACCLEDGER.ACCGROUP FROM ACCGROUP LEFT OUTER JOIN ACCLEDGER  ON ACCLEDGER.ACCGROUP = ACCGROUP.ACCGROUPID WHERE ACCGROUP.ACCGROUPID ='" + id + "'";
+
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);

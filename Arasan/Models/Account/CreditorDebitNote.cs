@@ -31,6 +31,7 @@ namespace Arasan.Models
         public string amount { get; set; }
         public string Voucher { get; set; }
         public string number { get; set; }
+        public string Total { get; set; }
 
         public List<CreDebNoteItems> NoteLst { get; set; }
     }

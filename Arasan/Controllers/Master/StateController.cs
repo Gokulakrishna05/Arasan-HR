@@ -154,7 +154,7 @@ namespace Arasan.Controllers.Master
                     id = dtUsers.Rows[i]["STATEMASTID"].ToString(),
                     statename = dtUsers.Rows[i]["STATE"].ToString(),
                     statecode = dtUsers.Rows[i]["STCODE"].ToString(),
-                    countryid = dtUsers.Rows[i]["COUNTRYMASTID"].ToString(),
+                    countryid = dtUsers.Rows[i]["COUNTRY"].ToString(),
                     editrow = EditRow,
                     delrow = DeleteRow,
 

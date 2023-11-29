@@ -40,6 +40,7 @@
                 // synchronize with the server - send update command
             },
             datafields: [
+                { name: 'partyname', type: 'string' },
                 { name: 'partycategory', type: 'string' },
                 { name: 'partygroup', type: 'string' },
                 { name: 'joindate', type: 'string' },
@@ -76,6 +77,7 @@
                 enablebrowserselection: true,
                 columns: [
 
+                    { text: 'Party Name', filtertype: 'checkedlist', datafield: 'partyname', width: 200 },
                     { text: 'Party Category', filtertype: 'checkedlist', datafield: 'partycategory', width: 200 },
                     { text: 'Party Group', filtertype: 'checkedlist', datafield: 'partygroup', width: 200 },
                     { text: 'Join Date', filtertype: 'input', datafield: 'joindate', width: 150 },
@@ -116,8 +118,8 @@
                             <div class="col-md-9 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("PartyMaster","PartyMaster")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add PartyMaster</a>
-                                    <br>
-                                </div>
+                                    <br> 
+                                </div> 
 
                             </div>
                         </div>

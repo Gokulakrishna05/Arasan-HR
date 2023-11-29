@@ -33,13 +33,9 @@ namespace Arasan.Controllers
             CreditorDebitNote ca = new CreditorDebitNote();
             ca.VTypelst = BindVTypelst();
             ca.Grouplst = BindGrouplst();
-            ca.Ledgerlst = BindLedgerlst(); 
-            
-            //DataTable dtv = datatrans.GetSequence("testv");
-            //if (dtv.Rows.Count > 0)
-            //{
-            //    ca.cdid = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
-            //}
+            ca.Ledgerlst = BindLedgerlst();
+
+            ca.TDate = DateTime.Now.ToString("dd-MMM-yyyy");
 
             List<CreDebNoteItems> TData = new List<CreDebNoteItems>();
             CreDebNoteItems tda = new CreDebNoteItems();
@@ -178,6 +174,13 @@ namespace Arasan.Controllers
             model.Grouplst = BindGroulst(ItemId);
             return Json(BindGroulst(ItemId));
 
+        } 
+        public JsonResult GetGrpitemJSON()
+        {
+            //CreditorDebitNote model = new CreditorDebitNote();
+            //model.Grouplst = BindGrouplst(ItemId);
+            return Json(BindGrplst());
+
         }
         public JsonResult GetLedgerJSON(string ItemId)
         {
@@ -255,5 +258,31 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
+        //public JsonResult GetgrpItemJSON(string itemid)
+        //{
+        //    DeductionItem model = new DeductionItem();
+        //    model.Grplst = BindgrpItemlst(itemid);
+        //    return Json(BindgrpItemlst(itemid));
+
+        //}
+
+        //public List<SelectListItem> BindgrpItemlst(string value)
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = datatrans.GetGRPbyId(value);
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ACCOUNTGROUP"].ToString(), Value = dtDesg.Rows[i]["ACCGROUPID"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
     }
 }
