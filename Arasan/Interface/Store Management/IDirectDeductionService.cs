@@ -23,6 +23,9 @@ namespace Arasan.Interface.Store_Management
 
         string StatusChange(string tag, string id);
         DataTable GetAllListDirectDeductionItems(string strStatus);
+        //DataTable GetItemSubGrp();
+        DataTable GetItem(string id);
+        DataTable BindProcess();
     }
 
 }

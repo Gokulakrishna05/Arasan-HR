@@ -87,6 +87,7 @@ namespace Arasan.Models
         public string RefDate { get; set; }
 
         public double DiscAmt { get; set; }
+        public double Disc { get; set; }
         public double CGST { get; set; }
         public double SGST { get; set; }
         public double IGST { get; set; }

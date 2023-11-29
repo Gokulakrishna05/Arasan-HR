@@ -71,6 +71,19 @@ namespace Arasan.Services.Store_Management
                 string StatementType = string.Empty; string svSQL = "";
 
                 datatrans = new DataTransactions(_connectionString);
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'Dde-' AND ACTIVESEQUENCE = 'T'  ");
+                string DocId = string.Format("{0}{1}", "Dde-", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='Dde-' AND ACTIVESEQUENCE ='T'  ";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                ss.DocId = DocId;
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DEDBASICPROC", objConn);
@@ -253,7 +266,26 @@ namespace Arasan.Services.Store_Management
 
             return msg;
         }
-
+        public DataTable BindProcess()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PROCESSID,PROCESSMASTID from PROCESSMAST";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER Where SUBGROUPCODE='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetDirectDeductionDetails(string id)
         {
             string SvSql = string.Empty;
@@ -398,7 +430,7 @@ namespace Arasan.Services.Store_Management
         {
             string SvSql = string.Empty;
             //SvSql = "Select SALES_ENQ_ITEM.SALESENQITEMID,SALES_ENQ_ITEM.SAL_ENQ_ID,SALES_ENQ_ITEM.QUANTITY,ITEMMASTER.ITEMID,SALES_ENQ_ITEM.UNIT,SALES_ENQ_ITEM.ITEM_DESCRIPTION from SALES_ENQ_ITEM LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=SALES_ENQ_ITEM.ITEM_ID   where SALES_ENQ_ITEM.SALESENQITEMID='" + name + "'";
-            SvSql = "Select ITEMSUBGROUP.SGCODE,ITEMSUBGROUP.SGDESC,DEDDETAIL.QTY,DEDDETAIL.CONFAC,DEDDETAIL.DEDDETAILID,UNITMAST.UNITID,RATE,AMOUNT,BINID,PROCESSID  from DEDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DEDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT LEFT OUTER JOIN ITEMSUBGROUP on ITEMSUBGROUP.ITEMSUBGROUPID=DEDDETAIL.DEDDETAILID where DEDDETAIL.DEDBASICID='" + id + "'";
+            SvSql = "Select ITEMMASTER.ITEMID,DEDDETAIL.QTY,DEDDETAIL.CONFAC,DEDDETAIL.DEDDETAILID,UNIT,RATE,AMOUNT,BINID,PROCESSID  from DEDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DEDDETAIL.ITEMID\r\n where DEDDETAIL.DEDBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
