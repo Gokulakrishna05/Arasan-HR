@@ -8,7 +8,7 @@ namespace Arasan.Interface
         DataTable GetLocation();
         DataTable GetSLocation();
         DataTable GetItemSubGrp();
-        DataTable GetItem(string item);
+        DataTable GetItem();
         DataTable GetItemDetails(string ItemId);
         DataTable GetEmp();
         string IndentCRUD(PurchaseIndent cy);

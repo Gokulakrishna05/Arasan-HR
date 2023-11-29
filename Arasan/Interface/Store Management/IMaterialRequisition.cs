@@ -12,7 +12,7 @@ namespace Arasan.Interface
         //DataTable GetWorkCenter(string LocationId);
         //   DataTable GetItem(string value);
         //  DataTable GetItemGrp();
-        DataTable GetItem(string id);
+        DataTable GetItem();
         DataTable GetItemGrp();
         DataTable GetLoc();
         DataTable GetItemGroup(string id);

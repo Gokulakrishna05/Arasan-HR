@@ -52,7 +52,7 @@
                                             @Html.DropDownListFor(C => C.Location, Model.Loclst,"---Please Select---", new { @id = "ddllocation", @Class = "form-control _select", @TabIndex = 4,onchange = "WorkChange(value)" })
                                             @Html.HiddenFor(C => C.ID)
                                             @Html.HiddenFor(C => C.Branch ,new {@id="hdbranch"})
-                                            @Html.HiddenFor(C => C.Entered  )
+                                            @Html.HiddenFor(C => C.Entered)
                                             @Html.HiddenFor(C => C.matno  )
                                         </div>
                                     </div>
@@ -125,7 +125,7 @@
                                     <table class="table table-striped table-hover" id="dataTable">
                                         <thead>
                                             <tr>
-                                                <th> Item Group</th>
+                                              @*  <th> Item Group</th>*@
                                                 <th> Item </th>
                                                 <th> Unit </th>
                                                 <th> Closing Stock </th>
@@ -142,10 +142,10 @@
                                                 {
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                        <td>
+                                                       @* <td>
                                                             @Html.DropDownListFor(o => o.MRlst[i].ItemGroupId, Model.MRlst[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
 
-                                                        </td>
+                                                        </td>*@
                                                         <td>
                                                             @Html.DropDownListFor(o => o.MRlst[i].ItemId, Model.MRlst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "Item_Change(this.value," + i + ")" })
                                                             
@@ -201,7 +201,7 @@
                                 <div class="col-md-10">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Narration<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Narration<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.TextAreaFor(C => C.Narration, new { @id = "txtNarration", @class = "form-control", @TabIndex = 2 })<br />
                                         </div>
@@ -256,6 +256,22 @@
                         "background": ""
                     });
             }
+            if (document.getElementById("ddllocation").value == "" || document.getElementById("ddllocation").value == 0) {
+                isValid = false;
+                $(ddllocation).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Location");
+                return false;
+            }
+            else {
+                $(ddllocation).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
             //if (document.getElementById("txtNarration").value == "") {
             //    isValid = false;
             //    $(txtNarration).css({
@@ -263,43 +279,11 @@
             //        "background": "#FFCECE"
             //    });
 
-            //    alert("Please Select Nattation");
+            //    alert("Please Enter Narration");
             //    return false;
             //}
             //else {
             //    $(txtNarration).css({
-            //        "border": "",
-            //        "background": ""
-            //    });
-            //}
-            //if (document.getElementById("ddllocation").value == "" || document.getElementById("ddllocation").value == 0) {
-            //    isValid = false;
-            //    $(ddllocation).css({
-            //        "border": "1px solid red",
-            //        "background": "#FFCECE"
-            //    });
-
-            //    alert("Please Select Location");
-            //    return false;
-            //}
-            //else {
-            //    $(ddllocation).css({
-            //        "border": "",
-            //        "background": ""
-            //    });
-            //}
-            //if (document.getElementById("ddlworkcenter").value == "" || document.getElementById("ddlworkcenter").value == 0) {
-            //    isValid = false;
-            //    $(ddlworkcenter).css({
-            //        "border": "1px solid red",
-            //        "background": "#FFCECE"
-            //    });
-
-            //    alert("Please Select Work Center");
-            //    return false;
-            //}
-            //else {
-            //    $(ddlworkcenter).css({
             //        "border": "",
             //        "background": ""
             //    });
@@ -466,7 +450,7 @@
         var opt = "";
         $.ajax({
             type: "POST",
-            url: 'GetItemGrpJSON',
+            url: 'GetItemJSON',
             success: function (data) {
 
                 $.each(data, function () {
@@ -498,9 +482,9 @@
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var ItemGrp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='MRlst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        //var ItemGrp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='MRlst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='MRlst[" + index + "].ItemId' style='width:150px;' onchange = 'Item_Change(this.value," + index + ")'> <option value=''>Please select</option> < /select> </td > ";
+        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='MRlst[" + index + "].ItemId' style='width:150px;' onchange = 'Item_Change(this.value," + index + ")'> <option value=''>Please select</option>" + opt + " < /select> </td > ";
 
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='MRlst[" + index + "].UnitID'  style='width: 100px;' type='text'  readonly='True' /><input type='hidden' id='hdUnit" + index + "' name='Itemlst[" + index + "].UnitID'></td>";
@@ -516,7 +500,7 @@
         var removeCell = "<td><input id='Isvalid" + index + "' name='MRlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='MRlst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + Stock + Quantity + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>"  + Item + Unit + Stock + Quantity + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
@@ -545,5 +529,6 @@
             }
         });
     }
+  
 
 </script>
