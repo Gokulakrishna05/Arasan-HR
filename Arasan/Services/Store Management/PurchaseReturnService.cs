@@ -134,7 +134,7 @@ namespace Arasan.Services
 
                 string PARTYID = datatrans.GetDataString("Select PARTYMASTID from PARTYMAST where PARTYNAME='" + cy.Supplier + "' ");
                 string CURR = datatrans.GetDataString("Select CURRENCYID from CURRENCY where MAINCURR='" + cy.Currency + "' ");
-
+                string grn = datatrans.GetDataString("Select DOCID from GRNBLBASIC where GRNBLBASICID='" + cy.Grn + "' ");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("PURRETURNPROC", objConn);
@@ -161,11 +161,11 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.ReqNo;
                     objCmd.Parameters.Add("REFDT", OracleDbType.Date).Value = DateTime.Parse(cy.ReqDate);
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
-                    objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
+                    objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = CURR;
                     objCmd.Parameters.Add("REASONCODE", OracleDbType.NVarchar2).Value = cy.Reason;
                     objCmd.Parameters.Add("REJBY", OracleDbType.NVarchar2).Value = cy.Rej;
                     objCmd.Parameters.Add("TRANSITLOCID", OracleDbType.NVarchar2).Value = cy.Trans;
-                    objCmd.Parameters.Add("RGRNNO", OracleDbType.NVarchar2).Value = cy.Grn;
+                    objCmd.Parameters.Add("RGRNNO", OracleDbType.NVarchar2).Value = grn;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.Gross;
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.Net;
                     objCmd.Parameters.Add("NARR", OracleDbType.NVarchar2).Value = cy.Narration;
@@ -416,7 +416,7 @@ namespace Arasan.Services
         public DataTable GetGRNDetails(string POID)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT GRNBLDETAIL.GRNBLDETAILID,GRNBLDETAIL.ITEMID as itemi,UNITMAST.UNITID,CF,QTY,RATE,AMOUNT,ITEMMASTER.ITEMID,DISC,DISCPER,IFREIGHTCH,IGSTAMT,IGSTPER,SGSTAMT,CGSTPER,CGSTAMT,SGSTPER,TOTAMT,BINBASIC.BINID,GRNBLDETAIL.UNIT FROM GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GRNBLDETAIL.ITEMID LEFT OUTER JOIN BINBASIC ON ITEMMASTER.BINNO=BINBASIC.BINBASICID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT WHERE GRNBLBASICID='" + POID + "'";
+            SvSql = "SELECT GRNBLDETAIL.GRNBLDETAILID,GRNBLDETAIL.ITEMID as itemi,UNITMAST.UNITID,CF,QTY,RATE,AMOUNT,ITEMMASTER.ITEMID,DISC,DISCPER,IFREIGHTCH,IGST,IGSTP,SGST,CGSTP,CGST,SGSTP,TOTAMT,BINBASIC.BINID,GRNBLDETAIL.UNIT FROM GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GRNBLDETAIL.ITEMID LEFT OUTER JOIN BINBASIC ON ITEMMASTER.BINNO=BINBASIC.BINBASICID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT WHERE GRNBLBASICID='" + POID + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -426,7 +426,7 @@ namespace Arasan.Services
         public DataTable GetGRNBlDetails(string GRNID)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT PARTYMAST.PARTYNAME,CURRENCY.MAINCURR,EXRATE,FREIGHT,OTHER_CHARGES,ROUND_OFF_PLUS,ROUND_OFF_MINUS,OTHER_DEDUCTION,GROSS,NET,PACKING_CHRAGES FROM GRNBLBASIC LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=GRNBLBASIC.PARTYID WHERE GRNBLBASICID='" + GRNID + "'";
+            SvSql = "SELECT PARTYMAST.PARTYNAME,CURRENCY.MAINCURR,GRNBLBASIC.MAINCURRENCY,EXRATE,FREIGHT,OTHER_CHARGES,ROUND_OFF_PLUS,ROUND_OFF_MINUS,OTHER_DEDUCTION,GROSS,NET,PACKING_CHRAGES FROM GRNBLBASIC LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=GRNBLBASIC.PARTYID WHERE GRNBLBASICID='" + GRNID + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -564,7 +564,7 @@ namespace Arasan.Services
         public DataTable GetviewPurchaseReturnDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PRETDETAIL.GRNNO,ITEMMASTER.ITEMID,BINBASIC.BINID,PRIQTY,CLSTOCK,PRETDETAIL.QTY,UNITMAST.UNITID,PRETDETAIL.RATE,PRETDETAIL.AMOUNT,PRETDETAIL.TOTAMT,PRETDETAIL.CF,PRETDETAIL.CGSTPER,PRETDETAIL.CGSTAMT,PRETDETAIL.SGSTPER,PRETDETAIL.SGSTAMT,PRETDETAIL.IGSTPER,PRETDETAIL.IGSTAMT,PRETBASICID,PRETDETAILID  from PRETDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRETDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PRETDETAIL.UNIT LEFT OUTER JOIN BINBASIC ON ITEMMASTER.BINNO=BINBASIC.BINBASICID  where PRETDETAIL.PRETBASICID=" + id + "";
+            SvSql = "Select PRETDETAIL.GRNNO,ITEMMASTER.ITEMID,BINBASIC.BINID,PRIQTY,CLSTOCK,PRETDETAIL.QTY,UNITMAST.UNITID,PRETDETAIL.RATE,PRETDETAIL.AMOUNT,PRETDETAIL.TOTAMT,PRETDETAIL.CF,PRETDETAIL.CGSTP,PRETDETAIL.CGST,PRETDETAIL.SGSTP,PRETDETAIL.SGST,PRETDETAIL.IGSTP,PRETDETAIL.IGST,PRETBASICID,PRETDETAILID  from PRETDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRETDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PRETDETAIL.UNIT LEFT OUTER JOIN BINBASIC ON ITEMMASTER.BINNO=BINBASIC.BINBASICID  where PRETDETAIL.PRETBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -26,6 +26,8 @@ namespace Arasan.Models
         public string Branch { get; set; }
         public List<SelectListItem> Partylst;
         public string Party { get; set; }
+        public string Partyid { get; set; }
+        public string ledger { get; set; }
         public string Vocher { get; set; }
         public string DocId { get; set; }
         public string Docdate { get; set; }
@@ -35,9 +37,9 @@ namespace Arasan.Models
         public string Net { get; set; }
         public string Location { get; set; }
         public string Amount { get; set; }
-        public string Bigst { get; set; }
-        public string Bsgst { get; set; }
-        public string Bcgst { get; set; }
+        public double Bigst { get; set; }
+        public double Bsgst { get; set; }
+        public double Bcgst { get; set; }
         public string Narration { get; set; }
         public string Credit { get; set; }
         public string Debit { get; set; }
@@ -56,9 +58,11 @@ namespace Arasan.Models
         public List<SelectListItem> Crlst { get; set; }
         public string Dr { get; set; }
         public List<SelectListItem> Acclst { get; set; }
+        public List<SelectListItem> grplst { get; set; }
         public string Account { get; set; }
         public string DepitAmount { get; set; }
         public string CreditAmount { get; set; }
+        public string accgrp { get; set; }
         public string Isvalid { get; set; }
        
 
@@ -71,6 +75,7 @@ namespace Arasan.Models
         public string Invdate { get; set; }
         public List<SelectListItem> Itemlst;
         public string Item { get; set; }
+        public string Itemid { get; set; }
         public string Cf { get; set; }
         public string Unit { get; set; }
         public string Qty { get; set; }

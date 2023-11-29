@@ -43,6 +43,7 @@
                 { name: 'docNo', type: 'string' },
                 { name: 'docDate', type: 'string' },
                 { name: 'curr', type: 'string' },
+                { name: 'create', type: 'string' },
                 { name: 'view', type: 'string' },
                 { name: 'delrow', type: 'string' },
                 
@@ -77,6 +78,8 @@
                     { text: 'Doc No', filtertype: 'input', datafield: 'docNo', width: 150 },
                     { text: 'Doc Date', datafield: 'docDate', width: 100, align: 'center' },
                     { text: 'Currency', filtertype: 'checkedlist', datafield: 'curr', align: 'center', width: 300 },
+                    { text: 'Create Debit Note', datafield: 'create', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
+
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
@@ -111,7 +114,7 @@
                             </div>
                             <div class="col-md-9 ">
                                  <div class=" textalignright">
-                                    <a href="@Url.Action("PurReturn", "PurchaseRet")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add PurchaseReturn</a>
+                                    <a href="@Url.Action("PurchaseRet", "PurReturn")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add PurchaseReturn</a>
                                 <br>
                                 </div>
 

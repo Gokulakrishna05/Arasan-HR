@@ -134,14 +134,13 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("RANGEDIVISION", OracleDbType.NVarchar2).Value = cy.Range;
                     objCmd.Parameters.Add("ECCNO", OracleDbType.NVarchar2).Value = cy.EccID;
                     objCmd.Parameters.Add("EXCISEAPPLICABLE", OracleDbType.NVarchar2).Value = cy.Excise;
-                    //objCmd.Parameters.Add("PARTYTYPE", OracleDbType.NVarchar2).Value = cy.Type;
                     objCmd.Parameters.Add("HTTP", OracleDbType.NVarchar2).Value = cy.Http;
                     objCmd.Parameters.Add("OVERDUEINTEREST", OracleDbType.NVarchar2).Value = cy.OverDueInterest;
                     objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = cy.Address;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remark;
                     objCmd.Parameters.Add("INTRODUCEDBY", OracleDbType.NVarchar2).Value = cy.Intred;
                     objCmd.Parameters.Add("LEDGERNAME", OracleDbType.NVarchar2).Value = cy.Ledger;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 
@@ -206,7 +205,7 @@ namespace Arasan.Services.Master
         public DataTable GetParty(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYMAST.PARTYID,PARTYMAST.PARTYNAME,PARTYMAST.PARTYCAT,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,PARTYMAST.ACCOUNTNAME,PARTYMAST.PARTYGROUP,PARTYMAST.COMMCODE,PARTYMAST.REGULARYN,PARTYMAST.LUTNO,PARTYMAST.TYPE,PARTYMAST.CREDITLIMIT,PARTYMAST.CREDITDAYS,PARTYMAST.SECTIONID,PARTYMAST.CSGNPARTYID,PARTYMAST.TRANSLMT,PARTYMAST.GSTNO,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,ACTIVE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,HTTP,OVERDUEINTEREST,ADD1,REMARKS,INTRODUCEDBY,LEDGERNAME,PARTYMASTID  from PARTYMAST where PARTYMAST.PARTYMASTID=" + id + "";
+            SvSql = "Select PARTYMAST.PARTYID,PARTYMAST.PARTYNAME,PARTYMAST.PARTYCAT,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,PARTYMAST.ACCOUNTNAME,PARTYMAST.PARTYGROUP,PARTYMAST.COMMCODE,PARTYMAST.REGULARYN,PARTYMAST.LUTNO,PARTYMAST.TYPE,PARTYMAST.CREDITLIMIT,PARTYMAST.CREDITDAYS,PARTYMAST.SECTIONID,PARTYMAST.CSGNPARTYID,PARTYMAST.TRANSLMT,PARTYMAST.GSTNO,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,HTTP,OVERDUEINTEREST,ADD1,REMARKS,INTRODUCEDBY,LEDGERNAME,ACTIVE,PARTYMASTID  from PARTYMAST where PARTYMAST.PARTYMASTID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -226,7 +225,7 @@ namespace Arasan.Services.Master
         public DataTable GetPartyContact(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYMASTCONTACT.CONTACTPURPOSE,PARTYMASTCONTACT.CONTACTNAME,PARTYMASTCONTACT.CONTACTDESIG,PARTYMASTCONTACT.CONTACTPHONE,PARTYMASTCONTACT.CONTACTEMAIL,PARTYMASTID  from PARTYMASTCONTACT where PARTYMASTCONTACT.PARTYMASTID=" + id + "";
+            SvSql = "Select PARTYMASTCONTACT.CONTACTPURPOSE,PARTYMASTCONTACT.CONTACTNAME,PARTYMASTCONTACT.CONTACTDESIG,PARTYMASTCONTACT.CONTACTPHONE,PARTYMASTCONTACT.CONTACTEMAIL  from PARTYMASTCONTACT where PARTYMASTCONTACT.PARTYMASTID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -326,11 +325,11 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select PARTYMASTID,PARTYMAST.PARTYCAT,PARTYMAST.PARTYGROUP,RATECODE,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE from PARTYMAST WHERE PARTYMAST.IS_ACTIVE = 'Y' ORDER BY PARTYMASTID DESC";
+                SvSql = "Select PARTYMASTID,PARTYMAST.PARTYNAME,PARTYMAST.PARTYCAT,PARTYMAST.PARTYGROUP,RATECODE,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE from PARTYMAST WHERE PARTYMAST.IS_ACTIVE = 'Y' ORDER BY PARTYMASTID ASC";
             }
             else
             {
-                SvSql = "Select PARTYMASTID,PARTYMAST.PARTYCAT,PARTYMAST.PARTYGROUP,RATECODE,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE from PARTYMAST WHERE PARTYMAST.IS_ACTIVE = 'N' ORDER BY PARTYMASTID DESC";
+                SvSql = "Select PARTYMASTID,PARTYMAST.PARTYNAME,PARTYMAST.PARTYCAT,PARTYMAST.PARTYGROUP,RATECODE,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE from PARTYMAST WHERE PARTYMAST.IS_ACTIVE = 'N' ORDER BY PARTYMASTID ASC";
 
             }
             DataTable dtt = new DataTable();

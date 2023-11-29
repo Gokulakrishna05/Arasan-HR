@@ -52,24 +52,29 @@ namespace Arasan.Services.Sales
 
                 string StatementType = string.Empty;
                 string svSQL = "";
-
-                datatrans = new DataTransactions(_connectionString);
-
-
-                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'DNBF' AND ACTIVESEQUENCE = 'T'");
-                string docid = string.Format("{0}{1}", "DNBF", (idc + 1).ToString());
-
-                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='DNBF' AND ACTIVESEQUENCE ='T'";
-                try
+                if (cy.ID != null)
                 {
-                    datatrans.UpdateStatus(updateCMd);
+                    cy.ID = null;
                 }
-                catch (Exception ex)
+                    if (cy.ID == null)
                 {
-                    throw ex;
-                }
-                cy.DocId = docid;
+                    datatrans = new DataTransactions(_connectionString);
 
+
+                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'DNBF' AND ACTIVESEQUENCE = 'T'");
+                    string docid = string.Format("{0}{1}", "DNBF", (idc + 1).ToString());
+
+                    string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='DNBF' AND ACTIVESEQUENCE ='T'";
+                    try
+                    {
+                        datatrans.UpdateStatus(updateCMd);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    cy.DocId = docid;
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DBNOTEBASICPROC", objConn);
@@ -89,11 +94,11 @@ namespace Arasan.Services.Sales
                     }
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("VTYPE", OracleDbType.NVarchar2).Value = cy.Vocher;
-                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = docid;
+                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.RefNo;
                     objCmd.Parameters.Add("REFDT", OracleDbType.NVarchar2).Value = cy.RefDate;
-                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Party;
+                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Partyid;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.Gross;
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.Net;
                     objCmd.Parameters.Add("AMTINWRD", OracleDbType.NVarchar2).Value = cy.Amount;
@@ -120,12 +125,12 @@ namespace Arasan.Services.Sales
                             {
                                 foreach (DebitNoteItem cp in cy.Depitlst)
                                 {
-                                    //string itemId = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cp.Item + "' ");
+                                    string grn = datatrans.GetDataString("Select GRNBLBASICID from GRNBLBASIC where DOCID='" + cp.InvNo + "' ");
 
 
                                     if (cp.Isvalid == "Y" && cp.InvNo != "0")
                                     {
-                                        svSQL = "Insert into DBNOTEDETAIL (DBNOTEBASICID,INVNO,INVDT,ITEMID,CONVFACTOR,PRIUNIT,QTY,RATE,AMOUNT,CGST,SGST,IGST,TOTAMT) VALUES ('" + Pid + "','" + cp.InvNo + "','" + cp.Invdate + "','" + cp.Item + "','" + cp.Cf + "','" + cp.Unit + "','" + cp.Qty + "','" + cp.Rate + "','" + cp.Amount + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "','" + cp.Total + "')";
+                                        svSQL = "Insert into DBNOTEDETAIL (DBNOTEBASICID,INVNO,INVDT,ITEMID,CONVFACTOR,PRIUNIT,QTY,RATE,AMOUNT,CGST,SGST,IGST,TOTAMT) VALUES ('" + Pid + "','" + grn + "','" + cp.Invdate + "','" + cp.Itemid + "','" + cp.Cf + "','" + cp.Unit + "','" + cp.Qty + "','" + cp.Rate + "','" + cp.Amount + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "','" + cp.Total + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                     }
@@ -138,12 +143,13 @@ namespace Arasan.Services.Sales
                                 objCmdd.ExecuteNonQuery();
                                 foreach (DebitNoteItem cp in cy.Depitlst)
                                 {
-                                    //string itemId = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cp.Item + "' ");
+                                    string grn = datatrans.GetDataString("Select GRNBLBASICID from GRNBLBASIC where DOCID='" + cp.InvNo + "' ");
+
 
 
                                     if (cp.Isvalid == "Y" && cp.InvNo != "0")
                                     {
-                                        svSQL = "Insert into DBNOTEDETAIL (DBNOTEBASICID,INVNO,INVDT,ITEMID,CONVFACTOR,PRIUNIT,QTY,RATE,AMOUNT,CGST,SGST,IGST,TOTAMT) VALUES ('" + Pid + "','" + cp.InvNo + "','" + cp.Invdate + "','" + cp.Item + "','" + cp.Cf + "','" + cp.Unit + "','" + cp.Qty + "','" + cp.Rate + "','" + cp.Amount + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "','" + cp.Total + "')";
+                                        svSQL = "Insert into DBNOTEDETAIL (DBNOTEBASICID,INVNO,INVDT,ITEMID,CONVFACTOR,PRIUNIT,QTY,RATE,AMOUNT,CGST,SGST,IGST,TOTAMT) VALUES ('" + Pid + "','" + grn + "','" + cp.Invdate + "','" + cp.Itemid + "','" + cp.Cf + "','" + cp.Unit + "','" + cp.Qty + "','" + cp.Rate + "','" + cp.Amount + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "','" + cp.Total + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                     }
@@ -329,7 +335,7 @@ namespace Arasan.Services.Sales
         public DataTable EditProEntry(string PROID)
         {
             string SvSql = string.Empty;
-            SvSql = "select  BRANCHMAST.BRANCHID,NET,DBNOTEBASIC.DOCID,DBNOTEBASIC.BRANCHID AS BRA FROM DBNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID =DBNOTEBASIC.BRANCHID where DBNOTEBASIC.DBNOTEBASICID ='" + PROID + "'";
+            SvSql = "select  BRANCHMAST.BRANCHID,NET,DBNOTEBASIC.DOCID,DBNOTEBASIC.BRANCHID AS BRA,DBNOTEBASIC.PARTYID FROM DBNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID =DBNOTEBASIC.BRANCHID where DBNOTEBASIC.DBNOTEBASICID ='" + PROID + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -351,7 +357,70 @@ namespace Arasan.Services.Sales
         public DataTable GetVocher()
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT VCHTYPEID,DESCRIPTION FROM VCHTYPE";
+            SvSql = "SELECT VCHTYPEID,DESCRIPTION FROM VCHTYPE WHERE DESCRIPTION='Debit Note'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetPurRet(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select PRETBASIC.BRANCHID,PRETBASIC.PARTYID ,PARTYMAST.PARTYNAME,PRETBASIC.GROSS,PRETBASIC.NET,PRETBASICID  from PRETBASIC  left outer join PARTYMAST on PARTYMAST.PARTYMASTID = PRETBASIC.PARTYID  where PRETBASIC.PRETBASICID=" + id + "";
+            //SvSql = "Select PRETBASIC.REJBY,CURRENCY.MAINCURR ,BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,PRETBASIC.DOCID,to_char(PRETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PRETBASIC.REFNO,to_char(PRETBASIC.REFDT,'dd-MON-yyyy')REFDT,LOCDETAILS.LOCID,PRETBASIC.EXCHANGERATE,PRETBASIC.REASONCODE,PRETBASIC.TEMPFIELD,PRETBASIC.RGRNNO,PRETBASIC.GROSS,PRETBASIC.NET,PRETBASIC.NARR,PRETBASICID  from PRETBASIC left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID = PRETBASIC.BRANCHID left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID = PRETBASIC.LOCID left outer join PARTYMAST on PARTYMAST.PARTYMASTID = PRETBASIC.PARTYID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=PRETBASIC.MAINCURRENCY LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PRETBASIC.TRANSITLOCID where PRETBASIC.PRETBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetPurRetDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMMASTER.ITEMID,PRETDETAIL.ITEMID as item,PRIQTY,CLSTOCK,PRETDETAIL.QTY,UNITMAST.UNITID,PRETDETAIL.RATE,PRETDETAIL.AMOUNT,PRETDETAIL.TOTAMT,PRETDETAIL.CF,PRETDETAIL.CGSTP,PRETDETAIL.CGST,PRETDETAIL.SGSTP,PRETDETAIL.SGST,PRETDETAIL.IGSTP,PRETDETAIL.IGST,PRETBASICID,PRETDETAILID  from PRETDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRETDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PRETDETAIL.UNIT  where PRETDETAIL.PRETBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPurRetDoc(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select PRETBASIC.RGRNNO,to_char(PRETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE from PRETBASIC where PRETBASIC.PRETBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAccGrp()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ACCOUNTGROUP,ACCGROUPID from ACCGROUP";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetLedger(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DISPLAY_NAME, LEDGERID,LEDNAME from ACCLEDGER where ACCGROUP='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPartyLedger(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ACCLEDGER.DISPLAY_NAME from PARTYMAST left outer join ACCLEDGER on LEDGERID=PARTYMAST.ACCOUNTNAME where PARTYMASTID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

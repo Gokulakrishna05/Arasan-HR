@@ -65,7 +65,7 @@ namespace Arasan.Controllers.Master
                     ca.AccName = dt.Rows[0]["ACCOUNTNAME"].ToString();
                     ca.Active = dt.Rows[0]["ACTIVE"].ToString();
                     ca.GST = dt.Rows[0]["GSTNO"].ToString();
-                    ca.PartyGroup = dt.Rows[0]["PARTYGROUP"].ToString();
+                    ca.PartyGroup = dt.Rows[0]["PARTYCAT"].ToString(); //PARTYGROUP
                     ca.SectionID = dt.Rows[0]["SECTIONID"].ToString();
                     ca.LUTDate = dt.Rows[0]["LUTDT"].ToString();
                     ca.JoinDate = dt.Rows[0]["PJOINDATE"].ToString();
@@ -337,6 +337,7 @@ namespace Arasan.Controllers.Master
                     Reg.Add(new PartyGrid
                     {
                         id = dtUsers.Rows[i]["PARTYMASTID"].ToString(),
+                        partyname = dtUsers.Rows[i]["PARTYNAME"].ToString(),
                         partycategory = dtUsers.Rows[i]["PARTYCAT"].ToString(),
                         partygroup = dtUsers.Rows[i]["PARTYGROUP"].ToString(),
                         joindate = dtUsers.Rows[i]["PJOINDATE"].ToString(),

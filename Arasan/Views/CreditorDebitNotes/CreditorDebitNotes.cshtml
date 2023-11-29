@@ -1,7 +1,7 @@
 ﻿@model Arasan.Models.CreditorDebitNote
 
 @{
-    ViewData["Title"] = "CreditorDebitNote";
+    ViewData["Title"] = "Credit/DebitNote";
 }
 <style>
     .mandatory {
@@ -23,7 +23,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Account</a> </li>
-            <li class="active"> <strong> CreditorDebitNote </strong> </li>
+            <li class="active"> <strong> Credit/DebitNote </strong> </li>
         </ol>
     </div>
 </div>
@@ -32,7 +32,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    <h5 style="font-size:14px"> CreditorDebitNote </h5>
+                    <h5 style="font-size:14px"> Credit/DebitNote </h5>
                     <hr>
                     @using (Html.BeginForm("CreditorDebitNotes", "CreditorDebitNotes", FormMethod.Post))
                     {
@@ -45,7 +45,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label"> Voucher Type <label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.VType, Model.VTypelst,"--Please select--", new { @id = "ddlVType", @Class = "form-control  _select", @TabIndex = 1,onchange="changeCRDP(this.value)" })
+                                            @Html.DropDownListFor(C => C.VType, Model.VTypelst,"--Please select--", new { @id = "ddlVType", @Class = "form-control  _select", @TabIndex = 1,onchange="changeCRDP(this.value)" })   
                                         </div>
                                     </div>
                                 </div>
@@ -78,38 +78,6 @@
 
                                     </div>
                                 </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label"> Account Group<label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Group, Model.Grouplst,"--Please select--", new { @id = "ddlGroup", @Class = "form-control  _select", @TabIndex = 1 })
-                                            @Html.HiddenFor(C => C.ID)
-                                            
-
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Account Ledger<label class="mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Ledger, Model.Ledgerlst,"--Please select--", new { @id = "ddlLedger", @Class = "form-control  _select", @TabIndex = 1 })
-
-                                        
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            
-                            
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -122,6 +90,38 @@
 
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label"> Account Group<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Group, Model.Grouplst,"--Please select--", new { @id = "ddlGroup", @Class = "form-control  _select", @TabIndex = 1, @onchange = "changeGroup(this.value)"  })
+                                            @Html.HiddenFor(C => C.ID)
+                                            
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                          
+                            
+                                <div class="col-md-6">
+                                    <div class="form-group"> 
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Account Ledger<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Ledger, Model.Ledgerlst,"--Please select--", new { @id = "ddlLedger", @Class = "form-control  _select", @TabIndex = 1  })
+
+                                        
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                
                             </div>
 
                             <div style="height:30px;"></div>
@@ -157,7 +157,7 @@
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                         <td>
-                                                            @Html.DropDownListFor(o => o.NoteLst[i].Grp, Model.NoteLst[i].Grplst, "-- Please Select --", new { @class = "form-control _select newcss", @id = "ddlGrp" + i, style = "width: 200px;" })
+                                                            @Html.DropDownListFor(o => o.NoteLst[i].Grp, Model.NoteLst[i].Grplst, "-- Please Select --", new { @class = "form-control _select newcss", @id = "ddlGrp" + i, style = "width: 200px;" , onchange = "Grup_Change(this.value," + i + ")"})
                                                             @Html.HiddenFor(o => o.NoteLst[i].saveGrp)
                                                             
 
@@ -167,7 +167,7 @@
 
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.NoteLst[i].Tamount, new { @id = "txtTamount"+ i , @class = "form-control", style = "width: 180px;" , @TabIndex = 2,onkeyup = "changeQty(this, " + i + ")"})
+                                                            @Html.TextBoxFor(o => o.NoteLst[i].Tamount, new { @id = "txtTamount"+ i , @class = "form-control", style = "width: 80px;" , @TabIndex = 2,onkeyup = "changeQty(this, " + i + ")"})
 
                                                         </td>
 
@@ -203,12 +203,21 @@
                                     </div>
                                 </div>
                             </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Total Amount<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Total, new { @id = "txtTotal", @class = "form-control", @TabIndex = 2, @size="30"/*,onkeyup = "checkEquality(this, " + i + ")"*/ })<br>
+                                        </div>
+                                    </div>
+                                </div>
                           </div>
                             
 
                             <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
-                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs"  id="btnSave">Submit</button>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListCreditorDebitNote", "CreditorDebitNotes")">Cancel</a>
 
                         </form>
@@ -242,48 +251,45 @@
 
    
 
-            //function AppendRow(opt) {
-            //    var index = $("#tbBooks").children("tr").length;
 
-
-
-            //    var Grp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlGrp" + index + "' name='NoteLst[" + index + "].Grp'  ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
-            //    var Led = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlLed" + index + "' name='NoteLst[" + index + "].Led'  ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
-            //    var Tamount = "<td><input class='form-control' id='txtTamount" + index + "' name='NoteLst[" + index + "].Tamount'  style='width: 180px;' type='text'  /></td>";
-
-
-
-            //    var removeCell = "<td><input id='Isvalid" + index + "' name='NoteLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='NoteLst.Index' type='hidden' value='" + index + "'  /></td>";
-
-            //    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Grp + Led + Tamount + removeCell + "</tr>";
-
-
-            //    $("#tbBooks").append(newRow);
-            //    $(function () {
-            //        $('._select').select2();
-            //    })
-            //}
 
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var Grp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlGrp" + index + "' name='NoteLst[" + index + "].Grp'  ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
-        var Led = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlLed" + index + "' name='NoteLst[" + index + "].Led'  ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
-        var Tamount = "<td><input class='form-control' id='txtType" + index + "' name='NoteLst[" + index + "].Tamount'  style='width: 180px;' type='text'  /></td>";
+        var Grp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlGrp" + index + "' name='NoteLst[" + index + "].Grp' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+
+
+        var Led = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlLed" + index + "' name='Ledlst[" + index + "].Led' ><option value=''>Please select</option></select></td>";
+
+        var Tamount = "<td><input class='form-control' id='txtTamount" + index + "' name='NoteLst[" + index + "].Tamount'  onkeyup = 'changeQty(this, " + index + ")'  style='width: 80px;' type='text'  /></td>";
 
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='NoteLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='NoteLst.Index' type='hidden' value='" + index + "'  /></td>";
 
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Grp + Led + Tamount + removeCell + "</tr>";
 
-
+        //alert(Packing);
         $("#tbBooks").append(newRow);
+
         $(function () {
             $('._select').select2();
-        })
+        });
     }
 
+    function AddRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetGrpitemJSON',
+            success: function (data) {
 
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow(opt);
+            }
+        })
+    }
 
         //    $(".chosen-select").chosen();
         //    function removeRow(id) {
@@ -319,90 +325,122 @@
 
         //</script>
 
-//<script>
+<script>
 
-      //    $(function () {
-      //        $('._select').select2();
-      //    });
+          $(function () {
+              $('._select').select2();
+          });
 
-      //    $(document).ready(function () {
-      //        $('#btnSave').click(function (e) {
-      //            var isValid = true;
-
-
-      //            if (document.getElementById("txtSchemeDes").value == "") {
-      //                isValid = false;
-      //                $(txtSchemeDes).css({
-      //                    "border": "1px solid red",
-      //                    "background": "#FFCECE"
-      //                });
-
-      //                alert("Please Enter SchemeDescrip");
-      //                return false;
-      //            }
-      //            else {
-      //                $(txtSchemeDes).css({
-      //                    "border": "",
-      //                    "background": ""
-      //                });
-      //            }
-      //            if (document.getElementById("txtScheme").value == "") {
-      //                isValid = false;
-      //                $(txtScheme).css({
-      //                    "border": "1px solid red",
-      //                    "background": "#FFCECE"
-      //                });
-
-      //                alert("Please Enter Scheme");
-      //                return false;
-      //            }
-      //            else {
-      //                $(txtScheme).css({
-      //                    "border": "",
-      //                    "background": ""
-      //                });
-      //            }
-      //            if (document.getElementById("txtTrasactionName").value == "") {
-      //                isValid = false;
-      //                $(txtTrasactionName).css({
-      //                    "border": "1px solid red",
-      //                    "background": "#FFCECE"
-      //                });
-
-      //                alert("Please Enter Trasaction Name");
-      //                return false;
-      //            }
-      //            else {
-      //                $(txtTrasactionName).css({
-      //                    "border": "",
-      //                    "background": ""
-      //                });
-      //            }
-      //            if (document.getElementById("txtTrasactionID").value == "") {
-      //                isValid = false;
-      //                $(txtTrasactionID).css({
-      //                    "border": "1px solid red",
-      //                    "background": "#FFCECE"
-      //                });
-
-      //                alert("Please Enter Trasaction ID");
-      //                return false;
-      //            }
-      //            else {
-      //                $(txtTrasactionID).css({
-      //                    "border": "",
-      //                    "background": ""
-      //                });
-      //            }
+          $(document).ready(function () {
+              $('#btnSave').click(function (e) {
+                  var isValid = true;
 
 
+            if (document.getElementById("ddlVType").value == "") {
+                      isValid = false;
+                $(ddlVType).css({
+                          "border": "1px solid red",
+                          "background": "#FFCECE"
+                      });
 
-      //            if (isValid == false)
-      //                e.preventDefault();
+                      alert("Please Select Voucher Type");
+                      return false;
+                  }
+                  else {
+                $(ddlVType).css({
+                          "border": "",
+                          "background": ""
+                      });
+                  }
+                  if (document.getElementById("txtamount").value == "") {
+                      isValid = false;
+                $(txtamount).css({
+                          "border": "1px solid red",
+                          "background": "#FFCECE"
+                      });
 
-      //        });
+                alert("Please Enter amount");
+                      return false;
+                  }
+                  else {
+                      $(txtamount).css({
+                          "border": "",
+                          "background": ""
+                      });
+                  }
+            if (document.getElementById("ddlGroup").value == "") {
+                      isValid = false;
+                      $(ddlGroup).css({
+                          "border": "1px solid red",
+                          "background": "#FFCECE"
+                      });
 
-      //    });
+                      alert("Please Enter Account Group");
+                      return false;
+                  }
+                  else {
+                $(ddlGroup).css({
+                          "border": "",
+                          "background": ""
+                      });
+                  }
+                  if (document.getElementById("ddlLedger").value == "") {
+                      isValid = false;
+                      $(ddlLedger).css({
+                          "border": "1px solid red",
+                          "background": "#FFCECE"
+                      });
+
+                      alert("Please Enter Ledger");
+                      return false;
+                  }
+                  else {
+                      $(txtVoucher).css({
+                          "border": "",
+                          "background": ""
+                      });
+                  }if (document.getElementById("txtVoucher").value == "") {
+                      isValid = false;
+                      $(txtVoucher).css({
+                          "border": "1px solid red",
+                          "background": "#FFCECE"
+                      });
+
+                      alert("Please Enter Voucher");
+                      return false;
+                  }
+                  else {
+                      $(ddlLedger).css({
+                          "border": "",
+                          "background": ""
+                      });
+                  }if (document.getElementById("txtTotal").value == "") {
+                      isValid = false;
+                      $(txtTotal).css({
+                          "border": "1px solid red",
+                          "background": "#FFCECE"
+                      });
+
+                      alert("Please EnterTotal Amount");
+                      return false;
+                  }
+                  else {
+                $(txtTotal).css({
+                          "border": "",
+                          "background": ""
+                      });
+                  }
+
+
+
+                  if (isValid == false)
+                      e.preventDefault();
+
+              });
+
+          });
+
+
           function changeCRDP(ItemId) {
                 $.ajax({
                     url: 'GetcrdeoDetail',
@@ -411,12 +449,36 @@
                     success: function (result) {
 
                   document.getElementById("txtnumber").value = result.sequnce;
+
                       
                     },
                     error: function () {
                     }
                 });
             }
+
+         
+
+      function Grup_Change(itemid, i) {
+        
+          $.ajax({
+              url: "GetGrpJSON",
+              type: "post",
+              data: { 'itemid': itemid },
+              cache: false,
+              success: function (response) {
+                  var newlist;
+                  //alert(JSON.stringify(response));
+                  newlist = response.Ilst;
+                  PopulateDropDown("#ddlLed" + i, response);
+              },
+              error: function () {
+                  debugger;
+                  alert("Please Select Ledger");
+              }
+          });
+      }
+
       function changeQty(_this, i) {
           try {
 
@@ -427,6 +489,7 @@
 
               $('tr.chkitemlst').each(function () {
                   if ($(this).css('display') !== 'none') {
+
                       qty = $(this).find('#txtTamount' + j.toString()).val();
                       if (qty == "")
                           qty = 0;
@@ -435,27 +498,93 @@
                   }
                   j += 1;
               });
-              document.getElementById("txtamount").value = tot.toFixed(2);
+              document.getElementById("txtTotal").value = tot.toFixed(2);
+           
+           
+           
           }
           catch (ex) {
               alert(ex.message);
           }
       }
+    $(document).ready(function () {
+            $('#btnSave').click(function (e) {
+                var isValid = true;
 
-      function AddRow() {
-          var opt = "";
-          $.ajax({
-              type: "POST",
-              url: 'GetGrpJSON',
-              success: function (data) {
 
-                  $.each(data, function () {
-                      opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                  });
-                  AppendRow(opt);
-              }
-          })
-      }
+               var ttot = document.getElementById("txtTotal").value;
+              var atot = document.getElementById("txtamount").value;
+              alert(ttot);
+            alert(atot);
+
+             if(ttot==atot)
+             {
+                  alert("Amount and Total are Same.")
+             }
+             else{
+                  alert("Amount and Total aren't Same.")
+             }
+          
+            });
+
+     });
+
+
+
+
+    //$(function () {
+    //    $('._select').select2();
+    //});
+    //$(document).ready(function () {
+    //    $('#btnSave').click(function (e) {
+    //        var isValid = true;
+            
+    //        var ttot = document.getElementById("txtTotal").value;
+    //          var atot = document.getElementById("txtamount").value;
+    //          alert(ttot);
+    //        alert(atot);
+
+    //         if(ttot==atot)
+    //         {
+                 
+    //         }
+    //         else{
+    //              alert("Amount and Total aren't Same.")
+    //         }
+    //              catch (ex) {
+    //            alert(ex.message);
+    //        }
+    //    }
+    // }
+   
+    //function changeCrAmount(_this, i) {
+    //    try {
+
+    //        var j = 0;
+    //        var qty = 0;
+    //        var tot = 0;
+    //        $('tr.chkitemlst').each(function () {
+    //            if ($(this).css('display') !== 'none') {
+    //                qty = $(this).find('#txtCreditAmount' + j.toString()).val();
+    //                if (qty == "")
+    //                    qty = 0;
+
+    //                tot += eval(qty);
+    //            }
+    //            j += 1;
+    //        });
+    //        document.getElementById("txtTotalCrAmount").value = tot.toFixed(2);
+    //        var dtot = document.getElementById("txtTotalDeAmount").value;
+    //        if (dtot == "")
+    //            dtot = 0;
+    //        var totclaim = eval(dtot) - eval(tot);
+    //        document.getElementById("txtClaimAmount").value = totclaim.toFixed(2);
+    //    }
+    //    catch (ex) {
+    //        alert(ex.message);
+    //    }
+    //}
+     
 
 
       $(".chosen-select").chosen();
@@ -477,5 +606,40 @@
               alert("Cannot delete all the rows.")
           }
       }
+
+      $(function () {
+          $('._select').select2();
+      });
+      function PopulateDropDown(dropDownId, list) {
+          //alert(list);
+          $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+          if (list != null && list.length > 0) {
+              $(dropDownId).removeAttr("disabled");
+              $.each(list, function () {
+                  $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+              });
+          }
+          $(dropDownId).trigger("liszt:updated");
+      }
+      function changeGroup(ItemId) {
+
+          $.ajax({
+              url: 'GetLedgerJSON',
+              data: { "ItemId": ItemId },
+              type: "post",
+              success: function (response) {
+                  var newlist;
+                  newlist = response.Itemlst;
+                  PopulateDropDown("#ddlLedger", response);
+              },
+              error: function () {
+                  debugger;
+                  alert("Please Select Ledger");
+              }
+          });
+      }
+
+
+      
 </script>
 
