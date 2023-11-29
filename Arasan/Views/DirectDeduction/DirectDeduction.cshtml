@@ -64,7 +64,7 @@
 
                                     <br /><label for="inputName3" class="col-sm-4 control-label">Document ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 ,@readonly=true})
                                             @Html.HiddenFor(C => C.ID)
                                     </div>
                                 </div>
@@ -143,7 +143,7 @@
                                                         <tr>
 
                                                            
-                                                            <th> Item Group</th>
+                                                            <th> Item Category</th>
                                                             <th> Item </th>
                                                             <th> Unit </th>
                                                             <th>Con.Fac</th>
@@ -216,10 +216,10 @@
                                                @* <td>
                                                     @Html.TextBoxFor(o => o.Itlst[i]. SerialNumber, new { @id = "txtSerialNumber" + i, @class = "form-control", style = "width: 90px;"})
                                                 </td>*@
-                                                <td>
-                                                            @Html.TextBoxFor(o => o.Itlst[i]. Process, new { @id = "txtProcess" + i,@class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;" })
-                                                </td>
-
+                                                 <td>
+                                                            @Html.DropDownListFor(o => o.Itlst[i].Process, Model.Itlst[i].Processlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlProcess" + i, style = "width: 200px;" })
+                                                           
+                                                 </td>
 
 
                                                 <td>
@@ -251,7 +251,7 @@
                                   <br />  <label for="inputName3" class="col-sm-4 control-label">Gross<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
 
-                                            @Html.TextBoxFor(C => C.Gro, new { @id = "gross", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextBoxFor(C => C.Gro, new { @id = "gross", @class = "form-control", @TabIndex = 1,@readonly=true })
 
                                     </div>
                                 </div>
@@ -261,7 +261,7 @@
                                          <br /> <label for="inputName3" class="col-sm-4 control-label">Net<label class="Mandatory"></label></label>
 
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.net, new { @id = "net", @class = "form-control", @TabIndex = 2 })  <br />
+                                            @Html.TextBoxFor(C => C.net, new { @id = "net", @class = "form-control", @TabIndex = 2,@readonly=true })  <br />
                                         </div>
 
                                     </div>
@@ -273,7 +273,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Entered, Model.assignList, new { @id = "ddlEnterd", @Class = "form-control _select", @TabIndex = 1 })
                                     </div>
@@ -285,7 +285,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Narration<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.TextAreaFor(C => C.Narr, new { @id = "txtNarr", @class = "form-control", @TabIndex = 1 })
                                     </div>
@@ -453,15 +453,26 @@
     }
     function AddRow() {
         var opt = "";
+        var remopt = "";
+
         $.ajax({
             type: "POST",
             url: 'GetItemGrpJSON',
             success: function (data) {
-
                 $.each(data, function () {
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
                 });
-                AppendRow(opt);
+                $.ajax({
+                    type: "POST",
+                    url: 'GetItemProcessJSON',
+                    success: function (data) {
+                        $.each(data, function () {
+                            remopt += "<option value=" + this.value + ">" + this.text + "</option>";
+                        });
+                        AppendRow(opt, remopt);
+                    }
+                })
+
             }
         })
     }
@@ -494,7 +505,7 @@
         minView: 2,
         forceParse: 0
     });
-    function AppendRow(opt) {
+    function AppendRow(opt,remopt) {
         var index = $("#tbBooks").children("tr").length;
 
         var ItemGrp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='Itlst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
@@ -502,11 +513,11 @@
 
         var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
 
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Itlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Itlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' value='0' /></td>";
 
-        var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='Itlst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True'  /></td>";
+        var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='Itlst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True' value='0'  /></td>";
 
-        var BinID = "<td><input class='form-control' id='txtBinID" + index + "' name='Itlst[" + index + "].BinID'  style='width: 80px;'onkeydown='return isNumeric2(event.keyCode,this.value)'  type='text'    /></td>";
+        var BinID = "<td><input class='form-control' id='txtBinID" + index + "' name='Itlst[" + index + "].BinID'  style='width: 80px;'onkeydown='return isNumeric2(event.keyCode,this.value)' value='0'  readonly='True' type='text'    /></td>";
 
       @* var Batch = "<td><input class='form-control' id='txtBatch" + index + "' name='Itlst[" + index + "].Batch'  style='width: 90px;' type='text'   /></td>"
 
@@ -514,19 +525,20 @@
 
         var CurrentStock = "<td><input class='form-control' id='txtCurrentStock" + index + "' name='Itlst[" + index + "].CurrentStock'  style='width: 90px;' type='text'   /></td>"*@
 
-        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='Itlst[" + index + "].Quantity'  style='width: 90px;' type='text'   /></td>"
+        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='Itlst[" + index + "].Quantity'  style='width: 90px;' type='text' value='0' onkeyup = 'changeQty(this," + index + ")'  /></td>"
 
-        var rate = "<td><input class='form-control' id='txtRate" + index + "' name='Itlst[" + index + "].rate'  style='width: 90px;' type='text'   /></td>"
+        var rate = "<td><input class='form-control' id='txtRate" + index + "' name='Itlst[" + index + "].rate'  style='width: 90px;' type='text'  readonly='True' value='0' onkeyup = 'changeQty(this," + index + ")'  /></td>"
 
-        var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='Itlst[" + index + "].Amount'  style='width: 90px;' type='text'   /></td>"
+            var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='Itlst[" + index + "].Amount'  style='width: 90px;' type='text'  readonly='True' value='0' /></td>"
 
 
        @* var Number = "<td><input class='form-control' id='txtNumber" + index + "' name='Itlst[" + index + "].Number'  style='width: 90px;' type='text'   /></td>"
 
         var SerialNumber = "<td><input class='form-control' id='txtSerialNumber" + index + "' name='Itlst[" + index + "].SerialNumber'  style='width: 90px;' type='text'   /></td>" *@
-
+@*
         var Process = "<td><input class='form-control' id='txtProcess" + index + "' name='Itlst[" + index + "].Process'  style='width: 80px;'onkeydown='return isNumeric2(event.keyCode,this.value)'  type='text'    /></td>";
-
+*@
+        var Process = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlProcess" + index + "' name='Itlst[" + index + "].Process' ><option value=''>Please select</option>" + remopt + "</select></td>";
 
 
        @* var Bat = "<td><input class='form-control' id='txtBat" + index + "' name='Itlst[" + index + "].Bat'  style='width: 90px;' type='text'   /></td>"*@

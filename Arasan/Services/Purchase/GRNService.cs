@@ -268,6 +268,10 @@ namespace Arasan.Services
                     }
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.Gross;
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.Net;
+                    objCmd.Parameters.Add("IGST", OracleDbType.NVarchar2).Value = cy.IGST;
+                    objCmd.Parameters.Add("SGST", OracleDbType.NVarchar2).Value = cy.SGST;
+                    objCmd.Parameters.Add("CGST", OracleDbType.NVarchar2).Value = cy.CGST;
+                    objCmd.Parameters.Add("TOT_DISC", OracleDbType.NVarchar2).Value = cy.Disc;
                     objCmd.Parameters.Add("FREIGHT", OracleDbType.NVarchar2).Value = cy.Frieghtcharge;
                     objCmd.Parameters.Add("OTHER_CHARGES", OracleDbType.NVarchar2).Value = cy.Othercharges;
                     objCmd.Parameters.Add("ROUND_OFF_PLUS", OracleDbType.NVarchar2).Value = cy.Round;

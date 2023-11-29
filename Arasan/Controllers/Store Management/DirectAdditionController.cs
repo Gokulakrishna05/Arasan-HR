@@ -4,6 +4,7 @@ using Arasan.Interface.Store_Management;
 using Arasan.Models;
 using Arasan.Services;
 using Arasan.Services.Store_Management;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
@@ -30,6 +31,12 @@ namespace Arasan.Controllers.Store_Management
             st.Brlst = BindBranch();
             st.Branch = Request.Cookies["BranchId"];
             st.assignList = BindEmp();
+            st.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence("DAdd");
+            if (dtv.Rows.Count > 0)
+            {
+                st.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
             List<DirectItem> TData = new List<DirectItem>();
             DirectItem tda = new DirectItem();
             if (id == null)
@@ -39,6 +46,7 @@ namespace Arasan.Controllers.Store_Management
                     tda = new DirectItem();
                     tda.ItemGrouplst = BindItemGrplst();
                     tda.Itemlst = BindItemlst("");
+                    tda.Processlst = BindProcess();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -64,6 +72,7 @@ namespace Arasan.Controllers.Store_Management
 
                     st.Gro = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
                     st.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+                    st.ID = id;
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = DirectAdditionService.GetDAItemDetails(id);
@@ -106,7 +115,9 @@ namespace Arasan.Controllers.Store_Management
                         //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
                         //tda.FromBin = Convert.ToDouble(dt2.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTPER"].ToString());
                         tda.BinID = Convert.ToDouble(dt2.Rows[i]["BINID"].ToString() == "" ? "0" : dt2.Rows[i]["BINID"].ToString());
-                        tda.Process = Convert.ToDouble(dt2.Rows[i]["PROCESSID"].ToString() == "" ? "0" : dt2.Rows[i]["PROCESSID"].ToString());
+                        //tda.Process = Convert.ToDouble(dt2.Rows[i]["PROCESSID"].ToString() == "" ? "0" : dt2.Rows[i]["PROCESSID"].ToString());
+                        tda.Processlst = BindProcess();
+                        tda.Process = dt2.Rows[i]["PROCESSID"].ToString();
                         //tda.Indp = Convert.ToDouble(dt2.Rows[i]["INDP"].ToString() == "" ? "0" : dt2.Rows[i]["INDP"].ToString());
                         //tda.SGSTAmt = Convert.ToDouble(dt2.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTAMT"].ToString());
                         //tda.IGSTAmt = Convert.ToDouble(dt2.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTAMT"].ToString());
@@ -165,6 +176,23 @@ namespace Arasan.Controllers.Store_Management
         {
             //IEnumerable<DirectAddition> sta = DirectAdditionService.GetAllDirectAddition(st, ed);
             return View();
+        }
+        public List<SelectListItem> BindProcess()
+        {
+            try
+            {
+                DataTable dtDesg = DirectAdditionService.BindProcess();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PROCESSID"].ToString(), Value = dtDesg.Rows[i]["PROCESSMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public ActionResult MyListDirectAdditionGrid(string strStatus)
         {
@@ -261,7 +289,7 @@ namespace Arasan.Controllers.Store_Management
         {
             try
             {
-                DataTable dtDesg = datatrans.GetItem(value);
+                DataTable dtDesg = DirectAdditionService.GetItem(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -353,8 +381,14 @@ namespace Arasan.Controllers.Store_Management
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindItemGrplst());
         }
+        public JsonResult GetItemProcessJSON()
+        {
+            //DirectItem model = new DirectItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindProcess());
+        }
 
-       
+
 
         public IActionResult ViewDirectAddition(string id)
         {
@@ -390,8 +424,9 @@ namespace Arasan.Controllers.Store_Management
                 {
                     for (int i = 0; i < dtt.Rows.Count; i++)
                     {
-                        tda.ItemGroupId = dtt.Rows[i]["SGCODE"].ToString();
-                        tda.ItemId = dtt.Rows[i]["SGDESC"].ToString();
+
+                        //tda.ItemGroupId = dtt.Rows[i]["SGCODE"].ToString();
+                        tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
                         tda.ConFac = dtt.Rows[i]["CF"].ToString();
                         tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                         tda.BinID = Convert.ToDouble(dtt.Rows[i]["BINID"].ToString());
@@ -399,8 +434,9 @@ namespace Arasan.Controllers.Store_Management
                         tda.rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString());
                         //tda.disc = Convert.ToDouble(dtt.Rows[i]["DISCPER"].ToString());
                         tda.Amount = Convert.ToDouble(dtt.Rows[i]["AMOUNT"].ToString());
-
-                        tda.Process = Convert.ToDouble(dtt.Rows[i]["PROCESSID"].ToString());
+                        tda.Processlst = BindProcess();
+                        tda.Process = dtt.Rows[i]["PROCESSID"].ToString();
+                        //tda.Process = Convert.ToDouble(dtt.Rows[i]["PROCESSID"].ToString());
 
                         Data.Add(tda);
                     }

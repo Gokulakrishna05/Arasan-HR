@@ -134,6 +134,26 @@ namespace Arasan.Controllers
                         tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
                         tda.Purtype = dt2.Rows[i]["PURTYPE"].ToString();
                         tda.Lotno = po.party + " LotNo1234";
+                        DataTable ap = datatrans.GetData("Select sum(CGST) as cgst,sum(SGST) as sgst,sum(IGST) as igst,sum(DISC) as dis from GRNBLDETAIL  WHERE GRNBLDETAIL.GRNBLBASICID='" + id + "'");
+                        if (ap.Rows.Count > 0)
+                        {
+                            po.IGST = Convert.ToDouble(ap.Rows[0]["igst"].ToString() == "" ? "0" : ap.Rows[0]["igst"].ToString());
+                            po.CGST = Convert.ToDouble(ap.Rows[0]["cgst"].ToString() == "" ? "0" : ap.Rows[0]["cgst"].ToString());
+                            po.SGST = Convert.ToDouble(ap.Rows[0]["sgst"].ToString() == "" ? "0" : ap.Rows[0]["sgst"].ToString());
+                            po.Disc = Convert.ToDouble(ap.Rows[0]["dis"].ToString() == "" ? "0" : ap.Rows[0]["dis"].ToString());
+                        }
+                        //if (dt2.Rows.Count > 0)
+                        //{
+                        //    //for (int i = 0; i < dt2.Rows.Count; i++)
+                        //    //{
+                        //        double igst = po.IGST++;
+                        //        double cgst = po.CGST++;
+                        //        double sgst = po.SGST++;
+                        //        po.IGST = igst;
+                        //        po.CGST = cgst;
+                        //        po.SGST = sgst;
+                        //    ////}
+                        //}
                         tda.Isvalid = "Y";
                         TData.Add(tda);
                     }

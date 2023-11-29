@@ -64,7 +64,9 @@ namespace Arasan.Models
         public double rate { get; set; }
         public double Amount { get; set; }
         //public string Center { get; set; }
-        public double Process { get; set; }
+
+        public List<SelectListItem> Processlst;
+        public string Process { get; set; }
         public double TotalAmount { get; set; }
         public string Isvalid { get; set; }
 
