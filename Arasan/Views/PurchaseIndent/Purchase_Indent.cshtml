@@ -130,7 +130,7 @@
                                                 <table class="table table-striped table-hover" id="dataTable">
                                                     <thead>
                                                         <tr>
-                                                            <th>ItemGroup</th>
+                                                          @*  <th>ItemGroup</th>*@
                                                             <th> Item</th>
                                                             <th>QC Y/N</th>
                                                             <th> Unit</th>
@@ -157,9 +157,9 @@
                                                                               <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                                 
 
-                                                                                   <td>
+                                                                                   @*<td>
                                                                                                                                 @Html.DropDownListFor(o => o.PILst[i].ItemGroupId, Model.PILst[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Change(this.value," + i + ")"})
-                                                                                                                            </td>
+                                                                                                                            </td>*@
                                                                                                                             <td>
                                                                                                                                 @Html.DropDownListFor(o => o.PILst[i].ItemId, Model.PILst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
                                                                                                                             @Html.HiddenFor(o=>o.PILst[i].saveItem , new { @id = "txtsaveItem" + i})

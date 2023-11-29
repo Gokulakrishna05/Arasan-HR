@@ -39,8 +39,8 @@ namespace Arasan.Controllers.Store_Management
             for (int i = 0; i < 3; i++)
             {
                 tda = new PIndentItem();
-                tda.ItemGrouplst = BindItemGrplst();
-                tda.Itemlst = BindItemlst("");
+                //tda.ItemGrouplst = BindItemGrplst();
+                tda.Itemlst = BindItemlst();
                 tda.loclst = GetLoc();
                 tda.Isvalid = "Y";
                 TData.Add(tda);
@@ -348,11 +348,11 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public JsonResult GetItemJSON(string item)
+        public JsonResult GetItemJSON()
         {
             EnqItem model = new EnqItem();
-            model.Itemlst = BindItemlst(item);
-            return Json(BindItemlst(item));
+            model.Itemlst = BindItemlst();
+            return Json(BindItemlst());
 
         }
         //public JsonResult GetSuppJSON(string partytype)
@@ -416,11 +416,11 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public List<SelectListItem> BindItemlst(string item)
+        public List<SelectListItem> BindItemlst()
         {
             try
             {
-                DataTable dtDesg = PurIndent.GetItem(item);
+                DataTable dtDesg = PurIndent.GetItem();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
