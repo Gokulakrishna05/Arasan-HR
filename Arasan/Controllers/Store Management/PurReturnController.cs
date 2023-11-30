@@ -630,8 +630,15 @@ namespace Arasan.Controllers
                 //string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
 
-                Create = "<a href=/DebitNoteBill/DebitNoteBill?id=" + dtUsers.Rows[i]["PRETBASICID"].ToString() + " tag='1'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-
+                
+                if (dtUsers.Rows[i]["STATUS"].ToString()=="DN RAISED")
+                {
+                    Create = "";
+                }
+                else
+                {
+                    Create = "<a href=/DebitNoteBill/DebitNoteBill?id=" + dtUsers.Rows[i]["PRETBASICID"].ToString() + " tag='1'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                }
                 View = "<a href=viewPurchaseReturn?id=" + dtUsers.Rows[i]["PRETBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 //EditRow = "<a href=PurchaseRet?id=" + dtUsers.Rows[i]["PRETBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PRETBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";

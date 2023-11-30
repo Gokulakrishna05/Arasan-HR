@@ -76,6 +76,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.WorkCenter)
+                                            @Html.DisplayFor(C => C.WorkCenterid)
                                         </div>
                                     </div>
                                 </div>
@@ -116,13 +117,15 @@
                                                     <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                         <thead>
                                                             <tr>
+                                                                <th></th>
                                                                 <th>Item Name</th>
                                                                 <th>Quantity</th>
                                                                 <th>Stock Quantity</th>
                                                                 <th>Whole Stock </th>
                                                                 <th>Unit</th>
-                                                                <th>Pending Quantity</th>
                                                                 <th>Issue Quantity</th>
+                                                                <th>Pending Quantity</th>
+                                                               
 
                                                             </tr>
                                                         </thead>
@@ -135,14 +138,17 @@
                                                                 {
 
                                                                     <tr>
+                                                                        <td>@Html.CheckBoxFor(o => o.MRlst[i].select, new { @id = "select" + i }) </td>
+
                                                                         <td>@Html.DisplayFor(o => o.MRlst[i].Item)@Html.HiddenFor(o => o.MRlst[i].ItemId)</td>
-                                                                        <td>@Html.DisplayFor(o => o.MRlst[i].ReqQty)</td>
-                                                                        <td>@Html.DisplayFor(o => o.MRlst[i].ClosingStock)</td>
+                                                                        <td>@Html.TextBoxFor(o => o.MRlst[i].ReqQty,new{@id="reqqty"+ i, @class = "form-control" , style = "width: 80px;",@readonly="readonly" })</td>
+                                                                        <td>@Html.DisplayFor(o => o.MRlst[i].ClosingStock)@Html.HiddenFor(o => o.MRlst[i].ClosingStock,new{@id="txtClosingStock"+ i})</td>
                                                                           <td> <a class="nav-link" href="@Url.Action("WholeStock", "MaterialRequisition",new { id=item.ItemId })" class='fancybox' data-fancybox-type='iframe'> @Html.DisplayFor(o => o.MRlst[i].TotalStock)</a></td>
 
                                                                         <td>@Html.DisplayFor(o => o.MRlst[i].Unit)@Html.HiddenFor(o => o.MRlst[i].UnitID)@Html.HiddenFor(o => o.MRlst[i].Isvalid)@Html.HiddenFor(o => o.MRlst[i].UnitID)@Html.HiddenFor(o => o.MRlst[i].indentid)</td>
+                                                                        <td>@Html.TextBoxFor(o => o.MRlst[i].InvQty, new { @id = "InvQty" + i, @class = "form-control" , style = "width: 80px;",@onkeyup = "changeQty(this," + i + ")"})</td>
+
                                                                         <td>@Html.TextBoxFor(o => o.MRlst[i].IndQty, new { @id = "PendingQty" + i, @class = "form-control", style = "width: 80px;color:red;" ,@readonly=true})</td>
-                                                                        <td>@Html.TextBoxFor(o => o.MRlst[i].InvQty, new { @id = "InvQty" + i, @class = "form-control",@readonly=true , style = "width: 80px;"})</td>
 
                                                                     </tr>
                                                                     i++;
@@ -180,7 +186,45 @@
         });
 
     })
+    function changeQty(_this, i) {
+        try {
+            var GTot = 0;
+            var j = 0;
+            var qty = 0;
+            var tot = 0;
+            var totfrieght = 0;
 
+            var totamt = 0;
+            var totamount = 0;
+            var qty = document.getElementById("reqqty" + i).value;
+            var up = document.getElementById("InvQty" + i).value;
+            var cl = document.getElementById("txtClosingStock" + i).value;
+            alert(cl);
+            
+            if (qty == "")
+                qty = 0;
+
+            if (up == "")
+                up = 0;
+            if (cl == "")
+                cl = 0;
+
+            if (eval(up) > eval(cl)) {
+                document.getElementById("InvQty" + i).value = "0";
+                alert("issue qty is graterthen closing stock");
+                up=0;
+            }
+
+            tot = eval(qty) - eval(up)
+
+            document.getElementById("PendingQty" +i).value = tot.toFixed(2);
+           
+
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
+    }
 </script>
 
 

@@ -50,4 +50,8 @@ namespace Arasan.Models
         public string delrow { get; set; }
 
     }
+    public class ListDayItems
+    {
+
+    }
 }

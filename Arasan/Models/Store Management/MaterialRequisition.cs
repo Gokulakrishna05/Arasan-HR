@@ -23,6 +23,7 @@ namespace Arasan.Models
         public string Location { get; set; }
         public string Process { get; set; }
         public string WorkCenter { get; set; }
+        public string WorkCenterid { get; set; }
 
         public string MaterialReqId { get; set; }
         public DateTime MaterialReqDate { get; set; }
@@ -49,6 +50,7 @@ namespace Arasan.Models
         public long id { get; set; }
         public string branch { get; set; }
         public string location { get; set; }
+        public string work { get; set; }
         public string docid { get; set; }
         public string docDate { get; set; }
         public string iss { get; set; }
@@ -68,6 +70,7 @@ namespace Arasan.Models
         public string item { get; set; }
         public string docDate { get; set; }
         public string reqloc { get; set; }
+        public string work { get; set; }
         public string iss { get; set; }
         public string qty { get; set; }
         public string editrow { get; set; }
@@ -131,6 +134,7 @@ namespace Arasan.Models
         public string ItemGroupId { get; set; }
         public string ItemId { get; set; }
         public string Item { get; set; }
+        public bool select { get; set; }
         public string UnitID { get; set; }
         public string Unit { get; set; }
         public string ClosingStock { get; set; }

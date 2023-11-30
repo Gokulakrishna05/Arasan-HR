@@ -5,6 +5,7 @@ using Arasan.Interface.Store_Management;
 using Arasan.Interface.Master;
 using Oracle.ManagedDataAccess.Client;
 using System.Data;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace Arasan.Services.Store_Management
 {
@@ -74,6 +75,20 @@ namespace Arasan.Services.Store_Management
                 string StatementType = string.Empty; string svSQL = "";
 
                 datatrans = new DataTransactions(_connectionString);
+
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'Dad-' AND ACTIVESEQUENCE = 'T'  ");
+                string DocId = string.Format("{0}{1}", "Dad-", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='Dad-' AND ACTIVESEQUENCE ='T'  ";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                ss.DocId = DocId;
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ADDBASICPROC", objConn);
@@ -226,7 +241,16 @@ namespace Arasan.Services.Store_Management
 
             return msg;
         }
-
+        public DataTable BindProcess()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PROCESSID,PROCESSMASTID from PROCESSMAST";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetDirectAdditionDetails(string id)
         {
             string SvSql = string.Empty;
@@ -241,6 +265,16 @@ namespace Arasan.Services.Store_Management
         {
             string SvSql = string.Empty;
             SvSql = "select BRANCHMASTID,BRANCHID from BRANCHMAST order by BRANCHMASTID asc";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetItemSubGrp()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select SGCODE,ITEMSUBGROUPID FROM ITEMSUBGROUP";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -293,8 +327,7 @@ namespace Arasan.Services.Store_Management
         public DataTable GetDirectAdditionItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMSUBGROUP.SGCODE,ITEMSUBGROUP.SGDESC,ADDDETAIL.QTY,ADDDETAIL.CF,ADDDETAIL.ADDDETAILID,ADDDETAIL.ITEMID,UNITMAST.UNITID,RATE,AMOUNT,BINID,PROCESSID  from ADDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=ADDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT LEFT OUTER JOIN ITEMSUBGROUP on ITEMSUBGROUP.ITEMSUBGROUPID=ADDDETAIL.ADDDETAILID  where ADDDETAIL.ADDBASICID='" + id + "'";
-
+            SvSql = "Select ADDDETAIL.QTY,ADDDETAIL.ADDDETAILID,ADDDETAIL.ITEMID,UNITMAST.UNITID,RATE,AMOUNT,BINID,PROCESSID,CF  from ADDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=ADDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where ADDDETAIL.ADDBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -368,6 +401,16 @@ namespace Arasan.Services.Store_Management
             return dtt;
         }
 
+        public DataTable GetItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER Where SUBGROUPCODE='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
    
 }

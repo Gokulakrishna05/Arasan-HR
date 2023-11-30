@@ -72,7 +72,8 @@ namespace Arasan.Models
         public double TotalAmount { get; set; }
         //public string Number { get; set; }
         //public string SerialNumber { get; set; }
-        public double Process { get; set; }
+        public List<SelectListItem> Processlst;
+        public string Process { get; set; }
         //public string Bat { get; set; }
 
 

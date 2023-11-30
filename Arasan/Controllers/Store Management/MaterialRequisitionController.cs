@@ -51,8 +51,8 @@ namespace Arasan.Controllers.Store_Management
                 for (int i = 0; i < 1; i++)
                 {
                     tda = new MaterialRequistionItem();
-                    tda.ItemGrouplst = BindItemGrplst();
-                    tda.Itemlst = BindItemlst("");
+                    //tda.ItemGrouplst = BindItemGrplst();
+                    tda.Itemlst = BindItemlst();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -93,7 +93,7 @@ namespace Arasan.Controllers.Store_Management
                         {
                             tda.ItemGroupId = dt3.Rows[0]["ITEMGROUP"].ToString();
                         }
-                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
+                        tda.Itemlst = BindItemlst();
                         tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
                         tda.UnitID = dtt.Rows[i]["UNITID"].ToString();
                         MR.Narration = dtt.Rows[i]["NARR"].ToString();
@@ -115,11 +115,11 @@ namespace Arasan.Controllers.Store_Management
             return View(MR);
         }
 
-        public List<SelectListItem> BindItemlst(string value)
+        public List<SelectListItem> BindItemlst()
         {
             try
             {
-                DataTable dtDesg = materialReq.GetItem(value);
+                DataTable dtDesg = materialReq.GetItem();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -403,7 +403,7 @@ namespace Arasan.Controllers.Store_Management
 
                 Issuse = "<a href=ApproveMaterial?&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/issue_icon.png' alt='View Details' width='20' /></a>";
                
-                if (dtUsers.Rows[i]["STATUS"].ToString() == "CLOSE")
+                if (dtUsers.Rows[i]["STATUS"].ToString() == "Indent")
                 {
                     MoveToIndent = "<img src='../Images/tick.png' alt='View Details' width='20' />";
                     EditRow = "";
@@ -423,6 +423,7 @@ namespace Arasan.Controllers.Store_Management
                     docid = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     location = dtUsers.Rows[i]["LOCID"].ToString(),
+                       work = dtUsers.Rows[i]["WCID"].ToString(),
                     iss = Issuse,
                     //follow = FollowUp,
                     move = MoveToIndent,
@@ -471,6 +472,7 @@ namespace Arasan.Controllers.Store_Management
                 MR.DocId = dt.Rows[0]["DOCID"].ToString();
                 MR.DocDa = dt.Rows[0]["DOCDATE"].ToString();
                 MR.WorkCenter = dt.Rows[0]["WCID"].ToString();
+                MR.WorkCenterid = dt.Rows[0]["work"].ToString();
                 MR.Process = dt.Rows[0]["PROCESSNAME"].ToString();
                 MR.Storeid = storeid;
                 MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
@@ -619,11 +621,11 @@ namespace Arasan.Controllers.Store_Management
                 {
                     if (Cy.ID == null)
                     {
-                        TempData["notice"] = "Material Issued Successfully...!";
+                        TempData["notice"] = " Issued Indent Successfully...!";
                     }
                     else
                     {
-                        TempData["notice"] = "Material Issued Successfully...!";
+                        TempData["notice"] = "Issued Indent Successfully...!";
                     }
                     return RedirectToAction("ListMaterialRequisition");
                 }
@@ -678,11 +680,11 @@ namespace Arasan.Controllers.Store_Management
 
             return RedirectToAction("ListPO");
         }
-        public JsonResult GetItemJSON(string itemid)
+        public JsonResult GetItemJSON()
         {
             MaterialRequistionItem model = new MaterialRequistionItem();
-            model.Itemlst = BindItemlst(itemid);
-            return Json(BindItemlst(itemid));
+            model.Itemlst = BindItemlst();
+            return Json(BindItemlst());
 
         }
 

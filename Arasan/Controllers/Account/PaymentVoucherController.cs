@@ -42,7 +42,11 @@ namespace Arasan.Controllers
             pv.Currency = "1";
             pv.ExRate = "1";
             pv.PType = "CASH";
-            if(dtv.Rows.Count > 0)
+            //DataTable dtParty = datatrans.GetData("select P.ACCOUNTNAME from GRNBLBASIC G,PARTYMAST P where G.PARTYID=P.PARTYMASTID AND G.GRNBLBASICID='" + grnid + "'");
+            //string mid = dtParty.Rows[0]["ACCOUNTNAME"].ToString();
+            //pv.Ledgername = dtParty.Rows[0]["ACCOUNTNAME"].ToString();
+            //pv.LedgerId = mid;
+            if (dtv.Rows.Count > 0)
             {
                 pv.VoucherNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
             }
