@@ -20,36 +20,36 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<Tax> GetAllTax(string status)
-        {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "ACTIVE";
-            }
-            List<Tax> cmpList = new List<Tax>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<Tax> GetAllTax(string status)
+        //{
+        //    if (string.IsNullOrEmpty(status))
+        //    {
+        //        status = "ACTIVE";
+        //    }
+        //    List<Tax> cmpList = new List<Tax>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select TAXMASTID,Tax,PERCENTAGE,STATUS from TAXMAST WHERE STATUS='" + status + "' order by TAXMAST.TAXMASTID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        Tax cmp = new Tax
-                        {
-                            ID = rdr["TAXMASTID"].ToString(),
-                            Taxtype = rdr["TAX"].ToString(),
-                            Percentage = rdr["PERCENTAGE"].ToString()
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select TAXMASTID,Tax,PERCENTAGE,STATUS from TAXMAST WHERE STATUS='" + status + "' order by TAXMAST.TAXMASTID DESC";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                Tax cmp = new Tax
+        //                {
+        //                    ID = rdr["TAXMASTID"].ToString(),
+        //                    Taxtype = rdr["TAX"].ToString(),
+        //                    Percentage = rdr["PERCENTAGE"].ToString()
 
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
 
         public string TaxCRUD(Tax cy)
         {
@@ -91,7 +91,7 @@ namespace Arasan.Services
 
                     objCmd.Parameters.Add("TAX", OracleDbType.NVarchar2).Value = cy.Taxtype;
                     objCmd.Parameters.Add("PERCENTAGE", OracleDbType.NVarchar2).Value = cy.Percentage;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -134,7 +134,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE TAXMAST SET STATUS ='INACTIVE' WHERE TAXMASTID='" + id + "'";
+                    svSQL = "UPDATE TAXMAST SET IS_ACTIVE ='N' WHERE TAXMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -156,7 +156,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE TAXMAST SET STATUS ='ACTIVE' WHERE TAXMASTID='" + id + "'";
+                    svSQL = "UPDATE TAXMAST SET IS_ACTIVE ='Y' WHERE TAXMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -170,6 +170,25 @@ namespace Arasan.Services
             }
             return "";
 
+        }
+
+        public DataTable GetAllTax(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select TAXMASTID,Tax,PERCENTAGE from TAXMAST WHERE IS_ACTIVE ='Y' ORDER BY  TAXMASTID DESC";
+            }
+            else
+            {
+                SvSql = "Select TAXMASTID,Tax,PERCENTAGE from TAXMAST WHERE IS_ACTIVE ='N' ORDER BY  TAXMASTID DESC ";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
 
     }

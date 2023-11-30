@@ -10,11 +10,11 @@ namespace Arasan.Interface.Master
         string EmpMultipleAllocationCRUD(EmpMultipleAllocation cy);
         //IEnumerable<EmpMultipleAllocation> GetAllEmpMultipleAllocation();
         DataTable GetEmp(string action);
-        DataTable GetEmpAllocation();
+        DataTable GetEmpAllocation(string strStatus);
         DataTable GetEmpLocation(string id);
         DataTable GetEmpMultipleAllocationReassign(string id);
         DataTable GetEmpMultipleAllocationServiceName(string id);
-        DataTable GetEmpMultipleItem(string PRID);
+        DataTable GetEmpMultipleItem(string PRID, string strStatus);
         DataTable GetMlocation();
         long GetMregion(string? v, string id);
         string ReassignEmpMultipleAllocation(EmpReasign cy);

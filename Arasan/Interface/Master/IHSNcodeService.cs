@@ -17,13 +17,15 @@ namespace Arasan.Interface.Master
         //DataTable GetSGst();
         //DataTable GetIGst();
 
-        DataTable GetAllhsncode(/*string strStatus*/);
+       
         DataTable GettariffItem(string id);
 
         DataTable GetHSNcode(string id);
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
-        DataTable Gethsnitem(string PRID);
+
+        DataTable GetAllhsncode(string strStatus);
+        DataTable Gethsnitem(string PRID, string strStatus);
         DataTable Gettariff();
 
     }

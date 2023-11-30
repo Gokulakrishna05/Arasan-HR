@@ -19,42 +19,42 @@ namespace Arasan.Services.Master
             datatrans = new DataTransactions(_connectionString);
         }
         
-        public IEnumerable<WorkCenters> GetAllWorkCenters(string status)
-        {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "ACTIVE";
-            }
+        //public IEnumerable<WorkCenters> GetAllWorkCenters(string status)
+        //{
+        //    if (string.IsNullOrEmpty(status))
+        //    {
+        //        status = "Y";
+        //    }
 
-            {
-                List<WorkCenters> cmpList = new List<WorkCenters>();
-                using (OracleConnection con = new OracleConnection(_connectionString))
-                {
+        //    {
+        //        List<WorkCenters> cmpList = new List<WorkCenters>();
+        //        using (OracleConnection con = new OracleConnection(_connectionString))
+        //        {
 
-                    using (OracleCommand cmd = con.CreateCommand())
-                    {
-                        con.Open();
-                        cmd.CommandText = "Select WCBASIC.WCID,WCTYPE,LOCDETAILS.LOCID,WCBASICID,WCBASIC.STATUS from WCBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID =WCBASIC.ILOCATION WHERE WCBASIC.STATUS='" + status + "' order by WCBASIC.WCID DESC ";
-                        OracleDataReader rdr = cmd.ExecuteReader();
-                        while (rdr.Read())
-                        {
-                            WorkCenters cmp = new WorkCenters
-                            {
-                                ID = rdr["WCBASICID"].ToString(),
-                                Wid = rdr["WCID"].ToString(),
-                                WType = rdr["WCTYPE"].ToString(),
-                                Iloc = rdr["LOCID"].ToString(),
-                                status = rdr["STATUS"].ToString()
+        //            using (OracleCommand cmd = con.CreateCommand())
+        //            {
+        //                con.Open();
+        //                cmd.CommandText = "Select WCBASIC.WCID,WCTYPE,LOCDETAILS.LOCID,WCBASICID,WCBASIC.IS_ACTIVE from WCBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID =WCBASIC.ILOCATION WHERE WCBASIC.IS_ACTIVE='" + status + "' order by WCBASIC.WCID DESC ";
+        //                OracleDataReader rdr = cmd.ExecuteReader();
+        //                while (rdr.Read())
+        //                {
+        //                    WorkCenters cmp = new WorkCenters
+        //                    {
+        //                        ID = rdr["WCBASICID"].ToString(),
+        //                        Wid = rdr["WCID"].ToString(),
+        //                        WType = rdr["WCTYPE"].ToString(),
+        //                        Iloc = rdr["LOCID"].ToString(),
+        //                        status = rdr["IS_ACTIVE"].ToString()
 
 
-                            };
-                            cmpList.Add(cmp);
-                        }
-                    }
-                }
-                return cmpList;
-            }
-        }
+        //                    };
+        //                    cmpList.Add(cmp);
+        //                }
+        //            }
+        //        }
+        //        return cmpList;
+        //    }
+        //}
         public DataTable GetSupplier()
         {
             string SvSql = string.Empty;
@@ -148,7 +148,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("COST", OracleDbType.NVarchar2).Value = cy.Cost;
                     objCmd.Parameters.Add("COSTUNIT", OracleDbType.NVarchar2).Value = cy.Unit;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remarks;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -222,7 +222,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE WCBASIC SET STATUS ='INACTIVE' WHERE WCBASICID='" + id + "'";
+                    svSQL = "UPDATE WCBASIC SET IS_ACTIVE ='N' WHERE WCBASICID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -235,8 +235,8 @@ namespace Arasan.Services.Master
                 throw ex;
             }
             return "";
-
-        }public string RemoveChange(string tag, int id)
+        }
+        public string RemoveChange(string tag, int id)
         {
 
             try
@@ -244,7 +244,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE WCBASIC SET STATUS ='ACTIVE' WHERE WCBASICID='" + id + "'";
+                    svSQL = "UPDATE WCBASIC SET IS_ACTIVE ='Y' WHERE WCBASICID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -258,6 +258,27 @@ namespace Arasan.Services.Master
             }
             return "";
 
+        }
+
+        public DataTable GetAllWorkCenters(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select WCBASIC.WCID,WCTYPE,LOCDETAILS.LOCID,WCBASICID from WCBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID =WCBASIC.ILOCATION WHERE WCBASIC.IS_ACTIVE='Y' order by WCBASIC.WCID DESC ";
+
+            }
+            else
+            {
+                SvSql = "Select WCBASIC.WCID,WCTYPE,LOCDETAILS.LOCID,WCBASICID from WCBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID =WCBASIC.ILOCATION WHERE WCBASIC.IS_ACTIVE='N' order by WCBASIC.WCID DESC ";
+
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }

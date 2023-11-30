@@ -62,6 +62,7 @@ namespace Arasan.Models
         public string Cost { get; set; }
         public string Unit { get; set; }
         public string Remarks { get; set; }
+        public string ddlStatus { get; set; }
 
         public List<WorkCentersDetail> WorkCenterlst { get; set; }
 
@@ -74,4 +75,16 @@ namespace Arasan.Models
         public string MCost { get; set; }
 
     }
-}
+
+
+    public class WorkCentersgrid
+    {
+        public string id { get; set; }
+        public string wid { get; set; }
+        public string wtype { get; set; }
+        public string iloc { get; set; }
+        public String editrow { get; set; }
+        public String delrow { get; set; }
+    }
+
+    }

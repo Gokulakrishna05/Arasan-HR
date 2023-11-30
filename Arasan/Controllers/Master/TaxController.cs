@@ -131,38 +131,37 @@ namespace Arasan.Controllers
             }
         }
 
-        //public ActionResult MyListItemgrid(string strStatus)
-        //{
-        //    List<Citygrid> Reg = new List<Citygrid>();
-        //    DataTable dtUsers = new DataTable();
-        //    strStatus = strStatus == "" ? "Y" : strStatus;
-        //    dtUsers = TaxService.GetAllCitys(strStatus);
-        //    for (int i = 0; i < dtUsers.Rows.Count; i++)
-        //    {
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<Taxgrid> Reg = new List<Taxgrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = TaxService.GetAllTax(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
 
-        //        string DeleteRow = string.Empty;
-        //        string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
 
-        //        EditRow = "<a href=Tax?id=" + dtUsers.Rows[i]["CITYID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-        //        DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CITYID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                EditRow = "<a href=Tax?id=" + dtUsers.Rows[i]["TAXMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["TAXMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
-        //        Reg.Add(new Citygrid
-        //        {
-        //            id = dtUsers.Rows[i]["CITYID"].ToString(),
-        //            countryid = dtUsers.Rows[i]["COUNTRY"].ToString(),
-        //            state = dtUsers.Rows[i]["STATEID"].ToString(),
-        //            cit = dtUsers.Rows[i]["CITYNAME"].ToString(),
-        //            editrow = EditRow,
-        //            delrow = DeleteRow,
+                Reg.Add(new Taxgrid
+                {
+                    id = dtUsers.Rows[i]["TAXMASTID"].ToString(),
+                    tax = dtUsers.Rows[i]["TAX"].ToString(),
+                    percentage = dtUsers.Rows[i]["PERCENTAGE"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
 
-        //        });
-        //    }
+                });
+            }
 
-        //    return Json(new
-        //    {
-        //        Reg
-        //    });
+            return Json(new
+            {
+                Reg
+            });
 
-        //}
+        }
     }
 }

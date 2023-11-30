@@ -72,10 +72,9 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListUnit(string status)
+        public IActionResult ListUnit()
         {
-            IEnumerable<Unit> cmp = UnitService.GetAllUnit(status);
-            return View(cmp);
+            return View();
         }
         public ActionResult DeleteMR(string tag, int id)
         {
@@ -106,6 +105,38 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListUnit");
             }
+        }
+
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<Unitgrid> Reg = new List<Unitgrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = UnitService.GetAllUnit(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=Unit?id=" + dtUsers.Rows[i]["UNITMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["UNITMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new Unitgrid
+                {
+                    id = dtUsers.Rows[i]["UNITMASTID"].ToString(),
+                    unitname = dtUsers.Rows[i]["UNITID"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
     }
 }

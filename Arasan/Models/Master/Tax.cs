@@ -16,7 +16,18 @@ namespace Arasan.Models
 
         public string Percentage { get; set; }
         public string status { get; set; }
+        public string ddlStatus { get; set; }
 
 
     }
-}
+    public class Taxgrid
+    {
+        public string id { get; set; }
+        public string tax { get; set; }
+        public string percentage { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+
+    }
+
+    }

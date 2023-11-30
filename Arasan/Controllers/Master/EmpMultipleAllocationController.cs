@@ -126,12 +126,12 @@ namespace Arasan.Controllers.Master
 
             return View(Cy);
         }
-        public ActionResult MyEmpMultipleAllocationgrid()
+        public ActionResult MyEmpMultipleAllocationgrid(string strStatus)
         {
             List<EmpBindList> Reg = new List<EmpBindList>();
             DataTable dtUsers = new DataTable();
-
-            dtUsers = EmpMultipleAllocationService.GetEmpAllocation();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = EmpMultipleAllocationService.GetEmpAllocation(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 
@@ -165,11 +165,12 @@ namespace Arasan.Controllers.Master
             });
 
         }
-        public ActionResult ListEmpMultipleItemgrid(string PRID)
+        public ActionResult ListEmpMultipleItemgrid(string PRID, string strStatus)
         {
             List<EmpMultipleItemBindList> EnqChkItem = new List<EmpMultipleItemBindList>();
             DataTable dtEnq = new DataTable();
-            dtEnq = EmpMultipleAllocationService.GetEmpMultipleItem(PRID);
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtEnq = EmpMultipleAllocationService.GetEmpMultipleItem(PRID,strStatus);
             for (int i = 0; i < dtEnq.Rows.Count; i++)
             {
                 EnqChkItem.Add(new EmpMultipleItemBindList
