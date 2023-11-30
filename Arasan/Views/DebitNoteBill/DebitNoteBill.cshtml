@@ -40,6 +40,7 @@
                                     <div class="col-sm-8">
                                         @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
                                         @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.grnid)
                                     </div>
                                 </div>
                             </div>
@@ -84,7 +85,7 @@
 
                                      <label for="inputName3" class="col-sm-4 control-label">Ref No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.RefNo, new { @id = "txtRefNo", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.RefNo, new { @id = "txtRefNo", @class = "form-control", @TabIndex = 2 })
                                     </div>
                                 </div>
                             </div>
@@ -103,27 +104,38 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Party ID<label class="mandatory">*</label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Party ID<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
 @*                                            @Html.DropDownListFor(C => C.Party, Model.Partylst," -- Please Select -- ", new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1,@onchange = "PartyChange(this.value)"})
 *@                                                                           @Html.DisplayFor(C => C.Party, new { @id = "ddlParty", @class = "form-control", @TabIndex = 2 })
-
+                                            @Html.HiddenFor(C => C.Party)
                                         
                                         </div>
                                 </div>
                             </div>
-                             
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Party Balance<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @*                                            @Html.DropDownListFor(C => C.Party, Model.Partylst," -- Please Select -- ", new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1,@onchange = "PartyChange(this.value)"})
+                                        *@                                                                           @Html.DisplayFor(C => C.PartyBal, new { @id = "txtPartyBal", @class = "form-control", @TabIndex = 2 })
+                                            @Html.HiddenFor(C => C.PartyBal)
+
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
 
 
                             <div style="height:30px;"></div>
-                            <div class="row">
+                          @*  <div class="row">
                                 <div class="col-md-12">
                                     <div class="btn-group">
                                         <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
 
                             <div class="col-lg-12">
                                 <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
@@ -132,14 +144,15 @@
                                                     <thead>
                                                         <tr>
 
-                                                            <th> Inv.No </th>
-                                                            <th> Inv.Date </th>
-                                                            <th> Item </th>
+                                                 <th> Inv.No </th>
+                                            <th> Inv.Date </th>
+                                            <th> Item </th>
                                                            @* <th> Item Type </th>
                                                             <th> Item Spec </th>*@
                                                             <th> CF </th>
                                                             <th> Unit </th>
-                                                            <th>  Qty </th>
+                                                            <th>Invoice Qty</th>
+                                                            <th> Return Qty </th>
                                                             <th>Rate</th>
                                                             <th>Amount</th>
                                                           @*  <th>T2Narr</th>
@@ -163,7 +176,7 @@
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                         <td>
-                                                          @*  @Html.DropDownListFor(o => o.Depitlst[i].InvNo, Model.Depitlst[i].Grnlst, "---Please Select---", new { @class = "form-control _select newcss", @id = "ddlInvNo" + i, style = "width: 170px;",onchange = "Grup_Change(this.value," + i + ")"})*@
+                                                           @*@Html.DropDownListFor(o => o.Depitlst[i].InvNo, Model.Depitlst[i].Grnlst, "---Please Select---", new { @class = "form-control _select newcss", @id = "ddlInvNo" + i, style = "width: 170px;",onchange = "Grup_Change(this.value," + i + ")"})*@
                                                                                                                                                                                   @Html.TextBoxFor(o => o.Depitlst[i].InvNo, new { @id = "ddlInvNo" + i, @class = "form-control", style = "width: 180px;", @readonly = "readonly"})
 
                                                         </td>
@@ -172,7 +185,7 @@
                                                                 @Html.TextBoxFor(o => o.Depitlst[i].Invdate, new { @id = "txtInvdate" + i, @class = "form-control", style = "width: 100px;" ,@readonly="readonly"})
                                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                             </div>
-                                                        </td>
+                                            </td>
                                                         <td>
                                                                                                                        @Html.TextBoxFor(o => o.Depitlst[i].Item, new { @id = "ddlItem" + i, @class = "form-control", style = "width: 180px;", @readonly = "readonly"})
 
@@ -186,6 +199,9 @@
                                                             @Html.TextBoxFor(o => o.Depitlst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;", @readonly = "readonly"})
                                                         </td>
                                                         <td>
+                                                            @Html.TextBoxFor(o => o.Depitlst[i].InQty, new { @id = "txtInQty" + i, @class = "form-control", style = "width: 80px;", @readonly = "readonly"})
+                                                        </td>
+                                                        <td>
                                                             @Html.TextBoxFor(o => o.Depitlst[i].Qty, new { @id = "txtQty" + i, @class = "form-control", style = "width: 80px;", @onkeyup = "changeQty(this," + i + ")"})
                                                         </td>
                                                         <td>
@@ -197,15 +213,15 @@
                                                          <td>
                                                             @Html.TextBoxFor(o => o.Depitlst[i].CGST, new { @id = "txtCGST" + i, @class = "form-control", style = "width: 80px;", @readonly = "readonly" })
                                                             @Html.HiddenFor(o => o.Depitlst[i].Itemid)
-                                                            @Html.HiddenFor(o => o.Depitlst[i].CGSTP, new { @id = "txtCGSTP" + i })
+                                                            @*@Html.HiddenFor(o => o.Depitlst[i].CGSTP, new { @id = "txtCGSTP" + i })
                                                             @Html.HiddenFor(o => o.Depitlst[i].SGSTP, new { @id = "txtSGSTP" + i })
-                                                            @Html.HiddenFor(o => o.Depitlst[i].IGSTP, new { @id = "txtIGSTP" + i })
+                                                            @Html.HiddenFor(o => o.Depitlst[i].IGSTP, new { @id = "txtIGSTP" + i })*@
                                                         </td>
                                                          <td>
                                                             @Html.TextBoxFor(o => o.Depitlst[i].SGST, new { @id = "txtSGST" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
-                                                            @Html.HiddenFor(o => o.Depitlst[i].Cgstp, new { @id = "txtCgstp" + i })
-                                                            @Html.HiddenFor(o => o.Depitlst[i].Sgstp, new { @id = "txtSgstp" + i })
-                                                            @Html.HiddenFor(o => o.Depitlst[i].Igstp, new { @id = "txtIgstp" + i })
+                                                            @Html.HiddenFor(o => o.Depitlst[i].CGSTP, new { @id = "txtCgstp" + i })
+                                                            @Html.HiddenFor(o => o.Depitlst[i].SGSTP, new { @id = "txtSgstp" + i })
+                                                            @Html.HiddenFor(o => o.Depitlst[i].IGSTP, new { @id = "txtIgstp" + i })
                                                         </td>
                                                         <td>
                                                             @Html.TextBoxFor(o => o.Depitlst[i].IGST, new { @id = "txtIGST" + i, @class = "form-control", style = "width: 80px;", @readonly = "readonly" })
@@ -281,7 +297,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                       @* <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -303,7 +319,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div>*@
                         <div style="height:30px;"></div>
                         <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                         <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListDebitNoteBill", "DebitNoteBill")'">Cancel</button>
@@ -351,7 +367,7 @@
 
                 document.getElementById("txtCf" + i).value = result.cf;
                 document.getElementById("txtUnit" + i).value = result.unit;
-                document.getElementById("txtQty" + i).value = result.qty;
+                document.getElementById("txtInQty" + i).value = result.qty;
                 document.getElementById("txtRate" + i).value = result.rate;
                 document.getElementById("txtAmount1" + i).value = result.amount;
                 document.getElementById("txtCgstp" + i).value = result.cgstp;
@@ -519,7 +535,6 @@
             var IGST = document.getElementById("txtIgstp" + i).value;
             var CGST = document.getElementById("txtCgstp" + i).value;
             var SGST = document.getElementById("txtSgstp" + i).value;
-            
             if (qty == "")
                 qty = 0;
 

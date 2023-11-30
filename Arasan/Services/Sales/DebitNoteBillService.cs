@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Oracle.ManagedDataAccess.Client;
 using System.IO;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using Arasan.Interface;
 
 namespace Arasan.Services.Sales
 {
@@ -75,6 +76,8 @@ namespace Arasan.Services.Sales
                     }
                     cy.DocId = docid;
                 }
+                DataTable dtParty = datatrans.GetData("select P.ACCOUNTNAME from PARTYMAST P where P.PARTYMASTID='" + cy.Partyid + "'");
+                string mid = dtParty.Rows[0]["ACCOUNTNAME"].ToString();
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DBNOTEBASICPROC", objConn);
@@ -92,6 +95,7 @@ namespace Arasan.Services.Sales
                         StatementType = "Update";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
+                    objCmd.Parameters.Add("T1SOURCEID", OracleDbType.NVarchar2).Value = cy.grnid; 
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("VTYPE", OracleDbType.NVarchar2).Value = cy.Vocher;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
@@ -99,13 +103,14 @@ namespace Arasan.Services.Sales
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.RefNo;
                     objCmd.Parameters.Add("REFDT", OracleDbType.NVarchar2).Value = cy.RefDate;
                     objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Partyid;
+                    objCmd.Parameters.Add("CUSTACC", OracleDbType.NVarchar2).Value = mid; 
+                    objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = cy.Party;
+                    objCmd.Parameters.Add("PARTYBALANCE", OracleDbType.NVarchar2).Value = cy.PartyBal;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.Gross;
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.Net;
-                    objCmd.Parameters.Add("AMTINWRD", OracleDbType.NVarchar2).Value = cy.Amount;
                     objCmd.Parameters.Add("BIGST", OracleDbType.NVarchar2).Value = cy.Bigst;
                     objCmd.Parameters.Add("BSGST", OracleDbType.NVarchar2).Value = cy.Bsgst;
                     objCmd.Parameters.Add("BCGST", OracleDbType.NVarchar2).Value = cy.Bcgst;
-                    objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 
@@ -157,7 +162,9 @@ namespace Arasan.Services.Sales
                             }
 
                         }
-
+                        svSQL = "UPDATE PRETBASIC SET STATUS='DN RAISED' WHERE PRETBASICID='" + cy.grnid + "' ";
+                        OracleCommand objCmdsts = new OracleCommand(svSQL, objConn);
+                        objCmdsts.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
@@ -368,8 +375,30 @@ namespace Arasan.Services.Sales
         public DataTable GetPurRet(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PRETBASIC.BRANCHID,PRETBASIC.PARTYID ,PARTYMAST.PARTYNAME,PRETBASIC.GROSS,PRETBASIC.NET,PRETBASICID  from PRETBASIC  left outer join PARTYMAST on PARTYMAST.PARTYMASTID = PRETBASIC.PARTYID  where PRETBASIC.PRETBASICID=" + id + "";
+            SvSql = "Select PRETBASIC.RGRNNO,to_char(PRETBASIC.DOCDATE,'dd-MON-yyyy') DOCDAT,PRETBASIC.BRANCHID,PRETBASIC.PARTYID ,PARTYMAST.PARTYNAME,PRETBASIC.GROSS,PRETBASIC.NET,PRETBASICID  from PRETBASIC  left outer join PARTYMAST on PARTYMAST.PARTYMASTID = PRETBASIC.PARTYID  where PRETBASIC.PRETBASICID=" + id + "";
             //SvSql = "Select PRETBASIC.REJBY,CURRENCY.MAINCURR ,BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,PRETBASIC.DOCID,to_char(PRETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PRETBASIC.REFNO,to_char(PRETBASIC.REFDT,'dd-MON-yyyy')REFDT,LOCDETAILS.LOCID,PRETBASIC.EXCHANGERATE,PRETBASIC.REASONCODE,PRETBASIC.TEMPFIELD,PRETBASIC.RGRNNO,PRETBASIC.GROSS,PRETBASIC.NET,PRETBASIC.NARR,PRETBASICID  from PRETBASIC left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID = PRETBASIC.BRANCHID left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID = PRETBASIC.LOCID left outer join PARTYMAST on PARTYMAST.PARTYMASTID = PRETBASIC.PARTYID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=PRETBASIC.MAINCURRENCY LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PRETBASIC.TRANSITLOCID where PRETBASIC.PRETBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetDNDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select T1SOURCEID,BRANCHID,PARTYID,CUSTACC,GROSS,NET,BIGST,BCGST,BSGST from DBNOTEBASIC where DBNOTEBASICID='" + id + "'";
+            //SvSql = "Select PRETBASIC.REJBY,CURRENCY.MAINCURR ,BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,PRETBASIC.DOCID,to_char(PRETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PRETBASIC.REFNO,to_char(PRETBASIC.REFDT,'dd-MON-yyyy')REFDT,LOCDETAILS.LOCID,PRETBASIC.EXCHANGERATE,PRETBASIC.REASONCODE,PRETBASIC.TEMPFIELD,PRETBASIC.RGRNNO,PRETBASIC.GROSS,PRETBASIC.NET,PRETBASIC.NARR,PRETBASICID  from PRETBASIC left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID = PRETBASIC.BRANCHID left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID = PRETBASIC.LOCID left outer join PARTYMAST on PARTYMAST.PARTYMASTID = PRETBASIC.PARTYID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=PRETBASIC.MAINCURRENCY LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PRETBASIC.TRANSITLOCID where PRETBASIC.PRETBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable AccconfigLst()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ADSCHEME,ADCOMPHID from ADCOMPH where ADTRANSID='po' AND ACTIVE='Yes'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
