@@ -80,8 +80,7 @@ namespace Arasan.Controllers.Master
         }
         public IActionResult ListItemDescription()
         {
-            IEnumerable<ItemDescription> br = ItemDescriptionService.GetAllItemDescription();
-            return View(br);
+            return View();
         }
         //public List<SelectListItem> BindDes()
         //{
@@ -115,5 +114,54 @@ namespace Arasan.Controllers.Master
             }
         }
 
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = ItemDescriptionService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListItemDescription");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListItemDescription");
+            }
+        }
+
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<ItemDescriptiongrid> Reg = new List<ItemDescriptiongrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = ItemDescriptionService.GetAllItemDescription(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=ItemDescription?id=" + dtUsers.Rows[i]["TESTDESCMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["TESTDESCMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new ItemDescriptiongrid
+                {
+                    id = dtUsers.Rows[i]["TESTDESCMASTERID"].ToString(),
+                    des = dtUsers.Rows[i]["TESTDESC"].ToString(),
+                    unit = dtUsers.Rows[i]["UNITID"].ToString(),
+                    value = dtUsers.Rows[i]["VALUEORMANUAL"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
     }
 }

@@ -1051,11 +1051,7 @@ namespace Arasan.Controllers
                 po.Round = Convert.ToDouble(dt.Rows[0]["PACKING_CHRAGES"].ToString() == "" ? "0" : dt.Rows[0]["PACKING_CHRAGES"].ToString());
                 po.Roundminus = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_PLUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_PLUS"].ToString());
                 po.Packingcharges = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_MINUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_MINUS"].ToString());
-                //po.Packingcharges = Convert.ToDouble(dt.Rows[0]["PACKING_CHRAGES"].ToString());
-                //po.Othercharges = Convert.ToDouble(dt.Rows[0]["OTHER_CHARGES"].ToString());
-                //po.otherdeduction = Convert.ToDouble(dt.Rows[0]["OTHER_DEDUCTION"].ToString());
-                //po.Round = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_PLUS"].ToString());
-                //po.Roundminus = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_MINUS"].ToString());
+                
                 po.Narration = dt.Rows[0]["NARRATION"].ToString();
 
 
@@ -1085,8 +1081,8 @@ namespace Arasan.Controllers
                     {
                         tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
                         tda.Unit = dtt.Rows[i]["UNITID"].ToString();
-                        tda.rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString() == "" ? "0" : dtt.Rows[i]["CGSTP"].ToString());
-                    tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["CGSTP"].ToString());
+                        tda.rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString() == "" ? "0" : dtt.Rows[i]["RATE"].ToString());
+                    tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString());
                     tda.CGSTPer = Convert.ToDouble(dtt.Rows[i]["CGSTP"].ToString() == "" ? "0" : dtt.Rows[i]["CGSTP"].ToString());
                         tda.SGSTPer = Convert.ToDouble(dtt.Rows[i]["SGSTP"].ToString() == "" ? "0" : dtt.Rows[i]["SGSTP"].ToString());
                         tda.IGSTPer = Convert.ToDouble(dtt.Rows[i]["IGSTP"].ToString() == "" ? "0" : dtt.Rows[i]["IGSTP"].ToString());
@@ -1096,15 +1092,7 @@ namespace Arasan.Controllers
                         tda.DiscPer = Convert.ToDouble(dtt.Rows[i]["DISCPER"].ToString() == "" ? "0" : dtt.Rows[i]["DISCPER"].ToString());
                         tda.DiscAmt = Convert.ToDouble(dtt.Rows[i]["DISC"].ToString() == "" ? "0" : dtt.Rows[i]["DISC"].ToString());
                         tda.TotalAmount = Convert.ToDouble(dtt.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dtt.Rows[i]["TOTAMT"].ToString());
-                        //tda.CGSTPer = Convert.ToDouble(dtt.Rows[i]["CGSTP"].ToString());
-                        //tda.SGSTPer = Convert.ToDouble(dtt.Rows[i]["SGSTP"].ToString());
-                        //tda.IGSTPer = Convert.ToDouble(dtt.Rows[i]["IGSTP"].ToString());
-                        //tda.CGSTAmt = Convert.ToDouble(dtt.Rows[i]["CGST"].ToString());
-                        ////tda.SGSTAmt = Convert.ToDouble(dtt.Rows[i]["SGST"].ToString());
-                        ////tda.IGSTAmt = Convert.ToDouble(dtt.Rows[i]["IGST"].ToString());
-                        //tda.DiscPer = Convert.ToDouble(dtt.Rows[i]["DISCPER"].ToString());
-                        //tda.DiscAmt = Convert.ToDouble(dtt.Rows[i]["DISC"].ToString());
-                        //tda.TotalAmount = Convert.ToDouble(dtt.Rows[i]["TOTAMT"].ToString());
+                        
                         tda.Purtype = dtt.Rows[i]["PURTYPE"].ToString();
 
                         Data.Add(tda);

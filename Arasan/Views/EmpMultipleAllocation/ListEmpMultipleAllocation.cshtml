@@ -17,13 +17,196 @@
     </div>
 </div>
 
+
 <script type="text/javascript">
     $(document).ready(function () {
         var source =
         {
             url: "/EmpMultipleAllocation/MyEmpMultipleAllocationgrid",
             datatype: "json",
+            data: {
+                strstatus: ""
+            },
+            updaterow: function (rowid, rowdata) {
+                // synchronize with the server - send update command
+            },
+            datafields: [
+                { name: 'piid', type: 'string' },
+                { name: 'emp', type: 'string' },
+                { name: 'edate', type: 'string' },
+                { name: 'editrow', type: 'string' },
+                { name: 'delrow', type: 'string' },
+                { name: 'view', type: 'string' },
+                { name: 'reassign', type: 'string' },
+            ],
+            id: 'piid',
+        };
 
+         var employeesAdapter = new $.jqx.dataAdapter(source,
+            { contentType: 'application/json; charset=utf-8' }, {
+            loadComplete: function () {
+
+            }
+        }
+       
+        );
+        //alert(JSON.stringify(employeesAdapter));
+
+        var ordersSource =
+        {
+            url: "/EmpMultipleAllocation/ListEmpMultipleItemgrid",
+
+            data: {
+                strstatus: ""
+            },
+            datafields: [
+                { name: 'piid', type: 'string' },
+                { name: 'location', type: 'string' }
+
+            ],
+
+            datatype: "json",
+
+            async: false
+        };
+        var ordersDataAdapter = new $.jqx.dataAdapter(ordersSource,
+            { contentType: 'application/json; charset=utf-8' }, { autoBind: true }
+        );
+        ordersDataAdapter.dataBind();
+        //var ordersDataAdapter2 = new $.jqx.dataAdapter(ordersSource, { autoBind: true });
+        var orders = ordersDataAdapter.records;
+
+        console.log(ordersDataAdapter);
+
+        var nestedGrids = new Array();
+
+        // create nested grid.
+        var initrowdetails = function (index, parentElement, gridElement, record) {
+            var id = record.uid.toString();
+            var grid = $($(parentElement).children()[0]);
+            nestedGrids[index] = grid;
+            var filtergroup = new $.jqx.filter();
+            var filter_or_operator = 1;
+            var filtervalue = id;
+            var filtercondition = 'equal';
+            var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+            // fill the orders depending on the id.
+            var ordersbyid = [];
+            for (var m = 0; m < orders.length; m++) {
+                var result = filter.evaluate(orders[m]["piid"]);
+                if (result)
+                    ordersbyid.push(orders[m]);
+            }
+            var orderssource = {
+                datafields: [
+                     { name: 'piid', type: 'string' },
+                { name: 'location', type: 'string' }
+                ],
+                id: 'piid',
+                localdata: ordersbyid
+            }
+            var nestedGridAdapter = new $.jqx.dataAdapter(orderssource);
+            if (grid != null) {
+                grid.jqxGrid({
+                    source: nestedGridAdapter, width: 300, height: 100,
+                    columns: [
+                      
+                        { text: 'Location Name', filtertype: 'checkedlist', datafield: 'location', width: 200 }
+
+                    ]
+                });
+
+                $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+                });
+
+            }
+        }
+        var renderer = function (row, column, value) {
+
+            return '<span style="margin-left: 4px; margin-top: 9px; float: left; ">' + value + '</span>';
+        }
+        //alert(initrowdetails);
+        // creage grid
+        $("#grid").jqxGrid(
+         {
+                //width: 710,
+                //height: 465,
+                //source: source,
+                //pageable: true,
+                //filterable: true,
+                //autoheight: true,
+                //sortable: true,
+                //rowdetails: true,
+                //rowsheight: 35,
+                //initrowdetails: initrowdetails,
+
+                width: '100%',
+                source: dataAdapter,
+                //height: 450,
+                autorowheight: true,
+                autoheight: true,
+                source: source,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterbar: true,
+                //showfilterrow: true,
+                rowdetails: true,
+                rowsheight: 35,
+                initrowdetails: initrowdetails,
+                theme: 'darkblue',
+                enablebrowserselection: true,
+
+                rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
+                ready: function () {
+                    $("#grid").jqxGrid('showrowdetails', 1);
+                },
+                columns: [
+
+                    { text: 'Supervisor',filtertype: 'checkedlist', datafield: 'emp', width: 250 },
+                    { text: 'Created Date',filtertype: 'input', datafield: 'edate', width: 150 },
+                    { text: 'Edit', datafield: 'editrow', width: 70, align: 'center', cellsalign: 'center' },
+                    { text: 'Delete', datafield: 'delrow', width: 70, align: 'center', cellsalign: 'center' },
+                    { text: 'View', datafield: 'view', width: 70, align: 'center', cellsalign: 'center' },
+                    { text: 'ReAssign', datafield: 'reassign', width: 70, align: 'center', cellsalign: 'center' },
+
+
+                   
+
+                ]
+        });
+
+            $("#ddlStatus").change(function () {
+                var value = "Y";
+                if ($(this).val() != "") {
+                    value = $(this).val();
+                }
+                source.data = {
+                    strstatus: value
+                };
+                $("#grid").jqxGrid({ source: source });
+            });
+    });
+</script>
+
+@*<script type="text/javascript">
+    $(document).ready(function () {
+        var source =
+        {
+            url: "/EmpMultipleAllocation/MyEmpMultipleAllocationgrid",
+            datatype: "json",
+            data: {
+                strstatus: ""
+            },
             updaterow: function (rowid, rowdata) {
                 // synchronize with the server - send update command
             },
@@ -50,6 +233,9 @@
         var ordersSource =
         {
             url: "/EmpMultipleAllocation/ListEmpMultipleItemgrid",
+             data: {
+                strstatus: ""
+            },
             datafields: [
                 
                 { name: 'piid', type: 'string' },
@@ -105,6 +291,17 @@
                         
                     ]
                 });
+
+                 $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+                });
             }
         }
         var renderer = function (row, column, value) {
@@ -115,24 +312,32 @@
         // creage grid
         $("#grid").jqxGrid(
             {
-                width: 710,
-                height: 465,
-                source: source,
-                pageable: true,
-                filterable: true,
+                width: '100%',
+                source: dataAdapter,
+                //height: 450,
+                autorowheight: true,
                 autoheight: true,
+                source: source,
                 sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterbar: true,
+                //showfilterrow: true,
                 rowdetails: true,
                 rowsheight: 35,
                 initrowdetails: initrowdetails,
+                theme: 'darkblue',
+                enablebrowserselection: true,
+
                 rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
                 ready: function () {
                     $("#grid").jqxGrid('showrowdetails', 1);
                 },
                 columns: [
 
-                    { text: 'Supervisor', datafield: 'emp', width: 250 },
-                    { text: 'Created Date', datafield: 'edate', width: 150 },
+                    { text: 'Supervisor',filtertype: 'checkedlist', datafield: 'emp', width: 250 },
+                    { text: 'Created Date',filtertype: 'input', datafield: 'edate', width: 150 },
                     { text: 'Edit', datafield: 'editrow', width: 70, align: 'center', cellsalign: 'center' },
                     { text: 'Delete', datafield: 'delrow', width: 70, align: 'center', cellsalign: 'center' },
                     { text: 'View', datafield: 'view', width: 70, align: 'center', cellsalign: 'center' },
@@ -140,8 +345,19 @@
                    
                 ]
             });
+
+             $("#ddlStatus").change(function () {
+                var value = "Y";
+                if ($(this).val() != "") {
+                    value = $(this).val();
+                }
+                source.data = {
+                    strstatus: value
+                };
+                $("#grid").jqxGrid({ source: source });
+            });
     });
-</script>
+</script>*@
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -150,7 +366,13 @@
 
                     <form>
                         <div class="row">
-                            <div class="col-md-12 ">
+                             <div class="col-md-2 ">
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                { new SelectListItem() {Text = "Enabled", Value="Y"},
+                                new SelectListItem() {Text = "Disabled", Value="N"}},
+                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                            </div>
+                            <div class="col-md-9 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("EmpMultipleAllocation", "EmpMultipleAllocation")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Emp MultipleAllocation</a>
                                     <br>
@@ -159,12 +381,11 @@
 
                             </div>
                         </div>
-                        <div class="row">
+                       <div class="row">
 
-                            <div class="col-md-2 "> </div>
+
                             <div class="col-md-10 ">
                                 <div id="grid">
-                                    
                                 </div>
 
                             </div>
@@ -177,7 +398,15 @@
         </div>
     </div>
 </div>
-<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+
+<script>
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
+</script>
+
+
+@*<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
 <script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
@@ -202,3 +431,4 @@
         $(".fancybox1").eq(0).trigger('click');
     }
 </script>
+*@

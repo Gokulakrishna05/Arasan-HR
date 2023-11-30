@@ -17,53 +17,7 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        //public IEnumerable<PartyMaster> GetAllParty(string status)
-        //{
-        //    if (string.IsNullOrEmpty(status))
-        //    {
-        //        status = "ACTIVE";
-        //    }
-        //    List<PartyMaster> cmpList = new List<PartyMaster>();
-        //    using (OracleConnection con = new OracleConnection(_connectionString))
-        //    {
-
-        //        using (OracleCommand cmd = con.CreateCommand())
-        //        {
-        //            con.Open();
-        //            cmd.CommandText = "Select  PARTYID,PARTYNAME,PARTYCAT,ACCOUNTNAME,PARTYGROUP,COMMCODE,REGULARYN,LUTNO,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,TYPE,CREDITLIMIT,CREDITDAYS,SECTIONID,CSGNPARTYID,TRANSLMT,GSTNO,ACTIVE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,HTTP,OVERDUEINTEREST,ADD1,REMARKS,INTRODUCEDBY,PARTYMAST.STATUS,PARTYMASTID from PARTYMAST WHERE PARTYMAST.STATUS= '" + status + "' order by PARTYMAST.PARTYID DESC";
-        //            OracleDataReader rdr = cmd.ExecuteReader();
-                    
-        //            while (rdr.Read())
-        //            {
-        //                PartyMaster cmp = new PartyMaster
-        //                {
-
-        //                    ID = rdr["PARTYMASTID"].ToString(),
-        //                    PartyCode = rdr["PARTYID"].ToString(),
-        //                    PartyName = rdr["PARTYNAME"].ToString(),
-        //                    PartyCategory = rdr["PARTYCAT"].ToString(),
-        //                    AccName = rdr["ACCOUNTNAME"].ToString(),
-        //                    PartyGroup = rdr["PARTYGROUP"].ToString(),
-        //                    Comm = rdr["COMMCODE"].ToString(),
-        //                    Regular = rdr["REGULARYN"].ToString(),
-        //                    LUTNumber = rdr["LUTNO"].ToString(),
-        //                    LUTDate = rdr["LUTDT"].ToString(),
-        //                    JoinDate = rdr["PJOINDATE"].ToString(),
-        //                    //PartyType = rdr["TYPE"].ToString(),
-        //                    CreditLimit = rdr["CREDITLIMIT"].ToString(),
-        //                    CreditDate = rdr["CREDITDAYS"].ToString(),
-        //                    TransationLimit = rdr["TRANSLMT"].ToString(),
-        //                    GST = rdr["GSTNO"].ToString(),
-        //                    RateCode = rdr["RATECODE"].ToString(),
-                          
-
-        //                };
-        //                cmpList.Add(cmp); 
-        //            }
-        //        }
-        //    }
-        //    return cmpList;
-        //}
+        
         public string PartyCRUD(PartyMaster cy)  
         {
             string msg = "";
@@ -104,7 +58,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.PartyCode;
                     objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = cy.PartyName;
                     objCmd.Parameters.Add("PARTYCAT", OracleDbType.NVarchar2).Value = cy.PartyCategory;
-                    objCmd.Parameters.Add("ACCOUNTNAME", OracleDbType.NVarchar2).Value = cy.AccName;
+                    
                     objCmd.Parameters.Add("PARTYGROUP", OracleDbType.NVarchar2).Value = cy.PartyGroup;
                     objCmd.Parameters.Add("COMMCODE", OracleDbType.NVarchar2).Value = cy.Comm;
                     objCmd.Parameters.Add("REGULARYN", OracleDbType.NVarchar2).Value = cy.Regular;
@@ -139,7 +93,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = cy.Address;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remark;
                     objCmd.Parameters.Add("INTRODUCEDBY", OracleDbType.NVarchar2).Value = cy.Intred;
-                    objCmd.Parameters.Add("LEDGERNAME", OracleDbType.NVarchar2).Value = cy.Ledger;
+                    objCmd.Parameters.Add("ACCOUNTNAME", OracleDbType.NVarchar2).Value = cy.Ledger;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -205,7 +159,7 @@ namespace Arasan.Services.Master
         public DataTable GetParty(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYMAST.PARTYID,PARTYMAST.PARTYNAME,PARTYMAST.PARTYCAT,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,PARTYMAST.ACCOUNTNAME,PARTYMAST.PARTYGROUP,PARTYMAST.COMMCODE,PARTYMAST.REGULARYN,PARTYMAST.LUTNO,PARTYMAST.TYPE,PARTYMAST.CREDITLIMIT,PARTYMAST.CREDITDAYS,PARTYMAST.SECTIONID,PARTYMAST.CSGNPARTYID,PARTYMAST.TRANSLMT,PARTYMAST.GSTNO,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,HTTP,OVERDUEINTEREST,ADD1,REMARKS,INTRODUCEDBY,LEDGERNAME,ACTIVE,PARTYMASTID  from PARTYMAST where PARTYMAST.PARTYMASTID=" + id + "";
+            SvSql = "Select PARTYMAST.PARTYID,PARTYMAST.PARTYNAME,PARTYMAST.PARTYCAT,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,PARTYMAST.ACCOUNTNAME,PARTYMAST.PARTYGROUP,PARTYMAST.COMMCODE,PARTYMAST.REGULARYN,PARTYMAST.LUTNO,PARTYMAST.TYPE,PARTYMAST.CREDITLIMIT,PARTYMAST.CREDITDAYS,PARTYMAST.SECTIONID,PARTYMAST.CSGNPARTYID,PARTYMAST.TRANSLMT,PARTYMAST.GSTNO,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,HTTP,OVERDUEINTEREST,ADD1,REMARKS,INTRODUCEDBY,ACTIVE,PARTYMASTID  from PARTYMAST where PARTYMAST.PARTYMASTID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

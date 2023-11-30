@@ -10,10 +10,13 @@ namespace Arasan.Interface.Master
 {
     public interface IItemDescriptionService
     {
-        IEnumerable<ItemDescription> GetAllItemDescription();
+        
         DataTable GetEditItemDescription(string id);
         string ItemDescriptionCRUD(ItemDescription cy);
         DataTable GetUnit();
 
+        DataTable GetAllItemDescription(string strStatus);
+
+        string StatusChange(string tag, int id);
     }
 }

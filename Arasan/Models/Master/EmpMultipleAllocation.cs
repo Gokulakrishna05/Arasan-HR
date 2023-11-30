@@ -18,7 +18,7 @@ namespace Arasan.Models
         public List<SelectListItem> Loclst;
         public string[] Location { get; set; }
         //public string Location { get; set; }
-
+        public string ddlStatus { get; set; }
 
     }
     public class EmpBindList

@@ -20,35 +20,35 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<Unit> GetAllUnit(string status)
-        {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "ACTIVE";
-            }
-            List<Unit> cmpList = new List<Unit>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<Unit> GetAllUnit(string status)
+        //{
+        //    if (string.IsNullOrEmpty(status))
+        //    {
+        //        status = "ACTIVE";
+        //    }
+        //    List<Unit> cmpList = new List<Unit>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select UNITMASTID,UNITID from UNITMAST WHERE STATUS='" + status + "' order by UNITMAST.UNITMASTID DESC ";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        Unit cmp = new Unit
-                        {
-                            ID = rdr["UNITMASTID"].ToString(),
-                            UnitName = rdr["UNITID"].ToString()
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select UNITMASTID,UNITID from UNITMAST WHERE STATUS='" + status + "' order by UNITMAST.UNITMASTID DESC ";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                Unit cmp = new Unit
+        //                {
+        //                    ID = rdr["UNITMASTID"].ToString(),
+        //                    UnitName = rdr["UNITID"].ToString()
                             
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
         public string UnitCRUD(Unit cy)
         {
             string msg = "";
@@ -84,7 +84,7 @@ namespace Arasan.Services
                     }
 
                     objCmd.Parameters.Add("UNITID", OracleDbType.NVarchar2).Value = cy.UnitName;                                
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";                                
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";                                
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -128,7 +128,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE UNITMAST SET STATUS ='INACTIVE' WHERE UNITMASTID='" + id + "'";
+                    svSQL = "UPDATE UNITMAST SET IS_ACTIVE ='N' WHERE UNITMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -151,7 +151,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE UNITMAST SET STATUS ='ACTIVE' WHERE UNITMASTID='" + id + "'";
+                    svSQL = "UPDATE UNITMAST SET IS_ACTIVE ='Y' WHERE UNITMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -166,5 +166,25 @@ namespace Arasan.Services
             return "";
 
         }
+
+        public DataTable GetAllUnit(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select UNITMASTID,UNITID from UNITMAST WHERE IS_ACTIVE='Y' order by UNITMAST.UNITMASTID DESC ";
+            }
+            else
+            {
+                SvSql = "Select UNITMASTID,UNITID from UNITMAST WHERE IS_ACTIVE='N' order by UNITMAST.UNITMASTID DESC ";
+
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        } 
     }
 }

@@ -30,7 +30,9 @@
         {
             url: "/HSNcode/Myhsncodegrid",
             datatype: "json",
-
+            data: {
+                strstatus: ""
+            },
             updaterow: function (rowid, rowdata) {
                 // synchronize with the server - send update command
             },
@@ -47,7 +49,7 @@
         };
 
 
-        var employeesAdapter = new $.jqx.dataAdapter(source,
+        var dataAdapter = new $.jqx.dataAdapter(source,
             { contentType: 'application/json; charset=utf-8' }, {
             loadComplete: function () {
 
@@ -59,9 +61,9 @@
         var ordersSource =
         {
             url: "/HSNcode/ListMyhsncodegrid",
-            //data: {
-            //    strstatus: ""
-            //},
+            data: {
+                strstatus: ""
+            },
             datafields: [
 
                 { name: 'id', type: 'string' },
@@ -83,6 +85,7 @@
         @*console.log(ordersDataAdapter);*@
 
         var nestedGrids = new Array();
+
         // create nested grid.
         var initrowdetails = function (index, parentElement, gridElement, record) {
             var id = record.uid.toString();
@@ -113,10 +116,23 @@
                 grid.jqxGrid({
                     source: nestedGridAdapter, width: 300, height: 100,
                     columns: [
-                        { text: 'TariffID', datafield: 'tariff', width: 200 }
+                        { text: 'TariffID', filtertype: 'checkedlist', datafield: 'tariff', width: 200 }
+                        
 
                     ]
                 });
+
+                $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+                });
+
             }
         }
         var renderer = function (row, column, value) {
@@ -126,28 +142,33 @@
         //alert(initrowdetails);
         // creage grid
         $("#grid").jqxGrid(
-            {
-                width: 710,
-                height: 465,
-                source: source,
-                pageable: true,
-                filterable: true,
+         {
+                //width: 710,
+                //height: 465,
+                //source: source,
+                //pageable: true,
+                //filterable: true,
+                //autoheight: true,
+                //sortable: true,
+                //rowdetails: true,
+                //rowsheight: 35,
+                //initrowdetails: initrowdetails,
+
+                width: '100%',
+                source: dataAdapter,
+                //height: 450,
+                autorowheight: true,
                 autoheight: true,
+                source: source,
                 sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterbar: true,
+                //showfilterrow: true,
                 rowdetails: true,
                 rowsheight: 35,
                 initrowdetails: initrowdetails,
-
-                //width: '100%',
-                //source: dataAdapter,
-                //height: 450,
-                //source: source,
-                //sortable: true,
-                //filterable: true,
-                //groupable: false,
-                //pageable: true,
-                //showfilterbar: true,
-                ////showfilterrow: true,
                 theme: 'darkblue',
                 enablebrowserselection: true,
 
@@ -163,25 +184,33 @@
                     { text: 'Delete', datafield: 'delrow', width: 70, align: 'center', cellsalign: 'center' },
 
 
+                   
+
                 ]
+        });
+
+            $("#ddlStatus").change(function () {
+                var value = "Y";
+                if ($(this).val() != "") {
+                    value = $(this).val();
+                }
+                source.data = {
+                    strstatus: value
+                };
+                $("#grid").jqxGrid({ source: source });
             });
-        //$("#ddlStatus").change(function () {
-        //    var value = "Y";
-        //    if ($(this).val() != "") {
-        //        value = $(this).val();
-        //    }
-        //    source.data = {
-        //        strstatus: value
-        //    };
-        //    $("#grid").jqxGrid({ source: source });
-        //});
     });
 </script>
+
+
+
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
+
+
                     <form>
                         <div class="row">
                             <div class="col-md-2 ">
@@ -223,7 +252,9 @@
     }
 </script>
 
-<script>
+
+
+@*<script>
     $(document).ready(function () {
         $('#example7').DataTable({
             dom: 'Bfrtip',
@@ -300,4 +331,4 @@
 
     }
 
-</script>
+</script>*@

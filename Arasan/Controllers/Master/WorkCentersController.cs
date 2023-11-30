@@ -149,10 +149,9 @@ namespace Arasan.Controllers.Master
 
             return View(Cy);
         }
-        public IActionResult ListWorkCenters(string status)
+        public IActionResult ListWorkCenters()
         {
-            IEnumerable<WorkCenters> cmp = WorkCentersService.GetAllWorkCenters(status);
-            return View(cmp);
+            return View();
         }
         public JsonResult GetItemGrpJSON()
         {
@@ -240,6 +239,40 @@ namespace Arasan.Controllers.Master
                 TempData["notice"] = flag;
                 return RedirectToAction("ListWorkCenters");
             }
+        }
+
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<WorkCentersgrid> Reg = new List<WorkCentersgrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = WorkCentersService.GetAllWorkCenters(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=WorkCenters?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new WorkCentersgrid
+                {
+                    id = dtUsers.Rows[i]["WCBASICID"].ToString(),
+                    wid = dtUsers.Rows[i]["WCID"].ToString(),
+                    wtype = dtUsers.Rows[i]["WCTYPE"].ToString(),
+                    iloc = dtUsers.Rows[i]["LOCID"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
     }
 }

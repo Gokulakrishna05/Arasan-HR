@@ -17,5 +17,18 @@ namespace Arasan.Models
         public string Value { get; set; }
         public string Unit { get; set; }
         public string Des { get; set; }
+        public string ddlStatus { get; set; }
+    }
+    
+    public class ItemDescriptiongrid
+    {
+       
+        public string id { get; set; }
+        public string value { get; set; }
+        public string unit { get; set; }
+        public string des { get; set; }
+
+        public String editrow { get; set; }
+        public String delrow { get; set; }
     }
 }

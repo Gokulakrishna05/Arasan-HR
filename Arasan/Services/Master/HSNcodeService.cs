@@ -188,42 +188,50 @@ namespace Arasan.Services.Master
             return dtt;
         }
 
-        //public DataTable GetAllhsncode(string strStatus)
+        public DataTable GetAllhsncode(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE ISACTIVE='Y' Order by HSNCODEID DESC  ";
+            }
+            else
+            {
+                SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE ISACTIVE='N' Order by HSNCODEID DESC  ";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        //public DataTable GetAllhsncode()
         //{
         //    string SvSql = string.Empty;
-        //    if (strStatus == "Y" || strStatus == null)
-        //    {
-        //        SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE ISACTIVE='Y' Order by HSNCODEID DESC  ";
-        //    }
-        //    else
-        //    {
-        //        SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE ISACTIVE='N' Order by HSNCODEID DESC  ";
 
-        //    }
+
+        //    SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE ISACTIVE='Y' Order by HSNCODEID DESC  ";
+
         //    DataTable dtt = new DataTable();
         //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
         //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
         //    adapter.Fill(dtt);
         //    return dtt;
         //}
+        public DataTable Gethsnitem(string PRID, string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "select TARIFFMASTER.TARIFFID,HSNROW.HSNCODEID from HSNROW  LEFT OUTER JOIN TARIFFMASTER ON TARIFFMASTER.TARIFFMASTERID = HSNROW.TARIFFID WHERE HSNROW.IS_ACTIVE ='Y' Order by HSNCODEID DESC ";
+            }
+            else
+            {
+                SvSql = "select TARIFFMASTER.TARIFFID,HSNROW.HSNCODEID from HSNROW  LEFT OUTER JOIN TARIFFMASTER ON TARIFFMASTER.TARIFFMASTERID = HSNROW.TARIFFID WHERE HSNROW.IS_ACTIVE ='N' Order by HSNCODEID DESC ";
 
-        public DataTable GetAllhsncode()
-        {
-            string SvSql = string.Empty;
-           
-          
-                SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE ISACTIVE='Y' Order by HSNCODEID DESC  ";
-          
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        public DataTable Gethsnitem(string PRID)
-        {
-            string SvSql = string.Empty;
-            SvSql = "select TARIFFMASTER.TARIFFID,HSNCODEID from HSNROW  LEFT OUTER JOIN TARIFFMASTER ON TARIFFMASTER.TARIFFMASTERID = HSNROW.TARIFFID Order by HSNCODEID DESC";
+            }
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -231,6 +239,17 @@ namespace Arasan.Services.Master
             adapter.Fill(dtt);
             return dtt;
         }
+
+        //public DataTable Gethsnitem(string PRID)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select TARIFFMASTER.TARIFFID,HSNROW.HSNCODEID from HSNROW  LEFT OUTER JOIN TARIFFMASTER ON TARIFFMASTER.TARIFFMASTERID = HSNROW.TARIFFID WHERE HSNROW.IS_ACTIVE ='Y' Order by HSNCODEID DESC ";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
 
         //public DataTable GetCGst()
         //{

@@ -121,10 +121,18 @@ namespace Arasan.Services.Master
             return dtt;
         }
 
-        public DataTable GetEmpAllocation()
+        public DataTable GetEmpAllocation(string strStatus)
         {
             string SvSql = string.Empty;
-            SvSql = "select EMPMAST.EMPNAME,to_char(CREATEDDATE,'dd-MON-yyyy') EMPDATE,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=EMPALLOCATION.EMPID Order by EMPALLOCATIONID DESC ";
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "select EMPMAST.EMPNAME,to_char(CREATEDDATE,'dd-MON-yyyy') EMPDATE,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=EMPALLOCATION.EMPID WHERE EMPALLOCATION.IS_ACTIVE = 'Y' Order by EMPALLOCATIONID DESC  ";
+            }
+            else
+            {
+                SvSql = "select EMPMAST.EMPNAME,to_char(CREATEDDATE,'dd-MON-yyyy') EMPDATE,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=EMPALLOCATION.EMPID WHERE EMPALLOCATION.IS_ACTIVE = 'N' Order by EMPALLOCATIONID DESC   ";
+
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -150,10 +158,19 @@ namespace Arasan.Services.Master
             return user_id;
         }
 
-        public DataTable GetEmpMultipleItem(string PRID)
+        public DataTable GetEmpMultipleItem(string PRID, string strStatus)
         {
             string SvSql = string.Empty;
-            SvSql = "select LOCDETAILS.LOCID,EMPALLOCATIONID from EMPALLOCATIONDETAILS  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=EMPALLOCATIONDETAILS.LOCATIONID Order by EMPALLOCATIONDETAILSID DESC";
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "select LOCDETAILS.LOCID,EMPALLOCATIONID from EMPALLOCATIONDETAILS  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=EMPALLOCATIONDETAILS.LOCATIONID WHERE EMPALLOCATIONDETAILS.IS_ACTIVE = 'Y'  Order by EMPALLOCATIONDETAILSID DESC ";
+            }
+            else
+            {
+                SvSql = "select LOCDETAILS.LOCID,EMPALLOCATIONID from EMPALLOCATIONDETAILS  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=EMPALLOCATIONDETAILS.LOCATIONID WHERE EMPALLOCATIONDETAILS.IS_ACTIVE = 'N'  Order by EMPALLOCATIONDETAILSID DESC ";
+
+            }
+
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

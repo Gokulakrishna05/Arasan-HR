@@ -20,34 +20,34 @@ namespace Arasan.Services.Master
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<ItemDescription> GetAllItemDescription()
-        {
-            List<ItemDescription> brList = new List<ItemDescription>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<ItemDescription> GetAllItemDescription()
+        //{
+        //    List<ItemDescription> brList = new List<ItemDescription>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "SELECT TESTDESCMASTERID,TESTDESC,UNITMAST.UNITID,VALUEORMANUAL FROM TESTDESCMASTER LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=TESTDESCMASTER.UNIT  order by TESTDESCMASTER.TESTDESCMASTERID DESC ";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        ItemDescription br = new ItemDescription
-                        {
-                            ID = rdr["TESTDESCMASTERID"].ToString(),
-                            Des = rdr["TESTDESC"].ToString(),
-                            Unit = rdr["UNITID"].ToString(),
-                            Value = rdr["VALUEORMANUAL"].ToString()
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "SELECT TESTDESCMASTERID,TESTDESC,UNITMAST.UNITID,VALUEORMANUAL FROM TESTDESCMASTER LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=TESTDESCMASTER.UNIT  order by TESTDESCMASTER.TESTDESCMASTERID DESC ";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                ItemDescription br = new ItemDescription
+        //                {
+        //                    ID = rdr["TESTDESCMASTERID"].ToString(),
+        //                    Des = rdr["TESTDESC"].ToString(),
+        //                    Unit = rdr["UNITID"].ToString(),
+        //                    Value = rdr["VALUEORMANUAL"].ToString()
                          
 
-                        };
-                        brList.Add(br);
-                    }
-                }
-            }
-            return brList;
-        }
+        //                };
+        //                brList.Add(br);
+        //            }
+        //        }
+        //    }
+        //    return brList;
+        //}
 
         public DataTable GetEditItemDescription(string id)
         {
@@ -104,6 +104,49 @@ namespace Arasan.Services.Master
             }
 
             return msg;
+        }
+
+
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE TESTDESCMASTER SET IS_ACTIVE ='N' WHERE TESTDESCMASTERID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+        }
+        public DataTable GetAllItemDescription(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "SELECT TESTDESCMASTERID,TESTDESC,UNITMAST.UNITID,VALUEORMANUAL FROM TESTDESCMASTER LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=TESTDESCMASTER.UNIT WHERE TESTDESCMASTER.IS_ACTIVE='Y' order by TESTDESCMASTER.TESTDESCMASTERID DESC ";
+
+            }
+            else
+            {
+                SvSql = "SELECT TESTDESCMASTERID,TESTDESC,UNITMAST.UNITID,VALUEORMANUAL FROM TESTDESCMASTER LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=TESTDESCMASTER.UNIT WHERE TESTDESCMASTER.IS_ACTIVE='N' order by TESTDESCMASTER.TESTDESCMASTERID DESC ";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }

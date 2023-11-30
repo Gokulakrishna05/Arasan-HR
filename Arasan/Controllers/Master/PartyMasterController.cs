@@ -62,7 +62,7 @@ namespace Arasan.Controllers.Master
                     ca.TransationLimit = dt.Rows[0]["TRANSLMT"].ToString();
                     ca.RateCode = dt.Rows[0]["RATECODE"].ToString();
                     ca.Regular = dt.Rows[0]["REGULARYN"].ToString();
-                    ca.AccName = dt.Rows[0]["ACCOUNTNAME"].ToString();
+                   
                     ca.Active = dt.Rows[0]["ACTIVE"].ToString();
                     ca.GST = dt.Rows[0]["GSTNO"].ToString();
                     ca.PartyGroup = dt.Rows[0]["PARTYCAT"].ToString(); //PARTYGROUP
@@ -90,7 +90,7 @@ namespace Arasan.Controllers.Master
                     ca.Address = dt.Rows[0]["ADD1"].ToString();
                     ca.Remark = dt.Rows[0]["REMARKS"].ToString();
                     ca.Intred = dt.Rows[0]["INTRODUCEDBY"].ToString();
-                    ca.Ledger = dt.Rows[0]["LEDGERNAME"].ToString();
+                    ca.Ledger = dt.Rows[0]["ACCOUNTNAME"].ToString();
 
                 }
                 DataTable dt2 = new DataTable();
@@ -99,7 +99,6 @@ namespace Arasan.Controllers.Master
                 { 
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
-
 
                         ca.Purpose = dt2.Rows[0]["CONTACTPURPOSE"].ToString();
                         ca.ContactPerson = dt2.Rows[0]["CONTACTNAME"].ToString();

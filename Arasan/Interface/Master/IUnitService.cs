@@ -9,9 +9,11 @@ namespace Arasan.Interface.Master
     public interface IUnitService
     {
         string UnitCRUD(Unit cy);
-        IEnumerable<Unit> GetAllUnit(string status);
+        //IEnumerable<Unit> GetAllUnit(string status);
         DataTable GetUnit(string id);
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
+
+        DataTable GetAllUnit(string strStatus);
     }
 }
