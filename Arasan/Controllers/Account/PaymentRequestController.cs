@@ -31,14 +31,24 @@ namespace Arasan.Controllers
             pr.Branch = Request.Cookies["BranchId"];
             pr.Suplst = BindSupplier();
             pr.Date = DateTime.Now.ToString("dd-MMM-yyyy");
-			DataTable dtv = datatrans.GetSequence("PAREQ");
+           
+            DataTable dtv = datatrans.GetSequence("PAREQ");
 			 
 			if (dtv.Rows.Count > 0)
 			{
 				pr.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
 			}
-			if (id == null)
+            List<PaymentRequestDetail> TData = new List<PaymentRequestDetail>();
+            PaymentRequestDetail tda = new PaymentRequestDetail();
+            if (id == null)
             {
+                for (int i = 0; i < 3; i++)
+                {
+                    tda = new PaymentRequestDetail();
+
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
 
             }
             else
@@ -103,6 +113,53 @@ namespace Arasan.Controllers
 
             IEnumerable<PaymentRequest> cmp = request.GetAllPaymentRequest();
             return View(cmp);
+        }
+        public ActionResult GetPaymentRequestDetails(string id)
+        {
+            PaymentRequest model = new PaymentRequest();
+            DataTable dtt = new DataTable();
+            List<PaymentRequestDetail> Data = new List<PaymentRequestDetail>();
+            PaymentRequestDetail tda = new PaymentRequestDetail();
+            //dtt = request.GetPaymentRequestDetail1(id);
+            //if (dtt.Rows.Count > 0)
+            //{
+            //    for (int i = 0; i < dtt.Rows.Count; i++)
+            //    {
+            //        tda = new PaymentRequestDetail();
+            //        tda.docid = dtt.Rows[i]["PARTYID"].ToString();
+            //        tda.type = dtt.Rows[i]["POBASICID"].ToString();
+            //        //tda.amount = dtt.Rows[i]["REQUESTAMOUNT"].ToString();
+            //        Data.Add(tda);
+            //    }
+            //}
+            //dtt = request.GetPaymentRequestDetail2(tda.docid);
+            //if (dtt.Rows.Count > 0)
+            //{
+            //    for (int i = 0; i < dtt.Rows.Count; i++)
+            //    {
+            //        tda = new PaymentRequestDetail();
+            //        tda.docid = dtt.Rows[i]["PARTYID"].ToString();
+            //        tda.type = dtt.Rows[i]["POBASICID"].ToString();
+            //        //tda.amount = dtt.Rows[i]["REQUESTAMOUNT"].ToString();
+            //        Data.Add(tda);
+            //    }
+            //}
+            dtt = request.GetPaymentRequestDetail(id);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new PaymentRequestDetail();
+                    tda.ID = dtt.Rows[i]["PAYMENTREQUESTID"].ToString();
+                    tda.docid = dtt.Rows[i]["DOCID"].ToString();
+                    tda.type = dtt.Rows[i]["TYPE"].ToString();
+                    tda.amount = dtt.Rows[i]["REQUESTAMOUNT"].ToString();
+                    Data.Add(tda);
+                }
+            }
+            model.PREQlst = Data;
+            return Json(model.PREQlst);
+
         }
         public List<SelectListItem> BindType()
         {
@@ -213,7 +270,7 @@ namespace Arasan.Controllers
                     dt = request.GetPODetails(ItemId);
                     if (dt.Rows.Count > 0)
                     {
-                        amount = dt.Rows[0]["GROSS"].ToString();
+                        amount = dt.Rows[0]["NET"].ToString();
 
                     }
 

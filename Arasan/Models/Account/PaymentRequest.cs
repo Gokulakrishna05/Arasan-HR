@@ -36,8 +36,17 @@ namespace Arasan.Models
         public string Date { get; set; }
         public string status { get; set; }
         public string Approve { get; set; }
-        
+
+        public List<PaymentRequestDetail> PREQlst { get; set; }
     }
-    
+    public class PaymentRequestDetail
+    {
+        public string ID { get; set; }
+        public string Isvalid { get; set; }
+        public string docid { get; set; }
+        public string type { get; set; }
+        public string amount { get; set; }
+        //public string pogrn { get; set; }
+    }
 
 }
