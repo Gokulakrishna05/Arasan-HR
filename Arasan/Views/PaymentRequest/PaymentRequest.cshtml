@@ -66,7 +66,7 @@
                                         <br />
                                         <label for="inputName3" class="col-sm-4 control-label">Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Type, Model.Typelst,"---Please Select---", new { @id = "ddlType", @Class = "form-control _select", @TabIndex = 4})
+                                            @Html.DropDownListFor(C => C.Type, Model.Typelst,"---Please Select---", new { @id = "ddlType", @Class = "form-control _select", @TabIndex = 4,  @onchange = "changeType(this.value)"})
 
                                         </div>
                                     </div>
@@ -157,18 +157,20 @@
                                         </div>
                                     </div>
                                     </div>*@
-                            <div class="row">
+                                    <div id="divrow" style="display:none">
+                            <div class="row" >
 
+                                <div class="col-lg-1"></div>
+                               <div class="col-lg-10" >
 
-                                <br />   <br />  <div class="col-lg-12" style=" overflow-y:scroll; min-width:800px; min-height:400px;">
-
-                                    <br />   <br />
+                                   
                                     <div class="scroll">
                                         <table class="table table-striped table-hover" id="dataTable">
                                             <thead>
-                                                <tr>
+                                                <tr bgcolor="#49b6d6">
 
                                                     <th>Doc ID</th>
+                                                    <th>Date</th>
                                                     <th>Type</th>
                                                     <th>Amount</th>
                                                    @* <th> Comp.No.</th>*@
@@ -182,7 +184,42 @@
                                     </div>
 
                                 </div>
+                                <div class="col-lg-1"></div>
                             </div>
+                            <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+
+                                        <br />     <label for="inputName3" class="col-sm-4 control-label"> Amount Received<label class="mandatory">*</label></label>
+                                            <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.amountReceived, new { @id = "txtamountReceived", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly="readonly"})
+                                                <br />
+
+                                            </div>
+                                        </div>
+                       
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+
+                                        <br />     <label for="inputName3" class="col-sm-4 control-label"> Pending amount<label class="mandatory">*</label></label>
+                                            <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.pendingamt, new { @id = "txtpendingamt", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly="readonly"})
+                                                <br />
+
+                                            </div>
+                                        </div>
+                       
+                                    </div>
+</div>
+
+</div>
+
+
                             <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
@@ -286,17 +323,19 @@
         //endDate: "2023-12-31",
         forceParse: 0
     });
-    function changeItem(ItemId) {
+    function changeItem(supid) {
         var type = document.getElementById("ddlType").value;
         
         $.ajax({
             url: "GetGRNPOJSON",
             type: "post",
-            data: { "Type": type,"Item":ItemId },
+            data: { "Type": type,"supid":supid },
             cache: false,
             success: function (response) {
                 var newlist;
                 newlist = response.Itemlst;
+                $("#ddlGRN").val(null).trigger("change"); 
+
                 PopulateDropDown("#ddlGRN", response);
             },
             error: function () {
@@ -305,6 +344,27 @@
             }
         });
     }
+    function changeType(type) {
+        var supid = document.getElementById("ddlSupplier").value;
+        
+        $.ajax({
+            url: "GetGRNPOJSON",
+            type: "post",
+            data: { "Type": type,"supid":supid },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                newlist = response.Itemlst;
+                $("#ddlGRN").val(null).trigger("change"); 
+                PopulateDropDown("#ddlGRN", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Type");
+            }
+        });
+    }
+    
         function changeDetail(ItemId) 
         {
         var type = document.getElementById("ddlType").value;
@@ -322,48 +382,39 @@
                 alert("Data Not Found");
             }
         });
-        //$.ajax({
-        //    url: "GetGRNPOJSON",
-        //    type: "post",
-        //    data: { "Type": type, "Item": ItemId },
-        //    cache: false,
-        //    success: function (response) {
-        //        var newlist;
-        //        newlist = response.Itemlst;
-        //        PopulateDropDown("#ddlGRN", response);
-        //    },
-        //    error: function () {
-        //        debugger;
-        //        alert("Please Select Type");
-        //    }
-        //});
+      
         document.getElementById("tbBooks").innerHTML = "";
+        var amt=0;
         $.ajax({
             url: 'GetPaymentRequestDetails',
             type: "post",
-            data: {  "id": ItemId },
+            data: {  "id": ItemId ,"type":type},
             cache: false,
 
             success: function (list) {
-                alert(JSON.stringify(list));
-
-                //if (list != null && list.length > 0) {
+            if (list != null && list.length > 0) {
                 list.forEach((item) => {
 
                     var index = $("#tbBooks").children("tr").length;
                     //alert(item.batch);
 
-                    var Docid = "<td><input class='form-control' id='txtdocid" + index + "' name='PREQlst[" + index + "].docid'  style='width: 60px;' type='text' readonly='True'  value=" + item.docid + " /><input class='form-control' id='txtdocid" + index + "' name='PREQlst[" + index + "].docid'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.docid + " /></td>";
+                    var Docid = "<td><label>" + item.docid + "</label></td>";
 
                     var Type = "<td><label>" + item.type + "</label><input type='hidden' value=" + item.type + " id='txttype" + index + "' name='PREQlst[" + index + "].type'></td>";
 
-                    var Amount = "<td><input class='form-control' id='txtamount" + index + "' name='PREQlst[" + index + "].amount'  style='width: 60px;' type='text' readonly='True'  value=" + item.amount + " /><input class='form-control' id='txtamount" + index + "' name='PREQlst[" + index + "].amount'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.Amount + " /></td>";
+                    var date = "<td><label>" + item.date + "</label></td>";
+                    var Amount = "<td><label>" + item.amount + "</label></td>";
 
-                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Docid + Type + Amount + "</tr>";
-
+                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Docid + date+ Type + Amount + "</tr>";
+                    amt +=eval(item.amount);
                     $("#tbBooks").append(newRow);
+                     document.getElementById("txtamountReceived").value = amt.toFixed(2);;
+                     var reqamt=document.getElementById("txtAmount").value;
+                     var rem=eval(reqamt)-eval(amt);
+                      document.getElementById("txtpendingamt").value = rem.toFixed(2);
                 });
-                //}
+                 document.getElementById("divrow").style.display="block"
+              }
             },
             error: function () {
                 alert("Data Not Found");
