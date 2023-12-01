@@ -246,6 +246,42 @@ namespace Arasan.Controllers.Sales
             return View(Cy);
         }
         [HttpPost]
+        public ActionResult DN_Approval(DebitNoteBill Cy)
+        {
+
+            try
+            {
+                string Strout = DebitNoteBillService.DebitNoteAcc(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "DebitNoteBill Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "DebitNoteBill Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListDebitNoteBill");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit DebitNoteBill";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
+        [HttpPost]
         public ActionResult Credit_Note_Approval(DebitNoteBill Cy, string id)
         {
 
@@ -288,13 +324,48 @@ namespace Arasan.Controllers.Sales
             DataTable dtParty = datatrans.GetData("select P.ACCOUNTNAME from PARTYMAST P where P.PARTYMASTID='" + dt.Rows[0]["PARTYID"].ToString() + "'");
             string mid = dtParty.Rows[0]["ACCOUNTNAME"].ToString();
             grn.mid = mid;
-            double net= Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString()); 
-            double gross= Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
-            double cgst= Convert.ToDouble(dt.Rows[0]["BCGST"].ToString() == "" ? "0" : dt.Rows[0]["BCGST"].ToString());
+
+            double net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+            double gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+            double cgst = Convert.ToDouble(dt.Rows[0]["BCGST"].ToString() == "" ? "0" : dt.Rows[0]["BCGST"].ToString());
             double sgst = Convert.ToDouble(dt.Rows[0]["BSGST"].ToString() == "" ? "0" : dt.Rows[0]["BSGST"].ToString());
             double igst = Convert.ToDouble(dt.Rows[0]["BIGST"].ToString() == "" ? "0" : dt.Rows[0]["BIGST"].ToString());
+            string grnno = datatrans.GetDataString("select R.RGRNNO from DBNOTEBASIC D,PRETBASIC R where D.T1SOURCEID=R.PRETBASICID AND D.DBNOTEBASICID='"+ PROID + "'");
+
+            DataTable dtnat = datatrans.GetData("select I.ITEMID,BL.QTY,U.UNITID from DBNOTEDETAIL BL,ITEMMASTER I,UNITMAST U where I.ITEMMASTERID=BL.ITEMID AND U.UNITMASTID=I.PRIUNIT AND DBNOTEBASICID='" + PROID + "'");
+            grn.Vmemo = "Against inward no:" + grnno + " , " + dtnat.Rows[0]["ITEMID"].ToString() + "-" + dtnat.Rows[0]["QTY"].ToString() + dtnat.Rows[0]["UNITID"].ToString() + " returned @ amount RS. " + net + " is debited in your account";
+
+            
             double totalcredit = 0;
             double totaldebit = 0;
+            DataTable dtacc = new DataTable();
+            dtacc = datatrans.GetconfigItem(dt.Rows[0]["ADSCHEME"].ToString());
+            string grossledger = "";
+            string cgstledger = "";
+            string sgstledger = "";
+            string igstledger = "";
+            if (dtacc.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtacc.Rows.Count; i++)
+                {
+                    if (dtacc.Rows[i]["ADNAME"].ToString() == "GROSS")
+                    {
+                        grossledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADNAME"].ToString().Contains("CGST"))
+                    {
+                        cgstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADNAME"].ToString().Contains("SGST"))
+                    {
+                        sgstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADNAME"].ToString().Contains("IGST"))
+                    {
+                        igstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                }
+            }
             if (net > 0)
             {
                 tda = new GRNAccount();
@@ -314,7 +385,7 @@ namespace Arasan.Controllers.Sales
             {
                 tda = new GRNAccount();
                 tda.Ledgerlist = BindLedgerLst();
-                tda.Ledgername = mid;
+                tda.Ledgername = grossledger;
                 tda.CRAmount = 0;
                 tda.DRAmount = gross;
                 tda.TypeName = "GROSS";
@@ -329,7 +400,7 @@ namespace Arasan.Controllers.Sales
             {
                 tda = new GRNAccount();
                 tda.Ledgerlist = BindLedgerLst();
-                tda.Ledgername = mid;
+                tda.Ledgername = cgstledger;
                 tda.CRAmount = 0;
                 tda.DRAmount = cgst;
                 tda.TypeName = "CGST";
@@ -344,9 +415,9 @@ namespace Arasan.Controllers.Sales
             {
                 tda = new GRNAccount();
                 tda.Ledgerlist = BindLedgerLst();
-                tda.Ledgername = mid;
+                tda.Ledgername = sgstledger;
                 tda.CRAmount = 0;
-                tda.DRAmount = net;
+                tda.DRAmount = sgst;
                 tda.TypeName = "SGST";
                 tda.Isvalid = "Y";
                 tda.CRDR = "Cr";
@@ -359,7 +430,7 @@ namespace Arasan.Controllers.Sales
             {
                 tda = new GRNAccount();
                 tda.Ledgerlist = BindLedgerLst();
-                tda.Ledgername = mid;
+                tda.Ledgername = igstledger;
                 tda.CRAmount = 0;
                 tda.DRAmount = igst;
                 tda.TypeName = "IGST";
@@ -374,6 +445,7 @@ namespace Arasan.Controllers.Sales
             grn.TotalDRAmt = totaldebit;
             grn.Acclst = TData;
             grn.Accconfiglst = BindAccconfig();
+            grn.ID = PROID;
             return View(grn);
         }
         public List<SelectListItem> BindAccconfig()

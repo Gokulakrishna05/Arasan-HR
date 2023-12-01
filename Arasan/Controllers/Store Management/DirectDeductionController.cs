@@ -434,7 +434,10 @@ namespace Arasan.Controllers.Store_Management
                         //tda.disc = Convert.ToDouble(dtt.Rows[i]["DISCPER"].ToString());
                         tda.Amount = Convert.ToDouble(dtt.Rows[i]["AMOUNT"].ToString() == "" ? "0" : dtt.Rows[i]["AMOUNT"].ToString());
 
-                        //tda.Process = Convert.ToDouble(dtt.Rows[i]["PROCESSID"].ToString() == "" ? "0" : dtt.Rows[i]["PROCESSID"].ToString())
+
+                        //tda.Process = Convert.ToDouble(dtt.Rows[i]["PROCESSID"].ToString() == "" ? "0" : dtt.Rows[i]["PROCESSID"].ToString());
+
+                        
                         tda.Unit = dtt.Rows[i]["UNIT"].ToString();
                         tda.BinID = Convert.ToDouble(dtt.Rows[i]["BINID"].ToString());
                         tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
