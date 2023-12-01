@@ -117,7 +117,8 @@
                                                     <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                         <thead>
                                                             <tr>
-                                                                <th></th>
+@*                                                                <th>@Html.CheckBoxFor(P => P.selectall, new { @id = "Selectallchk" , @onclick = "enableAllrepview();" })</th>
+*@
                                                                 <th>Item Name</th>
                                                                 <th>Quantity</th>
                                                                 <th>Stock Quantity</th>
@@ -125,7 +126,6 @@
                                                                 <th>Unit</th>
                                                                 <th>Issue Quantity</th>
                                                                 <th>Pending Quantity</th>
-                                                               
 
                                                             </tr>
                                                         </thead>
@@ -137,8 +137,8 @@
                                                                 foreach (var item in Model.MRlst.ToList())
                                                                 {
 
-                                                                    <tr>
-                                                                        <td>@Html.CheckBoxFor(o => o.MRlst[i].select, new { @id = "select" + i }) </td>
+                                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                        @*<td>@Html.CheckBoxFor(o => o.MRlst[i].select, new { @id = "select" + i }) </td>*@
 
                                                                         <td>@Html.DisplayFor(o => o.MRlst[i].Item)@Html.HiddenFor(o => o.MRlst[i].ItemId)</td>
                                                                         <td>@Html.TextBoxFor(o => o.MRlst[i].ReqQty,new{@id="reqqty"+ i, @class = "form-control" , style = "width: 80px;",@readonly="readonly" })</td>
@@ -199,8 +199,7 @@
             var qty = document.getElementById("reqqty" + i).value;
             var up = document.getElementById("InvQty" + i).value;
             var cl = document.getElementById("txtClosingStock" + i).value;
-            alert(cl);
-            
+          
             if (qty == "")
                 qty = 0;
 
@@ -211,10 +210,14 @@
 
             if (eval(up) > eval(cl)) {
                 document.getElementById("InvQty" + i).value = "0";
-                alert("issue qty is graterthen closing stock");
+                alert("Issue Qty is Greaterthen Closing Stock");
                 up=0;
             }
-
+            if (eval(qty) > eval(up)) {
+                document.getElementById("InvQty" + i).value = "0";
+                alert("Issue Qty is Greaterthen Request Qty");
+                up = 0;
+            }
             tot = eval(qty) - eval(up)
 
             document.getElementById("PendingQty" +i).value = tot.toFixed(2);
@@ -225,6 +228,32 @@
             alert(ex.message);
         }
     }
+    //function enableAllrepview() {
+
+    //    if ($("#Selectallchk").prop('checked') == true) {
+    //        var i = 0;
+    //        $('tr.chkitemlst').each(function () {
+    //            if ($(this).css('display') !== 'none') {
+
+    //                $('#select' + i).prop('checked', true);
+
+    //            }
+    //            i += 1;
+    //        });
+
+    //    }
+    //    else {
+    //        var i = 0;
+    //        $('tr.chkitemlst').each(function () {
+    //            if ($(this).css('display') !== 'none') {
+
+    //                $('#select' + i).prop('checked', false);
+
+    //            }
+    //            i += 1;
+    //        });
+    //    }
+    //}
 </script>
 
 

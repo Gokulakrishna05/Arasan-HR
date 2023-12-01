@@ -29,6 +29,7 @@ namespace Arasan.Models
         public DateTime MaterialReqDate { get; set; }
         public string matno { get; set; }
         public string RequestType { get; set; }
+        public bool selectall { get; set; }
         public string ddlStatus { get; set; }
 
         public string Amount { get; set; }
@@ -135,6 +136,7 @@ namespace Arasan.Models
         public string ItemId { get; set; }
         public string Item { get; set; }
         public bool select { get; set; }
+        public bool selectall { get; set; }
         public string UnitID { get; set; }
         public string Unit { get; set; }
         public string ClosingStock { get; set; }

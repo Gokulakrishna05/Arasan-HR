@@ -35,6 +35,8 @@ namespace Arasan.Controllers
             ca.Curlst = BindCurrency();
             ca.EnqassignList = BindEmp();
             ca.EnqRecList= BindEmp();
+           
+            ca.EnqRecid = Request.Cookies["UserId"];
             List<EnqItem> TData = new List<EnqItem>();
             EnqItem tda = new EnqItem();
 
@@ -83,7 +85,7 @@ namespace Arasan.Controllers
                     ca.ExRate= dt.Rows[0]["EXCRATERATE"].ToString();
                     ca.RefNo= dt.Rows[0]["ENQREF"].ToString();
                     ca.Enqassignid = dt.Rows[0]["ASSIGNTO"].ToString();
-                    ca.EnqRecid = dt.Rows[0]["ENQRECDBY"].ToString();
+                    ca.EnqRecid = Request.Cookies["UserId"];
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = PurenqService.GetPurchaseEnqItemDetails(id);
@@ -145,6 +147,7 @@ namespace Arasan.Controllers
                 //ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                 ca.EnqNo = dt.Rows[0]["ENQNO"].ToString();
                 ca.EnqDate = dt.Rows[0]["ENQDATE"].ToString();
+                ca.Recid = Request.Cookies["UserId"];
                 ca.ID = id;
             }
             List<QoItem> Data = new List<QoItem>();
@@ -397,17 +400,18 @@ namespace Arasan.Controllers
                 //}
                 //else
                 //{
-                    if (dtUsers.Rows[i]["STATUS"].ToString() == "1")
-                    {
-                    MoveToQuo = "<a href=ViewEnq?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-                    EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                   
-                    }
-                    else
+                    if (dtUsers.Rows[i]["STATUS"].ToString() == "Quote")
                     {
                     MoveToQuo = "<img src='../Images/tick.png' alt='View Details' width='20' />";
                     EditRow = "";
+                    
                     }
+                    else
+                    {
+                    MoveToQuo = "<a href=ViewEnq?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                    EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+                }
                 //}
                 View = "<a href=ViewPurEnq?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 //EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
@@ -620,6 +624,7 @@ namespace Arasan.Controllers
         {
             PurchaseFollowup cmp = new PurchaseFollowup();
             cmp.EnqassignList = BindEmpFolw();
+            cmp.Followdate=DateTime.Now.ToString("dd-MMM-yyyy");
             List<PurchaseFollowupDetails> TData = new List<PurchaseFollowupDetails>();
             if (id == null)
             {

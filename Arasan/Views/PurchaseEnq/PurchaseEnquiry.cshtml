@@ -185,7 +185,7 @@
                                                                                                             </td>
                                                                                                             
                                                                                                              <td>
-                                                            @Html.TextBoxFor(o => o.EnqLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")", @readonly = "readonly" })
+                                                            @Html.TextBoxFor(o => o.EnqLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
                                                                                                             </td>
                                                                                                              <td>
                                                                                                               @Html.HiddenFor(o => o.EnqLst[i].Isvalid, new { @id = "Isvalid" + i })

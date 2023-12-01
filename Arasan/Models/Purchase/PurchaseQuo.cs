@@ -47,6 +47,7 @@ namespace Arasan.Models
         public string EnqDate { get; set; }
         public double Net { get; set; }
         public string fromdate { get; set; }
+        public string user { get; set; }
         public string todate { get; set; }
         public string ddlStatus { get; set; }
     }
@@ -61,6 +62,7 @@ namespace Arasan.Models
         public string saveItemId { get; set; }
         public string ItemGroupId { get; set; }
         public string Desc { get; set; }
+        public string user { get; set; }
             public string Unit { get; set; }
         public string ConsFa { get; set; }
         public double Quantity { get; set; }
