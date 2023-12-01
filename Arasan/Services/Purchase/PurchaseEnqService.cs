@@ -233,6 +233,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetRegenerateDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select BRANCHID,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMASTID,PURENQBASICID,PURENQBASIC.STATUS,ENQREF,ASSIGNTO,ENQRECDBY  from PURENQBASIC Where PURENQBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetPurchaseEnqDetails(string id)
         {
             string SvSql = string.Empty;
@@ -633,5 +643,120 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public string RegenerateCRUD(PurchaseEnquiry cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                datatrans = new DataTransactions(_connectionString);
+
+
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'PENQ' AND ACTIVESEQUENCE = 'T'");
+                string EnqNo = string.Format("{0}{1}", "PENQ", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='PENQ' AND ACTIVESEQUENCE ='T'";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                cy.EnqNo = EnqNo;
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("PURCHASEENQPROC", objConn);
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                    StatementType = "Insert";
+                    objCmd.Parameters.Add("PURENQBASICID", OracleDbType.NVarchar2).Value = cy.ID;
+                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
+                    objCmd.Parameters.Add("ENQNO", OracleDbType.NVarchar2).Value = cy.EnqNo;
+                    objCmd.Parameters.Add("ENQREF", OracleDbType.NVarchar2).Value = cy.RefNo;
+                    objCmd.Parameters.Add("ENQDATE", OracleDbType.NVarchar2).Value = cy.Enqdate;
+                    objCmd.Parameters.Add("EXCRATERATE", OracleDbType.NVarchar2).Value = cy.ExRate;
+                    objCmd.Parameters.Add("PARTYREFNO", OracleDbType.NVarchar2).Value = cy.ParNo;
+                    objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = cy.Cur;
+                    objCmd.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = cy.Supplier;
+                    //objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    objCmd.Parameters.Add("ENQRECDBY", OracleDbType.NVarchar2).Value = cy.EnqRecid;
+                    objCmd.Parameters.Add("ASSIGNTO", OracleDbType.NVarchar2).Value = cy.Enqassignid;
+                    //objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.EnqRecid;
+                    //objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (cy.ID != null)
+                        {
+                            Pid = cy.ID;
+                        }
+                        if (cy.EnqLst != null)
+                        {
+                            //if (cy.ID == null)
+                            //{
+                                foreach (EnqItem cp in cy.EnqLst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.saveItemId != "0")
+                                    {
+                                        string UnitID = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.Unit + "' ");
+
+
+                                        svSQL = "Insert into PURENQDETAIL (PURENQBASICID,ITEMID,UNIT,CF,QTY,RATE) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + UnitID + "','" + cp.Conversionfactor + "','" + cp.Quantity + "','" + cp.rate + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+                                    }
+                                }
+
+                            //}
+                            //else
+                            //{
+                            //    svSQL = "Delete PURENQDETAIL WHERE PURENQBASICID='" + cy.ID + "'";
+                            //    OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                            //    objCmdd.ExecuteNonQuery();
+                            //    foreach (EnqItem cp in cy.EnqLst)
+                            //    {
+                            //        if (cp.Isvalid == "Y" && cp.saveItemId != "0")
+                            //        {
+                            //            string UnitID = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.Unit + "' ");
+
+
+                            //            svSQL = "Insert into PURENQDETAIL (PURENQBASICID,ITEMID,UNIT,CF,QTY,RATE) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + UnitID + "','" + cp.Conversionfactor + "','" + cp.Quantity + "','" + cp.rate + "')";
+                            //            OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                            //            objCmds.ExecuteNonQuery();
+                            //        }
+                            //    }
+                            //}
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+
+        //public string RegenerateCRUD(PurchaseEnquiry cy)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

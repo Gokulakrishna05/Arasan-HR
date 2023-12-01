@@ -216,20 +216,123 @@ namespace Arasan.Controllers
             IEnumerable<EnqItem> cmp = PurenqService.GetAllPurenquriyItem(id);
             return View(cmp);
         }
+        public IActionResult Regenerate(string id)
+        {
+                PurchaseEnquiry ca = new PurchaseEnquiry();
+                ca.Brlst = BindBranch();
+                ca.Suplst = BindSupplier();
+                ca.Curlst = BindCurrency();
+                ca.EnqassignList = BindEmp();
+                ca.EnqRecList = BindEmp();
+                ca.EnqRecid = Request.Cookies["UserId"];
+                List<EnqItem> TData = new List<EnqItem>();
+                EnqItem tda = new EnqItem();
+            DataTable dtv = datatrans.GetSequence("Puenq");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.EnqNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
+            DataTable dt = new DataTable();
+                double total = 0;
+                dt = PurenqService.GetRegenerateDetails(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.Enqdate = dt.Rows[0]["ENQDATE"].ToString();
+                    ca.Supplier = dt.Rows[0]["PARTYMASTID"].ToString();
+                    //ca.EnqNo = dt.Rows[0]["ENQNO"].ToString();
+                    ca.ID = id;
+                    ca.ParNo = dt.Rows[0]["PARTYREFNO"].ToString();
+                    ca.Cur = dt.Rows[0]["CURRENCYID"].ToString();
+                    if (string.IsNullOrEmpty(ca.Cur))
+                    {
+                        ca.Cur = "1";
+                    }
+                    ca.ExRate = dt.Rows[0]["EXCRATERATE"].ToString();
+                    ca.RefNo = dt.Rows[0]["ENQREF"].ToString();
+                    ca.Enqassignid = dt.Rows[0]["ASSIGNTO"].ToString();
+                    ca.EnqRecid = Request.Cookies["UserId"];
+                }
+                DataTable dt2 = new DataTable();
+                dt2 = PurenqService.GetPurchaseEnqItemDetails(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new EnqItem();
+                        double toaamt = 0;
+                        tda.ItemGrouplst = BindItemGrplst();
+                        DataTable dt3 = new DataTable();
+                        dt3 = PurenqService.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        if (dt3.Rows.Count > 0)
+                        {
+                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        }
+                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
+                        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        DataTable dt4 = new DataTable();
+                        dt4 = PurenqService.GetItemDetails(tda.ItemId);
+                        if (dt4.Rows.Count > 0)
+                        {
+                            tda.Desc = dt4.Rows[0]["ITEMDESC"].ToString();
+                            tda.Conversionfactor = dt4.Rows[0]["CF"].ToString();
+                            tda.rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
+                        }
+                        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        toaamt = tda.rate * tda.Quantity;
+                        total += toaamt;
+                        //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        tda.Amount = toaamt;
+                        tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                        //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
+                }
+                ca.Net = Math.Round(total, 2);
 
-        // [HttpPost]
-        // public ActionResult SendMail(PurchaseEnquiry Cy)
-        // {
-        //     try
-        //     {
-        //     }
+                //}
+                ca.EnqLst = TData;
+            
+            return View(ca);
+        }
+        [HttpPost]
+        public ActionResult RegenerateEnq(PurchaseEnquiry Cy, string id)
+        {
 
+            try
+            {
+                Cy.ID = id;
+                string Strout = PurenqService.RegenerateCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    //if (Cy.ID == null)
+                    //{
+                        TempData["notice"] = "Regenerate Successfully...!";
+                    //}
+                    //else
+                    //{
+                    //    TempData["notice"] = "PurchaseEnquiry Updated Successfully...!";
+                    //}
+                    return RedirectToAction("ListEnquiry");
+                }
+                //else
+                //{
+                //    ViewBag.PageTitle = "Edit PurchaseEnquiry";
+                //    TempData["notice"] = Strout;
+                //    //return View();
+                //}
 
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-        //}
-        //[HttpPost]
-
-        //public async Task<IActionResult> Send([FromForm] MailRequest request)
+            return View(Cy);
+        }
         public ActionResult SendMail(string id)
         {
 
@@ -387,6 +490,7 @@ namespace Arasan.Controllers
                 string MailRow = string.Empty;
                 string FollowUp = string.Empty;
                 string MoveToQuo = string.Empty;
+                string Regenerate = string.Empty;
                 string View = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
@@ -413,6 +517,7 @@ namespace Arasan.Controllers
 
                 }
                 //}
+                Regenerate = "<a href=Regenerate?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/Change.png' alt='Edit' /></a>";
                 View = "<a href=ViewPurEnq?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 //EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
@@ -427,6 +532,7 @@ namespace Arasan.Controllers
                     mailrow = MailRow,
                     follow = FollowUp,
                     move = MoveToQuo,
+                    reg= Regenerate,
                     view = View,
                     editrow = EditRow,
                     delrow = DeleteRow,
