@@ -114,7 +114,7 @@ namespace Arasan.Controllers
             IEnumerable<PaymentRequest> cmp = request.GetAllPaymentRequest();
             return View(cmp);
         }
-        public ActionResult GetPaymentRequestDetails(string id)
+        public ActionResult GetPaymentRequestDetails(string id,string type)
         {
             PaymentRequest model = new PaymentRequest();
             DataTable dtt = new DataTable();
@@ -144,19 +144,24 @@ namespace Arasan.Controllers
             //        Data.Add(tda);
             //    }
             //}
-            dtt = request.GetPaymentRequestDetail(id);
+
+            
+            dtt = request.GetPaymentRequestDetail(id, type);
             if (dtt.Rows.Count > 0)
             {
                 for (int i = 0; i < dtt.Rows.Count; i++)
                 {
                     tda = new PaymentRequestDetail();
                     tda.ID = dtt.Rows[i]["PAYMENTREQUESTID"].ToString();
-                    tda.docid = dtt.Rows[i]["DOCID"].ToString();
+                    tda.docid = dtt.Rows[i]["PO_OR_GRN"].ToString();
                     tda.type = dtt.Rows[i]["TYPE"].ToString();
                     tda.amount = dtt.Rows[i]["REQUESTAMOUNT"].ToString();
+                    tda.reqby= dtt.Rows[i]["EMPNAME"].ToString();
+                    tda.date= dtt.Rows[i]["DOCDATE"].ToString();
                     Data.Add(tda);
                 }
             }
+            
             model.PREQlst = Data;
             return Json(model.PREQlst);
 
@@ -193,11 +198,11 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public JsonResult GetGRNPOJSON(string Type, string Item)
+        public JsonResult GetGRNPOJSON(string Type, string supid)
         {
             PaymentRequest model = new PaymentRequest();
-            model.Typelst = BindGRNPO(Type, Item);
-            return Json(BindGRNPO(Type, Item));
+            model.Typelst = BindGRNPO(Type, supid);
+            return Json(BindGRNPO(Type, supid));
 
         }
         public List<SelectListItem> BindGRNPO( string type,string item)
@@ -212,7 +217,7 @@ namespace Arasan.Controllers
 
                     for (int i = 0; i < dtDesg.Rows.Count; i++)
                     {
-                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["DOCID"].ToString() });
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
                     }
                 }
 
@@ -222,7 +227,7 @@ namespace Arasan.Controllers
 
                     for (int i = 0; i < dtDesg.Rows.Count; i++)
                     {
-                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["DOCID"].ToString() });
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["POBASICID"].ToString() });
                     }
                 }
                 return lstdesg;
