@@ -78,6 +78,7 @@ namespace Arasan.Services.Sales
                 }
                 DataTable dtParty = datatrans.GetData("select P.ACCOUNTNAME from PARTYMAST P where P.PARTYMASTID='" + cy.Partyid + "'");
                 string mid = dtParty.Rows[0]["ACCOUNTNAME"].ToString();
+                string adscheme = datatrans.GetDataString("select ADSCHEME from PRETBASIC where PRETBASICID='" + cy.grnid + "'");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DBNOTEBASICPROC", objConn);
@@ -111,6 +112,7 @@ namespace Arasan.Services.Sales
                     objCmd.Parameters.Add("BIGST", OracleDbType.NVarchar2).Value = cy.Bigst;
                     objCmd.Parameters.Add("BSGST", OracleDbType.NVarchar2).Value = cy.Bsgst;
                     objCmd.Parameters.Add("BCGST", OracleDbType.NVarchar2).Value = cy.Bcgst;
+                    objCmd.Parameters.Add("ADSCHEME", OracleDbType.NVarchar2).Value = adscheme;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 

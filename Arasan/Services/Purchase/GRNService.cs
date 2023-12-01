@@ -1,5 +1,6 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
@@ -220,6 +221,11 @@ namespace Arasan.Services
                                 }
                                 string updatetrans = " UPDATE NEWSEQUENCE SET LASTNO ='" + (TRANS1 + 1).ToString() + "' where NAME='TRANS1'";
                                 datatrans.UpdateStatus(updatetrans);
+
+
+                                command.CommandText = "UPDATE GRNBLBASIC SET ADSCHEME ='"+ cy.ADCOMPHID +"' WHERE GRNBLBASICID='" + cy.GRNID + "'";
+                                command.ExecuteNonQuery();
+
                                 ///////////////////transaction
                                 transaction.Commit();
                             }
