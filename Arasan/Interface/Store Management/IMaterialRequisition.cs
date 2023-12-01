@@ -26,6 +26,7 @@ namespace Arasan.Interface
         DataTable Getstkqty(string ItemId, string locid, string brid);
         DataTable GetMatbyID(string MatId);
         DataTable GetMatItemByID(string MatId);
+        DataTable GetIndMatItemByID(string MatId);
         DataTable GetLocation(string id);
         DataTable GetWorkCenter(string id);
         DataTable BindProcess(string id);
@@ -42,5 +43,7 @@ namespace Arasan.Interface
         string StatusChange(string tag, string id);
         DataTable GetAllMaterialRequItems(string strStatus);
         DataTable GetAllInventoryReq(string strStatus);
+        DataTable GetAllMaterialDetailRequItems(string strStatus);
+
     }
 }

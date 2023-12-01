@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Interface.Master;
 using Newtonsoft.Json.Linq;
 using Arasan.Services.Store_Management;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace Arasan.Controllers.Store_Management
 {
@@ -391,8 +392,18 @@ namespace Arasan.Controllers.Store_Management
             DataTable dtUsers = new DataTable();
             strStatus = strStatus == "" ? "Y" : strStatus;
             dtUsers = (DataTable)materialReq.GetAllMaterialRequItems(strStatus);
+            
+           
+             
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
+                //string invid = dtUsers.Rows[0]["STORESREQBASICID"].ToString();
+                //DataTable dt = (DataTable)materialReq.GetAllMaterialDetailRequItems(invid);
+                //double qty = Convert.ToDouble(dt.Rows[i]["QTY"].ToString());
+                //string item = dt.Rows[0]["ITEMID"].ToString();
+                //string stock = datatrans.GetDataString("Select SUM(BALANCE_QTY) from INVENTORY_ITEM where ITEM_ID='" + item + "' AND LOCATION_ID='10001000000827' ");
+
+                //double stk = Convert.ToDouble(stock);
                 string Issuse = string.Empty;
                 //string FollowUp = string.Empty;
                 string MoveToIndent = string.Empty;
@@ -403,16 +414,18 @@ namespace Arasan.Controllers.Store_Management
 
                 Issuse = "<a href=ApproveMaterial?&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/issue_icon.png' alt='View Details' width='20' /></a>";
                
-                if (dtUsers.Rows[i]["STATUS"].ToString() == "Indent")
-                {
-                    MoveToIndent = "<img src='../Images/tick.png' alt='View Details' width='20' />";
-                    EditRow = "";
-                }
-                else
-                {
-                    MoveToIndent = "<a href=IssueToindent?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-                    EditRow = "<a href=MaterialRequisition?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                }
+                    if (dtUsers.Rows[i]["STATUS"].ToString() == "Indent")
+                    {
+                        MoveToIndent = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                        EditRow = "";
+                    }
+                    else
+                    {
+                        MoveToIndent = "<a href=IssueToindent?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                        EditRow = "<a href=MaterialRequisition?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    }
+               
+                
                 View = "<a href=MaterialStatus?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
@@ -549,15 +562,18 @@ namespace Arasan.Controllers.Store_Management
                 MR.BranchId = dt.Rows[0]["BRANCH"].ToString();
                 MR.DocId = dt.Rows[0]["DOCID"].ToString();
                 MR.DocDa = dt.Rows[0]["DOCDATE"].ToString();
+                MR.WorkCenter = dt.Rows[0]["WCID"].ToString();
+                MR.WorkCenterid = dt.Rows[0]["work"].ToString();
                 MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
                 MR.BranchId = dt.Rows[0]["BRANCHIDS"].ToString();
                 MR.LocationId = dt.Rows[0]["FROMLOCID"].ToString();
+                MR.Entered = Request.Cookies["UserId"];
                 MR.MaterialReqId = id;
                 MR.Storeid = storeid;
             }
             List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
             MaterialRequistionItem tda = new MaterialRequistionItem();
-            dtt = materialReq.GetMatItemByID(id);
+            dtt = materialReq.GetIndMatItemByID(id);
             if (dtt.Rows.Count > 0)
             {
                 for (int i = 0; i < dtt.Rows.Count; i++)

@@ -51,12 +51,24 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.user)
                                         @Html.HiddenFor(C => C.Branch,new{@id="branch"})
                                             @Html.DropDownListFor(C => C.SLocation, Model.SLoclst, new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1 })<br />
 
                                     </div>
                                 </div>
                             </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Indent No <label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.IndentId, new { @id = "IndentId", @Class = "form-control", @TabIndex = 2 ,@readonly="readonly"})<br />
+
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
                          <div style="height:30px;"></div>
                         <div class="row">
@@ -90,7 +102,7 @@
 
                         </div>
 
-                        <div class="row">
+                       @* <div class="row">
                           
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -113,7 +125,7 @@
                                 </div>
                             </div>
                         </div>
-                    
+                    *@
 
 
                         <div style="height:30px;"></div>
@@ -461,7 +473,7 @@
 
         $.ajax({
                     type: "POST",
-                    url: 'GetItemGrpJSON',
+                    url: 'GetItemJSON',
                     success: function (data) {
                         $.each(data, function () {
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
@@ -559,9 +571,9 @@ function AddRowT() {
          function AppendRow(opt,remopt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var ItemGrp = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='PILst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        //var ItemGrp = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='PILst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var Item = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='PILst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+        var Item = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='PILst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>"+opt+"</select></td>";
 
         var QC = "<td><input class='form-control' id='txtQC" + index + "' name='PILst[" + index + "].QC'  style='width: 50px;' type='text'  readonly='True'/></td>";
 
@@ -569,7 +581,7 @@ function AddRowT() {
 
         var Stock = "<td><input class='form-control' id='txtStock" + index + "' name='PILst[" + index + "].Stock'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 50px;text-align:right' type='text' value='0' readonly='True' /></td>";
 
-        var WholeStock = "<td><input class='form-control' id='txtWholeStock" + index + "' name='PILst[" + index + "].WholeStock'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 50px;text-align:right' type='text' value='0' readonly='True' /></td>";
+        var WholeStock = "<td><input class='form-control' id='wholestock" + index + "' name='PILst[" + index + "].WholeStock'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 50px;text-align:right' type='text' value='0' readonly='True' /></td>";
         
         var IndentPlaced = "<td><input class='form-control' id='txtIndentPlaced" + index + "' name='PILst[" + index + "].IndentPlaced'  style='width: 50px;' type='text' readonly='True' /></td>";
 
@@ -584,7 +596,7 @@ function AddRowT() {
         var removeCell = "<td><input id='Isvalid" + index + "' name='PILst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='PILst.Index' type='hidden' value='" + index + "'  /></td>";
        
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + QC +  Unit + Stock + WholeStock + IndentPlaced + Quantity + Loc + Duedate + Narration +  removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Item + QC +  Unit + Stock + WholeStock + IndentPlaced + Quantity + Loc + Duedate + Narration +  removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 

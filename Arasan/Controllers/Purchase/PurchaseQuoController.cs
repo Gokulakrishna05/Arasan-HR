@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Models;
 using AspNetCore.Reporting;
 using NuGet.Packaging.Signing;
-
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using System.Xml.Linq;
+using DocumentFormat.OpenXml.Wordprocessing;
 namespace Arasan.Controllers
 {
     public class PurchaseQuoController : Controller
@@ -32,6 +35,8 @@ namespace Arasan.Controllers
             ca.Suplst = BindSupplier();
             ca.Curlst = BindCurrency();
             ca.RecList = BindEmp();
+            ca.user = Request.Cookies["UserId"];
+            ca.Recid = Request.Cookies["UserId"];
             ca.assignList = BindEmp();
             List<QoItem> Data = new List<QoItem>();
             QoItem tda = new QoItem();
@@ -58,6 +63,7 @@ namespace Arasan.Controllers
                     ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
                     //ca.ExRate = dt.Rows[0]["EXCRATERATE"].ToString();
                     ca.QuoId = dt.Rows[0]["DOCID"].ToString();
+
                 }
                 //ca = PurquoService.GetPurQuotationById(id);
                 DataTable dt2 = new DataTable();

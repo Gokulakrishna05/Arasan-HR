@@ -318,15 +318,17 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("ENQNO", OracleDbType.NVarchar2).Value = cy.EnqNo;
                     objCmd.Parameters.Add("ENQREF", OracleDbType.NVarchar2).Value = cy.RefNo;
-                    objCmd.Parameters.Add("ENQDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Enqdate);
+                    objCmd.Parameters.Add("ENQDATE", OracleDbType.NVarchar2).Value =cy.Enqdate;
                     objCmd.Parameters.Add("EXCRATERATE", OracleDbType.NVarchar2).Value = cy.ExRate;
                     objCmd.Parameters.Add("PARTYREFNO", OracleDbType.NVarchar2).Value = cy.ParNo;
                     objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = cy.Cur;
                     objCmd.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = cy.Supplier;
-                    objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "YES";
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "1";
+                    objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                     
                     objCmd.Parameters.Add("ENQRECDBY", OracleDbType.NVarchar2).Value = cy.EnqRecid;
                     objCmd.Parameters.Add("ASSIGNTO", OracleDbType.NVarchar2).Value = cy.Enqassignid;
+                    objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.EnqRecid;
+                    objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -485,8 +487,8 @@ namespace Arasan.Services
 
                     objCmd.Parameters.Add("ENQ_ID", OracleDbType.NVarchar2).Value = cy.EnqNo;
                     objCmd.Parameters.Add("FOLLOWED_BY", OracleDbType.NVarchar2).Value = cy.Followby;
-                    objCmd.Parameters.Add("FOLLOW_DATE", OracleDbType.Date).Value = DateTime.Parse(cy.Followdate);
-                    objCmd.Parameters.Add("NEXT_FOLLOW_DATE", OracleDbType.Date).Value = DateTime.Parse(cy.Nfdate);
+                    objCmd.Parameters.Add("FOLLOW_DATE", OracleDbType.NVarchar2).Value =cy.Followdate;
+                    objCmd.Parameters.Add("NEXT_FOLLOW_DATE", OracleDbType.NVarchar2).Value =cy.Nfdate;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Rmarks;
                     objCmd.Parameters.Add("FOLLOW_STATUS", OracleDbType.NVarchar2).Value = cy.Enquiryst;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -516,6 +518,8 @@ namespace Arasan.Services
 
         public string EnquirytoQuote(string enqid)
         {
+            
+            
             string msg = "";
             try
             {
@@ -538,7 +542,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    svSQL = "Insert into PURQUOTBASIC (ENQNO,BRANCHID,EXRATE,MAINCURRENCY,PARTYID,DOCID,DOCDATE,IS_ACTIVE) (Select PURENQBASICID,BRANCHID,EXCRATERATE,CURRENCYID,PARTYMASTID,'" + QuoNo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "' ,'Yes' from PURENQBASIC where PURENQBASICID='" + enqid + "')";
+                    svSQL = "Insert into PURQUOTBASIC (ENQNO,BRANCHID,EXRATE,MAINCURRENCY,PARTYID,DOCID,DOCDATE,IS_ACTIVE,CREATED_BY,CREATED_ON) (Select PURENQBASICID,BRANCHID,EXCRATERATE,CURRENCYID,PARTYMASTID,'" + QuoNo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "' ,'Y','10001000000637','" + DateTime.Now.ToString("dd-MMM-yyyy") + "' from PURENQBASIC where PURENQBASICID='" + enqid + "')";
                     OracleCommand objCmd = new OracleCommand(svSQL, objConn);
                     try
                     {
@@ -559,7 +563,7 @@ namespace Arasan.Services
                     OracleCommand objCmds = new OracleCommand(Sql, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
-                    string Svql = "UPDATE PURENQBASIC SET STATUS=2 where PURENQBASICID='" + enqid + "'";
+                    string Svql = "UPDATE PURENQBASIC SET STATUS='Quote' where PURENQBASICID='" + enqid + "'";
                     OracleCommand objCmds1 = new OracleCommand(Svql, objConnT);
 
                     objCmds1.ExecuteNonQuery();

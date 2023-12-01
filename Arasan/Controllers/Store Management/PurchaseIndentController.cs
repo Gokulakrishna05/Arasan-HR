@@ -32,8 +32,14 @@ namespace Arasan.Controllers.Store_Management
             ca.ELst = BindErection();
             ca.EmpLst = BindEmp();
             ca.Branch = Request.Cookies["BranchId"];
+            ca.user = Request.Cookies["UserId"];
             ca.IndentDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence("Pind");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.IndentId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
+            }
             List<PIndentItem> TData = new List<PIndentItem>();
             PIndentItem tda = new PIndentItem();
             for (int i = 0; i < 3; i++)
@@ -49,7 +55,7 @@ namespace Arasan.Controllers.Store_Management
             //ca.ID = "0";
             List<PIndentTANDC> TData1 = new List<PIndentTANDC>();
             PIndentTANDC tda1 = new PIndentTANDC();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 1; i++)
             {
                 tda1 = new PIndentTANDC();
                 tda1.Isvalid = "Y";
@@ -162,7 +168,9 @@ namespace Arasan.Controllers.Store_Management
             for (int i = 0; i < dtEnq.Rows.Count; i++)
             {
                 string Approval = string.Empty;
+                string DisApproval = string.Empty;
                Approval = "IndentApproved?id="+ dtEnq.Rows[i]["PINDDETAILID"].ToString()+"";
+                DisApproval = "IndentDisApproved?id="+ dtEnq.Rows[i]["PINDDETAILID"].ToString()+"";
                 EnqChkItem.Add(new IndentItemBindList
                 {
                     indentid = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
@@ -174,7 +182,8 @@ namespace Arasan.Controllers.Store_Management
                     duedate = dtEnq.Rows[i]["DUEDATE"].ToString(),
                     indentno = dtEnq.Rows[i]["DOCID"].ToString(),
                     indentdate = dtEnq.Rows[i]["DOCDATE"].ToString(),
-                    approval= Approval
+                    approval= Approval,
+                    disapproval= DisApproval
                 });
             }
 
@@ -439,7 +448,14 @@ namespace Arasan.Controllers.Store_Management
             bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED1='YES',APPROVAL1U='SRRAJAN',APP1DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id  + "'");
             return RedirectToAction("List_PI_Approval");
         }
-            public List<SelectListItem> BindItemGrplst()
+        public ActionResult IndentDisApproved(string id)
+        {
+            string user= Request.Cookies["UserId"];
+            datatrans = new DataTransactions(_connectionString);
+            bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED1='NO',MODIFYBY='"+ user+"',MODIFY_ON='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id + "'");
+            return RedirectToAction("List_PI_Approval");
+        }
+        public List<SelectListItem> BindItemGrplst()
         {
             try
             {
@@ -657,7 +673,8 @@ namespace Arasan.Controllers.Store_Management
         }
         public JsonResult GridRecordsSave(string[] selectedRecord, string supid)
         {
-            string Strout = PurIndent.GenerateEnquiry(selectedRecord, supid);
+            string user = Request.Cookies["UserId"];
+            string Strout = PurIndent.GenerateEnquiry(selectedRecord, supid, user);
 
             return Json(Strout);
         }

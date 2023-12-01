@@ -40,6 +40,7 @@ namespace Arasan.Models
         public string Erection { get; set; }
 
         public string Purtype { get; set; }
+        public string user { get; set; }
 
         public string PreparedBy { get; set; }
 
@@ -107,6 +108,7 @@ namespace Arasan.Models
         public string indentdate { get; set; }
         public string branch { get; set; }
         public string approval { get; set; }
+        public string disapproval { get; set; }
 
     }
     public class IndentSupAllocation
