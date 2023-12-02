@@ -1,7 +1,7 @@
 ﻿@model Arasan.Models.MaterialRequisition
 
 @{
-    Layout = "_PopupLayout";
+     
     ViewData["Title"] = "Material Requisition";
 }
 <style>
@@ -76,7 +76,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.WorkCenter)
-                                            @Html.DisplayFor(C => C.WorkCenterid)
+                                            @Html.HiddenFor(C => C.WorkCenterid)
                                         </div>
                                     </div>
                                 </div>
@@ -123,6 +123,7 @@
                                                                 <th>Quantity</th>
                                                                 <th>Stock Quantity</th>
                                                                 <th>Whole Stock </th>
+                                                                <th>Lot No </th>
                                                                 <th>Unit</th>
                                                                 <th>Issue Quantity</th>
                                                                 <th>Pending Quantity</th>
@@ -140,11 +141,19 @@
                                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                         @*<td>@Html.CheckBoxFor(o => o.MRlst[i].select, new { @id = "select" + i }) </td>*@
 
-                                                                        <td>@Html.DisplayFor(o => o.MRlst[i].Item)@Html.HiddenFor(o => o.MRlst[i].ItemId)</td>
+                                                                        <td>@Html.DisplayFor(o => o.MRlst[i].Item)@Html.HiddenFor(o => o.MRlst[i].ItemId)@Html.HiddenFor(o => o.MRlst[i].invenid,new{@id="inveid" + i})@Html.HiddenFor(o => o.MRlst[i].inventryQty,new{@id="inventryQty" + i})@Html.HiddenFor(o => o.MRlst[i].lotno,new{@id="lotno" + i})</td>
                                                                         <td>@Html.TextBoxFor(o => o.MRlst[i].ReqQty,new{@id="reqqty"+ i, @class = "form-control" , style = "width: 80px;",@readonly="readonly" })</td>
                                                                         <td>@Html.DisplayFor(o => o.MRlst[i].ClosingStock)@Html.HiddenFor(o => o.MRlst[i].ClosingStock,new{@id="txtClosingStock"+ i})</td>
                                                                           <td> <a class="nav-link" href="@Url.Action("WholeStock", "MaterialRequisition",new { id=item.ItemId })" class='fancybox' data-fancybox-type='iframe'> @Html.DisplayFor(o => o.MRlst[i].TotalStock)</a></td>
+                                                                        @if (item.lot != "0")
+                                                                        {
+                                                                            <td><a href="@Url.Action("LotNo", "MaterialRequisition",new { id=item.Storeid,rowid=i })" class='fancybox' data-fancybox-type='iframe'> <label> Lot No </label></a></td>
 
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <td></td>
+                                                                        }
                                                                         <td>@Html.DisplayFor(o => o.MRlst[i].Unit)@Html.HiddenFor(o => o.MRlst[i].UnitID)@Html.HiddenFor(o => o.MRlst[i].Isvalid)@Html.HiddenFor(o => o.MRlst[i].UnitID)@Html.HiddenFor(o => o.MRlst[i].indentid)</td>
                                                                         <td>@Html.TextBoxFor(o => o.MRlst[i].InvQty, new { @id = "InvQty" + i, @class = "form-control" , style = "width: 80px;",@onkeyup = "changeQty(this," + i + ")"})</td>
 
@@ -186,6 +195,17 @@
         });
 
     })
+    //   $(function () {
+
+    //     var invid=document.getElementById("invid" + i).value;
+    //     alert(invid);
+    //   var url = "/MaterialRequisition/LotNo?id=" + invid + "&rowid=" + i + "&locid=" + locid;
+    //        document.getElementById("hdrumselection" + i).href = url;
+
+       
+    //}   
+
+    
     function changeQty(_this, i) {
         try {
             var GTot = 0;
@@ -213,7 +233,7 @@
                 alert("Issue Qty is Greaterthen Closing Stock");
                 up=0;
             }
-            if (eval(qty) > eval(up)) {
+            if (eval(up) > eval(qty)) {
                 document.getElementById("InvQty" + i).value = "0";
                 alert("Issue Qty is Greaterthen Request Qty");
                 up = 0;
@@ -254,6 +274,32 @@
     //        });
     //    }
     //}
+</script>
+
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false
+        });
+        fancybox123 = $.fancybox;
+    });
+
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
 </script>
 
 
