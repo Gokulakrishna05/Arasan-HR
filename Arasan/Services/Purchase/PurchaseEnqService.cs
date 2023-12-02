@@ -673,7 +673,7 @@ namespace Arasan.Services
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     StatementType = "Insert";
-                    objCmd.Parameters.Add("PURENQBASICID", OracleDbType.NVarchar2).Value = cy.ID;
+                    objCmd.Parameters.Add("PURENQBASICID", OracleDbType.NVarchar2).Value = DBNull.Value;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("ENQNO", OracleDbType.NVarchar2).Value = cy.EnqNo;
                     objCmd.Parameters.Add("ENQREF", OracleDbType.NVarchar2).Value = cy.RefNo;
@@ -695,10 +695,10 @@ namespace Arasan.Services
                         objCmd.ExecuteNonQuery();
                         Object Pid = objCmd.Parameters["OUTID"].Value;
                         //string Pid = "0";
-                        if (cy.ID != null)
-                        {
-                            Pid = cy.ID;
-                        }
+                        //if (cy.ID != null)
+                        //{
+                        //    Pid = cy.ID;
+                        //}
                         if (cy.EnqLst != null)
                         {
                             //if (cy.ID == null)
@@ -715,26 +715,8 @@ namespace Arasan.Services
                                         objCmds.ExecuteNonQuery();
                                     }
                                 }
+                                 
 
-                            //}
-                            //else
-                            //{
-                            //    svSQL = "Delete PURENQDETAIL WHERE PURENQBASICID='" + cy.ID + "'";
-                            //    OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
-                            //    objCmdd.ExecuteNonQuery();
-                            //    foreach (EnqItem cp in cy.EnqLst)
-                            //    {
-                            //        if (cp.Isvalid == "Y" && cp.saveItemId != "0")
-                            //        {
-                            //            string UnitID = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.Unit + "' ");
-
-
-                            //            svSQL = "Insert into PURENQDETAIL (PURENQBASICID,ITEMID,UNIT,CF,QTY,RATE) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + UnitID + "','" + cp.Conversionfactor + "','" + cp.Quantity + "','" + cp.rate + "')";
-                            //            OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                            //            objCmds.ExecuteNonQuery();
-                            //        }
-                            //    }
-                            //}
                         }
 
                     }
