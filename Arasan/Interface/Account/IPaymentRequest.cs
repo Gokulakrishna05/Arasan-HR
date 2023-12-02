@@ -21,5 +21,8 @@ namespace Arasan.Interface
         string StatusChange(string tag, int id);
 
         IEnumerable<PaymentRequest>  GetAllApprovePaymentRequest();
+        DataTable GetPaymentRequestDetail(string id,string type);
+        DataTable GetPaymentRequestDetail1(string id);
+        //DataTable GetPaymentRequestDetail2(string id) ;
     }
 }

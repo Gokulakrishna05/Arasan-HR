@@ -28,7 +28,7 @@ namespace Arasan.Services.Sales
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,DOCID,to_char(DBNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DBNOTEBASICID from DBNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=DBNOTEBASIC.BRANCHID";
+                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,DOCID,to_char(DBNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DBNOTEBASICID from DBNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=DBNOTEBASIC.BRANCHID WHERE DBNOTEBASIC.IS_ACTIVE='Y' AND DBNOTEBASIC.IS_ACCOUNTED='N'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -44,6 +44,113 @@ namespace Arasan.Services.Sales
                 }
             }
             return cmpList;
+        }
+        public string DebitNoteAcc(DebitNoteBill cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+                string Location = "12418000000423";
+                DataTable dtt = new DataTable();
+                dtt = datatrans.GetData("select DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE ,BRANCHID,PARTYID from DBNOTEBASIC where DBNOTEBASICID='" + cy.ID + "'");
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+
+                {
+                    objConn.Open();
+
+                    using (OracleCommand command = objConn.CreateCommand())
+                    {
+                        using (OracleTransaction transaction = objConn.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
+                        {
+                            try
+                            {
+                                command.Transaction = transaction;
+
+                                ////////////////////transaction
+                                int t2cunt = 0;
+                                double grossamt = 0;
+                                string Grossledger = "";
+                                double totgst = 0;
+                                double netamt = 0;
+                                foreach (GRNAccount cp in cy.Acclst)
+                                {
+                                    t2cunt += 1;
+                                    if (cp.TypeName == "GROSS")
+                                    {
+                                        grossamt = cp.CRAmount;
+                                        Grossledger = cp.Ledgername;
+                                    }
+                                    if (cp.TypeName == "CGST")
+                                    {
+                                        totgst += cp.CRAmount;
+                                    }
+                                    if (cp.TypeName == "SGST")
+                                    {
+                                        totgst += cp.CRAmount;
+                                    }
+                                    if (cp.TypeName == "IGST")
+                                    {
+                                        totgst += cp.CRAmount;
+                                    }
+                                    if (cp.TypeName == "NET")
+                                    {
+                                        netamt = cp.DRAmount;
+                                    }
+                                }
+                                DataTable dtv = datatrans.GetData("select PREFIX,LASTNO from Sequence where TRANSTYPE='vchdn' AND ACTIVESEQUENCE='T' ");
+                                string vNo = dtv.Rows[0]["PREFIX"].ToString() + dtv.Rows[0]["LASTNO"].ToString();
+                                string mno = DateTime.Now.ToString("yyyyMM");
+                                long TRANS1 = datatrans.GetDataIdlong("select LASTNO from NEWSEQUENCE where NAME='TRANS1'");
+                                command.CommandText = "Insert into TRANS1 (TRANS1ID,APPROVAL,T1SOURCEID,VCHSTATUS,T1TYPE,T1VCHNO,CURRENCYID,EXCHANGERATE,T1REFNO,T1REFDT,MONTHNO,MSTATUS,T1HIDBMID,T1HIDBAMT,T1HICRMID,T1HICRAMT,T1PARTYID,T1PARTYAMT,TRANSID,BRANCHID,LOCID,CANCEL,MAXAPPROVED,LATEMPLATEID,T1VCHDT,T1NARR,T2COUNT,POSTYN,BRANCHMASTID,VTYPE,GENERATED,AMTWD,USERNAME,MODIFIEDON,T1SID,TOTGST) VALUES " +
+                                    "('" + TRANS1 + "','0','" + cy.ID + "','N','dn','" + vNo + "','1','1','" + dtt.Rows[0]["DOCID"].ToString() + "','" + dtt.Rows[0]["DOCDATE"].ToString() + "','" + mno + "','a','" + Grossledger + "','" + grossamt + "','" + cy.mid + "','" + netamt + "','" + dtt.Rows[0]["PARTYID"].ToString() + "','" + netamt + "','vchdn','" + dtt.Rows[0]["BRANCHID"].ToString() + "','" + Location + "','F','0','0','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cy.Vmemo + "','" + t2cunt + "','Y','0','R','T','" + cy.Amtinwords + "','" + cy.createdby + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','0','" + totgst + "')";
+                                command.ExecuteNonQuery();
+                                foreach (GRNAccount cp in cy.Acclst)
+                                {
+                                    string mledger = "";
+                                    if (cp.TypeName == "NET")
+                                    {
+                                        mledger = Grossledger;
+                                    }
+                                    else
+                                    {
+                                        mledger = cy.mid;
+                                    }
+                                    long TRANS2 = datatrans.GetDataIdlong("select LASTNO from NEWSEQUENCE where NAME='TRANS2'");
+                                    command.CommandText = "Insert into TRANS2 (TRANS2ID,TRANS1ID,DBCR,MID,NDBAMOUNT,DBAMOUNT,NCRAMOUNT,CRAMOUNT,SLN,EXRATE,SDBAMOUNT,SCRAMOUNT,T2VCHDT,T2TYPE,T2VCHSTATUS,RCTRLFLD,CMID) VALUES ('" + TRANS2 + "','" + TRANS1 + "','" + cp.CRDR + "','" + cp.Ledgername + "','" + cp.DRAmount + "','" + cp.DRAmount + "','" + cp.CRAmount + "','" + cp.CRAmount + "','1','1','" + cp.DRAmount + "','" + cp.CRAmount + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','dn','N','F','" + mledger + "')";
+                                    command.ExecuteNonQuery();
+                                    datatrans.UpdateStatus("UPDATE NEWSEQUENCE SET LASTNO ='" + (TRANS2 + 1).ToString() + "' where NAME='TRANS2'");
+
+                                }
+                                string updatetrans = " UPDATE NEWSEQUENCE SET LASTNO ='" + (TRANS1 + 1).ToString() + "' where NAME='TRANS1'";
+                                datatrans.UpdateStatus(updatetrans);
+
+
+                                command.CommandText = "UPDATE DBNOTEBASIC SET IS_ACCOUNTED ='Y' WHERE DBNOTEBASICID='" + cy.ID + "'";
+                                command.ExecuteNonQuery();
+
+                                ///////////////////transaction
+                                transaction.Commit();
+                            }
+                            catch (DataException e)
+                            {
+                                transaction.Rollback();
+                                Console.WriteLine(e.ToString());
+                                Console.WriteLine("Neither record was written to database.");
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
         }
         public string DebitNoteBillCRUD(DebitNoteBill cy)
         {
@@ -78,6 +185,7 @@ namespace Arasan.Services.Sales
                 }
                 DataTable dtParty = datatrans.GetData("select P.ACCOUNTNAME from PARTYMAST P where P.PARTYMASTID='" + cy.Partyid + "'");
                 string mid = dtParty.Rows[0]["ACCOUNTNAME"].ToString();
+                string adscheme = datatrans.GetDataString("select ADSCHEME from PRETBASIC where PRETBASICID='" + cy.grnid + "'");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DBNOTEBASICPROC", objConn);
@@ -111,6 +219,7 @@ namespace Arasan.Services.Sales
                     objCmd.Parameters.Add("BIGST", OracleDbType.NVarchar2).Value = cy.Bigst;
                     objCmd.Parameters.Add("BSGST", OracleDbType.NVarchar2).Value = cy.Bsgst;
                     objCmd.Parameters.Add("BCGST", OracleDbType.NVarchar2).Value = cy.Bcgst;
+                    objCmd.Parameters.Add("ADSCHEME", OracleDbType.NVarchar2).Value = adscheme;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 
@@ -387,7 +496,7 @@ namespace Arasan.Services.Sales
         public DataTable GetDNDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select T1SOURCEID,BRANCHID,PARTYID,CUSTACC,GROSS,NET,BIGST,BCGST,BSGST from DBNOTEBASIC where DBNOTEBASICID='" + id + "'";
+            SvSql = "select T1SOURCEID,BRANCHID,PARTYID,CUSTACC,GROSS,NET,BIGST,BCGST,BSGST,ADSCHEME from DBNOTEBASIC where DBNOTEBASICID='" + id + "'";
             //SvSql = "Select PRETBASIC.REJBY,CURRENCY.MAINCURR ,BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,PRETBASIC.DOCID,to_char(PRETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PRETBASIC.REFNO,to_char(PRETBASIC.REFDT,'dd-MON-yyyy')REFDT,LOCDETAILS.LOCID,PRETBASIC.EXCHANGERATE,PRETBASIC.REASONCODE,PRETBASIC.TEMPFIELD,PRETBASIC.RGRNNO,PRETBASIC.GROSS,PRETBASIC.NET,PRETBASIC.NARR,PRETBASICID  from PRETBASIC left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID = PRETBASIC.BRANCHID left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID = PRETBASIC.LOCID left outer join PARTYMAST on PARTYMAST.PARTYMASTID = PRETBASIC.PARTYID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=PRETBASIC.MAINCURRENCY LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PRETBASIC.TRANSITLOCID where PRETBASIC.PRETBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);

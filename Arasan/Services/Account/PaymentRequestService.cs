@@ -10,7 +10,7 @@ using System.Security.Policy;
 
 namespace Arasan.Services 
 {
-    public class PaymentRequestService :IPaymentRequest
+    public class PaymentRequestService : IPaymentRequest
     {
         private readonly string _connectionString;
         DataTransactions datatrans;
@@ -53,7 +53,7 @@ namespace Arasan.Services
         public DataTable GetGRNDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select NET ,DOCID,GRNBLBASICID from GRNBLBASIC where DOCID='" + id + "'";  /*AND IS_ACCOUNT='N'*/
+            SvSql = "Select GRNBLBASIC.NET,DOCID,GRNBLBASICID from GRNBLBASIC where GRNBLBASICID='" + id + "'";  /*AND IS_ACCOUNT='N'*/
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
@@ -62,7 +62,7 @@ namespace Arasan.Services
         public DataTable GetPODetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select GROSS ,DOCID ,POBASICID from POBASIC where DOCID='" + id + "' AND STATUS IS NULL";
+            SvSql = "Select NET,DOCID ,POBASICID from POBASIC where POBASICID='" + id + "'";
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
@@ -144,7 +144,8 @@ namespace Arasan.Services
                     }
 
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Date);
+                    //objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = cy.Date;
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Date;
                     objCmd.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = cy.Type;
                     objCmd.Parameters.Add("SUPPLIERID", OracleDbType.NVarchar2).Value = cy.Supplier; 
                     objCmd.Parameters.Add("PO_OR_GRN", OracleDbType.NVarchar2).Value = cy.GRN;
@@ -153,7 +154,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("REQUESTAMOUNT", OracleDbType.NVarchar2).Value = cy.Final;
                     objCmd.Parameters.Add("REQUESTEDBY", OracleDbType.NVarchar2).Value = cy.ReqBy;
                     objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.createdby;
-                    objCmd.Parameters.Add("CREATED_ON", OracleDbType.NVarchar2).Value = DateTime.Now;
+                    objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     // objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "YES";
                     //objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Approved";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -303,5 +304,43 @@ namespace Arasan.Services
             }
             return cmpList;
         }
+
+        public DataTable GetPaymentRequestDetail(string id,string type)
+        {
+            string SvSql = string.Empty;
+            if (type == "Advance Payment")
+            {
+                SvSql = "Select DOCID,TYPE,PAYMENTREQUESTID,REQUESTAMOUNT,E.EMPNAME,P.PO_OR_GRN,to_char(P.DOCDATE,'dd-MON-yyyy') DOCDATE from PAYMENTREQUEST P,EMPMAST E where P.REQUESTEDBY=E.EMPMASTID AND P.T1SOURCEID='" + id + "' AND P.TYPE='" + type + "'";
+            }
+            else
+            {
+                SvSql = "Select DOCID,TYPE,PAYMENTREQUESTID,REQUESTAMOUNT,E.EMPNAME,P.PO_OR_GRN,to_char(P.DOCDATE,'dd-MON-yyyy') DOCDATE from PAYMENTREQUEST P,EMPMAST E where P.REQUESTEDBY=E.EMPMASTID AND P.TYPE='Advance Payment' AND P.T1SOURCEID=(select POBASICID from GRNBLBASIC where GRNBLBASICId='" + id + "') " +
+                        "UNION Select DOCID,TYPE,PAYMENTREQUESTID,REQUESTAMOUNT,E.EMPNAME,P.PO_OR_GRN,to_char(P.DOCDATE,'dd-MON-yyyy') DOCDATE from PAYMENTREQUEST P, EMPMAST E where P.REQUESTEDBY = E.EMPMASTID AND P.TYPE = 'Against Invoice' AND P.T1SOURCEID = '" + id + "'";
+            }
+            
+            DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetPaymentRequestDetail1(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT PARTYID,DOCID,POBASICID from POBASIC where PARTYID='" + id + "'";
+            DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        //public DataTable GetPaymentRequestDetail2(string id)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "SELECT PARTYID,POBASICID from GRNBLBASIC where POBASICID='" + id + "'";
+        //    DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
     }
 }

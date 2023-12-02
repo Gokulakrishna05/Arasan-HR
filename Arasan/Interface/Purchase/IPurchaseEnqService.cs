@@ -36,6 +36,8 @@ public interface IPurchaseEnqService
 
     string StatusChange(string tag, string id);
     DataTable GetAllPurchaseEnquiryItems(string strStatus);
+    string RegenerateCRUD(PurchaseEnquiry cy);
+    DataTable GetRegenerateDetails(string id);
 }
 
 

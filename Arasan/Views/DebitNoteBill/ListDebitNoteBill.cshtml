@@ -47,8 +47,8 @@
                                                             <th>Doc Id</th>
                                                             <th>Doc Date</th>
                                                             <th>Approve</th>
-                                                            <th>Edit</th>
-                                                            <th>Close</th>
+                                                           @* <th>Edit</th>
+                                                            <th>Close</th>*@
                                                         </tr>
                                                     </thead>
 
@@ -62,8 +62,8 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.DocId)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("DN_Approval", "DebitNoteBill",new { PROID=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/checklist.png' alt='Waiting for approval' /></a></div></td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DebitNoteBill", "DebitNoteBill",new { id=item.ID })"></a></div></td>
-                                                                    <td> <a href="@Url.Action("DeleteMR","Ledger",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+                                                                    @* <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DebitNoteBill", "DebitNoteBill",new { id=item.ID })"></a></div></td>
+                                                            <td> <a href="@Url.Action("DeleteMR","Ledger",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>>*@
 
                                                                 </tr>
                                                                 i++;
