@@ -412,7 +412,7 @@ namespace Arasan.Controllers.Store_Management
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
 
-                Issuse = "<a href=ApproveMaterial?&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/issue_icon.png' alt='View Details' width='20' /></a>";
+                Issuse = "<a href=ApproveMaterial?&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/issue_icon.png' alt='View Details' width='20' /></a>";
                
                     if (dtUsers.Rows[i]["STATUS"].ToString() == "Indent")
                     {
@@ -508,6 +508,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
 
                     tda.indentid = dtt.Rows[i]["STORESREQDETAILID"].ToString();
+                    tda.Storeid = dtt.Rows[i]["STORESREQBASICID"].ToString();
                     tda.Isvalid = "Y";
                     double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString());
                     DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid, dt.Rows[0]["BRANCHIDS"].ToString());
@@ -521,6 +522,16 @@ namespace Arasan.Controllers.Store_Management
                         {
                             tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
                         }
+                    }
+                    DataTable dt2 = materialReq.GetItemLot(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid, dt.Rows[0]["BRANCHIDS"].ToString());
+                    if (dt2.Rows.Count > 0)
+                    {
+
+                        tda.lot= dt2.Rows[0]["LOT_NO"].ToString();
+                    }
+                    else
+                    {
+                        tda.lot = "0";
                     }
                     double stkqty = 0;
                     if (!string.IsNullOrEmpty(tda.ClosingStock))
@@ -854,6 +865,7 @@ namespace Arasan.Controllers.Store_Management
             MR.stklst = TData;
             return View(MR);
         }
+
         [HttpPost]
         public ActionResult WholeStock(MaterialRequisition Cy, string id)
         {
@@ -889,7 +901,40 @@ namespace Arasan.Controllers.Store_Management
 
             return RedirectToAction("ListMaterialReq");
         }
+        public IActionResult LotNo(string id, string rowid)
+        {
+            MaterialRequisition MR = new MaterialRequisition();
+            MR.Entered = Request.Cookies["UserId"];
+            List<ItemLotNo> TData = new List<ItemLotNo>();
+            ItemLotNo tda = new ItemLotNo();
+            DataTable dtt = datatrans.GetData("Select ITEMID from STORESREQDETAIL WHERE STORESREQBASICID='"+id+"' ");
+            if (dtt.Rows.Count > 0)
+            {
+                for (int j = 0; j < dtt.Rows.Count; j++)
+                {
+                    tda.itemid = dtt.Rows[j]["ITEMID"].ToString();
+                    DataTable dt2 = materialReq.GetItemLot(tda.itemid, storeid, "10001000000001");
 
+                    if (dt2.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt2.Rows.Count; i++)
+                        {
+                            tda = new ItemLotNo();
+                            tda.invid = dt2.Rows[i]["INVENTORY_ITEM_ID"].ToString();
+                            tda.Lot = dt2.Rows[i]["LOT_NO"].ToString();
+                            tda.qty = dt2.Rows[i]["BALANCE_QTY"].ToString();
+                            tda.item = dt2.Rows[i]["ITEMID"].ToString();
+                            tda.itemid = dt2.Rows[i]["ITEM_ID"].ToString();
+
+
+                            TData.Add(tda);
+                        }
+                    }
+                }
+            }
+            MR.lotlst = TData;
+            return View(MR);
+        }
         public IActionResult ListMaterialReq()
         {
             //IEnumerable<MaterialRequisition> cmp = materialReq.GetAllMaterial(status, st, ed);

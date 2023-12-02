@@ -43,6 +43,7 @@ namespace Arasan.Models
         public List<SelectListItem> Processlst;
         public List<MaterialRequistionItem> MRlst { get; set; }
         public List<StockItem> stklst { get; set; }
+        public List<ItemLotNo> lotlst { get; set; }
         public List<SelectListItem> assignList;
         public string Storeid { get; set; }
     }
@@ -103,6 +104,21 @@ namespace Arasan.Models
         
          
     }
+    public class ItemLotNo
+    {
+        public string ID { get; set; }
+       
+        public string Lot { get; set; }
+        public string invid { get; set; }
+         
+        public string qty { get; set; }
+        public string reqqty { get; set; }
+        public string item { get; set; }
+        public string itemid { get; set; }
+        
+
+
+    }
 
     public class MaterialReq
     {
@@ -134,10 +150,14 @@ namespace Arasan.Models
 
         public string ItemGroupId { get; set; }
         public string ItemId { get; set; }
+        public string invenid { get; set; }
+        public string inventryQty { get; set; }
+        public string lotno { get; set; }
         public string Item { get; set; }
         public bool select { get; set; }
         public bool selectall { get; set; }
         public string UnitID { get; set; }
+        public string lot { get; set; }
         public string Unit { get; set; }
         public string ClosingStock { get; set; }
         public string TotalStock { get; set; }
@@ -148,6 +168,8 @@ namespace Arasan.Models
         public string Narration { get; set; }
 
         public string indentid { get; set; }
+        public string Storeid { get; set; }
+        public string indentbasicid { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
 
 
