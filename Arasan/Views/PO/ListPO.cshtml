@@ -38,7 +38,7 @@
                 // synchronize with the server - send update command
             },
             datafields: [
-                { name: 'branch', type: 'string' },
+                //{ name: 'branch', type: 'string' },
                 { name: 'pono', type: 'string' },
                 { name: 'podate', type: 'string' },
                 { name: 'quono', type: 'string' },
@@ -66,18 +66,20 @@
             {
                 width: '100%',
                 source: dataAdapter,
-                height: 450,
+                autorowheight: true,
+                autoheight: true,
                 source: source,
                 sortable: true,
                 filterable: true,
                 groupable: false,
                 pageable: true,
                 showfilterbar: true,
+                filterbarmode: 'simple',
                 //showfilterrow: true,
                 theme: 'darkblue',
                 enablebrowserselection: true,
                 columns: [
-                    { text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
+                    //{ text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
                     { text: 'Po No', filtertype: 'input', datafield: 'pono', width: 150 },
                     { text: 'Po Date', datafield: 'podate', width: 100, align: 'center' },
                     { text: 'Quotation No', filtertype: 'input', datafield: 'quono', width: 150 },

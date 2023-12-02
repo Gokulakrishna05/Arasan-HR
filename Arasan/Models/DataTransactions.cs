@@ -345,6 +345,17 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetItem( )
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER";
+           
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetItemSubGroup(string id)
         {
             string SvSql = string.Empty;

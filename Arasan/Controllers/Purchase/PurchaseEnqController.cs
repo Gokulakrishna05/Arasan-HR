@@ -45,8 +45,8 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new EnqItem();
-                    tda.ItemGrouplst = BindItemGrplst();
-                    tda.Itemlst = BindItemlst("");
+                    //tda.ItemGrouplst = BindItemGrplst();
+                    tda.Itemlst = BindItemlst();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -95,14 +95,14 @@ namespace Arasan.Controllers
                     {
                         tda = new EnqItem();
                         double toaamt = 0;
-                        tda.ItemGrouplst = BindItemGrplst();
-                        DataTable dt3 = new DataTable();
-                        dt3 = PurenqService.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
-                        if(dt3.Rows.Count > 0)
-                        {
-                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                        }
-                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
+                        //tda.ItemGrouplst = BindItemGrplst();
+                        //DataTable dt3 = new DataTable();
+                        //dt3 = PurenqService.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        //if(dt3.Rows.Count > 0)
+                        //{
+                        //    tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        //}
+                        tda.Itemlst = BindItemlst( );
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId= dt2.Rows[i]["ITEMID"].ToString();
                         DataTable dt4 = new DataTable();
@@ -224,7 +224,8 @@ namespace Arasan.Controllers
                 ca.Curlst = BindCurrency();
                 ca.EnqassignList = BindEmp();
                 ca.EnqRecList = BindEmp();
-                ca.EnqRecid = Request.Cookies["UserId"];
+            ca.Branch = Request.Cookies["BranchId"];
+            ca.EnqRecid = Request.Cookies["UserId"];
                 List<EnqItem> TData = new List<EnqItem>();
                 EnqItem tda = new EnqItem();
             DataTable dtv = datatrans.GetSequence("Puenq");
@@ -261,14 +262,14 @@ namespace Arasan.Controllers
                     {
                         tda = new EnqItem();
                         double toaamt = 0;
-                        tda.ItemGrouplst = BindItemGrplst();
-                        DataTable dt3 = new DataTable();
-                        dt3 = PurenqService.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
-                        if (dt3.Rows.Count > 0)
-                        {
-                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                        }
-                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
+                        //tda.ItemGrouplst = BindItemGrplst();
+                        //DataTable dt3 = new DataTable();
+                        //dt3 = PurenqService.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        //if (dt3.Rows.Count > 0)
+                        //{
+                        //    tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        //}
+                        tda.Itemlst = BindItemlst();
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         DataTable dt4 = new DataTable();
@@ -606,11 +607,11 @@ namespace Arasan.Controllers
             }
         }
 
-        public List<SelectListItem> BindItemlst(string value)
+        public List<SelectListItem> BindItemlst()
         {
             try
             {
-                DataTable dtDesg = PurenqService.GetItem(value);
+                DataTable dtDesg = PurenqService.GetItem();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -677,11 +678,11 @@ namespace Arasan.Controllers
             }
         }
 
-        public JsonResult GetItemJSON(string itemid)
+        public JsonResult GetItemJSON( )
         {
             EnqItem model = new EnqItem();
-            model.Itemlst = BindItemlst(itemid);
-            return Json(BindItemlst(itemid));
+            model.Itemlst = BindItemlst( );
+            return Json(BindItemlst( ));
 
         }
 
