@@ -23,6 +23,7 @@ namespace Arasan.Interface
         DataTable GetPurQuotationName(string name);
         DataTable GetPurQuoteItem(string name);
         DataTable GetPurQuoteDetails(string name);
+        DataTable GetItem( );
         string QuotetoPO(string QuoteId);
         //DataTable GetItemSubGrp();
         DataTable GetPurchaseQuo(string id);

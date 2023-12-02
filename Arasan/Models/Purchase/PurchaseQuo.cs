@@ -123,6 +123,7 @@ namespace Arasan.Models
         public string branch { get; set; }
         public string supplier { get; set; }
         public string enqno { get; set; }
+        public string quono { get; set; }
         public string docDate { get; set; }
         public string mailrow { get; set; }
         public string editrow { get; set; }

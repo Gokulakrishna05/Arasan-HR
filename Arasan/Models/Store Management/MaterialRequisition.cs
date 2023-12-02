@@ -22,8 +22,10 @@ namespace Arasan.Models
         public string LocationId { get; set; }
         public string Location { get; set; }
         public string Process { get; set; }
+        public bool Priority { get; set; }
         public string WorkCenter { get; set; }
         public string WorkCenterid { get; set; }
+        public string Reason { get; set; }
 
         public string MaterialReqId { get; set; }
         public DateTime MaterialReqDate { get; set; }
