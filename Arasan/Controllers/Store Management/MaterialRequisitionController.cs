@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Interface.Master;
 using Newtonsoft.Json.Linq;
 using Arasan.Services.Store_Management;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace Arasan.Controllers.Store_Management
 {
@@ -391,8 +392,18 @@ namespace Arasan.Controllers.Store_Management
             DataTable dtUsers = new DataTable();
             strStatus = strStatus == "" ? "Y" : strStatus;
             dtUsers = (DataTable)materialReq.GetAllMaterialRequItems(strStatus);
+            
+           
+             
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
+                //string invid = dtUsers.Rows[0]["STORESREQBASICID"].ToString();
+                //DataTable dt = (DataTable)materialReq.GetAllMaterialDetailRequItems(invid);
+                //double qty = Convert.ToDouble(dt.Rows[i]["QTY"].ToString());
+                //string item = dt.Rows[0]["ITEMID"].ToString();
+                //string stock = datatrans.GetDataString("Select SUM(BALANCE_QTY) from INVENTORY_ITEM where ITEM_ID='" + item + "' AND LOCATION_ID='10001000000827' ");
+
+                //double stk = Convert.ToDouble(stock);
                 string Issuse = string.Empty;
                 //string FollowUp = string.Empty;
                 string MoveToIndent = string.Empty;
@@ -401,18 +412,20 @@ namespace Arasan.Controllers.Store_Management
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
 
-                Issuse = "<a href=ApproveMaterial?&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/issue_icon.png' alt='View Details' width='20' /></a>";
+                Issuse = "<a href=ApproveMaterial?&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/issue_icon.png' alt='View Details' width='20' /></a>";
                
-                if (dtUsers.Rows[i]["STATUS"].ToString() == "Indent")
-                {
-                    MoveToIndent = "<img src='../Images/tick.png' alt='View Details' width='20' />";
-                    EditRow = "";
-                }
-                else
-                {
-                    MoveToIndent = "<a href=IssueToindent?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-                    EditRow = "<a href=MaterialRequisition?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                }
+                    if (dtUsers.Rows[i]["STATUS"].ToString() == "Indent")
+                    {
+                        MoveToIndent = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                        EditRow = "";
+                    }
+                    else
+                    {
+                        MoveToIndent = "<a href=IssueToindent?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                        EditRow = "<a href=MaterialRequisition?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    }
+               
+                
                 View = "<a href=MaterialStatus?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
@@ -495,6 +508,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
 
                     tda.indentid = dtt.Rows[i]["STORESREQDETAILID"].ToString();
+                    tda.Storeid = dtt.Rows[i]["STORESREQBASICID"].ToString();
                     tda.Isvalid = "Y";
                     double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString());
                     DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid, dt.Rows[0]["BRANCHIDS"].ToString());
@@ -508,6 +522,16 @@ namespace Arasan.Controllers.Store_Management
                         {
                             tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
                         }
+                    }
+                    DataTable dt2 = materialReq.GetItemLot(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid, dt.Rows[0]["BRANCHIDS"].ToString());
+                    if (dt2.Rows.Count > 0)
+                    {
+
+                        tda.lot= dt2.Rows[0]["LOT_NO"].ToString();
+                    }
+                    else
+                    {
+                        tda.lot = "0";
                     }
                     double stkqty = 0;
                     if (!string.IsNullOrEmpty(tda.ClosingStock))
@@ -549,15 +573,18 @@ namespace Arasan.Controllers.Store_Management
                 MR.BranchId = dt.Rows[0]["BRANCH"].ToString();
                 MR.DocId = dt.Rows[0]["DOCID"].ToString();
                 MR.DocDa = dt.Rows[0]["DOCDATE"].ToString();
+                MR.WorkCenter = dt.Rows[0]["WCID"].ToString();
+                MR.WorkCenterid = dt.Rows[0]["work"].ToString();
                 MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
                 MR.BranchId = dt.Rows[0]["BRANCHIDS"].ToString();
                 MR.LocationId = dt.Rows[0]["FROMLOCID"].ToString();
+                MR.Entered = Request.Cookies["UserId"];
                 MR.MaterialReqId = id;
                 MR.Storeid = storeid;
             }
             List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
             MaterialRequistionItem tda = new MaterialRequistionItem();
-            dtt = materialReq.GetMatItemByID(id);
+            dtt = materialReq.GetIndMatItemByID(id);
             if (dtt.Rows.Count > 0)
             {
                 for (int i = 0; i < dtt.Rows.Count; i++)
@@ -838,6 +865,7 @@ namespace Arasan.Controllers.Store_Management
             MR.stklst = TData;
             return View(MR);
         }
+
         [HttpPost]
         public ActionResult WholeStock(MaterialRequisition Cy, string id)
         {
@@ -873,7 +901,40 @@ namespace Arasan.Controllers.Store_Management
 
             return RedirectToAction("ListMaterialReq");
         }
+        public IActionResult LotNo(string id, string rowid)
+        {
+            MaterialRequisition MR = new MaterialRequisition();
+            MR.Entered = Request.Cookies["UserId"];
+            List<ItemLotNo> TData = new List<ItemLotNo>();
+            ItemLotNo tda = new ItemLotNo();
+            DataTable dtt = datatrans.GetData("Select ITEMID from STORESREQDETAIL WHERE STORESREQBASICID='"+id+"' ");
+            if (dtt.Rows.Count > 0)
+            {
+                for (int j = 0; j < dtt.Rows.Count; j++)
+                {
+                    tda.itemid = dtt.Rows[j]["ITEMID"].ToString();
+                    DataTable dt2 = materialReq.GetItemLot(tda.itemid, storeid, "10001000000001");
 
+                    if (dt2.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt2.Rows.Count; i++)
+                        {
+                            tda = new ItemLotNo();
+                            tda.invid = dt2.Rows[i]["INVENTORY_ITEM_ID"].ToString();
+                            tda.Lot = dt2.Rows[i]["LOT_NO"].ToString();
+                            tda.qty = dt2.Rows[i]["BALANCE_QTY"].ToString();
+                            tda.item = dt2.Rows[i]["ITEMID"].ToString();
+                            tda.itemid = dt2.Rows[i]["ITEM_ID"].ToString();
+
+
+                            TData.Add(tda);
+                        }
+                    }
+                }
+            }
+            MR.lotlst = TData;
+            return View(MR);
+        }
         public IActionResult ListMaterialReq()
         {
             //IEnumerable<MaterialRequisition> cmp = materialReq.GetAllMaterial(status, st, ed);

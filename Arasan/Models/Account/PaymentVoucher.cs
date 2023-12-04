@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using DocumentFormat.OpenXml.Office.CoverPageProps;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
 namespace Arasan.Models
 {
@@ -39,6 +40,8 @@ namespace Arasan.Models
         public double TotalAmount { get; set; }
         public List<VoucherItem> VoucherLst { get; set; }
         public double ClaimAmount { get; set; }
+        public string Amtinwords { get; set; }
+        public string Vmemo { get; set; }
         //public string Enqdate { get; set; }
         //public string EnqNo { get; set; }
         //public string ExRate { get; set; }

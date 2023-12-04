@@ -105,11 +105,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (id == "CreditNote")
             {
-                SvSql = "select PREFIX,LASTNO FROM SEQUENCE WHERE PREFIX ='CNBF'";
+                SvSql = "select PREFIX,LASTNO FROM SEQUENCE WHERE TRANSTYPE ='vchcn'";
             }
             else
             {
-                SvSql = "select PREFIX,LASTNO FROM SEQUENCE WHERE PREFIX ='DNBF'";
+                SvSql = "select PREFIX,LASTNO FROM SEQUENCE WHERE TRANSTYPE ='vchdn'";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);

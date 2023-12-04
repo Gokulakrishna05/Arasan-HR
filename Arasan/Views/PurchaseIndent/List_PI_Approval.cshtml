@@ -43,7 +43,8 @@
                     { name: 'quantity', type: 'float' },
                     { name: 'location', type: 'string' },
                     { name: 'duedate', type: 'string' },
-                    { name: 'approval', type: 'string' }
+                    { name: 'approval', type: 'string' },
+                    { name: 'disapproval', type: 'string' }
                 ],
                 id: 'indentid',
             };
@@ -56,8 +57,14 @@
             );
             var linkrenderer = function (row, column, value) {
                 return '<a href="' + value + '" onclick="return Approve()"><img  src="../Images/Approved.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+
     //return "<a href='" + value + "' target='_blank'>"+'< img src ="../Images/edit.png" alt ="Edit" />'+"</a>";
 }
+        var linkrenderer1 = function (row, column, value) {
+            return '<a href="' + value + '" onclick="return DisApproval()"><img  src="../Images/cancel.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+
+            //return "<a href='" + value + "' target='_blank'>"+'< img src ="../Images/edit.png" alt ="Edit" />'+"</a>";
+        }
             // initialize jqxGrid
             $("#grid").jqxGrid(
             {
@@ -82,6 +89,7 @@
                   { text: 'Location', datafield: 'location', filtertype: 'checkedlist', cellsalign: 'right', width: 200 },
                   { text: 'Quantity', datafield: 'quantity', filtertype: 'checkedlist', cellsalign: 'center', width: 100 },
                   { text: 'Approval', datafield: 'approval', cellsalign: 'center', width: 100, cellsrenderer: linkrenderer, align: 'center'},
+                    { text: 'DisApprove', datafield: 'disapproval', cellsalign: 'center', width: 100, cellsrenderer: linkrenderer1, align: 'center' },
                   
                 ]
             });
@@ -115,5 +123,9 @@
 <script>
     function Approve() {
         return confirm('Are you sure want to Approve this Indent?');
+    }
+
+    function DisApproval() {
+        return confirm('Are you sure want to DisApprove this Indent?');
     }
 </script>

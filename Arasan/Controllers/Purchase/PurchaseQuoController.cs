@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Models;
 using AspNetCore.Reporting;
 using NuGet.Packaging.Signing;
-
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using System.Xml.Linq;
+using DocumentFormat.OpenXml.Wordprocessing;
 namespace Arasan.Controllers
 {
     public class PurchaseQuoController : Controller
@@ -32,6 +35,8 @@ namespace Arasan.Controllers
             ca.Suplst = BindSupplier();
             ca.Curlst = BindCurrency();
             ca.RecList = BindEmp();
+            ca.user = Request.Cookies["UserId"];
+            ca.Recid = Request.Cookies["UserId"];
             ca.assignList = BindEmp();
             List<QoItem> Data = new List<QoItem>();
             QoItem tda = new QoItem();
@@ -58,6 +63,7 @@ namespace Arasan.Controllers
                     ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
                     //ca.ExRate = dt.Rows[0]["EXCRATERATE"].ToString();
                     ca.QuoId = dt.Rows[0]["DOCID"].ToString();
+
                 }
                 //ca = PurquoService.GetPurQuotationById(id);
                 DataTable dt2 = new DataTable();
@@ -68,14 +74,14 @@ namespace Arasan.Controllers
                     {
                         tda = new QoItem();
                         double toaamt = 0;
-                        tda.ItemGrouplst = BindItemGrplst();
-                        DataTable dt3 = new DataTable();
-                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
-                        if (dt3.Rows.Count > 0)
-                        {
-                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                        }
-                        tda.Ilst = BindItemlst(tda.ItemGroupId);
+                        //tda.ItemGrouplst = BindItemGrplst();
+                        //DataTable dt3 = new DataTable();
+                        //dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        //if (dt3.Rows.Count > 0)
+                        //{
+                        //    tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        //}
+                        tda.Ilst = BindItemlst();
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         DataTable dt4 = new DataTable();
@@ -190,6 +196,7 @@ namespace Arasan.Controllers
                     id = Convert.ToInt64(dtUsers.Rows[i]["PURQUOTBASICID"].ToString()),
                     branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     enqno = dtUsers.Rows[i]["ENQNO"].ToString(),
+                    quono = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
                     mailrow = MailRow,
@@ -495,11 +502,11 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindItemlst(string value)
+        public List<SelectListItem> BindItemlst( )
         {
             try
             {
-                DataTable dtDesg = datatrans.GetItem(value);
+                DataTable dtDesg = PurquoService.GetItem( );
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {

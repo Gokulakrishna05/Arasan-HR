@@ -103,6 +103,18 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public DataTable GetconfigItem(string ConId)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select * from ADCOMPD where ADCOMPHID='" + ConId + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
         public DataTable GetSequence(string vtype, string locid)
         {
             string SvSql = string.Empty;
@@ -327,6 +339,17 @@ namespace Arasan.Models
             {
                 SvSql += " Where SUBGROUPCODE='" + value + "'";
             }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetItem( )
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER";
+           
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

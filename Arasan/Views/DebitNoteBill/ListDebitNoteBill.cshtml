@@ -108,11 +108,56 @@
                         </div>*@
 
                         <div class="row">
+
                             <div class="col-md-2 ">
                                 @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
                                 { new SelectListItem() {Text = "Enabled", Value="Y"},
                                 new SelectListItem() {Text = "Disabled", Value="N"}},
                                 new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+
+                            <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+
+                                    <div class="ibox-content collapse in">
+                                        <div class="widgets-container">
+                                            <div>
+                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                           
+                                                            <th>Branch</th>
+                                                            <th>Doc Id</th>
+                                                            <th>Doc Date</th>
+                                                            <th>Approve</th>
+                                                           @* <th>Edit</th>
+                                                            <th>Close</th>*@
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        @{
+                                                            int i = 1;
+                                                            foreach (var item in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.DocId)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("DN_Approval", "DebitNoteBill",new { PROID=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/checklist.png' alt='Waiting for approval' /></a></div></td>
+                                                                    @* <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DebitNoteBill", "DebitNoteBill",new { id=item.ID })"></a></div></td>
+                                                            <td> <a href="@Url.Action("DeleteMR","Ledger",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>>*@
+
+                                                                </tr>
+                                                                i++;
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+ 
                             </div>
 
 

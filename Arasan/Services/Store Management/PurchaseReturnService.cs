@@ -135,6 +135,7 @@ namespace Arasan.Services
                 string PARTYID = datatrans.GetDataString("Select PARTYMASTID from PARTYMAST where PARTYNAME='" + cy.Supplier + "' ");
                 string CURR = datatrans.GetDataString("Select CURRENCYID from CURRENCY where MAINCURR='" + cy.Currency + "' ");
                 string grn = datatrans.GetDataString("Select DOCID from GRNBLBASIC where GRNBLBASICID='" + cy.Grn + "' ");
+                string ADSCHEME= datatrans.GetDataString("Select ADSCHEME from GRNBLBASIC where GRNBLBASICID='" + cy.Grn + "' ");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("PURRETURNPROC", objConn);
@@ -178,6 +179,8 @@ namespace Arasan.Services
 
                     objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = cy.Pin;
                     objCmd.Parameters.Add("PHONE", OracleDbType.NVarchar2).Value = cy.Phone;
+                    objCmd.Parameters.Add("ADSCHEME", OracleDbType.NVarchar2).Value = ADSCHEME;
+
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try

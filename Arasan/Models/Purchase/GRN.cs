@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using DocumentFormat.OpenXml.Office.CoverPageProps;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
 namespace Arasan.Models
 {
@@ -93,6 +94,10 @@ namespace Arasan.Models
         public double CGST { get; set; }
         public double SGST { get; set; }
         public double IGST { get; set; }
+
+        public string CGSTDISP { get; set; }
+        public string SGSTDISP { get; set; }
+        public string IGSTDISP { get;set; }
         public double address { get; set; }
         public double ddlStatus { get; set; }
         public string createdby { get; set; }

@@ -8,7 +8,7 @@ public interface IPurchaseEnqService
         DataTable GetBranch();
         DataTable GetSupplier();
         DataTable GetCurency();
-        DataTable GetItem(string value);
+        DataTable GetItem();
         DataTable GetPurchaseEnqByID(string id);
         DataTable GetPurchaseEnq(string id);
         DataTable GetItemGrp();
@@ -36,6 +36,8 @@ public interface IPurchaseEnqService
 
     string StatusChange(string tag, string id);
     DataTable GetAllPurchaseEnquiryItems(string strStatus);
+    string RegenerateCRUD(PurchaseEnquiry cy);
+    DataTable GetRegenerateDetails(string id);
 }
 
 

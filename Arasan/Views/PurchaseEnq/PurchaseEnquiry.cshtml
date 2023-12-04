@@ -32,8 +32,8 @@
               
               <from>
 			  <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
+                                @*  <div class="col-md-6">
+                                           <div class="form-group">
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
@@ -42,13 +42,13 @@
                        
                               </div>
                                             </div>
-                                        </div>
+                                        </div>*@
                                          <div class="col-md-6">
                                             <div class="form-group">
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Supplier Name<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 1,@readonly=true })
+                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 2,disabled="disabled"})
                                                     
                                                  
                                                 </div>
@@ -62,8 +62,9 @@
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry No.<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.EnqNo, new { @id = "EnqNo", @class = "form-control", @TabIndex = 2 ,@readonly=true})
+                                            @Html.TextBoxFor(C => C.EnqNo, new { @id = "EnqNo", @class = "form-control", @TabIndex = 3 ,@readonly=true})
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Branch)
                                                 </div>
 													
 													<br/>
@@ -75,7 +76,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry Date<label class="Mandatory"></label></label>
                                               
 													<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
-                                            @Html.TextBoxFor(C => C.Enqdate, new { @id = "Enqdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
+                                            @Html.TextBoxFor(C => C.Enqdate, new { @id = "Enqdate", @class = "form-control", @TabIndex = 4,@size="32",@readonly=true })
 														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 													</div>
 													
@@ -90,7 +91,7 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Cur, Model.Curlst, new { @id = "ddlCur", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Cur, Model.Curlst, new { @id = "ddlCur", @Class = "form-control _select", @TabIndex = 5 })
                                                 </div>
                                             </div>
                                         </div>
@@ -99,7 +100,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.ExRate, new { @id = "ExRate", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.ExRate, new { @id = "ExRate", @class = "form-control", @TabIndex = 6 })
 												</div>
                                                
                                             </div>
@@ -112,7 +113,7 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry Ref<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.RefNo, new { @id = "RefNo", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.RefNo, new { @id = "RefNo", @class = "form-control", @TabIndex = 7 })
                                                 </div>
                                             </div>
                                         </div>
@@ -121,7 +122,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Party Ref.No<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.ParNo, new { @id = "ParNo", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.ParNo, new { @id = "ParNo", @class = "form-control", @TabIndex = 8 })
 												</div>
                                                
                                             </div>
@@ -143,7 +144,7 @@
                     <table class="table table-striped table-hover" id="dataTable">
                       <thead>
                         <tr>
-                          <th> Item Group</th>
+@*                          <th> Item Group</th>*@
                           <th>Item </th>
                           <th>Description</th>
                           <th> Unit </th>
@@ -163,9 +164,9 @@
                                                             foreach (var item in Model.EnqLst.ToList())
                                                             {
                                                                                                                 <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                                                                <td>
+                                                                                                               @* <td>
                                                                                                                 @Html.DropDownListFor(o => o.EnqLst[i].ItemGroupId, Model.EnqLst[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Change(this.value," + i + ")",disabled="disabled" })
-                                                                                                            </td>
+                                                                                                            </td>*@
                                                                                                             <td>
 
                                                             @Html.DropDownListFor(o => o.EnqLst[i].ItemId, Model.EnqLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")",disabled="disabled" })
@@ -185,7 +186,7 @@
                                                                                                             </td>
                                                                                                             
                                                                                                              <td>
-                                                            @Html.TextBoxFor(o => o.EnqLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")", @readonly = "readonly" })
+                                                            @Html.TextBoxFor(o => o.EnqLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
                                                                                                             </td>
                                                                                                              <td>
                                                                                                               @Html.HiddenFor(o => o.EnqLst[i].Isvalid, new { @id = "Isvalid" + i })

@@ -36,7 +36,7 @@
 
                     <form>
                         <div class="row">
-                            <div class="col-md-6">
+                           @* <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
@@ -45,19 +45,44 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Supplier Name<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 1,disabled="disabled" })
 
                                     </div>
                                 </div>
                             </div>
                         </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
+                                        <label for="inputName3" class="col-sm-4 control-label">Enquiry No<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.EnqNo, new { @id = "txtEnqNo", @class = "form-control", @TabIndex = 1,@readonly=true })<br />
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Enq)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Enquiry Date<label class="Mandatory"></label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.EnqDate, new { @id = "EnqDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+
+                                        <br />
+
+                                    </div>
+                                </div>
+                            </div>
                         <div style="height:30px;"></div>
                         <div class="row">
                             <div class="col-md-6">
@@ -67,6 +92,8 @@
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.QuoId, new { @id = "txtQuoId", @class = "form-control", @TabIndex = 1,@readonly=true })<br />
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.user)
+                                            @Html.HiddenFor(C => C.Branch)
 
                                         </div>
                                 </div>
@@ -85,7 +112,17 @@
                             </div>
                         </div>
                             <div class="row">
-                        <div style="height:30px;"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control _select", @TabIndex = 1 })
+
+                                        </div>
+                                    </div>
+                                </div>
+                        
                     
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -98,16 +135,7 @@
                                 </div>
                             </div>
                        
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control _select", @TabIndex = 1 })
-
-                                    </div>
-                                </div>
-                            </div>
+                            
                                 </div>
                            @* <div class="col-md-6">
                                 <div class="form-group">
@@ -120,32 +148,7 @@
                                 </div>
                             </div>*@
                         
-                        <div style="height:30px;"></div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Enquiry No<label class="mandatory">*</label></label>
-                                    <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.EnqNo, new { @id = "txtEnqNo", @class = "form-control", @TabIndex = 1,@readonly=true })<br />
-                                            @Html.HiddenFor(C => C.ID)
-                                            @Html.HiddenFor(C => C.Enq)
-                                        </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Enquiry Date<label class="Mandatory"></label></label>
-                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @Html.TextBoxFor(C => C.EnqDate, new { @id = "EnqDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                    </div>
-
-                                    <br />
-
-                                </div>
-                            </div>
-                        </div>
+                  
 
              <div style="height:30px;"></div>
 			@* <div class="row">
@@ -167,7 +170,7 @@
                                             <table class="table table-striped table-hover" id="dataTable">
                                                     <thead >
                                                         <tr>
-                                                           <th>Item Group</th>
+                                                           @*<th>Item Group</th>*@
                                                             <th>Item</th>
                                                             <th>Description</th>
                                                              <th>Unit</th>
@@ -187,9 +190,9 @@
                                                             foreach (var item in Model.QoLst.ToList())
                                                             {
                                                             <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                <td>
+                                                               @* <td>
                                                             @Html.DropDownListFor(o => o.QoLst[i].ItemGroupId, Model.QoLst[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")",disabled="disabled"})
-                                                                </td>
+                                                                </td>*@
                                                                     <td>
                                                             @Html.DropDownListFor(o => o.QoLst[i].ItemId, Model.QoLst[i].Ilst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")",disabled="disabled"})
                                                             @Html.HiddenFor(o => o.QoLst[i].saveItemId)

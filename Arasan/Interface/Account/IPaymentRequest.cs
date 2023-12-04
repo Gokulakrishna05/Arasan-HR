@@ -22,6 +22,12 @@ namespace Arasan.Interface
 
         IEnumerable<PaymentRequest>  GetAllApprovePaymentRequest();
 
+
         DataTable GetAllrequest(string strStatus);
+
+        DataTable GetPaymentRequestDetail(string id,string type);
+        DataTable GetPaymentRequestDetail1(string id);
+        //DataTable GetPaymentRequestDetail2(string id) ;
+ 
     }
 }
