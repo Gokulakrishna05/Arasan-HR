@@ -43,6 +43,7 @@
                 { name: 'docDate', type: 'string' },
                 { name: 'location', type: 'string' },
                 { name: 'work', type: 'string' },
+                { name: 'pri', type: 'string' },
                 { name: 'iss', type: 'string' },
                 //{ name: 'follow', type: 'string' },
                 { name: 'move', type: 'string' },
@@ -56,10 +57,31 @@
         };
         var dataAdapter = new $.jqx.dataAdapter(source,
             { contentType: 'application/json; charset=utf-8' }, {
-            loadComplete: function () {
+            loadComplete: function (data) {
+                  var isPrintColIndex = getGridColumnIndex(jQuery("#grid"), 'isPrinted');
 
+    //CHANGE COLOR OF PRINTED ARTICLES
+    //NOTE : JSON FORMATs ARE DIFFERENT SO ...HERE WE ARE ADDING CONDITION
+    if (data != null && data.rows != null) {
+        for (var index = 0; index < data.rows.length; index++) {
+
+            if (typeof (data.rows[index].pri) === '1') {
+                //LOAD BY JQGRID API ITSELF
+                if (data.rows[index].isPrinted == 'NO') {
+                    if (data.rows[index].isPrinted == 'NO') {
+                        jQuery("#grid").jqGrid(
+                            'setCell', data.rows[index]._id_, "articleid",
+                            "", {
+                            'background-color': 'red'
+                        });
+                    }
+                }
             }
         }
+     
+        }
+    }
+}
         );
 
         $("#grid").jqxGrid(
@@ -153,6 +175,7 @@
     function ConfirmDelete() {
         return confirm("Are you sure you want to delete?");
     }
+   
 </script>
 
 

@@ -54,6 +54,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Doc No.<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.DocId)
+                                            @Html.HiddenFor(C => C.DocId)
                                         </div>
                                     </div>
                                 </div>
@@ -63,6 +64,7 @@
 
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.DocDa)
+                                            @Html.HiddenFor(C => C.DocDa)
                                         </div>
 
                                     </div>
@@ -178,7 +180,7 @@
                             <div class="col-lg-10"></div>
                             <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18" onClick="window.parent.jQuery.fancybox.close();">Generate</button>
 
-                            <input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />
+                            <input type="button" class="btn btn-danger" value="Close" onclick="location.href='@Url.Action("ListMaterialRequisition", "MaterialRequisition")'" />
 
 
                         </form>
