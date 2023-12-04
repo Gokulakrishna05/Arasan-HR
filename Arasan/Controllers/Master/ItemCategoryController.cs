@@ -4,6 +4,7 @@ using Arasan.Interface.Master;
 using Arasan.Models;
 
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Arasan.Controllers.Master
 {
@@ -66,10 +67,9 @@ namespace Arasan.Controllers.Master
             return View(Ic);
         }
       
-        public IActionResult ListItemCategory(string status)
+        public IActionResult ListItemCategory()
         {
-            IEnumerable<ItemCategory> ic = ItemCategoryService.GetAllItemCategory(status);
-            return View(ic);
+            return View();
         }
 
         public ActionResult DeleteMR(string tag, int id)
@@ -101,6 +101,38 @@ namespace Arasan.Controllers.Master
                 TempData["notice"] = flag;
                 return RedirectToAction("ListItemCategory");
             }
+        }
+
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<ItemCategoryGrid> Reg = new List<ItemCategoryGrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = ItemCategoryService.GetAllItemCategory(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=ItemCategory?id=" + dtUsers.Rows[i]["ITEMCATEGORYID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ITEMCATEGORYID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new ItemCategoryGrid
+                {
+                    id = dtUsers.Rows[i]["ITEMCATEGORYID"].ToString(),
+                    category = dtUsers.Rows[i]["CATEGORY"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
     }
 }

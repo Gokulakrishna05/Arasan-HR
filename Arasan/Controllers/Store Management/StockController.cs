@@ -24,6 +24,11 @@ namespace Arasan.Controllers
         {
             return View();
         }
+
+        public IActionResult Storestock(string id)
+        {
+            return View();
+        }
         public ActionResult ListIndentStockIssue()
         {
            List<Stock> EnqChkItem = new List<Stock>();
@@ -49,5 +54,38 @@ namespace Arasan.Controllers
                 EnqChkItem
             });
         }
+
+        public ActionResult ListIndentStockIssues()
+        {
+            List<StockGrid> EnqChkItem = new List<StockGrid>();
+            DataTable dtEnq = new DataTable();
+            //DataTable dt2 = new DataTable();
+            dtEnq = StockService.GetStockDeatils();
+            for (int i = 0; i < dtEnq.Rows.Count; i++)
+            {
+                
+                string Approval = string.Empty;
+                EnqChkItem.Add(new StockGrid
+                {
+                    //id = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
+                    itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
+                    binid = dtEnq.Rows[i]["BINID"].ToString(),
+                    unit = dtEnq.Rows[i]["UNITID"].ToString(),
+                    quantity = Convert.ToDouble(dtEnq.Rows[i]["QTY"].ToString()),
+                    location = dtEnq.Rows[i]["LOCID"].ToString(),
+                    branchname = dtEnq.Rows[i]["BRANCHID"].ToString(),
+
+                    
+            });
+
+            }
+
+            return Json(new
+            {
+                EnqChkItem
+            });
+        }
+
+      
     }
 }

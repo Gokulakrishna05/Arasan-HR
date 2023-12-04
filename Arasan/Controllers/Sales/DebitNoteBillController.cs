@@ -746,8 +746,7 @@ namespace Arasan.Controllers.Sales
         //}
         public IActionResult ListDebitNoteBill()
         {
-            IEnumerable<DebitNoteBill> sta = DebitNoteBillService.GetAllDebitNoteBill();
-            return View(sta);
+            return View();
         }
         public List<SelectListItem> BindBranch()
         {
@@ -805,6 +804,46 @@ namespace Arasan.Controllers.Sales
             DebitNoteItem model = new DebitNoteItem();
             model.Itemlst = BindItemlst(itemid);
             return Json(BindItemlst(itemid));
+
+        }
+
+
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<DebitNoteBillGrid> Reg = new List<DebitNoteBillGrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = DebitNoteBillService.GetAllDebitNoteBill(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string Approve = string.Empty;
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+                  
+                //<td>< div class="fa-hover col-md-2 col-sm-4"> <a href = "@Url.Action("DN_Approval", "DebitNoteBill",new { PROID=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src = '../Images/checklist.png' alt='Waiting for approval' /></a></div></td>
+
+                Approve = "<a href=DN_Approval?id=" + dtUsers.Rows[i]["DBNOTEBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Waiting for approval' /></a>";
+                EditRow = "<a href=DebitNoteBill?id=" + dtUsers.Rows[i]["DBNOTEBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["DBNOTEBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new DebitNoteBillGrid
+                {
+                    id = dtUsers.Rows[i]["DBNOTEBASICID"].ToString(),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    docid = dtUsers.Rows[i]["DOCID"].ToString(),
+                    Docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    approve = Approve,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
 
         }
     }

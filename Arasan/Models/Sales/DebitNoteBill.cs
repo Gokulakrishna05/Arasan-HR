@@ -62,7 +62,19 @@ namespace Arasan.Models
         public double TotalDRAmt { get; set; }
 
         public string mid { get; set; }
+        public string ddlStatus { get; set; }
 
+    }
+
+    public class DebitNoteBillGrid
+    {
+        public string id { get; set; }
+        public string branch { get; set; }
+        public string docid { get; set; }
+        public string Docdate { get; set; }
+        public String approve { get; set; }
+        public String editrow { get; set; }
+        public String delrow { get; set; }
     }
     public class CreditItem
     {
@@ -79,7 +91,9 @@ namespace Arasan.Models
        
 
     }
-    public class DebitNoteItem
+
+   
+        public class DebitNoteItem
     {
         public string ID { get; set; }
 

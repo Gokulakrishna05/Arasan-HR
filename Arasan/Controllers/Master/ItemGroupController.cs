@@ -3,7 +3,7 @@ using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Data;
 
 namespace Arasan.Controllers.Master
 {
@@ -66,10 +66,9 @@ namespace Arasan.Controllers.Master
 
             return View(by);
         }
-        public IActionResult ListItemGroup(string status)
+        public IActionResult ListItemGroup()
         {
-            IEnumerable<ItemGroup> itg = itemGroupService.GetAllItemGroup(status);
-            return View(itg);
+            return View();
         }
         public ActionResult DeleteMR(string tag, int id)
         {
@@ -99,6 +98,39 @@ namespace Arasan.Controllers.Master
                 TempData["notice"] = flag;
                 return RedirectToAction("ListItemGroup");
             }
+        }
+
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<ItemGroupGrid> Reg = new List<ItemGroupGrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = itemGroupService.GetAllItemGroup(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=ItemGroup?id=" + dtUsers.Rows[i]["ITEMGROUPID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ITEMGROUPID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new ItemGroupGrid
+                {
+                    id = dtUsers.Rows[i]["ITEMGROUPID"].ToString(),
+                    itemGroup = dtUsers.Rows[i]["GROUPCODE"].ToString(),
+                    itemgroupdescription = dtUsers.Rows[i]["GROUPDESC"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
     }
 }

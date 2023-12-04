@@ -1,8 +1,11 @@
-﻿@model IEnumerable<Arasan.Models.PaymentRequest>
+﻿@model Arasan.Models.PaymentRequest
 
 @{
     ViewData["Title"] = "Payment Request";
 }
+
+<partial name="JqxGridPartial" />
+
 <script type="text/javascript">
     @if (TempData["notice"] != null)
     {
@@ -21,6 +24,82 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        var source =
+        {
+            url: "/PaymentRequest/MyListItemgrid",
+
+            data: {
+                strstatus: ""
+            },
+            datatype: "json",
+            updaterow: function (rowid, rowdata) {
+                // synchronize with the server - send update command
+            },
+            datafields: [
+                { name: 'docId', type: 'string' },
+                { name: 'date', type: 'string' },
+                { name: 'type', type: 'string' },
+                { name: 'supplier', type: 'string' },
+                { name: 'grn', type: 'string' },
+                { name: 'editrow', type: 'string' },
+                { name: 'delrow', type: 'string' },
+
+
+            ],
+            id: 'id',
+        };
+        var dataAdapter = new $.jqx.dataAdapter(source,
+            { contentType: 'application/json; charset=utf-8' }, {
+            loadComplete: function () {
+
+            }
+        }
+        );
+
+        $("#grid").jqxGrid(
+            {
+
+                width: '100%',
+                source: dataAdapter,
+                //height: 450,
+                  autorowheight: true,
+                autoheight: true,
+                source: source,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterbar: true,
+                //showfilterrow: true,
+                theme: 'darkblue',
+                enablebrowserselection: true,
+                columns: [
+
+                    { text: 'Doc Id', filtertype: 'checkedlist', datafield: 'docId', width: 200 },
+                    { text: 'Doc Date', filtertype: 'checkedlist', datafield: 'date', width: 200 },
+                    { text: 'Type', filtertype: 'input', datafield: 'type', width: 300 },
+                    { text: 'Supplier', filtertype: 'input', datafield: 'supplier', width: 300 },
+                    { text: 'PO Or GRN', filtertype: 'input', datafield: 'grn', width: 300 },
+                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                ]
+        });
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
+    });
+</script>
+
+
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -30,6 +109,12 @@
                     <hr>
                     <form>
                         <div class="row">
+                             <div class="col-md-2 ">
+                            @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                            { new SelectListItem() {Text = "Enabled", Value="Y"},
+                            new SelectListItem() {Text = "Disabled", Value="N"}},
+                            new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                           </div>
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("PaymentRequest" , "PaymentRequest")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Payment Request</a>
@@ -40,70 +125,9 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div class="ibox float-e-margins">
 
-                                    <div class="ibox-content collapse in">
-                                        <div class="widgets-container">
-                                            <div>
-                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Doc Id</th>
-                                                            <th>Doc Date</th>
-                                                            <th>Type</th>
-                                                            
-                                                            <th>Supplier</th>
-                                                            <th>PO Or GRN</th>
-                                                            <th>Approve</th>
-                                                            
-                                                            <th>Edit</th>
-                                                            <th>Close</th>
-                                                        </tr>
-                                                    </thead>
-
-                                                    <tbody>
-                                                        @{
-                                                            int i = 1;
-
-                                                            foreach (var item in Model)
-                                                            {
-                                                                <tr>
-                                                                    <td>@Html.DisplayFor(modelItem => item.DocId)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Date)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Type)</td>
-                                                                    
-                                                                    <td>@Html.DisplayFor(modelItem => item.Supplier)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.GRN)</td>
-                                                                    @if (item.Approve == "Approved")
-                                                                    {
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <img src='../Images/tick.png' alt='Moved to Quote' width='20' /></div></td>
-                                                                       
-                                                                        <td></td>
-                                                                        <td></td>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApprovePaymentRequest", "PaymentRequest",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/checklist.png' alt='View Details' width='20' /></a></div></td>
-
-                                                                        //<td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PaymentRequest", "PaymentRequest",new { id=item.ID })"></a></div></td>
-                                                                        //<td> <a href="@Url.Action("DeleteMR","PaymentRequest",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PaymentRequest", "PaymentRequest",new { id=item.ID })"></a></div></td>
-                                                                       
-                                                                        <td> <a href="@Url.Action("DeleteMR","PaymentRequest",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-
-                                                                    }
-
-                                                                </tr>
-                                                                i++;
-                                                            }
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="col-md-10 ">
+                                <div id="grid">
                                 </div>
                             </div>
                         </div>
@@ -115,7 +139,14 @@
     </div>
 </div>
 
+
 <script>
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
+</script>
+
+@*<script>
     $(document).ready(function () {
         $('#example7').DataTable({
             dom: 'Bfrtip',
@@ -174,4 +205,4 @@
         });
         $(".fancybox1").eq(0).trigger('click');
     }
-</script>
+</script>*@
