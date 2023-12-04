@@ -55,6 +55,7 @@ namespace Arasan.Models
         public string branch { get; set; }
         public string location { get; set; }
         public string work { get; set; }
+        public string pri { get; set; }
         public string docid { get; set; }
         public string docDate { get; set; }
         public string iss { get; set; }

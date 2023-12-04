@@ -437,6 +437,7 @@ namespace Arasan.Controllers.Store_Management
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     location = dtUsers.Rows[i]["LOCID"].ToString(),
                        work = dtUsers.Rows[i]["WCID"].ToString(),
+                       pri = dtUsers.Rows[i]["PRIORITY"].ToString(),
                     iss = Issuse,
                     //follow = FollowUp,
                     move = MoveToIndent,
