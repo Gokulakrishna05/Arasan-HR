@@ -105,8 +105,10 @@ namespace Arasan.Controllers
                             tda.Conversionfactor = dt4.Rows[0]["CF"].ToString();
 
                         }
+                        tda.LOTYN= dt2.Rows[i]["LOTYN"].ToString();
                         //tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString());
                         tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString() == "" ? "0" : dt2.Rows[i]["RATE"].ToString());
+                        tda.CostRate= Convert.ToDouble(dt2.Rows[i]["RATE"].ToString() == "" ? "0" : dt2.Rows[i]["RATE"].ToString());
                         //tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString());
                         //tda.rate = dt2.Rows[i]["RATE"].ToString();
                         tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
