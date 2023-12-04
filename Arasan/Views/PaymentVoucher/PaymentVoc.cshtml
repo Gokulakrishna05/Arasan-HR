@@ -39,7 +39,19 @@
                         @Html.AntiForgeryToken()
                         <form>
                             <div class="row">
-                               
+                                @* <div class="col-md-6">
+                            <div class="form-group">
+
+                            <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory">*</label></label>
+                            <div class="col-sm-8">
+                            @Html.HiddenFor(C => C.ID)
+                            @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })<br />
+                            </div>
+                            </div>
+                            </div>
+                            *@
+
+
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -48,20 +60,23 @@
                                             @Html.DropDownListFor(C => C.Location, Model.Loclst," -- Please Select -- ", new { @id = "ddllocation", @Class = "form-control _select", @TabIndex = 4 } )
                                             @Html.HiddenFor(C => C.ID)
                                             @Html.HiddenFor(C => C.Branch)
+                                            @*@Html.HiddenFor(C => C.Branch ,new {@id="hdbranch"})*@
+                                            @*@Html.HiddenFor(C => C.Entered  )*@
                                         </div>
                                     </div>
                                 </div>
-                             @*   <div class="col-md-6">
+                                <div class="col-md-6">
                                     <div class="form-group">
+
                                         <label for="inputName3" class="col-sm-4 control-label">Supplier<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.Supplier )
-                                          
+
                                         </div>
                                     </div>
-                                </div>*@
+                                </div>
                             </div>
-                           @* <div class="row">
+                            <div class="row">
 
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -89,9 +104,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                </div>*@
+                            </div>
 
-                             
+
                             <div class="row">
 
                                 <div class="col-md-6">
@@ -119,15 +134,15 @@
                                         <br />
                                     </div>
                                 </div>
-                               
+
                             </div>
                             <div class="row">
-                                
+
                                 <div class="col-md-6">
                                     <div class="form-group">
 
 
-                                             <label for="inputName3" class="col-sm-4 control-label">Voucher Type<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Voucher Type<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
                                             @Html.TextBoxFor(C => C.VType, new { @id = "txtVType", @class = "form-control", @TabIndex = 1 ,@readonly="readonly"  })
@@ -136,11 +151,11 @@
                                         </div>
                                     </div>
                                 </div>
-                            
+
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                              <label for="inputName3" class="col-sm-4 control-label">Payment Type<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Payment Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             <div class="input-group">
 
@@ -154,36 +169,36 @@
                                         </div>
                                     </div>
                                 </div>
-                                </div>
-                                <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Reference No<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-
-                                            @Html.TextBoxFor(C => C.RefNo, new { @id = "txtRefNo", @class = "form-control", @TabIndex = 1   })
-                                            <br />
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Reference Date<label class="mandatory">*</label></label>
-                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @Html.TextBoxFor(C => C.RefDate, new { @id = "txtRefDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
-
-                                        <br />
-                                    </div>
-                                </div>
                             </div>
+                            @*  <div class="row">
+                        <div class="col-md-6">
+                        <div class="form-group">
+
+
+                        <label for="inputName3" class="col-sm-4 control-label">Reference No<label class="Mandatory"></label></label>
+                        <div class="col-sm-8">
+
+                        @Html.TextBoxFor(C => C.RefNo, new { @id = "txtRefNo", @class = "form-control", @TabIndex = 1   })
+                        <br />
+
+                        </div>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-group">
+
+                        <label for="inputName3" class="col-sm-4 control-label">Reference Date<label class="mandatory">*</label></label>
+                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                        @Html.TextBoxFor(C => C.RefDate, new { @id = "txtRefDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+
+                        <br />
+                        </div>
+                        </div>
+                        </div>*@
                             <div class="row">
-                                 <div class="col-md-6">
+                                <div class="col-md-6">
                                     <div class="form-group">
 
                                         <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
@@ -192,12 +207,12 @@
                                         </div>
                                     </div>
                                 </div>
-                               
+
                                 <div class="col-md-6">
                                     <div class="form-group">
 
 
-                                      <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
                                             @Html.TextBoxFor(C => C.ExRate, new { @id = "txtExRate", @class = "form-control", @TabIndex = 1   })
@@ -207,12 +222,12 @@
                                     </div>
                                 </div>
                             </div>
-                           @* <div class="row">
-                                 <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6">
                                     <div class="form-group">
 
 
-                                      <label for="inputName3" class="col-sm-4 control-label">Requested Amount<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Requested Amount<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
                                             @Html.TextBoxFor(C => C.ReqAmount, new { @id = "txtReqAmount", @class = "form-control", @TabIndex = 1 ,@readonly="readonly"  })
@@ -221,11 +236,11 @@
                                         </div>
                                     </div>
                                 </div>
-                            <div class="col-md-6">
+                                <div class="col-md-6">
                                     <div class="form-group">
 
 
-                                      <label for="inputName3" class="col-sm-4 control-label">Total Claim Amount<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Total Claim Amount<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
                                             @Html.TextBoxFor(C => C.ClaimAmount, new { @id = "txtClaimAmount", @class = "form-control", @TabIndex = 1 ,@readonly="readonly"  })
@@ -234,27 +249,27 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>*@
+                            </div>
                             <div style="height:30px;"></div>
-                          @*  <div class="row">
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="btn-group">
                                         <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
                                     </div>
                                 </div>
-                            </div>*@
+                            </div>
                             <div class="row">
                                 <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
 
                                     <table class="table table-striped table-hover" id="dataTable">
                                         <thead>
                                             <tr>
-												
+
                                                 <th> Account Name </th>
                                                 <th> Account Type </th>
                                                 <th> Depit Amount </th>
                                                 <th> Credit Amount </th>
-                                                
+
                                             </tr>
 
                                         </thead>
@@ -265,27 +280,28 @@
                                                 int i = 0;
                                                 foreach (var item in Model.VoucherLst.ToList())
                                                 {
-                                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                                        
-                                                                        <td>@Html.DropDownListFor(o => o.VoucherLst[i].Account, Model.VoucherLst[i].Acclst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlAccount" + i, style = "width: 250px;" })
-                                                                        </td>
+
+                                                        <td>
+                                                            @Html.DropDownListFor(o => o.VoucherLst[i].Account, Model.VoucherLst[i].Acclst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlAccount" + i, style = "width: 250px;" })
+                                                        </td>
                                                         <td>
                                                             @Html.RadioButtonFor(o => o.VoucherLst[i].Credit, "Dr", new { @id = "txtCredit",@TabIndex = 2,@onchange="changeentry(this.value," + i + ")" })
                                                             <label id="mt-radio">Dr</label>
                                                             @Html.RadioButtonFor(o => o.VoucherLst[i].Credit, "Cr", new { @id = "txtCredit",@TabIndex = 3,@onchange="changeentry(this.value," + i + ")" })
                                                             <label id="mt-radio">Cr</label>
                                                         </td>
-                                                                        <td> @Html.TextBoxFor(o => o.VoucherLst[i].DepitAmount, new { @id = "txtDepitAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" , @onkeyup = "changeDeAmount(this," + i + ")" })</td>
+                                                        <td> @Html.TextBoxFor(o => o.VoucherLst[i].DepitAmount, new { @id = "txtDepitAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" , @onkeyup = "changeDeAmount(this," + i + ")" })</td>
 
-                                                                        <td>@Html.TextBoxFor(o => o.VoucherLst[i].CreditAmount, new { @id = "txtCreditAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeCrAmount(this," + i + ")"})</td>
-                                                                        <td>
-                                                                            @Html.HiddenFor(o => o.VoucherLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="MRlst.Index" type="hidden" value="@(i)" />
-                                                                        </td>
+                                                        <td>@Html.TextBoxFor(o => o.VoucherLst[i].CreditAmount, new { @id = "txtCreditAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeCrAmount(this," + i + ")"})</td>
+                                                        <td>
+                                                            @Html.HiddenFor(o => o.VoucherLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="MRlst.Index" type="hidden" value="@(i)" />
+                                                        </td>
 
 
-                                                                    </tr>
+                                                    </tr>
 
                                                     i = i + 1;
                                                 }
@@ -313,7 +329,7 @@
                                     <div class="form-group">
 
 
-                                     <br />    <label for="inputName3" class="col-sm-4 control-label">Total Credit Amount<label class="Mandatory"></label></label>
+                                        <br />    <label for="inputName3" class="col-sm-4 control-label">Total Credit Amount<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
                                             @Html.TextBoxFor(C => C.TotalCrAmount, new { @id = "txtTotalCrAmount", @class = "form-control", @TabIndex = 1 , onkeydown = "return isNumeric2(event.keyCode,this.value)" ,@readonly="readonly", @onkeyup = "totAmount(this)"  })
@@ -323,43 +339,21 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-2 control-label">Amount In words<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Amtinwords ,new { @id = "txtAinWords", @Class = "form-control", @TabIndex = 1 ,@readonly=true}) <br />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-2 control-label">Voucher Memo<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Vmemo ,new { @id = "txtVmemo", @Class = "form-control", @TabIndex = 1 })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                             @* <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
+                            @* <div class="row">
+                        <div class="col-md-6">
+                        <div class="form-group">
 
 
-                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Total Amount<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
+                        <br />   <label for="inputName3" class="col-sm-4 control-label">Total Amount<label class="Mandatory"></label></label>
+                        <div class="col-sm-8">
 
-                                            @Html.TextBoxFor(C => C.TotalAmount, new { @id = "txtTotalAmount", @class = "form-control", @TabIndex = 1 , onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly="readonly"    })
-                                            <br />
+                        @Html.TextBoxFor(C => C.TotalAmount, new { @id = "txtTotalAmount", @class = "form-control", @TabIndex = 1 , onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly="readonly"    })
+                        <br />
 
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>*@
+                        </div>
+                        </div>
+                        </div>
+                        </div>*@
                             <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
@@ -393,9 +387,9 @@
             document.getElementById("txtTotalDeAmount").value = tot.toFixed(2);
             var dtot = document.getElementById("txtTotalCrAmount").value;
             if (dtot == "")
-                        dtot = 0;
-              var totclaim = eval(tot) - eval(dtot);
-        document.getElementById("txtClaimAmount").value=totclaim.toFixed(2);
+                dtot = 0;
+            var totclaim = eval(tot) - eval(dtot);
+            document.getElementById("txtClaimAmount").value = totclaim.toFixed(2);
         }
         catch (ex) {
             alert(ex.message);
@@ -418,11 +412,11 @@
                 j += 1;
             });
             document.getElementById("txtTotalCrAmount").value = tot.toFixed(2);
-             var dtot = document.getElementById("txtTotalDeAmount").value;
+            var dtot = document.getElementById("txtTotalDeAmount").value;
             if (dtot == "")
-                        dtot = 0;
-              var totclaim = eval(dtot) - eval(tot);
- document.getElementById("txtClaimAmount").value=totclaim.toFixed(2);
+                dtot = 0;
+            var totclaim = eval(dtot) - eval(tot);
+            document.getElementById("txtClaimAmount").value = totclaim.toFixed(2);
         }
         catch (ex) {
             alert(ex.message);
@@ -444,7 +438,7 @@
 
                     tot = dqty - cqty;
                 }
-                 
+
             });
             document.getElementById("txtTotalAmount").value = tot.toFixed(2);
         }
@@ -471,7 +465,7 @@
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
-           
+
             if (document.getElementById("ddllocation").value == "" || document.getElementById("ddllocation").value == 0) {
                 isValid = false;
                 $(ddllocation).css({
@@ -552,57 +546,57 @@
                     "background": ""
                 });
             }
-           
-            var reqamt = document.getElementById("txtReqAmount").value;
-            var claimamt=document.getElementById("txtClaimAmount").value;
-            
-             if (eval(reqamt)!= eval(claimamt)) {
-                        alert("Requested Amount and Calim amount does not match.");
 
-                         $(txtClaimAmount).css({
+            var reqamt = document.getElementById("txtReqAmount").value;
+            var claimamt = document.getElementById("txtClaimAmount").value;
+
+            if (eval(reqamt) != eval(claimamt)) {
+                alert("Requested Amount and Calim amount does not match.");
+
+                $(txtClaimAmount).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                        return false;
-              }
+                return false;
+            }
         });
 
     });
-   @* //$(document).ready(function () {
-    //    $('#btnSave').click(function (e) {
-    //        var depit = document.getElementById("txtTotalDeAmount");
-    //        var credit = document.getElementById("txtTotalCrAmount");
-    //        var req = document.getElementById("txtReqAmount");
-    //       var tot= depit-credit;
-    //       if (req!=tot)
-    //       {
-    //            alert("Enter Correct Amount")
-    //       }
+    @* //$(document).ready(function () {
+        //    $('#btnSave').click(function (e) {
+        //        var depit = document.getElementById("txtTotalDeAmount");
+        //        var credit = document.getElementById("txtTotalCrAmount");
+        //        var req = document.getElementById("txtReqAmount");
+        //       var tot= depit-credit;
+        //       if (req!=tot)
+        //       {
+        //            alert("Enter Correct Amount")
+        //       }
 
-    //    });
+        //    });
 
-    //});*@
-    function AddRow() {
-        var opt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetAccountJSON',
-            success: function (data) {
+        //});*@
+        function AddRow() {
+            var opt = "";
+            $.ajax({
+                type: "POST",
+                url: 'GetAccountJSON',
+                success: function (data) {
 
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                AppendRow(opt);
-            }
-        })
-    }
-      function AppendRow(opt) {
+                    $.each(data, function () {
+                        opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                    });
+                    AppendRow(opt);
+                }
+            })
+        }
+    function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
-        var Account = "<td><select style = 'width: 250px;' class='form-control _select newcss' id='ddlAccount" + index + "' name='VoucherLst[" + index + "].Account' >"+ opt +"</select></td>";
+        var Account = "<td><select style = 'width: 250px;' class='form-control _select newcss' id='ddlAccount" + index + "' name='VoucherLst[" + index + "].Account' >" + opt + "</select></td>";
         var Type = "<td><input id='ddlCredit" + index + "' name='VoucherLst[" + index + "].Credit' onchange='changeentry(this.value," + index + ")' type='radio' value='Dr'> <label id='mt-radio'>Dr</label><input  id='ddlCredit" + index + "' name='VoucherLst[" + index + "].Credit' onchange='changeentry(this.value," + index + ")' type = 'radio' value='Cr'> <label id='mt-radio'>Cr</label></td> ";
- 
- 
+
+
         var depit = "<td><input class='form-control' id='txtDepitAmount" + index + "' name='VoucherLst[" + index + "].DepitAmount'  style='width: 100px;text-align:right' type='text'  onkeydown = 'return isNumeric2(event.keyCode,this.value)' value='0' /></td>";
         var credit = "<td><input class='form-control' id='txtCreditAmount" + index + "' name='VoucherLst[" + index + "].VoucherLst'  style='width: 100px;text-align:right' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)'  value='0' /></td>";
 
@@ -660,14 +654,14 @@
         });
         document.getElementById("txtTotalCrAmount").value = dtot.toFixed(2);
         var totclaim = eval(tot) - eval(dtot);
-        document.getElementById("txtClaimAmount").value=totclaim.toFixed(2);
+        document.getElementById("txtClaimAmount").value = totclaim.toFixed(2);
     }
-    function changeentry(typeid,i) {
+    function changeentry(typeid, i) {
         if (typeid == "Dr") {
             document.getElementById("txtCreditAmount" + i).readOnly = true;
             document.getElementById("txtDepitAmount" + i).readOnly = false;
         }
-        
+
         else {
             document.getElementById("txtDepitAmount" + i).readOnly = true;
             document.getElementById("txtCreditAmount" + i).readOnly = false;
