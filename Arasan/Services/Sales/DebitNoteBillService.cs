@@ -19,32 +19,32 @@ namespace Arasan.Services.Sales
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<DebitNoteBill> GetAllDebitNoteBill()
-        {
-            List<DebitNoteBill> cmpList = new List<DebitNoteBill>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<DebitNoteBill> GetAllDebitNoteBill()
+        //{
+        //    List<DebitNoteBill> cmpList = new List<DebitNoteBill>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,DOCID,to_char(DBNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DBNOTEBASICID from DBNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=DBNOTEBASIC.BRANCHID";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        DebitNoteBill cmp = new DebitNoteBill
-                        {
-                            ID = rdr["DBNOTEBASICID"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            DocId = rdr["DOCID"].ToString(),
-                            Docdate = rdr["DOCDATE"].ToString(),
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select  BRANCHMAST.BRANCHID,DOCID,to_char(DBNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DBNOTEBASICID from DBNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=DBNOTEBASIC.BRANCHID";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                DebitNoteBill cmp = new DebitNoteBill
+        //                {
+        //                    ID = rdr["DBNOTEBASICID"].ToString(),
+        //                    Branch = rdr["BRANCHID"].ToString(),
+        //                    DocId = rdr["DOCID"].ToString(),
+        //                    Docdate = rdr["DOCDATE"].ToString(),
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
         public string DebitNoteBillCRUD(DebitNoteBill cy)
         {
             string msg = "";
@@ -450,6 +450,27 @@ namespace Arasan.Services.Sales
         {
             string SvSql = string.Empty;
             SvSql = "select ACCLEDGER.DISPLAY_NAME from PARTYMAST left outer join ACCLEDGER on LEDGERID=PARTYMAST.ACCOUNTNAME where PARTYMASTID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetAllDebitNoteBill(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select  BRANCHMAST.BRANCHID,DOCID,to_char(DBNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DBNOTEBASICID from DBNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=DBNOTEBASIC.BRANCHID WHERE DBNOTEBASIC.IS_ACTIVE = 'Y' ORDER BY DBNOTEBASIC.DBNOTEBASICID DESC ";
+
+
+            }
+            else
+            {
+                SvSql = "Select  BRANCHMAST.BRANCHID,DOCID,to_char(DBNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DBNOTEBASICID from DBNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=DBNOTEBASIC.BRANCHID WHERE DBNOTEBASIC.IS_ACTIVE = 'N' ORDER BY DBNOTEBASIC.DBNOTEBASICID DESC ";
+
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

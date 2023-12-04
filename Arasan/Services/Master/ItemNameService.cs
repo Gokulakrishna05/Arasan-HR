@@ -354,7 +354,7 @@ namespace Arasan.Services.Master
         public DataTable GetItemGroup()
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMGROUPID,GROUPCODE from ITEMGROUP where ISACTIVE='Y'";
+            SvSql = "Select ITEMGROUPID,GROUPCODE from ITEMGROUP where IS_ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -20,35 +20,35 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<ItemCategory> GetAllItemCategory(string status)
-        {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "ACTIVE";
-            }
-            List<ItemCategory> icyList = new List<ItemCategory>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<ItemCategory> GetAllItemCategory(string status)
+        //{
+        //    if (string.IsNullOrEmpty(status))
+        //    {
+        //        status = "ACTIVE";
+        //    }
+        //    List<ItemCategory> icyList = new List<ItemCategory>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select CATEGORY,STATUS,ITEMCATEGORYID from ITEMCATEGORY WHERE STATUS= '" + status + "' order by ITEMCATEGORY.ITEMCATEGORYID DESC ";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        ItemCategory ic = new ItemCategory
-                        {
-                            ID = rdr["ITEMCATEGORYID"].ToString(),
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select CATEGORY,IS_ACTIVE,ITEMCATEGORYID from ITEMCATEGORY WHERE STATUS= '" + status + "' order by ITEMCATEGORY.ITEMCATEGORYID DESC ";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                ItemCategory ic = new ItemCategory
+        //                {
+        //                    ID = rdr["ITEMCATEGORYID"].ToString(),
                            
-                            Category = rdr["CATEGORY"].ToString()
-                        };
-                        icyList.Add(ic);
-                    }
-                }
-            }
-            return icyList;
-        }
+        //                    Category = rdr["CATEGORY"].ToString()
+        //                };
+        //                icyList.Add(ic);
+        //            }
+        //        }
+        //    }
+        //    return icyList;
+        //}
 
 
         public ItemCategory GetCategoryById(string cid)
@@ -114,18 +114,7 @@ namespace Arasan.Services.Master
 
 
                     objCmd.Parameters.Add("CATEGORY", OracleDbType.NVarchar2).Value = iy.Category;
-
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
-
- 
- 
-                    
-                    
- 
-                    //objCmd.Parameters.Add("CANCEL", OracleDbType.NVarchar2).Value ="F";
- 
- 
- 
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
@@ -158,7 +147,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE ITEMCATEGORY SET STATUS ='INACTIVE' WHERE ITEMCATEGORYID='" + id + "'";
+                    svSQL = "UPDATE ITEMCATEGORY SET IS_ACTIVE ='N' WHERE ITEMCATEGORYID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -180,7 +169,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE ITEMCATEGORY SET STATUS ='ACTIVE' WHERE ITEMCATEGORYID='" + id + "'";
+                    svSQL = "UPDATE ITEMCATEGORY SET IS_ACTIVE ='Y' WHERE ITEMCATEGORYID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -194,6 +183,25 @@ namespace Arasan.Services.Master
             }
             return "";
 
+        }
+
+        public DataTable GetAllItemCategory(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select CATEGORY,IS_ACTIVE,ITEMCATEGORYID from ITEMCATEGORY WHERE IS_ACTIVE = 'Y'  order by ITEMCATEGORY.ITEMCATEGORYID DESC ";
+            }
+            else
+            {
+                SvSql = "Select CATEGORY,IS_ACTIVE,ITEMCATEGORYID from ITEMCATEGORY WHERE IS_ACTIVE = 'N'  order by ITEMCATEGORY.ITEMCATEGORYID DESC ";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }

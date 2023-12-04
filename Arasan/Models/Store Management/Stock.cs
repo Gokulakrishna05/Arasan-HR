@@ -15,5 +15,21 @@ namespace Arasan.Models
         public double IssuedQty { get; set; }
         public int stockavailable { get; set; }
 
+    } 
+    
+    public class StockGrid
+    {
+        public long id { get; set; }
+        public string itemname { get; set; }
+        public string binid { get; set; }
+        public double quantity { get; set; }
+        public string branchname { get; set; }
+        public string location { get; set; }
+        public string unit { get; set; }
+        public string indentno { get; set; }
+        public string indentdate { get; set; }
+        public double IssuedQty { get; set; }
+        public int stockavailable { get; set; }
+
     }
 }

@@ -16,10 +16,12 @@ namespace Arasan.Interface
         DataTable EditPayment(string id);
         DataTable EditPaymentRequest(string id);
         string  PaymentCRUD(PaymentRequest Cy);
-        IEnumerable<PaymentRequest>  GetAllPaymentRequest();
+        //IEnumerable<PaymentRequest>  GetAllPaymentRequest();
         string PaymentApprove(PaymentRequest Cy);
         string StatusChange(string tag, int id);
 
         IEnumerable<PaymentRequest>  GetAllApprovePaymentRequest();
+
+        DataTable GetAllrequest(string strStatus);
     }
 }

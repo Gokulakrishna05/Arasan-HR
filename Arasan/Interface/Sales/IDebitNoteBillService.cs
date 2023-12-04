@@ -8,7 +8,7 @@ namespace Arasan.Interface.Sales
 {
     public interface IDebitNoteBillService
     {
-        IEnumerable<DebitNoteBill> GetAllDebitNoteBill();
+        //IEnumerable<DebitNoteBill> GetAllDebitNoteBill();
         string DebitNoteBillCRUD(DebitNoteBill cy);
         //DataTable GetParty();
         DataTable GetGrn(string id);
@@ -30,5 +30,7 @@ namespace Arasan.Interface.Sales
 
         DataTable GetDNDetails(string id);
         //DataTable GetItemDetails(string itemId);
+
+        DataTable GetAllDebitNoteBill(string strStatus);
     }
 }

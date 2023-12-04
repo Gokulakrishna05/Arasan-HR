@@ -5,6 +5,7 @@ using Arasan.Interface;
  using Arasan.Models;
  
 using Arasan.Services;
+using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -100,9 +101,7 @@ namespace Arasan.Controllers
         }
         public IActionResult ListPaymentRequest()
         {
-
-            IEnumerable<PaymentRequest> cmp = request.GetAllPaymentRequest();
-            return View(cmp);
+            return View();
         }
         public List<SelectListItem> BindType()
         {
@@ -289,8 +288,80 @@ namespace Arasan.Controllers
         public IActionResult ListApprovedPaymentRequest()
         {
 
-            IEnumerable<PaymentRequest> cmp = request.GetAllApprovePaymentRequest();
-            return View(cmp);
+            return View();
+        }
+
+
+        public ActionResult MyListItemgrid(string strStatus) 
+        {
+            List<PaymentRequestGrid> Reg = new List<PaymentRequestGrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = request.GetAllrequest(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=PaymentRequest?id=" + dtUsers.Rows[i]["PAYMENTREQUESTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["PAYMENTREQUESTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new PaymentRequestGrid
+                {
+                    id = dtUsers.Rows[i]["PAYMENTREQUESTID"].ToString(),
+                    docId = dtUsers.Rows[i]["DOCID"].ToString(),
+                    date = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    type = dtUsers.Rows[i]["TYPE"].ToString(),
+                    supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    grn = dtUsers.Rows[i]["PO_OR_GRN"].ToString(),
+                    
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+
+        public ActionResult MyListItemgrids(string strStatus)
+        {
+            List<PaymentReqVoucherGrid> Reg = new List<PaymentReqVoucherGrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = request.GetAllrequest(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string Voucher = string.Empty;
+
+                Voucher = "<a href=../PaymentVoucher/PaymentVoucher?id=" + dtUsers.Rows[i]["PAYMENTREQUESTID"].ToString() + "><img src='../Images/checklist.png' alt='View Details' /></a>";
+                //< td >< div class="fa-hover col-md-2 col-sm-4"> <a href = "@Url.Action("PaymentVoucher", "PaymentVoucher",new { id=item.ID })"><img src = '../Images/checklist.png' alt='View Details' width='20' /></a></div></td>
+
+                Reg.Add(new PaymentReqVoucherGrid
+                {
+                    id = dtUsers.Rows[i]["PAYMENTREQUESTID"].ToString(),
+                    docId = dtUsers.Rows[i]["DOCID"].ToString(),
+                    date = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    type = dtUsers.Rows[i]["TYPE"].ToString(),
+                    supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    grn = dtUsers.Rows[i]["PO_OR_GRN"].ToString(),
+                    amount = dtUsers.Rows[i]["AMOUNT"].ToString(),
+                    voucher = Voucher,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
     }
 }

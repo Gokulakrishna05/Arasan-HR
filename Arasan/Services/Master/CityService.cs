@@ -245,7 +245,10 @@ namespace Arasan.Services.Master
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
-        } 
+        }  
+        
+        
+       
     }
 
 }

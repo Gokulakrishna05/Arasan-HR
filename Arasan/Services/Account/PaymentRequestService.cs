@@ -68,39 +68,41 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public IEnumerable<PaymentRequest> GetAllPaymentRequest()
-        {
-            List<PaymentRequest> cmpList = new List<PaymentRequest>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select  DOCID,to_char(PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,PAYMENTREQUEST.TYPE,PO_OR_GRN,AMOUNT,REQUESTEDBY,PAYMENTREQUEST.IS_ACTIVE,PAYMENTREQUESTID,PAYMENTREQUEST.IS_APPROVED from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID  Where  PAYMENTREQUEST.IS_ACTIVE = 'Y' ORDER BY PAYMENTREQUESTID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        PaymentRequest cmp = new PaymentRequest
-                        {
-                            ID = rdr["PAYMENTREQUESTID"].ToString(),
-                            DocId = rdr["DOCID"].ToString(),
-                            Date = rdr["DOCDATE"].ToString(),
-                            Supplier = rdr["PARTYNAME"].ToString(),
-                            status = rdr["IS_ACTIVE"].ToString(),
-                            GRN = rdr["PO_OR_GRN"].ToString(),
-                            Type = rdr["TYPE"].ToString(),
-                            Final = rdr["AMOUNT"].ToString(),
-                            ReqBy = rdr["REQUESTEDBY"].ToString(),
-							Approve = rdr["IS_APPROVED"].ToString()
+
+       // public IEnumerable<PaymentRequest> GetAllPaymentRequest()
+       // {
+       //     List<PaymentRequest> cmpList = new List<PaymentRequest>();
+       //     using (OracleConnection con = new OracleConnection(_connectionString))
+       //     {
+
+       //         using (OracleCommand cmd = con.CreateCommand())
+       //         {
+       //             con.Open();
+       //             cmd.CommandText = "Select  DOCID,to_char(PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,PAYMENTREQUEST.TYPE,PO_OR_GRN,AMOUNT,REQUESTEDBY,PAYMENTREQUEST.IS_ACTIVE,PAYMENTREQUESTID,PAYMENTREQUEST.IS_APPROVED from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID  Where  PAYMENTREQUEST.IS_ACTIVE = 'Y' ORDER BY PAYMENTREQUESTID DESC";
+       //             OracleDataReader rdr = cmd.ExecuteReader();
+       //             while (rdr.Read())
+       //             {
+       //                 PaymentRequest cmp = new PaymentRequest
+       //                 {
+       //                     ID = rdr["PAYMENTREQUESTID"].ToString(),
+       //                     DocId = rdr["DOCID"].ToString(),
+       //                     Date = rdr["DOCDATE"].ToString(),
+       //                     Supplier = rdr["PARTYNAME"].ToString(),
+       //                     status = rdr["IS_ACTIVE"].ToString(),
+       //                     GRN = rdr["PO_OR_GRN"].ToString(),
+       //                     Type = rdr["TYPE"].ToString(),
+       //                     Final = rdr["AMOUNT"].ToString(),
+       //                     ReqBy = rdr["REQUESTEDBY"].ToString(),
+							//Approve = rdr["IS_APPROVED"].ToString()
                            
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+       //                 };
+       //                 cmpList.Add(cmp);
+       //             }
+       //         }
+       //     }
+       //     return cmpList;
+       // }
         public string PaymentCRUD(PaymentRequest cy)
         {
             string msg = "";
@@ -302,6 +304,26 @@ namespace Arasan.Services
                 }
             }
             return cmpList;
+        }
+
+        public DataTable GetAllrequest(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select DOCID,to_char(PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,PAYMENTREQUEST.TYPE,PO_OR_GRN,AMOUNT,REQUESTEDBY,PAYMENTREQUESTID,PAYMENTREQUEST.IS_APPROVED from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID Where PAYMENTREQUEST.IS_ACTIVE = 'Y' ORDER BY PAYMENTREQUESTID DESC ";
+
+            }
+            else
+            {
+                SvSql = "Select DOCID,to_char(PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,PAYMENTREQUEST.TYPE,PO_OR_GRN,AMOUNT,REQUESTEDBY,PAYMENTREQUESTID,PAYMENTREQUEST.IS_APPROVED from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID Where PAYMENTREQUEST.IS_ACTIVE = 'N' ORDER BY PAYMENTREQUESTID DESC ";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }
