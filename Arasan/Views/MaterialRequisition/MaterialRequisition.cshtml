@@ -109,7 +109,28 @@
 
                             </div>
 *@
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">priority <label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.CheckBoxFor(model => model.Priority,new{value="1",onchange = "changeentry(this.value)",@id="chkcmp"})
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" hidden id="reason" >
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Reason<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Reason, new { @id = "Reason", @class = "form-control", @TabIndex = 2 })<br />
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div style="height:30px;"></div>
                             <div class="row">
@@ -529,6 +550,13 @@
             }
         });
     }
-  
 
+    function changeentry(typeid) {
+        if ($('#chkcmp').prop('checked') == true) {
+            document.getElementById("reason").style.display = "block";
+        }
+        else {
+            document.getElementById("reason").style.display = "none";
+        }
+    }
 </script>

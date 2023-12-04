@@ -38,9 +38,11 @@
                 // synchronize with the server - send update command
             },
             datafields: [
-                { name: 'branch', type: 'string' },
-                { name: 'enqno', type: 'string' },
+                //{ name: 'branch', type: 'string' },
+                { name: 'quono', type: 'string' },
                 { name: 'docDate', type: 'string' },
+                { name: 'enqno', type: 'string' },
+               
                 { name: 'supplier', type: 'string' },
                 { name: 'mailrow', type: 'string' },
                 { name: 'follow', type: 'string' },
@@ -65,20 +67,24 @@
             {
                 width: '100%',
                 source: dataAdapter,
-                height: 450,
+                autorowheight: true,
+                autoheight: true,
                 source: source,
                 sortable: true,
                 filterable: true,
                 groupable: false,
                 pageable: true,
                 showfilterbar: true,
+                filterbarmode: 'simple',
                 //showfilterrow: true,
                 theme: 'darkblue',
                 enablebrowserselection: true,
                 columns: [
-                    { text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
+                    //{ text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
+                    { text: 'Quot No', filtertype: 'input', datafield: 'quono', width: 150 },
+                    { text: 'Quot Date', datafield: 'docDate', width: 100, align: 'center' },
                     { text: 'Enq No', filtertype: 'input', datafield: 'enqno', width: 150 },
-                    { text: 'Doc Date', datafield: 'docDate', width: 100, align: 'center' },
+                   
                     { text: 'Supplier', filtertype: 'checkedlist', datafield: 'supplier', width: 250 },
                     { text: 'Send Mail', datafield: 'mailrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Follow Up', datafield: 'follow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
