@@ -23,28 +23,30 @@
                     <form>
 
 
-                            <div class="row">
+                           @* <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
                                         <label for="inputName3" class="col-sm-4 control-label">Account Config<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.ADCOMPHID, Model.Accconfiglst,"Please Select", new { @id = "ddlconfig", @Class = "form-control _select", @TabIndex = 1,onchange = "changeconfig(this.value)" })
-                                            @Html.HiddenFor(C => C.mid)
-                                            @Html.HiddenFor(C => C.createdby)
-                                            @Html.HiddenFor(C=> C.GRNID)
+                                          
                                         </div>
                                     </div>
                                 </div>
-                            </div>
- <div style="height:30px;"></div>
+                            </div>*@
+ @*<div style="height:30px;"></div>*@
 
                         <div class="row">
-                          @*  <div class="col-md-12">
+                        <div class="col-md-12">
                                 <div class="btn-group">
                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
                                 </div>
-                            </div>*@
+                            </div>
+                                @Html.HiddenFor(C=>C.ADCOMPHID)
+                                @Html.HiddenFor(C => C.mid)
+                                @Html.HiddenFor(C => C.createdby)
+                                @Html.HiddenFor(C=> C.GRNID)
   <div class="row">
           <div class="col-lg-12">
             <div class="ibox float-e-margins">
@@ -165,7 +167,7 @@
                                         </div>
                                      <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
-                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18" onClick="window.parent.jQuery.fancybox.close();">Account</button>
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18" >Account</button>
                          
                            <input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />
                                    
@@ -178,7 +180,29 @@
     </div>
 </div>
 <script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            var ttot = document.getElementById("txTotalAmt").value;
+            var atot = document.getElementById("txtNet").value;
 
+            if (ttot == atot) {
+                //alert("Amount and Total are Same.");
+            }
+            else {
+                alert("Amount and Total aren't Same.");
+                isValid = false;
+                return false;
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+            else
+            window.parent.jQuery.fancybox.close();
+        });
+
+
+    });
     $(function () {
         $('._select').select2();
         var netamt=document.getElementById("txtNet").value;
@@ -218,18 +242,28 @@
         var i = 0;
         var qty = 0;
         var tot = 0;
+        var Dqty = 0;
+        var Dtot = 0;
         $('tr.chkitemlst').each(function () {
             if ($(this).css('display') !== 'none') {
-                qty = $(this).find('#txtAmount' + i.toString()).val();
+                qty = $(this).find('#txtCRAmount' + i.toString()).val();
                 if (qty == "")
                     qty = 0;
 
                 tot += eval(qty);
+
+                Dqty = $(this).find('#txtDRAmount' + i.toString()).val();
+
+                if (Dqty == "")
+                    Dqty = 0;
+
+                Dtot += eval(Dqty);
             }
             i += 1;
         });
         document.getElementById("txTotalAmt").value = tot.toFixed(2);
-
+        document.getElementById("txtNet").value = Dtot.toFixed(2);
+        document.getElementById("txtAinWords").value = withDecimal(Dtot.toFixed(2));
     }
     function AddRow() {
         var opt = "";
@@ -251,7 +285,7 @@
 
         var ledgrlst = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlLedgername" + index + "' name='Acclst[" + index + "].Ledgername' ><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var drcrlst = "<td>   <input checked='checked' id='txtCredit" + index + "' name='Acclst[" + index + "].CRDR' onchange='changeCRDR(this.value," + index + ")' tabindex='2' type='radio' value='Dr'> <label id='mt-radio'>Dr</label>< input id = 'txtCredit" + index + "' name = 'Acclst[" + index + "].CRDR' onchange = 'changeCRDR(this.value," + index + ")' tabindex = '3' type = 'radio' value = 'Cr' > <label id='mt-radio' > Cr < /label></td > ";
+        var drcrlst = "<td>   <input checked='checked' id='txtCredit" + index + "' name='Acclst[" + index + "].CRDR' onchange='changeCRDR(this.value," + index + ")' tabindex='2' type='radio' value='Dr' onchange='changeCRDR(this.value, " + index + ")'> <label id='mt-radio'>Dr</label><input id='txtCredit" + index + "' name ='Acclst[" + index + "].CRDR' onchange = 'changeCRDR(this.value," + index + ")' tabindex = '3' type ='radio' value ='Cr' onchange='changeCRDR(this.value, " + index + ")'><label id='mt-radio'>Cr</label></td> ";
 
         var Name = "<td><input class='form-control' id='TypeName" + index + "' name='Acclst[" + index + "].TypeName'  style='width: 180px;' type='text'  /></td>";
 
