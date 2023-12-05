@@ -184,7 +184,7 @@ namespace Arasan.Controllers
                    
                 }
                 //}
-                Pdf = "<a href=Print?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/pdficon.png' width='20' alt='Deactivate' /></a>";
+                Pdf = "<a href=Print?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/pdficon.png' width='20' alt='Deactivate' target='_blank' /></a>";
 
                 //Pdf = "<a href=Print?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "<img src='../Images/pdficon.png' width='30' /></a>";
                 View = "<a href=ViewPurQuote?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
