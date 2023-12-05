@@ -307,7 +307,7 @@ namespace Arasan.Services
             return cmpList;
         }
 
- 
+
         public DataTable GetAllrequest(string strStatus)
         {
             string SvSql = string.Empty;
@@ -323,7 +323,9 @@ namespace Arasan.Services
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetPaymentRequestDetail(string id,string type)
         {
             string SvSql = string.Empty;
