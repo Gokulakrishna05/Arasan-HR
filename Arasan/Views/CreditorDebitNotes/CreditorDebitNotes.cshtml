@@ -42,7 +42,6 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-
                                         <label for="inputName3" class="col-sm-4 control-label"> Voucher Type <label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.VType, Model.VTypelst,"--Please select--", new { @id = "ddlVType", @Class = "form-control  _select", @TabIndex = 1,onchange="changeCRDP(this.value)" })   
@@ -55,15 +54,28 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Credit/Debit No <label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.number, new { @id = "txtnumber", @class = "form-control", @TabIndex = 2, @size="30" })<br>
-
                                         </div>
-
-
                                     </div>
                                 </div>
-                               
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label"> Ref No <label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Ref, new { @id = "txtRef", @class = "form-control", @TabIndex = 2, @size="30" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
-                                
+                                        <label for="inputName3" class="col-sm-4 control-label">Ref Date <label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Refdate, new { @id = "txtRefdate", @class = "form-control", @TabIndex = 2, @size="30" })<br>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -248,11 +260,6 @@
         minView: 2,
         forceParse: 0
     });
-
-   
-
-
-
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
