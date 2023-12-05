@@ -204,6 +204,7 @@
                             @*     <th> Disc %</th>*@
                          <th> Disc amount</th>
                          <th> Frieght charges</th>
+                                                <th> Packing charges</th>
                         @*  <th> Cost Rate</th>
                            <th>Assessable Value</th>
                             <th>Tariff Id</th>*@
@@ -269,6 +270,9 @@
                                                                                                                                          <td>
                                                                                                                                             @Html.TextBoxFor(o => o.PoItem[i].FrieghtAmt, new { @id = "txtFrieghtAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
                                                                                                                                         </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.PoItem[i].PackingAmt, new { @id = "txtPackingAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
+                                                        </td>
                                                                                                                                          <td>
                                                                                                                                             @Html.TextBoxFor(o => o.PoItem[i].CGSTPer, new { @id = "txtCGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")",@readonly="readonly" })
                                                                                                                                         </td>
@@ -317,7 +321,7 @@
           </div>
         </div>
                             <div class="row">
-                                <div class="col-md-4" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                <div class="col-md-2" style="overflow-x:scroll; min-width:300px; min-height:300px;">
 
                                     @* <div class="ibox float-e-margins">*@
 
@@ -332,12 +336,24 @@
                                             @{
 
 
+                                                <tr>
+                                                    <th>Gross</th>
+                                                    <td>
 
+                                                        @Html.TextBoxFor(C => C.Gross, new { @id = "txtGross", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly=true})
+                                                    </td>
+                                                </tr>
                                                 <tr>
 
                                                     <th>Packing and Forwarding ( + )</th>
                                                     <td>
                                                         @Html.TextBoxFor(C => C.Packingcharges, new { @id = "txtPackingcharges", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" , @onkeyup = "changeTot(this)"})
+                                                    </td>
+                                                </tr>
+                                                 <tr>
+                                                    <th>DISCOUNT</th>
+                                                    <td>
+                                                        @Html.TextBoxFor(o => o. Disc, new { @id = "txtDisc"  , @class = "form-control",@onkeyup = "changeTot(this)"})
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -360,20 +376,8 @@
                                                         @Html.TextBoxFor(C => C.Round, new { @id = "txtRound", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" , @onkeyup = "changeTot(this)"})
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <th>Other Charges ( + )</th>
-                                                    <td>
-
-                                                        @Html.TextBoxFor(o => o. Othercharges, new { @id = "txtOthercharges"  , @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeTot(this)"})
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Gross</th>
-                                                    <td>
-
-                                                        @Html.TextBoxFor(C => C.Gross, new { @id = "txtGross", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly=true})
-                                                    </td>
-                                                </tr>
+                                               
+                                               
                                                 <tr>
                                                     <th>Net</th>
                                                     <td>
@@ -595,19 +599,25 @@
                     var totfrieght = 0;
                     var totamt = 0;
                     var totamount = 0;
+            var totpackamt = 0;
                     var qty = document.getElementById("txtQuantity" + i).value;
+            
                     var up = document.getElementById("txtrate" + i).value;
+    
                     var cf = document.getElementById("txtConversionfactor" + i).value;
+          
                     var frieght = document.getElementById("txtFrieghtAmt" + i).value;
                  
+                    var packingamt = document.getElementById("txtPackingAmt" + i).value;
+             
                     var IGST = document.getElementById("txtIGSTPer" + i).value;
-
+                   
                     var CGST = document.getElementById("txtCGSTPer" + i).value;
-
+         
                     var SGST = document.getElementById("txtSGSTPer" + i).value;
-
+               
             var Disc = document.getElementById("txtDiscAmt" + i).value;
-
+         
                     if (qty == "")
                         qty = 0;
 
@@ -633,21 +643,22 @@
                         frieght = 0;
 
                     var tot = eval(qty) * eval(up) * eval(cf);
-                    document.getElementById("txtAmount" + i).value = tot.toFixed(2);
+                    
+            document.getElementById("txtAmount" + i).value = tot.toFixed(2);
                     var igstperc = (eval(tot) / 100) * eval(IGST);
                     var cgstperc = (eval(tot) / 100) * eval(CGST);
                     var sgstperc = (eval(tot) / 100) * eval(SGST);
 
                   @*  var Discperc = (eval(tot) / 100) * eval(Disc);*@
-
+                
                      document.getElementById("txtCGSTAmt" + i).value = cgstperc.toFixed(2);
                       document.getElementById("txtSGSTAmt" + i).value = sgstperc.toFixed(2);
                        document.getElementById("txtIGSTAmt" + i).value = igstperc.toFixed(2);
                        @* document.getElementById("txtDiscAmt" + i).value = Discperc.toFixed(2);*@
 
-                    var tottax = eval(tot) + eval(igstperc) + eval(cgstperc) + eval(sgstperc) + eval(frieght);
+                        var tottax = eval(tot) + eval(igstperc) + eval(cgstperc) + eval(sgstperc) + eval(frieght) + eval(packingamt);
             var totdisc = eval(tottax) - eval(Disc);
-                    document.getElementById("txtTotalAmount" + i).value = totdisc.toFixed(2);
+            document.getElementById("txtTotalAmount" + i).value = totdisc.toFixed(2);
 
 
                     $('tr.chkitemlst').each(function () {
@@ -662,6 +673,11 @@
 
                          totamt += eval(amt);
                          totfrieght += eval(frieght);
+                          var  packamt = $(this).find('#txtPackingAmt' + j.toString()).val();
+                           if (packamt == "")
+                        packamt = 0;
+
+                        totpackamt += eval(packamt);
 
                           var tamt = $(this).find('#txtTotalAmount' + j.toString()).val();
                             if (tamt == "")
@@ -672,24 +688,55 @@
                               }
                         j += 1;
                     });
+
+            var roundamount = Math.ceil(totamount);
+
+            var round = eval(roundamount) - eval(totamount);
                   document.getElementById("txtFrieghtcharge").value = totfrieght.toFixed(2);
+            document.getElementById("txtPackingcharges").value = totpackamt.toFixed(2);
                    document.getElementById("txtGross").value = totamt.toFixed(2);
-                   document.getElementById("txtNet").value = totamount.toFixed(2);
-                 document.getElementById("hidnet").value = totamount.toFixed(2);
-            document.getElementById("txtAmount").value = withDecimal(totamount.toFixed(2));
+                   document.getElementById("txtNet").value = roundamount.toFixed(2);
+            document.getElementById("txtRound").value = round.toFixed(2);
+              @*   document.getElementById("hidnet").value = totamount.toFixed(2);*@
+                document.getElementById("txtAmount").value = withDecimal(roundamount.toFixed(2));
+
+
+         @*   //////////total net amount
+            var frieght = document.getElementById("txtFrieghtcharge").value;
+            var packing = document.getElementById("txtPackingcharges").value;
+            var totamounts = 0;
+            var rotamt = 0;
+            if (frieght == "")
+                frieght = 0;
+
+            if (packing == "")
+                packing = 0;
+
+    @*   if (other == "")
+                other = 0; 
+
+                              
+    @* if (otherdeduct == "")
+                otherdeduct = 0;
+
+                if (roundoffminus == "")
+                roundoffminus = 0; 
+
+                totamounts = eval(frieght) + eval(packing)  + eval(netamt);
+      rotamt = eval(totamounts) - (eval(roundoffminus) + eval(otherdeduct));
+                    document.getElementById("txtNet").value = totamounts.toFixed(2);*@
                 }
                 catch (ex) {
                     alert(ex.message);
                 }
             }
             function changeTot(_this){
-                var netamt = document.getElementById("hidnet").value;
+        var netamt = document.getElementById("txtNet").value;
                 var frieght =document.getElementById("txtFrieghtcharge").value;
                  var packing =document.getElementById("txtPackingcharges").value;
                   var other =document.getElementById("txtOthercharges").value;
-                  var roundoff =document.getElementById("txtRound").value;
-                   var otherdeduct =document.getElementById("txtotherdeduction").value;
-                    var roundoffminus =document.getElementById("txtRoundminus").value;
+                
+                  
 
                 var totamount = 0;
                 var rotamt = 0;
@@ -702,19 +749,78 @@
                          if (other == "")
                         other = 0;
 
-                         if (roundoff == "")
+                        @* if (roundoff == "")
                         roundoff = 0;
+*@
+                      
 
-                        if (otherdeduct == "")
-                        otherdeduct = 0;
+                totamount = eval(frieght) + eval(packing) + eval(other) + eval(netamt) ;
+        var roundamount = Math.ceil(totamount);
 
-                         if (roundoffminus == "")
-                        roundoffminus = 0;
+        var round = eval(roundamount) - eval(totamount);
+        document.getElementById("txtNet").value = roundamount.toFixed(2);
+        document.getElementById("txtRound").value = round.toFixed(2);
+        document.getElementById("txtAmount").value = withDecimal(totamount.toFixed(2));
 
-                totamount = eval(frieght) + eval(packing) + eval(other) + eval(roundoff) + eval(netamt) ;
-                rotamt = eval(totamount) - (eval(roundoffminus) + eval(otherdeduct));
-                 document.getElementById("txtNet").value = rotamt.toFixed(2);   
-                  document.getElementById("txtAmount").value = withDecimal(rotamt.toFixed(2));
+        var frieghtamt = document.getElementById("txtFrieghtcharge").value;
+        var packingamt = document.getElementById("txtPackingcharges").value;
+        var discamt = document.getElementById("txtDisc").value;
+         
+
+        if (frieghtamt == "")
+            frieghtamt = 0;
+
+        if (packingamt == "")
+            packingamt = 0;
+
+        var j = 0;
+        var totamt = 0;
+        var totalamt = 0;
+        var nettotal = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+
+                var amt = $(this).find('#txtAmount' + j.toString()).val();
+                if (amt == "")
+                    amt = 0;
+                totamt += eval(amt);
+
+            }
+            j += 1;
+        });
+        var k = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+
+                var amt = $(this).find('#txtAmount' + k.toString()).val();
+                if (amt == "")
+                    amt = 0;
+
+                var amt = $(this).find('#txtAmount' + k.toString()).val();
+                if (amt == "")
+                    amt = 0;
+
+                var rate = $(this).find('#txtrate' + k.toString()).val();
+                if (rate == "")
+                    rate = 0;
+
+                var itemper = (eval(amt) / eval(totamt)) * 100;
+
+              var discsplit = (eval(discamt) * eval(itemper)) / 100;
+
+                document.getElementById("txtDiscAmt" + k).value = discsplit.toFixed(2);
+
+                var frieghtaplit = (eval(frieghtamt) * eval(itemper)) / 100;
+
+                document.getElementById("txtFrieghtAmt" + k).value = frieghtaplit.toFixed(2);
+
+                var pcksplit = (eval(packingamt) * eval(itemper)) / 100;
+
+                document.getElementById("txtPackingAmt" + k).value = pcksplit.toFixed(2);
+
+            }
+            k += 1;
+        });
             }
 
             function roundtorupee(amt) {

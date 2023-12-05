@@ -65,6 +65,7 @@ namespace Arasan.Models
 
         public double Frieghtcharge { get; set; }
         public double Packingcharges { get; set; }
+        public double Disc { get; set; }
         public double Othercharges { get; set; }
         public double Round { get; set; }
         public string Narration { get; set; }
