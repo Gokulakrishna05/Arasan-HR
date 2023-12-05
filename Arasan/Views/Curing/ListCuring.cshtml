@@ -79,7 +79,7 @@
                     { text: 'Shed Number', filtertype: 'input', datafield: 'shed', width: 150 },
                     { text: 'Capacity', datafield: 'cap', width: 100 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                 ]
             });
         $("#ddlStatus").change(function () {
@@ -93,6 +93,7 @@
             $("#grid").jqxGrid({ source: source });
         });
     });
+
 </script>
 <script>
     function ConfirmDelete() {

@@ -396,7 +396,7 @@ namespace Arasan.Controllers
             List<PaymentReqVoucherGrid> Reg = new List<PaymentReqVoucherGrid>();
             DataTable dtUsers = new DataTable();
             strStatus = strStatus == "" ? "Y" : strStatus;
-            dtUsers = request.GetAllrequest(strStatus);
+            dtUsers = request.GetAllpayrequests(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 

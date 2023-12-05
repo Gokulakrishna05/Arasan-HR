@@ -172,11 +172,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPEID  from CUSTOMERTYPE  WHERE CUSTOMERTYPE.IS_ACTIVE = 'Y' ORDER BY CUSTOMERTYPEID DESC";
+                SvSql = "Select CUSTOMERTYPE.IS_ACTIVE,CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPEID  from CUSTOMERTYPE  WHERE CUSTOMERTYPE.IS_ACTIVE = 'Y' ORDER BY CUSTOMERTYPEID DESC";
             }
             else
             {
-                SvSql = "Select CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPEID  from CUSTOMERTYPE  WHERE CUSTOMERTYPE.IS_ACTIVE = 'N' ORDER BY CUSTOMERTYPEID DESC";
+                SvSql = "Select CUSTOMERTYPE.IS_ACTIVE,CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPEID  from CUSTOMERTYPE  WHERE CUSTOMERTYPE.IS_ACTIVE = 'N' ORDER BY CUSTOMERTYPEID DESC";
 
             }
             DataTable dtt = new DataTable();

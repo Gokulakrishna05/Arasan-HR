@@ -141,6 +141,7 @@ namespace Arasan.Services.Master
             try
             {
                 string svSQL = string.Empty;
+                //string status = tag == "Del" ? "N" : "Y";
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
                     svSQL = "UPDATE ITEMGROUP SET IS_ACTIVE ='N' WHERE ITEMGROUPID='" + id + "'";
@@ -187,12 +188,12 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = " Select GROUPCODE,GROUPDESC , ITEMGROUPID from ITEMGROUP WHERE IS_ACTIVE='Y' order by ITEMGROUP.ITEMGROUPID DESC ";
+                SvSql = " Select GROUPCODE,GROUPDESC , ITEMGROUPID,IS_ACTIVE from ITEMGROUP WHERE IS_ACTIVE='Y' order by ITEMGROUP.ITEMGROUPID DESC ";
 
             }
             else
             {
-                SvSql = " Select GROUPCODE,GROUPDESC , ITEMGROUPID from ITEMGROUP WHERE IS_ACTIVE='N' order by ITEMGROUP.ITEMGROUPID DESC ";
+                SvSql = " Select GROUPCODE,GROUPDESC , ITEMGROUPID ,IS_ACTIVE from ITEMGROUP WHERE IS_ACTIVE='N' order by ITEMGROUP.ITEMGROUPID DESC ";
 
             }
             DataTable dtt = new DataTable();

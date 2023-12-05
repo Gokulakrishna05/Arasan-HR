@@ -24,6 +24,7 @@ namespace Arasan.Interface
 
 
         DataTable GetAllrequest(string strStatus);
+        DataTable GetAllpayrequests(string strStatus);
 
         DataTable GetPaymentRequestDetail(string id,string type);
         DataTable GetPaymentRequestDetail1(string id);

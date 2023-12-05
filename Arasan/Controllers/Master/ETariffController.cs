@@ -107,6 +107,23 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListETariff");
             }
         }
+
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = itemGroupService.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListETariff");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListETariff");
+            }
+        }
+
         public ActionResult MyListItemgrid(string strStatus)
         {
             List<ETariffgrid> Reg = new List<ETariffgrid>();
@@ -120,9 +137,21 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                EditRow = "<a href=ETariff?id=" + dtUsers.Rows[i]["TARIFFMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["TARIFFMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
 
+                    EditRow = "<a href=ETariff?id=" + dtUsers.Rows[i]["TARIFFMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["TARIFFMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["TARIFFMASTERID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
+
+               
                 Reg.Add(new ETariffgrid
                 {
                     id = dtUsers.Rows[i]["TARIFFMASTERID"].ToString(),

@@ -233,11 +233,11 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "select CITYNAME,STATEID,CITYID,CONMAST.COUNTRY from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID  WHERE CITYMASTER.IS_ACTIVE = 'Y' ORDER BY CITYID DESC";
+                SvSql = "select CITYMASTER.IS_ACTIVE,CITYNAME,STATEID,CITYID,CONMAST.COUNTRY from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID  WHERE CITYMASTER.IS_ACTIVE = 'Y' ORDER BY CITYID DESC";
             }
             else
             {
-                SvSql = "select CITYNAME,STATEID,CITYID,CONMAST.COUNTRY from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID  WHERE CITYMASTER.IS_ACTIVE = 'N' ORDER BY CITYID DESC";
+                SvSql = "select CITYMASTER.IS_ACTIVE,CITYNAME,STATEID,CITYID,CONMAST.COUNTRY from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID  WHERE CITYMASTER.IS_ACTIVE = 'N' ORDER BY CITYID DESC";
 
             }
             DataTable dtt = new DataTable();

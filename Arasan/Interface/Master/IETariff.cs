@@ -11,6 +11,7 @@ namespace Arasan.Interface
         DataTable GetETariff(string id);
         //string RemoveChange(string tag, int id);
         string StatusChange(string tag, int id);
+        string RemoveChange(string tag, int id);
 
         string ETariffCRUD(ETariff cy);
 

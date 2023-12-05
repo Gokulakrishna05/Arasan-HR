@@ -114,10 +114,20 @@ namespace Arasan.Controllers.Master
 
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
 
-                EditRow = "<a href=ItemCategory?id=" + dtUsers.Rows[i]["ITEMCATEGORYID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ITEMCATEGORYID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    EditRow = "<a href=ItemCategory?id=" + dtUsers.Rows[i]["ITEMCATEGORYID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ITEMCATEGORYID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
 
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["ITEMCATEGORYID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                }
+                
                 Reg.Add(new ItemCategoryGrid
                 {
                     id = dtUsers.Rows[i]["ITEMCATEGORYID"].ToString(),

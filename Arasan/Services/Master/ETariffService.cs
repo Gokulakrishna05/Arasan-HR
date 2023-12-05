@@ -102,11 +102,11 @@ namespace Arasan.Services.Master
 
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "SELECT TARIFFMASTERID,TARIFFID,TARIFFDESC,PERCENTAGE FROM TARIFFMASTER WHERE IS_ACTIVE = 'Y' ORDER BY TARIFFMASTERID DESC";
+                SvSql = "SELECT IS_ACTIVE,TARIFFMASTERID,TARIFFID,TARIFFDESC,PERCENTAGE FROM TARIFFMASTER WHERE IS_ACTIVE = 'Y' ORDER BY TARIFFMASTERID DESC";
             }
             else
             {
-                SvSql = "SELECT TARIFFMASTERID,TARIFFID,TARIFFDESC,PERCENTAGE FROM TARIFFMASTER WHERE IS_ACTIVE = 'N' ORDER BY TARIFFMASTERID DESC";
+                SvSql = "SELECT IS_ACTIVE,TARIFFMASTERID,TARIFFID,TARIFFDESC,PERCENTAGE FROM TARIFFMASTER WHERE IS_ACTIVE = 'N' ORDER BY TARIFFMASTERID DESC";
 
             }
             DataTable dtt = new DataTable();
@@ -126,6 +126,30 @@ namespace Arasan.Services.Master
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
                     svSQL = "UPDATE TARIFFMASTER SET IS_ACTIVE ='N' WHERE TARIFFMASTERID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+
+        public string RemoveChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE TARIFFMASTER SET IS_ACTIVE ='Y' WHERE TARIFFMASTERID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

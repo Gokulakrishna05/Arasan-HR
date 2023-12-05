@@ -39,6 +39,9 @@ namespace Arasan.Models
  
         public string ddlStatus { get; set; }
 
+        public string amountReceived { get; set; }
+        public string pendingamt { get; set; }
+        public List<PaymentRequestDetail> PREQlst { get; set; }
     }
 
     public class PaymentRequestGrid
@@ -58,7 +61,7 @@ namespace Arasan.Models
 
         public string amountReceived { get;set; }
         public string pendingamt { get;set; }
-        public List<PaymentRequestDetail> PREQlst { get; set; }
+       
     }
     public class PaymentRequestDetail
     {

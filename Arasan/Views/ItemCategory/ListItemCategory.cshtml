@@ -47,7 +47,8 @@
             },
             datafields: [
                 { name: 'category', type: 'string' },
-
+                { name: 'editrow', type: 'string' },
+                { name: 'delrow', type: 'string' },
 
             ],
             id: 'id',
@@ -79,7 +80,10 @@
                 enablebrowserselection: true,
                 columns: [
 
-                    { text: 'Category', filtertype: 'checkedlist', datafield: 'category', width: 200 },
+                    { text: 'Category', datafield: 'category', width: 200 },
+                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
+
                 ]
         });
         $("#ddlStatus").change(function () {
@@ -93,6 +97,12 @@
             $("#grid").jqxGrid({ source: source });
         });
     });
+
+
+     function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
+    }
+
 </script>
 
 <div class="wrapper-content ">

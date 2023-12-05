@@ -211,13 +211,25 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                EditRow = "<a href=Curing?id=" + dtUsers.Rows[i]["CURINGMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CURINGMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                if (dtUsers.Rows[i]["STATUS"].ToString() == "Active")
+                {
 
+                    EditRow = "<a href=Curing?id=" + dtUsers.Rows[i]["CURINGMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CURINGMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["CURINGMASTERID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
+
+               
                 Reg.Add(new CuringGrid
                 {
                     id = dtUsers.Rows[i]["CURINGMASTERID"].ToString(),
-                    location = dtUsers.Rows[i]["LOCATIONID"].ToString(),
+                    location = dtUsers.Rows[i]["LOCID"].ToString(),
                     sub = dtUsers.Rows[i]["SUBGROUP"].ToString(),
                     shed = dtUsers.Rows[i]["SHEDNUMBER"].ToString(),
                     cap = dtUsers.Rows[i]["CAPACITY"].ToString(),
