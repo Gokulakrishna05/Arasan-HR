@@ -80,7 +80,7 @@
                     { text: 'Tax Type', filtertype: 'checkedlist', datafield: 'tax', width: 200 },
                     { text: 'TaxPercentage', filtertype: 'input', datafield: 'percentage', width: 200 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                 ]
         });
         $("#ddlStatus").change(function () {
@@ -94,6 +94,11 @@
             $("#grid").jqxGrid({ source: source });
         });
     });
+
+    function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
+    }
+
 </script>
 
 <div class="wrapper-content ">

@@ -177,11 +177,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select TAXMASTID,Tax,PERCENTAGE from TAXMAST WHERE IS_ACTIVE ='Y' ORDER BY  TAXMASTID DESC";
+                SvSql = "Select IS_ACTIVE,TAXMASTID,Tax,PERCENTAGE from TAXMAST WHERE IS_ACTIVE ='Y' ORDER BY  TAXMASTID DESC";
             }
             else
             {
-                SvSql = "Select TAXMASTID,Tax,PERCENTAGE from TAXMAST WHERE IS_ACTIVE ='N' ORDER BY  TAXMASTID DESC ";
+                SvSql = "Select IS_ACTIVE,TAXMASTID,Tax,PERCENTAGE from TAXMAST WHERE IS_ACTIVE ='N' ORDER BY  TAXMASTID DESC ";
 
             }
             DataTable dtt = new DataTable();

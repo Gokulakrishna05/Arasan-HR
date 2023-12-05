@@ -27,6 +27,7 @@ namespace Arasan.Models
         public string UpdatedBy { get; set; }
 
         public string status { get; set; }
+        public string ddlStatus { get; set; }
         
        
     } 

@@ -136,21 +136,30 @@ namespace Arasan.Controllers
             }
         }
 
-        public ActionResult MyListItemgrid()
+        public ActionResult MyListItemgrid(string strStatus)
         {
             List<AClass> Reg = new List<AClass>();
             DataTable dtUsers = new DataTable();
-
-            dtUsers = AccClassService.GetAllClass();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = AccClassService.GetAllClass(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
 
-                EditRow = "<a href=AccClass?id=" + dtUsers.Rows[i]["ACCCLASSID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ACCCLASSID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    EditRow = "<a href=AccClass?id=" + dtUsers.Rows[i]["ACCCLASSID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ACCCLASSID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["ACCCLASSID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
 
+                }
+                
                 Reg.Add(new AClass
                 {
                     id = dtUsers.Rows[i]["ACCCLASSID"].ToString(),

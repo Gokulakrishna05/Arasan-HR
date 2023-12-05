@@ -25,11 +25,95 @@
 </div>
 
 <script type="text/javascript">
+        $(document).ready(function () {
+            var source =
+            {
+                url: "/AccConfig/MyListItemgrid",
+
+                data: {
+                    strstatus: ""
+                },
+                datatype: "json",
+                updaterow: function (rowid, rowdata) {
+                    // synchronize with the server - send update command
+                },
+                datafields: [
+                    { name: 'schemedes', type: 'string' },
+                    { name: 'scheme', type: 'string' },
+                    { name: 'transactionName', type: 'string' },
+                    { name: 'transactionid', type: 'string' },
+                    { name: 'viewrow', type: 'string' },
+                    { name: 'editrow', type: 'string' },
+                    { name: 'delrow', type: 'string' },
+
+
+                ],
+                id: 'id',
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source,
+                { contentType: 'application/json; charset=utf-8' }, {
+                loadComplete: function () {
+
+                }
+            }
+            );
+
+            $("#grid").jqxGrid(
+                {
+
+                    width: '100%',
+                    source: dataAdapter,
+                    //height: 450,
+                    autorowheight: true,
+                    autoheight: true,
+                    source: source,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
+                    filterbarmode: 'simple',
+
+                    theme: 'darkblue',
+                    enablebrowserselection: true,
+                    columns: [
+
+                        { text: 'Scheme Description', filtertype: 'checkedlist', datafield: 'schemedes', width: 200 },
+                        { text: 'Scheme', filtertype: 'checkedlist', datafield: 'scheme', width: 200 },
+                        { text: 'Transaction Name', filtertype: 'input', datafield: 'transactionName', width: 300 },
+                        { text: 'Transaction ID', datafield: 'transactionid', width: 110, align: 'center' },
+                        { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
+                    ]
+                });
+            $("#ddlStatus").change(function () {
+                var value = "Y";
+                if ($(this).val() != "") {
+                    value = $(this).val();
+                }
+                source.data = {
+                    strstatus: value
+                };
+                $("#grid").jqxGrid({ source: source });
+            });
+        });
+
+    function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
+    }
+
+</script>
+
+@*<script type="text/javascript">
     $(document).ready(function () {
         var source =
         {
             url: "/AccConfig/MyListItemgrid",
-
+            data: {
+                strstatus: ""
+            },
             datatype: "json",
             updaterow: function (rowid, rowdata) {
                 // synchronize with the server - send update command
@@ -59,34 +143,47 @@
             {
                 width: '100%',
                 source: dataAdapter,
-                height: 510,
+                //height: 450,
+                autorowheight: true,
+                autoheight: true,
                 source: source,
                 sortable: true,
                 filterable: true,
                 groupable: false,
                 pageable: true,
-                showfilterrow: true,
-
+                showfilterbar: true,
+                //showfilterrow: true,
+                theme: 'darkblue',
                 enablebrowserselection: true,
-
-                theme: 'energyblue',
-                enablebrowserselection: true,
-
                 columns: [
 
-                    { text: 'Scheme Description', datafield: 'schemedes', width: 200 },
-                    { text: 'Scheme', datafield: 'scheme', width: 200 },
-                    { text: 'Transaction Name', datafield: 'transactionName', width: 300 },
+                    { text: 'Scheme Description', filtertype: 'checkedlist', datafield: 'schemedes', width: 200 },
+                    { text: 'Scheme', filtertype: 'checkedlist', datafield: 'scheme', width: 200 },
+                    { text: 'Transaction Name', filtertype: 'input', datafield: 'transactionName', width: 300 },
                     { text: 'Transaction ID', datafield: 'transactionid', width: 110, align: 'center' },
                     { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                 ]
             });
-
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
     });
-</script>
 
+    function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
+    }
+
+</script>
+*@
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -95,8 +192,14 @@
 
                     <form>
                         <div class="row">
-                           
-                            <div class="col-md-12 ">
+                            <div class="col-md-2 ">
+
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                { new SelectListItem() {Text = "Enabled", Value="Y"},
+                                new SelectListItem() {Text = "Disabled", Value="N"}},
+                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                            </div>
+                            <div class="col-md-9 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("AccConfig","AccConfig")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add AccConfig</a>
                                     <br>
@@ -107,7 +210,7 @@
                         </div>
                         <div class="row">
 
-                            <div class="col-md-12 ">
+                            <div class="col-md-10 ">
                                 <div id="grid">
 
                                     </div>
@@ -122,10 +225,14 @@
    </div>
 </div>
         
-
+<script>
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
+</script>
  
 
-<script>
+@*<script>
     $(document).ready(function () {
         $('#example7').DataTable({
             dom: 'Bfrtip',
@@ -206,4 +313,4 @@
 </script>
 
 
-
+*@

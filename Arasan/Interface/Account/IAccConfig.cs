@@ -16,7 +16,7 @@ namespace Arasan.Interface
         DataTable GetAccConfig(string id);
 
         //DataTable Getschemebyid(string id);
-        IEnumerable<AccConfig> GetAllAccConfig(string Active);
+     
 
         //IEnumerable<ConfigItem> GetAllConfigItem(string id);
 
@@ -24,13 +24,13 @@ namespace Arasan.Interface
 
         string StatusChange(string tag, int id);
 
-        //string RemoveChange(string tag, int id);
+        string RemoveChange(string tag, int id);
 
         DataTable GetConfigItem(string id);
 
         DataTable GetConfig(string id);
 
-        DataTable GetAllConfig();
+        DataTable GetAllConfig(string strStatus);
     }
 }
 

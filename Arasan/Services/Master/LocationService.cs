@@ -296,11 +296,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "select LOCID,LOCATIONTYPE,CPNAME,PHNO,EMAIL,LOCDETAILSID from LOCDETAILS  WHERE LOCDETAILS.IS_ACTIVE = 'Y' ORDER BY LOCDETAILSID DESC";
+                SvSql = "select LOCDETAILS.IS_ACTIVE,LOCID,LOCATIONTYPE,CPNAME,PHNO,EMAIL,LOCDETAILSID from LOCDETAILS  WHERE LOCDETAILS.IS_ACTIVE = 'Y' ORDER BY LOCDETAILSID DESC";
             }
             else
             {
-                SvSql = "select LOCID,LOCATIONTYPE,CPNAME,PHNO,EMAIL,LOCDETAILSID from LOCDETAILS  WHERE LOCDETAILS.IS_ACTIVE = 'N' ORDER BY LOCDETAILSID DESC";
+                SvSql = "select LOCDETAILS.IS_ACTIVE,LOCID,LOCATIONTYPE,CPNAME,PHNO,EMAIL,LOCDETAILSID from LOCDETAILS  WHERE LOCDETAILS.IS_ACTIVE = 'N' ORDER BY LOCDETAILSID DESC";
 
             }
             DataTable dtt = new DataTable();

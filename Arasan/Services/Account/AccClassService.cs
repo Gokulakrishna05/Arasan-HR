@@ -127,6 +127,8 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+
+
         //public DataTable GetType()
         //{
         //    string SvSql = string.Empty;
@@ -137,6 +139,8 @@ namespace Arasan.Services
         //    adapter.Fill(dtt);
         //    return dtt;
         //}
+
+
         public string StatusChange(string tag, int id)
         {
 
@@ -185,10 +189,19 @@ namespace Arasan.Services
 
         }
 
-        public DataTable GetAllClass()
+        public DataTable GetAllClass(string strStatus)
         {
             string SvSql = string.Empty;
-            SvSql = "select ACCCLASSID,ACCCLASS_CODE,ACCOUNT_CLASS from ACCCLASS WHERE IS_ACTIVE = 'Y' ORDER BY ACCCLASSID DESC";
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "select IS_ACTIVE,ACCCLASSID,ACCCLASS_CODE,ACCOUNT_CLASS from ACCCLASS WHERE IS_ACTIVE = 'Y' ORDER BY ACCCLASSID DESC";
+
+            }
+            else
+            {
+                SvSql = "select IS_ACTIVE,ACCCLASSID,ACCCLASS_CODE,ACCOUNT_CLASS from ACCCLASS WHERE IS_ACTIVE = 'N' ORDER BY ACCCLASSID DESC";
+
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
