@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 using Newtonsoft.Json.Linq;
 using Arasan.Services.Master;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace Arasan.Controllers
 {
@@ -237,36 +238,38 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        //public IActionResult ListDayBook()
-        //{
-        //    //IEnumerable<Ledger> cmp = ledger.GetAllLedger();
-        //    return View();
-        //}
-        //public ActionResult MyListDayBookgrid()
-        //{
-        //    List<ListDayItems> Reg = new List<ListDayItems>();
-        //    DataTable dtUsers = new DataTable();
-        //    dtUsers = (DataTable)ledger.GetAllListDayBookItem();
-        //    for (int i = 0; i < dtUsers.Rows.Count; i++)
-        //    {
-        //        Reg.Add(new ListDayItems
-        //        {
-        //            id = dtUsers.Rows[i]["LEDGERID"].ToString(),
-        //            atype = dtUsers.Rows[i]["ACCOUNTTYPE"].ToString(),
-        //            accgroup = dtUsers.Rows[i]["ACCOUNTGROUP"].ToString(),
-        //            ledname = dtUsers.Rows[i]["LEDNAME"].ToString(),
-        //            displayname = dtUsers.Rows[i]["DISPLAY_NAME"].ToString(),
-        //            legcode = dtUsers.Rows[i]["LEDGERCODE"].ToString(),
+        public IActionResult ListDayBook()
+        {
+            //IEnumerable<Ledger> cmp = ledger.GetAllLedger();
+            return View();
+        }
+        public ActionResult MyListDayBookgrid()
+        {
+            List<ListDayItems> Reg = new List<ListDayItems>();
+            DataTable dtUsers = new DataTable();
+            dtUsers = (DataTable)ledger.GetAllListDayBookItem();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                Reg.Add(new ListDayItems
+                {
+                    id = dtUsers.Rows[i]["TRANS1ID"].ToString(),
+                    vocherno = dtUsers.Rows[i]["T1VCHNO"].ToString(),
+                    vocherdate = dtUsers.Rows[i]["T1VCHDT"].ToString(),
+                    tratype = dtUsers.Rows[i]["T1TYPE"].ToString(),
+                    vocmemo = dtUsers.Rows[i]["T1NARR"].ToString(),
+                    vtype = dtUsers.Rows[i]["DBCR"].ToString(),
+                    ledgercode = dtUsers.Rows[i]["MID"].ToString(),
+                    debitamount = dtUsers.Rows[i]["DBAMOUNT"].ToString(),
+                    creditamount = dtUsers.Rows[i]["CRAMOUNT"].ToString(),
+                });
+            }
 
-        //        });
-        //    }
+            return Json(new
+            {
+                Reg
+            });
 
-        //    return Json(new
-        //    {
-        //        Reg
-        //    });
-
-        //}
+        }
     }
 }
 

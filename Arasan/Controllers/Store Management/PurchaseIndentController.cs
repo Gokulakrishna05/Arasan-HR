@@ -429,7 +429,7 @@ namespace Arasan.Controllers.Store_Management
         {
             try
             {
-                DataTable dtDesg = PurIndent.GetItem();
+                DataTable dtDesg = datatrans.GetRawItem();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {

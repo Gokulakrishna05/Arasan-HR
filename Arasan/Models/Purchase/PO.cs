@@ -65,6 +65,7 @@ namespace Arasan.Models
 
         public double Frieghtcharge { get; set; }
         public double Packingcharges { get; set; }
+        public double Disc { get; set; }
         public double Othercharges { get; set; }
         public double Round { get; set; }
         public string Narration { get; set; }
@@ -189,6 +190,7 @@ namespace Arasan.Models
         public double DiscPer { get; set; }
         public double DiscAmt { get; set; }
         public double FrieghtAmt { get; set; }
+        public double PackingAmt { get; set; }
         public double CGSTPer { get; set; }
         public double CGSTAmt { get; set; }
         public double SGSTPer { get; set; }
@@ -198,6 +200,7 @@ namespace Arasan.Models
         public double TotalAmount { get; set; }
         public string Duedate { get; set; }
         public string Lotno { get; set; }
+        public string LOTYN { get;set; }   
 
     }
     public class POItemDetail
