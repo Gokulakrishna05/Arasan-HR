@@ -25,12 +25,14 @@ namespace Arasan.Models
         public string Branch { get; set; }
 
         public string Supplier { get; set; }
+        public string Supplierid { get; set; }
 
         public List<SelectListItem> Suplst;
         public string State { get; set; }
 
         public List<SelectListItem> Satlst;
         public string Currency { get; set; }
+        public string Currencyid { get; set; }
 
         public List<SelectListItem> Curlst;
         public List<SelectListItem> Loclst;

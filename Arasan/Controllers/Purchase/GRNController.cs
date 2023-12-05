@@ -10,6 +10,7 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 using System.Collections;
 using System.Transactions;
 using Org.BouncyCastle.Security.Certificates;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Arasan.Controllers
 {
@@ -342,6 +343,7 @@ namespace Arasan.Controllers
                 string GRNStatus = string.Empty;
                 string Account = string.Empty;
                 string View = string.Empty;
+                //string MovePRDN = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
 
@@ -359,6 +361,15 @@ namespace Arasan.Controllers
 
 
                 }
+                //if( dtUsers.Rows[i]["damage"].ToString() == null)
+                //{
+                //    MovePRDN = "";
+                //}
+                //else
+                //{
+                //    MovePRDN = "<a href=ViewPRDN?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+
+                //}
                 View = "<a href=ViewGRN?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 Reg.Add(new GRNItems
@@ -368,10 +379,12 @@ namespace Arasan.Controllers
                     enqno = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    
                     qcresult = dtUsers.Rows[i]["QCSTATUS"].ToString(),
                     grn = GRNStatus,
                     acc = Account,
                     view = View,
+                    //move = MovePRDN,
                     editrow = EditRow,
                     delrow = DeleteRow,
 
@@ -1128,6 +1141,70 @@ namespace Arasan.Controllers
             }
             return View(po);
         }
+        public IActionResult ViewPRDN(string id)
+        {
+            GRN po = new GRN();
+           
+            
+            return View(po);
+        }
 
+        public ActionResult MyListDamageGRNGrid(string strStatus)
+        {
+            List<GRNItemsDetail> Reg = new List<GRNItemsDetail>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)GRNService.GetAllListDamageGRNItem(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                DataTable dtUsers1 = new DataTable();
+                dtUsers1 = (DataTable)GRNService.GetAllListDamageGRNItemDetail(dtUsers.Rows[i]["GRNBLBASICID"].ToString());
+                string View = string.Empty;
+                string MovePR = string.Empty;
+                string MoveDN = string.Empty;
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+
+                  MovePR = "<a href=/PurReturn/DefectPurchaseRet?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                MoveDN = "<a href=/DebitNoteBill/DebitNoteBill?tag=grn&id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "  ><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+
+                EditRow = "<a href=GRN?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+
+                View = "<a href=ViewGRN?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                Reg.Add(new GRNItemsDetail
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["GRNBLBASICID"].ToString()),
+                    branch = dtUsers1.Rows[i]["BRANCHID"].ToString(),
+                    enqno = dtUsers1.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers1.Rows[i]["DOCDATE"].ToString(),
+                    supplier = dtUsers1.Rows[i]["PARTYNAME"].ToString(),
+                    damage = dtUsers.Rows[i]["DAMAGE_QTY"].ToString(),
+
+                  
+                    
+                    view = View,
+                    move = MovePR,
+                    movedn = MoveDN,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public IActionResult ListDamageGRN()
+        {
+            //IEnumerable<GRN> cmp = GRNService.GetAllGRN();
+            return View();
+        }
     }
 }

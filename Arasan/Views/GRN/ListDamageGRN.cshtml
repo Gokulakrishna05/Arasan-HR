@@ -28,7 +28,7 @@
     $(document).ready(function () {
         var source =
         {
-            url: "/GRN/MyListGRNGrid",
+            url: "/GRN/MyListDamageGRNGrid",
             //url: "/ItemName/ItemName",
             data: {
                 strstatus: ""
@@ -41,11 +41,10 @@
                 { name: 'branch', type: 'string' },
                 { name: 'enqno', type: 'string' },
                 { name: 'docDate', type: 'string' },
-                { name: 'supplier', type: 'string' },
-                { name: 'qcresult', type: 'string' },
-                { name: 'grn', type: 'string' },
-                { name: 'acc', type: 'string' },
-                //{ name: 'move', type: 'string' },
+                { name: 'damage', type: 'string' },
+             
+                { name: 'move', type: 'string' },
+                { name: 'movedn', type: 'string' },
                 { name: 'view', type: 'string' },
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
@@ -83,10 +82,9 @@
                     { text: 'GRN No', filtertype: 'input', datafield: 'enqno', width: 150 },
                     { text: 'GRN Date', datafield: 'docDate', width: 100, align: 'center' },
                     { text: 'Supplier', filtertype: 'checkedlist', datafield: 'supplier', width: 250 },
-                    { text: 'Qc Testing', filtertype: 'input', datafield: 'qcresult', width: 150 },
-                    { text: 'GRN Status', datafield: 'grn', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
-                    //{ text: 'PR/DN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
-                    { text: 'Account', datafield: 'acc', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
+                    { text: 'Damage Qty', filtertype: 'checkedlist', datafield: 'damage', width: 250 },
+                    { text: 'Purchase Return', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
+                    { text: 'Debit Note', datafield: 'movedn', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },

@@ -23,6 +23,8 @@ namespace Arasan.Interface.Sales
         DataTable GetDebitNoteBillItem(string id);
         DataTable GetPurRet(string id);
         DataTable GetPurRetDetail(string id);
+        DataTable GetGrnRet(string id);
+        DataTable GetGRNRetDetail(string id);
         DataTable GetPurRetDoc(string id);
         string CreditNoteStock(DebitNoteBill cy);
         DataTable GetItem(string id);
