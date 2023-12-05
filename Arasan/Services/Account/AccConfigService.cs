@@ -18,49 +18,7 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<AccConfig> GetAllAccConfig(string Active)
-        {
-            //if (string.IsNullOrEmpty(Active))
-            //{
-            //    Active = "Yes";
-            //}
-            List<AccConfig> cmpList = new List<AccConfig>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-
-                    //cmd.CommandText = " SELECT ADSCHEME ,ADCOMPD.ADSCHEMENAME,ADTYPE,ADNAME,ADACCOUNT,TRANSDESC,TRANSID ,ADCOMPDID,ADCOMPD.ACTIVE FROM ADCOMPD  WHERE ADCOMPD.ACTIVE ='" + Active + "'  ";
-                    cmd.CommandText = " SELECT BRANCHMAST.BRANCHID,ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ACTIVE,ADCOMPHID FROM ADCOMPH LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ADCOMPH.BRANCHID WHERE ADCOMPH.ACTIVE = 'Yes' order by ADCOMPH.ADCOMPHID DESC  ";
-;
-
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        AccConfig cmp = new AccConfig
-                        {
-
-                            ID = rdr["ADCOMPHID"].ToString(),
-
-                            SchemeDes = rdr["ADSCHEMEDESC"].ToString(),
-                            Scheme = rdr["ADSCHEME"].ToString(),
-                            TransactionName = rdr["ADTRANSDESC"].ToString(),
-                            TransactionID = rdr["ADTRANSID"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            //CreatBy = rdr["CREATED_BY"].ToString(),
-                            //CreatOn = rdr["CREATED_ON"].ToString(),
-                            //CurrDate = rdr["CURRENT_DATE"].ToString(),
-                            Active = rdr["ACTIVE"].ToString()
-                            
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        
 
         //public IEnumerable<ConfigItem> GetAllConfigItem(string id)
         //{
@@ -139,7 +97,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("CURRENT_DATE", OracleDbType.Date).Value = DateTime.Now;
 
-                    objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "Yes";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 
@@ -245,7 +203,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE ADCOMPH SET ACTIVE ='No' WHERE ADCOMPHID='" + id + "'";
+                    svSQL = "UPDATE ADCOMPH SET IS_ACTIVE ='N' WHERE ADCOMPHID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -261,29 +219,29 @@ namespace Arasan.Services
 
         }
 
-        //public string RemoveChange(string tag, int id)
-        //{
+        public string RemoveChange(string tag, int id)
+        {
 
-        //    try
-        //    {
-        //        string svSQL = string.Empty;
-        //        using (OracleConnection objConnT = new OracleConnection(_connectionString))
-        //        {
-        //            svSQL = "UPDATE ADCOMPD SET ACTIVE ='YES' WHERE ADCOMPDID='" + id + "'";
-        //            OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
-        //            objConnT.Open();
-        //            objCmds.ExecuteNonQuery();
-        //            objConnT.Close();
-        //        }
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE ADCOMPH SET IS_ACTIVE ='Y' WHERE ADCOMPHID = '" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //    return "";
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
 
-        //}
+        }
 
         public DataTable GetConfig(string id)
         {
@@ -307,11 +265,19 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable GetAllConfig()
+        public DataTable GetAllConfig(string strStatus)
         {
             string SvSql = string.Empty;
-            //SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMMASTERID from ITEMMASTER";
-            SvSql = "Select ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID FROM ADCOMPH WHERE ACTIVE = 'Yes' ORDER BY ADCOMPHID DESC";
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select IS_ACTIVE,ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID FROM ADCOMPH WHERE IS_ACTIVE = 'Y' ORDER BY ADCOMPHID ASC";
+
+            }
+            else
+            {
+                SvSql = "Select IS_ACTIVE,ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID FROM ADCOMPH WHERE IS_ACTIVE = 'N' ORDER BY ADCOMPHID ASC";
+
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
