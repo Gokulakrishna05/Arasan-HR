@@ -167,7 +167,7 @@
                             </div>
                             <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
-                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18" onClick="window.parent.jQuery.fancybox.close();">Account</button>
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18" >Account</button>
 
                             <input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />
 
@@ -180,7 +180,32 @@
     </div>
 </div>
 <script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            alert("fghjfg");
+            var ttot = document.getElementById("txTotalAmt").value;
+            var atot = document.getElementById("txtNet").value;
+            alert(ttot);
+            alert(atot);
 
+            if (ttot == atot) {
+                alert("Amount and Total are Same.");
+            }
+            else {
+                alert("Amount and Total aren't Same.");
+                isValid =false;
+                return false;
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+
+            window.parent.jQuery.fancybox.close();
+        });
+        
+
+    });
     $(function () {
         $('._select').select2();
         var netamt = document.getElementById("txtNet").value;

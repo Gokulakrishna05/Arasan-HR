@@ -124,7 +124,16 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetGRNconfig()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select D.ADTYPE,D.ADNAME,D.ADACCOUNT,H.ADCOMPHID from ADCOMPH H ,ADCOMPD D where H.ADCOMPHID=D.ADCOMPHID AND H.ADSCHEME='grn' AND H.IS_ACTIVE='Y'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetSequence(string vtype, string locid)
         {
             string SvSql = string.Empty;

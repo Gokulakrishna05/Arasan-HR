@@ -420,6 +420,51 @@ namespace Arasan.Controllers
             GRNAccount tda = new GRNAccount();
             double totalcredit = 0;
             double totaldebit = 0;
+            DataTable dtdet = datatrans.GetData("select I.ITEMACC,SUM(AMOUNT) as GROSS from GRNBLDETAIL G,ITEMMASTER I  where G.ITEMID=I.ITEMMASTERID AND G.GRNBLBASICID='"+ id +"' GROUP BY I.ITEMACC");
+            DataTable dtacc = new DataTable();
+            dtacc = datatrans.GetGRNconfig();
+            string frieghtledger = "";
+            string discledger = "";
+            string roundoffledger = "";
+            string cgstledger = "";
+            string sgstledger = "";
+            string igstledger = "";
+            string packingledger = "";
+            if (dtacc.Rows.Count > 0)
+            {
+                grn.ADCOMPHID= dtacc.Rows[0]["ADCOMPHID"].ToString();
+                for (int i = 0; i < dtacc.Rows.Count; i++)
+                {
+                    if (dtacc.Rows[i]["ADTYPE"].ToString() == "FREIGHT CHARGES")
+                    {
+                        frieghtledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADTYPE"].ToString().Contains("PACKING CHARGES"))
+                    {
+                        packingledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADTYPE"].ToString() == "DISCOUNT")
+                    {
+                        discledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADTYPE"].ToString() == "ROUND OFF")
+                    {
+                        roundoffledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADTYPE"].ToString().Contains("CGST"))
+                    {
+                        cgstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADTYPE"].ToString().Contains("SGST"))
+                    {
+                        sgstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADTYPE"].ToString().Contains("IGST"))
+                    {
+                        igstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                }
+            }
             if (dt.Rows.Count > 0)
             {
                 grn.Roundminus = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_MINUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_MINUS"].ToString());
@@ -458,24 +503,29 @@ namespace Arasan.Controllers
                 }
                 if (grn.Gross > 0)
                 {
-                    tda = new GRNAccount();
-                    //tda.CRDRLst = BindCRDRLst();
-                    tda.Ledgerlist = BindLedgerLst();
-                    tda.CRAmount = grn.Gross;
-                    tda.DRAmount = 0;
-                    tda.TypeName = "GROSS";
-                    tda.Isvalid = "Y";
-                    tda.CRDR = "Dr";
-                    tda.symbol = "-";
-                    totalcredit += tda.CRAmount;
-                    totaldebit += tda.DRAmount;
-                    TData.Add(tda);
+                    for (int i = 0; i < dtdet.Rows.Count; i++)
+                    {
+                        tda = new GRNAccount();
+                        tda.Ledgerlist = BindLedgerLst();
+                        tda.Ledgername = dtdet.Rows[i]["ITEMACC"].ToString();
+                        tda.CRAmount = Convert.ToDouble(dtdet.Rows[i]["GROSS"].ToString() == "" ? "0" : dtdet.Rows[i]["GROSS"].ToString());
+                        tda.DRAmount = 0;
+                        tda.TypeName = "GROSS";
+                        tda.Isvalid = "Y";
+                        tda.CRDR = "Dr";
+                        tda.symbol = "-";
+                        totalcredit += tda.CRAmount;
+                        totaldebit += tda.DRAmount;
+                        TData.Add(tda);
+                    }
+                       
                 }
                 if (grn.CGST > 0)
                 {
                     tda = new GRNAccount();
                    //tda.CRDRLst = BindCRDRLst();
                     tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = cgstledger;
                     tda.CRAmount = grn.CGST;
                     tda.DRAmount = 0;
                     tda.TypeName = "CGST";
@@ -491,6 +541,7 @@ namespace Arasan.Controllers
                     tda = new GRNAccount();
                    // tda.CRDRLst = BindCRDRLst();
                     tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = sgstledger;
                     tda.CRAmount = grn.SGST;
                     tda.DRAmount = 0;
                     tda.TypeName = "SGST";
@@ -506,6 +557,7 @@ namespace Arasan.Controllers
                     tda = new GRNAccount();
                    // tda.CRDRLst = BindCRDRLst();
                     tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = cgstledger;
                     tda.CRAmount = grn.IGST;
                     tda.DRAmount = 0;
                     tda.TypeName = "IGST";
@@ -536,9 +588,10 @@ namespace Arasan.Controllers
                     tda = new GRNAccount();
                    // tda.CRDRLst = BindCRDRLst();
                     tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = packingledger;
                     tda.CRAmount = grn.Packingcharges;
                     tda.DRAmount = 0;
-                    tda.TypeName = "Packing charges";
+                    tda.TypeName = "PACKING CHARGES";
                     tda.Isvalid = "Y";
                     tda.CRDR = "Dr";
                     tda.symbol = "-";
@@ -551,9 +604,10 @@ namespace Arasan.Controllers
                     tda = new GRNAccount();
                   //  tda.CRDRLst = BindCRDRLst();
                     tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = frieghtledger;
                     tda.CRAmount = grn.Frieghtcharge;
                     tda.DRAmount = 0;
-                    tda.TypeName = "Frieght charges";
+                    tda.TypeName = "FREIGHT CHARGES";
                     tda.Isvalid = "Y";
                     tda.CRDR = "Dr";
                     totalcredit += tda.CRAmount;
@@ -581,9 +635,10 @@ namespace Arasan.Controllers
                     tda = new GRNAccount();
                    // tda.CRDRLst = BindCRDRLst();
                     tda.Ledgerlist = BindLedgerLst();
+                   // tda.Ledgername= packingledger
                     tda.CRAmount = grn.Round;
                     tda.DRAmount = 0;
-                    tda.TypeName = "Round Off(+)";
+                    tda.TypeName = "ROUND OFF";
                     tda.Isvalid = "Y";
                     tda.CRDR = "Dr";
                     totalcredit += tda.CRAmount;
@@ -591,21 +646,21 @@ namespace Arasan.Controllers
                     tda.symbol = "-";
                     TData.Add(tda);
                 }
-                if (grn.Roundminus > 0)
-                {
-                    tda = new GRNAccount();
-                  //  tda.CRDRLst = BindCRDRLst();
-                    tda.Ledgerlist = BindLedgerLst();
-                    tda.CRAmount = 0;
-                    tda.DRAmount = grn.Roundminus;
-                    tda.TypeName = "Round Off(-)";
-                    tda.Isvalid = "Y";
-                    tda.CRDR = "Cr";
-                    totalcredit += tda.CRAmount;
-                    totaldebit += tda.DRAmount;
-                    tda.symbol = "+";
-                    TData.Add(tda);
-                }
+                //if (grn.Roundminus > 0)
+                //{
+                //    tda = new GRNAccount();
+                //  //  tda.CRDRLst = BindCRDRLst();
+                //    tda.Ledgerlist = BindLedgerLst();
+                //    tda.CRAmount = 0;
+                //    tda.DRAmount = grn.Roundminus;
+                //    tda.TypeName = "Round Off(-)";
+                //    tda.Isvalid = "Y";
+                //    tda.CRDR = "Cr";
+                //    totalcredit += tda.CRAmount;
+                //    totaldebit += tda.DRAmount;
+                //    tda.symbol = "+";
+                //    TData.Add(tda);
+                //}
                 if (grn.otherdeduction > 0)
                 {
                     tda = new GRNAccount();
@@ -636,7 +691,7 @@ namespace Arasan.Controllers
 
             try
             {
-               // Cy.GRNID = id;
+                // Cy.GRNID = id;
                 string Strout = GRNService.GRNACCOUNT(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {

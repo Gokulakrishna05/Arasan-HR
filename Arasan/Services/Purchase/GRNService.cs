@@ -175,7 +175,7 @@ namespace Arasan.Services
                                     t2cunt += 1;
                                     if (cp.TypeName == "GROSS")
                                     {
-                                        grossamt = cp.CRAmount;
+                                        grossamt += cp.CRAmount;
                                         Grossledger = cp.Ledgername;
                                     }
                                     if (cp.TypeName == "CGST")
@@ -464,7 +464,7 @@ namespace Arasan.Services
         public DataTable AccconfigLst() 
         {
             string SvSql = string.Empty;
-            SvSql = "select ADSCHEME,ADCOMPHID from ADCOMPH where ADTRANSID='po' AND ACTIVE='Yes'";
+            SvSql = "select ADSCHEME,ADCOMPHID from ADCOMPH where ADTRANSID='po' AND IS_ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
