@@ -17,6 +17,8 @@ namespace Arasan.Interface
         DataTable GetViewGRN(string id);
         DataTable GetViewGRNDetail(string id);
         DataTable GetAllListGRNItem(string strStatus);
+        DataTable GetAllListDamageGRNItem(string strStatus);
+        DataTable GetAllListDamageGRNItemDetail(string strStatus);
         DataTable AccconfigLst();
 
         DataTable GetconfigItem(string ConId);

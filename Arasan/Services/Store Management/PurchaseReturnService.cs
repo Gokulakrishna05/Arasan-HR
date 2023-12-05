@@ -592,5 +592,28 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+
+
+        public DataTable GetDamagegrnPurchaseReturn(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select GRNBLBASIC.BRANCHID,GRNBLBASIC.PARTYID,PARTYMAST.PARTYNAME,GRNBLBASIC.DOCID,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,GRNBLBASIC.MAINCURRENCY,CURRENCY.MAINCURR,GRNBLBASIC.EXRATE,GRNBLBASICID  from GRNBLBASIC  LEFT OUTER JOIN PARTYMAST ON PARTYMASTID=GRNBLBASIC.PARTYID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY where GRNBLBASIC.GRNBLBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetDamagegrnPurchaseReturnDet(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select GRNBLDETAIL.DAMAGE_QTY,GRNBLDETAIL.QTY,GRNBLDETAIL.ITEMID as itemi,GRNBLDETAIL.UNIT,GRNBLDETAIL.CF,GRNBLDETAIL.GRNBLBASICID,ITEMMASTER.ITEMID,UNITMAST.UNITID,GRNBLDETAIL.RATE,GRNBLDETAIL.AMOUNT,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,FREIGHTCHGS from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GRNBLDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where GRNBLDETAIL.GRNBLBASICID='" + id + "' and GRNBLDETAIL.DAMAGE_QTY >0";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

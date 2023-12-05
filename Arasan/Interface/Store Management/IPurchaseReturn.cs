@@ -29,6 +29,8 @@ namespace Arasan.Interface
         DataTable Getstkqty(string grnid,string locid,string brid);
         DataTable GetviewPurchaseReturn(string id);
         DataTable GetviewPurchaseReturnDetail(string id);
+        DataTable GetDamagegrnPurchaseReturn(string id);
+        DataTable GetDamagegrnPurchaseReturnDet(string id);
 
         string StatusChange(string tag, string id);
         DataTable GetAllPurchaseReturnItems(string strStatus);

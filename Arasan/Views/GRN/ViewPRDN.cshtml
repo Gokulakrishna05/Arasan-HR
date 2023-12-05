@@ -1,0 +1,53 @@
+﻿@model Arasan.Models.GRN
+
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "Issue To Indent";
+      string rowid = ViewContext.HttpContext.Request.Query["rowid"];
+}
+
+<style>
+    .newwidth {
+        width: 120px;
+    }
+</style>
+
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    @using (Html.BeginForm("WholeStock", "MaterialRequisition", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+                             
+
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
+ <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <input type="button" class="btn btn-danger" value="Close" onclick="location.href='@Url.Action("ApproveMaterial", "MaterialRequisition")'" />
+
+
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+     var rowid = "@rowid";
+    $(function () {
+        $(document).on('click', '.closeFancybox', function () {
+            $.fancybox.close();
+        });
+
+    })
+      
+
+
+</script>
+
