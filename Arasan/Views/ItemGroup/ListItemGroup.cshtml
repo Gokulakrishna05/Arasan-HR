@@ -6,6 +6,7 @@
     //string Qid = string.Empty;
     //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
 }
+<partial name="JqxGridPartial" />
 
 <script type="text/javascript">
     @if (TempData["notice"] != null)
@@ -41,7 +42,7 @@
                 // synchronize with the server - send update command
             },
             datafields: [
-                { name: 'itemGroup', type: 'string' },
+                { name: 'itemgroup', type: 'string' },
                 { name: 'itemgroupdescription', type: 'string' },
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
@@ -77,10 +78,10 @@
                 enablebrowserselection: true,
                 columns: [
 
-                    { text: 'Item Group', filtertype: 'checkedlist', datafield: 'itemGroup', width: 200 },
+                    { text: 'Item Group', filtertype: 'checkedlist', datafield: 'itemgroup', width: 200 },
                     { text: 'ItemGroup Description', filtertype: 'input', datafield: 'itemgroupdescription', width: 300 },
-                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 60 },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                 ]
             });
         $("#ddlStatus").change(function () {
@@ -94,6 +95,11 @@
             $("#grid").jqxGrid({ source: source });
         });
     });
+
+     function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
+    }
+
 </script>
 
 <div class="wrapper-content ">

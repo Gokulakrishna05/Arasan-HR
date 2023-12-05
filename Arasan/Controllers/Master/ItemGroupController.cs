@@ -84,7 +84,9 @@ namespace Arasan.Controllers.Master
                 TempData["notice"] = flag;
                 return RedirectToAction("ListItemGroup");
             }
-        }public ActionResult Remove(string tag, int id)
+        }
+        
+        public ActionResult Remove(string tag, int id)
         {
 
             string flag = itemGroupService.RemoveChange(tag, id);
@@ -112,13 +114,23 @@ namespace Arasan.Controllers.Master
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                EditRow = "<a href=ItemGroup?id=" + dtUsers.Rows[i]["ITEMGROUPID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ITEMGROUPID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
+
+                    EditRow = "<a href=ItemGroup?id=" + dtUsers.Rows[i]["ITEMGROUPID"].ToString() + "><img src='../Images/edit.png' alt='Edit'/></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ITEMGROUPID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else {
+
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["ITEMGROUPID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
 
                 Reg.Add(new ItemGroupGrid
                 {
                     id = dtUsers.Rows[i]["ITEMGROUPID"].ToString(),
-                    itemGroup = dtUsers.Rows[i]["GROUPCODE"].ToString(),
+                    itemgroup = dtUsers.Rows[i]["GROUPCODE"].ToString(),
                     itemgroupdescription = dtUsers.Rows[i]["GROUPDESC"].ToString(),
                     editrow = EditRow,
                     delrow = DeleteRow,

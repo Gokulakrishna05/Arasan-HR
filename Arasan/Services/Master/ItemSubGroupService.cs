@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace Arasan.Services.Master
 {
-    public class ItemSubGroupService : IItemSubGroupService
+    public class ItemSubGroupService : IItemSubGroupService 
     {
         private readonly string _connectionString;
         DataTransactions datatrans;
@@ -19,36 +19,36 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<ItemSubGroup> GetAllItemSubGroup(string status)
-        {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "ACTIVE";
-            }
-            List<ItemSubGroup> staList = new List<ItemSubGroup>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-             {
+        //public IEnumerable<ItemSubGroup> GetAllItemSubGroup(string status)
+        //{
+        //    if (string.IsNullOrEmpty(status))
+        //    {
+        //        status = "ACTIVE";
+        //    }
+        //    List<ItemSubGroup> staList = new List<ItemSubGroup>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //     {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select SGCODE,SGDESC,STATUS,ITEMSUBGROUPID from ITEMSUBGROUP WHERE STATUS='" + status + "' order by ITEMSUBGROUP.ITEMSUBGROUPID DESC ";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        ItemSubGroup sta = new ItemSubGroup
-                        {
-                            ID = rdr["ITEMSUBGROUPID"].ToString(),
-                            itemSubGroup = rdr["SGCODE"].ToString(),
-                            Descreption = rdr["SGDESC"].ToString(),
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select SGCODE,SGDESC,STATUS,ITEMSUBGROUPID from ITEMSUBGROUP WHERE STATUS='" + status + "' order by ITEMSUBGROUP.ITEMSUBGROUPID DESC ";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                ItemSubGroup sta = new ItemSubGroup
+        //                {
+        //                    ID = rdr["ITEMSUBGROUPID"].ToString(),
+        //                    itemSubGroup = rdr["SGCODE"].ToString(),
+        //                    Descreption = rdr["SGDESC"].ToString(),
 
-                        };
-                        staList.Add(sta);
-                    }
-                }
-            }
-            return staList;
-        }
+        //                };
+        //                staList.Add(sta);
+        //            }
+        //        }
+        //    }
+        //    return staList;
+        //}
         
         public ItemSubGroup GetItemSubGroupById(string eid)
         {
@@ -111,7 +111,7 @@ namespace Arasan.Services.Master
 
                     objCmd.Parameters.Add("SGCODE", OracleDbType.NVarchar2).Value = sg.itemSubGroup;
                     objCmd.Parameters.Add("SGDESC", OracleDbType.NVarchar2).Value = sg.Descreption;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
@@ -144,7 +144,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE ITEMSUBGROUP SET STATUS ='INACTIVE' WHERE ITEMSUBGROUPID='" + id + "'";
+                    svSQL = "UPDATE ITEMSUBGROUP SET IS_ACTIVE ='N' WHERE ITEMSUBGROUPID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -166,7 +166,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE ITEMSUBGROUP SET STATUS ='ACTIVE' WHERE ITEMSUBGROUPID='" + id + "'";
+                    svSQL = "UPDATE ITEMSUBGROUP SET IS_ACTIVE ='Y' WHERE ITEMSUBGROUPID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -181,6 +181,27 @@ namespace Arasan.Services.Master
             return "";
 
         }
+
+        public DataTable GetAllItemSubGroup(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = " Select SGCODE,SGDESC,IS_ACTIVE,ITEMSUBGROUPID from ITEMSUBGROUP WHERE IS_ACTIVE='Y' order by ITEMSUBGROUP.ITEMSUBGROUPID DESC ";
+
+            }
+            else
+            {
+                SvSql = " Select SGCODE,SGDESC,IS_ACTIVE,ITEMSUBGROUPID from ITEMSUBGROUP WHERE IS_ACTIVE='N' order by ITEMSUBGROUP.ITEMSUBGROUPID DESC ";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
 
     }
 

@@ -307,7 +307,10 @@ namespace Arasan.Services
             return cmpList;
         }
 
+ 
 
+
+ 
         public DataTable GetAllrequest(string strStatus)
         {
             string SvSql = string.Empty;
@@ -323,6 +326,30 @@ namespace Arasan.Services
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+ 
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetAllpayrequests(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select DOCID,to_char(PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,PAYMENTREQUEST.TYPE,PO_OR_GRN,AMOUNT,REQUESTEDBY,PAYMENTREQUESTID,PAYMENTREQUEST.IS_APPROVED from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID Where PAYMENTREQUEST.IS_ACTIVE = 'Y' ORDER BY PAYMENTREQUESTID DESC ";
+
+            }
+            else
+            {
+                SvSql = "Select DOCID,to_char(PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,PAYMENTREQUEST.TYPE,PO_OR_GRN,AMOUNT,REQUESTEDBY,PAYMENTREQUESTID,PAYMENTREQUEST.IS_APPROVED from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID Where PAYMENTREQUEST.IS_ACTIVE = 'N' ORDER BY PAYMENTREQUESTID DESC ";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+
+ 
             adapter.Fill(dtt);
             return dtt;
         }

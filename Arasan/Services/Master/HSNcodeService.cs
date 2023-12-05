@@ -193,11 +193,11 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE ISACTIVE='Y' Order by HSNCODEID DESC  ";
+                SvSql = "Select ISACTIVE,HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE ISACTIVE='Y' Order by HSNCODEID DESC  ";
             }
             else
             {
-                SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE ISACTIVE='N' Order by HSNCODEID DESC  ";
+                SvSql = "Select ISACTIVE,HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE ISACTIVE='N' Order by HSNCODEID DESC  ";
 
             }
             DataTable dtt = new DataTable();
@@ -225,11 +225,11 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "select TARIFFMASTER.TARIFFID,HSNROW.HSNCODEID from HSNROW  LEFT OUTER JOIN TARIFFMASTER ON TARIFFMASTER.TARIFFMASTERID = HSNROW.TARIFFID WHERE HSNROW.IS_ACTIVE ='Y' Order by HSNCODEID DESC ";
+                SvSql = "select HSNROW.IS_ACTIVE ,TARIFFMASTER.TARIFFID,HSNROW.HSNCODEID from HSNROW  LEFT OUTER JOIN TARIFFMASTER ON TARIFFMASTER.TARIFFMASTERID = HSNROW.TARIFFID WHERE HSNROW.IS_ACTIVE ='Y' Order by HSNCODEID DESC ";
             }
             else
             {
-                SvSql = "select TARIFFMASTER.TARIFFID,HSNROW.HSNCODEID from HSNROW  LEFT OUTER JOIN TARIFFMASTER ON TARIFFMASTER.TARIFFMASTERID = HSNROW.TARIFFID WHERE HSNROW.IS_ACTIVE ='N' Order by HSNCODEID DESC ";
+                SvSql = "select HSNROW.IS_ACTIVE ,TARIFFMASTER.TARIFFID,HSNROW.HSNCODEID from HSNROW  LEFT OUTER JOIN TARIFFMASTER ON TARIFFMASTER.TARIFFMASTERID = HSNROW.TARIFFID WHERE HSNROW.IS_ACTIVE ='N' Order by HSNCODEID DESC ";
 
             }
 

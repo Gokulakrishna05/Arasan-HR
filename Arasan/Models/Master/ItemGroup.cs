@@ -14,7 +14,7 @@ namespace Arasan.Models
     {
         public string id { get; set; }
        
-        public string itemGroup { get; set; }
+        public string itemgroup { get; set; }
         public string itemgroupdescription { get; set; }
         
         public String editrow { get; set; }

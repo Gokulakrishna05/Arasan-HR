@@ -180,8 +180,8 @@
 
                     { text: 'HSN Code', filtertype: 'checkedlist', datafield: 'hcode', width: 250 },
                     { text: 'Description', datafield: 'dec', width: 150 },
-                    { text: 'Edit', filtertype: 'input', datafield: 'editrow', width: 70, align: 'center', cellsalign: 'center' },
-                    { text: 'Delete', datafield: 'delrow', width: 70, align: 'center', cellsalign: 'center' },
+                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 60 },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
 
 
                    
@@ -200,6 +200,10 @@
                 $("#grid").jqxGrid({ source: source });
             });
     });
+
+    function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
+    }
 </script>
 
 

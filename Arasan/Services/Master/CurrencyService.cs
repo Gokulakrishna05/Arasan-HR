@@ -200,11 +200,11 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = " Select SYMBOL,MAINCURR,CURRENCYID from CURRENCY WHERE IS_ACTIVE = 'Y' ORDER BY CURRENCYID DESC";
+                SvSql = " Select IS_ACTIVE,SYMBOL,MAINCURR,CURRENCYID from CURRENCY WHERE IS_ACTIVE = 'Y' ORDER BY CURRENCYID DESC";
             }
             else
             {
-                SvSql = " Select SYMBOL,MAINCURR,CURRENCYID from CURRENCY WHERE IS_ACTIVE = 'N' ORDER BY CURRENCYID DESC";
+                SvSql = " Select IS_ACTIVE,SYMBOL,MAINCURR,CURRENCYID from CURRENCY WHERE IS_ACTIVE = 'N' ORDER BY CURRENCYID DESC";
 
             }
             DataTable dtt = new DataTable();

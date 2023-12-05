@@ -418,12 +418,23 @@ namespace Arasan.Controllers.Master
                 string Multi = string.Empty;
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
-                
 
-                Multi = "<a href=Employee?id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/plus.png' alt='Edit' /></a>";
-                EditRow = "<a href=Employee?id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
+
+                    Multi = "<a href=Employee?id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/plus.png' alt='Edit' /></a>";
+                    EditRow = "<a href=Employee?id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+                    Multi = "";
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
+               
                 Reg.Add(new EmployeeGrid
                 {
                     id = dtUsers.Rows[i]["EMPMASTID"].ToString(),

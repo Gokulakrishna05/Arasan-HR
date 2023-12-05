@@ -191,11 +191,11 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = " Select COUNTRY,COUNTRYCODE,COUNTRYMASTID from CONMAST WHERE IS_ACTIVE = 'Y' ORDER BY COUNTRYMASTID DESC";
+                SvSql = " Select IS_ACTIVE,COUNTRY,COUNTRYCODE,COUNTRYMASTID from CONMAST WHERE IS_ACTIVE = 'Y' ORDER BY COUNTRYMASTID DESC";
             }
             else
             {
-                SvSql = " Select COUNTRY,COUNTRYCODE,COUNTRYMASTID from CONMAST WHERE IS_ACTIVE = 'N' ORDER BY COUNTRYMASTID DESC";
+                SvSql = " Select IS_ACTIVE,COUNTRY,COUNTRYCODE,COUNTRYMASTID from CONMAST WHERE IS_ACTIVE = 'N' ORDER BY COUNTRYMASTID DESC";
 
             }
             DataTable dtt = new DataTable();

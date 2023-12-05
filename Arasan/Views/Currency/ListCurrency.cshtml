@@ -76,7 +76,7 @@
                     { text: 'Symbol', filtertype: 'checkedlist', datafield: 'currencycode', width: 200 },
                     { text: 'Currency Name', filtertype: 'input', datafield: 'currencyname', width: 200 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                 ]
             });
         $("#ddlStatus").change(function () {
@@ -90,6 +90,11 @@
             $("#grid").jqxGrid({ source: source });
         });
     });
+
+     function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
+    }
+
 </script>
 <div class="wrapper-content ">
     <div class="row">
@@ -104,7 +109,7 @@
                             new SelectListItem() {Text = "Disabled", Value="N"}},
                             new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
                        
-                            <div class="col-md-10 ">
+                            <div class="col-md-9 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("Currency", "Currency")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Currency</a>
                                     <br>

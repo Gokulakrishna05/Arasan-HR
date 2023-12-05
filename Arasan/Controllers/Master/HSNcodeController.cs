@@ -240,9 +240,21 @@ namespace Arasan.Controllers.Master
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                EditRow = "<a href=HSNcode?id=" + dtUsers.Rows[i]["HSNCODEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["HSNCODEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
 
+                    EditRow = "<a href=HSNcode?id=" + dtUsers.Rows[i]["HSNCODEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["HSNCODEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["HSNCODEID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
+
+               
 
                 Reg.Add(new HsnList
                 {
@@ -285,59 +297,6 @@ namespace Arasan.Controllers.Master
             });
         }
 
-        //public ActionResult Myhsncodegrid()
-        //{
-        //    List<HsnList> Reg = new List<HsnList>();
-        //    DataTable dtUsers = new DataTable();
-
-        //    dtUsers = HSNcodeService.GetAllhsncode();
-        //    for (int i = 0; i < dtUsers.Rows.Count; i++)
-        //    {
-
-        //        string DeleteRow = string.Empty;
-        //        string EditRow = string.Empty;
-
-        //        EditRow = "<a href=HSNcode?id=" + dtUsers.Rows[i]["HSNCODEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-        //        DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["HSNCODEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-
-
-        //        Reg.Add(new HsnList
-        //        {
-        //            id = Convert.ToInt64(dtUsers.Rows[i]["HSNCODEID"].ToString()),
-        //            hcode = dtUsers.Rows[i]["HSNCODE"].ToString(),
-        //            dec = dtUsers.Rows[i]["DESCRIPTION"].ToString(),
-        //            editrow = EditRow,
-        //            delrow = DeleteRow,
-
-
-        //        });
-        //    }
-
-        //    return Json(new
-        //    {
-        //        Reg
-        //    });
-
-        //}
-        //public ActionResult ListMyhsncodegrid(string PRID)
-        //{
-        //    List<HsnRowList> EnqChkItem = new List<HsnRowList>();
-        //    DataTable dtEnq = new DataTable();
-        //    dtEnq = HSNcodeService.Gethsnitem(PRID);
-        //    for (int i = 0; i < dtEnq.Rows.Count; i++)
-        //    {
-        //        EnqChkItem.Add(new HsnRowList
-        //        {
-        //            id = Convert.ToInt64(dtEnq.Rows[i]["HSNCODEID"].ToString()),
-        //            tariff = dtEnq.Rows[i]["TARIFFID"].ToString(),
-
-        //        });
-        //    }
-
-        //    return Json(new
-        //    {
-        //        EnqChkItem
-        //    });
-        //}
+       
     }
 }
