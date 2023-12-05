@@ -695,7 +695,7 @@ namespace Arasan.Controllers
             //ds.Tables.AddRange(new DataTable[] { dt, dt2 });
             //ReportDataSource rds = new AspNetCore.Reporting.ReportDataSource("DataSet_Reservaties", ds.Tables[0]);
             LocalReport localReport = new LocalReport(path);
-            localReport.AddDataSource("PurchaseQuo", PQuoitem);
+            localReport.AddDataSource("PurchaseQuotation", PQuoitem);
             //localReport.AddDataSource("DataSet1_DataTable1", po);
             var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
             return File(result.MainStream, "application/Pdf");

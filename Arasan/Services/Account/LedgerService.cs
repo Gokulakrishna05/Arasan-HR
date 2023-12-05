@@ -1,6 +1,7 @@
 ﻿using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
@@ -212,6 +213,17 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "SELECT ACCGROUPID,GROUPCODE FROM ACCGROUP WHERE ACCGROUPID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetAllListDayBookItem()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT T1VCHNO,T1VCHDT,TRANS1.TRANS1ID,T1TYPE,T1NARR,DBCR,MID,DBAMOUNT,CRAMOUNT FROM TRANS1 INNER JOIN  TRANS2 ON TRANS1.TRANS1ID=TRANS2.TRANS1ID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

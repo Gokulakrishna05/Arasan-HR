@@ -50,6 +50,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.0.1" />
     <PackageReference Include="Microsoft.ReportingServices.ReportViewerControl.WebForms" Version="150.1586.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.8" />
+    <PackageReference Include="NEST" Version="7.17.5" />
     <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.100" />
     <PackageReference Include="PdfSharp" Version="1.50.5147" />
@@ -92,6 +93,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DataSet6.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="DataSet7.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DataSet7.xsd</DependentUpon>
     </Compile>
     <Compile Update="SQ.Designer.cs">
       <DesignTime>True</DesignTime>
