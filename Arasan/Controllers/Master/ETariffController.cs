@@ -111,7 +111,7 @@ namespace Arasan.Controllers
         public ActionResult Remove(string tag, int id)
         {
 
-            string flag = itemGroupService.RemoveChange(tag, id);
+            string flag = ETariffService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 
