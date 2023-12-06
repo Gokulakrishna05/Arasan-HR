@@ -147,7 +147,7 @@
                         <th> Order Qty </th>
                       @* <th> Pend. Qty </th>*@
                        <th> Bill Qty </th>
-                       @* <th> Recvd. Qty (Good)</th>*@
+                       <th> Recvd. Qty (Good)</th>
                          <th>  Recvd. Qty (Defect) </th>
                                  <th>Rate </th>
                                 <th> Amount</th>
@@ -201,9 +201,9 @@
                                                                                                                                                          <td>
                                                                                                                                                             @Html.TextBoxFor(o => o.PoItem[i].BillQty, new { @id = "txtBillQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")"})
                                                                                                                                                         </td>
-                                                                                                                                                        @* <td>
+                                                                                                                                                         <td>
                                                                                                                                                             @Html.TextBoxFor(o => o.PoItem[i].Goodqty, new { @id = "txtGoodqty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})
-                                                                                                                                                        </td>*@
+                                                                                                                                                        </td>
                                                                                                                                                          <td>
                                                             @Html.TextBoxFor(o => o.PoItem[i].DamageQty, new { @id = "txtDamageQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@onkeyup = "changeQty(this," + i + ")"})
                                                                                                                                                         </td>
@@ -757,10 +757,10 @@
                        pcking = 0;
 
                           var billqty = eval(orderqty) - eval(dmqty);
-                         
-        document.getElementById("txtBillQty" + i).value = billqty;
 
-        qty=billqty;
+            document.getElementById("txtGoodqty" + i).value = billqty;
+
+       // qty=billqty;
 
                     var tot = eval(qty) * eval(up);
                     document.getElementById("txtAmount" + i).value = tot.toFixed(2);
@@ -777,7 +777,8 @@
                     var totdisc = eval(tottax) - eval(Discperc);
                     document.getElementById("txtTotalAmount" + i).value = totdisc.toFixed(2);
 
-                    document.getElementById("txtCostRate" + i).value=eval(up)+eval(frieght)+eval(pcking);
+                    var crate=eval(up)+eval(frieght)+eval(pcking);
+            document.getElementById("txtCostRate" + i).value = crate.toFixed(2);
 
                    @* document.getElementById("txtPendingQty" + i).value = eval(orderqty) - eval(qty);*@
                       
