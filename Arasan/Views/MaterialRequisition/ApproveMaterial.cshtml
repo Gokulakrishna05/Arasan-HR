@@ -149,7 +149,7 @@
                                                                           <td> <a class="nav-link" href="@Url.Action("WholeStock", "MaterialRequisition",new { id=item.ItemId })" class='fancybox' data-fancybox-type='iframe'> @Html.DisplayFor(o => o.MRlst[i].TotalStock)</a></td>
                                                                         @if (item.lot != "0")
                                                                         {
-                                                                            <td><a href="@Url.Action("LotNo", "MaterialRequisition",new { id=item.Storeid,rowid=i })" class='fancybox' data-fancybox-type='iframe'> <label> Lot No </label></a></td>
+                                                                            <td><a href="@Url.Action("LotNo", "MaterialRequisition",new { id=item.ItemId,rowid=i })" class='fancybox' data-fancybox-type='iframe'> <label> Lot No </label></a></td>
 
                                                                         }
                                                                         else
