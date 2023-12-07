@@ -96,6 +96,7 @@ namespace Arasan.Models
         public string Additive { get; set; }
         public string RawMaterial { get; set; }
         public string Curing { get; set; }
+        public string Auto { get; set; }
 
         public List<UnitItem> unititemlst { get; set; }
         public List<SupItem> Suplst { get; set; }

@@ -961,12 +961,70 @@ namespace Arasan.Controllers
 		}
 		public IActionResult ListAPProductionentry()
 		{
-			IEnumerable<APProductionentry> cmp = IProductionEntry.GetAllAPProductionentry();
-			return View(cmp);
+			//IEnumerable<APProductionentry> cmp = IProductionEntry.GetAllAPProductionentry();
+			return View();
 		}
+        public ActionResult MyListAPProductionentryGrid()
+        {
+            List<APProductionentryItems> Reg = new List<APProductionentryItems>();
+            DataTable dtUsers = new DataTable();
+            //strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)IProductionEntry.GetAllAPProductionentryItems();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string View = string.Empty;
+                string Print = string.Empty;
+                string Approve = string.Empty;
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
 
-		
-		public ActionResult APProductionentryDetail(string id,string tag)
+                View = "<a href=ViewAPProductionentry?id=" + dtUsers.Rows[i]["APPRODUCTIONBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                Print = "<a href=Print?id=" + dtUsers.Rows[i]["APPRODUCTIONBASICID"].ToString() + "><img src='../Images/pdf.png' alt='Generate PO' width='20' /></a>";
+                if (dtUsers.Rows[i]["IS_APPROVE"].ToString() == "N")
+                {
+                    if (dtUsers.Rows[i]["IS_CURRENT"].ToString() == "Yes")
+                    {
+                        Approve = "<a href=ApproveAPProductionentry?id=" + dtUsers.Rows[i]["APPRODUCTIONBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Approve' /></a>";
+                        EditRow = "<a href=APProductionentryDetail?id=" + dtUsers.Rows[i]["APPRODUCTIONBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+
+                    }
+                    else
+                    {
+                        Approve = "";
+                        EditRow = "";
+
+                    }
+                }
+                else
+                {
+
+                }
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["APPRODUCTIONBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                Reg.Add(new APProductionentryItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["APPRODUCTIONBASICID"].ToString()),
+                    docNo = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    workcenter = dtUsers.Rows[i]["WCID"].ToString(),
+                    empname = dtUsers.Rows[i]["EMPNAME"].ToString(),
+                    shi = dtUsers.Rows[i]["SHIFT"].ToString(),
+                    view = View,
+                    print = Print,
+                    approve = Approve,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+
+        public ActionResult APProductionentryDetail(string id,string tag)
 		{
 			APProductionentryDet ca = new APProductionentryDet();
 			//ca.Complete = "No";
