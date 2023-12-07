@@ -71,7 +71,7 @@ namespace Arasan.Models
         public string id { get; set; }
         public string branch { get; set; }
         public string docid { get; set; }
-        public string Docdate { get; set; }
+        public string docdate { get; set; }
         public String approve { get; set; }
         public String editrow { get; set; }
         public String delrow { get; set; }
@@ -98,6 +98,7 @@ namespace Arasan.Models
         public string ID { get; set; }
 
         public string InvNo { get; set; }
+        public string Invid { get; set; }
         public string Invdate { get; set; }
         public List<SelectListItem> Itemlst;
         public string Item { get; set; }

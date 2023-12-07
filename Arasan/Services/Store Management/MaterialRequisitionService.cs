@@ -131,7 +131,7 @@ namespace Arasan.Services
         public DataTable GetMatItemByID(string MatId)
         {
             string SvSql = string.Empty;
-            SvSql = "Select STORESREQDETAILID,STORESREQBASICID,STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,ITEMMASTER.ITEMID,STORESREQDETAIL.QTY from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + MatId + "'";
+            SvSql = "Select STORESREQDETAILID,STORESREQBASICID,STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,ITEMMASTER.ITEMID,STORESREQDETAIL.QTY,STORESREQDETAIL.PENDING_QTY from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + MatId + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -791,12 +791,12 @@ namespace Arasan.Services
                                         svSQL = "UPDATE STORESREQDETAIL SET PENDING_QTY ='" + cp.IndQty + "',STATUS='Pending' WHERE STORESREQDETAILID='" + cp.indentid + "'";
                                         OracleCommand objCmdsa = new OracleCommand(svSQL, objConn);
                                         objCmdsa.ExecuteNonQuery();
-                                        objConn.Close();
+                                       
                                         //ispending = true;
                                         svSQL = "UPDATE STORESREQBASIC SET STATUS ='Pending'  WHERE STORESREQBASICID='" + cy.ID + "'";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
-                                        objConn.Close();
+                                         
 
                                     }
                                     else
@@ -817,7 +817,7 @@ namespace Arasan.Services
                                         svSQL = "UPDATE STORESREQDETAIL SET STATUS ='Issued' WHERE STORESREQDETAILID='" + cp.indentid + "'";
                                     OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
-                                        objConn.Close();
+                                         
                                         //j++;
                                     }
 
@@ -843,7 +843,8 @@ namespace Arasan.Services
                             //}
 
                         }
-                    }
+                    objConn.Close();
+                }
                 
             }
             catch (Exception ex)
