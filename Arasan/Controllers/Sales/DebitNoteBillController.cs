@@ -4,7 +4,7 @@ using Arasan.Interface.Sales;
 using Arasan.Models;
 using Arasan.Services;
 using Arasan.Services.Qualitycontrol;
-using DocumentFormat.OpenXml.Office2010.Excel;
+//using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;

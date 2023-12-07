@@ -16,9 +16,9 @@ using Microsoft.Reporting.WebForms;
 using Microsoft.Reporting.WinForms;
 using Org.BouncyCastle.Utilities.IO;
 using AspNetCore.ReportingServices.ReportProcessing.ReportObjectModel;
-using static GrapeCity.Enterprise.Data.DataEngine.DataProcessing.DataProcessor;
+//using static GrapeCity.Enterprise.Data.DataEngine.DataProcessing.DataProcessor;
 using Microsoft.Reporting.Map.WebForms.BingMaps;
-using DocumentFormat.OpenXml.Vml.Office;
+//using DocumentFormat.OpenXml.Vml.Office;
 using Microsoft.Extensions.Hosting.Internal;
 
 namespace Arasan.Controllers

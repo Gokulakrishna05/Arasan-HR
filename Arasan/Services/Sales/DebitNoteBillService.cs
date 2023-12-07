@@ -5,7 +5,7 @@ using Arasan.Models;
 using Microsoft.AspNetCore.Mvc;
 using Oracle.ManagedDataAccess.Client;
 using System.IO;
-using DocumentFormat.OpenXml.Office2010.Excel;
+//using DocumentFormat.OpenXml.Office2010.Excel;
 using Arasan.Interface;
 
 namespace Arasan.Services.Sales

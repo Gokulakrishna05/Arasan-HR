@@ -1,7 +1,7 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
 using Dapper;
-using DocumentFormat.OpenXml.Office2010.Excel;
+//using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
