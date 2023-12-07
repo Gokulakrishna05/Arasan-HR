@@ -6,7 +6,7 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Services;
-using DocumentFormat.OpenXml.Bibliography;
+//using DocumentFormat.OpenXml.Bibliography;
 
 namespace Arasan.Controllers
 {

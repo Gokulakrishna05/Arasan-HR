@@ -13,7 +13,6 @@ using Arasan.Interface.Qualitycontrol;
 using Arasan.Interface.Stores_Management;
 using Arasan.Interface.Sales;
 using Arasan.Services.Sales;
-using GrapeCity.ActiveReports.Aspnetcore.Viewer;
 using System.Collections.Generic;
 using Arasan.Models;
 using Microsoft.AspNetCore.Http.Features;
@@ -205,13 +204,13 @@ internal class Program
         
         app.UseHttpsRedirection();
         app.UseStaticFiles();
-        DirectoryInfo di = new DirectoryInfo(@"~/pdfdownload");
-        app.UseReporting(settings =>
-        {
-            //settings.UseFileStore(new System.IO.DirectoryInfo(IWebHostEnvironment.ContentRootPath + @"\pdfdownload\"));
-           settings.UseFileStore(di);
-            settings.UseCompression = true;
-        });
+        //DirectoryInfo di = new DirectoryInfo(@"~/pdfdownload");
+        //app.UseReporting(settings =>
+        //{
+        //    //settings.UseFileStore(new System.IO.DirectoryInfo(IWebHostEnvironment.ContentRootPath + @"\pdfdownload\"));
+        //   settings.UseFileStore(di);
+        //    settings.UseCompression = true;
+        //});
         app.UseRouting();
        
 
