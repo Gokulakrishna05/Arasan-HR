@@ -637,7 +637,7 @@ namespace Arasan.Controllers
                 }
                 else
                 {
-                    Create = "<a href=/DebitNoteBill/DebitNoteBill?id=" + dtUsers.Rows[i]["PRETBASICID"].ToString() + " tag='1'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                    Create = "<a href=/DebitNoteBill/DebitNoteBill?tag=purret&id=" + dtUsers.Rows[i]["PRETBASICID"].ToString() + " ><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
                 }
                 View = "<a href=viewPurchaseReturn?id=" + dtUsers.Rows[i]["PRETBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 //EditRow = "<a href=PurchaseRet?id=" + dtUsers.Rows[i]["PRETBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
@@ -766,6 +766,116 @@ namespace Arasan.Controllers
                 ca.RetLst = Data;
             }
             return View(ca);
+        }
+
+
+
+        public IActionResult DefectPurchaseRet(string id)
+        {
+            PurchaseReturn ca = new PurchaseReturn();
+            ca.Brlst = BindBranch();
+            ca.Branch = Request.Cookies["BranchId"];
+            ca.Location = Request.Cookies["LocationId"];
+            ca.Loclst = GetLoc();
+            ca.Satlst = GetSat();
+            ca.assignList = BindEmp();
+            ca.Citylst = BindCity("");
+            ca.POlst = BindGRNlist();
+            ca.Partylst = Bindpartylist();
+            ca.currlst = Bindcurrlist();
+
+
+          
+            ca.RetDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence("PURRE");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.RetNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
+            List<ReturnItem> TData = new List<ReturnItem>();
+            ReturnItem tda = new ReturnItem();
+
+                DataTable dt = new DataTable();
+
+                dt = PurReturn.GetDamagegrnPurchaseReturn(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+
+                    ca.Supplier = dt.Rows[0]["PARTYNAME"].ToString();
+                    ca.Supplierid = dt.Rows[0]["PARTYID"].ToString();
+                  
+                    ca.ID = id;
+                    ca.Currencyid = dt.Rows[0]["MAINCURRENCY"].ToString();
+                    ca.Currency = dt.Rows[0]["MAINCURR"].ToString();
+                ca.RetDate = DateTime.Now.ToString("dd-MMM-yyyy");
+                ca.ReqDate = DateTime.Now.ToString("dd-MMM-yyyy");
+                ca.ExRate = dt.Rows[0]["EXRATE"].ToString();
+                  
+                    ca.Grn = dt.Rows[0]["DOCID"].ToString();
+             
+                    //ca.LRCha = Convert.ToDouble(dt.Rows[0]["LRCH"].ToString() == "" ? "0" : dt.Rows[0]["LRCH"].ToString());
+                    //ca.DelCh = Convert.ToDouble(dt.Rows[0]["DELCH"].ToString() == "" ? "0" : dt.Rows[0]["DELCH"].ToString());
+                    //ca.Other = Convert.ToDouble(dt.Rows[0]["OTHERCH"].ToString() == "" ? "0" : dt.Rows[0]["OTHERCH"].ToString());
+                    //ca.Frig = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["FREIGHT"].ToString());
+                    //ca.SpDisc = Convert.ToDouble(dt.Rows[0]["OTHERDISC"].ToString() == "" ? "0" : dt.Rows[0]["OTHERDISC"].ToString());
+
+                    //ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+                    //ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+                    
+                }
+                DataTable dt2 = new DataTable();
+                dt2 = PurReturn.GetDamagegrnPurchaseReturnDet(id);
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new ReturnItem();
+                    tda.itemid = dt2.Rows[i]["itemi"].ToString();
+                    tda.itemname = dt2.Rows[i]["ITEMID"].ToString();
+                    tda.unit = dt2.Rows[i]["UNITID"].ToString();
+                    tda.unitid = dt2.Rows[i]["UNIT"].ToString();
+                    tda.quantity = dt2.Rows[i]["QTY"].ToString();
+                    tda.rqty = dt2.Rows[i]["DAMAGE_QTY"].ToString();
+                    tda.confac = dt2.Rows[i]["CF"].ToString();
+                    tda.rate = dt2.Rows[i]["RATE"].ToString();
+                    tda.amount = dt2.Rows[i]["AMOUNT"].ToString();
+                    tda.disc = Convert.ToDouble(dt2.Rows[i]["DISCPER"].ToString());
+                    tda.discAmount = Convert.ToDouble(dt2.Rows[i]["DISC"].ToString());
+                    tda.frigcharge = Convert.ToDouble(dt2.Rows[i]["FREIGHTCHGS"].ToString() == "" ? "0" : dt2.Rows[i]["FREIGHTCHGS"].ToString());
+                    tda.cgstamt = Convert.ToDouble(dt2.Rows[i]["CGST"].ToString() == "" ? "0" : dt2.Rows[i]["CGST"].ToString());
+                    tda.cgstper = Convert.ToDouble(dt2.Rows[i]["CGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTP"].ToString());
+                    tda.sgstamt = Convert.ToDouble(dt2.Rows[i]["SGST"].ToString() == "" ? "0" : dt2.Rows[i]["SGST"].ToString());
+                    tda.sgstper = Convert.ToDouble(dt2.Rows[i]["SGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTP"].ToString());
+                    tda.igstamt = Convert.ToDouble(dt2.Rows[i]["IGST"].ToString() == "" ? "0" : dt2.Rows[i]["IGST"].ToString());
+                    tda.igstper = Convert.ToDouble(dt2.Rows[i]["IGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTP"].ToString());
+                    tda.totalamount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
+                    //tda.binid = dt2.Rows[i]["BINID"].ToString();
+                    tda.binid = "0";
+
+                    //tda.unitid = dt2.Rows[i]["UNIT"].ToString();
+
+                    //DataTable dt2 = new DataTable();
+                    dt = PurReturn.Getstkqty(id, "10001000000827", ca.Branch);
+                    if (dt.Rows.Count > 0)
+                    {
+                        tda.stkqty = dt.Rows[0]["QTY"].ToString();
+                    }
+                    if (tda.stkqty == "")
+                    {
+                        tda.stkqty = "0";
+                    }
+
+                    TData.Add(tda);
+                }
+
+            }
+       
+
+
+            ca.returnlist = TData;
+            return View(ca);
+
         }
     }
 }

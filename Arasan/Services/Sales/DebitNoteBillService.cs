@@ -460,7 +460,7 @@ namespace Arasan.Services.Sales
         public DataTable GetDebitNoteBillDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select BRANCHID,VTYPE,DOCID,DOCDATE,REFNO,REFDT,PARTYID,GROSS,NET,AMTINWRD,BIGST,BSGST,BCGST,NARRATION FROM DBNOTEBASIC WHERE DBNOTEBASICID='" + id + "'";
+            SvSql = "select BRANCHID,VTYPE,DOCID,DOCDATE,REFNO,REFDT,PARTYID,PARTYBALANCE,PARTYNAME,GROSS,NET,AMTINWRD,BIGST,BSGST,BCGST,NARRATION FROM DBNOTEBASIC WHERE DBNOTEBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -470,7 +470,7 @@ namespace Arasan.Services.Sales
         public DataTable GetDebitNoteBillItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select DBNOTEBASICID,INVNO,INVDT,ITEMMASTER.ITEMID,DBNOTEDETAIL.CONVFACTOR,DBNOTEDETAIL.PRIUNIT,DBNOTEDETAIL.QTY,DBNOTEDETAIL.RATE,DBNOTEDETAIL.AMOUNT,DBNOTEDETAIL.CGST,DBNOTEDETAIL.SGST,DBNOTEDETAIL.IGST,DBNOTEDETAIL.TOTAMT FROM DBNOTEDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID =DBNOTEDETAIL.ITEMID WHERE DBNOTEBASICID='" + id + "'";
+            SvSql = "select DBNOTEBASICID,INVNO,GRNBLBASIC.DOCID,INVDT,ITEMMASTER.ITEMID,DBNOTEDETAIL.CONVFACTOR,DBNOTEDETAIL.PRIUNIT,DBNOTEDETAIL.QTY,DBNOTEDETAIL.RATE,DBNOTEDETAIL.AMOUNT,DBNOTEDETAIL.CGST,DBNOTEDETAIL.SGST,DBNOTEDETAIL.IGST,DBNOTEDETAIL.TOTAMT FROM DBNOTEDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID =DBNOTEDETAIL.ITEMID LEFT OUTER JOIN GRNBLBASIC ON GRNBLBASIC.GRNBLBASICID =DBNOTEDETAIL.INVNO WHERE DBNOTEBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -609,6 +609,27 @@ namespace Arasan.Services.Sales
                 SvSql = "Select  BRANCHMAST.BRANCHID,DOCID,to_char(DBNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DBNOTEBASICID from DBNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=DBNOTEBASIC.BRANCHID WHERE DBNOTEBASIC.IS_ACTIVE = 'N' ORDER BY DBNOTEBASIC.DBNOTEBASICID DESC ";
 
             }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetGrnRet(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select GRNBLBASIC.BRANCHID,GRNBLBASIC.DOCID,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,PARTYMAST.PARTYNAME,GRNBLBASIC.GRNBLBASICID,GRNBLBASIC.PARTYID,GRNBLBASIC.NET from GRNBLBASIC  LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND GRNBLBASIC.GRNBLBASICID='" + id  +"'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetGRNRetDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select GRNBLDETAIL.DAMAGE_QTY,GRNBLDETAIL.QTY,GRNBLDETAIL.ITEMID as itemi,GRNBLDETAIL.UNIT,GRNBLDETAIL.CF,GRNBLDETAIL.GRNBLBASICID,ITEMMASTER.ITEMID,UNITMAST.UNITID,GRNBLDETAIL.RATE,GRNBLDETAIL.AMOUNT,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,FREIGHTCHGS from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GRNBLDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where GRNBLDETAIL.GRNBLBASICID='" + id + "' and GRNBLDETAIL.DAMAGE_QTY >0";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

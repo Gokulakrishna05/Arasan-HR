@@ -155,9 +155,21 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                EditRow = "<a href=city?id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
 
+                    EditRow = "<a href=city?id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
+
+              
                 Reg.Add(new Locationgrid
                 {
                     id = dtUsers.Rows[i]["LOCDETAILSID"].ToString(),

@@ -1,11 +1,10 @@
-﻿@model Arasan.Models.State
-
+﻿@model Arasan.Models.GRN
 
 @{
-    ViewData["Title"] = "State Master";
+    ViewData["Title"] = "Index";
 }
-
 <partial name="JqxGridPartial" />
+@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
 
 <script type="text/javascript">
     @if (TempData["notice"] != null)
@@ -16,10 +15,11 @@
 
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
+
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Master</a> </li>
-            <li class="active"> <strong>State </strong> </li>
+            <li> <a>Purchase</a> </li>
+            <li class="active"> <strong>GRN</strong> </li>
         </ol>
     </div>
 </div>
@@ -28,8 +28,8 @@
     $(document).ready(function () {
         var source =
         {
-            url: "/State/MyListItemgrid",
-
+            url: "/GRN/MyListDamageGRNGrid",
+            //url: "/ItemName/ItemName",
             data: {
                 strstatus: ""
             },
@@ -38,12 +38,16 @@
                 // synchronize with the server - send update command
             },
             datafields: [
-                { name: 'statename', type: 'string' },
-                { name: 'statecode', type: 'string' },
-                { name: 'countryid', type: 'string' },
+                { name: 'branch', type: 'string' },
+                { name: 'enqno', type: 'string' },
+                { name: 'docDate', type: 'string' },
+                { name: 'damage', type: 'string' },
+             
+                { name: 'move', type: 'string' },
+                { name: 'movedn', type: 'string' },
+                { name: 'view', type: 'string' },
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
-
 
             ],
             id: 'id',
@@ -58,26 +62,33 @@
 
         $("#grid").jqxGrid(
             {
-
                 width: '100%',
                 source: dataAdapter,
-                height: 450,
+                //height: 450,
+                autorowheight: true,
+                autoheight: true,
                 source: source,
                 sortable: true,
                 filterable: true,
                 groupable: false,
                 pageable: true,
                 showfilterbar: true,
+                filterbarmode: 'simple',
                 //showfilterrow: true,
                 theme: 'darkblue',
                 enablebrowserselection: true,
                 columns: [
-
-                    { text: 'State Name', filtertype: 'checkedlist', datafield: 'statename', width: 200 },
-                    { text: 'State Code', filtertype: 'checkedlist', datafield: 'statecode', width: 200 },
-                    { text: 'Country Name', filtertype: 'input', datafield: 'countryid', width: 100 },
+                    { text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
+                    { text: 'GRN No', filtertype: 'input', datafield: 'enqno', width: 150 },
+                    { text: 'GRN Date', datafield: 'docDate', width: 100, align: 'center' },
+                    { text: 'Supplier', filtertype: 'checkedlist', datafield: 'supplier', width: 250 },
+                    { text: 'Damage Qty', filtertype: 'checkedlist', datafield: 'damage', width: 250 },
+                    { text: 'Purchase Return', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
+                    { text: 'Debit Note', datafield: 'movedn', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
+                    { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
                 ]
             });
         $("#ddlStatus").change(function () {
@@ -91,13 +102,7 @@
             $("#grid").jqxGrid({ source: source });
         });
     });
-
-     function returnMyLink(cellValue, options, rowdata, action) {
-        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
-    }
-
 </script>
-
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -111,28 +116,30 @@
                                 { new SelectListItem() {Text = "Enabled", Value="Y"},
                                 new SelectListItem() {Text = "Disabled", Value="N"}},
                                 new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                                <br>
+                            </div>
+                            @*  <div class="col-md-9 ">
+                            <div class=" textalignright">
+                            <a href="@Url.Action("DirectPurchase", "DirectPurchase")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DirectPurchase</a>
+                            <br>
                             </div>
 
 
-                            <div class="col-md-9 ">
-                                <div class=" textalignright">
-                                    <a href="@Url.Action("State","State")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add State</a>
-                                    <br>
-                                </div>
-
-                            </div>
+                            </div>*@
                         </div>
                         <div class="row">
 
-                            <div class="col-md-10 ">
-                                <div id="grid">
-                                </div>
+
+                            @*  <div class="col-md-10 ">*@
+                            <div id="grid">
                             </div>
+
+                            @* </div>*@
+
                         </div>
 
                     </form>
-
-                     </div>
+                </div>
             </div>
         </div>
     </div>
@@ -143,34 +150,6 @@
     }
 </script>
 
-<script>
-    $(document).ready(function () {
-        $('#example7').DataTable({
-            dom: 'Bfrtip',
-            buttons: [{
-                text: 'copy',
-                extend: "copy",
-                className: 'btn dark btn-outline'
-            }, {
-                text: 'csv',
-                extend: "csv",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'excel',
-                extend: "excel",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'pdf',
-                extend: "pdf",
-                className: 'btn yellow  btn-outline'
-            }, {
-                text: 'print',
-                extend: "print",
-                className: 'btn purple  btn-outline'
-            }]
-        });
-    });
-</script>
 
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
@@ -200,22 +179,21 @@
         });
         $(".fancybox1").eq(0).trigger('click');
     }
-    function changeStatus(status) {
-        var url = "/State/ListState?status=" + status;
-        window.location.href = url;
-        //$.ajax({
-        //    url: 'AssignSession',
-        //    data: { "status": status },
-        //    type: "GET",
-        //    success: function (result) {
-        //        document.getElementById("hdstatus").value = result;
-        //    },
-        //    error: function () {
-        //        alert("Data Not Found");
-        //    }
-        //});
-        //window.location.reload();
 
-    }
-   
+
+            //function changeStatus(status) {
+            //    var url = "/PurchaseQuo/ListPurchaseQuo?status=" + status;
+            //    window.location.href = url;
+            //    //$.ajax({
+            //    //    url: 'AssignSession',
+            //    //    data: { "status": status },
+            //    //    type: "GET",
+            //    //    success: function (result) {
+            //    //        document.getElementById("hdstatus").value = result;
+            //    //    },
+            //    //    error: function () {
+            //    //        alert("Data Not Found");
+            //    //    }
+            //    //});
+            //    //window.location.reload();
 </script>

@@ -21,6 +21,7 @@ namespace Arasan.Models
         public string viewrow { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
+        public string ddlStatus { get; set; }
 
         //public List<ConfigItem> ConfigLst { get; set; }
 

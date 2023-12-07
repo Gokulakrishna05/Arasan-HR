@@ -58,7 +58,7 @@ namespace Arasan.Controllers.Sales
             }
             else
             {
-                if (tag == "")
+                if (tag == null)
                 {
                     DataTable dt = new DataTable();
                     dt = DebitNoteBillService.GetDebitNoteBillDetail(id);
@@ -68,17 +68,19 @@ namespace Arasan.Controllers.Sales
                         ca.Vocher = dt.Rows[0]["VTYPE"].ToString();
                         ca.DocId = dt.Rows[0]["DOCID"].ToString();
                         ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                        ca.Party = dt.Rows[0]["PARTYNAME"].ToString();
+                        ca.PartyBal = dt.Rows[0]["PARTYBALANCE"].ToString();
                         ca.grnid= id;
-                        //ca.RefNo = dt.Rows[0]["REFNO"].ToString();
-                        // ca.RefDate = dt.Rows[0]["REFDT"].ToString();
-                        ca.Party = dt.Rows[0]["PARTYID"].ToString();
+                        ca.RefNo = dt.Rows[0]["REFNO"].ToString();
+                        ca.RefDate = dt.Rows[0]["REFDT"].ToString();
+                        ca.Partyid = dt.Rows[0]["PARTYID"].ToString();
                         ca.Gross = dt.Rows[0]["GROSS"].ToString();
                         ca.Net = dt.Rows[0]["NET"].ToString();
                         ca.PartyBal= dt.Rows[0]["NET"].ToString();
                         ca.Amount = dt.Rows[0]["AMTINWRD"].ToString();
-                        //ca.Bigst = Convert.ToDouble(dt2.Rows[0]["CGST"].ToString() == "" ? "0" : dt2.Rows[0]["CGST"].ToString());
-                        //ca.Bsgst = Convert.ToDouble(dt2.Rows[0]["SGST"].ToString() == "" ? "0" : dt2.Rows[0]["SGST"].ToString());
-                        //ca.Bcgst = Convert.ToDouble(dt2.Rows[0]["CGST"].ToString() == "" ? "0" : dt2.Rows[0]["CGST"].ToString());
+                        ca.Bigst = Convert.ToDouble(dt.Rows[0]["BCGST"].ToString() == "" ? "0" : dt.Rows[0]["BCGST"].ToString());
+                        ca.Bsgst = Convert.ToDouble(dt.Rows[0]["BSGST"].ToString() == "" ? "0" : dt.Rows[0]["BSGST"].ToString());
+                        ca.Bcgst = Convert.ToDouble(dt.Rows[0]["BCGST"].ToString() == "" ? "0" : dt.Rows[0]["BCGST"].ToString());
                         ca.Narration = dt.Rows[0]["NARRATION"].ToString();
 
 
@@ -92,11 +94,12 @@ namespace Arasan.Controllers.Sales
                         for (int i = 0; i < dt2.Rows.Count; i++)
                         {
                             tda = new DebitNoteItem();
-                            tda.Grnlst = BindGrnlst("");
-                            tda.Grnlst = BindGrnlst(ca.Party);
-                            tda.InvNo = dt2.Rows[i]["INVNO"].ToString();
+                            //tda.Grnlst = BindGrnlst("");
+                            //tda.Grnlst = BindGrnlst(ca.Party);
+                            tda.InvNo = dt2.Rows[i]["DOCID"].ToString();
+                            tda.Invid = dt2.Rows[i]["DOCID"].ToString();
                             tda.Invdate = dt2.Rows[i]["INVDT"].ToString();
-                            tda.Itemlst = BindItemlst(tda.InvNo);
+                            //tda.Itemlst = BindItemlst(tda.InvNo);
                             tda.Item = dt2.Rows[i]["ITEMID"].ToString();
                             tda.Cf = dt2.Rows[i]["CONVFACTOR"].ToString();
                             tda.Unit = dt2.Rows[i]["PRIUNIT"].ToString();
@@ -114,7 +117,7 @@ namespace Arasan.Controllers.Sales
 
                     }
                 }
-                else
+               if(tag=="purret")
                 {
                     DataTable dt = new DataTable();
                     dt = DebitNoteBillService.GetPurRet(id);
@@ -135,7 +138,10 @@ namespace Arasan.Controllers.Sales
                         //ca.Bsgst = dt.Rows[0]["BSGST"].ToString();
                         //ca.Bcgst = dt.Rows[0]["BCGST"].ToString();
 
-
+                        DataTable ap = datatrans.GetData("select SUM(CGST) as cgst,SUM(SGST) as sgst,SUM(IGST) as igst from PRETDETAIL WHERE  PRETDETAIL.PRETBASICID='" + id + "'");
+                        ca.Bigst = Convert.ToDouble(ap.Rows[0]["igst"].ToString() == "" ? "0" : ap.Rows[0]["igst"].ToString());
+                        ca.Bsgst = Convert.ToDouble(ap.Rows[0]["sgst"].ToString() == "" ? "0" : ap.Rows[0]["sgst"].ToString());
+                        ca.Bcgst = Convert.ToDouble(ap.Rows[0]["cgst"].ToString() == "" ? "0" : ap.Rows[0]["cgst"].ToString());
 
 
                     }
@@ -198,13 +204,92 @@ namespace Arasan.Controllers.Sales
 
                     }
                 }
+               if(tag=="grn")
+                {
+                    DataTable dt = new DataTable();
+                    dt = DebitNoteBillService.GetGrnRet(id);
+                    if (dt.Rows.Count > 0)
+                    {
+                        ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
 
+
+                        ca.grnid = id;
+                        ca.Party = dt.Rows[0]["PARTYNAME"].ToString();
+                        ca.Partyid = dt.Rows[0]["PARTYID"].ToString();
+                        ca.PartyBal = dt.Rows[0]["NET"].ToString();
+                   
+                        //ca.PartyBal = dt.Rows[0]["NET"].ToString();
+                        //ca.Bigst = dt.Rows[0]["BIGST"].ToString();
+                        //ca.Bsgst = dt.Rows[0]["BSGST"].ToString();
+                        //ca.Bcgst = dt.Rows[0]["BCGST"].ToString();
+
+                         
+
+
+                    }
+                    DataTable dt2 = new DataTable();
+
+                    dt2 = DebitNoteBillService.GetGRNRetDetail(id);
+                    if (dt2.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt2.Rows.Count; i++)
+                        {
+                            tda = new DebitNoteItem();
+                            //DataTable dt3 = new DataTable();
+
+                            //dt3 = DebitNoteBillService.GetPurRetDoc(id);
+                            //if(dt3.Rows.Count > 0)
+                            //{
+                            //tda.Grnlst = BindGrnlst("");
+
+                            //tda.InvNo = dt3.Rows[0]["RGRNNO"].ToString();
+                            //tda.Invdate = dt3.Rows[0]["DOCDAT"].ToString();
+                            //}
+
+                            tda.InvNo = dt.Rows[0]["DOCID"].ToString();
+                            tda.Invdate = dt.Rows[0]["DOCDATE"].ToString();
+                            tda.Item = dt2.Rows[i]["ITEMID"].ToString();
+                            tda.Itemid = dt2.Rows[i]["itemi"].ToString();
+                            tda.Cf = dt2.Rows[i]["CF"].ToString();
+                            tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                            tda.InQty = dt2.Rows[i]["QTY"].ToString();
+                            tda.Qty = dt2.Rows[i]["DAMAGE_QTY"].ToString();
+                            tda.Rate = dt2.Rows[i]["RATE"].ToString();
+                            tda.Amount = dt2.Rows[i]["AMOUNT"].ToString();
+                            tda.CGST = dt2.Rows[i]["CGST"].ToString();
+                            tda.SGST = dt2.Rows[i]["SGST"].ToString();
+                            tda.IGST = dt2.Rows[i]["IGST"].ToString();
+                            tda.Total = dt2.Rows[i]["TOTAMT"].ToString();
+                            tda.CGSTP = dt2.Rows[i]["CGSTP"].ToString();
+                            tda.SGSTP = dt2.Rows[i]["SGSTP"].ToString();
+                            tda.IGSTP = dt2.Rows[i]["IGSTP"].ToString();
+
+                            //double ig = ca.Bigst;
+                            //double sg = ca.Bsgst;
+                            //double cg = ca.Bcgst;
+                            //if (dt2.Rows.Count > 1)
+                            //{
+                            //    i = 0;
+                            //    ca.Bigst = Convert.ToDouble(dt2.Rows[i]["CGST"].ToString() == "" ? "0" : dt2.Rows[i]["CGST"].ToString());
+                            //    ca.Bsgst = Convert.ToDouble(dt2.Rows[i]["SGST"].ToString() == "" ? "0" : dt2.Rows[i]["SGST"].ToString());
+                            //    ca.Bcgst = Convert.ToDouble(dt2.Rows[i]["CGST"].ToString() == "" ? "0" : dt2.Rows[i]["CGST"].ToString());
+                            //    double igtot = ig + ca.Bigst;
+                            //    double sgtot = sg + ca.Bsgst;
+                            //    double cgtot = cg + ca.Bcgst;
+                            //    ca.Bigst = igtot;
+                            //    ca.Bsgst = sgtot;
+                            //    ca.Bcgst = cgtot;
+                            //}
+                            tda.Isvalid = "Y";
+                            tda.ID = id;
+                            TData.Add(tda);
+                        }
+
+                    }
+                }
 
             }
-            DataTable ap = datatrans.GetData("select SUM(CGST) as cgst,SUM(SGST) as sgst,SUM(IGST) as igst from PRETDETAIL WHERE  PRETDETAIL.PRETBASICID='" + id + "'");
-            ca.Bigst = Convert.ToDouble(ap.Rows[0]["igst"].ToString() == "" ? "0" : ap.Rows[0]["igst"].ToString());
-            ca.Bsgst = Convert.ToDouble(ap.Rows[0]["sgst"].ToString() == "" ? "0" : ap.Rows[0]["sgst"].ToString());
-            ca.Bcgst = Convert.ToDouble(ap.Rows[0]["cgst"].ToString() == "" ? "0" : ap.Rows[0]["cgst"].ToString());
+          
             ca.Depitlst = TData;
             return View(ca);
         }
@@ -312,13 +397,13 @@ namespace Arasan.Controllers.Sales
             return View(Cy);
         }
 
-        public IActionResult DN_Approval(string PROID)
+        public IActionResult DN_Approval(string id)
         {
             DebitNoteBill grn = new DebitNoteBill();
             grn.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
             grn.createdby = Request.Cookies["UserId"];
             DataTable dt = new DataTable();
-            dt = DebitNoteBillService.GetDNDetails(PROID);
+            dt = DebitNoteBillService.GetDNDetails(id);
             List<GRNAccount> TData = new List<GRNAccount>();
             GRNAccount tda = new GRNAccount();
             DataTable dtParty = datatrans.GetData("select P.ACCOUNTNAME from PARTYMAST P where P.PARTYMASTID='" + dt.Rows[0]["PARTYID"].ToString() + "'");
@@ -330,9 +415,9 @@ namespace Arasan.Controllers.Sales
             double cgst = Convert.ToDouble(dt.Rows[0]["BCGST"].ToString() == "" ? "0" : dt.Rows[0]["BCGST"].ToString());
             double sgst = Convert.ToDouble(dt.Rows[0]["BSGST"].ToString() == "" ? "0" : dt.Rows[0]["BSGST"].ToString());
             double igst = Convert.ToDouble(dt.Rows[0]["BIGST"].ToString() == "" ? "0" : dt.Rows[0]["BIGST"].ToString());
-            string grnno = datatrans.GetDataString("select R.RGRNNO from DBNOTEBASIC D,PRETBASIC R where D.T1SOURCEID=R.PRETBASICID AND D.DBNOTEBASICID='"+ PROID + "'");
+            string grnno = datatrans.GetDataString("select R.RGRNNO from DBNOTEBASIC D,PRETBASIC R where D.T1SOURCEID=R.PRETBASICID AND D.DBNOTEBASICID='"+ id + "'");
 
-            DataTable dtnat = datatrans.GetData("select I.ITEMID,BL.QTY,U.UNITID from DBNOTEDETAIL BL,ITEMMASTER I,UNITMAST U where I.ITEMMASTERID=BL.ITEMID AND U.UNITMASTID=I.PRIUNIT AND DBNOTEBASICID='" + PROID + "'");
+            DataTable dtnat = datatrans.GetData("select I.ITEMID,BL.QTY,U.UNITID from DBNOTEDETAIL BL,ITEMMASTER I,UNITMAST U where I.ITEMMASTERID=BL.ITEMID AND U.UNITMASTID=I.PRIUNIT AND DBNOTEBASICID='" + id + "'");
             grn.Vmemo = "Against inward no:" + grnno + " , " + dtnat.Rows[0]["ITEMID"].ToString() + "-" + dtnat.Rows[0]["QTY"].ToString() + dtnat.Rows[0]["UNITID"].ToString() + " returned @ amount RS. " + net + " is debited in your account";
 
             
@@ -445,7 +530,7 @@ namespace Arasan.Controllers.Sales
             grn.TotalDRAmt = totaldebit;
             grn.Acclst = TData;
             grn.Accconfiglst = BindAccconfig();
-            grn.ID = PROID;
+            grn.ID = id;
             return View(grn);
         }
         public List<SelectListItem> BindAccconfig()
@@ -832,7 +917,7 @@ namespace Arasan.Controllers.Sales
                     id = dtUsers.Rows[i]["DBNOTEBASICID"].ToString(),
                     branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     docid = dtUsers.Rows[i]["DOCID"].ToString(),
-                    Docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     approve = Approve,
                     editrow = EditRow,
                     delrow = DeleteRow,

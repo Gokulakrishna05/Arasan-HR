@@ -147,7 +147,7 @@
                         <th> Order Qty </th>
                       @* <th> Pend. Qty </th>*@
                        <th> Bill Qty </th>
-                       @* <th> Recvd. Qty (Good)</th>*@
+                       <th> Recvd. Qty (Good)</th>
                          <th>  Recvd. Qty (Defect) </th>
                                  <th>Rate </th>
                                 <th> Amount</th>
@@ -163,7 +163,7 @@
                                   <th>SGST</th>
                                    <th>IGST</th>
                                     <th>Total Amount</th>
-                                   <th>LOT NO.</th>
+                                   @*<th>LOT NO.</th>*@
                                       <th>Purchase Type</th>
                         </tr>
                       </thead>
@@ -201,9 +201,9 @@
                                                                                                                                                          <td>
                                                                                                                                                             @Html.TextBoxFor(o => o.PoItem[i].BillQty, new { @id = "txtBillQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")"})
                                                                                                                                                         </td>
-                                                                                                                                                        @* <td>
+                                                                                                                                                         <td>
                                                                                                                                                             @Html.TextBoxFor(o => o.PoItem[i].Goodqty, new { @id = "txtGoodqty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})
-                                                                                                                                                        </td>*@
+                                                                                                                                                        </td>
                                                                                                                                                          <td>
                                                             @Html.TextBoxFor(o => o.PoItem[i].DamageQty, new { @id = "txtDamageQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@onkeyup = "changeQty(this," + i + ")"})
                                                                                                                                                         </td>
@@ -255,14 +255,14 @@
                                                                                                                                                          <td>
                                                                                                                                                             @Html.TextBoxFor(o => o.PoItem[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly"})
                                                                                                                                                         </td>
-                                                        @if (item.LOTYN == "YES")
+                                                       @* @if (item.LOTYN == "YES")
                                                         {
                                                             <td> @Html.TextBoxFor(o => o.PoItem[i].Lotno, new { @id = "txtLotno" + i, @class = "form-control", style = "width: 150px;" })</td>
                                                         }
                                                         else
                                                         {
                                                             <td></td>
-                                                        }
+                                                        }*@
 
 
                                                                                                                          <td>
@@ -757,10 +757,10 @@
                        pcking = 0;
 
                           var billqty = eval(orderqty) - eval(dmqty);
-                         
-        document.getElementById("txtBillQty" + i).value = billqty;
 
-        qty=billqty;
+            document.getElementById("txtGoodqty" + i).value = billqty;
+
+       // qty=billqty;
 
                     var tot = eval(qty) * eval(up);
                     document.getElementById("txtAmount" + i).value = tot.toFixed(2);
@@ -777,7 +777,8 @@
                     var totdisc = eval(tottax) - eval(Discperc);
                     document.getElementById("txtTotalAmount" + i).value = totdisc.toFixed(2);
 
-                    document.getElementById("txtCostRate" + i).value=eval(up)+eval(frieght)+eval(pcking);
+                    var crate=eval(up)+eval(frieght)+eval(pcking);
+            document.getElementById("txtCostRate" + i).value = crate.toFixed(2);
 
                    @* document.getElementById("txtPendingQty" + i).value = eval(orderqty) - eval(qty);*@
                       
@@ -838,50 +839,22 @@
                                                 }
                         j += 1;
                     });
-               
+               var roundamount = Math.ceil(totamount);
+
+            var round = eval(roundamount) - eval(totamount);
                      document.getElementById("txtFrieghtcharge").value = totfrieght.toFixed(2);
                    document.getElementById("txtPackingcharges").value = totpackamt.toFixed(2);
                    document.getElementById("txtGross").value = totamt.toFixed(2);
-                   document.getElementById("txtNet").value = totamount.toFixed(2);
-                 document.getElementById("hidnet").value = totamount.toFixed(2);
+                   document.getElementById("txtRound").value= round.toFixed(2);
+                   document.getElementById("txtNet").value = roundamount.toFixed(2);
+                 document.getElementById("hidnet").value = roundamount.toFixed(2);
                  document.getElementById("txtCGST").value = cgsttotamt.toFixed(2);
                  document.getElementById("txtSGST").value = sgsttotamt.toFixed(2);
                  document.getElementById("txtIGST").value = igsttotamt.toFixed(2);
             document.getElementById("txtDisc").value = totdis.toFixed(2);
                  //////////total net amount
 
-                 var netamt = document.getElementById("hidnet").value;
-                var frieght =document.getElementById("txtFrieghtcharge").value;
-                 var packing =document.getElementById("txtPackingcharges").value;
-    @*   var other =document.getElementById("txtOthercharges").value;
-                  var roundoff =document.getElementById("txtRound").value;
-                   var otherdeduct =document.getElementById("txtotherdeduction").value;*@
-                    var roundoff =document.getElementById("txtRound").value;
-                //alert(netamt);
-                var totamounts = 0;
-                var rotamt = 0;
-                  if (frieght == "")
-                        frieght = 0;
-
-                         if (packing == "")
-                        packing = 0;
-
-    @*   if (other == "")
-                        other = 0;*@
-
-                         if (roundoff == "")
-                        roundoff = 0;
-
-    @* if (otherdeduct == "")
-                        otherdeduct = 0;
-
-                         if (roundoffminus == "")
-                        roundoffminus = 0;*@
-
-                totamounts = eval(frieght) + eval(packing) + eval(roundoff) + eval(netamt) ;
-    @*  rotamt = eval(totamounts) - (eval(roundoffminus) + eval(otherdeduct));*@
-                 document.getElementById("txtNet").value = totamounts.toFixed(2);
-
+        
 
                 }
                 catch (ex) {
@@ -984,34 +957,18 @@ if (cgstamt == "")
                         k += 1;
                     });
 
+                      var roundamount = Math.ceil(nettotal);
 
+            var round = eval(roundamount) - eval(nettotal);
                    
                    document.getElementById("txtGross").value = totalamt.toFixed(2);
-                   document.getElementById("txtNet").value = nettotal.toFixed(2);
-                 document.getElementById("hidnet").value = nettotal.toFixed(2);
+                   document.getElementById("txtNet").value = roundamount.toFixed(2);
+                 document.getElementById("hidnet").value = roundamount.toFixed(2);
+                   document.getElementById("txtRound").value= round.toFixed(2);
                
                  //////////total net amount
 
-                 var netamt = document.getElementById("hidnet").value;
-                var frieght =document.getElementById("txtFrieghtcharge").value;
-                 var packing =document.getElementById("txtPackingcharges").value;
-
-                    var roundoff =document.getElementById("txtRound").value;
-                var totamounts = 0;
-                var rotamt = 0;
-                  if (frieght == "")
-                        frieght = 0;
-
-                         if (packing == "")
-                        packing = 0;
-
-
-                         if (roundoff == "")
-                        roundoff = 0;
-
-
-                totamounts = eval(frieght) + eval(packing) + eval(roundoff) + eval(netamt) ;
-                 document.getElementById("txtNet").value = totamounts.toFixed(2);
+              
 
             }
 </script>

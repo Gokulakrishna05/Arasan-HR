@@ -70,5 +70,6 @@ namespace Arasan.Interface
         DataTable Getstkqty(string ItemId, string locid, string brid);
         DataTable GetConstkqty(string ItemId, string locid, string brid);
         DataTable GetLotNo(string item, string loc, string branch);
+        DataTable GetAllAPProductionentryItems();
     }
 }

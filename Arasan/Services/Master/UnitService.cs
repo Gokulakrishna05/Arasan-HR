@@ -172,11 +172,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select UNITMASTID,UNITID from UNITMAST WHERE IS_ACTIVE='Y' order by UNITMAST.UNITMASTID DESC ";
+                SvSql = "Select IS_ACTIVE,UNITMASTID,UNITID from UNITMAST WHERE IS_ACTIVE='Y' order by UNITMAST.UNITMASTID DESC ";
             }
             else
             {
-                SvSql = "Select UNITMASTID,UNITID from UNITMAST WHERE IS_ACTIVE='N' order by UNITMAST.UNITMASTID DESC ";
+                SvSql = "Select IS_ACTIVE,UNITMASTID,UNITID from UNITMAST WHERE IS_ACTIVE='N' order by UNITMAST.UNITMASTID DESC ";
 
 
             }

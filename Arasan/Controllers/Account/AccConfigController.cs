@@ -123,10 +123,9 @@ namespace Arasan.Controllers
             return View(Cy);
         }
 
-        public IActionResult ListAccConfig(/*string Active*/)
+        public IActionResult ListAccConfig()
         {
-            //IEnumerable<AccConfig> cmp = AccConfigService.GetAllAccConfig(Active);
-            return View(/*cmp*/);
+            return View();
         }
 
 
@@ -243,21 +242,21 @@ namespace Arasan.Controllers
             }
         }
 
-        //public ActionResult Remove(string tag, int id)
-        //{
+        public ActionResult Remove(string tag, int id)
+        {
 
-        //    string flag = AccConfigService.RemoveChange(tag, id);
-        //    if (string.IsNullOrEmpty(flag))
-        //    {
+            string flag = AccConfigService.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
 
-        //        return RedirectToAction("ListAccConfig");
-        //    }
-        //    else
-        //    {
-        //        TempData["notice"] = flag;
-        //        return RedirectToAction("ListAccConfig");
-        //    }
-        //}
+                return RedirectToAction("ListAccConfig");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListAccConfig");
+            }
+        }
 
         public IActionResult ViewAccConfig(string id)
         {
@@ -300,25 +299,38 @@ namespace Arasan.Controllers
             return View(ac);
         }
 
-        public ActionResult MyListItemgrid()
+        public ActionResult MyListItemgrid(string strStatus)
         {
             List<Config> Reg = new List<Config>();
             DataTable dtUsers = new DataTable();
-
-            dtUsers = AccConfigService.GetAllConfig();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = AccConfigService.GetAllConfig(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
-
-                string DeleteRow = string.Empty;
-                string EditRow = string.Empty;
+                
                 string ViewRow = string.Empty;
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+                
 
-                ViewRow = "<a href=AccConfig?id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/view_icon.png' alt='View' /></a>";
-                EditRow = "<a href=AccConfig?id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
-                Reg.Add(new Config
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
+
+                    ViewRow = "<a href=AccConfig?id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/view_icon.png' alt='View' /></a>";
+                    EditRow = "<a href=AccConfig?id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+                    ViewRow = "";
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
+               
+                Reg.Add(new Config
+                { 
                     id = dtUsers.Rows[i]["ADCOMPHID"].ToString(),
                     schemedes = dtUsers.Rows[i]["ADSCHEMEDESC"].ToString(),
                     scheme = dtUsers.Rows[i]["ADSCHEME"].ToString(),

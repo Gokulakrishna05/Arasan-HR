@@ -197,6 +197,7 @@ namespace Arasan.Services.Master
                   
                     objCmd.Parameters.Add("PTEMPLATEID", OracleDbType.NVarchar2).Value = ss.FQCTemp;
                     objCmd.Parameters.Add("CURINGDAY", OracleDbType.NVarchar2).Value = ss.Curing;
+                    objCmd.Parameters.Add("AUTOINDENT", OracleDbType.NVarchar2).Value = ss.Auto;
                     if (ss.ID == null)
                     {
                         objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.createdby;
@@ -334,7 +335,7 @@ namespace Arasan.Services.Master
         public DataTable GetItemNameDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select IGROUP,ISUBGROUP,ITEMGROUP,SUBGROUPCODE,SUBCATEGORY,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MINSTK,PRIUNIT,HSN,SELLINGPRICE,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,TEMPLATEID,QCCOMPFLAG,LATPURPRICE,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,LEDGERNAME,PTEMPLATEID,CURINGDAY from ITEMMASTER where ITEMMASTERID=" + id + "";
+            SvSql = "Select IGROUP,ISUBGROUP,ITEMGROUP,SUBGROUPCODE,SUBCATEGORY,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MINSTK,PRIUNIT,HSN,SELLINGPRICE,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,TEMPLATEID,QCCOMPFLAG,LATPURPRICE,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,LEDGERNAME,PTEMPLATEID,CURINGDAY,AUTOINDENT from ITEMMASTER where ITEMMASTERID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

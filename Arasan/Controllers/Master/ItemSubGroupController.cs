@@ -125,7 +125,7 @@ namespace Arasan.Controllers.Master
                 {
 
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["ITEMSUBGROUPID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["ITEMSUBGROUPID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
 
                 }
 

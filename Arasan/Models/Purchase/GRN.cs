@@ -109,6 +109,8 @@ namespace Arasan.Models
         public long id { get; set; }
         public string branch { get; set; }
         public string supplier { get; set; }
+        public string damage { get; set; }
+      
         public string enqno { get; set; }
         public string docDate { get; set; }
         public string qcresult { get; set; }
@@ -117,6 +119,7 @@ namespace Arasan.Models
         public string grn { get; set; }
         public string pdf { get; set; }
         public string view { get; set; }
+        public string move { get; set; }
         public string acc { get; set; }
         public string pono { get; set; }
         //public string Account { get; set; }
@@ -124,7 +127,27 @@ namespace Arasan.Models
     //public class GRNitems
     //{
     //}
+    public class GRNItemsDetail
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string supplier { get; set; }
+        public string damage { get; set; }
 
+        public string enqno { get; set; }
+        public string docDate { get; set; }
+        public string qcresult { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        public string grn { get; set; }
+        public string pdf { get; set; }
+        public string view { get; set; }
+        public string move { get; set; }
+        public string movedn { get; set; }
+        public string acc { get; set; }
+        public string pono { get; set; }
+        //public string Account { get; set; }
+    }
     public class GRNAccount
     {
         public string Ledgername { get; set; }

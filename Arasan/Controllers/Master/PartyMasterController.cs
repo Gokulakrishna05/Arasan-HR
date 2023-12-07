@@ -330,9 +330,20 @@ namespace Arasan.Controllers.Master
                     string DeleteRow = string.Empty;
                     string EditRow = string.Empty;
 
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
+
                     EditRow = "<a href=PartyMaster?id=" + dtUsers.Rows[i]["PARTYMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["PARTYMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
 
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["PARTYMASTID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
+                
                     Reg.Add(new PartyGrid
                     {
                         id = dtUsers.Rows[i]["PARTYMASTID"].ToString(),

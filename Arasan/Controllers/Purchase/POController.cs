@@ -294,7 +294,7 @@ namespace Arasan.Controllers
                 string MailRow = string.Empty;
                 string GeneratePO = string.Empty;
                 string MoveToGRN = string.Empty;
-                string Download = string.Empty;
+                //string Download = string.Empty;
                 string View = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
@@ -314,7 +314,7 @@ namespace Arasan.Controllers
 
 
                 }
-                Download = "<a href=CreatePDF?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
+                //Download = "<a href=CreatePDF?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
                 View = "<a href=ViewPOrder?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
@@ -329,7 +329,7 @@ namespace Arasan.Controllers
                     mailrow = MailRow,
                     genpo = GeneratePO,
                     move = MoveToGRN,
-                    download = Download,
+                    //download = Download,
                     view = View,
                     editrow = EditRow,
                     delrow = DeleteRow,
@@ -881,6 +881,7 @@ namespace Arasan.Controllers
             var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
 
             return File(result.MainStream, "application/Pdf");
+            //responce.redirect();
             //            FunctionExecutor.Run((string[] args) =>
             //            {
 
