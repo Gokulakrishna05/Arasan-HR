@@ -131,10 +131,19 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable GetAllType()
+        public DataTable GetAllType(string strStatus)
         {
             string SvSql = string.Empty;
-            SvSql = "select  ACCTYPE.ACCOUNTTYPEID,ACCCLASS.ACCOUNT_CLASS,ACCTYPE.ACCOUNTCODE,ACCTYPE.ACCOUNTTYPE from ACCTYPE LEFT OUTER JOIN ACCCLASS ON ACCCLASS.ACCCLASSID = ACCTYPE.ACCCLASSID WHERE ACCTYPE.IS_ACTIVE = 'Y' ORDER BY ACCOUNTTYPEID DESC ";
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "select  ACCTYPE.IS_ACTIVE,ACCTYPE.ACCOUNTTYPEID,ACCCLASS.ACCOUNT_CLASS,ACCTYPE.ACCOUNTCODE,ACCTYPE.ACCOUNTTYPE from ACCTYPE LEFT OUTER JOIN ACCCLASS ON ACCCLASS.ACCCLASSID = ACCTYPE.ACCCLASSID WHERE ACCTYPE.IS_ACTIVE = 'Y' ORDER BY ACCOUNTTYPEID DESC ";
+
+            }
+            else
+            {
+                SvSql = "select  ACCTYPE.IS_ACTIVE,ACCTYPE.ACCOUNTTYPEID,ACCCLASS.ACCOUNT_CLASS,ACCTYPE.ACCOUNTCODE,ACCTYPE.ACCOUNTTYPE from ACCTYPE LEFT OUTER JOIN ACCCLASS ON ACCCLASS.ACCCLASSID = ACCTYPE.ACCCLASSID WHERE ACCTYPE.IS_ACTIVE = 'N' ORDER BY ACCOUNTTYPEID DESC ";
+
+            }
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
