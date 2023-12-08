@@ -281,5 +281,19 @@ namespace Arasan.Models
         public double CONSQTY { get; set; }
 
     }
+    public class APProductionentryItems
+    {
+        public double id { get; set; }
+        public string docNo { get; set; }
+        public string docDate { get; set; }
+        public string workcenter { get; set; }
+        public string empname { get; set; }
+        public string shi { get; set; }
+        public string view { get; set; }
+        public string print { get; set; }
+        public string approve { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+    }
 }
 
