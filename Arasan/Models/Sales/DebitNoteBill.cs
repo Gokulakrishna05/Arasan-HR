@@ -80,6 +80,7 @@ namespace Arasan.Models
         public string docdate { get; set; }
         public string discount { get; set; }
         public string approve { get; set; }
+        public string view { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
     }

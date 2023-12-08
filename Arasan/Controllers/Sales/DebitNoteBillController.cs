@@ -924,12 +924,21 @@ namespace Arasan.Controllers.Sales
 
                 string Approve = string.Empty;
                 string DeleteRow = string.Empty;
-                string EditRow = string.Empty;
-                  
-                //<td>< div class="fa-hover col-md-2 col-sm-4"> <a href = "@Url.Action("DN_Approval", "DebitNoteBill",new { PROID=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src = '../Images/checklist.png' alt='Waiting for approval' /></a></div></td>
+                string View = string.Empty;
 
-                Approve = "<a href=DN_Approval?id=" + dtUsers.Rows[i]["DBNOTEBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Waiting for approval' /></a>";
-                EditRow = "<a href=DebitNoteBill?id=" + dtUsers.Rows[i]["DBNOTEBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                //<td>< div class="fa-hover col-md-2 col-sm-4"> <a href = "@Url.Action("DN_Approval", "DebitNoteBill",new { PROID=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src = '../Images/checklist.png' alt='Waiting for approval' /></a></div></td>
+                if (dtUsers.Rows[i]["TOTDIS"].ToString() == null)
+                {
+                    Approve = "<a href=DN_Approval?id=" + dtUsers.Rows[i]["DBNOTEBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Waiting for approval' /></a>";
+
+                    View = "<a href=ViewDebitNoteBill?id=" + dtUsers.Rows[i]["DBNOTEBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                }
+                else
+                {
+                    Approve = "<a href=DN_Approval?tag=FDid=" + dtUsers.Rows[i]["DBNOTEBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Waiting for approval' /></a>";
+
+                    View = "<a href=ViewFDDebitNoteBill?tag=FD&id=" + dtUsers.Rows[i]["DBNOTEBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                }
                 DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["DBNOTEBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new DebitNoteBillGrid
@@ -940,7 +949,7 @@ namespace Arasan.Controllers.Sales
                     docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     discount = dtUsers.Rows[i]["TOTDIS"].ToString(),
                     approve = Approve,
-                    editrow = EditRow,
+                    view = View,
                     delrow = DeleteRow,
 
                 });
@@ -1049,6 +1058,142 @@ namespace Arasan.Controllers.Sales
                 
 
             }
+
+            ca.Depdislst = TData;
+            return View(ca);
+        }
+        public IActionResult ViewDebitNoteBill(string id,string tag)
+        {
+            DebitNoteBill ca = new DebitNoteBill();
+          
+            List<DebitNoteFuture> TData = new List<DebitNoteFuture>();
+            DebitNoteFuture tda = new DebitNoteFuture();
+            if (tag != "FD")
+            {
+
+                DataTable dt = new DataTable();
+                dt = DebitNoteBillService.GetDebitNoteBillDetail(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.Vocher = dt.Rows[0]["VTYPE"].ToString();
+                    ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                    ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.Party = dt.Rows[0]["PARTYNAME"].ToString();
+                    ca.PartyBal = dt.Rows[0]["PARTYBALANCE"].ToString();
+                    ca.grnid = id;
+                    ca.RefNo = dt.Rows[0]["REFNO"].ToString();
+                    ca.RefDate = dt.Rows[0]["REFDT"].ToString();
+                    ca.Partyid = dt.Rows[0]["PARTYID"].ToString();
+                    ca.Gross = dt.Rows[0]["GROSS"].ToString();
+                    ca.Net = dt.Rows[0]["NET"].ToString();
+                    ca.PartyBal = dt.Rows[0]["NET"].ToString();
+                    ca.Amount = dt.Rows[0]["AMTINWRD"].ToString();
+                    ca.discount = dt.Rows[0]["TOTDIS"].ToString();
+                    ca.Bigst = Convert.ToDouble(dt.Rows[0]["BCGST"].ToString() == "" ? "0" : dt.Rows[0]["BCGST"].ToString());
+                    ca.Bsgst = Convert.ToDouble(dt.Rows[0]["BSGST"].ToString() == "" ? "0" : dt.Rows[0]["BSGST"].ToString());
+                    ca.Bcgst = Convert.ToDouble(dt.Rows[0]["BCGST"].ToString() == "" ? "0" : dt.Rows[0]["BCGST"].ToString());
+                    ca.Narration = dt.Rows[0]["NARRATION"].ToString();
+
+
+
+
+                    DataTable dt2 = new DataTable();
+
+                    dt2 = DebitNoteBillService.GetDebitNoteBillItem(id);
+                    if (dt2.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt2.Rows.Count; i++)
+                        {
+                            tda = new DebitNoteFuture();
+                            //tda.Grnlst = BindGrnlst("");
+                            //tda.Grnlst = BindGrnlst(ca.Party);
+                            tda.InvNo = dt2.Rows[i]["DOCID"].ToString();
+                            tda.Invid = dt2.Rows[i]["DOCID"].ToString();
+                            tda.invdate = dt2.Rows[i]["INVDT"].ToString();
+                            //tda.Itemlst = BindItemlst(tda.InvNo);
+                            tda.item = dt2.Rows[i]["ITEMID"].ToString();
+                            tda.cf = dt2.Rows[i]["CONVFACTOR"].ToString();
+                            tda.unit = dt2.Rows[i]["PRIUNIT"].ToString();
+                            tda.Qty = dt2.Rows[i]["QTY"].ToString();
+                            tda.rate = dt2.Rows[i]["RATE"].ToString();
+                            tda.amount = dt2.Rows[i]["AMOUNT"].ToString();
+                            tda.disamt = dt2.Rows[i]["DISAMT"].ToString();
+                            tda.cgst = dt2.Rows[i]["CGST"].ToString();
+                            tda.sgst = dt2.Rows[i]["SGST"].ToString();
+                            tda.igst = dt2.Rows[i]["IGST"].ToString();
+                            tda.total = dt2.Rows[i]["TOTAMT"].ToString();
+                            tda.Isvalid = "Y";
+                            tda.ID = id;
+                            TData.Add(tda);
+                        }
+
+                    }
+                }
+            }
+            else
+            {
+                DataTable dt = new DataTable();
+                dt = DebitNoteBillService.GetDebitNoteBillDetail(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.Vocher = dt.Rows[0]["VTYPE"].ToString();
+                    ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                    ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.Party = dt.Rows[0]["PARTYNAME"].ToString();
+                    ca.PartyBal = dt.Rows[0]["PARTYBALANCE"].ToString();
+                    ca.grnid = id;
+                    ca.RefNo = dt.Rows[0]["REFNO"].ToString();
+                    ca.RefDate = dt.Rows[0]["REFDT"].ToString();
+                    ca.Partyid = dt.Rows[0]["PARTYID"].ToString();
+                    ca.Gross = dt.Rows[0]["GROSS"].ToString();
+                    ca.Net = dt.Rows[0]["NET"].ToString();
+                    ca.discount = dt.Rows[0]["TOTDIS"].ToString();
+                    ca.PartyBal = dt.Rows[0]["NET"].ToString();
+                    ca.Amount = dt.Rows[0]["AMTINWRD"].ToString();
+                    ca.Bigst = Convert.ToDouble(dt.Rows[0]["BCGST"].ToString() == "" ? "0" : dt.Rows[0]["BCGST"].ToString());
+                    ca.Bsgst = Convert.ToDouble(dt.Rows[0]["BSGST"].ToString() == "" ? "0" : dt.Rows[0]["BSGST"].ToString());
+                    ca.Bcgst = Convert.ToDouble(dt.Rows[0]["BCGST"].ToString() == "" ? "0" : dt.Rows[0]["BCGST"].ToString());
+                    ca.Narration = dt.Rows[0]["NARRATION"].ToString();
+
+                }
+
+
+                    DataTable dt2 = new DataTable();
+
+                    dt2 = DebitNoteBillService.GetDebitNoteBillItem(id);
+                    if (dt2.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt2.Rows.Count; i++)
+                        {
+                            tda = new DebitNoteFuture();
+                            //tda.Grnlst = BindGrnlst("");
+                            //tda.Grnlst = BindGrnlst(ca.Party);
+                            tda.InvNo = dt2.Rows[i]["DOCID"].ToString();
+                            tda.Invid = dt2.Rows[i]["DOCID"].ToString();
+                            tda.invdate = dt2.Rows[i]["INVDT"].ToString();
+                            //tda.Itemlst = BindItemlst(tda.InvNo);
+                            tda.item = dt2.Rows[i]["ITEMID"].ToString();
+                            tda.cf = dt2.Rows[i]["CONVFACTOR"].ToString();
+                            tda.unit = dt2.Rows[i]["PRIUNIT"].ToString();
+                            tda.Qty = dt2.Rows[i]["QTY"].ToString();
+                            tda.rate = dt2.Rows[i]["RATE"].ToString();
+                            tda.amount = dt2.Rows[i]["AMOUNT"].ToString();
+                            tda.cgst = dt2.Rows[i]["CGST"].ToString();
+                            tda.sgst = dt2.Rows[i]["SGST"].ToString();
+                            tda.igst = dt2.Rows[i]["IGST"].ToString();
+                            tda.total = dt2.Rows[i]["TOTAMT"].ToString();
+                        tda.disamt = dt2.Rows[i]["DISAMT"].ToString();
+                        tda.Isvalid = "Y";
+                            tda.ID = id;
+                            TData.Add(tda);
+                        }
+
+                    }
+
+                }
+
 
             ca.Depdislst = TData;
             return View(ca);
