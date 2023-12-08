@@ -13,10 +13,12 @@ namespace Arasan.Models
             this.assignList = new List<SelectListItem>();
             this.Partylst = new List<SelectListItem>();
             this.currlst = new List<SelectListItem>();
+            this.Arealst = new List<SelectListItem>();
         }
         public List<SelectListItem> Partylst;
         public string party { get; set; }
         public List<SelectListItem> currlst;
+        public List<SelectListItem> Arealst;
         public string Curr { get; set; }
 
         public List<SelectListItem> Brlst;
@@ -63,6 +65,8 @@ namespace Arasan.Models
         public List<ReturnItem> returnlist { get; set; }
         public string Addr { get; set; }
         public string Address { get; set; }
+        public string Areaid { get; set; }
+
         public string Phone { get; set; }
         public string Pin { get; set; }
         public List<SelectListItem> Citylst;

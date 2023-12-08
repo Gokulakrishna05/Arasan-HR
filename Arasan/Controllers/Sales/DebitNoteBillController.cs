@@ -711,7 +711,7 @@ namespace Arasan.Controllers.Sales
         public JsonResult GetPartyJSON(string supid)
         {
             //string CityID = datatrans.GetDataString("Select STATEMASTID from STATEMAST where STATE='" + supid + "' ");
-            DebitNoteItem model = new DebitNoteItem();
+            DebitNoteBill  model = new DebitNoteBill();
             model.Grnlst = BindGrnlst(supid);
             return Json(BindGrnlst(supid));
 
@@ -745,7 +745,7 @@ namespace Arasan.Controllers.Sales
             return Json(BindLedger(itemid));
 
         }
-        public ActionResult GetItemDetail(string ItemId,string grnid)
+        public ActionResult GetItemDetail(string ItemId )
         {
             try
             {
@@ -756,21 +756,15 @@ namespace Arasan.Controllers.Sales
                 //string item = "";
                 //string ItemType = "";
                 //string ItemSpec = "";
-                string cf = "";
-                string unit = "";
-                string qty = "";
-                string rate = "";
-                string amount = "";
-                string cgstp = "";
-                string sgstp = "";
-                string igstp = "";
-
+                string indate = "";
                 string cgst = "";
                 string sgst = "";
                 string igst = "";
-                string total = "";
+                string gross = "";
+                string net = "";
+                
 
-                dt = DebitNoteBillService.GetItemDetails(ItemId, grnid);
+                dt = DebitNoteBillService.GetItemDetails(ItemId );
 
                 if (dt.Rows.Count > 0)
                 {
@@ -780,22 +774,48 @@ namespace Arasan.Controllers.Sales
                     //item = dt.Rows[0]["ITEMID"].ToString();
                     //ItemType = dt.Rows[0]["UNITID"].ToString();
                     //ItemSpec = dt.Rows[0]["UNITID"].ToString();
-                    cf = dt.Rows[0]["CF"].ToString();
-                    unit = dt.Rows[0]["PUNIT"].ToString();
-                    qty = dt.Rows[0]["QTY"].ToString();
-                    rate = dt.Rows[0]["RATE"].ToString();
-                    amount = dt.Rows[0]["AMOUNT"].ToString();
-                    cgstp = dt.Rows[0]["CGSTP"].ToString();
-                    sgstp = dt.Rows[0]["SGSTP"].ToString();
-                    igstp = dt.Rows[0]["IGSTP"].ToString();
+                    indate = dt.Rows[0]["DOCDATE"].ToString();
                     cgst = dt.Rows[0]["CGST"].ToString();
                     sgst = dt.Rows[0]["SGST"].ToString();
                     igst = dt.Rows[0]["IGST"].ToString();
-                    total = dt.Rows[0]["TOTAMT"].ToString();
+                    gross = dt.Rows[0]["GROSS"].ToString();
+                    net = dt.Rows[0]["NET"].ToString();
+                   
 
                 }
 
-                var result = new { cf = cf, unit = unit, qty = qty, rate = rate, amount = amount, cgstp= cgstp, sgstp= sgstp, igstp= igstp, cgst = cgst, sgst = sgst, igst = igst, total = total };
+                var result = new { indate = indate, cgst = cgst, sgst = sgst, igst = igst, gross = gross, net = net };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetGRNDate(string ItemId )
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+ 
+                string invDate = "";
+
+
+                 dt = datatrans.GetData("Select to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE from GRNBLBASIC where GRNBLBASIC.GRNBLBASICID='" + ItemId + "'");
+
+
+                if (dt.Rows.Count > 0)
+                {
+
+
+                    invDate = dt.Rows[0]["DOCDATE"].ToString();
+                    
+                    
+
+                }
+
+                var result = new { invDate = invDate };
                 return Json(result);
             }
             catch (Exception ex)
@@ -811,7 +831,7 @@ namespace Arasan.Controllers.Sales
 
 
         //       string invDate = "";
-               
+
 
         //        dt = DebitNoteBillService.GetInvoDates(ItemId);
 
@@ -918,6 +938,7 @@ namespace Arasan.Controllers.Sales
                     branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     docid = dtUsers.Rows[i]["DOCID"].ToString(),
                     docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    discount = dtUsers.Rows[i]["TOTDIS"].ToString(),
                     approve = Approve,
                     editrow = EditRow,
                     delrow = DeleteRow,
@@ -930,6 +951,206 @@ namespace Arasan.Controllers.Sales
                 Reg
             });
 
+        }
+
+
+        public IActionResult DebitNoteBillDet(string id )
+        {
+            DebitNoteBill ca = new DebitNoteBill();
+            ca.Brlst = BindBranch();
+            ca.Partylst = BindGParty();
+            ca.Vocherlst = BindVocher();
+            ca.Grnlst = BindGrnlst("");
+            ca.Vocher = "R";
+            DataTable dtv = datatrans.GetSequence("Dbnot");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
+            ca.Location = Request.Cookies["LocationId"];
+            ca.Branch = Request.Cookies["BranchId"];
+            ca.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            List<DebitNoteFuture> TData = new List<DebitNoteFuture>();
+            DebitNoteFuture tda = new DebitNoteFuture();
+            if (id == null)
+            {
+                tda = new DebitNoteFuture();
+              
+                tda.Itemlst = BindItemlst("");
+                tda.invdate = DateTime.Now.ToString("dd-MMM-yyyy");
+                //tda.CGSTP = "9";
+                //tda.SGSTP = "9";
+                //tda.IGSTP = "0";
+                tda.Isvalid = "Y";
+                TData.Add(tda);
+
+            }
+            else
+            {
+                
+                    DataTable dt = new DataTable();
+                    dt = DebitNoteBillService.GetDebitNoteBillDetail(id);
+                    if (dt.Rows.Count > 0)
+                    {
+                        ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                        ca.Vocher = dt.Rows[0]["VTYPE"].ToString();
+                        ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                        ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                        ca.Party = dt.Rows[0]["PARTYNAME"].ToString();
+                        ca.PartyBal = dt.Rows[0]["PARTYBALANCE"].ToString();
+                        ca.grnid = id;
+                        ca.RefNo = dt.Rows[0]["REFNO"].ToString();
+                        ca.RefDate = dt.Rows[0]["REFDT"].ToString();
+                        ca.Partyid = dt.Rows[0]["PARTYID"].ToString();
+                        ca.Gross = dt.Rows[0]["GROSS"].ToString();
+                        ca.Net = dt.Rows[0]["NET"].ToString();
+                        ca.PartyBal = dt.Rows[0]["NET"].ToString();
+                        ca.Amount = dt.Rows[0]["AMTINWRD"].ToString();
+                        ca.Bigst = Convert.ToDouble(dt.Rows[0]["BCGST"].ToString() == "" ? "0" : dt.Rows[0]["BCGST"].ToString());
+                        ca.Bsgst = Convert.ToDouble(dt.Rows[0]["BSGST"].ToString() == "" ? "0" : dt.Rows[0]["BSGST"].ToString());
+                        ca.Bcgst = Convert.ToDouble(dt.Rows[0]["BCGST"].ToString() == "" ? "0" : dt.Rows[0]["BCGST"].ToString());
+                        ca.Narration = dt.Rows[0]["NARRATION"].ToString();
+
+
+
+                    }
+                    DataTable dt2 = new DataTable();
+
+                    dt2 = DebitNoteBillService.GetDebitNoteBillItem(id);
+                    if (dt2.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt2.Rows.Count; i++)
+                        {
+                            tda = new DebitNoteFuture();
+                            //tda.Grnlst = BindGrnlst("");
+                            //tda.Grnlst = BindGrnlst(ca.Party);
+                            tda.InvNo = dt2.Rows[i]["DOCID"].ToString();
+                            tda.Invid = dt2.Rows[i]["DOCID"].ToString();
+                            tda.invdate = dt2.Rows[i]["INVDT"].ToString();
+                            //tda.Itemlst = BindItemlst(tda.InvNo);
+                            tda.item = dt2.Rows[i]["ITEMID"].ToString();
+                            tda.cf = dt2.Rows[i]["CONVFACTOR"].ToString();
+                            tda.unit = dt2.Rows[i]["PRIUNIT"].ToString();
+                            tda.Qty = dt2.Rows[i]["QTY"].ToString();
+                            tda.rate = dt2.Rows[i]["RATE"].ToString();
+                            tda.amount = dt2.Rows[i]["AMOUNT"].ToString();
+                            tda.cgst = dt2.Rows[i]["CGST"].ToString();
+                            tda.sgst = dt2.Rows[i]["SGST"].ToString();
+                            tda.igst = dt2.Rows[i]["IGST"].ToString();
+                            tda.total = dt2.Rows[i]["TOTAMT"].ToString();
+                            tda.Isvalid = "Y";
+                            tda.ID = id;
+                            TData.Add(tda);
+                        }
+
+                    }
+             
+                
+
+            }
+
+            ca.Depdislst = TData;
+            return View(ca);
+        }
+        public ActionResult GetInvoiceDetail(string ItemId)
+        {
+            DebitNoteBill ca = new DebitNoteBill();
+            List<DebitNoteFuture> TData = new List<DebitNoteFuture>();
+            DebitNoteFuture tda = new DebitNoteFuture();
+
+            DataTable dt1 = new DataTable();
+
+            dt1 = DebitNoteBillService.GetInvoiceDate(ItemId);
+            DataTable dt2 = new DataTable();
+
+                    dt2 = DebitNoteBillService.GetInvoiceDetails(ItemId);
+                    if (dt2.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt2.Rows.Count; i++)
+                        {
+                            tda = new DebitNoteFuture();
+                    //DataTable dt3 = new DataTable();
+
+                    //dt3 = DebitNoteBillService.GetPurRetDoc(id);
+                    //if(dt3.Rows.Count > 0)
+                    //{
+                    //tda.Grnlst = BindGrnlst("");
+
+                    //tda.InvNo = dt3.Rows[0]["RGRNNO"].ToString();
+                    //tda.Invdate = dt3.Rows[0]["DOCDAT"].ToString();
+                    //}
+
+
+                    tda.invdate = dt1.Rows[0]["DOCDATE"].ToString();
+                    tda.item = dt2.Rows[i]["ITEMID"].ToString();
+                            tda.itemid = dt2.Rows[i]["itemi"].ToString();
+                            tda.cf = dt2.Rows[i]["CF"].ToString();
+                            tda.unit = dt2.Rows[i]["UNITID"].ToString();
+                            tda.inqty = dt2.Rows[i]["QTY"].ToString();
+                            //tda.Qty = dt2.Rows[i]["DAMAGE_QTY"].ToString();
+                            tda.rate = dt2.Rows[i]["RATE"].ToString();
+                            tda.amount = dt2.Rows[i]["AMOUNT"].ToString();
+                            tda.cgst = dt2.Rows[i]["CGST"].ToString();
+                            tda.sgst = dt2.Rows[i]["SGST"].ToString();
+                            tda.igst = dt2.Rows[i]["IGST"].ToString();
+                            tda.total = dt2.Rows[i]["TOTAMT"].ToString();
+                            tda.cgstp = dt2.Rows[i]["CGSTP"].ToString();
+                            tda.sgstp = dt2.Rows[i]["SGSTP"].ToString();
+                            tda.igstp = dt2.Rows[i]["IGSTP"].ToString();
+
+                            
+                            tda.Isvalid = "Y";
+                            tda.ID = ItemId;
+                            TData.Add(tda);
+                        
+
+                    }
+                }
+
+            ca.Depdislst = TData;
+            return Json(ca.Depdislst);
+
+
+          
+        }
+
+        [HttpPost]
+        public ActionResult DebitNoteBillDet(DebitNoteBill Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = DebitNoteBillService.DebitNoteBillDetCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "DebitNoteBill Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "DebitNoteBill Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListDebitNoteBill");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit DebitNoteBill";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
         }
     }
 }

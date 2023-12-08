@@ -615,5 +615,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public DataTable GetArea(string custid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ADDBOOKTYPE,PARTYMASTADDRESSID from PARTYMASTADDRESS where PARTYMASTID='" + custid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
