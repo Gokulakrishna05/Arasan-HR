@@ -779,8 +779,7 @@
                     var itemid = "<td><input class='form-control' id='ddlItem " + index + "' name='QuoLst[" + index + "].itemid'  style='width: 100px;' type='text'  readonly='True'  value=" + item.itemid + " /></td>";
                     var unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QuoLst[" + index + "].unit'  style='width: 100px;' type='text'  readonly='True'  value=" + item.unit + " /></td>";
                     var confac = "<td><input class='form-control' id='txtConFac" + index + "' name='QuoLst[" + index + "].confac'  style='width: 100px;' type='text'  readonly='True'  value=" + item.confac + " /></td>";
-@*                    var confac = "<td><input class='form-control' id='txtConFac" + index + "' name='QuoLst[" + index + "].confac'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px; text-align:right' type='text'   /></td> ";
-*@                       
+                    
                     var cgstp = "<td><input class='form-control' id='txtCGSTP" + index + "' name='QuoLst[" + index + "].cgstp'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' onchange = 'changeQty(this.value," + index + ")'  /></td> ";
 
                     var quantity = " <td><input class='form-control' id='txtQuantity" + index + "' name='QuoLst[" + index + "].quantity'  style='width: 100px;' type='text'  readonly='True'  value=" + item.quantity + "   /></td>";

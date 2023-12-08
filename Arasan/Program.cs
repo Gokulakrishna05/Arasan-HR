@@ -176,6 +176,7 @@ internal class Program
 
         builder.Services.TryAddSingleton<IETariff, ETariffService>();
         builder.Services.TryAddSingleton<ICreditorDebitNote, CreditorDebitNoteService>();
+        builder.Services.TryAddSingleton<IRetNonRetDc, RetNonRetDcService>();
 
 
 
