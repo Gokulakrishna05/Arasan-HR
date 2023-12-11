@@ -1,9 +1,9 @@
-﻿@model Arasan.Models.AccountType
+﻿@model Arasan.Models.RetNonRetDc
 @{
-    ViewData["Title"] = "ListAccountType";
-    //string query = ViewContext.HttpContext.Request.Query["status"];
+    ViewData["Title"] = "ListRetNonRetDc";
+    //string query = ViewContext.HttpContext.Request.Query["Active"];
     //string Qid = string.Empty;
-    //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
+    //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["Active"]; }
 }
 <partial name="JqxGridPartial" />
 
@@ -18,88 +18,92 @@
     <div class="col-lg-12">
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Master</a> </li>
-            <li class="active"> <strong> AccountType </strong> </li>
+            <li> <a>Store Management</a> </li>
+            <li class="active"> <strong> Returnable NonReturnable Dc </strong> </li>
         </ol>
     </div>
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        var source =
-        {
-                url: "/AccountType/MyListItemgrid",
+        $(document).ready(function () {
+            var source =
+            {
+                url: "/RetNonRetDc/MyListItemgrid",
 
-            data: {
-                strstatus: ""
-            },
-            datatype: "json",
-            updaterow: function (rowid, rowdata) {
-                // synchronize with the server - send update command
-            },
-            datafields: [
-                    { name: 'accountclass', type: 'string' },
-                    { name: 'accounttype', type: 'string' },
-                    { name: 'accountCode', type: 'string' },
+                data: {
+                    strstatus: ""
+                },
+                datatype: "json",
+                updaterow: function (rowid, rowdata) {
+                    // synchronize with the server - send update command
+                },
+                datafields: [
+                    { name: 'did', type: 'string' },
+                    { name: 'ddate', type: 'string' },
+                    { name: 'dctype', type: 'string' },
+                    { name: 'party', type: 'string' },
                     { name: 'editrow', type: 'string' },
                     { name: 'delrow', type: 'string' },
 
-            ],
-            id: 'id',
-        };
-        var dataAdapter = new $.jqx.dataAdapter(source,
-            { contentType: 'application/json; charset=utf-8' }, {
-            loadComplete: function () {
 
+                ],
+                id: 'id',
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source,
+                { contentType: 'application/json; charset=utf-8' }, {
+                loadComplete: function () {
+
+                }
             }
-        }
-        );
+            );
 
-        $("#grid").jqxGrid(
-            {
+            $("#grid").jqxGrid(
+                {
 
-                width: '100%',
-                source: dataAdapter,
-                //height: 450,
-                autorowheight: true,
-                autoheight: true,
-                source: source,
-                sortable: true,
-                filterable: true,
-                groupable: false,
-                pageable: true,
-                showfilterbar: true,
-                //showfilterrow: true,
+                    width: '100%',
+                    source: dataAdapter,
+                    //height: 450,
+                    autorowheight: true,
+                    autoheight: true,
+                    source: source,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
                     filterbarmode: 'simple',
 
-                theme: 'darkblue',
-                enablebrowserselection: true,
-                columns: [
-                        { text: 'Account Class', filtertype: 'checkedlist', datafield: 'accountclass', width: 200 },
-                        { text: 'AccountType', filtertype: 'input', datafield: 'accounttype', width: 200 },
-                        { text: 'AccountCode', datafield: 'accountCode', width: 300 },
+                    theme: 'darkblue',
+                    enablebrowserselection: true,
+                    columns: [
+
+                        { text: 'Doc ID', filtertype: 'checkedlist', datafield: 'did', width: 200 },
+                        { text: 'Doc Date', filtertype: 'checkedlist', datafield: 'ddate', width: 200 },
+                        { text: 'DC Type', filtertype: 'input', datafield: 'dctype', width: 300 },
+                        { text: 'Party ID', datafield: 'party', width: 110, align: 'center' },
                         { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                         { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
-
-                ]
+                    ]
+                });
+            $("#ddlStatus").change(function () {
+                var value = "Y";
+                if ($(this).val() != "") {
+                    value = $(this).val();
+                }
+                source.data = {
+                    strstatus: value
+                };
+                $("#grid").jqxGrid({ source: source });
             });
-        $("#ddlStatus").change(function () {
-            var value = "Y";
-            if ($(this).val() != "") {
-                value = $(this).val();
-            }
-            source.data = {
-                strstatus: value
-            };
-            $("#grid").jqxGrid({ source: source });
         });
-    });
 
-     function returnMyLink(cellValue, options, rowdata, action) {
+    function returnMyLink(cellValue, options, rowdata, action) {
         return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
     }
 
 </script>
+
 
 
 <div class="wrapper-content ">
@@ -109,7 +113,6 @@
                 <div class="widgets-container">
 
                     <form>
-                            
                         <div class="row">
                             <div class="col-md-2 ">
 
@@ -118,15 +121,14 @@
                                 new SelectListItem() {Text = "Disabled", Value="N"}},
                                 new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
                             </div>
-
-
-                            <div class="col-md-12 ">
+                            <div class="col-md-9 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("AccountType","AccountType")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add AccountType</a>
+                                    <a href="@Url.Action("RetNonRetDc","RetNonRetDc")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Returnable NonReturnable Dc</a>
                                     <br>
                                 </div>
 
                             </div>
+
                         </div>
                         <div class="row">
 
@@ -136,12 +138,11 @@
                             </div>
                         </div>
 
-                      
                     </form>
-
                 </div>
+
             </div>
-       </div>
+        </div>
     </div>
 </div>
 
@@ -150,6 +151,7 @@
         return confirm("Are you sure you want to delete?");
     }
 </script>
+
 
 @*<script>
     $(document).ready(function () {
@@ -177,8 +179,6 @@
                 className: 'btn purple  btn-outline'
             }]
         });
-
-
 
     });
 </script>
@@ -211,8 +211,10 @@
         });
         $(".fancybox1").eq(0).trigger('click');
     }
+
+
     function changeStatus(status) {
-        var url = "/AccountType/ListAccountType?status=" + status;
+        var url = "/DirectAddition/ListDirectAddition?status=" + status;
         window.location.href = url;
         //$.ajax({
         //    url: 'AssignSession',
@@ -228,6 +230,8 @@
         //window.location.reload();
 
     }
-   
+
 </script>
+
+
 *@

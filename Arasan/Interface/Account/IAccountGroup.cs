@@ -14,6 +14,7 @@ namespace Arasan.Interface
         DataTable Getclasscode(string id);
         IEnumerable<AccountGroup> GetAllAccountGroup();
         string StatusChange(string tag, int id);
-        DataTable GetAllAGroup();
+        string RemoveChange(string tag, int id);
+        DataTable GetAllAGroup(string strStatus);
     }
 }
