@@ -46,8 +46,8 @@
                 { name: 'move', type: 'string' },
                 { name: 'movedn', type: 'string' },
                 { name: 'view', type: 'string' },
-                { name: 'editrow', type: 'string' },
-                { name: 'delrow', type: 'string' },
+                //{ name: 'editrow', type: 'string' },
+                //{ name: 'delrow', type: 'string' },
 
             ],
             id: 'id',
@@ -86,8 +86,8 @@
                     { text: 'Purchase Return', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
                     { text: 'Debit Note', datafield: 'movedn', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
-                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    //{ text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    //{ text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
                 ]
             });
@@ -162,10 +162,10 @@
             width: '80%',
             height: '10%',
             arrows: false,
-            afterClose: function () {
-                location.reload();
-                return;
-            }
+            //afterClose: function () {
+            //    location.reload();
+            //    return;
+            //}
         });
         fancybox123 = $.fancybox;
     });
