@@ -115,6 +115,22 @@ namespace Arasan.Controllers
             }
         }
 
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = sequence.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListItemGroup");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListItemGroup");
+            }
+        }
+
         public ActionResult MyListItemgrid(string strStatus)
         {
             List<Sequencegrid> Reg = new List<Sequencegrid>();
@@ -127,9 +143,21 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                EditRow = "<a href=Sequence?id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteSeq?tag=Del&id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
 
+                    EditRow = "<a href=Sequence?id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteSeq?tag=Del&id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
+
+               
                 Reg.Add(new Sequencegrid
                 {
                     id = dtUsers.Rows[i]["SEQUENCEID"].ToString(),

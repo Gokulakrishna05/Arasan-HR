@@ -69,6 +69,7 @@
                 pageable: true,
                 showfilterbar: true,
                 //showfilterrow: true,
+                filterbarmode: 'simple',
                 theme: 'darkblue',
                 enablebrowserselection: true,
 
@@ -81,7 +82,7 @@
                     { text: 'Start', datafield: 'start', width: 110, align: 'center' },
                     { text: 'End', datafield: 'end', width: 110, align: 'center' },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                 ]
             });
         $("#ddlStatus").change(function () {
@@ -95,6 +96,11 @@
             $("#grid").jqxGrid({ source: source });
         });
     });
+
+    function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
+    }
+
 </script>
 <div class="wrapper-content ">
     <div class="row">

@@ -24,24 +24,24 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        //$('#grid').jqxGrid({ columnsresize: true });
         var source =
         {
             url: "/AccountGroup/MyListItemgrid",
 
+            data: {
+                strstatus: ""
+            },
             datatype: "json",
             updaterow: function (rowid, rowdata) {
                 // synchronize with the server - send update command
             },
             datafields: [
-                
-                { name: 'atype', type: 'string' },
-                { name: 'accgroup', type: 'string' },
-                { name: 'gcode', type: 'string' },
-                { name: 'display', type: 'string' },
-                { name: 'editrow', type: 'string' },
-                { name: 'delrow', type: 'string' },
-
+                    { name: 'atype', type: 'string' },
+                    { name: 'accgroup', type: 'string' },
+                    { name: 'gcode', type: 'string' },
+                    { name: 'display', type: 'string' },
+                    { name: 'editrow', type: 'string' },
+                    { name: 'delrow', type: 'string' },
 
             ],
             id: 'id',
@@ -56,34 +56,48 @@
 
         $("#grid").jqxGrid(
             {
+
                 width: '100%',
                 source: dataAdapter,
-                height: 510,
+                //height: 450,
+                autorowheight: true,
+                autoheight: true,
                 source: source,
                 sortable: true,
                 filterable: true,
                 groupable: false,
                 pageable: true,
-                showfilterrow: true,
-
+                showfilterbar: true,
+                //showfilterrow: true,
+                    filterbarmode: 'simple',
+                theme: 'darkblue',
                 enablebrowserselection: true,
-
-                 theme: 'darkblue',
-		
-
                 columns: [
 
-                    
-                    { text: 'Account Type', datafield: 'atype', width: 150 },
-                    { text: 'Account Group', datafield: 'accgroup', width: 200 },
-                    { text: 'Group Code', datafield: 'gcode', width: 200 },
-                    { text: 'Display', datafield: 'display', width: 110, align: 'center' },
-                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                ]
+                        { text: 'Account Type', datafield: 'atype', width: 150 },
+                        { text: 'Account Group', datafield: 'accgroup', width: 200 },
+                        { text: 'Group Code', datafield: 'gcode', width: 200 },
+                        { text: 'Display', datafield: 'display', width: 110, align: 'center' },
+                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
+                    ]
             });
-
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
     });
+
+     function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
+    }
+
 </script>
 
 
@@ -94,27 +108,31 @@
                 <div class="widgets-container">
 
                     <form>
+
                         <div class="row">
+                            <div class="col-md-2 ">
+
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                { new SelectListItem() {Text = "Enabled", Value="Y"},
+                                new SelectListItem() {Text = "Disabled", Value="N"}},
+                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                            </div>
+
+
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("AccountGroup", "AccountGroup")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Account Group</a>
                                     <br>
                                 </div>
-
-
                             </div>
                         </div>
-
                         <div class="row">
 
-                            <div class="col-md-2 "></div>
-                            <div class="col-md-8 ">
+                            <div class="col-md-10 ">
                                 <div id="grid">
                                 </div>
                             </div>
-                            <div class="col-md-2 "></div>
                         </div>
-
 
 
                     </form>
@@ -123,6 +141,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
+</script>
 
 <script>
     $(document).ready(function () {
