@@ -64,23 +64,34 @@ namespace Arasan.Controllers
             else
             {
                 DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
                 double total = 0;
                 dt = RetNonRetDcService.GetReturnable(id);
                 if (dt.Rows.Count > 0)
                 {
+
                     ca.Location = dt.Rows[0]["FROMLOCID"].ToString();
                     ca.Did = dt.Rows[0]["DOCID"].ToString();
                     ca.DDate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.DcType = dt.Rows[0]["DELTYPE"].ToString();
                     ca.Through = dt.Rows[0]["THROUGH"].ToString();
-                    ca.Branch = dt.Rows[0]["PARTYNAME"].ToString();
-                    ca.Branch = dt.Rows[0]["STKTYPE"].ToString();
+                    ca.Party = dt.Rows[0]["PARTYNAME"].ToString();
+                    ca.Stock = dt.Rows[0]["STKTYPE"].ToString();
                     ca.Ref = dt.Rows[0]["REFNO"].ToString();
                     ca.RefDate = dt.Rows[0]["REFDATE"].ToString();
                     ca.Delivery = dt.Rows[0]["DELDATE"].ToString();
                     ca.Narration = dt.Rows[0]["NARRATION"].ToString();
                     ca.Approved = dt.Rows[0]["APPBY"].ToString();
                     ca.Approval2 = dt.Rows[0]["APPBY2"].ToString();
+
+                    dt1 = RetNonRetDcService.GetPartyDetails(dt.Rows[0]["PARTYNAME"].ToString());
+                    if (dt1.Rows.Count > 0)
+                    {
+                        ca.Add1 = dt1.Rows[0]["ADD1"].ToString();
+
+                        ca.Add2 = dt1.Rows[0]["ADD2"].ToString();
+                        ca.City = dt1.Rows[0]["CITY"].ToString();
+                    }
                     ca.ID = id;
                 }
                 DataTable dt2 = new DataTable();
@@ -99,11 +110,19 @@ namespace Arasan.Controllers
                         {
                             tda.subgrp = dt3.Rows[0]["SUBGROUPCODE"].ToString();
                         }
+                        DataTable dt4 = new DataTable();
+                        dt4 = RetNonRetDcService.GetRetItemDetail(dt2.Rows[i]["ITEMID"].ToString());
+                        if (dt3.Rows.Count > 0)
+                        {
+                            tda.Unit = dt4.Rows[0]["UNITID"].ToString();
+                            tda.PurRate = dt4.Rows[0]["LATPURPRICE"].ToString();
+                        }
                         tda.Itemlst = BindItemlst(tda.subgrp);
                         tda.item = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         
-                        tda.Unit = dt2.Rows[i]["UNIT"].ToString();
+                        //tda.Unit = dt2.Rows[i]["UNIT"].ToString();
+                        //tda.Unit = dt2.Rows[i]["UNIT"].ToString();
                         tda.Current = dt2.Rows[i]["CLSTOCK"].ToString();
                         tda.Qty = dt2.Rows[i]["QTY"].ToString();
                         tda.Transaction = dt2.Rows[i]["PURFTRN"].ToString();
@@ -409,6 +428,85 @@ namespace Arasan.Controllers
             }
         }
 
+        public IActionResult ViewRetNonRetDc(string id)
+        {
+
+            RetNonRetDc ca = new RetNonRetDc();
+            DataTable dt = new DataTable();
+            DataTable dt1 = new DataTable();
+            DataTable dt2 = new DataTable();
+
+            dt = RetNonRetDcService.ViewGetReturnable(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Location = dt.Rows[0]["FROMLOCID"].ToString();
+                ca.Did = dt.Rows[0]["DOCID"].ToString();
+                ca.DDate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.DcType = dt.Rows[0]["DELTYPE"].ToString();
+                ca.Through = dt.Rows[0]["THROUGH"].ToString();
+                ca.Party = dt.Rows[0]["PARTYID"].ToString();
+                ca.Stock = dt.Rows[0]["STKTYPE"].ToString();
+                ca.Ref = dt.Rows[0]["REFNO"].ToString();
+                ca.RefDate = dt.Rows[0]["REFDATE"].ToString();
+                ca.Delivery = dt.Rows[0]["DELDATE"].ToString();
+                ca.Narration = dt.Rows[0]["NARRATION"].ToString();
+                ca.Approved = dt.Rows[0]["EMPNAME"].ToString();
+                ca.Approval2 = dt.Rows[0]["EMPNAME"].ToString();
+
+                dt1 = RetNonRetDcService.GetPartyDetails(dt.Rows[0]["PARTYID"].ToString());
+                if (dt1.Rows.Count > 0)
+                {
+                    ca.Add1 = dt1.Rows[0]["ADD1"].ToString();
+
+                    ca.Add2 = dt1.Rows[0]["ADD2"].ToString();
+                    ca.City = dt1.Rows[0]["CITY"].ToString();
+                }
+                ca.ID = id;
+
+                List<RetNonRetDcItem> Data = new List<RetNonRetDcItem>();
+                RetNonRetDcItem tda = new RetNonRetDcItem();
+                //double tot = 0;
+
+                dt2 = RetNonRetDcService.GetReturnableItems(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        DataTable dt3 = new DataTable();
+                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        if (dt3.Rows.Count > 0)
+                        {
+                            tda.subgrp = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        }
+                        DataTable dt4 = new DataTable();
+                        dt4 = RetNonRetDcService.GetRetItemDetail(dt2.Rows[i]["ITEMID"].ToString());
+                        if (dt3.Rows.Count > 0)
+                        {
+                            tda.Unit = dt4.Rows[0]["UNITID"].ToString();
+                            tda.PurRate = dt4.Rows[0]["LATPURPRICE"].ToString();
+                        }
+                        tda.Itemlst = BindItemlst(tda.subgrp);
+                        tda.item = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.Current = dt2.Rows[i]["CLSTOCK"].ToString();
+                        tda.Qty = dt2.Rows[i]["QTY"].ToString();
+                        tda.Transaction = dt2.Rows[i]["PURFTRN"].ToString();
+                        tda.Rate = dt2.Rows[i]["RATE"].ToString();
+                        tda.Amount = dt2.Rows[i]["AMOUNT"].ToString();
+
+                        Data.Add(tda);
+                    }
+                }
+
+                ca.RetLst = Data;
+
+            }
+            return View(ca);
+        }
+
+
+
+
         public ActionResult MyListItemgrid(string strStatus)
         {
             List<RetNonRetDcGrid> Reg = new List<RetNonRetDcGrid>();
@@ -419,6 +517,7 @@ namespace Arasan.Controllers
             {
 
                 
+                string ViewRow = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
 
@@ -426,13 +525,14 @@ namespace Arasan.Controllers
 
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
-
+                    ViewRow = "<a href=ViewRetNonRetDc?id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                     EditRow = "<a href=RetNonRetDc?id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 }
                 else
                 {
-                    
+
+                    ViewRow = "";
                     EditRow = "";
                     DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
 
@@ -444,9 +544,10 @@ namespace Arasan.Controllers
                     did = dtUsers.Rows[i]["DOCID"].ToString(),
                     ddate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     dctype = dtUsers.Rows[i]["DELTYPE"].ToString(),
-                    party = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    party = dtUsers.Rows[i]["PARTYID"].ToString(),
 
                    
+                    viewrow = ViewRow,
                     editrow = EditRow,
                     delrow = DeleteRow,
 

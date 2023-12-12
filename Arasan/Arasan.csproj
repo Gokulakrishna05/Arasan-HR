@@ -98,6 +98,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DataSet7.xsd</DependentUpon>
     </Compile>
+    <Compile Update="Return.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Return.xsd</DependentUpon>
+    </Compile>
     <Compile Update="SQ.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -152,6 +157,10 @@
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet7.Designer.cs</LastGenOutput>
     </None>
+     <None Update="Return.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>Return.Designer.cs</LastGenOutput>
+     </None>
      <None Update="SQ.xsd">
        <Generator>MSDataSetGenerator</Generator>
        <LastGenOutput>SQ.Designer.cs</LastGenOutput>

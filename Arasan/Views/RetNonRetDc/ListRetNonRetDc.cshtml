@@ -42,6 +42,7 @@
                     { name: 'ddate', type: 'string' },
                     { name: 'dctype', type: 'string' },
                     { name: 'party', type: 'string' },
+                    { name: 'viewrow', type: 'string' },
                     { name: 'editrow', type: 'string' },
                     { name: 'delrow', type: 'string' },
 
@@ -78,10 +79,11 @@
                     enablebrowserselection: true,
                     columns: [
 
-                        { text: 'Doc ID', filtertype: 'checkedlist', datafield: 'did', width: 200 },
+                        { text: 'Doc ID', filtertype: 'checkedlist', datafield: 'did', width: 150 },
                         { text: 'Doc Date', filtertype: 'checkedlist', datafield: 'ddate', width: 200 },
-                        { text: 'DC Type', filtertype: 'input', datafield: 'dctype', width: 300 },
-                        { text: 'Party ID', datafield: 'party', width: 110, align: 'center' },
+                        { text: 'DC Type', filtertype: 'input', datafield: 'dctype', width: 200 },
+                        { text: 'Party ID', datafield: 'party', width: 300, align: 'center' },
+                        { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                         { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                         { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                     ]
@@ -153,7 +155,7 @@
 </script>
 
 
-@*<script>
+<script>
     $(document).ready(function () {
         $('#example7').DataTable({
             dom: 'Bfrtip',
@@ -214,7 +216,7 @@
 
 
     function changeStatus(status) {
-        var url = "/DirectAddition/ListDirectAddition?status=" + status;
+        var url = "/RetNonRetDc/ListRetNonRetDc?status=" + status;
         window.location.href = url;
         //$.ajax({
         //    url: 'AssignSession',
@@ -234,4 +236,4 @@
 </script>
 
 
-*@
+

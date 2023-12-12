@@ -52,6 +52,9 @@ namespace Arasan.Models
         public string Delivery { get; set; }
         public string Approved { get; set; }
         public string Approval2 { get; set; }
+        public string address { get; set; }
+        public string add { get; set; }
+        public string city { get; set; }
         public string Entered { get; set; }
         public string Narration { get; set; }
         public string ddlStatus { get; set; }
@@ -88,6 +91,7 @@ namespace Arasan.Models
 
         public string dctype { get; set; }
         public string party { get; set; }
+        public string viewrow { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
     }
