@@ -177,9 +177,13 @@ internal class Program
         builder.Services.TryAddSingleton<IETariff, ETariffService>();
         builder.Services.TryAddSingleton<ICreditorDebitNote, CreditorDebitNoteService>();
 
+        builder.Services.TryAddSingleton<ISubContractingDC, SubContractingDCService>();
+
+
         builder.Services.TryAddSingleton<IReceiptSubContract, ReceiptSubContractService>();
 
         builder.Services.TryAddSingleton<IRetNonRetDc, RetNonRetDcService>();
+
 
 
 
