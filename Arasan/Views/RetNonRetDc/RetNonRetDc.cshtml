@@ -73,6 +73,7 @@
                                             @Html.TextBoxFor(C => C.DDate, new { @id = "DDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
+
                                     </div>
                                 </div>
 
@@ -151,7 +152,7 @@
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Address 1<label class="Mandatory"></label></label>
 
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Add1, new { @id = "txtAdd1", @class = "form-control", @TabIndex = 2,@readonly=true })
+                                            @Html.TextBoxFor(C => C.Add1, new { @id = "txtAdd1", @class = "form-control", @TabIndex = 2 /*,@readonly=true*/ })
 
                                         </div>
 
@@ -165,7 +166,7 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Address 2<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Add2, new { @id = "txtAdd2", @class = "form-control", @TabIndex = 2,@readonly=true })
+                                            @Html.TextBoxFor(C => C.Add2, new { @id = "txtAdd2", @class = "form-control", @TabIndex = 2/*,@readonly=true*/ })
 
                                         </div>
                                     </div>
@@ -175,9 +176,9 @@
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
 
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.City, new { @id = "txtCity", @class = "form-control", @TabIndex = 2,@readonly=true })
+                                            @Html.TextBoxFor(C => C.City, new { @id = "txtCity", @class = "form-control", @TabIndex = 2/*,@readonly=true*/ })
 
-                                        </div>
+                                        </div> 
 
                                     </div>
                                 </div>
@@ -255,10 +256,10 @@
                                                         </td>
                                                          
                                                          <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[i].PurRate, new { @id = "txtPurRate" + i, @class = "form-control", style = "width: 80px;" , @onkeyup = "changeQty(this," + i + ")"})
+                                                            @Html.TextBoxFor(o => o.RetLst[i].PurRate, new { @id = "txtPurRate" + i, @class = "form-control", style = "width: 80px;"})
                                                         </td>
                                                          <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[i].Rate, new { @id = "txtRate" + i, @class = "form-control", style = "width: 80px;" })
+                                                            @Html.TextBoxFor(o => o.RetLst[i].Rate, new { @id = "txtRate" + i, @class = "form-control", style = "width: 80px;"  , @onkeyup = "changeQty(this," + i + ")"})
                                                         </td>
                                                          <td>
                                                             @Html.TextBoxFor(o => o.RetLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 80px;"  })
@@ -361,7 +362,10 @@
         $(dropDownId).trigger("liszt:updated");
     }
   
-    $('._select').select2();
+    $(function () {
+        $('._select').select2();
+    });
+    $(".chosen-select").chosen();
     $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -494,6 +498,7 @@
             startView: 2,
             minView: 2,
             forceParse: 0
+
         });
 
     function AppendRow(opt) {
@@ -508,8 +513,8 @@
         var Current = "<td><input class='form-control' id='txtCurrent" + index + "' name='RetLst[" + index + "].Current'    style='width: 80px;' type='text'  /></td>";
         var Qty = "<td><input class='form-control' id='txtQty" + index + "' name='RetLst[" + index + "].Qty'  style='width: 80px;' type='text' onkeyup = 'changeQty(this," + index + ")' /></td>";
         var Trans = "<td><input class='form-control' id='txtTrans" + index + "' name='RetLst[" + index + "].Transaction'   style='width: 80px;' type='text'  /></td>";
-        var Purrate = "<td><input class='form-control' id='txtPurRate" + index + "' name='RetLst[" + index + "].PurRate'   style='width: 80px;' type='text' onkeyup = 'changeQty(this," + index + ")'  /></td>";
-        var rate = "<td><input class='form-control' id='txtrate" + index + "' name='RetLst[" + index + "].Rate'   style='width: 80px;' type='text'  /></td>";
+        var Purrate = "<td><input class='form-control' id='txtPurRate" + index + "' name='RetLst[" + index + "].PurRate'   style='width: 80px;' type='text'  /></td>";
+        var rate = "<td><input class='form-control' id='txtRate" + index + "' name='RetLst[" + index + "].Rate'   style='width: 80px;' type='text' onkeyup = 'changeQty(this," + index + ")'  /></td>";
         var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='RetLst[" + index + "].Amount'   style='width: 80px;' type='text'  /></td>";
 
 
@@ -530,7 +535,7 @@
     function changeQty(_this, i) {
         try {
             var qty = document.getElementById("txtQty" + i).value;
-            var pur = document.getElementById("txtPurRate" + i).value;
+            var pur = document.getElementById("txtRate" + i).value;
             //alert(qty);
             //alert(pur);
 

@@ -14,8 +14,10 @@ namespace Arasan.Interface
         DataTable GetPartyDetails(string id);
         DataTable GetRetItemDetail(string id);
         DataTable GetReturnable(string id);
+        DataTable ViewGetReturnable(string id);
         DataTable GetReturnableItems(string id);
-
+        DataTable GetViewReturnableItems(string id);
+        //DataTable GetSubGroup();
         DataTable GetAllReturn(string strStatus);
 
         string StatusChange(string tag, int id);

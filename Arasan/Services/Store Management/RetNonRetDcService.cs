@@ -29,10 +29,10 @@ namespace Arasan.Services
                 string StatementType = string.Empty; string svSQL = "";
                 datatrans = new DataTransactions(_connectionString);
 
-                if (cy.ID != null)
-                {
-                    cy.ID = null;
-                }
+                //if (cy.ID != null)
+                //{
+                //    cy.ID = null;
+                //}
 
                 int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'Rdc-' AND ACTIVESEQUENCE = 'T'  ");
                 string Did = string.Format("{0}{1}", "Rdc-", (idc + 1).ToString());
@@ -49,7 +49,7 @@ namespace Arasan.Services
 
                 //string PARTY = datatrans.GetDataString("Select PARTYMASTID from PARTYMAST where PARTYID='" + cy.Party + "' ");
                 //string WID = datatrans.GetDataString("Select WCBASICID from WCBASIC where WCID='" + cy.work + "' ");
-                
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("RDELPROC", objConn);
@@ -74,11 +74,11 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("STKTYPE", OracleDbType.NVarchar2).Value = cy.Stock;
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.Ref;
                     objCmd.Parameters.Add("REFDATE", OracleDbType.Date).Value = DateTime.Parse(cy.RefDate);
-                    objCmd.Parameters.Add("DELDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Delivery); 
-                    objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration; 
-                    objCmd.Parameters.Add("APPBY", OracleDbType.NVarchar2).Value = cy.Approved; 
-                    objCmd.Parameters.Add("APPBY2", OracleDbType.NVarchar2).Value = cy.Approval2; 
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = 'Y'; 
+                    objCmd.Parameters.Add("DELDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Delivery);
+                    objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration;
+                    objCmd.Parameters.Add("APPBY", OracleDbType.NVarchar2).Value = cy.Approved;
+                    objCmd.Parameters.Add("APPBY2", OracleDbType.NVarchar2).Value = cy.Approval2;
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = 'Y';
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -119,6 +119,7 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("PURFTRN", OracleDbType.NVarchar2).Value = cp.Transaction;
                                     objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.Rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
+                                    objCmds.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value ='Y';
 
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
@@ -172,16 +173,20 @@ namespace Arasan.Services
         public DataTable GetPartyDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT PARTYID,ADD1,ADD2,CITY FROM PARTYMAST WHERE PARTYMASTID = '" + id + "' ";
+            SvSql = "SELECT PARTYID,ADD1,ADD2,CITY FROM PARTYMAST WHERE PARTYNAME = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        
+
         public DataTable GetRetItemDetail(string id)
         {
+//            select ITEMMASTER.ITEMID,RDELDETAIL.UNIT,RDELDETAIL.CLSTOCK,RDELDETAIL.QTY,RDELDETAIL.PURFTRN,RDELDETAIL.RATE,RDELDETAIL.AMOUNT from RDELDETAIL
+//LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID = RDELDETAIL.ITEMID WHERE RDELDETAIL.RDELBASICID = 3
+
+
             string SvSql = string.Empty;
             SvSql = " select UNITMAST.UNITID,ITEMID,LATPURPRICE from ITEMMASTER LEFT OUTER JOIN UNITMAST on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where ITEMMASTER.ITEMMASTERID = '" + id + "' ";
             DataTable dtt = new DataTable();
@@ -195,7 +200,7 @@ namespace Arasan.Services
         public DataTable GetReturnable(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT FROMLOCID,DOCID,DOCDATE,DELTYPE,THROUGH,PARTYNAME,STKTYPE,REFNO,REFDATE,DELDATE,NARRATION,APPBY,APPBY2 FROM RDELBASIC WHERE RDELBASIC.RDELBASICID = '" + id + "' ";
+            SvSql = "  SELECT FROMLOCID,DOCID,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DELTYPE,THROUGH,PARTYNAME,STKTYPE,REFNO, to_char(RDELBASIC.REFDATE,'dd-MON-yyyy')REFDATE,to_char(RDELBASIC.DELDATE,'dd-MON-yyyy')DELDATE,NARRATION,APPBY,APPBY2 FROM RDELBASIC WHERE RDELBASIC.RDELBASICID = '" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -203,11 +208,36 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        
+
+
+        public DataTable ViewGetReturnable(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "  SELECT FROMLOCID,DOCID,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DELTYPE,THROUGH,PARTYMAST.PARTYID ,STKTYPE,REFNO, to_char(RDELBASIC.REFDATE,'dd-MON-yyyy')REFDATE,to_char(RDELBASIC.DELDATE,'dd-MON-yyyy')DELDATE,NARRATION,EMPMAST.EMPNAME,EMPMAST.EMPNAME FROM RDELBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY2 LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RDELBASIC.PARTYNAME WHERE RDELBASIC.RDELBASICID = '" + id + "' ";
+            //SvSql = "  SELECT FROMLOCID,DOCID,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DELTYPE,THROUGH,PARTYNAME ,STKTYPE,REFNO, to_char(RDELBASIC.REFDATE,'dd-MON-yyyy')REFDATE,to_char(RDELBASIC.DELDATE,'dd-MON-yyyy')DELDATE,NARRATION,EMPMAST.EMPNAME,EMPMAST.EMPNAME FROM RDELBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY2  WHERE RDELBASIC.RDELBASICID = '" + id + "' ";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
         public DataTable GetReturnableItems(string id)
         {
             string SvSql = string.Empty;
             SvSql = "select ITEMID,UNIT,CLSTOCK,QTY,PURFTRN,RATE,AMOUNT from RDELDETAIL WHERE RDELDETAIL.RDELBASICID = '" + id + "' ";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetViewReturnableItems(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMMASTER.ITEMID,RDELDETAIL.UNIT,RDELDETAIL.CLSTOCK,RDELDETAIL.QTY,RDELDETAIL.PURFTRN,RDELDETAIL.RATE,RDELDETAIL.AMOUNT from RDELDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID = RDELDETAIL.ITEMID WHERE RDELDETAIL.RDELBASICID = '" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -267,12 +297,12 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = " select RDELBASICID,IS_ACTIVE,DOCID,DOCDATE,DELTYPE,PARTYNAME from RDELBASIC where IS_ACTIVE = 'Y' ORDER BY RDELBASICID DESC";
+                SvSql = "select RDELBASIC.RDELBASICID,RDELBASIC.IS_ACTIVE,RDELBASIC.DOCID,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RDELBASIC.DELTYPE,PARTYMAST.PARTYID from RDELBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RDELBASIC.PARTYNAME where RDELBASIC.IS_ACTIVE = 'Y' ORDER BY RDELBASICID DESC";
 
             }
             else
             {
-                SvSql = " select RDELBASICID,IS_ACTIVE,DOCID,DOCDATE,DELTYPE,PARTYNAME from RDELBASIC where IS_ACTIVE = 'N' ORDER BY RDELBASICID DESC";
+                SvSql = "select RDELBASIC.RDELBASICID,RDELBASIC.IS_ACTIVE,RDELBASIC.DOCID,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RDELBASIC.DELTYPE,PARTYMAST.PARTYID from RDELBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RDELBASIC.PARTYNAME where RDELBASIC.IS_ACTIVE = 'N' ORDER BY RDELBASICID DESC";
 
             }
             DataTable dtt = new DataTable();
@@ -281,5 +311,7 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+
+
     }
 }
