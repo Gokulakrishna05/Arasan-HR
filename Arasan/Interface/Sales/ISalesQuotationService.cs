@@ -16,6 +16,7 @@ namespace Arasan.Interface.Sales
         DataTable GetSalesQuotation(string id);
         DataTable GetSalesQuotationItemDetails(string id);
         string SalesQuotationCRUD(SalesQuotation cy);
+       
         
         DataTable GetItemCF(string ItemId, string unitid);
         IEnumerable<QuoItem> GetAllSalesQuotationItem(string id);

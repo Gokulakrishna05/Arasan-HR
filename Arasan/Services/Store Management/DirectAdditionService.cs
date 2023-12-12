@@ -5,7 +5,7 @@ using Arasan.Interface.Store_Management;
 using Arasan.Interface.Master;
 using Oracle.ManagedDataAccess.Client;
 using System.Data;
-using DocumentFormat.OpenXml.Office2010.Excel;
+//using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace Arasan.Services.Store_Management
 {

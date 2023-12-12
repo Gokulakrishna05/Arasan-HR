@@ -224,7 +224,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Party Id<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Party Name<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.DisplayFor(C => C.Supplier) @Html.HiddenFor(C => C.Supplier)<br>
                                         <br />
@@ -263,7 +263,7 @@
                                                    
                                                     <th>Rate </th>
                                                     <th> Qty</th>
-                                                    <th> Disc %</th>
+                                                    
                                                     <th> Disc amount</th>
                                                     
 
@@ -291,14 +291,15 @@
                                                                     <td>@Html.DisplayFor(o => o.PoItem[i].Unit)</td>
                                                                     <td>@Html.DisplayFor(o => o.PoItem[i].rate)</td>
                                                                     <td>@Html.DisplayFor(o => o.PoItem[i].Quantity)</td>
+                                                                       <td>@Html.DisplayFor(o => o.PoItem[i].DiscAmt)</td>
                                                                     <td>@Html.DisplayFor(o => o.PoItem[i].CGSTPer)</td>
                                                                     <td>@Html.DisplayFor(o => o.PoItem[i].SGSTPer)</td>
                                                                     <td>@Html.DisplayFor(o => o.PoItem[i].IGSTPer)</td>
                                                                     <td>@Html.DisplayFor(o => o.PoItem[i].CGSTAmt)</td>
                                                                     <td>@Html.DisplayFor(o => o.PoItem[i].SGSTAmt)</td>
                                                                     <td>@Html.DisplayFor(o => o.PoItem[i].IGSTAmt)</td>
-                                                                    <td>@Html.DisplayFor(o => o.PoItem[i].DiscPer)</td>
-                                                                    <td>@Html.DisplayFor(o => o.PoItem[i].DiscAmt)</td>
+                                                                  
+                                                                 
                                                                     <td>@Html.DisplayFor(o => o.PoItem[i].TotalAmount)</td>
                                                                     <td>@Html.DisplayFor(o => o.PoItem[i].Purtype)</td>
 

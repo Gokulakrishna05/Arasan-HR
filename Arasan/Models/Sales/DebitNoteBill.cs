@@ -12,6 +12,7 @@ namespace Arasan.Models
             this.RecList = new List<SelectListItem>();
             this.Curlst = new List<SelectListItem>();
             this.Vocherlst = new List<SelectListItem>();
+            this.Grnlst = new List<SelectListItem>();
            
 
         }
@@ -25,8 +26,11 @@ namespace Arasan.Models
         public List<SelectListItem> Brlst;
         public string Branch { get; set; }
         public List<SelectListItem> Partylst;
+        public List<SelectListItem> Grnlst;
+        public string FutureDis { get; set; }
         public string PartyBal { get; set; }
         public string Party { get; set; }
+        public string InvNo { get; set; }
         public string Partyid { get; set; }
         public string ledger { get; set; }
         public string Vocher { get; set; }
@@ -41,6 +45,7 @@ namespace Arasan.Models
         public double Bigst { get; set; }
         public double Bsgst { get; set; }
         public double Bcgst { get; set; }
+        public string discount { get; set; }
         public string Narration { get; set; }
         public string Credit { get; set; }
         public string Debit { get; set; }
@@ -51,6 +56,7 @@ namespace Arasan.Models
         public string Loc { get; set; }
         public string grnid { get; set; }
         public List<DebitNoteItem> Depitlst { get; set; }
+        public List<DebitNoteFuture> Depdislst { get; set; }
         public List<CreditItem> Creditlst { get; set; }
         public List<GRNAccount> Acclst { get; set; }
         public List<SelectListItem> Accconfiglst;
@@ -72,9 +78,11 @@ namespace Arasan.Models
         public string branch { get; set; }
         public string docid { get; set; }
         public string docdate { get; set; }
-        public String approve { get; set; }
-        public String editrow { get; set; }
-        public String delrow { get; set; }
+        public string discount { get; set; }
+        public string approve { get; set; }
+        public string view { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
     }
     public class CreditItem
     {
@@ -108,6 +116,8 @@ namespace Arasan.Models
 
         public string InQty { get; set; }
         public string Qty { get; set; }
+        public string Disamt { get; set; }
+
         public string Rate { get; set; }
         public string Amount { get; set; }
         public string CGST { get; set; }
@@ -121,6 +131,38 @@ namespace Arasan.Models
         public List<SelectListItem> Grnlst;
         public string Isvalid { get; set; }
        
+
+    }
+    public class DebitNoteFuture
+    {
+        public string ID { get; set; }
+
+        public string InvNo { get; set; }
+        public string Invid { get; set; }
+        public string invdate { get; set; }
+        public List<SelectListItem> Itemlst;
+        public string item { get; set; }
+        public string itemid { get; set; }
+        public string cf { get; set; }
+        public string unit { get; set; }
+
+        public string inqty { get; set; }
+        public string Qty { get; set; }
+        public string disamt { get; set; }
+
+        public string rate { get; set; }
+        public string amount { get; set; }
+        public string cgst { get; set; }
+        public string cgstp { get; set; }
+        public string sgstp { get; set; }
+        public string igstp { get; set; }
+        public string sgst { get; set; }
+        public string igst { get; set; }
+        public string total { get; set; }
+
+        public List<SelectListItem> Grnlst;
+        public string Isvalid { get; set; }
+
 
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Wordprocessing;
-using GrapeCity.DataVisualization.Chart;
+//using DocumentFormat.OpenXml.Office2010.Excel;
+//using DocumentFormat.OpenXml.Wordprocessing;
+//using GrapeCity.DataVisualization.Chart;
 using Microsoft.CodeAnalysis.Host.Mef;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.Extensions.Configuration;

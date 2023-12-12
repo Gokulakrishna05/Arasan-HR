@@ -33,6 +33,7 @@
                 { name: 'branch', type: 'string' },
                 { name: 'docid', type: 'string' },
                 { name: 'docdate', type: 'string' },
+                { name: 'discount', type: 'string' },
                 { name: 'approve', type: 'string' },
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
@@ -71,6 +72,7 @@
                     { text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 200 },
                     { text: 'Doc Id', filtertype: 'checkedlist', datafield: 'docid', width: 200 },
                     { text: 'Doc Date', filtertype: 'input', datafield: 'docdate', width: 300 },
+                    { text: 'FD', filtertype: 'input', datafield: 'discount', width: 150 },
                     { text: 'Approve', datafield: 'approve', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
@@ -105,6 +107,14 @@
                                 { new SelectListItem() {Text = "Enabled", Value="Y"},
                                 new SelectListItem() {Text = "Disabled", Value="N"}},
                                 new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+
+                            </div>
+                            <div class="col-md-9 ">
+                            <div class=" textalignright">
+                                    <a href="@Url.Action("DebitNoteBillDet", "DebitNoteBill")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DebitNoteBill</a>
+                            <br>
+                            </div>
+
 
                             </div>
                         </div>

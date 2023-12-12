@@ -27,6 +27,8 @@ namespace Arasan.Models
 
         public string Status { get; set; }
         public string status { get; set; }
+        public string ddlStatus { get; set; }
+
     }
     
     

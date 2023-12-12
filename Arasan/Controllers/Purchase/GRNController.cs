@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Services.Qualitycontrol;
-using DocumentFormat.OpenXml.Office2010.Excel;
+//using DocumentFormat.OpenXml.Office2010.Excel;
 using System.Collections;
 using System.Transactions;
 using Org.BouncyCastle.Security.Certificates;
-using DocumentFormat.OpenXml.Wordprocessing;
+//using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Arasan.Controllers
 {

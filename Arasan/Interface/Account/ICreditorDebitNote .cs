@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using System.Data;
-using GrapeCity.DataVisualization.Chart;
+//using GrapeCity.DataVisualization.Chart;
 
 namespace Arasan.Interface.Account
 {

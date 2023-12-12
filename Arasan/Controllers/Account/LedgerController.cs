@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 using Newtonsoft.Json.Linq;
 using Arasan.Services.Master;
-using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace Arasan.Controllers
 {
