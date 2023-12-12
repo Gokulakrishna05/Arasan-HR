@@ -177,11 +177,7 @@ internal class Program
 
         builder.Services.TryAddSingleton<IETariff, ETariffService>();
         builder.Services.TryAddSingleton<ICreditorDebitNote, CreditorDebitNoteService>();
-
-
-
-
-
+        builder.Services.TryAddSingleton<ISubContractingDC, SubContractingDCService>();
 
         builder.Services.AddSession();
         var emailConfig = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();
