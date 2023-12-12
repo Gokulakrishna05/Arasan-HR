@@ -30,7 +30,7 @@ namespace Arasan.Services
         public DataTable GetQCNotify()
         {
             string SvSql = string.Empty;
-            SvSql = "select to_char(CREATED_ON,'dd-MON-yyyy')CREATED_ON,DOCID,TYPE,DRUMMAST.DRUMNO,ITEMMASTER.ITEMID,QCNOTIFICATIONID from QCNOTIFICATION  LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=QCNOTIFICATION.ITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=QCNOTIFICATION.DRUMNO WHERE QCNOTIFICATION.IS_COMPLETED='NO'  ";
+            SvSql = "select to_char(Q.CREATED_ON,'dd-MON-yyyy')CREATED_ON,Q.DOCID,Q.TYPE,D.DRUMNO,I.ITEMID,Q.QCNOTIFICATIONID from QCNOTIFICATION Q,ITEMMASTER I,DRUMMAST D where  I.ITEMMASTERID=Q.ITEMID  AND D.DRUMMASTID=Q.DRUMNO AND Q.IS_COMPLETED='NO' \r\n ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

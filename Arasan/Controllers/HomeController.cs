@@ -23,7 +23,12 @@ namespace Arasan.Controllers
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IActionResult Index()
+        public IActionResult PurchaseDash()
+        {
+            return View();
+        }
+
+            public IActionResult Index()
         {
             Home H = new Home();
             GridDisplay Reg = new GridDisplay();
@@ -92,23 +97,23 @@ namespace Arasan.Controllers
             DataTable dt4 = new DataTable();
             dt4 = HomeService.GetMaterialnot();
 
-            List<MatNotifys> TDatan = new List<MatNotifys>();
-            MatNotifys tdan = new MatNotifys();
+            //List<MatNotifys> TDatan = new List<MatNotifys>();
+            //MatNotifys tdan = new MatNotifys();
 
-            if (dt4.Rows.Count > 0)
-            {
-                for (int i = 0; i < dt4.Rows.Count; i++)
-                {
-                    tdan = new MatNotifys();
-                    tdan.Date = dt4.Rows[i]["DOCDATE"].ToString();
-                    tdan.LocationName = dt4.Rows[i]["LOCID"].ToString();
-                    tdan.ItemName = dt4.Rows[i]["ITEMID"].ToString();
-                    tdan.TotalQty = dt4.Rows[i]["QTY"].ToString();
-                    tdan.Unit = dt4.Rows[i]["UNITID"].ToString();
-                    tdan.stockQty = dt4.Rows[i]["STOCK"].ToString();
-                    TDatan.Add(tdan);
-                }
-            }
+            //if (dt4.Rows.Count > 0)
+            //{
+            //    for (int i = 0; i < dt4.Rows.Count; i++)
+            //    {
+            //        tdan = new MatNotifys();
+            //        tdan.Date = dt4.Rows[i]["DOCDATE"].ToString();
+            //        tdan.LocationName = dt4.Rows[i]["LOCID"].ToString();
+            //        tdan.ItemName = dt4.Rows[i]["ITEMID"].ToString();
+            //        tdan.TotalQty = dt4.Rows[i]["QTY"].ToString();
+            //        tdan.Unit = dt4.Rows[i]["UNITID"].ToString();
+            //        tdan.stockQty = dt4.Rows[i]["STOCK"].ToString();
+            //        TDatan.Add(tdan);
+            //    }
+            //}
 
             H.Folllst = Data1;
             H.Enqlllst = Data2;
@@ -117,7 +122,7 @@ namespace Arasan.Controllers
             H.Quotefollowcunt = dt.Rows.Count;
             H.EnqFollowcunt = dt1.Rows.Count;
             H.SalesQuoteFollowcunt = dt5.Rows.Count;
-            H.Materialnotification = TDatan;
+            //H.Materialnotification = TDatan;
 
             return View(H);
         }
