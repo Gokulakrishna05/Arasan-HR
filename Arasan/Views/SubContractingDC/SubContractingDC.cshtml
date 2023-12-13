@@ -48,17 +48,17 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                          <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Location, Model.Loc," -- Please Select -- ", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 })
-                                            
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row">
-                                 <div class="col-md-6">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Doc No<label class="mandatory">*</label></label>
 
@@ -72,14 +72,14 @@
                                     <div class="form-group">
 
                                         <br />    <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory">*</label></label>
-                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true  })
-                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                            </div>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true  })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
 
                                     </div>
                                 </div>
-                               
+
                             </div>
 
                             <div class="row">
@@ -124,7 +124,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                 <div class="col-md-6">
+                                <div class="col-md-6">
                                     <div class="form-group">
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Through<label class="Mandatory"></label></label>
@@ -137,202 +137,202 @@
                             </div>
 
 
-                         <div style="height:30px;"></div>
-                        <div class="row">
-                            <div class="col-md-12">
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-12">
 
-                                <div class="tabs-container">
-                                    <ul class="nav nav-tabs">
-                                        <li class="active"><a href="#tab-1" data-toggle="tab">Conversion Details</a></li>
+                                    <div class="tabs-container">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a href="#tab-1" data-toggle="tab">Conversion Details</a></li>
                                             <li><a href="#tab-2" data-toggle="tab">Exp.Receipt Details</a></li>
 
-                                    </ul>
-                                    <div class="tab-content">
-                                        <div class="tab-pane active" id="tab-1">
-                                            <!-- 1st tab  -->
-                                            <div class="row">
-                                            <div class="col-md-12">
-                                    <div class="btn-group">
-                                        <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
-                                    </div>
-                                </div>
-                            </div>
-
-                                                     <div class="row">
-                            <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
-                                                        <table class="table table-striped table-hover" id="dataTable">
-                                                                        <thead>
-                                                                            <tr>
-
-                                                                                <th>Item ID</th>
-                                                                                <th>Drum Selection</th>
-                                                                                <th>Unit</th>
-                                                                               @* <th>CL.Stock</th>*@
-                                                                                <th> ConFactor</th>
-                                                                                <th> Drums Desc </th>
-                                                                                <th>Qty</th>
-                                                                               @* <th>No.Of.Pages</th>*@
-                                                                                <th>Rate</th>
-                                                                                <th>Amount</th>
-
-                                                                            </tr>
-                                                                        </thead>
-                                                                      <tbody id="tbBooks">
-                                            @{
-
-                                                int i = 0;
-                                                int j = 1;
-
-                                                foreach (var item in Model.SCDIlst.ToList())
-                                                {
-                                                            <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                             
-                                                                <td>
-                                                                                @Html.DropDownListFor(o => o.SCDIlst[i].ItemId, Model.SCDIlst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItemDeatils(this.value," + i + ")" })
-                                                                    @Html.HiddenFor(o => o.SCDIlst[i].saveItemId)
-                                                                    
-                                                                </td>
-                                                                 @*if (item.lot != "0")
-                                                                        { *@
-                                                                <td>
-                                                                   <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("SubContractDrumSelection", "SubContractingDC")" class='fancybox' data-fancybox-type='iframe' id="hdrumselection@(i)"><img src='../Images/view_icon.png' /></a></div> @Html.HiddenFor(o => o.SCDIlst[i].DrumIds, new { @id = "hddrumid" + i })
-                                                                  </td>
-                                                                  @*}
-                                                                  else
-                                                                   {
-                                                                      <td></td>
-                                                                   }*@
-                                                                
-                                                                <td>
-                                                                    @Html.TextBoxFor(o => o.SCDIlst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
-                                                                </td>
-                                                                 <td>
-                                                                    @Html.TextBoxFor(o => o.SCDIlst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
-                                                                </td>
-                                                                 <td>
-                                                                    @Html.TextBoxFor(o => o.SCDIlst[i].Drumsdesc, new { @id = "txtDrumsdesc" + i, @class = "form-control", style = "width: 150px;", @readonly = "readonly"})
-                                                                </td>
-                                                                 <td>
-                                                                    @Html.TextBoxFor(o => o.SCDIlst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", @readonly = "readonly" })
-                                                                </td>
-                                                                <td>
-                                                                    @Html.TextBoxFor(o => o.SCDIlst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
-                                                                </td>
-                                                                 <td>
-                                                                    @Html.HiddenFor(o => o.SCDIlst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                    @Html.HiddenFor(o => o.SCDIlst[i].Lot, new { @id = "txtLot" + i })
-
-                                                                    @Html.TextBoxFor(o => o.SCDIlst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly", @onkeyup = "changeQty(this," + i + ")" })
-                                                                </td>
-                                                      
-
-                                                                <td>
-                                                                    @Html.HiddenFor(o => o.SCDIlst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="SCDIlst.Index" type="hidden" value="@(i)" />
-                                                                </td>
-                                                            </tr>
-                                                    i = i + 1;
-                                                    j = j + 1;
-
-                                                }
-                                            }
-
-                                        </tbody>
-                                                                    </table>
-                                                             @*   </div>
-                                                            </div>
-                                                        </div>*@
-                                                    </div>
-                                                </div>
-                                        </div>
-                                            <!-- 1st tab  -->
-                                    @* </div>*@
-                                        @*<div class="tab-content">*@
-                                        <div class="tab-pane" id="tab-2">
-                                            <!-- 2nd tab  -->
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="btn-group">
-                                                        <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow1()" class="btn sbold green" /></p>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab-1">
+                                                <!-- 1st tab  -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-group">
+                                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                                        </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="row">
                                                     <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
-                                                                    <table class="table table-striped table-hover" id="dataTable1">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                @*<th> S. No. </th>
-                                                                                <th>Serial.No</th>*@
-                                                                                <th>Exp.Rec.Item</th>
-                                                                                <th>Unit</th>
-                                                                                <th> Con.Factor</th>
-                                                                                <th>Exp.Rec.Qty</th>
-                                                                                <th>Rate</th>
-                                                                                <th>Amount</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                            <tbody id="tbBooks1">
+                                                        <table class="table table-striped table-hover" id="dataTable">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th>Item ID</th>
+                                                                    <th>Drum Selection</th>
+                                                                    <th>Unit</th>
+                                                                    @* <th>CL.Stock</th>*@
+                                                                    <th> ConFactor</th>
+                                                                    <th> Drums Desc </th>
+                                                                    <th>Qty</th>
+                                                                    @* <th>No.Of.Pages</th>*@
+                                                                    <th>Rate</th>
+                                                                    <th>Amount</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooks">
                                                                 @{
 
-                                                                    int a = 0;
-                                                                    int b = 1;
+                                                                    int i = 0;
+                                                                    int j = 1;
 
-                                                                    foreach (var item in Model.RECDlst.ToList())
+                                                                    foreach (var item in Model.SCDIlst.ToList())
                                                                     {
-                                                                        <tr id="trBook1@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                                             <td>
-                                                                                @Html.DropDownListFor(o => o.RECDlst[a].ItemId, Model.RECDlst[a].Itemlist, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + a, style = "width: 200px;", onchange = "changeReceiptDetailItem(this.value," + a + ")" })
-                                                                                @Html.HiddenFor(o => o.RECDlst[a].saveItemId)
+                                                                                @Html.DropDownListFor(o => o.SCDIlst[i].ItemId, Model.SCDIlst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItemDeatils(this.value," + i + ")" })
+                                                                                @Html.HiddenFor(o => o.SCDIlst[i].saveItemId)
 
                                                                             </td>
-                                                                           
+                                                                            @*if (item.lot != "0")
+                                                                { *@
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.RECDlst[a].Unit, new { @id = "UnitID" + a, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
+                                                                                <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("SubContractDrumSelection", "SubContractingDC")" class='fancybox' data-fancybox-type='iframe' id="hdrumselection@(i)"><img src='../Images/view_icon.png' /></a></div> @Html.HiddenFor(o => o.SCDIlst[i].DrumIds, new { @id = "hddrumid" + i })
                                                                             </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.RECDlst[a].ConFac, new { @id = "ConFac" + a, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.RECDlst[a].Quantity, new { @id = "txtQty" + a, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeReciptQty(this," + a + ")"})
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.RECDlst[a].rate, new { @id = "Rate" + a, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeReciptQty(this," + a + ")" })
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.HiddenFor(o => o.RECDlst[a].Isvalid1, new { @id = "Isvalid1" + a })
-
-                                                                                @Html.TextBoxFor(o => o.RECDlst[a].Amount, new { @id = "txtamount" + a, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly", @onkeyup = "changeReciptQty(this," + a + ")" })
-                                                                            </td>
-
+                                                                            @*}
+                                                                else
+                                                                {
+                                                                <td></td>
+                                                                }*@
 
                                                                             <td>
-                                                                                    @Html.HiddenFor(o => o.RECDlst[a].Isvalid1, new { @id = "Isvalid1" + a })
-                                                                                <img onclick="removeRow1(@(a));" src="../Images/delete.png" style="cursor:pointer" /> <input name="RECDlst.Index" type="hidden" value="@(a)" />
+                                                                                @Html.TextBoxFor(o => o.SCDIlst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.SCDIlst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.SCDIlst[i].Drumsdesc, new { @id = "txtDrumsdesc" + i, @class = "form-control", style = "width: 150px;", @readonly = "readonly"})
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.SCDIlst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", @readonly = "readonly" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.SCDIlst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.HiddenFor(o => o.SCDIlst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                @Html.HiddenFor(o => o.SCDIlst[i].Lot, new { @id = "txtLot" + i })
+
+                                                                                @Html.TextBoxFor(o => o.SCDIlst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly", @onkeyup = "changeQty(this," + i + ")" })
+                                                                            </td>
+
+
+                                                                            <td>
+                                                                                @Html.HiddenFor(o => o.SCDIlst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="SCDIlst.Index" type="hidden" value="@(i)" />
                                                                             </td>
                                                                         </tr>
-                                                                        a = a + 1;
-                                                                        b = b + 1;
+                                                                        i = i + 1;
+                                                                        j = j + 1;
 
                                                                     }
                                                                 }
 
                                                             </tbody>
-                                                                    </table>
-                                                     </div>
-                                                  </div>
-                                             </div>
-                                        </div>
-                                                  
+                                                        </table>
+                                                        @*   </div>
+                                                    </div>
+                                                    </div>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 1st tab  -->
+                                            @* </div>*@
+                                            @*<div class="tab-content">*@
+                                            <div class="tab-pane" id="tab-2">
+                                                <!-- 2nd tab  -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-group">
+                                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow1()" class="btn sbold green" /></p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                            <table class="table table-striped table-hover" id="dataTable1">
+                                                                <thead>
+                                                                    <tr>
+                                                                        @*<th> S. No. </th>
+                                                                    <th>Serial.No</th>*@
+                                                                        <th>Exp.Rec.Item</th>
+                                                                        <th>Unit</th>
+                                                                        <th> Con.Factor</th>
+                                                                        <th>Exp.Rec.Qty</th>
+                                                                        <th>Rate</th>
+                                                                        <th>Amount</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="tbBooks1">
+                                                                    @{
+
+                                                                        int a = 0;
+                                                                        int b = 1;
+
+                                                                        foreach (var item in Model.RECDlst.ToList())
+                                                                        {
+                                                                            <tr id="trBook1@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                                <td>
+                                                                                    @Html.DropDownListFor(o => o.RECDlst[a].ItemId, Model.RECDlst[a].Itemlist, "Please Select", new { @class = "form-control _select newcss", @id = "ddlPartyItem" + a, style = "width: 200px;", onchange = "changeReceiptDetailItem(this.value," + a + ")" })
+                                                                                    @Html.HiddenFor(o => o.RECDlst[a].saveItemId)
+
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.RECDlst[a].Unit, new { @id = "UnitID" + a, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.RECDlst[a].ConFac, new { @id = "ConFac" + a, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.RECDlst[a].Quantity, new { @id = "txtQty" + a, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeReciptQty(this," + a + ")"})
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.RECDlst[a].rate, new { @id = "Rate" + a, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeReciptQty(this," + a + ")" })
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.HiddenFor(o => o.RECDlst[a].Isvalid1, new { @id = "Isvalid1" + a })
+
+                                                                                    @Html.TextBoxFor(o => o.RECDlst[a].Amount, new { @id = "txtamount" + a, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly", @onkeyup = "changeReciptQty(this," + a + ")" })
+                                                                                </td>
+
+
+                                                                                <td>
+                                                                                    @Html.HiddenFor(o => o.RECDlst[a].Isvalid1, new { @id = "Isvalid1" + a })
+                                                                                    <img onclick="removeRow1(@(a));" src="../Images/delete.png" style="cursor:pointer" /> <input name="RECDlst.Index" type="hidden" value="@(a)" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            a = a + 1;
+                                                                            b = b + 1;
+
+                                                                        }
+                                                                    }
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <!-- 2nd tab  -->
                                         </div>
 
-                                  @*  </div>*@
-                                </div>
+                                        @*  </div>*@
+                                    </div>
 
+                                </div>
                             </div>
-                        </div>
 
                             <div style="height:30px;"></div>
                             <div class="row">
@@ -351,7 +351,7 @@
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Total Qty <label class="Mandatory"></label></label>
 
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.TotalQty, new { @id = "txtTotalQty", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextBoxFor(C => C.TotalQty, new { @id = "TotalQty", @class = "form-control", @TabIndex = 1, @readonly = true})
                                         </div>
 
                                     </div>
@@ -417,14 +417,14 @@
                 document.getElementById("UnitID" + a).value = result.unit;
                 document.getElementById("ConFac" + a).value = result.cf;
                 document.getElementById("Rate" + a).value = result.price;
-   
 
-                },
+
+            },
             error: function () {
                 alert("Data Not Found");
             }
         });
-        }
+    }
     function changeItem(ItemId) {
         $.ajax({
             url: 'GetPartyDetail',
@@ -440,8 +440,25 @@
                 alert("Data Not Found");
             }
         });
+       @* $.ajax({
+            url: "GetItemJSON",
+            type: "post",
+            data: { 'ItemId': ItemId },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                PopulateDropDown("#ddlPartyItem", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Party");
+            }
+        });*@
     }
-     function changeItemDeatils(ItemId, i) {
+    function changeItemDeatils(ItemId, i) {
+       @* var locid = document.getElementById("ddlLoc").value;*@
         $.ajax({
             url: 'GetItemDetail',
             data: { "ItemId": ItemId },
@@ -452,138 +469,157 @@
                 document.getElementById("txtConFac" + i).value = result.cf;
                 document.getElementById("txtrate" + i).value = result.price;
                 document.getElementById("txtLot" + i).value = result.lot;
-               @* document.getElementById("txtCurrentStock" + i).value = result.stock;*@
-               
-            
-            },
+    @* document.getElementById("txtCurrentStock" + i).value = result.stock;*@
+
+
+                },
             error: function () {
                 alert("Data Not Found");
             }
         });
-        if(ItemId=="1"){
-                document.getElementById("txtQuantity" + i).value="1";
-            
-    }
-    else{
-              var url = "/SubContractingDC/SubContractDrumSelection?itemid=" + ItemId + "&rowid=" + i + "";
-            document.getElementById("hdrumselection" + i).href = url;
-}
-        }
+        if (ItemId == "1") {
+            document.getElementById("txtQuantity" + i).value = "1";
 
-         function changeQty(_this, i) 
-    {
+        }
+        else {
+            var url = "/SubContractingDC/SubContractDrumSelection?itemid=" + ItemId + "&rowid=" + i + "";
+            document.getElementById("hdrumselection" + i).href = url;
+        }
+    }
+
+    function changeQty(_this, i) {
         try {
-           @* var GTot = 0;*@
-            var j = 0;
+    @* var GTot = 0;*@
+                var j = 0;
             var qty = 0;
             var tot = 0;
-           @* var totfrieght = 0;*@
+    @* var totfrieght = 0;*@
 
             var totamt = 0;
-           @* var totamount = 0;*@
+           @* var totqtyamount = 0;*@
             var qty = document.getElementById("txtQuantity" + i).value;
             var up = document.getElementById("txtrate" + i).value;
             var CF = document.getElementById("txtConFac" + i).value;
-          @*  var frieght = document.getElementById("txtFrigCharge" + i).value;
-            var IGST = document.getElementById("txtIGSTP" + i).value;
+    @*  var frieght = document.getElementById("txtFrigCharge" + i).value;
+                var IGST = document.getElementById("txtIGSTP" + i).value;
 
-            var CGST = document.getElementById("txtCGSTP" + i).value;
+                var CGST = document.getElementById("txtCGSTP" + i).value;
 
-            var SGST = document.getElementById("txtSGSTP" + i).value;
-            var Disc = document.getElementById("txtDisc" + i).value;*@
-             @*var Specialdiscount = document.getElementById("txtSpDisc").value;*@
+                var SGST = document.getElementById("txtSGSTP" + i).value;
+                var Disc = document.getElementById("txtDisc" + i).value;*@
+    @*var Specialdiscount = document.getElementById("txtSpDisc").value;*@
 
-             @*alert(Specialdiscount);*@
+    @*alert(Specialdiscount);*@
 
-            if (qty == "")
+                if (qty == "")
                 qty = 0;
 
-                 if(eval(qty) > 0)
+          @*  if (eval(qty) > 0)
+            {*@
 
-    {
+                if (up == "")
+                    up = 0;
 
-            if (up == "")
-                up = 0;
+                if (CF == "")
+                    CF = 1;
 
-            if (CF == "")
-                CF = 1;
-
-          @*  if (IGST == "")
-                IGST = 0;
-
-
-            if (CGST == "")
-                CGST = 0;
+    @*  if (IGST == "")
+                    IGST = 0;
 
 
-            if (SGST == "")
-                SGST = 0;
+                    if (CGST == "")
+                    CGST = 0;
 
-            if (Disc == "")
-                 Disc = 0;
 
-            if (frieght == "")
-                 frieght = 0;*@
-@*
+                    if (SGST == "")
+                    SGST = 0;
+
+                    if (Disc == "")
+                    Disc = 0;
+
+                    if (frieght == "")
+                    frieght = 0;*@
+    @*
                     if (Specialdiscount == "")
-                Specialdiscount = 0;
-*@
-                var tot = eval(qty) * eval(up) * eval(CF);
+                    Specialdiscount = 0;
+                    *@
+                    var tot = eval(qty) * eval(up) * eval(CF);
                 document.getElementById("txtAmount" + i).value = tot.toFixed(2);
 
-           @* var igstperc = (eval(tot) / 100) * eval(IGST);
-            var cgstperc = (eval(tot) / 100) * eval(CGST);
-            var sgstperc = (eval(tot) / 100) * eval(SGST);
-            var Discperc = (eval(tot) / 100) * eval(Disc);*@
-           @* var specperc = (eval(tot) / 100) * eval(Specialdiscount);*@
+    @* var igstperc = (eval(tot) / 100) * eval(IGST);
+                    var cgstperc = (eval(tot) / 100) * eval(CGST);
+                    var sgstperc = (eval(tot) / 100) * eval(SGST);
+                    var Discperc = (eval(tot) / 100) * eval(Disc);*@
+    @* var specperc = (eval(tot) / 100) * eval(Specialdiscount);*@
 
-           @* document.getElementById("txtCGST" + i).value = cgstperc.toFixed(2);
-            document.getElementById("txtSGST" + i).value = sgstperc.toFixed(2);
-            document.getElementById("txtIGST" + i).value = igstperc.toFixed(2);
-            document.getElementById("txtDiscAmount" + i).value = Discperc.toFixed(2);*@
-             
-           @* var tottax = eval(tot);*@
-           @* var totdisc = eval(tottax) - eval(Discperc);*@
-            
+    @* document.getElementById("txtCGST" + i).value = cgstperc.toFixed(2);
+                    document.getElementById("txtSGST" + i).value = sgstperc.toFixed(2);
+                    document.getElementById("txtIGST" + i).value = igstperc.toFixed(2);
+                    document.getElementById("txtDiscAmount" + i).value = Discperc.toFixed(2);*@
 
-        @*    document.getElementById("txtTotalAmount" + i).value = totdisc.toFixed(2);*@
-            
+    @* var tottax = eval(tot);*@
+    @* var totdisc = eval(tottax) - eval(Discperc);*@
 
-            $('tr.chkitemlst').each(function () {
-                if ($(this).css('display') !== 'none') {
 
-                    var itemid=$(this).find('#ddlItem' + j.toString()).val();
-                    var amt = $(this).find('#txtAmount' + j.toString()).val();
-                    if (amt == "")
-                        amt = 0;
+    @*    document.getElementById("txtTotalAmount" + i).value = totdisc.toFixed(2);*@
 
-                    if(itemid=="1")
-                     {
-                         totamt += eval(amt);
-                     }
-                    @* totfrieght += eval(frieght);*@
 
-                  @*  var tamt = $(this).find('#txtTotalAmount' + j.toString()).val();
-                            if (tamt == "")
-                        tamt = 0;
+                    $('tr.chkitemlst').each(function () {
+                        if ($(this).css('display') !== 'none') {
 
-                        totamount += eval(tamt);*@
+                            var itemid = $(this).find('#ddlItem' + j.toString()).val();
+                            var amt = $(this).find('#txtAmount' + j.toString()).val();
+                            if (amt == "")
+                                amt = 0;
 
-                              }
+                            if (itemid == "1") {
+                                totamt += eval(amt);
+                            }
+    @* totfrieght += eval(frieght);*@
+
+                           @* qty = $(this).find('#txtQuantity' + j.toString()).val();
+                        alert(qty);
+                        if (qty == "")
+                            qty = 0;
+
+                        totqtyamount += eval(qty);*@
+
+                        }
                         j += 1;
-                 });
-                  @*var roundamount = Math.ceil(totamount);
+                    });
+            
+           var totqtyamount = 0;
+            var qtyt = document.getElementById("txtQuantity" + i).value;
+            var qtyt = 0;
 
-            var round = eval(roundamount) - eval(totamount);*@
+
+            if (qtyt == "")
+                qtyt = 0;
+
+            $('tr.chkitemlst' + i).each(function () {
+                if ($(this).css('display') !== 'none') {
+                    if ($('#select' + i).prop('checked') == true) {
+                        var qtyamount = $(this).find('#txtQuantity' + j.toString()).val();
+                        alert(qtyamount);
+                        if (qtyamount == "")
+                            qtyamount = 0;
+
+                        totqtyamount += eval(qtyamount);
+                    }
+                    j += 1;
+                }
 
 
-           @* document.getElementById("txtFrig").value = totfrieght.toFixed(2);
-            document.getElementById("gross").value = totamt.toFixed(2);
-            document.getElementById("net").value = totamount.toFixed(2);
-            document.getElementById("hidnet").value = totamount.toFixed(2);
-            document.getElementById("txtRound").value = round.toFixed(2);
-                document.getElementById("hidround").value = round.toFixed(2);*@
-        }
+            });
+            document.getElementById("TotalQty").value = totqtyamount.toFixed(2);
+    @*var roundamount = Math.ceil(totamount);
+
+                    var round = eval(roundamount) - eval(totamount);*@
+
+
+                @*document.getElementById("TotalQty").value = totqtyamount.toFixed(2);*@
+
+           @* }*@
         }
         catch (ex) {
             alert(ex.message);
@@ -592,14 +628,14 @@
     function changeReciptQty(_this, a) {
         try {
     @* var GTot = 0;*@
-                    var j = 0;
+                        var j = 0;
             var qty = 0;
             var tot = 0;
     @* var totfrieght = 0;*@
 
-                    var totamt = 0;
+                        var totamt = 0;
     @* var totamount = 0;*@
-                        var qty = document.getElementById("txtQty" + a).value;
+                            var qty = document.getElementById("txtQty" + a).value;
             var up = document.getElementById("Rate" + a).value;
             var CF = document.getElementById("ConFac" + a).value;
     @*  var frieght = document.getElementById("txtFrigCharge" + i).value;
@@ -613,7 +649,7 @@
 
     @*alert(Specialdiscount);*@
 
-                    if (qty == "")
+                        if (qty == "")
                 qty = 0;
 
 
@@ -644,7 +680,7 @@
                 if (Specialdiscount == "")
                 Specialdiscount = 0;
                 *@
-                        var tot = eval(qty) * eval(up) * eval(CF);
+                            var tot = eval(qty) * eval(up) * eval(CF);
             document.getElementById("txtamount" + a).value = tot.toFixed(2);
 
     @* var igstperc = (eval(tot) / 100) * eval(IGST);
@@ -668,14 +704,14 @@
                 $('tr.chkitemlst').each(function () {
                     if ($(this).css('display') !== 'none') {
 
-                       @* var itemid = $(this).find('#ddlItem' + j.toString()).val();*@
-                            var amt = $(this).find('#txtamount' + j.toString()).val();
+    @* var itemid = $(this).find('#ddlItem' + j.toString()).val();*@
+                                var amt = $(this).find('#txtamount' + j.toString()).val();
                         if (amt == "")
                             amt = 0;
 
-                        @*if (itemid == "1") {*@
+    @*if (itemid == "1") {*@
                             totamt += eval(amt);
-                        @*}*@
+    @*}*@
     @* totfrieght += eval(frieght);*@
 
     @*  var tamt = $(this).find('#txtTotalAmount' + j.toString()).val();
@@ -684,7 +720,7 @@
 
                             totamount += eval(tamt);*@
 
-                                      }
+                                          }
                     j += 1;
                 });
     @*var roundamount = Math.ceil(totamount);
@@ -699,7 +735,7 @@
                 document.getElementById("txtRound").value = round.toFixed(2);
                 document.getElementById("hidround").value = round.toFixed(2);*@
 
-            }
+                }
         catch (ex) {
             alert(ex.message);
         }
@@ -724,7 +760,7 @@
         }
     }
 
-        function AddRow() {
+    function AddRow() {
         var opt = "";
         $.ajax({
             type: "POST",
@@ -739,30 +775,30 @@
         })
     }
 
-       function AppendRow(opt) {
+    function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-      @*  var ItemGrp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='Depotlst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";*@
+    @*  var ItemGrp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='Depotlst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";*@
 
-           var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='SCDIlst[" + index + "].ItemId' onchange = 'changeItemDeatils(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+               var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='SCDIlst[" + index + "].ItemId' onchange = 'changeItemDeatils(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-       var drum = "<td><div class='fa-hover col-md-2 col-sm-4'> <a href='/SubContractingDC/SubContractDrumSelection' class='fancybox' data-fancybox-type='iframe' id='hdrumselection" + index + "'><img src='../Images/view_icon.png'></a></div> <input  id='hddrumid" + index + "' name='SCDIlst[" + index + "].DrumIds' type='hidden'> </td>";
+        var drum = "<td><div class='fa-hover col-md-2 col-sm-4'> <a href='/SubContractingDC/SubContractDrumSelection' class='fancybox' data-fancybox-type='iframe' id='hdrumselection" + index + "'><img src='../Images/view_icon.png'></a></div> <input  id='hddrumid" + index + "' name='SCDIlst[" + index + "].DrumIds' type='hidden'> </td>";
 
-       var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='SCDIlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='SCDIlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
-       var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='SCDIlst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True'  /></td>";
+        var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='SCDIlst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True'  /></td>";
 
-       var drumdesc = "<td><input class='form-control' id='txtDrumsdesc" + index + "' name='SCDIlst[" + index + "].Drumsdesc'  style='width: 150px;' type='text' /></td>";
+        var drumdesc = "<td><input class='form-control' id='txtDrumsdesc" + index + "' name='SCDIlst[" + index + "].Drumsdesc'  style='width: 150px;' type='text' /></td>";
 
-       var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='SCDIlst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='1' onchange = 'changeQty(this.value," + index + ")' readonly='True' /></td>";
+        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='SCDIlst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text' value='1' onchange = 'changeQty(this.value," + index + ")' readonly='True' /></td>";
 
-       var rate = "<td><input class='form-control' id='txtrate" + index + "' name='SCDIlst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' onkeyup = 'changeQty(this.value," + index + ")'/></td>";
+        var rate = "<td><input class='form-control' id='txtrate" + index + "' name='SCDIlst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text' value='0' onkeyup = 'changeQty(this.value," + index + ")'/></td>";
 
-       var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='SCDIlst[" + index + "].Amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' readonly='True' /></td>";
+        var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='SCDIlst[" + index + "].Amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text' value='0' readonly='True' /></td>";
 
-       var removeCell = "<td><input id='Isvalid" + index + "' name='SCDIlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='SCDIlst.Index' type='hidden' value='" + index + "'  /></td>";
+        var removeCell = "<td><input id='Isvalid" + index + "' name='SCDIlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='SCDIlst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" +  Item + drum + Unit + ConFac + drumdesc + Quantity + rate + Amount + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Item + drum + Unit + ConFac + drumdesc + Quantity + rate + Amount + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
@@ -771,7 +807,7 @@
             $('._select').select2();
         });
     }
-     $(".chosen-select").chosen();
+    $(".chosen-select").chosen();
     function removeRow1(id) {
         var table = document.getElementById("dataTable1");
         var rowCount = table.rows.length;
@@ -809,18 +845,18 @@
 
     @*  var ItemGrp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='Depotlst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";*@
 
-           var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='RECDlst[" + index + "].ItemId' onchange = 'changeReceiptDetailItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+               var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlPartyItem" + index + "' name='RECDlst[" + index + "].ItemId' onchange = 'changeReceiptDetailItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-      
+
         var Unit = "<td><input class='form-control' id='UnitID" + index + "' name='RECDlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
         var ConFac = "<td><input class='form-control' id='ConFac" + index + "' name='RECDlst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True'  /></td>";
 
-        var Quantity = "<td><input class='form-control' id='txtQty" + index + "' name='RECDlst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='1' onchange = 'changeReciptQty(this.value," + index + ")' /></td>";
+        var Quantity = "<td><input class='form-control' id='txtQty" + index + "' name='RECDlst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text' value='1' onchange = 'changeReciptQty(this.value," + index + ")' /></td>";
 
-        var rate = "<td><input class='form-control' id='Rate" + index + "' name='RECDlst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' onkeyup = 'changeReciptQty(this.value," + index + ")'/></td>";
+        var rate = "<td><input class='form-control' id='Rate" + index + "' name='RECDlst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text'  value='0' onkeyup = 'changeReciptQty(this.value," + index + ")'/></td>";
 
-        var Amount = "<td><input class='form-control' id='txtamount" + index + "' name='RECDlst[" + index + "].Amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' readonly='True' /></td>";
+        var Amount = "<td><input class='form-control' id='txtamount" + index + "' name='RECDlst[" + index + "].Amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text' value='0' readonly='True' /></td>";
 
         var removeCell = "<td><input id='Isvalid1" + index + "' name='RECDlst[" + index + "].Isvalid1' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='RECDlst.Index' type='hidden' value='" + index + "'  /></td>";
 
