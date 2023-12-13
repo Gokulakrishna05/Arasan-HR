@@ -186,6 +186,7 @@ namespace Arasan.Models
         public double CostRate { get; set; }
         public string AcessValue { get; set; }
         public double BillQty { get; set; }
+        public double ConvQty { get; set; }
         public double PendingQty { get; set; }
         public double DiscPer { get; set; }
         public double DiscAmt { get; set; }

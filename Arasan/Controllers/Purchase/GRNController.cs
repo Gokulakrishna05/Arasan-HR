@@ -106,6 +106,7 @@ namespace Arasan.Controllers
                             tda.Conversionfactor = dt4.Rows[0]["CF"].ToString();
 
                         }
+                        
                         tda.LOTYN= dt2.Rows[i]["LOTYN"].ToString();
                         //tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString());
                         tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString() == "" ? "0" : dt2.Rows[i]["RATE"].ToString());
@@ -124,6 +125,8 @@ namespace Arasan.Controllers
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         tda.Amount = toaamt;
                         tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                        double cf = Convert.ToDouble(tda.Conversionfactor);
+                        tda.ConvQty = tda.Goodqty * cf;
                         tda.PURLst = BindPurType();
                         //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
                         tda.CGSTPer = Convert.ToDouble(dt2.Rows[i]["CGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTP"].ToString());
@@ -1212,8 +1215,7 @@ namespace Arasan.Controllers
             dtUsers = (DataTable)GRNService.GetAllListDamageGRNItem(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
-                DataTable dtUsers1 = new DataTable();
-                dtUsers1 = (DataTable)GRNService.GetAllListDamageGRNItemDetail(dtUsers.Rows[i]["GRNBLBASICID"].ToString());
+                
                 string View = string.Empty;
                 string MovePR = string.Empty;
                 string MoveDN = string.Empty;
@@ -1231,10 +1233,9 @@ namespace Arasan.Controllers
                 Reg.Add(new GRNItemsDetail
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["GRNBLBASICID"].ToString()),
-                    branch = dtUsers1.Rows[i]["BRANCHID"].ToString(),
-                    enqno = dtUsers1.Rows[i]["DOCID"].ToString(),
-                    docDate = dtUsers1.Rows[i]["DOCDATE"].ToString(),
-                    supplier = dtUsers1.Rows[i]["PARTYNAME"].ToString(),
+                   
+                    enqno = dtUsers.Rows[i]["DOCID"].ToString(),
+                  
                     damage = dtUsers.Rows[i]["DAMAGE_QTY"].ToString(),
 
                   

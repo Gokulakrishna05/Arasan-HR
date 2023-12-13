@@ -89,8 +89,12 @@ namespace Arasan.Models
         public string unitid { get; set; }
 
         public string qty { get; set; }
+        public string dqty { get; set; }
+        public string drumno { get; set; }
+        public string damount { get; set; }
        
         public string rate { get; set; }
+        public string drate { get; set; }
         public string amount { get; set; }
         public string supid { get; set; }
        

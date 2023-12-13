@@ -184,7 +184,7 @@
 
 
                         </form>
-                    }
+                   }
                 </div>
             </div>
         </div>
@@ -250,6 +250,21 @@
             alert(ex.message);
         }
     }
+    $("#btnSave").click(function () {
+        var i=0;
+        var cl = document.getElementById("txtClosingStock" + i).value;
+        alert(cl);
+        var isValid = true;
+        if (eval(cl)==0)
+        {
+            alert("Stock is Minimum");
+            return false;
+        }
+
+
+
+
+    });
     //function enableAllrepview() {
 
     //    if ($("#Selectallchk").prop('checked') == true) {

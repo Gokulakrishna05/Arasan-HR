@@ -12,6 +12,10 @@ namespace Arasan.Interface
         DataTable GetDCDetails(string id);
         DataTable GetRecvItemDetails(string id);
         DataTable GetDelivItemDetails(string id);
+        DataTable GetReceiptSubContract(string id);
+        DataTable GetRecemat(string id);
+        DataTable GetDrimdetails(string id);
+        DataTable GetDeliItem(string id);
         DataTable GetDrumItemDetails(string id);
         DataTable GetAllReceiptSubContractItem(string id);
 

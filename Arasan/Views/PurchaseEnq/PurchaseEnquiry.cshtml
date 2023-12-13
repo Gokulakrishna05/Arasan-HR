@@ -49,8 +49,8 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Supplier Name<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 2,disabled="disabled"})
-                                                    
-                                                 
+
+                                            @Html.HiddenFor(C => C.Supplier)
                                                 </div>
                                             </div>
                                         </div>

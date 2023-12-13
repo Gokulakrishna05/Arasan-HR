@@ -350,8 +350,8 @@ namespace Arasan.Services
                                     objCmdI.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = cy.GRNID;
                                     objCmdI.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = cy.GRNID;
                                     objCmdI.Parameters.Add("GRN_DATE", OracleDbType.Date).Value = DateTime.Parse(cy.GRNdate);
-                                    objCmdI.Parameters.Add("REC_GOOD_QTY", OracleDbType.NVarchar2).Value = cp.BillQty;
-                                    objCmdI.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = cp.BillQty;
+                                    objCmdI.Parameters.Add("REC_GOOD_QTY", OracleDbType.NVarchar2).Value = cp.ConvQty;
+                                    objCmdI.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = cp.ConvQty;
                                     objCmdI.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
                                     objCmdI.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
                                     objCmdI.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
@@ -530,7 +530,8 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select GRNBLDETAIL.GRNBLBASICID,GRNBLDETAIL.DAMAGE_QTY from GRNBLDETAIL    Where  GRNBLDETAIL.DAMAGE_QTY >0";
+                //SvSql = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,PARTYMAST.PARTYNAME,GRNBLBASIC.GRNBLBASICID,GRNBLDETAIL.DAMAGE_QTY from GRNBLBASIC  LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID  , GRNBLDETAIL    Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND  GRNBLDETAIL.DAMAGE_QTY >0";
+                SvSql = "Select GRNBLBASIC.DOCID,GRNBLDETAIL.DAMAGE_QTY,GRNBLDETAIL.GRNBLBASICID from GRNBLDETAIL  LEFT OUTER JOIN GRNBLBASIC ON GRNBLBASIC.GRNBLBASICID=GRNBLDETAIL.GRNBLBASICID    Where  GRNBLDETAIL.DAMAGE_QTY >0";
             }
             
             DataTable dtt = new DataTable();
@@ -539,18 +540,18 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetAllListDamageGRNItemDetail(string strStatus)
-        {
-            string SvSql = string.Empty;
+        //public DataTable GetAllListDamageGRNItemDetail(string strStatus)
+        //{
+        //    string SvSql = string.Empty;
 
-            SvSql = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,QCSTATUS,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,GRNBLBASIC.GRNBLBASICID,GRNBLBASIC.STATUS from GRNBLBASIC  LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY    Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND GRNBLBASIC.GRNBLBASICID='"+strStatus+"'";
+        //    SvSql = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,QCSTATUS,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,GRNBLBASIC.GRNBLBASICID,GRNBLBASIC.STATUS from GRNBLBASIC  LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY    Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND GRNBLBASIC.GRNBLBASICID='"+strStatus+"'";
 
 
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
     }
 }
