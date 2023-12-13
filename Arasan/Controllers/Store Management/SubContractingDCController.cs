@@ -12,7 +12,7 @@ namespace Arasan.Controllers.Store_Management
 {
     public class SubContractingDCController : Controller
     {
-        ISubContractingDC  SubContractingDCService;
+        ISubContractingDC SubContractingDCService;
         IConfiguration? _configuratio;
         private string? _connectionString;
 
@@ -39,7 +39,7 @@ namespace Arasan.Controllers.Store_Management
             }
             List<SubContractingItem> TData = new List<SubContractingItem>();
             SubContractingItem tda = new SubContractingItem();
-            List<ReceiptDetailItem > TData1 = new List<ReceiptDetailItem>();
+            List<ReceiptDetailItem> TData1 = new List<ReceiptDetailItem>();
             ReceiptDetailItem tda1 = new ReceiptDetailItem();
             if (id == null)
             {
@@ -90,7 +90,7 @@ namespace Arasan.Controllers.Store_Management
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new SubContractingItem();
-                       
+
                         tda.Itemlst = BindItemlst();
                         //tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
@@ -109,7 +109,7 @@ namespace Arasan.Controllers.Store_Management
                     for (int i = 0; i < dt3.Rows.Count; i++)
                     {
                         tda1 = new ReceiptDetailItem();
-                      
+
                         tda1.Itemlist = BindItemlst();
                         //tda1.saveItemId = dt3.Rows[i]["ITEMID"].ToString();
                         tda1.ItemId = dt3.Rows[i]["RITEM"].ToString();
@@ -230,7 +230,7 @@ namespace Arasan.Controllers.Store_Management
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["item"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -239,6 +239,23 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
+        //public List<SelectListItem> BindItemlist(string id)
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = SubContractingDCService.GetPartyItem(id);
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WIPITEMID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         public List<SelectListItem> BindLocation()
         {
             try
@@ -343,6 +360,13 @@ namespace Arasan.Controllers.Store_Management
             return Json(BindItemlst());
 
         }
+        //public JsonResult GetItemJSON(string ItemId)
+        //{
+        //    ReceiptDetailItem model = new ReceiptDetailItem();
+        //    model.Itemlist = BindItemlist(ItemId);
+        //    return Json(BindItemlist(ItemId));
+
+        //}
         public ActionResult GetItemDetail(string ItemId)
         {
             try
@@ -371,7 +395,7 @@ namespace Arasan.Controllers.Store_Management
                     }
                 }
 
-                var result = new { unit = unit, cf = cf, price = price, lot= lot, stock = stock };
+                var result = new { unit = unit, cf = cf, price = price, lot = lot, stock = stock };
                 return Json(result);
             }
             catch (Exception ex)

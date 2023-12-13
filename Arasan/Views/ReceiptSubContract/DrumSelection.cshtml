@@ -294,30 +294,50 @@
     }
 </script>
 <script>
+    var rowid = "@rowid";
     // JavaScript to extract table values
     $("#button").click(function () {
         var e = 0;
-
+        var ar1 = "";
+        var ar2 = "";
+        var ar3 = "";
+        var ar4 = "";
         var DrumItem = new Array();
         $('tr.chkitemlst').each(function () {
             if ($(this).css('display') !== 'none') {
                var emp = {};
                 drumno = document.getElementById("ddldrumno" + e).value;
-                   emp.drumno = document.getElementById("ddldrumno" + e).value;
-                emp.qty = document.getElementById("txtqty" + e).value;
+                  @* emp.drumno = document.getElementById("ddldrumno" + e).value;*@
+                qty = document.getElementById("txtqty" + e).value;
+                rate = document.getElementById("txtrate" + e).value;
+              var  amount = document.getElementById("txtamount" + e).value;
+               @* emp.qty = document.getElementById("txtqty" + e).value;
                 emp.rate = document.getElementById("txtrate" + e).value;
-                emp.amount = document.getElementById("txtamount" + e).value;
+                emp.amount = document.getElementById("txtamount" + e).value;*@
                
                 DrumItem.push(emp);
-                window.parent.document.getElementById('txtChellan').value = qty;
-                e += 1;
+                
+                ar1 += drumno + "-";
+                ar2 += qty + "-";
+                ar3 += rate + "-";
+                ar4 += amount + "-";
               
             }
-          
+            e += 1;
         });
-    
-         
+        var drumid = ar1.substring(0, ar1.length - 1);
+        var dqty = ar2.substring(0, ar2.length - 1);
+        var drate = ar3.substring(0, ar3.length - 1);
+        var damount = ar4.substring(0, ar4.length - 1);
+     
+        window.parent.document.getElementById('txtdrumno' + rowid).value = drumid;
+        window.parent.document.getElementById('txtdqty' + rowid).value = dqty;
+        window.parent.document.getElementById('txtdrate' + rowid).value = drate;
+        window.parent.document.getElementById('txtdamount' + rowid).value = damount;
+       
         window.parent.jQuery.fancybox.close();
+       
+      
 
         
     });
