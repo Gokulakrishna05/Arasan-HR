@@ -140,12 +140,13 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("Branch", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocNo;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDate;
+                    objCmd.Parameters.Add("T1SOURCEID", OracleDbType.NVarchar2).Value = cy.DCNo;
                     objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Supplier;
                     objCmd.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = cy.Supplier; 
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value =cy.Location;
                     objCmd.Parameters.Add("LOCDETAILSID", OracleDbType.NVarchar2).Value = cy.Location;
-                    objCmd.Parameters.Add("ADD2", OracleDbType.NVarchar2).Value = cy.Add1;
-                    objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = cy.Add2;
+                    objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = cy.Add1;
+                    objCmd.Parameters.Add("ADD2", OracleDbType.NVarchar2).Value = cy.Add2;
                     objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.City;
                     objCmd.Parameters.Add("THROUGH", OracleDbType.NVarchar2).Value = cy.Through;
                     objCmd.Parameters.Add("TOTQTY", OracleDbType.NVarchar2).Value = cy.qtyrec;
@@ -177,11 +178,50 @@ namespace Arasan.Services
                                 {
                                     if (cp.Isvalid == "Y" && cp.itemid != "0")
                                     {
-                                        
-                                            svSQL = "Insert into RECFSUBEDET (RECFSUBBASICID,RITEM,RITEMMASTERID,RUNIT,RSUBQTY,ERQTY,ERATE,EAMOUNT) VALUES ('" + Pid + "','" + cp.itemid + "','" + cp.itemid + "','" + cp.unit + "','" + cp.qty + "','" + cp.qty + "','" + cp.rate + "','" + cp.amount + "')";
-                                            OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                            objCmds.ExecuteNonQuery();
 
+                                        svSQL = "Insert into RECFSUBEDET (RECFSUBBASICID,RITEM,RITEMMASTERID,RUNIT,RSUBQTY,ERQTY,ERATE,EAMOUNT) VALUES ('" + Pid + "','" + cp.itemid + "','" + cp.itemid + "','" + cp.unit + "','" + cp.qty + "','" + cp.qty + "','" + cp.rate + "','" + cp.amount + "') RETURNING RECFSUBEDETID INTO :LASTCID";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+
+                                        objCmds.ExecuteNonQuery();
+
+                                        string detid = objCmds.Parameters["LASTCID"].Value.ToString();
+
+
+
+                                        string[] Ddrum = cp.drumno.Split('-');
+                                        string[] Dqty = cp.dqty.Split('-');
+                                        string[] Drate = cp.drate.Split('-');
+                                        string[] Damount = cp.damount.Split('-');
+                                        for (int i = 0; i < Ddrum.Length; i++)
+                                        {
+
+                                            string dddrum = Ddrum[i];
+                                            string ddqty = Dqty[i];
+                                            string ddrate = Drate[i];
+                                            string ddamount = Damount[i];
+                                            string itemname = datatrans.GetDataString("Select ITEMID  FROM ITEMMASTER where   ITEMMASTERID='" + cp.itemid + "'");
+
+                                            string drumname = datatrans.GetDataString("Select DRUMNO  FROM DRUMMAST where DRUMMASTID='" + dddrum + "'");
+                                            string partyname = datatrans.GetDataString("Select PARTYNAME  FROM PARTYMAST where PARTYMASTID='" + cy.Supplier + "'");
+
+                                            string item = itemname;
+                                            string sup = partyname;
+                                            string drum = drumname;
+                                            string doc = cy.DocNo;
+
+                                            string lotnumber = string.Format("{0}--{1}--{2}--{3}", item, sup, drum, doc);
+
+
+                                            if (cp.Isvalid == "Y" && cp.drumno != "0")
+                                            {
+
+                                                svSQL = "Insert into RECFSUBBATCH (RECFSUBBASICID,PARENTRECORDID,BITEMID,BITEMMASTERID,DRUMMASTID,BQTY,BRATE,BAMOUNT,DRUMNO,LOTNO) VALUES ('" + Pid + "','"+ detid+"','" + cp.itemid + "','" + cp.itemid + "','" + dddrum + "','" + ddqty + "','" + ddrate + "','" + ddamount + "','" + dddrum + "','" + lotnumber + "')";
+                                                objCmds = new OracleCommand(svSQL, objConn);
+                                                objCmds.ExecuteNonQuery();
+
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -193,16 +233,16 @@ namespace Arasan.Services
                                 foreach (ReceiptRecivItem cp in cy.Reclst)
                                 {
                                     
-                                        string item = cp.item;
                                         
 
-                                        string lotnumber = string.Format("{0} {1} ", item, "TO BE (MINUS) IN CLOSING STOCK");
+                                    string itemname = datatrans.GetDataString("Select ITEMID  FROM ITEMMASTER where   ITEMMASTERID='" + cp.itemid + "'");
+                                    string lotnumber = string.Format("{0} {1} ", itemname, "TO BE (MINUS) IN CLOSING STOCK");
                                         
                                     
                                     if (cp.Isvalid == "Y" && cp.itemid != "0")
                                     {
 
-                                        svSQL = "Insert into RECFSUBEDET (RECFSUBBASICID,ITEMID,ITEMDESC,UNIT,QTY,RATE,AMOUNT) VALUES ('" + Pid + "','" + cp.itemid + "','" + lotnumber + "','" + cp.unit + "','" + cp.qty + "','" + cp.rate + "','" + cp.amount + "')";
+                                        svSQL = "Insert into RECFSUBDDETAIL (RECFSUBBASICID,ITEMID,ITEMDESC,UNIT,QTY,RATE,AMOUNT) VALUES ('" + Pid + "','" + cp.itemid + "','" + lotnumber + "','" + cp.unit + "','" + cp.qty + "','" + cp.rate + "','" + cp.amount + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -210,32 +250,32 @@ namespace Arasan.Services
                                 }
                             }
                         }
-                        if (cy.drumlst != null)
-                        {
-                            if (cy.ID == null)
-                            {
-                                foreach (DrumItem cp in cy.drumlst)
-                                {
+                        //if (cy.drumlst != null)
+                        //{
+                        //    if (cy.ID == null)
+                        //    {
+                        //        foreach (DrumItem cp in cy.drumlst)
+                        //        {
 
-                                    string item = cp.item;
-                                    string sup = cy.Supplier;
-                                    string drum = cp.drumno;
-                                    string doc = cy.DocNo;
+                        //            string item = cp.item;
+                        //            string sup = cy.Supplier;
+                        //            string drum = cp.drumno;
+                        //            string doc = cy.DocNo;
 
-                                    string lotnumber = string.Format("{0}--{1}--{2}--{3}", item, sup, drum, doc);
+                        //            string lotnumber = string.Format("{0}--{1}--{2}--{3}", item, sup, drum, doc);
 
 
-                                    if (cp.Isvalid == "Y" && cp.itemid != "0")
-                                    {
+                        //            if (cp.Isvalid == "Y" && cp.itemid != "0")
+                        //            {
 
-                                        svSQL = "Insert into RECFSUBEDET (RECFSUBBASICID,PARENTRECORDID,BITEMID,BITEMMASTERID,DRUMMASTID,BQTY,BRATE,BAMOUNT,DRUMNO,LOTNO) VALUES ('" + Pid + "','" + cp.itemid + "','" + cp.itemid + "','" + cp.itemid + "','" + cp.drumno + "','" + cp.qty + "','"+cp.rate+"','" + cp.amount + "','"+cp.drumno+"','"+ lotnumber+"')";
-                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                        objCmds.ExecuteNonQuery();
+                        //                svSQL = "Insert into RECFSUBBATCH (RECFSUBBASICID,PARENTRECORDID,BITEMID,BITEMMASTERID,DRUMMASTID,BQTY,BRATE,BAMOUNT,DRUMNO,LOTNO) VALUES ('" + Pid + "','" + cp.itemid + "','" + cp.itemid + "','" + cp.itemid + "','" + cp.drumno + "','" + cp.qty + "','"+cp.rate+"','" + cp.amount + "','"+cp.drumno+"','"+ lotnumber+"')";
+                        //                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        //                objCmds.ExecuteNonQuery();
 
-                                    }
-                                }
-                            }
-                        }
+                        //            }
+                        //        }
+                        //    }
+                        //}
 
                     }
                     catch (Exception ex)
@@ -265,6 +305,50 @@ namespace Arasan.Services
                 SvSql = "Select DOCID,RECFSUBBASICID,PARTYMAST.PARTYNAME,to_char(RECFSUBBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,LOCDETAILS.LOCID from RECFSUBBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=RECFSUBBASIC.PARTYID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=RECFSUBBASIC.LOCID WHERE RECFSUBBASIC.IS_ACTIVE='N'";
 
             }
+            DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetReceiptSubContract(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select RECFSUBBASIC.DOCID,to_char(RECFSUBBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RECFSUBBASIC.T1SOURCEID,PARTYMAST.PARTYNAME,LOCDETAILS.LOCID,RECFSUBBASIC.ADD1,RECFSUBBASIC.ADD2,RECFSUBBASIC.CITY,THROUGH,TOTQTY,TOTRECQTY,EBY,CHELLAN,REFNO,REFDATE,NARRATION from RECFSUBBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=RECFSUBBASIC.PARTYID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=RECFSUBBASIC.LOCID WHERE RECFSUBBASICID='" + id + "'";
+
+            DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetRecemat(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select RECFSUBBASICID,RITEM,ITEMMASTER.ITEMID,RITEMMASTERID,RUNIT,RSUBQTY,ERQTY,ERATE,EAMOUNT,RECFSUBEDETID from RECFSUBEDET LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=RECFSUBEDET.RITEM WHERE RECFSUBBASICID='" + id + "'";
+
+            DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetDeliItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMMASTER.ITEMID,RECFSUBDDETAIL.UNIT,RECFSUBDDETAIL.RATE,RECFSUBDDETAIL.AMOUNT,RECFSUBDDETAIL.QTY,RECFSUBDDETAIL.ITEMDESC,RECFSUBDDETAILID from RECFSUBDDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=RECFSUBDDETAIL.ITEMID WHERE RECFSUBBASICID='" + id + "'";
+
+            DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetDrimdetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select RECFSUBBASICID,PARENTRECORDID,RECFSUBBATCH.BQTY,RECFSUBBATCH.BRATE,RECFSUBBATCH.BAMOUNT,DRUMMAST.DRUMNO,RECFSUBBATCH.LOTNO from RECFSUBBATCH LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=RECFSUBBATCH.DRUMMASTID WHERE PARENTRECORDID='" + id + "'";
+
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
 
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

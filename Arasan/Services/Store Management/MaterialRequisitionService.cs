@@ -531,7 +531,7 @@ namespace Arasan.Services
 
                                             string[] df = inventryqty[i].Split('#');
                                             string lotno = df[i];
-                                            double lotqty = Convert.ToDouble(df[1]);
+                                            double lotqty = Convert.ToDouble(df[i]);
 
 
 

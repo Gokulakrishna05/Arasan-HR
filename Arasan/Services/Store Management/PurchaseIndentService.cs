@@ -339,9 +339,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("EXCRATERATE", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("PARTYREFNO", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = "";
-                    objCmd.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = supid;
-                    objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "Y";
-                    
+                    objCmd.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = supid;                    
                     objCmd.Parameters.Add("ENQRECDBY", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("ASSIGNTO", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = user;
@@ -454,11 +452,11 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("Location", OracleDbType.NVarchar2).Value = cy.SLocation;
                     objCmd.Parameters.Add("IndentNo", OracleDbType.NVarchar2).Value = cy.IndentId;
                     objCmd.Parameters.Add("IndentDate", OracleDbType.NVarchar2).Value =cy.IndentDate; 
-                    //objCmd.Parameters.Add("RefDate", OracleDbType.NVarchar2).Value = cy.RefDate; 
+                    objCmd.Parameters.Add("RefDate", OracleDbType.NVarchar2).Value = cy.RefDate; 
                     //objCmd.Parameters.Add("Erecation", OracleDbType.NVarchar2).Value =cy.Erection;
-                    objCmd.Parameters.Add("PurchaseType", OracleDbType.NVarchar2).Value = cy.Purtype;
-                    objCmd.Parameters.Add("CREATED_By", OracleDbType.NVarchar2).Value = cy.user;
-                    objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    //objCmd.Parameters.Add("PurchaseType", OracleDbType.NVarchar2).Value = cy.Purtype;
+                    objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.user;
+                    objCmd.Parameters.Add("ENTRYDATE", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try

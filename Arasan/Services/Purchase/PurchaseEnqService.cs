@@ -301,23 +301,25 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-
-                datatrans = new DataTransactions(_connectionString);
-
-
-                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'PENQ' AND ACTIVESEQUENCE = 'T'");
-                string EnqNo = string.Format("{0}{1}", "PENQ", (idc + 1).ToString());
-
-                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='PENQ' AND ACTIVESEQUENCE ='T'";
-                try
+                if (cy.ID == null)
                 {
-                    datatrans.UpdateStatus(updateCMd);
+                    datatrans = new DataTransactions(_connectionString);
+
+
+                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'PENQ' AND ACTIVESEQUENCE = 'T'");
+                    string EnqNo = string.Format("{0}{1}", "PENQ", (idc + 1).ToString());
+
+                    string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='PENQ' AND ACTIVESEQUENCE ='T'";
+                    try
+                    {
+                        datatrans.UpdateStatus(updateCMd);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    cy.EnqNo = EnqNo;
                 }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                cy.EnqNo = EnqNo;
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("PURCHASEENQPROC", objConn);
@@ -333,7 +335,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("PARTYREFNO", OracleDbType.NVarchar2).Value = cy.ParNo;
                     objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = cy.Cur;
                     objCmd.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = cy.Supplier;
-                    objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                   
                      
                     objCmd.Parameters.Add("ENQRECDBY", OracleDbType.NVarchar2).Value = cy.EnqRecid;
                     objCmd.Parameters.Add("ASSIGNTO", OracleDbType.NVarchar2).Value = cy.Enqassignid;
