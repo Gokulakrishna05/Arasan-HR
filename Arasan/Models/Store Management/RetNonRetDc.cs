@@ -15,8 +15,10 @@ namespace Arasan.Models
             this.applst = new List<SelectListItem>();
             this.apprlst = new List<SelectListItem>();
             this.Loclst = new List<SelectListItem>();
+            this.Enteredlst = new List<SelectListItem>();
         }
 
+        public List<SelectListItem> Enteredlst;
         public List<SelectListItem> Partylst;
         public List<SelectListItem> Stocklst;
         public List<SelectListItem> applst;
@@ -95,8 +97,40 @@ namespace Arasan.Models
         public string dctype { get; set; }
         public string party { get; set; }
         public string viewrow { get; set; }
+
         public string approve { get; set; }
+
+        public string generate { get; set; }
+
         public string editrow { get; set; }
         public string delrow { get; set; }
     }
-}
+
+
+    public class ReturnDetail
+    {
+        public string ID { get; set; }
+        public string LOCID { get; set; }
+        public string DELTYPE { get; set; }
+        public string DOCDATE { get; set; }
+        public string EMPNAME { get; set; }
+        //public string EMPNAME { get; set; }
+        public string ITEMID { get; set; }
+        public string QTY { get; set; }
+        public string UNIT { get; set; }
+        public string PURFTRN { get; set; }
+        public string FROMLOCID { get; set; }
+        public string APPBY { get; set; }
+        public string APPBY2 { get; set; }
+        public string THROUGH { get; set; }
+        public string DELDATE { get; set; }
+        public string RDELBASICID { get; set; }
+        public string PARTYID { get; set; }
+        public string ADD1 { get; set; }
+        public string CITY { get; set; }
+        public string EBY { get; set; }
+
+    }
+
+
+    }

@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="RetDataSet" targetNamespace="http://tempuri.org/RetDataSet.xsd" xmlns:mstns="http://tempuri.org/RetDataSet.xsd" xmlns="http://tempuri.org/RetDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection ConnectionStringObject="DATA SOURCE=192.168.0.13:1521/orcl;TNS_ADMIN=C:\Users\ac1\Oracle\network\admin;PASSWORD=Master_1234;USER ID=TAAIERP" IsAppSettingsProperty="false" Modifier="Assembly" Name="TAAIERP.orcl2" ParameterPrefix=":" Provider="Oracle.ManagedDataAccess.Client" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ITEMMASTERTableAdapter" GeneratorDataComponentClassName="ITEMMASTERTableAdapter" Name="ITEMMASTER" UserDataComponentName="ITEMMASTERTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="TAAIERP.orcl2" DbObjectName="TAAIERP.ITEMMASTER" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT ITEMID, ITEMGROUP FROM TAAIERP.ITEMMASTER</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="ITEMID" DataSetColumn="ITEMID" />
+              <Mapping SourceColumn="ITEMGROUP" DataSetColumn="ITEMGROUP" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="RDELBASICTableAdapter" GeneratorDataComponentClassName="RDELBASICTableAdapter" Name="RDELBASIC" UserDataComponentName="RDELBASICTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="TAAIERP.orcl2" DbObjectName="TAAIERP.RDELBASIC" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT BRANCHID, FROMLOCID, DOCID, DOCDATE, PARTYNAME, REFNO, REFDATE, NARRATION, THROUGH, PURDATE, APPBY, DELTYPE, PARTYID, APPBY2, STKTYPE, DELDATE FROM TAAIERP.RDELBASIC</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="BRANCHID" DataSetColumn="BRANCHID" />
+              <Mapping SourceColumn="FROMLOCID" DataSetColumn="FROMLOCID" />
+              <Mapping SourceColumn="DOCID" DataSetColumn="DOCID" />
+              <Mapping SourceColumn="DOCDATE" DataSetColumn="DOCDATE" />
+              <Mapping SourceColumn="PARTYNAME" DataSetColumn="PARTYNAME" />
+              <Mapping SourceColumn="REFNO" DataSetColumn="REFNO" />
+              <Mapping SourceColumn="REFDATE" DataSetColumn="REFDATE" />
+              <Mapping SourceColumn="NARRATION" DataSetColumn="NARRATION" />
+              <Mapping SourceColumn="THROUGH" DataSetColumn="THROUGH" />
+              <Mapping SourceColumn="PURDATE" DataSetColumn="PURDATE" />
+              <Mapping SourceColumn="APPBY" DataSetColumn="APPBY" />
+              <Mapping SourceColumn="DELTYPE" DataSetColumn="DELTYPE" />
+              <Mapping SourceColumn="PARTYID" DataSetColumn="PARTYID" />
+              <Mapping SourceColumn="APPBY2" DataSetColumn="APPBY2" />
+              <Mapping SourceColumn="STKTYPE" DataSetColumn="STKTYPE" />
+              <Mapping SourceColumn="DELDATE" DataSetColumn="DELDATE" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="RDELDETAILTableAdapter" GeneratorDataComponentClassName="RDELDETAILTableAdapter" Name="RDELDETAIL" UserDataComponentName="RDELDETAILTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="TAAIERP.orcl2" DbObjectName="TAAIERP.RDELDETAIL" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT CLSTOCK, QTY, RATE, AMOUNT, ITEMID, UNIT FROM TAAIERP.RDELDETAIL</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="CLSTOCK" DataSetColumn="CLSTOCK" />
+              <Mapping SourceColumn="QTY" DataSetColumn="QTY" />
+              <Mapping SourceColumn="RATE" DataSetColumn="RATE" />
+              <Mapping SourceColumn="AMOUNT" DataSetColumn="AMOUNT" />
+              <Mapping SourceColumn="ITEMID" DataSetColumn="ITEMID" />
+              <Mapping SourceColumn="UNIT" DataSetColumn="UNIT" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="RetDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_UserDSName="RetDataSet" msprop:Generator_DataSetName="RetDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ITEMMASTER" msprop:Generator_RowEvHandlerName="ITEMMASTERRowChangeEventHandler" msprop:Generator_RowDeletedName="ITEMMASTERRowDeleted" msprop:Generator_RowDeletingName="ITEMMASTERRowDeleting" msprop:Generator_RowEvArgName="ITEMMASTERRowChangeEvent" msprop:Generator_TablePropName="ITEMMASTER" msprop:Generator_RowChangedName="ITEMMASTERRowChanged" msprop:Generator_RowChangingName="ITEMMASTERRowChanging" msprop:Generator_TableClassName="ITEMMASTERDataTable" msprop:Generator_RowClassName="ITEMMASTERRow" msprop:Generator_TableVarName="tableITEMMASTER" msprop:Generator_UserTableName="ITEMMASTER">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ITEMID" msprop:Generator_ColumnPropNameInRow="ITEMID" msprop:Generator_ColumnPropNameInTable="ITEMIDColumn" msprop:Generator_ColumnVarNameInTable="columnITEMID" msprop:Generator_UserColumnName="ITEMID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="62" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ITEMGROUP" msprop:Generator_ColumnPropNameInRow="ITEMGROUP" msprop:Generator_ColumnPropNameInTable="ITEMGROUPColumn" msprop:Generator_ColumnVarNameInTable="columnITEMGROUP" msprop:Generator_UserColumnName="ITEMGROUP" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="RDELBASIC" msprop:Generator_RowEvHandlerName="RDELBASICRowChangeEventHandler" msprop:Generator_RowDeletedName="RDELBASICRowDeleted" msprop:Generator_RowDeletingName="RDELBASICRowDeleting" msprop:Generator_RowEvArgName="RDELBASICRowChangeEvent" msprop:Generator_TablePropName="RDELBASIC" msprop:Generator_RowChangedName="RDELBASICRowChanged" msprop:Generator_RowChangingName="RDELBASICRowChanging" msprop:Generator_TableClassName="RDELBASICDataTable" msprop:Generator_RowClassName="RDELBASICRow" msprop:Generator_TableVarName="tableRDELBASIC" msprop:Generator_UserTableName="RDELBASIC">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="BRANCHID" msprop:Generator_ColumnPropNameInRow="BRANCHID" msprop:Generator_ColumnPropNameInTable="BRANCHIDColumn" msprop:Generator_ColumnVarNameInTable="columnBRANCHID" msprop:Generator_UserColumnName="BRANCHID" type="xs:decimal" minOccurs="0" />
+              <xs:element name="FROMLOCID" msprop:Generator_ColumnPropNameInRow="FROMLOCID" msprop:Generator_ColumnPropNameInTable="FROMLOCIDColumn" msprop:Generator_ColumnVarNameInTable="columnFROMLOCID" msprop:Generator_UserColumnName="FROMLOCID" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DOCID" msprop:Generator_ColumnPropNameInRow="DOCID" msprop:Generator_ColumnPropNameInTable="DOCIDColumn" msprop:Generator_ColumnVarNameInTable="columnDOCID" msprop:Generator_UserColumnName="DOCID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DOCDATE" msprop:Generator_ColumnPropNameInRow="DOCDATE" msprop:Generator_ColumnPropNameInTable="DOCDATEColumn" msprop:Generator_ColumnVarNameInTable="columnDOCDATE" msprop:Generator_UserColumnName="DOCDATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="PARTYNAME" msprop:Generator_ColumnPropNameInRow="PARTYNAME" msprop:Generator_ColumnPropNameInTable="PARTYNAMEColumn" msprop:Generator_ColumnVarNameInTable="columnPARTYNAME" msprop:Generator_UserColumnName="PARTYNAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="REFNO" msprop:Generator_ColumnPropNameInRow="REFNO" msprop:Generator_ColumnPropNameInTable="REFNOColumn" msprop:Generator_ColumnVarNameInTable="columnREFNO" msprop:Generator_UserColumnName="REFNO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="REFDATE" msprop:Generator_ColumnPropNameInRow="REFDATE" msprop:Generator_ColumnPropNameInTable="REFDATEColumn" msprop:Generator_ColumnVarNameInTable="columnREFDATE" msprop:Generator_UserColumnName="REFDATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="NARRATION" msprop:Generator_ColumnPropNameInRow="NARRATION" msprop:Generator_ColumnPropNameInTable="NARRATIONColumn" msprop:Generator_ColumnVarNameInTable="columnNARRATION" msprop:Generator_UserColumnName="NARRATION" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="THROUGH" msprop:Generator_ColumnPropNameInRow="THROUGH" msprop:Generator_ColumnPropNameInTable="THROUGHColumn" msprop:Generator_ColumnVarNameInTable="columnTHROUGH" msprop:Generator_UserColumnName="THROUGH" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PURDATE" msprop:Generator_ColumnPropNameInRow="PURDATE" msprop:Generator_ColumnPropNameInTable="PURDATEColumn" msprop:Generator_ColumnVarNameInTable="columnPURDATE" msprop:Generator_UserColumnName="PURDATE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="APPBY" msprop:Generator_ColumnPropNameInRow="APPBY" msprop:Generator_ColumnPropNameInTable="APPBYColumn" msprop:Generator_ColumnVarNameInTable="columnAPPBY" msprop:Generator_UserColumnName="APPBY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DELTYPE" msprop:Generator_ColumnPropNameInRow="DELTYPE" msprop:Generator_ColumnPropNameInTable="DELTYPEColumn" msprop:Generator_ColumnVarNameInTable="columnDELTYPE" msprop:Generator_UserColumnName="DELTYPE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PARTYID" msprop:Generator_ColumnPropNameInRow="PARTYID" msprop:Generator_ColumnPropNameInTable="PARTYIDColumn" msprop:Generator_ColumnVarNameInTable="columnPARTYID" msprop:Generator_UserColumnName="PARTYID" type="xs:decimal" minOccurs="0" />
+              <xs:element name="APPBY2" msprop:Generator_ColumnPropNameInRow="APPBY2" msprop:Generator_ColumnPropNameInTable="APPBY2Column" msprop:Generator_ColumnVarNameInTable="columnAPPBY2" msprop:Generator_UserColumnName="APPBY2" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="70" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="STKTYPE" msprop:Generator_ColumnPropNameInRow="STKTYPE" msprop:Generator_ColumnPropNameInTable="STKTYPEColumn" msprop:Generator_ColumnVarNameInTable="columnSTKTYPE" msprop:Generator_UserColumnName="STKTYPE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DELDATE" msprop:Generator_ColumnPropNameInRow="DELDATE" msprop:Generator_ColumnPropNameInTable="DELDATEColumn" msprop:Generator_ColumnVarNameInTable="columnDELDATE" msprop:Generator_UserColumnName="DELDATE" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="RDELDETAIL" msprop:Generator_RowEvHandlerName="RDELDETAILRowChangeEventHandler" msprop:Generator_RowDeletedName="RDELDETAILRowDeleted" msprop:Generator_RowDeletingName="RDELDETAILRowDeleting" msprop:Generator_RowEvArgName="RDELDETAILRowChangeEvent" msprop:Generator_TablePropName="RDELDETAIL" msprop:Generator_RowChangedName="RDELDETAILRowChanged" msprop:Generator_RowChangingName="RDELDETAILRowChanging" msprop:Generator_TableClassName="RDELDETAILDataTable" msprop:Generator_RowClassName="RDELDETAILRow" msprop:Generator_TableVarName="tableRDELDETAIL" msprop:Generator_UserTableName="RDELDETAIL">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CLSTOCK" msprop:Generator_ColumnPropNameInRow="CLSTOCK" msprop:Generator_ColumnPropNameInTable="CLSTOCKColumn" msprop:Generator_ColumnVarNameInTable="columnCLSTOCK" msprop:Generator_UserColumnName="CLSTOCK" type="xs:decimal" minOccurs="0" />
+              <xs:element name="QTY" msprop:Generator_ColumnPropNameInRow="QTY" msprop:Generator_ColumnPropNameInTable="QTYColumn" msprop:Generator_ColumnVarNameInTable="columnQTY" msprop:Generator_UserColumnName="QTY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="RATE" msprop:Generator_ColumnPropNameInRow="RATE" msprop:Generator_ColumnPropNameInTable="RATEColumn" msprop:Generator_ColumnVarNameInTable="columnRATE" msprop:Generator_UserColumnName="RATE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AMOUNT" msprop:Generator_ColumnPropNameInRow="AMOUNT" msprop:Generator_ColumnPropNameInTable="AMOUNTColumn" msprop:Generator_ColumnVarNameInTable="columnAMOUNT" msprop:Generator_UserColumnName="AMOUNT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ITEMID" msprop:Generator_ColumnPropNameInRow="ITEMID" msprop:Generator_ColumnPropNameInTable="ITEMIDColumn" msprop:Generator_ColumnVarNameInTable="columnITEMID" msprop:Generator_UserColumnName="ITEMID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="UNIT" msprop:Generator_ColumnPropNameInRow="UNIT" msprop:Generator_ColumnPropNameInTable="UNITColumn" msprop:Generator_ColumnVarNameInTable="columnUNIT" msprop:Generator_UserColumnName="UNIT" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

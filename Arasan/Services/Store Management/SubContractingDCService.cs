@@ -40,13 +40,23 @@ namespace Arasan.Services.Store_Management
         public DataTable GetItem()
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT DRUM_STOCK_ID,ITEMMASTER.ITEMID,DRUM_STOCK.ITEMID as item FROM DRUM_STOCK LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=DRUM_STOCK.ITEMID";
+            SvSql = "SELECT ITEMMASTERID,ITEMID FROM ITEMMASTER";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
+        //public DataTable GetPartyItem(string ItemId)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "SELECT WIPITEMID,WCBASICID FROM WCBASIC WHERE PARTYID='" + ItemId + "'";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable GetItemDetails(string ItemId)
         {
             string SvSql = string.Empty;
@@ -216,7 +226,7 @@ namespace Arasan.Services.Store_Management
                                 objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
                                 objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                 objCmds.ExecuteNonQuery();
-                               
+
 
 
                             }

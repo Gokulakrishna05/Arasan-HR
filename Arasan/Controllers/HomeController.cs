@@ -25,6 +25,7 @@ namespace Arasan.Controllers
 
         public IActionResult PurchaseDash()
         {
+
             return View();
         }
 

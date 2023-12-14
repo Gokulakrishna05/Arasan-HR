@@ -22,6 +22,16 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Update="RetDataSet.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RetDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="Returns.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Returns.xsd</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +43,14 @@
     <None Update="DataSet4.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet4.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="RetDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>RetDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Returns.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Returns.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
 

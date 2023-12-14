@@ -11,7 +11,7 @@ using System.Data;
 
 namespace Arasan.Services
 {
-    public class RetNonRetDcService : IRetNonRetDc
+    public class RetNonRetDcService : IRetNonRetDc 
     {
         private readonly string _connectionString;
         DataTransactions datatrans;
@@ -79,6 +79,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("APPBY", OracleDbType.NVarchar2).Value = cy.Approved;
                     objCmd.Parameters.Add("APPBY2", OracleDbType.NVarchar2).Value = cy.Approval2;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = 'Y';
+                    objCmd.Parameters.Add("EBY", OracleDbType.NVarchar2).Value = cy.Entered;
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -122,7 +123,6 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("PURFTRN", OracleDbType.NVarchar2).Value = cp.Transaction;
                                     objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.Rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
-                                    objCmds.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value ='Y';
 
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
@@ -266,7 +266,7 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable GetPartyDetails(string id)
+        public DataTable GetPartyitems(string id)
         {
             string SvSql = string.Empty;
             SvSql = "SELECT PARTYID,ADD1,ADD2,CITY FROM PARTYMAST WHERE PARTYNAME = '" + id + "' ";
@@ -276,15 +276,47 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetPartyDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT PARTYID,ADD1,ADD2,CITY FROM PARTYMAST WHERE PARTYMASTID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        
+        //public DataTable GetSubGroup(string id)
+        //{
+        //    string SvSql = string.Empty;
+        //    //SvSql = "select SGCODE from ITEMSUBGROUP WHERE SGDESC = '" + id + "' ";
+        //    SvSql = "select ITEMID,SUBGROUPCODE from ITEMMASTER WHERE ITEMDESC = '" + id + "' ";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
 
         public DataTable GetRetItemDetail(string id)
         {
-//            select ITEMMASTER.ITEMID,RDELDETAIL.UNIT,RDELDETAIL.CLSTOCK,RDELDETAIL.QTY,RDELDETAIL.PURFTRN,RDELDETAIL.RATE,RDELDETAIL.AMOUNT from RDELDETAIL
-//LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID = RDELDETAIL.ITEMID WHERE RDELDETAIL.RDELBASICID = 3
-
-
+           
             string SvSql = string.Empty;
-            SvSql = " select UNITMAST.UNITID,ITEMID,LATPURPRICE from ITEMMASTER LEFT OUTER JOIN UNITMAST on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where ITEMMASTER.ITEMMASTERID = '" + id + "' ";
+            //SvSql = " select UNITMAST.UNITID,ITEMID,LATPURPRICE from ITEMMASTER LEFT OUTER JOIN UNITMAST on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where ITEMMASTERID = '" + id + "' ";
+            SvSql = " select UNITMAST.UNITID,LATPURPRICE from ITEMMASTER LEFT OUTER JOIN UNITMAST on UNITMASTID=ITEMMASTER.PRIUNIT where ITEMMASTERID  = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetRetItem(string id)
+        {
+           
+            string SvSql = string.Empty;
+            //SvSql = "   select UNITMAST.UNITID,ITEMID,LATPURPRICE from ITEMMASTER LEFT OUTER JOIN UNITMAST on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID  where ITEMMASTER.ITEMDESC   = '" + id + "' ";
+            SvSql = "    select UNITMAST.UNITID,ITEMID,LATPURPRICE from ITEMMASTER LEFT OUTER JOIN UNITMAST on UNITMAST.UNITMASTID = ITEMMASTER.PRIUNIT where ITEMMASTERID   = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -309,7 +341,11 @@ namespace Arasan.Services
         public DataTable ViewGetReturnable(string id)
         {
             string SvSql = string.Empty;
+
             SvSql = "  SELECT LOCDETAILS.LOCID,FROMLOCID,DOCID,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DELTYPE,THROUGH,PARTYMAST.PARTYID ,STKTYPE,REFNO, to_char(RDELBASIC.REFDATE,'dd-MON-yyyy')REFDATE,to_char(RDELBASIC.DELDATE,'dd-MON-yyyy')DELDATE,NARRATION,EMPMAST.EMPNAME,EMPMAST.EMPNAME FROM RDELBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY2 LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RDELBASIC.PARTYNAME LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID = RDELBASIC.FROMLOCID WHERE RDELBASIC.RDELBASICID = '" + id + "' ";
+
+            SvSql = "  SELECT LOCDETAILS.LOCID,DOCID,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DELTYPE,THROUGH,PARTYMAST.PARTYID ,STKTYPE,REFNO, to_char(RDELBASIC.REFDATE,'dd-MON-yyyy')REFDATE,to_char(RDELBASIC.DELDATE,'dd-MON-yyyy')DELDATE,NARRATION,EMPMAST.EMPNAME,EMPMAST.EMPNAME FROM RDELBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY2 LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RDELBASIC.PARTYNAME LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID = RDELBASIC.FROMLOCID  WHERE RDELBASIC.RDELBASICID = '" + id + "' ";
+
             //SvSql = "  SELECT FROMLOCID,DOCID,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DELTYPE,THROUGH,PARTYNAME ,STKTYPE,REFNO, to_char(RDELBASIC.REFDATE,'dd-MON-yyyy')REFDATE,to_char(RDELBASIC.DELDATE,'dd-MON-yyyy')DELDATE,NARRATION,EMPMAST.EMPNAME,EMPMAST.EMPNAME FROM RDELBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY2  WHERE RDELBASIC.RDELBASICID = '" + id + "' ";
 
             DataTable dtt = new DataTable();
@@ -322,7 +358,12 @@ namespace Arasan.Services
         public DataTable GetReturnableItems(string id)
         {
             string SvSql = string.Empty;
+
             SvSql = "select ITEMID,CITEMID,UNIT,CLSTOCK,QTY,PURFTRN,RATE,AMOUNT,RDELDETAILID from RDELDETAIL   WHERE RDELDETAIL.RDELBASICID = '" + id + "' ";
+
+            //SvSql = "select ITEMMASTER.ITEMID,UNIT,CLSTOCK,QTY,PURFTRN,RATE,AMOUNT from RDELDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID = RDELDETAIL.ITEMID WHERE RDELDETAIL.RDELBASICID = '" + id + "' ";
+            SvSql = "select ITEMID,UNIT,CLSTOCK,QTY,PURFTRN,RATE,AMOUNT from RDELDETAIL  WHERE RDELDETAIL.RDELBASICID = '" + id + "' ";
+
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -330,6 +371,17 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        //public DataTable GetItemSubGroup(string id)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select SGCODE from ITEMSUBGROUP WHERE ITEMSUBGROUPID  = '" + id + "' ";
+
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable GetViewReturnableItems(string id)
         {
             string SvSql = string.Empty;
@@ -408,6 +460,22 @@ namespace Arasan.Services
             return dtt;
         }
 
+        public async Task<IEnumerable<ReturnDetail>> GetReturns(string id)
+        {
+            using (OracleConnection db = new OracleConnection(_connectionString))
+            {
+
+               // return await db.QueryAsync<ReturnDetail>("  SELECT LOCDETAILS.LOCID as FROMLOCID, RDELBASIC.DOCDATE, EMPMAST.EMPNAME as APPBY2,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RDELBASIC.THROUGH,EMPMAST.EMPNAME as APPBY,ITEMMASTER.ITEMID, RDELDETAIL.QTY, RDELDETAIL.UNIT,RDELDETAIL.PURFTRN from RDELBASIC INNER JOIN ITEMMASTER ON RDELBASIC.RDELBASICID = ITEMMASTER.ITEMMASTERID INNER JOIN RDELDETAIL ON RDELBASIC.RDELBASICID = RDELDETAIL.RDELDETAILID INNER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID = RDELBASIC.FROMLOCID INNER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY INNER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY2 WHERE RDELDETAIL.RDELDETAILID = '" + id + "' and RDELBASIC.RDELBASICID  = '" + id + "' ", commandType: CommandType.Text);
+               // return await db.QueryAsync<ReturnDetail>("   SELECT LOCDETAILS.LOCID as FROMLOCID,RDELBASIC.DELTYPE, EMPMAST.EMPNAME as APPBY2,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,to_char(RDELBASIC.DELDATE,'dd-MON-yyyy')DELDATE,RDELBASIC.THROUGH,EMPMAST.EMPNAME as APPBY,ITEMMASTER.ITEMID, RDELDETAIL.QTY, RDELDETAIL.UNIT,RDELDETAIL.PURFTRN from RDELBASIC INNER JOIN ITEMMASTER ON RDELBASIC.RDELBASICID = ITEMMASTER.ITEMMASTERID INNER JOIN RDELDETAIL ON RDELBASIC.RDELBASICID = RDELDETAIL.RDELDETAILID INNER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID = RDELBASIC.FROMLOCID INNER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY INNER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY2 WHERE RDELDETAIL.RDELDETAILID = '" + id + "' and RDELBASIC.RDELBASICID  = '" + id + "' ", commandType: CommandType.Text);
+
+                //return await db.QueryAsync<ReturnDetail>(" SELECT RDELBASIC.RDELBASICID ,PARTYMAST.PARTYID, PARTYMAST.ADD1, PARTYMAST.CITY ,LOCDETAILS.LOCID as FROMLOCID,RDELBASIC.DELTYPE, EMPMAST.EMPNAME as APPBY2,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,to_char(RDELBASIC.DELDATE,'dd-MON-yyyy')DELDATE,RDELBASIC.THROUGH,EMPMAST.EMPNAME as APPBY,ITEMMASTER.ITEMID, RDELDETAIL.QTY, RDELDETAIL.UNIT,RDELDETAIL.PURFTRN from RDELBASIC INNER JOIN ITEMMASTER ON RDELBASIC.RDELBASICID = ITEMMASTER.ITEMMASTERID INNER JOIN RDELDETAIL ON RDELBASIC.RDELBASICID = RDELDETAIL.RDELDETAILID INNER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID = RDELBASIC.FROMLOCID INNER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY INNER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY2 INNER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RDELBASIC.PARTYNAME WHERE RDELDETAIL.RDELDETAILID = '" + id + "' and RDELBASIC.RDELBASICID  ='" + id + "'", commandType: CommandType.Text);
+               
+                
+                return await db.QueryAsync<ReturnDetail>(" SELECT RDELBASIC.RDELBASICID ,PARTYMAST.PARTYID, PARTYMAST.ADD1, PARTYMAST.CITY ,LOCDETAILS.LOCID as FROMLOCID,RDELBASIC.DELTYPE,E.EMPNAME as EBY, E2.EMPNAME as APPBY2,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,to_char(RDELBASIC.DELDATE,'dd-MON-yyyy')DELDATE,RDELBASIC.THROUGH,E1.EMPNAME as APPBY,ITEMMASTER.ITEMID, RDELDETAIL.QTY, RDELDETAIL.UNIT,RDELDETAIL.PURFTRN from RDELBASIC LEFT OUTER JOIN ITEMMASTER ON RDELBASIC.RDELBASICID = ITEMMASTER.ITEMMASTERID INNER JOIN RDELDETAIL ON RDELBASIC.RDELBASICID = RDELDETAIL.RDELDETAILID LEFT OUTER JOIN EMPMAST E ON E.EMPMASTID = RDELBASIC.APPBY LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RDELBASIC.PARTYNAME LEFT OUTER JOIN EMPMAST E1 ON E1.EMPMASTID = RDELBASIC.EBY LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID = RDELBASIC.FROMLOCID LEFT OUTER JOIN EMPMAST E2 ON E2.EMPMASTID = RDELBASIC.APPBY2 WHERE RDELDETAIL.RDELDETAILID = '" + id + "' and RDELBASIC.RDELBASICID = '" + id + "'", commandType: CommandType.Text);
+
+            }
+
+        }
 
     }
 }

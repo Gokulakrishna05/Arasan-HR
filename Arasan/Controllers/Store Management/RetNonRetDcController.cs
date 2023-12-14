@@ -22,9 +22,9 @@ namespace Arasan.Controllers
         private readonly IWebHostEnvironment _WebHostEnvironment;
 
         DataTransactions datatrans;
-        public RetNonRetDcController(IRetNonRetDc _RetNonRetDcService, IConfiguration _configuratio)
+        public RetNonRetDcController(IRetNonRetDc _RetNonRetDcService, IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
         {
-
+            this._WebHostEnvironment = WebHostEnvironment;
             RetNonRetDcService = _RetNonRetDcService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
@@ -35,6 +35,8 @@ namespace Arasan.Controllers
 
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
+            ca.Enteredlst = BindEmp();
+            ca.Entered = Request.Cookies["EMPNAME"];
             ca.DDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Partylst = BindParty();
             ca.Stocklst = BindStock();
@@ -110,16 +112,17 @@ namespace Arasan.Controllers
                         {
                             tda.subgrp = dt3.Rows[0]["SUBGROUPCODE"].ToString();
                         }
+                        tda.Itemlst = BindItemlst(tda.subgrp);
+                        tda.item = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         DataTable dt4 = new DataTable();
-                        dt4 = RetNonRetDcService.GetRetItemDetail(dt2.Rows[i]["ITEMID"].ToString());
-                        if (dt3.Rows.Count > 0)
+                        dt4 = RetNonRetDcService.GetRetItemDetail(tda.item);
+                        if (dt4.Rows.Count > 0)
                         {
                             tda.Unit = dt4.Rows[0]["UNITID"].ToString();
                             tda.PurRate = dt4.Rows[0]["LATPURPRICE"].ToString();
                         }
-                        tda.Itemlst = BindItemlst(tda.subgrp);
-                        tda.item = dt2.Rows[i]["ITEMID"].ToString();
-                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        
                         
                         //tda.Unit = dt2.Rows[i]["UNIT"].ToString();
                         //tda.Unit = dt2.Rows[i]["UNIT"].ToString();
@@ -365,6 +368,36 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public ActionResult GetPartyitems(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string add = "";
+                string address = "";
+                string city = "";
+              
+
+                dt = RetNonRetDcService.GetPartyitems(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+                    add = dt.Rows[0]["ADD1"].ToString();
+
+                    address = dt.Rows[0]["ADD2"].ToString();
+                    city = dt.Rows[0]["CITY"].ToString();
+                   
+                }
+
+                var result = new { add = add, address = address , city = city };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public ActionResult GetRetItemDetail(string ItemId,string loc,string branch,string type)
         {
@@ -426,6 +459,34 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+          public ActionResult GetRetItem(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+               
+
+                string unit = "";
+                string purrate = "";
+               
+                dt = RetNonRetDcService.GetRetItem(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    unit = dt.Rows[0]["UNITID"].ToString();
+                    purrate = dt.Rows[0]["LATPURPRICE"].ToString();
+                    
+                }
+
+                var result = new { unit = unit, purrate = purrate };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
         public ActionResult DeleteMR(string tag, int id)
@@ -471,7 +532,7 @@ namespace Arasan.Controllers
             dt = RetNonRetDcService.ViewGetReturnable(id);
             if (dt.Rows.Count > 0)
             {
-                ca.Location = dt.Rows[0]["FROMLOCID"].ToString();
+                ca.Location = dt.Rows[0]["LOCID"].ToString();
                 ca.Did = dt.Rows[0]["DOCID"].ToString();
                 ca.DDate = dt.Rows[0]["DOCDATE"].ToString();
                 ca.DcType = dt.Rows[0]["DELTYPE"].ToString();
@@ -485,7 +546,7 @@ namespace Arasan.Controllers
                 ca.Approved = dt.Rows[0]["EMPNAME"].ToString();
                 ca.Approval2 = dt.Rows[0]["EMPNAME"].ToString();
 
-                dt1 = RetNonRetDcService.GetPartyDetails(dt.Rows[0]["PARTYID"].ToString());
+                dt1 = RetNonRetDcService.GetPartyitems(dt.Rows[0]["PARTYID"].ToString());
                 if (dt1.Rows.Count > 0)
                 {
                     ca.Add1 = dt1.Rows[0]["ADD1"].ToString();
@@ -504,15 +565,19 @@ namespace Arasan.Controllers
                 {
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
-                        DataTable dt3 = new DataTable();
-                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
-                        if (dt3.Rows.Count > 0)
-                        {
-                            tda.subgrp = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                        }
+                        tda = new RetNonRetDcItem();
+                        //DataTable dt3 = new DataTable();
+                        //dt3 = RetNonRetDcService.GetSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        //if (dt3.Rows.Count > 0)
+                        //{
+                        //    tda.subgrp = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        //}
+                        //tda.Itemlst = BindItemlst(tda.subgrp);
+                        tda.item = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         DataTable dt4 = new DataTable();
-                        dt4 = RetNonRetDcService.GetRetItemDetail(dt2.Rows[i]["ITEMID"].ToString());
-                        if (dt3.Rows.Count > 0)
+                        dt4 = RetNonRetDcService.GetRetItem(dt2.Rows[i]["ITEMID"].ToString());
+                        if (dt4.Rows.Count > 0)
                         {
                             tda.Unit = dt4.Rows[0]["UNITID"].ToString();
                             tda.PurRate = dt4.Rows[0]["LATPURPRICE"].ToString();
@@ -520,6 +585,7 @@ namespace Arasan.Controllers
                         tda.Itemlst = BindItemlst(tda.subgrp);
                         tda.item = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+                       
                         tda.Current = dt2.Rows[i]["CLSTOCK"].ToString();
                         tda.Qty = dt2.Rows[i]["QTY"].ToString();
                         tda.Transaction = dt2.Rows[i]["PURFTRN"].ToString();
@@ -653,14 +719,16 @@ namespace Arasan.Controllers
 
                 
                 string approve = string.Empty;
+
+                string Generate = string.Empty;
+
                 string ViewRow = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
 
-
-
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
+
                     if (dtUsers.Rows[i]["STATUS"].ToString() == "Approve")
                     {
                         approve = "";
@@ -672,13 +740,20 @@ namespace Arasan.Controllers
                         EditRow = "<a href=RetNonRetDc?id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
 
                     }
+
+                    Generate = "<a href=Print?id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + "  ><img src='../Images/pdf.png' alt='Generate' width='20' /></a>";
+
                     ViewRow = "<a href=ViewRetNonRetDc?id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                     DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 }
                 else
                 {
 
+
                     approve = "";
+
+                    Generate = "";
+
                     ViewRow = "";
                     EditRow = "";
                     DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
@@ -694,7 +769,11 @@ namespace Arasan.Controllers
                     party = dtUsers.Rows[i]["PARTYID"].ToString(),
 
 
+
                     approve = approve,
+
+                    generate = Generate,
+
                     viewrow = ViewRow,
                     editrow = EditRow,
                     delrow = DeleteRow,
@@ -706,6 +785,23 @@ namespace Arasan.Controllers
             {
                 Reg
             });
+
+        }
+        public async Task<IActionResult> Print(string id)
+        {
+            string mimtype = "";
+            int extension = 1;
+            
+            System.Data.DataSet ds = new System.Data.DataSet();
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\ReturnReport.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+
+              var Returns = await RetNonRetDcService.GetReturns(id);
+
+              LocalReport localReport = new LocalReport(path);
+              localReport.AddDataSource("DataSet3", Returns);
+              var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+             return File(result.MainStream, "application/Pdf");
 
         }
 

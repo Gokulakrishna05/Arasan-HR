@@ -47,7 +47,12 @@
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Location, Model.Loclst,"--Please select--", new { @id = "ddlLocation", @Class = "form-control  _select", @TabIndex = 1})
 
+
                                             @Html.HiddenFor(C => C.Branch,new{@id="branch"})
+
+                                            @Html.HiddenFor(C => C.Entered)
+                                            @Html.HiddenFor(C => C.Branch)
+
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
@@ -265,7 +270,11 @@
                                                             @Html.TextBoxFor(o => o.RetLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 80px;"  })
                                                         </td>
                                                         <td>
+
                                                             @Html.TextBoxFor(o => o.RetLst[i].Transaction, new { @id = "txtTransaction" + i, @class = "form-control", style = "width: 130px;" })
+
+                                                            @Html.TextBoxFor(o => o.RetLst[i].Transaction, new { @id = "txtTransaction" + i, @class = "form-control", style = "width: 110px;" })
+
                                                         </td>
                                                        
 
