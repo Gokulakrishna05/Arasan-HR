@@ -2,6 +2,7 @@
 using Arasan.Models;
 //using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Reporting.Map.WebForms.BingMaps;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
@@ -113,7 +114,7 @@ namespace Arasan.Services
         public DataTable GetGRNItembyID(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select GRNBLDETAIL.QTY,GRNBLDETAIL.GRNBLBASICID,GRNBLDETAIL.ITEMID,UNITMAST.UNITID,GRNBLDETAIL.RATE,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,PURTYPE,ITEMMASTER.LOTYN from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GRNBLDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where GRNBLDETAIL.GRNBLBASICID='" + name + "'";
+            SvSql = "Select GRNBLDETAIL.QTY,GRNBLDETAIL.GRNBLDETAILID,GRNBLDETAIL.GRNBLBASICID,GRNBLDETAIL.ITEMID,UNITMAST.UNITID,GRNBLDETAIL.RATE,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,PURTYPE,DAMAGE_QTY,ITEMMASTER.LOTYN from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GRNBLDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where GRNBLDETAIL.GRNBLBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -334,10 +335,23 @@ namespace Arasan.Services
                                     objConnT.Open();
                                     objCmds.ExecuteNonQuery();
                                     objConnT.Close();
+                                    if (cp.DamageQty > 0)
+                                    {
+
+                                        DateTime currentdate = DateTime.Now;
+                                        DateTime expiry = currentdate.AddDays(10);
+                                        string notifidate= currentdate.ToString("dd-MMM-yyyy");
+                                        string expirydate= expiry.ToString("dd-MMM-yyyy");
+
+                                        svSQL = "Insert into PURNOTIFICATION (T1SOURCEID,TYPE,NOTIFYDATE,DISPLAY,ACK,EXPIRYDATE) VALUES ('" + cp.grndetid + "','GRN','" + notifidate + "','GRN DAMAGE','N','"+ expirydate + "')";
+
+                                        objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+                                    }
                                 }
 
                                 /////////////////////////Inventory details
-                              
+
                                 string GRNITEMID = datatrans.GetDataString("Select GRNBLDETAILID from GRNBLDETAIL where GRNBLBASICID='" + cy.GRNID + "'  AND ITEMID='" + cp.saveItemId + "' ");
                                 //string wcid = datatrans.GetDataString("Select WCBASICID from WCBASIC where ILOCATION='10001000000827' ");
                                 using (OracleConnection objConnI = new OracleConnection(_connectionString))

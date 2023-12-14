@@ -10,6 +10,7 @@ namespace Arasan.Interface
         DataTable GetBranch();
         DataTable GetParty();
         string RetNonRetDcCRUD(RetNonRetDc cy);
+        string ApproveRetNonRetDcCRUD(RetNonRetDc cy);
 
         DataTable GetPartyDetails(string id);
         //DataTable GetSubGroup(string id);

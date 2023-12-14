@@ -33,8 +33,8 @@ namespace Arasan.Controllers.Store_Management
             MaterialRequisition MR = new MaterialRequisition();
             MR.Brlst = BindBranch();
             var userId = Request.Cookies["UserId"];
-            //MR.Loclst = GetLoc(userId);
-            MR.Loclst = GetLocation();
+            MR.Loclst = GetLoc(userId);
+            //MR.Loclst = GetLocation();
             MR.Worklst = BindWorkCenter("");
             MR.Processlst = BindProcess("");
             MR.assignList = BindEmp();

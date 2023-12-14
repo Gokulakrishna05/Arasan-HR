@@ -27,7 +27,7 @@ namespace Arasan.Services
         public DataTable GetWorkCenter(string value)
         {
             string SvSql = string.Empty;
-            SvSql = "Select WCID,WCBASICID from WCBASIC where LOCID='" + value + "' ";
+            SvSql = "Select WCID,WCBASICID from WCBASIC where ILOCATION='" + value + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -946,10 +946,26 @@ namespace Arasan.Services
                                 string unitID = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.UnitID + "' ");
 
 
-                                svSQL = "Insert into STORESREQDETAIL (STORESREQBASICID,ITEMID,UNIT,QTY,STOCK,NARR,ITEMMASTERID,ITEMDESC,STATUS) VALUES ('" + reqid + "','" + cp.ItemId + "','" + unitID + "','" + cp.ReqQty + "','" + cp.ClosingStock + "','" + cy.Narration + "','" + cp.ItemId + "','" + desc + "','OPEN')";
+                                svSQL = "Insert into STORESREQDETAIL (STORESREQBASICID,ITEMID,UNIT,QTY,STOCK,NARR,ITEMMASTERID,ITEMDESC,STATUS) VALUES ('" + reqid + "','" + cp.ItemId + "','" + unitID + "','" + cp.ReqQty + "','" + cp.ClosingStock + "','" + cy.Narration + "','" + cp.ItemId + "','" + desc + "','OPEN') RETURNING STORESREQDETAILID INTO :LASTCID";
                                 OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                objCmds.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                 objCmds.ExecuteNonQuery();
+                                string detailid = objCmds.Parameters["LASTCID"].Value.ToString();
+                                double stock = Convert.ToDouble(cp.ReqQty);
+                                double clstock = Convert.ToDouble(cp.ClosingStock);
+                                if (stock > clstock)
+                                {
 
+                                    DateTime currentdate = DateTime.Now;
+                                    DateTime expiry = currentdate.AddDays(10);
+                                    string notifidate = currentdate.ToString("dd-MMM-yyyy");
+                                    string expirydate = expiry.ToString("dd-MMM-yyyy");
+
+                                    svSQL = "Insert into PURNOTIFICATION (T1SOURCEID,TYPE,NOTIFYDATE,DISPLAY,ACK,EXPIRYDATE) VALUES ('" + detailid + "','MR','" + notifidate + "','INDENT CREATE','N','" + expirydate + "')";
+
+                                    objCmds = new OracleCommand(svSQL, objConn);
+                                    objCmds.ExecuteNonQuery();
+                                }
                             }
                         }
                     }
@@ -1080,11 +1096,11 @@ namespace Arasan.Services
             //}
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = " Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,PRIORITY,LOCATIONDETAILS.LOCID,STORESREQBASIC.PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCATIONDETAILS on STORESREQBASIC.FROMLOCID=LOCATIONDETAILS.LOCATIONDETAILSID LEFT OUTER JOIN  WCBASIC on WCBASIC.WCBASICID=STORESREQBASIC.WCID WHERE STORESREQBASIC.IS_ACTIVE='Y' AND STORESREQBASIC.STATUS NOT IN ('Issued','CLOSE') ORDER BY STORESREQBASIC.STORESREQBASICID DESC";
+                SvSql = " Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,PRIORITY,LOCDETAILS.LOCID,STORESREQBASIC.PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID LEFT OUTER JOIN  WCBASIC on WCBASIC.WCBASICID=STORESREQBASIC.WCID WHERE STORESREQBASIC.IS_ACTIVE='Y' AND STORESREQBASIC.STATUS NOT IN ('Issued','CLOSE') ORDER BY STORESREQBASIC.STORESREQBASICID DESC";
             }
             else
             {
-                SvSql = "Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,LOCATIONDETAILS.LOCID,STORESREQBASIC.PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCATIONDETAILS on STORESREQBASIC.FROMLOCID=LOCATIONDETAILS.LOCATIONDETAILSID LEFT OUTER JOIN  WCBASIC on WCBASIC.WCBASICID=STORESREQBASIC.WCID WHERE STORESREQBASIC.IS_ACTIVE='N' AND STORESREQBASIC.STATUS NOT IN ('Issued','CLOSE')  ORDER BY STORESREQBASIC.STORESREQBASICID DESC";
+                SvSql = "Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,LOCDETAILS.LOCID,STORESREQBASIC.PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID LEFT OUTER JOIN  WCBASIC on WCBASIC.WCBASICID=STORESREQBASIC.WCID WHERE STORESREQBASIC.IS_ACTIVE='N' AND STORESREQBASIC.STATUS NOT IN ('Issued','CLOSE')  ORDER BY STORESREQBASIC.STORESREQBASICID DESC";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
