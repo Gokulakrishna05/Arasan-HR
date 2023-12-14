@@ -202,6 +202,7 @@ namespace Arasan.Models
         public string Duedate { get; set; }
         public string Lotno { get; set; }
         public string LOTYN { get;set; }   
+        public string grndetid { get;set; }   
 
     }
     public class POItemDetail

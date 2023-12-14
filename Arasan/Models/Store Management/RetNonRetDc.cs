@@ -34,8 +34,10 @@ namespace Arasan.Models
         public string Branch { get; set; }
 
         public string Location { get; set; }
+        public string Locationid { get; set; }
         public string Did { get; set; }
         public string DDate { get; set; }
+        public string ADDate { get; set; }
 
         public List<SelectListItem> typelst;
         public string DcType { get; set; }
@@ -70,6 +72,7 @@ namespace Arasan.Models
         public List<SelectListItem> Itemlst { get; set; }
 
         public string saveItemId { get; set; }
+        public string detid { get; set; }
 
         public string subgrp { get; set; }
         public string item { get; set; }
@@ -92,6 +95,7 @@ namespace Arasan.Models
         public string dctype { get; set; }
         public string party { get; set; }
         public string viewrow { get; set; }
+        public string approve { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
     }

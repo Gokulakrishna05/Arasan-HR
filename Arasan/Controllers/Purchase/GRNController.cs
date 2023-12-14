@@ -108,6 +108,7 @@ namespace Arasan.Controllers
                         }
                         
                         tda.LOTYN= dt2.Rows[i]["LOTYN"].ToString();
+                        tda.grndetid= dt2.Rows[i]["GRNBLDETAILID"].ToString();
                         //tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString());
                         tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString() == "" ? "0" : dt2.Rows[i]["RATE"].ToString());
                         tda.CostRate= Convert.ToDouble(dt2.Rows[i]["RATE"].ToString() == "" ? "0" : dt2.Rows[i]["RATE"].ToString());
@@ -129,6 +130,7 @@ namespace Arasan.Controllers
                         tda.ConvQty = tda.Goodqty * cf;
                         tda.PURLst = BindPurType();
                         //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
+                        tda.DamageQty = Convert.ToDouble(dt2.Rows[i]["DAMAGE_QTY"].ToString() == "" ? "0" : dt2.Rows[i]["DAMAGE_QTY"].ToString());
                         tda.CGSTPer = Convert.ToDouble(dt2.Rows[i]["CGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTP"].ToString());
                         tda.SGSTPer = Convert.ToDouble(dt2.Rows[i]["SGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTP"].ToString());
                         tda.IGSTPer = Convert.ToDouble(dt2.Rows[i]["IGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTP"].ToString());
