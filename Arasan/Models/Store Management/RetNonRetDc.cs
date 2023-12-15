@@ -122,6 +122,7 @@ namespace Arasan.Models
         public string ADD1 { get; set; }
         public string CITY { get; set; }
         public string EBY { get; set; }
+        public string DOCID { get; set; }
 
     }
 
