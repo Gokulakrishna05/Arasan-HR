@@ -399,15 +399,19 @@ namespace Arasan.Controllers
             }
         }
 
-        public ActionResult GetRetItemDetail(string ItemId)
+        public ActionResult GetRetItemDetail(string ItemId,string loc,string branch,string type)
         {
             try
             {
                 DataTable dt = new DataTable();
+                DataTable stock = new DataTable();
                
 
                 string unit = "";
                 string purrate = "";
+                string totalstock = "";
+                string asseststockp = "";
+                string asseststockm = "";
                
                 dt = RetNonRetDcService.GetRetItemDetail(ItemId);
 
@@ -418,8 +422,36 @@ namespace Arasan.Controllers
                     purrate = dt.Rows[0]["LATPURPRICE"].ToString();
                     
                 }
+                if (type == "Stock")
+                {
+                     stock = datatrans.GetData("Select SUM(BALANCE_QTY) as qty from INVENTORY_ITEM where ITEM_ID='" + ItemId + "' AND BALANCE_QTY > 0 AND LOCATION_ID= '" + loc + "' AND BRANCH_ID='" + branch + "'  ");
+                    totalstock = stock.Rows[0]["qty"].ToString();
+                }
 
-                var result = new { unit = unit, purrate = purrate };
+                else
+                {
+                    asseststockp = datatrans.GetDataString("Select SUM(QTY) as qty from ASSTOCKVALUE where ITEMID='" + ItemId + "' AND LOCID= '" + loc + "' AND PLUSORMINUS ='p' ");
+
+                    asseststockm = datatrans.GetDataString("Select SUM(QTY) as qty from ASSTOCKVALUE where ITEMID='" + ItemId + "' AND LOCID= '" + loc + "' AND PLUSORMINUS ='m' ");
+                    if(asseststockp=="")
+                    {
+                        asseststockp = "0";
+                    }
+                    if (asseststockm == "")
+                    {
+                        asseststockm = "0";
+                    }
+                    double pstock =Convert.ToDouble(asseststockp);
+                    double pmstock =Convert.ToDouble(asseststockm);
+                    double Totpmstock = pstock- pmstock;
+                    totalstock = Totpmstock.ToString();
+                }
+                if (totalstock=="")
+                {
+                    totalstock = "0";
+                }
+               
+                var result = new { unit = unit, purrate = purrate, totalstock= totalstock };
                 return Json(result);
             }
             catch (Exception ex)
@@ -570,9 +602,112 @@ namespace Arasan.Controllers
             return View(ca);
         }
 
+        public IActionResult ApproveRetNonRetDc(string id)
+        {
 
+            RetNonRetDc ca = new RetNonRetDc();
+            DataTable dt = new DataTable();
+            DataTable dt1 = new DataTable();
+            DataTable dt2 = new DataTable();
 
+            dt = RetNonRetDcService.ViewGetReturnable(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Location = dt.Rows[0]["LOCID"].ToString();
+                ca.Locationid = dt.Rows[0]["FROMLOCID"].ToString();
+                ca.Did = dt.Rows[0]["DOCID"].ToString();
+                ca.DDate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.ADDate = DateTime.Now.ToString("dd-MMM-yyyy");
+                ca.DcType = dt.Rows[0]["DELTYPE"].ToString();
+                ca.Through = dt.Rows[0]["THROUGH"].ToString();
+                ca.Party = dt.Rows[0]["PARTYID"].ToString();
+                ca.Stock = dt.Rows[0]["STKTYPE"].ToString();
+                ca.Ref = dt.Rows[0]["REFNO"].ToString();
+                ca.RefDate = dt.Rows[0]["REFDATE"].ToString();
+                ca.Delivery = dt.Rows[0]["DELDATE"].ToString();
+                ca.Narration = dt.Rows[0]["NARRATION"].ToString();
+                ca.Approved = dt.Rows[0]["EMPNAME"].ToString();
+                ca.Approval2 = dt.Rows[0]["EMPNAME"].ToString();
 
+                dt1 = RetNonRetDcService.GetPartyDetails(dt.Rows[0]["PARTYID"].ToString());
+                if (dt1.Rows.Count > 0)
+                {
+                    ca.Add1 = dt1.Rows[0]["ADD1"].ToString();
+
+                    ca.Add2 = dt1.Rows[0]["ADD2"].ToString();
+                    ca.City = dt1.Rows[0]["CITY"].ToString();
+                }
+                ca.ID = id;
+
+                List<RetNonRetDcItem> Data = new List<RetNonRetDcItem>();
+                RetNonRetDcItem tda = new RetNonRetDcItem();
+                //double tot = 0;
+
+                dt2 = RetNonRetDcService.GetReturnableItems(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                       
+                        DataTable dt4 = new DataTable();
+                        dt4 = RetNonRetDcService.GetRetItemDetail(dt2.Rows[i]["CITEMID"].ToString());
+                        if (dt4.Rows.Count > 0)
+                        {
+                            tda.Unit = dt4.Rows[0]["UNITID"].ToString();
+                            tda.PurRate = dt4.Rows[0]["LATPURPRICE"].ToString();
+                        }
+                       
+                        tda.item = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.detid = dt2.Rows[i]["RDELDETAILID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["CITEMID"].ToString();
+                        tda.Current = dt2.Rows[i]["CLSTOCK"].ToString();
+                        tda.Qty = dt2.Rows[i]["QTY"].ToString();
+                        tda.Transaction = dt2.Rows[i]["PURFTRN"].ToString();
+                        tda.Rate = dt2.Rows[i]["RATE"].ToString();
+                        tda.Amount = dt2.Rows[i]["AMOUNT"].ToString();
+
+                        Data.Add(tda);
+                    }
+                }
+
+                ca.RetLst = Data;
+
+            }
+            return View(ca);
+        }
+
+        [HttpPost]
+        public ActionResult ApproveRetNonRetDc(RetNonRetDc Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = RetNonRetDcService.ApproveRetNonRetDcCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    
+                        TempData["notice"] = "RetNonRetDc Approved Successfully...!";
+                    
+                    return RedirectToAction("ListRetNonRetDc");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit RetNonRetDc";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
         public ActionResult MyListItemgrid(string strStatus)
         {
             List<RetNonRetDcGrid> Reg = new List<RetNonRetDcGrid>();
@@ -582,22 +717,43 @@ namespace Arasan.Controllers
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 
+                
+                string approve = string.Empty;
+
                 string Generate = string.Empty;
+
                 string ViewRow = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
 
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
+
+                    if (dtUsers.Rows[i]["STATUS"].ToString() == "Approve")
+                    {
+                        approve = "";
+                        EditRow = "";
+                    }
+                    else
+                    {
+                        approve = "<a href=ApproveRetNonRetDc?id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                        EditRow = "<a href=RetNonRetDc?id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+                    }
+
                     Generate = "<a href=Print?id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + "  ><img src='../Images/pdf.png' alt='Generate' width='20' /></a>";
+
                     ViewRow = "<a href=ViewRetNonRetDc?id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                    EditRow = "<a href=RetNonRetDc?id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 }
                 else
                 {
 
+
+                    approve = "";
+
                     Generate = "";
+
                     ViewRow = "";
                     EditRow = "";
                     DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
@@ -613,7 +769,11 @@ namespace Arasan.Controllers
                     party = dtUsers.Rows[i]["PARTYID"].ToString(),
 
 
+
+                    approve = approve,
+
                     generate = Generate,
+
                     viewrow = ViewRow,
                     editrow = EditRow,
                     delrow = DeleteRow,

@@ -1,0 +1,347 @@
+﻿@model Arasan.Models.SubContractingMaterialReceipt
+
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "Drum Select";
+    string rowid = ViewContext.HttpContext.Request.Query["rowid"];
+
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+</style>
+
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    @using (Html.BeginForm("DrumSelection", "SubContractingMaterialReceipt", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Item<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.item, new { @id = "item"})<br />
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.itemid)
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">QTY<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.qty )<br />
+                                            @Html.HiddenFor(C => C.qty, new { @id = "qty"})
+                                        </div>
+                                        <br />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Rate<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.rate)<br />
+                                            @Html.HiddenFor(C => C.rate, new { @id = "rate"})
+                                        </div>
+
+                                        <br />
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Drum Qty<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.DQty, new { @id = "DQty", @class = "form-control", @TabIndex = 3 , @onchange = "changeDrum(this.value)" })<br />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="col-md-12">
+                                <div class="btn-group">
+                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                        <!-- / ibox-title -->
+                                        <table class="table table-striped table-hover" id="dataTable">
+                                            <thead>
+                                                <tr>
+
+                                                    <th>Drum No</th>
+                                                    <th>Qty</th>
+
+                                                    <th>  Rate </th>
+                                                    <th>  Amount </th>
+
+
+                                                </tr>
+                                            </thead>
+
+                                            <tbody id="tbBooks">
+                                                @{
+                                                    int i = 0;
+
+                                                    foreach (var item in Model.drumlist.ToList())
+                                                    {
+
+                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                            <td>
+                                                                @Html.DropDownListFor(o => o.drumlist[i].drumno, Model.drumlist[i].drulist, "Please Select", new { @class = "form-control _select newcss", @id = "ddldrumno" + i, style = "width: 200px;" })
+                                                            </td>
+                                                            <td>@Html.TextBoxFor(o => o.drumlist[i].qty, new { @id = "txtqty" + i, @class = "form-control", style = "width: 100px;" })  </td>
+                                                            <td>@Html.TextBoxFor(o => o.drumlist[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 100px;" })  </td>
+                                                            <td>@Html.TextBoxFor(o => o.drumlist[i].amount, new { @id = "txtamount" + i, @class = "form-control", style = "width: 120px;" }) </td>
+                                                            <td>
+                                                                @Html.HiddenFor(o => o.drumlist[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="drumlist.Index" type="hidden" value="@(i)" />
+                                                            </td>
+
+                                                        </tr>
+                                                        i++;
+                                                    }
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
+                            <input id="button" type="button" value="OK" class="btn btn-success" />
+                            <input type="button" class="btn btn-danger" value="Close" onclick="location.href='@Url.Action("SubContractingMaterialReceipt", "SubContractingMaterialReceipt")'" />
+
+
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $(document).on('click', '.closeFancybox', function () {
+            $.fancybox.close();
+        });
+
+    })
+    $(function () {
+        $('._select').select2();
+    });
+    function changeDrum(ItemId) {
+        var rate = document.getElementById("rate").value;
+
+        var qty = document.getElementById("qty").value;
+
+
+        document.getElementById("tbBooks").innerHTML = "";
+        var opt = "";
+
+
+        $.ajax({
+            type: "POST",
+            url: 'GetDrumJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+
+
+            }
+        })
+
+        $.ajax({
+            url: 'GetDrumDetails',
+            type: "post",
+            data: { "ItemId": ItemId, "rate": rate, "qty": qty },
+            cache: false,
+
+            success: function (list) {
+                //if (list != null && list.length > 0) {
+                list.forEach((item) => {
+
+                    var index = $("#tbBooks").children("tr").length;
+                    //alert(item.batch);
+                    var Drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddldrumno" + index + "' name='drumlist[" + index + "].drumno'><option value=''>Please select</option>" + opt + "</select></td>";
+
+
+                    var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='drumlist[" + index + "].qty'  style='width: 100px;' type='text' readonly='True' value=" + item.qty + " /></td>";
+
+
+
+
+
+                    var rate = "<td><input class='form-control' id='txtrate" + index + "' name='drumlist[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;' type='text' value=" + item.rate + " readonly='True' /></td>";
+
+                    var Amount = "<td><input class='form-control' id='txtamount" + index + "' name='drumlist[" + index + "].amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 120px; type='text' value=" + item.amount + " readonly='True' /></td>";
+
+
+
+                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + Qty + rate + Amount + "</tr>";
+
+                    $("#tbBooks").append(newRow);
+                });
+                //}
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+
+
+
+
+        });
+
+    }
+    function AddRow() {
+        var opt = "";
+
+
+        $.ajax({
+            type: "POST",
+            url: 'GetDrumJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow(opt);
+
+            }
+        })
+
+
+
+    }
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+
+
+
+    }
+    function AppendRow(opt) {
+        var index = $("#tbBooks").children("tr").length;
+
+        var Drum = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddldrumno" + index + "' name='drumlist[" + index + "].drumno'><option value=''>Please select</option>" + opt + "</select></td>";
+
+
+        var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='drumlist[" + index + "].qty'  style='width: 100px;' type='text'   /></td>";
+
+
+
+
+
+        var rate = "<td><input class='form-control' id='txtrate" + index + "' name='drumlist[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;' type='text'    /></td>";
+
+        var Amount = "<td><input class='form-control' id='txtamount" + index + "' name='drumlist[" + index + "].amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 120px; type='text'   /></td>";
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='drumlist[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='drumlist.Index' type='hidden' value='" + index + "'  /></td>";
+
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + Qty + rate + Amount + removeCell + "</tr>";
+
+        $("#tbBooks").append(newRow);
+
+        $(function () {
+            $('._select').select2();
+
+
+        });
+
+    }
+</script>
+<script>
+    var rowid = "@rowid";
+    // JavaScript to extract table values
+    $("#button").click(function () {
+        var e = 0;
+        var ar1 = "";
+        var ar2 = "";
+        var ar3 = "";
+        var ar4 = "";
+        var DrumItemDeatil = new Array();
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                var emp = {};
+                drumno = document.getElementById("ddldrumno" + e).value;
+    @* emp.drumno = document.getElementById("ddldrumno" + e).value;*@
+                    qty = document.getElementById("txtqty" + e).value;
+                rate = document.getElementById("txtrate" + e).value;
+                var amount = document.getElementById("txtamount" + e).value;
+    @* emp.qty = document.getElementById("txtqty" + e).value;
+                    emp.rate = document.getElementById("txtrate" + e).value;
+                    emp.amount = document.getElementById("txtamount" + e).value;*@
+
+                    DrumItemDeatil.push(emp);
+
+                ar1 += drumno + "-";
+                ar2 += qty + "-";
+                ar3 += rate + "-";
+                ar4 += amount + "-";
+
+            }
+            e += 1;
+        });
+        var drumid = ar1.substring(0, ar1.length - 1);
+        var dqty = ar2.substring(0, ar2.length - 1);
+        var drate = ar3.substring(0, ar3.length - 1);
+        var damount = ar4.substring(0, ar4.length - 1);
+        alert(drumid);
+        alert(dqty);
+        alert(drate);
+        alert(damount);
+        window.parent.document.getElementById('txtdrumno' + rowid).value = drumid;
+        window.parent.document.getElementById('txtdqty' + rowid).value = dqty;
+        window.parent.document.getElementById('txtdrate' + rowid).value = drate;
+        window.parent.document.getElementById('txtdamount' + rowid).value = damount;
+
+        window.parent.jQuery.fancybox.close();
+
+
+
+
+    });
+</script>

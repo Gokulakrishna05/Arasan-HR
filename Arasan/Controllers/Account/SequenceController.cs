@@ -143,7 +143,7 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                if (dtUsers.Rows[i]["ACTIVESEQUENCE"].ToString() == "T")
                 {
 
                     EditRow = "<a href=Sequence?id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
