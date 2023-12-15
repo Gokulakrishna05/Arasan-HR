@@ -9,9 +9,16 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>NON-RETURNABLE DC</Value>
+                <Value xml:space="preserve">        </Value>
                 <Style>
-                  <FontSize>12pt</FontSize>
+                  <FontSize>14pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>=Fields!DELTYPE.Value</Value>
+                <Style>
+                  <FontSize>14pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -21,9 +28,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox3</rd:DefaultName>
         <Top>0.04167in</Top>
-        <Left>2.15212in</Left>
+        <Left>1.57367in</Left>
         <Height>0.25in</Height>
-        <Width>2.13542in</Width>
+        <Width>3.29802in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -333,7 +340,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Fields!DELTYPE.Value</Value>
+                <Value>=Fields!DOCID.Value</Value>
                 <Style>
                   <FontSize>8pt</FontSize>
                 </Style>
@@ -1042,7 +1049,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -1073,6 +1079,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -1137,7 +1144,7 @@
         <Top>1.24652in</Top>
         <Left>0.02637in</Left>
         <Height>0.68849in</Height>
-        <Width>6.10743in</Width>
+        <Width>6.10742in</Width>
         <ZIndex>15</ZIndex>
         <Style>
           <Border>
@@ -1439,9 +1446,8 @@
         </ReportItems>
         <KeepTogether>true</KeepTogether>
         <Top>1.97667in</Top>
-        <Left>0in</Left>
         <Height>0.54563in</Height>
-        <Width>6.08457in</Width>
+        <Width>6.13379in</Width>
         <ZIndex>16</ZIndex>
         <Style>
           <Border>
@@ -1528,9 +1534,10 @@
       </Rectangle>
       <Rectangle Name="Rectangle2">
         <KeepTogether>true</KeepTogether>
-        <Top>0.35667in</Top>
-        <Height>0.25597in</Height>
-        <Width>6.11094in</Width>
+        <Top>0.375in</Top>
+        <Left>0.02637in</Left>
+        <Height>0.20985in</Height>
+        <Width>6.10743in</Width>
         <ZIndex>20</ZIndex>
         <Style>
           <Border>
@@ -1539,7 +1546,7 @@
         </Style>
       </Rectangle>
     </ReportItems>
-    <Height>2.5223in</Height>
+    <Height>2.59522in</Height>
     <Style />
   </Body>
   <Width>6.1338in</Width>
