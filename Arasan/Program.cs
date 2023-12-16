@@ -183,6 +183,8 @@ internal class Program
         builder.Services.TryAddSingleton<IReceiptSubContract, ReceiptSubContractService>();
 
         builder.Services.TryAddSingleton<IRetNonRetDc, RetNonRetDcService>();
+        builder.Services.TryAddSingleton<IAssetAddDed, AssetAddDedService>();
+        builder.Services.TryAddSingleton<IContToAsset, ContToAssetService>();
 
 
 

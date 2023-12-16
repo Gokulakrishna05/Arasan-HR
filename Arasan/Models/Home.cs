@@ -16,6 +16,8 @@ namespace Arasan.Models
         public int EnqFollowcunt { get; set; }
         public int SalesQuoteFollowcunt { get; set; }
         public List<CurIn> CurInlst { get; set; }
+        public List<PurchaseDash> purlst { get; set; }
+        public List<IndentCreate> indlst { get; set; }
         public List<MatNotifys> Materialnotification { get; set; }
 
     }
@@ -29,7 +31,32 @@ namespace Arasan.Models
         public string Unit { get; set; }
         public string stockQty { get; set; }
     }
-   
+    public class PurchaseDash
+    {
+        public string Date { get; set; }
+        public string grn { get; set; }
+        public string ItemName { get; set; }
+        public string party { get; set; }
+        public string qty { get; set; }
+        public string grndetid { get; set; }
+        public string days { get; set; }
+        public string grnbasicid { get; set; }
+        public string notify { get; set; }
+        public string stockQty { get; set; }
+    }
+    public class IndentCreate
+    {
+        public string Date { get; set; }
+        public string docid { get; set; }
+        public string ItemName { get; set; }
+        public string location { get; set; }
+        public string qty { get; set; }
+        public string notify { get; set; }
+        public string days { get; set; }
+        public string basicid { get; set; }
+        public string detid { get; set; }
+        public string stockQty { get; set; }
+    }
     public class CuringGroup
     {
         public string curinggroup { get; set; }
