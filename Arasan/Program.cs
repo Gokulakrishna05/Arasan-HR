@@ -186,6 +186,11 @@ internal class Program
         builder.Services.TryAddSingleton<IAssetAddDed, AssetAddDedService>();
         builder.Services.TryAddSingleton<IContToAsset, ContToAssetService>();
 
+        builder.Services.TryAddSingleton<IReceiptAgtRetDC, ReceiptAgtRetDCService>();
+
+        builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();
+ master
+
 
 
 
