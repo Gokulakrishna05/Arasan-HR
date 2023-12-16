@@ -118,11 +118,23 @@
                 <div class="widgets-container ">
                     <div class="feed-activity-list">
                         <div class="feed-element">
-                            <a href="profile.html" class="pull-left"> <img alt="image" class="img-circle" src="assets/images/teem/placeholders.jpg"> </a>
-                            <div class="media-body ">
-                                <small class="pull-right">5m ago</small> <strong>Olivia Wenscombe</strong> posted a new blog. <br>
-                                <small class="text-muted">Today 5:60 pm - 12.06.2014</small>
-                            </div>
+                          
+                            @{
+                                int i = 0;
+
+                                foreach (var item in Model.purlst.ToList())
+                                {
+                                    <div class='fa-hover col-md-2 col-sm-4'><a href="@Url.Action("ListDamageGRN", "GRN")" class="pull-left"> <img alt="image" class="img-circle" src='../Images/view_icon.png'> </a></div>
+                                    <div class="media-body ">
+                                        <small class="pull-right">@Html.DisplayFor(o => o.purlst[i].days)</small> <strong>@Html.DisplayFor(o => o.purlst[i].party)</strong>/@Html.DisplayFor(o => o.purlst[i].ItemName)-@Html.DisplayFor(o => o.purlst[i].qty) <br>
+                                        <small class="text-muted">@Html.DisplayFor(o => o.purlst[i].grn) - @Html.DisplayFor(o => o.purlst[i].Date)</small>
+
+                                    </div>
+                                    i++;
+                                }
+                                
+                                   }
+                            
                         </div>
                        
                     </div>
@@ -131,5 +143,46 @@
         </div>
         <!-- End feed -->
     </div>
+    <div class="col-lg-6">
+        <!-- Start feed -->
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Indent Create</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link" data-toggle="collapse" data-target="#demo6"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content collapse in" id="demo6">
+                <div class="widgets-container ">
+                    <div class="feed-activity-list">
+                        <div class="feed-element">
 
+                            @{
+                                int j = 0;
+
+                                foreach (var item in Model.indlst.ToList())
+                                {
+                                    <div class='fa-hover col-md-2 col-sm-4'>
+                                        <a href="@Url.Action("ListMaterialRequisition", "MaterialRequisition")" class="pull-left"> <img alt="image" class="img-circle" src='../Images/view_icon.png'> </a></div>
+                                    <div class="media-body ">
+                                        <small class="pull-right">@Html.DisplayFor(o => o.indlst[j].days)</small> <strong>@Html.DisplayFor(o => o.indlst[j].location)</strong>/@Html.DisplayFor(o => o.indlst[j].ItemName)-@Html.DisplayFor(o => o.indlst[j].qty) <br>
+                                        <small class="text-muted">@Html.DisplayFor(o => o.indlst[j].docid) - @Html.DisplayFor(o => o.indlst[j].Date)</small>
+
+                                    </div>
+                                    j++;
+                                }
+
+                            }
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End feed -->
+    </div>
             </div>

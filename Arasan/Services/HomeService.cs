@@ -101,5 +101,68 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetGRN(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DOCID,PARTYMAST.PARTYNAME  from GRNBLBASIC LEFT OUTER JOIN  PARTYMAST ON PARTYMAST.PARTYMASTID=GRNBLBASIC.PARTYID where GRNBLBASICID='" + id + "'  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetDamageGRN()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select T1SOURCEID,TYPE,to_char(NOTIFYDATE,'dd-MON-yyyy')NOTIFYDATE,DISPLAY,EXPIRYDATE from PURNOTIFICATION  where TYPE='GRN' and EXPIRYDATE  between SYSDATE  and  SYSDATE +10 ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetDamageGRNDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select GRNBLDETAILID,GRNBLBASICID,ITEMMASTER.ITEMID,GRNBLDETAIL.DAMAGE_QTY from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GRNBLDETAIL.ITEMID where GRNBLDETAILID='"+id+"' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetIndent()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select T1SOURCEID,TYPE,to_char(NOTIFYDATE,'dd-MON-yyyy')NOTIFYDATE,DISPLAY,EXPIRYDATE from PURNOTIFICATION  where TYPE='MR' and EXPIRYDATE  between SYSDATE  and  SYSDATE +10 ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetMatDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select STORESREQDETAILID,STORESREQBASICID,ITEMMASTER.ITEMID,STORESREQDETAIL.QTY from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID where STORESREQDETAILID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetMat(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DOCID,LOCDETAILS.LOCID  from STORESREQBASIC LEFT OUTER JOIN  LOCDETAILS ON LOCDETAILS.LOCDETAILSID=STORESREQBASIC.FROMLOCID where STORESREQBASICID='" + id + "'  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
     }
 }
