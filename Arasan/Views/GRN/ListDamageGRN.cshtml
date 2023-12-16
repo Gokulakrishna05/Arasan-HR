@@ -40,9 +40,9 @@
             datafields: [
               
                 { name: 'enqno', type: 'string' },
-               
-                { name: 'damage', type: 'string' },
                 { name: 'supplier', type: 'string' },
+                { name: 'item', type: 'string' },
+                { name: 'damage', type: 'string' },
                 { name: 'move', type: 'string' },
                 { name: 'movedn', type: 'string' },
                 { name: 'view', type: 'string' },
@@ -80,9 +80,9 @@
                 columns: [
                   
                     { text: 'GRN No', filtertype: 'input', datafield: 'enqno', width: 150 },
-                    
-                    
-                    { text: 'Damage Qty', filtertype: 'checkedlist', datafield: 'damage', width: 250 },
+                    { text: 'Supplier', datafield: 'supplier', width: 300 },
+                    { text: 'Item Name', datafield: 'item', width: 300 },
+                    { text: 'Damage Qty',  datafield: 'damage', width: 100 },
                     { text: 'Purchase Return', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
                     { text: 'Debit Note', datafield: 'movedn', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },

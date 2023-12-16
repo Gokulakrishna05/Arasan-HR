@@ -7,6 +7,7 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NuGet.Protocol.Plugins;
 using System.Xml.Linq;
+using Org.BouncyCastle.Ocsp;
 
 namespace Arasan.Controllers
 {
@@ -25,8 +26,92 @@ namespace Arasan.Controllers
 
         public IActionResult PurchaseDash()
         {
+            Home H = new Home();
+            PurchaseDash tad = new PurchaseDash();
+            List<PurchaseDash> Data = new List<PurchaseDash>();
+            IndentCreate tad1 = new IndentCreate();
+            List<IndentCreate> Data1 = new List<IndentCreate>();
+            DataTable dt2 = new DataTable();
+            dt2 = HomeService.GetDamageGRN();
+            if(dt2.Rows.Count>0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tad = new PurchaseDash();
+                    tad.grndetid = dt2.Rows[i]["T1SOURCEID"].ToString();
+                    tad.notify = dt2.Rows[i]["NOTIFYDATE"].ToString();
+                    //tad.day = "0";
+                    DataTable dt = new DataTable();
+                    dt = HomeService.GetDamageGRNDetail(tad.grndetid);
+                    tad.ItemName = dt.Rows[0]["ITEMID"].ToString();
+                    tad.qty = dt.Rows[0]["DAMAGE_QTY"].ToString();
+                    tad.grnbasicid = dt.Rows[0]["GRNBLBASICID"].ToString();
+                    DataTable dt1 = new DataTable();
+                    dt1 = HomeService.GetGRN(tad.grnbasicid);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        tad.grn = dt1.Rows[0]["DOCID"].ToString();
+                        tad.Date = dt1.Rows[0]["DOCDATE"].ToString();
+                        tad.party = dt1.Rows[0]["PARTYNAME"].ToString();
+                    }
+                  
+                    DateTime Current = DateTime.Parse(tad.notify);
 
-            return View();
+                    TimeSpan difference = DateTime.Now - Current;
+                    int daysAgo = (int)difference.TotalDays;
+                     if(daysAgo==0)
+                    {
+                        tad.days = "Today";
+                    }
+                    else
+                    {
+                        tad.days = daysAgo + "days ago";
+                       
+                    }
+                    Data.Add(tad);
+                }
+                }
+            
+            DataTable Idt2 = new DataTable();
+            Idt2 = HomeService.GetIndent();
+            if (Idt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < Idt2.Rows.Count; i++)
+                {
+                    tad1 = new IndentCreate();
+                    tad1.detid = Idt2.Rows[i]["T1SOURCEID"].ToString();
+                    tad1.notify = Idt2.Rows[i]["NOTIFYDATE"].ToString();
+                    DataTable dt = new DataTable();
+                    dt = HomeService.GetMatDetail(tad1.detid);
+                    tad1.ItemName = dt.Rows[0]["ITEMID"].ToString();
+                    tad1.qty = dt.Rows[0]["QTY"].ToString();
+                    tad1.basicid = dt.Rows[0]["STORESREQBASICID"].ToString();
+                    DataTable dt1 = new DataTable();
+                    dt1 = HomeService.GetMat(tad1.basicid);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        tad1.docid = dt1.Rows[0]["DOCID"].ToString();
+                        tad1.Date = dt1.Rows[0]["DOCDATE"].ToString();
+                        tad1.location = dt1.Rows[0]["LOCID"].ToString();
+                    }
+                    DateTime Current = DateTime.Parse(tad1.notify);
+
+                    TimeSpan difference = DateTime.Now - Current;
+                    int daysAgo = (int)difference.TotalDays;
+                    if (daysAgo == 0)
+                    {
+                        tad1.days = "Today";
+                    }
+                    else
+                    {
+                        tad1.days = daysAgo + "days ago";
+                    }
+                    Data1.Add(tad1);
+                }
+            }
+            H.purlst = Data;
+            H.indlst = Data1;
+            return View(H);
         }
 
             public IActionResult Index()
