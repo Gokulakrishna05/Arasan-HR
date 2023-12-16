@@ -186,8 +186,8 @@ internal class Program
 
         builder.Services.TryAddSingleton<IReceiptAgtRetDC, ReceiptAgtRetDCService>();
 
-        builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();
- master
+        //builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();
+ 
 
 
 
