@@ -1234,13 +1234,15 @@ namespace Arasan.Controllers
                 Reg.Add(new GRNItemsDetail
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["GRNBLBASICID"].ToString()),
-                   
+
                     enqno = dtUsers.Rows[i]["DOCID"].ToString(),
-                  
+
                     damage = dtUsers.Rows[i]["DAMAGE_QTY"].ToString(),
 
-                  
-                    
+                    supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    item= dtUsers.Rows[i]["ITEMID"].ToString(),
+
+
                     view = View,
                     move = MovePR,
                     movedn = MoveDN,
@@ -1249,7 +1251,7 @@ namespace Arasan.Controllers
 
 
 
-                });
+                }); ;
             }
 
             return Json(new
