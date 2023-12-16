@@ -11,9 +11,9 @@ using Arasan.Interface;
 using Microsoft.Reporting.Map.WebForms.BingMaps;
 using Arasan.Services.Production;
 using Arasan.Services;
-using Arasan.Models.Store_Management;
 
-namespace Arasan.Controllers.Store_Management
+
+namespace Arasan.Controllers
 {
     public class ReceiptAgtRetDCController : Controller
     {
@@ -114,14 +114,14 @@ namespace Arasan.Controllers.Store_Management
                         double toaamt = 0;
                         tda.namelst = Bindnamelst();
                         DataTable dt3 = new DataTable();
-                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["CITEMID"].ToString());
                         if (dt3.Rows.Count > 0)
                         {
                             tda.item = dt3.Rows[0]["SUBGROUPCODE"].ToString();
                         }
                         tda.Itemlst = BindItemlst(tda.item);
-                        tda.itemname = dt2.Rows[i]["ITEMID"].ToString();
-                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.itemname = dt2.Rows[i]["CITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["CITEMID"].ToString();
 
                         tda.unit = dt2.Rows[i]["UNITID"].ToString();
 
@@ -506,6 +506,14 @@ namespace Arasan.Controllers.Store_Management
             {
                 throw ex;
             }
+        }
+
+        public JsonResult GetGrpitemJSON()
+        {
+            //CreditorDebitNote model = new CreditorDebitNote();
+            //model.Grouplst = BindGrouplst(ItemId);
+            return Json(Bindnamelst());
+
         }
         public IActionResult ListReceiptAgtRetDC()
         {
