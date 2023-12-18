@@ -11,7 +11,8 @@ using Arasan.Interface;
 using Microsoft.Reporting.Map.WebForms.BingMaps;
 using Arasan.Services.Production;
 using Arasan.Services;
-using Arasan.Models.Store_Management;
+
+
 
 namespace Arasan.Controllers.Store_Management
 {
@@ -564,7 +565,7 @@ namespace Arasan.Controllers.Store_Management
                 ca.RefDate = dt.Rows[0]["REFDATE"].ToString();
                 ca.Dcno = dt.Rows[0]["DOCID"].ToString();
                 ca.Narration = dt.Rows[0]["NARRATION"].ToString();
-                ca.Entered = dt.Rows[0]["EMPNAME"].ToString();
+               
                 ca.typelst = Bindtype();
                 DataTable dtt = new DataTable();
                 dtt = ReceiptAgtRetDCService.Getviewdctype(ca.Dcno);
@@ -626,20 +627,36 @@ namespace Arasan.Controllers.Store_Management
             {
 
               
+                string approve = string.Empty;
                 string ViewRow = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
 
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
-                    ViewRow = "<a href=ViewReceiptAgtRetDC?id=" + dtUsers.Rows[i]["RECDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                    EditRow = "<a href=ReceiptAgtRetDC?id=" + dtUsers.Rows[i]["RECDCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["RECDCBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    if (dtUsers.Rows[i]["STATUS"].ToString() == "Approve")
+                    {
+                        approve = "";
+                        ViewRow = "<a href=ViewReceiptAgtRetDC?id=" + dtUsers.Rows[i]["RECDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+
+                        EditRow = "";
+                        DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["RECDCBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                    }
+                    else
+                    {
+                        approve = "<a href=ApproveReceiptAgtRetDC?id=" + dtUsers.Rows[i]["RECDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                        ViewRow = "<a href=ViewReceiptAgtRetDC?id=" + dtUsers.Rows[i]["RECDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                        EditRow = "<a href=ReceiptAgtRetDC?id=" + dtUsers.Rows[i]["RECDCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                        DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["RECDCBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    }
+                       
                 }
                 else
                 {
 
-                   
+
+                    approve = "";
                     ViewRow = "";
                     EditRow = "";
                     DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["RECDCBASICID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
@@ -655,7 +672,8 @@ namespace Arasan.Controllers.Store_Management
                     party = dtUsers.Rows[i]["PARTYID"].ToString(),
 
 
-                  
+
+                    approve = approve,
                     viewrow = ViewRow,
                     editrow = EditRow,
                     delrow = DeleteRow,
@@ -668,6 +686,112 @@ namespace Arasan.Controllers.Store_Management
                 Reg
             });
 
+        }
+        public IActionResult ApproveReceiptAgtRetDC(string id)
+        {
+
+            ReceiptAgtRetDC ca = new ReceiptAgtRetDC();
+            DataTable dt = new DataTable();
+            DataTable dt1 = new DataTable();
+            DataTable dt2 = new DataTable();
+
+            dt = ReceiptAgtRetDCService.ViewGetReceipt(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Location = dt.Rows[0]["LOCID"].ToString();
+                ca.Locationid = dt.Rows[0]["loc"].ToString();
+                ca.Did = dt.Rows[0]["DOCID"].ToString();
+                ca.DDate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.DcDate = dt.Rows[0]["DCDATE"].ToString();
+                ca.Party = dt.Rows[0]["PARTYID"].ToString();
+                ca.Stock = dt.Rows[0]["STKTYPE"].ToString();
+                ca.Ref = dt.Rows[0]["REFNO"].ToString();
+                ca.RefDate = dt.Rows[0]["REFDATE"].ToString();
+                ca.Dcno = dt.Rows[0]["DOCID"].ToString();
+                ca.Narration = dt.Rows[0]["NARRATION"].ToString();
+              
+                ca.typelst = Bindtype();
+                DataTable dtt = new DataTable();
+                dtt = ReceiptAgtRetDCService.Getviewdctype(ca.Dcno);
+                if (dtt.Rows.Count > 0)
+                {
+                    ca.DcType = dtt.Rows[0]["DELTYPE"].ToString();
+                }
+
+                ca.ID = id;
+
+                List<ReceiptAgtRetDCItem> Data = new List<ReceiptAgtRetDCItem>();
+                ReceiptAgtRetDCItem tda = new ReceiptAgtRetDCItem();
+                //double tot = 0;
+
+                dt2 = ReceiptAgtRetDCService.ViewGetReceiptitem(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new ReceiptAgtRetDCItem();
+
+                        tda.itemname = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["CITEMID"].ToString();
+
+
+                        //DataTable dt3 = new DataTable();
+                        //dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        //if (dt3.Rows.Count > 0)
+                        //{
+                        //    tda.itemname = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        //}
+
+                        tda.detid = dt2.Rows[i]["RECDCDETAILID"].ToString();
+                        tda.unit = dt2.Rows[i]["UNITID"].ToString();
+                        tda.bin = dt2.Rows[i]["BINID"].ToString();
+                        tda.Rate = dt2.Rows[i]["RATE"].ToString();
+                        tda.amount = dt2.Rows[i]["AMOUNT"].ToString();
+                        tda.Recd = dt2.Rows[i]["QTY"].ToString();
+                        tda.Pend = dt2.Rows[i]["PENDQTY"].ToString();
+                        tda.Rej = dt2.Rows[i]["REJQTY"].ToString();
+                        tda.serial = dt2.Rows[i]["SERIALYN"].ToString();
+                        tda.Acc = dt2.Rows[i]["ACCQTY"].ToString();
+
+                        Data.Add(tda);
+                    }
+                }
+
+                ca.ReceiptLst = Data;
+
+            }
+            return View(ca);
+        }
+        [HttpPost]
+        public ActionResult ApproveReceiptAgtRetDC(ReceiptAgtRetDC Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = ReceiptAgtRetDCService.ApproveReceiptAgtRetDCCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                { 
+                        TempData["notice"] = "Approve ReceiptAgtRetDC Inserted Successfully...!";
+                    
+                    return RedirectToAction("ListReceiptAgtRetDC");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit ReceiptAgtRetDC";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
         }
     }
 }

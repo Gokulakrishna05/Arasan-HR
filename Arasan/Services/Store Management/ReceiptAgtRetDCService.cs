@@ -144,6 +144,147 @@ namespace Arasan.Services.Store_Management
 
             return msg;
         }
+        public string ApproveReceiptAgtRetDCCRUD(ReceiptAgtRetDC cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    objConn.Open();
+                    int l = 1;
+                    foreach (ReceiptAgtRetDCItem cp in cy.ReceiptLst)
+                    {
+                        if (cp.saveItemId != "0")
+                        {
+
+                            /////////////////////////Inventory Update
+                            if (cy.Stock == "Stock")
+                            {
+                                DataTable lotnogen = datatrans.GetData("Select LOTYN  FROM ITEMMASTER where LOTYN ='YES' AND ITEMMASTERID='" + cp.saveItemId + "'");
+                                string lotnumber = "";
+                                if (lotnogen.Rows.Count > 0)
+                                {
+                                    string item = cp.itemname;
+                                    string Docid = cy.Did;
+                                    string DocDate = cy.DDate;
+
+                                    lotnumber = string.Format("{0}-{1}-{2}-{3}", item, DocDate, Docid, l.ToString());
+                                    l++;
+                                }
+                                using (OracleConnection objConnI = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmdI = new OracleCommand("INVENTORYITEMPROC", objConn);
+                                    objCmdI.CommandType = CommandType.StoredProcedure;
+                                    objCmdI.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    objCmdI.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = cp.saveItemId;
+                                    objCmdI.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = cp.detid;
+                                    objCmdI.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = cy.ID;
+                                    objCmdI.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = "0";
+                                    objCmdI.Parameters.Add("GRN_DATE", OracleDbType.Date).Value = DateTime.Now;
+                                    objCmdI.Parameters.Add("REC_GOOD_QTY", OracleDbType.NVarchar2).Value = cp.Recd;
+                                    objCmdI.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = cp.Recd;
+                                    objCmdI.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
+                                    objCmdI.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
+                                    objCmdI.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                                    objCmdI.Parameters.Add("WASTAGE", OracleDbType.NVarchar2).Value = "0";
+                                    objCmdI.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = cy.Locationid;
+                                    objCmdI.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = "0";
+                                    objCmdI.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = "0";
+                                    objCmdI.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
+
+                                    objCmdI.Parameters.Add("INV_OUT_ID", OracleDbType.NVarchar2).Value = "0";
+                                    objCmdI.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
+                                    objCmdI.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
+                                    objCmdI.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
+                                    objCmdI.Parameters.Add("LOT_NO", OracleDbType.NVarchar2).Value = lotnumber;
+                                    objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
+                                    objCmdI.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                                    objConnI.Open();
+                                    objCmdI.ExecuteNonQuery();
+                                    Object Invid = objCmdI.Parameters["OUTID"].Value;
+
+
+
+                                    OracleCommand objCmdIn = new OracleCommand("INVITEMTRANSPROC", objConn);
+                                    objCmdIn.CommandType = CommandType.StoredProcedure;
+                                    objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.saveItemId;
+                                    objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = cp.detid;
+                                    objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = cy.ID;
+                                    objCmdIn.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = "0";
+                                    objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = Invid;
+                                    objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "DC Receipt";
+                                    objCmdIn.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "O";
+                                    objCmdIn.Parameters.Add("TRANS_QTY", OracleDbType.NVarchar2).Value = cp.Recd;
+                                    objCmdIn.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "DC Receipt ";
+                                    objCmdIn.Parameters.Add("TRANS_DATE", OracleDbType.Date).Value = DateTime.Now;
+                                    objCmdIn.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
+                                    objCmdIn.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
+                                    objCmdIn.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                                    objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = cy.Locationid;
+                                    objCmdIn.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
+                                    objCmdIn.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
+                                    objCmdIn.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
+                                    objCmdIn.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
+                                    objCmdIn.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
+                                    objCmdIn.ExecuteNonQuery();
+
+
+
+
+                                }
+                            }
+                            else
+                            {
+                                DataTable dt = datatrans.GetData("Select ASSTOCKVALUEID,PLUSORMINUS,ITEMID,LOCID,DOCDATE,QTY,STOCKVALUE,DOCTIME,MASTERID from ASSTOCKVALUE where ASSTOCKVALUE.ITEMID ='" + cp.saveItemId + "' AND ASSTOCKVALUE.LOCID='" + cy.Locationid + "'");
+                                if (dt.Rows.Count > 0)
+                                {
+                                    string ADDate = DateTime.Now.ToString("dd-MMM-yyyy");
+
+                                    svSQL = "Insert into ASSTOCKVALUE (ITEMID,LOCID,QTY,STOCKVALUE,PLUSORMINUS,DOCDATE,DOCTIME,MASTERID,T1SOURCEID,BINID,PROCESSID,FROMLOCID,STOCKTRANSTYPE) VALUES ('" + cp.saveItemId + "','" + cy.Locationid + "','" + cp.Recd + "','" + dt.Rows[0]["STOCKVALUE"].ToString() + "','p','" + ADDate + "','10:00:00 PM','" + dt.Rows[0]["MASTERID"].ToString() + "','" + cp.detid + "','0','0','0','DC Receipt') RETURNING ASSTOCKVALUEID INTO :LASTCID";
+
+                                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                    objCmds.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                                    objCmds.ExecuteNonQuery();
+                                    string detailid = objCmds.Parameters["LASTCID"].Value.ToString();
+
+                                    string narr = "Received from " + cy.Party;
+                                    svSQL = "Insert into ASSTOCKVALUE2 (ASSTOCKVALUEID,RATE,DOCID,MDCTRL,NARRATION,ALLOWDELETE,ISSCTRL,RECCTRL) VALUES ('" + detailid + "','" + dt.Rows[0]["STOCKVALUE"].ToString() + "','" + cy.Did + "','T','" + narr + "','T','T','F')";
+
+                                    objCmds = new OracleCommand(svSQL, objConn);
+                                    objCmds.ExecuteNonQuery();
+
+                                }
+                            }
+                        }
+                        
+                            string Sqla = string.Empty;
+                            Sqla = "Update RECDCBASIC SET  STATUS='Approve' WHERE RECDCBASICID='" + cy.ID + "'";
+                            OracleCommand objCmdssa = new OracleCommand(Sqla, objConn);
+
+                            objCmdssa.ExecuteNonQuery();
+                         
+                        objConn.Close();
+                    }
+                    
+                    
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+
         public DataTable GetBranch()
         {
             string SvSql = string.Empty;
@@ -276,7 +417,7 @@ namespace Arasan.Services.Store_Management
         public DataTable ViewGetReceipt(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "   SELECT LOCDETAILS.LOCID,RDELBASIC.DOCID,to_char(RECDCBASIC.DCDATE,'dd-MON-yyyy')DCDATE,RECDCBASIC.REFNO,to_char(RECDCBASIC.REFDATE,'dd-MON-yyyy')REFDATE,RECDCBASIC.STKTYPE,RECDCBASIC.NARRATION,EMPMAST.EMPNAME,PARTYMAST.PARTYID,RECDCBASIC.DOCID,to_char(RECDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE FROM RECDCBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID = RECDCBASIC.LOCID LEFT OUTER JOIN RDELBASIC ON RDELBASIC.RDELBASICID = RECDCBASIC.DCNO LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = RECDCBASIC.EBY LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RECDCBASIC.PARTYID WHERE RECDCBASIC.RECDCBASICID = '" + id + "' ";
+            SvSql = "SELECT LOCDETAILS.LOCID,RDELBASIC.DOCID,to_char(RECDCBASIC.DCDATE,'dd-MON-yyyy')DCDATE,RECDCBASIC.LOCID as loc,RECDCBASIC.REFNO,to_char(RECDCBASIC.REFDATE,'dd-MON-yyyy')REFDATE,RECDCBASIC.STKTYPE,RECDCBASIC.NARRATION,PARTYMAST.PARTYID,RECDCBASIC.DOCID,to_char(RECDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE FROM RECDCBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID = RECDCBASIC.LOCID LEFT OUTER JOIN RDELBASIC ON RDELBASIC.RDELBASICID = RECDCBASIC.DCNO LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RECDCBASIC.PARTYID WHERE RECDCBASIC.RECDCBASICID = '" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -287,7 +428,7 @@ namespace Arasan.Services.Store_Management
          public DataTable ViewGetReceiptitem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "   SELECT ITEMMASTER.ITEMID,RECDCDETAIL.BINID,RECDCDETAIL.QTY,RECDCDETAIL.PENDQTY,RECDCDETAIL.REJQTY,UNITMAST.UNITID,RECDCDETAIL.SERIALYN,RECDCDETAIL.ACCQTY,RECDCDETAIL.RATE,RECDCDETAIL.AMOUNT FROM RECDCDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID = RECDCDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID = RECDCDETAIL.UNIT WHERE RECDCDETAIL.RECDCBASICID = '" + id + "' ";
+            SvSql = " SELECT ITEMMASTER.ITEMID,CITEMID,RECDCDETAIL.BINID,RECDCDETAILID,RECDCDETAIL.QTY,RECDCDETAIL.PENDQTY,RECDCDETAIL.REJQTY,UNITMAST.UNITID,RECDCDETAIL.SERIALYN,RECDCDETAIL.ACCQTY,RECDCDETAIL.RATE,RECDCDETAIL.AMOUNT FROM RECDCDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID = RECDCDETAIL.CITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID = RECDCDETAIL.UNIT WHERE RECDCDETAIL.RECDCBASICID = '" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -347,12 +488,12 @@ namespace Arasan.Services.Store_Management
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "select RECDCBASIC.RECDCBASICID,RECDCBASIC.IS_ACTIVE,RECDCBASIC.DOCID,to_char(RECDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RDELBASIC.DOCID,PARTYMAST.PARTYID from RECDCBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RECDCBASIC.PARTYID LEFT OUTER JOIN RDELBASIC ON RDELBASIC.RDELBASICID = RECDCBASIC.DCNO where RECDCBASIC.IS_ACTIVE = 'Y' ORDER BY RECDCBASICID DESC  ";
+                SvSql = "select RECDCBASIC.RECDCBASICID,RECDCBASIC.IS_ACTIVE,RECDCBASIC.DOCID,to_char(RECDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RDELBASIC.DOCID,PARTYMAST.PARTYID,RECDCBASIC.STATUS from RECDCBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RECDCBASIC.PARTYID LEFT OUTER JOIN RDELBASIC ON RDELBASIC.RDELBASICID = RECDCBASIC.DCNO where RECDCBASIC.IS_ACTIVE = 'Y' ORDER BY RECDCBASICID DESC  ";
 
             }
             else
             {
-                SvSql = "select RECDCBASIC.RECDCBASICID,RECDCBASIC.IS_ACTIVE,RECDCBASIC.DOCID,to_char(RECDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RDELBASIC.DOCID,PARTYMAST.PARTYID from RECDCBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RECDCBASIC.PARTYID LEFT OUTER JOIN RDELBASIC ON RDELBASIC.RDELBASICID = RECDCBASIC.DCNO where RECDCBASIC.IS_ACTIVE = 'N' ORDER BY RECDCBASICID DESC  ";
+                SvSql = "select RECDCBASIC.RECDCBASICID,RECDCBASIC.IS_ACTIVE,RECDCBASIC.DOCID,to_char(RECDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RDELBASIC.DOCID,PARTYMAST.PARTYID,RECDCBASIC.STATUS  from RECDCBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RECDCBASIC.PARTYID LEFT OUTER JOIN RDELBASIC ON RDELBASIC.RDELBASICID = RECDCBASIC.DCNO where RECDCBASIC.IS_ACTIVE = 'N' ORDER BY RECDCBASICID DESC  ";
 
             }
             DataTable dtt = new DataTable();
