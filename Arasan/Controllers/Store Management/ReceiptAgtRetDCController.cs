@@ -113,28 +113,28 @@ namespace Arasan.Controllers
 
                         tda = new ReceiptAgtRetDCItem();
                         double toaamt = 0;
-                        tda.namelst = Bindnamelst();
-                        DataTable dt3 = new DataTable();
-                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["CITEMID"].ToString());
-                        if (dt3.Rows.Count > 0)
-                        {
-                            tda.item = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                        }
+                        //tda.namelst = Bindnamelst();
+                        //DataTable dt3 = new DataTable();
+                        //dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["CITEMID"].ToString());
+                        //if (dt3.Rows.Count > 0)
+                        //{
+                        //    tda.item = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        //}
                         tda.Itemlst = BindItemlst(tda.item);
-                        tda.itemname = dt2.Rows[i]["CITEMID"].ToString();
-                        tda.saveItemId = dt2.Rows[i]["CITEMID"].ToString();
+                        tda.itemname = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
 
                         tda.unit = dt2.Rows[i]["UNITID"].ToString();
 
                         tda.Binlst = BindBinlst();
                         tda.bin = dt2.Rows[i]["BINID"].ToString();
-                        tda.Rate = dt2.Rows[i]["RATE"].ToString();
+                        tda.rate = dt2.Rows[i]["RATE"].ToString();
                         tda.amount = dt2.Rows[i]["AMOUNT"].ToString();
                         tda.Recd = dt2.Rows[i]["QTY"].ToString();
                         tda.Pend = dt2.Rows[i]["PENDQTY"].ToString();
-                        tda.Rej = dt2.Rows[i]["REJQTY"].ToString();
-                        tda.serial = dt2.Rows[i]["SERIALYN"].ToString();
-                        tda.Acc = dt2.Rows[i]["ACCQTY"].ToString();
+                        tda.rej = dt2.Rows[i]["REJQTY"].ToString();
+                        //tda.serial = dt2.Rows[i]["SERIALYN"].ToString();
+                        //tda.Acc = dt2.Rows[i]["ACCQTY"].ToString();
 
                         tda.Isvalid = "Y";
                         TData.Add(tda);
@@ -184,6 +184,16 @@ namespace Arasan.Controllers
             }
 
             return View(Cy);
+        }
+
+
+        public JsonResult GetBinJSON()
+        {
+            ReceiptAgtRetDCItem model = new ReceiptAgtRetDCItem();
+
+            model.Binlst = BindBinlst();
+            return Json(BindBinlst());
+
         }
         public List<SelectListItem> BindLoclst()
         {
@@ -608,13 +618,13 @@ namespace Arasan.Controllers
 
                         tda.unit = dt2.Rows[i]["UNITID"].ToString();
                         tda.bin = dt2.Rows[i]["BINID"].ToString();
-                        tda.Rate = dt2.Rows[i]["RATE"].ToString();
+                        tda.rate = dt2.Rows[i]["RATE"].ToString();
                         tda.amount = dt2.Rows[i]["AMOUNT"].ToString();
                         tda.Recd = dt2.Rows[i]["QTY"].ToString();
                         tda.Pend = dt2.Rows[i]["PENDQTY"].ToString();
-                        tda.Rej = dt2.Rows[i]["REJQTY"].ToString();
-                        tda.serial = dt2.Rows[i]["SERIALYN"].ToString();
-                        tda.Acc = dt2.Rows[i]["ACCQTY"].ToString();
+                        tda.rej = dt2.Rows[i]["REJQTY"].ToString();
+                        //tda.serial = dt2.Rows[i]["SERIALYN"].ToString();
+                        //tda.Acc = dt2.Rows[i]["ACCQTY"].ToString();
 
                         Data.Add(tda);
                     }
@@ -695,6 +705,39 @@ namespace Arasan.Controllers
             });
 
         }
+
+
+        public ActionResult GetItemgrpDetails(string id)
+        {
+            ReceiptAgtRetDC model = new ReceiptAgtRetDC();
+            DataTable dt2 = new DataTable();
+            List<ReceiptAgtRetDCItem> Data = new List<ReceiptAgtRetDCItem>();
+            ReceiptAgtRetDCItem tda = new ReceiptAgtRetDCItem();
+            dt2 = ReceiptAgtRetDCService.GetItemgrpDetail(id);
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new ReceiptAgtRetDCItem();
+
+                    tda.itemname = dt2.Rows[i]["ITEMID"].ToString();
+                    tda.itemid = dt2.Rows[i]["IID"].ToString();
+                    tda.unit = dt2.Rows[i]["UNIT"].ToString();
+                   
+                    tda.rej = dt2.Rows[i]["QTY"].ToString();
+                    tda.rate = dt2.Rows[i]["RATE"].ToString();
+
+
+                    Data.Add(tda);
+                }
+            }
+            model.ReceiptLst = Data;
+            return Json(model.ReceiptLst);
+
+        }
+
+
+
         public IActionResult ApproveReceiptAgtRetDC(string id)
         {
 
@@ -801,5 +844,6 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
+ 
     }
 }
