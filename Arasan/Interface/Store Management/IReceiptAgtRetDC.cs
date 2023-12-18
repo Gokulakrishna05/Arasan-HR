@@ -20,6 +20,7 @@ namespace Arasan.Interface
         DataTable Getviewdctype(string id);
         DataTable GetItemDetail(string id);
         string ReceiptAgtRetDCCRUD(ReceiptAgtRetDC cy);
+        string ApproveReceiptAgtRetDCCRUD(ReceiptAgtRetDC cy);
 
         DataTable GetAllReceipt(string strStatus);
         DataTable ViewGetReceipt(string id);

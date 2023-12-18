@@ -498,7 +498,7 @@
         var index = $("#tbBooks").children("tr").length;
 
 
-        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>"+ opt +"</select></td>";
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Itlst[" + index + "].Unit'  style='width: 90px;' type='text'  readonly='True' /></td>";
 
