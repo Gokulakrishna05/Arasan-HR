@@ -31,6 +31,7 @@ namespace Arasan.Models
         public string Branch { get; set; }
 
         public string Location { get; set; }
+        public string Locationid { get; set; }
         public string Did { get; set; }
         public string DDate { get; set; }
         public string Dcno { get; set; }
@@ -60,6 +61,7 @@ namespace Arasan.Models
         public string itemname { get; set; }
         public string itemid { get; set; }
         public string unit { get; set; }
+        public string detid { get; set; }
         public string bin { get; set; }
         public string batch { get; set; }
         public string serial { get; set; }
@@ -80,6 +82,7 @@ namespace Arasan.Models
         public string dctype { get; set; }
         public string party { get; set; }
         public string viewrow { get; set; }
+        public string approve { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
     }
