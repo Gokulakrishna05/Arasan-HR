@@ -24,6 +24,7 @@ namespace Arasan.Interface
         DataTable GetAllReceipt(string strStatus);
         DataTable ViewGetReceipt(string id);
         DataTable ViewGetReceiptitem(string id);
+        DataTable GetItemgrpDetail(string id);
 
         string StatusChange(string tag, int id);
 

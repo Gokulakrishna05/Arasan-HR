@@ -55,17 +55,19 @@ namespace Arasan.Models
         public List<SelectListItem> Itemlst { get; set; }
         public List<SelectListItem> Binlst { get; set; }
         public string item { get; set; }
+        public string id { get; set; }
         public string saveItemId { get; set; }
         public string itemname { get; set; }
+        public string itemid { get; set; }
         public string unit { get; set; }
         public string bin { get; set; }
         public string batch { get; set; }
         public string serial { get; set; }
         public string Pend { get; set; }
         public string Recd { get; set; }
-        public string Rej { get; set; }
+        public string rej { get; set; }
         public string Acc { get; set; }
-        public string Rate { get; set; }
+        public string rate { get; set; }
         public string amount { get; set; }
         public string Isvalid { get; set; }
     }

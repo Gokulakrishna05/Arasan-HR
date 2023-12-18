@@ -289,11 +289,11 @@
                                                     <th> Unit </th>
                                                     <th> Bin ID </th>
                                                         @*<th> Batch </th>*@
-                                                    <th> Serial </th>
+                                                    @*<th> Serial </th>*@
                                                     <th> Pend Qty </th>
                                                     <th> Recd Qty </th>
                                                     <th> Rej Qty </th>
-                                                    <th> Acc Qty </th>
+                                                    @*<th> Acc Qty </th>*@
                                                     <th> Rate </th>
                                                     <th>Amount</th>
 
@@ -313,12 +313,10 @@
                                                                     <td>@Html.DisplayFor(o => o.ReceiptLst[i].itemname)</td>
                                                                     <td>@Html.DisplayFor(o => o.ReceiptLst[i].unit)</td>
                                                                     <td>@Html.DisplayFor(o => o.ReceiptLst[i].bin)</td>
-                                                                    <td>@Html.DisplayFor(o => o.ReceiptLst[i].serial)</td>
                                                                     <td>@Html.DisplayFor(o => o.ReceiptLst[i].Pend)</td>
                                                                     <td>@Html.DisplayFor(o => o.ReceiptLst[i].Recd)</td>
-                                                                    <td>@Html.DisplayFor(o => o.ReceiptLst[i].Rej)</td>
-                                                                    <td>@Html.DisplayFor(o => o.ReceiptLst[i].Acc)</td>
-                                                                    <td>@Html.DisplayFor(o => o.ReceiptLst[i].Rate)</td>
+                                                                    <td>@Html.DisplayFor(o => o.ReceiptLst[i].rej)</td>
+                                                                    <td>@Html.DisplayFor(o => o.ReceiptLst[i].rate)</td>
                                                                     <td>@Html.DisplayFor(o => o.ReceiptLst[i].amount)</td>
                                                                    
 

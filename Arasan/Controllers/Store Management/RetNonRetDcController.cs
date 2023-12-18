@@ -77,7 +77,7 @@ namespace Arasan.Controllers
                     ca.DDate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.DcType = dt.Rows[0]["DELTYPE"].ToString();
                     ca.Through = dt.Rows[0]["THROUGH"].ToString();
-                    ca.Party = dt.Rows[0]["PARTYNAME"].ToString();
+                    ca.Party = dt.Rows[0]["PARTYID"].ToString();
                     ca.Stock = dt.Rows[0]["STKTYPE"].ToString();
                     ca.Ref = dt.Rows[0]["REFNO"].ToString();
                     ca.RefDate = dt.Rows[0]["REFDATE"].ToString();
@@ -765,7 +765,7 @@ namespace Arasan.Controllers
                     id = dtUsers.Rows[i]["RDELBASICID"].ToString(),
                     did = dtUsers.Rows[i]["DOCID"].ToString(),
                     ddate = dtUsers.Rows[i]["DOCDATE"].ToString(),
-                    dctype = dtUsers.Rows[i]["DELTYPE"].ToString(),
+                    dctype = dtUsers.Rows[i]["DOCID"].ToString(),
                     party = dtUsers.Rows[i]["PARTYID"].ToString(),
 
 

@@ -91,6 +91,7 @@ namespace Arasan.Services.Store_Management
                             {
 
                                 string UNIT = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.unit + "' ");
+                                //string ITEM = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cp.itemname + "' ");
 
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
@@ -107,15 +108,15 @@ namespace Arasan.Services.Store_Management
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("RECDCBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("CITEMID", OracleDbType.NVarchar2).Value = cp.item;
+                                    objCmds.Parameters.Add("CITEMID", OracleDbType.NVarchar2).Value = cp.itemid;
                                     objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = cp.bin;
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Recd;
                                     objCmds.Parameters.Add("PENDQTY", OracleDbType.NVarchar2).Value = cp.Pend;
-                                    objCmds.Parameters.Add("REJQTY", OracleDbType.NVarchar2).Value = cp.Rej;
+                                    objCmds.Parameters.Add("REJQTY", OracleDbType.NVarchar2).Value = cp.rej;
                                     objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = UNIT;
-                                    objCmds.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = cp.serial;
-                                    objCmds.Parameters.Add("ACCQTY", OracleDbType.NVarchar2).Value = cp.Acc;
-                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.Rate;
+                                    //objCmds.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = cp.serial;
+                                    //objCmds.Parameters.Add("ACCQTY", OracleDbType.NVarchar2).Value = cp.Acc;
+                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.amount;
 
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -219,7 +220,8 @@ namespace Arasan.Services.Store_Management
         public DataTable GetReceiptItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = " SELECT CITEMID,BINID,QTY,PENDQTY,REJQTY,UNITMAST.UNITID,SERIALYN,ACCQTY,RATE,AMOUNT FROM RECDCDETAIL LEFT OUTER JOIN UNITMAST on UNITMAST.UNITMASTID = RECDCDETAIL.UNIT WHERE RECDCBASICID = '" + id + "' ";
+           // SvSql = " SELECT CITEMID,BINID,QTY,PENDQTY,REJQTY,UNITMAST.UNITID,SERIALYN,ACCQTY,RATE,AMOUNT FROM RECDCDETAIL LEFT OUTER JOIN UNITMAST on UNITMAST.UNITMASTID = RECDCDETAIL.UNIT WHERE RECDCBASICID = '" + id + "' ";
+            SvSql = "  SELECT ITEMMASTER.ITEMID,BINMASTER.BINID,RECDCDETAIL.QTY,RECDCDETAIL.PENDQTY,RECDCDETAIL.REJQTY,UNITMAST.UNITID,RECDCDETAIL.SERIALYN,RECDCDETAIL.ACCQTY,RECDCDETAIL.RATE,RECDCDETAIL.AMOUNT FROM RECDCDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID = RECDCDETAIL.CITEMID LEFT OUTER JOIN UNITMAST on UNITMAST.UNITMASTID = RECDCDETAIL.UNIT LEFT OUTER JOIN BINMASTER on BINMASTER.BINMASTERID = RECDCDETAIL.BINID WHERE RECDCDETAIL.RECDCBASICID = '" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -296,6 +298,16 @@ namespace Arasan.Services.Store_Management
             return dtt;
         }
 
+        public DataTable GetItemgrpDetail(string id)
+        {
+            string SvSql = string.Empty;
+               SvSql = "SELECT ITEMMASTER.ITEMID , RDELDETAIL.ITEMID AS IID,RDELDETAIL.UNIT,RDELDETAIL.QTY,RDELDETAIL.RATE FROM RDELDETAIL LEFT OUTER JOIN  ITEMMASTER ON ITEMMASTER.ITEMMASTERID=RDELDETAIL.ITEMID LEFT OUTER JOIN  RDELBASIC ON RDELBASIC.RDELBASICID = RDELDETAIL.RDELDETAILID  WHERE RDELDETAIL.RDELBASICID =  '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string StatusChange(string tag, int id)
         {
             try
