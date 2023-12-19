@@ -184,6 +184,7 @@ internal class Program
 
         builder.Services.TryAddSingleton<IRetNonRetDc, RetNonRetDcService>();
         builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();
+        builder.Services.TryAddSingleton<IAssetTransfer, AssetTransferService>();
 
 
 

@@ -59,6 +59,11 @@ namespace Arasan.Models
         public double CreditAmount { get; set; }
         public double DepitAmount { get; set; }
         public string Isvalid { get; set; }
+        public string Acc { get; set; }
+        public string Cre { get; set; }
+
+        public double DepAmount { get; set; }
+        public double CreAmount { get; set; }
 
     }
 }
