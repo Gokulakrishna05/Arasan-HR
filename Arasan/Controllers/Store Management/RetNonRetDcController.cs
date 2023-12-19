@@ -631,7 +631,7 @@ namespace Arasan.Controllers
                 ca.Approved = dt.Rows[0]["EMPNAME"].ToString();
                 ca.Approval2 = dt.Rows[0]["EMPNAME"].ToString();
 
-                dt1 = RetNonRetDcService.GetPartyDetails(dt.Rows[0]["PARTYID"].ToString());
+                dt1 = RetNonRetDcService.GetPartyitems(dt.Rows[0]["PARTYID"].ToString());
                 if (dt1.Rows.Count > 0)
                 {
                     ca.Add1 = dt1.Rows[0]["ADD1"].ToString();
