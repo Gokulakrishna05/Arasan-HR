@@ -88,7 +88,7 @@ namespace Arasan.Controllers
                     ca.Approval2 = dt.Rows[0]["APPBY2"].ToString();
                    // ca.Part = dt.Rows[0]["PARTYNAME"].ToString();
 
-                    dt1 = RetNonRetDcService.GetPartyDetails(dt.Rows[0]["PARTYNAME"].ToString());
+                    dt1 = RetNonRetDcService.GetPartyDetails(dt.Rows[0]["PARTYID"].ToString());
                     if (dt1.Rows.Count > 0)
                     {
                         ca.Add1 = dt1.Rows[0]["ADD1"].ToString();
@@ -109,14 +109,14 @@ namespace Arasan.Controllers
                         double toaamt = 0;
                         tda.Sublst = BindSublst();
                         DataTable dt3 = new DataTable();
-                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        dt3 = RetNonRetDcService.GetItemSubGroup(tda.item);
                         if (dt3.Rows.Count > 0)
                         {
                             tda.subgrp = dt3.Rows[0]["SUBGROUPCODE"].ToString();
                         }
                         tda.Itemlst = BindItemlst(tda.subgrp);
-                        tda.item = dt2.Rows[i]["ITEMID"].ToString();
-                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.item = dt2.Rows[i]["CITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["CITEMID"].ToString();
                         DataTable dt4 = new DataTable();
                         dt4 = RetNonRetDcService.GetRetItemDetail(tda.item);
                         if (dt4.Rows.Count > 0)

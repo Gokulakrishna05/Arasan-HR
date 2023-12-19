@@ -329,7 +329,7 @@ namespace Arasan.Services
            
             string SvSql = string.Empty;
             //SvSql = " select UNITMAST.UNITID,ITEMID,LATPURPRICE from ITEMMASTER LEFT OUTER JOIN UNITMAST on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where ITEMMASTERID = '" + id + "' ";
-            SvSql = " select UNITMAST.UNITID,LATPURPRICE from ITEMMASTER LEFT OUTER JOIN UNITMAST on UNITMASTID=ITEMMASTER.PRIUNIT where ITEMMASTERID  = '" + id + "' ";
+            SvSql = " select UNITMAST.UNITID,LATPURPRICE from ITEMMASTER LEFT OUTER JOIN UNITMAST on UNITMASTID=ITEMMASTER.PRIUNIT where ITEMID  = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -381,7 +381,8 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
 
-            SvSql = "select ITEMMASTER.ITEMID,UNIT,CLSTOCK,QTY,PURFTRN,RATE,AMOUNT,RDELDETAILID from RDELDETAIL left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID = RDELDETAIL.CITEMID WHERE RDELDETAIL.RDELBASICID  = '" + id + "' ";
+            //SvSql = "select ITEMMASTER.ITEMID,UNIT,CLSTOCK,QTY,PURFTRN,RATE,AMOUNT,RDELDETAILID from RDELDETAIL left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID = RDELDETAIL.CITEMID WHERE RDELDETAIL.RDELBASICID  = '" + id + "' ";
+            SvSql = "select RDELDETAIL.CITEMID,UNIT,CLSTOCK,QTY,PURFTRN,RATE,AMOUNT,RDELDETAILID from RDELDETAIL  WHERE RDELDETAIL.RDELBASICID = '" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -411,7 +412,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetItemSubGroup(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMID,SUBGROUPCODE from ITEMMASTER WHERE ITEMID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string StatusChange(string tag, int id)
         {
             try

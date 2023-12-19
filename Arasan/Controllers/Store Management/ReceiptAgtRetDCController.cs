@@ -327,7 +327,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BINID"].ToString(), Value = dtDesg.Rows[i]["BINMASTERID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BINID"].ToString(), Value = dtDesg.Rows[i]["BINBASICID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -591,7 +591,7 @@ namespace Arasan.Controllers
                 {
                     ca.DcType = dtt.Rows[0]["DELTYPE"].ToString();
                 }
-
+                ca.Entered = dt.Rows[0]["EBY"].ToString();
                 ca.ID = id;
 
                 List<ReceiptAgtRetDCItem> Data = new List<ReceiptAgtRetDCItem>();
