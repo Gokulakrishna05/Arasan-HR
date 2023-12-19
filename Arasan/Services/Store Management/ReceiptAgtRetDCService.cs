@@ -71,6 +71,7 @@ namespace Arasan.Services.Store_Management
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration;
                     objCmd.Parameters.Add("EBY", OracleDbType.NVarchar2).Value = cy.Entered;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = 'Y';
+                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Party;
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -445,7 +446,7 @@ namespace Arasan.Services.Store_Management
         public DataTable GetItemgrpDetail(string id)
         {
             string SvSql = string.Empty;
-               SvSql = "SELECT ITEMMASTER.ITEMID , RDELDETAIL.ITEMID AS IID,RDELDETAIL.UNIT,RDELDETAIL.QTY,RDELDETAIL.RATE FROM RDELDETAIL LEFT OUTER JOIN  ITEMMASTER ON ITEMMASTER.ITEMMASTERID=RDELDETAIL.ITEMID LEFT OUTER JOIN  RDELBASIC ON RDELBASIC.RDELBASICID = RDELDETAIL.RDELDETAILID  WHERE RDELDETAIL.RDELBASICID =  '" + id + "' ";
+               SvSql = "SELECT ITEMMASTER.ITEMID , RDELDETAIL.ITEMID AS IID,RDELDETAIL.UNIT,RDELDETAIL.QTY,RDELDETAIL.RATE FROM RDELDETAIL LEFT OUTER JOIN  ITEMMASTER ON ITEMMASTER.ITEMMASTERID=RDELDETAIL.CITEMID LEFT OUTER JOIN  RDELBASIC ON RDELBASIC.RDELBASICID = RDELDETAIL.RDELDETAILID  WHERE RDELDETAIL.RDELBASICID =  '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
