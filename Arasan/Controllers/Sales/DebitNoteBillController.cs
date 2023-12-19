@@ -397,7 +397,7 @@ namespace Arasan.Controllers.Sales
             return View(Cy);
         }
 
-        public IActionResult DN_Approval(string id)
+        public IActionResult DN_Approval(string tag,string id)
         {
             DebitNoteBill grn = new DebitNoteBill();
             grn.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -408,123 +408,154 @@ namespace Arasan.Controllers.Sales
             GRNAccount tda = new GRNAccount();
             DataTable dtParty = datatrans.GetData("select P.ACCOUNTNAME from PARTYMAST P where P.PARTYMASTID='" + dt.Rows[0]["PARTYID"].ToString() + "'");
             string mid = dtParty.Rows[0]["ACCOUNTNAME"].ToString();
-            grn.mid = mid;
-
-            double net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
-            double gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
-            double cgst = Convert.ToDouble(dt.Rows[0]["BCGST"].ToString() == "" ? "0" : dt.Rows[0]["BCGST"].ToString());
-            double sgst = Convert.ToDouble(dt.Rows[0]["BSGST"].ToString() == "" ? "0" : dt.Rows[0]["BSGST"].ToString());
-            double igst = Convert.ToDouble(dt.Rows[0]["BIGST"].ToString() == "" ? "0" : dt.Rows[0]["BIGST"].ToString());
-            string grnno = datatrans.GetDataString("select R.RGRNNO from DBNOTEBASIC D,PRETBASIC R where D.T1SOURCEID=R.PRETBASICID AND D.DBNOTEBASICID='"+ id + "'");
-
-            DataTable dtnat = datatrans.GetData("select I.ITEMID,BL.QTY,U.UNITID from DBNOTEDETAIL BL,ITEMMASTER I,UNITMAST U where I.ITEMMASTERID=BL.ITEMID AND U.UNITMASTID=I.PRIUNIT AND DBNOTEBASICID='" + id + "'");
-            grn.Vmemo = "Against inward no:" + grnno + " , " + dtnat.Rows[0]["ITEMID"].ToString() + "-" + dtnat.Rows[0]["QTY"].ToString() + dtnat.Rows[0]["UNITID"].ToString() + " returned @ amount RS. " + net + " is debited in your account";
-
-            
             double totalcredit = 0;
             double totaldebit = 0;
-            DataTable dtacc = new DataTable();
-            dtacc = datatrans.GetconfigItem(dt.Rows[0]["ADSCHEME"].ToString());
-            string grossledger = "";
-            string cgstledger = "";
-            string sgstledger = "";
-            string igstledger = "";
-            if (dtacc.Rows.Count > 0)
+            grn.mid = mid;
+            if (tag == "FD")
             {
-                for (int i = 0; i < dtacc.Rows.Count; i++)
-                {
-                    if (dtacc.Rows[i]["ADNAME"].ToString() == "GROSS")
-                    {
-                        grossledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
-                    }
-                    if (dtacc.Rows[i]["ADNAME"].ToString().Contains("CGST"))
-                    {
-                        cgstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
-                    }
-                    if (dtacc.Rows[i]["ADNAME"].ToString().Contains("SGST"))
-                    {
-                        sgstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
-                    }
-                    if (dtacc.Rows[i]["ADNAME"].ToString().Contains("IGST"))
-                    {
-                        igstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
-                    }
-                }
-            }
-            if (net > 0)
-            {
+                totalcredit = Convert.ToDouble(dt.Rows[0]["TOTDIS"].ToString() == "" ? "0" : dt.Rows[0]["TOTDIS"].ToString());
+                totaldebit= Convert.ToDouble(dt.Rows[0]["TOTDIS"].ToString() == "" ? "0" : dt.Rows[0]["TOTDIS"].ToString());
+
                 tda = new GRNAccount();
                 tda.Ledgerlist = BindLedgerLst();
                 tda.Ledgername = mid;
-                tda.CRAmount = net;
+                tda.CRAmount = totalcredit;
                 tda.DRAmount = 0;
-                tda.TypeName = "NET";
+                tda.TypeName = "PARTY";
                 tda.Isvalid = "Y";
                 tda.CRDR = "Dr";
-                totalcredit += tda.CRAmount;
-                totaldebit += tda.DRAmount;
                 tda.symbol = "-";
                 TData.Add(tda);
-            }
-            if (gross > 0)
-            {
+
                 tda = new GRNAccount();
                 tda.Ledgerlist = BindLedgerLst();
-                tda.Ledgername = grossledger;
+               // tda.Ledgername = mid;
                 tda.CRAmount = 0;
-                tda.DRAmount = gross;
-                tda.TypeName = "GROSS";
+                tda.DRAmount = totaldebit;
+                tda.TypeName = "EXPENSES";
                 tda.Isvalid = "Y";
                 tda.CRDR = "Cr";
-                totalcredit += tda.CRAmount;
-                totaldebit += tda.DRAmount;
                 tda.symbol = "+";
                 TData.Add(tda);
             }
-            if (cgst > 0)
-            {
-                tda = new GRNAccount();
-                tda.Ledgerlist = BindLedgerLst();
-                tda.Ledgername = cgstledger;
-                tda.CRAmount = 0;
-                tda.DRAmount = cgst;
-                tda.TypeName = "CGST";
-                tda.Isvalid = "Y";
-                tda.CRDR = "Cr";
-                totalcredit += tda.CRAmount;
-                totaldebit += tda.DRAmount;
-                tda.symbol = "+";
-                TData.Add(tda);
-            }
-            if (sgst > 0)
-            {
-                tda = new GRNAccount();
-                tda.Ledgerlist = BindLedgerLst();
-                tda.Ledgername = sgstledger;
-                tda.CRAmount = 0;
-                tda.DRAmount = sgst;
-                tda.TypeName = "SGST";
-                tda.Isvalid = "Y";
-                tda.CRDR = "Cr";
-                totalcredit += tda.CRAmount;
-                totaldebit += tda.DRAmount;
-                tda.symbol = "+";
-                TData.Add(tda);
-            }
-            if (igst > 0)
-            {
-                tda = new GRNAccount();
-                tda.Ledgerlist = BindLedgerLst();
-                tda.Ledgername = igstledger;
-                tda.CRAmount = 0;
-                tda.DRAmount = igst;
-                tda.TypeName = "IGST";
-                tda.Isvalid = "Y";
-                tda.CRDR = "Cr";
-                totalcredit += tda.CRAmount;
-                totaldebit += tda.DRAmount;
-                tda.symbol = "+";
-                TData.Add(tda);
+            else 
+            { 
+
+                double net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+                double gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+                double cgst = Convert.ToDouble(dt.Rows[0]["BCGST"].ToString() == "" ? "0" : dt.Rows[0]["BCGST"].ToString());
+                double sgst = Convert.ToDouble(dt.Rows[0]["BSGST"].ToString() == "" ? "0" : dt.Rows[0]["BSGST"].ToString());
+                double igst = Convert.ToDouble(dt.Rows[0]["BIGST"].ToString() == "" ? "0" : dt.Rows[0]["BIGST"].ToString());
+                string grnno = datatrans.GetDataString("select R.RGRNNO from DBNOTEBASIC D,PRETBASIC R where D.T1SOURCEID=R.PRETBASICID AND D.DBNOTEBASICID='" + id + "'");
+
+                DataTable dtnat = datatrans.GetData("select I.ITEMID,BL.QTY,U.UNITID from DBNOTEDETAIL BL,ITEMMASTER I,UNITMAST U where I.ITEMMASTERID=BL.ITEMID AND U.UNITMASTID=I.PRIUNIT AND DBNOTEBASICID='" + id + "'");
+                grn.Vmemo = "Against inward no:" + grnno + " , " + dtnat.Rows[0]["ITEMID"].ToString() + "-" + dtnat.Rows[0]["QTY"].ToString() + dtnat.Rows[0]["UNITID"].ToString() + " returned @ amount RS. " + net + " is debited in your account";
+
+
+               
+                DataTable dtacc = new DataTable();
+                dtacc = datatrans.GetconfigItem(dt.Rows[0]["ADSCHEME"].ToString());
+                string grossledger = "";
+                string cgstledger = "";
+                string sgstledger = "";
+                string igstledger = "";
+                if (dtacc.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtacc.Rows.Count; i++)
+                    {
+                        if (dtacc.Rows[i]["ADNAME"].ToString() == "GROSS")
+                        {
+                            grossledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                        }
+                        if (dtacc.Rows[i]["ADNAME"].ToString().Contains("CGST"))
+                        {
+                            cgstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                        }
+                        if (dtacc.Rows[i]["ADNAME"].ToString().Contains("SGST"))
+                        {
+                            sgstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                        }
+                        if (dtacc.Rows[i]["ADNAME"].ToString().Contains("IGST"))
+                        {
+                            igstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                        }
+                    }
+                }
+                if (net > 0)
+                {
+                    tda = new GRNAccount();
+                    tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = mid;
+                    tda.CRAmount = net;
+                    tda.DRAmount = 0;
+                    tda.TypeName = "NET";
+                    tda.Isvalid = "Y";
+                    tda.CRDR = "Dr";
+                    totalcredit += tda.CRAmount;
+                    totaldebit += tda.DRAmount;
+                    tda.symbol = "-";
+                    TData.Add(tda);
+                }
+                if (gross > 0)
+                {
+                    tda = new GRNAccount();
+                    tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = grossledger;
+                    tda.CRAmount = 0;
+                    tda.DRAmount = gross;
+                    tda.TypeName = "GROSS";
+                    tda.Isvalid = "Y";
+                    tda.CRDR = "Cr";
+                    totalcredit += tda.CRAmount;
+                    totaldebit += tda.DRAmount;
+                    tda.symbol = "+";
+                    TData.Add(tda);
+                }
+                if (cgst > 0)
+                {
+                    tda = new GRNAccount();
+                    tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = cgstledger;
+                    tda.CRAmount = 0;
+                    tda.DRAmount = cgst;
+                    tda.TypeName = "CGST";
+                    tda.Isvalid = "Y";
+                    tda.CRDR = "Cr";
+                    totalcredit += tda.CRAmount;
+                    totaldebit += tda.DRAmount;
+                    tda.symbol = "+";
+                    TData.Add(tda);
+                }
+                if (sgst > 0)
+                {
+                    tda = new GRNAccount();
+                    tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = sgstledger;
+                    tda.CRAmount = 0;
+                    tda.DRAmount = sgst;
+                    tda.TypeName = "SGST";
+                    tda.Isvalid = "Y";
+                    tda.CRDR = "Cr";
+                    totalcredit += tda.CRAmount;
+                    totaldebit += tda.DRAmount;
+                    tda.symbol = "+";
+                    TData.Add(tda);
+                }
+                if (igst > 0)
+                {
+                    tda = new GRNAccount();
+                    tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = igstledger;
+                    tda.CRAmount = 0;
+                    tda.DRAmount = igst;
+                    tda.TypeName = "IGST";
+                    tda.Isvalid = "Y";
+                    tda.CRDR = "Cr";
+                    totalcredit += tda.CRAmount;
+                    totaldebit += tda.DRAmount;
+                    tda.symbol = "+";
+                    TData.Add(tda);
+                }
             }
             grn.TotalCRAmt = totalcredit;
             grn.TotalDRAmt = totaldebit;
@@ -921,21 +952,21 @@ namespace Arasan.Controllers.Sales
             dtUsers = DebitNoteBillService.GetAllDebitNoteBill(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
-
+                string net = "0";
                 string Approve = string.Empty;
                 string DeleteRow = string.Empty;
                 string View = string.Empty;
 
                 //<td>< div class="fa-hover col-md-2 col-sm-4"> <a href = "@Url.Action("DN_Approval", "DebitNoteBill",new { PROID=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src = '../Images/checklist.png' alt='Waiting for approval' /></a></div></td>
-                if (dtUsers.Rows[i]["TOTDIS"].ToString() == null)
+                if (dtUsers.Rows[i]["TOTDIS"].ToString() == "")
                 {
-                    Approve = "<a href=DN_Approval?id=" + dtUsers.Rows[i]["DBNOTEBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Waiting for approval' /></a>";
-
+                    Approve = "<a href=DN_Approval?tag=B&id=" + dtUsers.Rows[i]["DBNOTEBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/checklist.png' alt='Waiting for approval' /></a>";
+                    net = dtUsers.Rows[i]["NET"].ToString();
                     View = "<a href=ViewDebitNoteBill?id=" + dtUsers.Rows[i]["DBNOTEBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 }
                 else
                 {
-                    Approve = "<a href=DN_Approval?tag=FDid=" + dtUsers.Rows[i]["DBNOTEBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Waiting for approval' /></a>";
+                    Approve = "<a href=DN_Approval?tag=FD&id=" + dtUsers.Rows[i]["DBNOTEBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/checklist.png' alt='Waiting for approval' /></a>";
 
                     View = "<a href=ViewFDDebitNoteBill?tag=FD&id=" + dtUsers.Rows[i]["DBNOTEBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 }
@@ -951,6 +982,8 @@ namespace Arasan.Controllers.Sales
                     approve = Approve,
                     view = View,
                     delrow = DeleteRow,
+                    party= dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    net=net
 
                 });
             }
