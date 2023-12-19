@@ -35,6 +35,7 @@ namespace Arasan.Controllers
 
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
+            //ca.Part = Request.Cookies["PARTYNAME"];
             ca.Enteredlst = BindEmp();
             ca.Entered = Request.Cookies["EMPNAME"];
             ca.DDate = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -85,6 +86,7 @@ namespace Arasan.Controllers
                     ca.Narration = dt.Rows[0]["NARRATION"].ToString();
                     ca.Approved = dt.Rows[0]["APPBY"].ToString();
                     ca.Approval2 = dt.Rows[0]["APPBY2"].ToString();
+                   // ca.Part = dt.Rows[0]["PARTYNAME"].ToString();
 
                     dt1 = RetNonRetDcService.GetPartyDetails(dt.Rows[0]["PARTYNAME"].ToString());
                     if (dt1.Rows.Count > 0)
@@ -573,8 +575,8 @@ namespace Arasan.Controllers
                         //    tda.subgrp = dt3.Rows[0]["SUBGROUPCODE"].ToString();
                         //}
                         //tda.Itemlst = BindItemlst(tda.subgrp);
-                        tda.item = dt2.Rows[i]["ITEMID"].ToString();
-                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.item = dt2.Rows[i]["CITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["CITEMID"].ToString();
                         DataTable dt4 = new DataTable();
                         dt4 = RetNonRetDcService.GetRetItem(dt2.Rows[i]["ITEMID"].ToString());
                         if (dt4.Rows.Count > 0)

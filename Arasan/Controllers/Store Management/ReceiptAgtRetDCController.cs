@@ -796,11 +796,11 @@ namespace Arasan.Controllers
                         tda.detid = dt2.Rows[i]["RECDCDETAILID"].ToString();
                         tda.unit = dt2.Rows[i]["UNITID"].ToString();
                         tda.bin = dt2.Rows[i]["BINID"].ToString();
-                        tda.Rate = dt2.Rows[i]["RATE"].ToString();
+                        tda.rate = dt2.Rows[i]["RATE"].ToString();
                         tda.amount = dt2.Rows[i]["AMOUNT"].ToString();
                         tda.Recd = dt2.Rows[i]["QTY"].ToString();
                         tda.Pend = dt2.Rows[i]["PENDQTY"].ToString();
-                        tda.Rej = dt2.Rows[i]["REJQTY"].ToString();
+                        tda.rej = dt2.Rows[i]["REJQTY"].ToString();
                         tda.serial = dt2.Rows[i]["SERIALYN"].ToString();
                         tda.Acc = dt2.Rows[i]["ACCQTY"].ToString();
 
