@@ -13,5 +13,6 @@ namespace Arasan.Interface
         IEnumerable<PaymentVoucher>  GetAllVoucher();
         DataTable GetVoucherDet(string id);
         DataTable GetVoucher();
+        DataTable GetPaymentVoucherDet(string id);
     }
 }
