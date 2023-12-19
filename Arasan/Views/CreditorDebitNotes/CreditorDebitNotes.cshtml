@@ -69,11 +69,12 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Ref Date <label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Refdate, new { @id = "txtRefdate", @class = "form-control", @TabIndex = 2, @size="30" })<br>
+                                        <label for="inputName3" class="col-sm-4 control-label"> Ref Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.Refdate, new { @id = "txtRefdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -439,6 +440,17 @@
                   }
 
 
+            var ttot = document.getElementById("txtTotal").value;
+            var atot = document.getElementById("txtamount").value;
+          
+            if (eval(ttot) == eval(atot)) {
+                //alert("Amount and Total are Same.")
+            }
+            else {
+                alert("Amount and Total aren't Same.");
+                return false;
+            }
+
 
                   if (isValid == false)
                       e.preventDefault();
@@ -514,27 +526,7 @@
               alert(ex.message);
           }
       }
-    $(document).ready(function () {
-            $('#btnSave').click(function (e) {
-                var isValid = true;
-
-
-               var ttot = document.getElementById("txtTotal").value;
-              var atot = document.getElementById("txtamount").value;
-              alert(ttot);
-            alert(atot);
-
-             if(ttot==atot)
-             {
-                  alert("Amount and Total are Same.")
-             }
-             else{
-                  alert("Amount and Total aren't Same.")
-             }
-          
-            });
-
-     });
+  
 
 
 

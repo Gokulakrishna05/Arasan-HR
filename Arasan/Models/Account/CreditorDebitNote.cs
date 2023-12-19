@@ -23,7 +23,8 @@ namespace Arasan.Models
         
         public List<SelectListItem> Grouplst;
        
-
+        public string createdby { get; set; }
+        public string branchid { get; set; }
         public string Group { get; set; }
 
         public List<SelectListItem> Ledgerlst;
