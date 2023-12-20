@@ -190,6 +190,7 @@ internal class Program
 
 
         builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();
+        builder.Services.TryAddSingleton<IAssetTransfer, AssetTransferService>();
 
 
         //builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();

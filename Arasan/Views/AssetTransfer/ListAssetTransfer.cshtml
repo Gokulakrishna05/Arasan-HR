@@ -1,17 +1,24 @@
-﻿@model Arasan.Models.DebitNoteBill
+﻿@model Arasan.Models.AssetTransfer
+
 @{
-    ViewData["Title"] = "DebitNoteBill";
+    ViewData["Title"] = "Index";
+}
+<partial name="JqxGridPartial" />
+@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
     }
-
-    <partial name="JqxGridPartial" />
-
+</script>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Sales</a> </li>
-            <li class="active"> <strong>Debit Note Bill</strong> </li>
+            <li> <a>Sub Contract</a> </li>
+            <li class="active"> <strong>Asset Transfer</strong> </li>
         </ol>
     </div>
 </div>
@@ -20,8 +27,8 @@
     $(document).ready(function () {
         var source =
         {
-            url: "/DebitNoteBill/MyListItemgrid",
-
+            url: "/AssetTransfer/MyAssetTransferGrid",
+            //url: "/ItemName/ItemName",
             data: {
                 strstatus: ""
             },
@@ -30,15 +37,14 @@
                 // synchronize with the server - send update command
             },
             datafields: [
+                //{ name: 'branch', type: 'string' },
                 { name: 'branch', type: 'string' },
                 { name: 'docid', type: 'string' },
-                { name: 'docdate', type: 'string' },
-                { name: 'discount', type: 'string' },
-                { name: 'approve', type: 'string' },
+                { name: 'docDate', type: 'string' },
+                { name: 'loc', type: 'string' },
                 { name: 'view', type: 'string' },
                 { name: 'delrow', type: 'string' },
-                { name: 'party', type: 'string' },
-                { name: 'net', type: 'string' },
+
             ],
             id: 'id',
         };
@@ -52,13 +58,11 @@
 
         $("#grid").jqxGrid(
             {
-
                 width: '100%',
                 source: dataAdapter,
-                //height: 450,
-                  autorowheight: true,
-                autoheight: true,
+                height: 450,
                 source: source,
+                autoheight: true,
                 sortable: true,
                 filterable: true,
                 groupable: false,
@@ -68,17 +72,14 @@
                 theme: 'darkblue',
                 enablebrowserselection: true,
                 columns: [
-
-                    { text: 'Party Name', datafield: 'party', width: 300 },
-                    { text: 'Doc Id', datafield: 'docid', width: 150 },
-                    { text: 'Doc Date', filtertype: 'input', datafield: 'docdate', width: 150 },
-                    { text: 'Total Amount', filtertype: 'input', datafield: 'net', width: 150 },
-                    { text: 'FD Amount', filtertype: 'input', datafield: 'discount', width: 150 },
-                    { text: 'Approve', datafield: 'approve', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                   // { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
+                    { text: 'Doc No', filtertype: 'input', datafield: 'docid', width: 120 },
+                    { text: 'Doc Date', datafield: 'docDate', width: 150, align: 'center' },
+                    { text: 'Location', filtertype: 'checkedlist', datafield: 'loc', width: 300 },
+                    { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                 ]
-        });
+            });
         $("#ddlStatus").change(function () {
             var value = "Y";
             if ($(this).val() != "") {
@@ -91,7 +92,6 @@
         });
     });
 </script>
-
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -99,42 +99,33 @@
                 <div class="widgets-container">
 
                     <form>
-                      
-
                         <div class="row">
-
                             <div class="col-md-2 ">
                                 @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
                                 { new SelectListItem() {Text = "Enabled", Value="Y"},
                                 new SelectListItem() {Text = "Disabled", Value="N"}},
                                 new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
-
+                                <br>
                             </div>
                             <div class="col-md-9 ">
-                            <div class=" textalignright">
-                                 @*   <a href="@Url.Action("DebitNoteBillDet", "DebitNoteBill")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DebitNoteBill</a>*@
-                            <br>
-                            </div>
+                                <div class=" textalignright">
+                                    <a href="@Url.Action("AssetTransfer", "AssetTransfer")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Asset Transfer</a>
+                                    <br>
+                                </div>
 
 
                             </div>
                         </div>
-                        
- 
-                            
-                     
-
-                       
- 
- 
                         <div class="row">
 
-                            <div class="col-md-10 ">
-                                <div id="grid">
-                                </div>
-                            </div>
-                        </div>
 
+                            @*  <div class="col-md-10 ">*@
+                            <div id="grid">
+                            </div>
+
+                            @* </div>*@
+
+                        </div>
 
                     </form>
                 </div>
@@ -142,8 +133,6 @@
         </div>
     </div>
 </div>
-
-
 <script>
     function ConfirmDelete() {
         return confirm("Are you sure you want to delete?");
@@ -162,10 +151,14 @@
             width: '80%',
             height: '10%',
             arrows: false,
-
+            afterClose: function () {
+                location.reload();
+                return;
+            }
         });
         fancybox123 = $.fancybox;
     });
+
     function close_popup() {
         fancybox123.close();
         $(".fancybox1").fancybox({
@@ -175,4 +168,21 @@
         });
         $(".fancybox1").eq(0).trigger('click');
     }
+
+
+            //function changeStatus(status) {
+            //    var url = "/PurchaseQuo/ListPurchaseQuo?status=" + status;
+            //    window.location.href = url;
+            //    //$.ajax({
+            //    //    url: 'AssignSession',
+            //    //    data: { "status": status },
+            //    //    type: "GET",
+            //    //    success: function (result) {
+            //    //        document.getElementById("hdstatus").value = result;
+            //    //    },
+            //    //    error: function () {
+            //    //        alert("Data Not Found");
+            //    //    }
+            //    //});
+            //    //window.location.reload();
 </script>

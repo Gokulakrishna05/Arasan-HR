@@ -401,7 +401,7 @@ namespace Arasan.Controllers
 
                 string Voucher = string.Empty;
 
-                Voucher = "<a href=../PaymentVoucher/PaymentVoucher?id=" + dtUsers.Rows[i]["PAYMENTREQUESTID"].ToString() + "><img src='../Images/checklist.png' alt='View Details' /></a>";
+                Voucher = "<a href=../PaymentVoucher/PaymentVoc?tag=payment&id=" + dtUsers.Rows[i]["PAYMENTREQUESTID"].ToString() + "><img src='../Images/checklist.png' alt='View Details' /></a>";
                 //< td >< div class="fa-hover col-md-2 col-sm-4"> <a href = "@Url.Action("PaymentVoucher", "PaymentVoucher",new { id=item.ID })"><img src = '../Images/checklist.png' alt='View Details' width='20' /></a></div></td>
 
                 Reg.Add(new PaymentReqVoucherGrid

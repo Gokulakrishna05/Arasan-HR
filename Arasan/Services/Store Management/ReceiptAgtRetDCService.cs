@@ -42,6 +42,7 @@ namespace Arasan.Services.Store_Management
                 }
 
                 string PARTY = datatrans.GetDataString("Select PARTYMASTID from PARTYMAST where PARTYID='" + cy.Party + "' ");
+                string ENTER = datatrans.GetDataString("Select EMPNAME from EMPMAST where EMPMASTID='" + cy.Entered + "' ");
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -69,8 +70,9 @@ namespace Arasan.Services.Store_Management
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.Ref;
                     objCmd.Parameters.Add("REFDATE", OracleDbType.Date).Value = DateTime.Parse(cy.RefDate);
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration;
-                    objCmd.Parameters.Add("EBY", OracleDbType.NVarchar2).Value = cy.Entered;
+                    objCmd.Parameters.Add("EBY", OracleDbType.NVarchar2).Value = ENTER;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = 'Y';
+                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Party;
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -91,6 +93,7 @@ namespace Arasan.Services.Store_Management
                             {
 
                                 string UNIT = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.unit + "' ");
+                                string ITEM = datatrans.GetDataString("Select ITEMID from ITEMMASTER where ITEMMASTERID='" + cp.itemid + "' ");
 
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
@@ -107,16 +110,17 @@ namespace Arasan.Services.Store_Management
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("RECDCBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("CITEMID", OracleDbType.NVarchar2).Value = cp.item;
+                                    objCmds.Parameters.Add("CITEMID", OracleDbType.NVarchar2).Value = cp.itemid;
                                     objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = cp.bin;
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Recd;
                                     objCmds.Parameters.Add("PENDQTY", OracleDbType.NVarchar2).Value = cp.Pend;
-                                    objCmds.Parameters.Add("REJQTY", OracleDbType.NVarchar2).Value = cp.Rej;
+                                    objCmds.Parameters.Add("REJQTY", OracleDbType.NVarchar2).Value = cp.rej;
                                     objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = UNIT;
-                                    objCmds.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = cp.serial;
-                                    objCmds.Parameters.Add("ACCQTY", OracleDbType.NVarchar2).Value = cp.Acc;
-                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.Rate;
+                                    //objCmds.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = cp.serial;
+                                    //objCmds.Parameters.Add("ACCQTY", OracleDbType.NVarchar2).Value = cp.Acc;
+                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.amount;
+                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = ITEM;
 
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
@@ -328,7 +332,7 @@ namespace Arasan.Services.Store_Management
          public DataTable Getbin() 
         {
             string SvSql = string.Empty;
-            SvSql = "select BINID,BINMASTERID from BINMASTER order by BINMASTERID desc";
+            SvSql = "select BINID,BINBASICID from BINBASIC order by BINBASICID desc";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -360,7 +364,8 @@ namespace Arasan.Services.Store_Management
         public DataTable GetReceiptItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = " SELECT CITEMID,BINID,QTY,PENDQTY,REJQTY,UNITMAST.UNITID,SERIALYN,ACCQTY,RATE,AMOUNT FROM RECDCDETAIL LEFT OUTER JOIN UNITMAST on UNITMAST.UNITMASTID = RECDCDETAIL.UNIT WHERE RECDCBASICID = '" + id + "' ";
+           // SvSql = " SELECT CITEMID,BINID,QTY,PENDQTY,REJQTY,UNITMAST.UNITID,SERIALYN,ACCQTY,RATE,AMOUNT FROM RECDCDETAIL LEFT OUTER JOIN UNITMAST on UNITMAST.UNITMASTID = RECDCDETAIL.UNIT WHERE RECDCBASICID = '" + id + "' ";
+            SvSql = "  SELECT ITEMMASTER.ITEMID,BINMASTER.BINID,RECDCDETAIL.QTY,RECDCDETAIL.PENDQTY,RECDCDETAIL.REJQTY,UNITMAST.UNITID,RECDCDETAIL.SERIALYN,RECDCDETAIL.ACCQTY,RECDCDETAIL.RATE,RECDCDETAIL.AMOUNT FROM RECDCDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID = RECDCDETAIL.CITEMID LEFT OUTER JOIN UNITMAST on UNITMAST.UNITMASTID = RECDCDETAIL.UNIT LEFT OUTER JOIN BINMASTER on BINMASTER.BINMASTERID = RECDCDETAIL.BINID WHERE RECDCDETAIL.RECDCBASICID = '" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -417,7 +422,7 @@ namespace Arasan.Services.Store_Management
         public DataTable ViewGetReceipt(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT LOCDETAILS.LOCID,RDELBASIC.DOCID,to_char(RECDCBASIC.DCDATE,'dd-MON-yyyy')DCDATE,RECDCBASIC.LOCID as loc,RECDCBASIC.REFNO,to_char(RECDCBASIC.REFDATE,'dd-MON-yyyy')REFDATE,RECDCBASIC.STKTYPE,RECDCBASIC.NARRATION,PARTYMAST.PARTYID,RECDCBASIC.DOCID,to_char(RECDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE FROM RECDCBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID = RECDCBASIC.LOCID LEFT OUTER JOIN RDELBASIC ON RDELBASIC.RDELBASICID = RECDCBASIC.DCNO LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RECDCBASIC.PARTYID WHERE RECDCBASIC.RECDCBASICID = '" + id + "' ";
+            SvSql = "SELECT RECDCBASIC.EBY,LOCDETAILS.LOCID,RDELBASIC.DOCID,to_char(RECDCBASIC.DCDATE,'dd-MON-yyyy')DCDATE,RECDCBASIC.LOCID as loc,RECDCBASIC.REFNO,to_char(RECDCBASIC.REFDATE,'dd-MON-yyyy')REFDATE,RECDCBASIC.STKTYPE,RECDCBASIC.NARRATION,PARTYMAST.PARTYID,RECDCBASIC.DOCID,to_char(RECDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE FROM RECDCBASIC  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID = RECDCBASIC.LOCID LEFT OUTER JOIN RDELBASIC ON RDELBASIC.RDELBASICID = RECDCBASIC.DCNO LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RECDCBASIC.PARTYID WHERE RECDCBASIC.RECDCBASICID = '" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -440,6 +445,16 @@ namespace Arasan.Services.Store_Management
             return dtt;
         }
 
+        public DataTable GetItemgrpDetail(string id)
+        {
+            string SvSql = string.Empty;
+               SvSql = "SELECT ITEMMASTER.ITEMID , RDELDETAIL.CITEMID AS IID,RDELDETAIL.UNIT,RDELDETAIL.QTY,RDELDETAIL.RATE FROM RDELDETAIL LEFT OUTER JOIN  ITEMMASTER ON ITEMMASTER.ITEMMASTERID=RDELDETAIL.CITEMID LEFT OUTER JOIN  RDELBASIC ON RDELBASIC.RDELBASICID = RDELDETAIL.RDELDETAILID  WHERE RDELDETAIL.RDELBASICID =  '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string StatusChange(string tag, int id)
         {
             try

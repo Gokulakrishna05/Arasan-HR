@@ -18,5 +18,7 @@ namespace Arasan.Interface.Account
         DataTable GetGrpDetail(string id);
         DataTable GetGRPbyId(string id);
         DataTable GetLedbyId(string id);
+
+        string DebitNoteBillCRUD(CreditorDebitNote Cy);
     }
 }
