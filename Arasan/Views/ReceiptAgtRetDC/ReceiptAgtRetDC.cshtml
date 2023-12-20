@@ -201,7 +201,7 @@
                                                 <th> Req Qty </th>
                                                 @*<th> Acc Qty </th>*@
                                                 <th> Rate </th>
-                                                <th>Amount</th>
+                                                @*<th>Amount</th>*@
 
                                             </tr>
                                         </thead>
@@ -246,9 +246,7 @@
                                                             <td>
                                                             @Html.TextBoxFor(o => o.ReceiptLst[i].rate, new { @id = "txtRate" + i, @class = "form-control", style = "width: 110px;" , @onkeyup = "changeQty(this," + i + ")" })
                                                             </td>
-                                                            <td>
-                                                            @Html.TextBoxFor(o => o.ReceiptLst[i].amount, new { @id = "txtamount" + i, @class = "form-control", style = "width: 110px;" })
-                                                            </td>
+                                                            
 
 
                                                             <td>
@@ -285,7 +283,7 @@
 
                                 </div>
 
-                                <div class="row">
+                               @* <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
 
@@ -296,7 +294,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                 </div>
+                                 </div>*@
 
 
 
@@ -485,11 +483,11 @@
                     var rate = "<td><input class='form-control' id='txtRate" + index + "' name='ReceiptLst[" + index + "].rate'  style='width: 80px;'  type='text' readonly='True'  onchange = 'changeQty(this.value," + index + ")' value=" + item.rate + " /></td> ";
 
 
-                    var amount = "<td><input class='form-control' id='txtamount" + index + "' name='ReceiptLst[" + index + "].amount'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'  /></td> ";
+                    //var amount = "<td><input class='form-control' id='txtamount" + index + "' name='ReceiptLst[" + index + "].amount'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'  /></td> ";
 
 
                     var removeCell = "<td><input id='Isvalid" + index + "' name='ReceiptLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='ReceiptLst.Index' type='hidden' value='" + index + "'  /></td>";
-                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemname + unit + bin + pend + recd + qty + rej + rate + amount + removeCell + "</tr>";
+                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemname + unit + bin + pend + recd + qty + rej + rate + removeCell + "</tr>";
 
                     $("#tbBooks").append(newRow);
                 });
@@ -577,36 +575,36 @@
 
 
 
-    function changeQty(_this, i) {
-        try {
-            var qty = document.getElementById("txtRecd" + i).value;
-            var pur = document.getElementById("txtRate" + i).value;
-            //alert(qty);
-            //alert(pur);
+    //function changeQty(_this, i) {
+    //    try {
+    //        var qty = document.getElementById("txtRecd" + i).value;
+    //        var pur = document.getElementById("txtRate" + i).value;
+    //        //alert(qty);
+    //        //alert(pur);
 
-            if (qty == "")
-                qty = 0;
+    //        if (qty == "")
+    //            qty = 0;
 
-            if (pur == "")
-                pur = 0;
-
-
-
-
-            if (pur > 0) {
-                var tot = eval(qty) * eval(pur);
-                document.getElementById("txtamount" + i).value = tot.toFixed(2);
-            } else {
-                document.getElementById("txtamount" + i).value = 0;
-            }
+    //        if (pur == "")
+    //            pur = 0;
 
 
 
-        }
-        catch (ex) {
-            alert(ex.message);
-        }
-    }
+
+    //        if (pur > 0) {
+    //            var tot = eval(qty) * eval(pur);
+    //            document.getElementById("txtamount" + i).value = tot.toFixed(2);
+    //        } else {
+    //            document.getElementById("txtamount" + i).value = 0;
+    //        }
+
+
+
+    //    }
+    //    catch (ex) {
+    //        alert(ex.message);
+    //    }
+    //}
 
 
      function changerecQty(_this, i) {
