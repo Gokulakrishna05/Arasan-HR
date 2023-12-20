@@ -1,6 +1,6 @@
 ﻿@model Arasan.Models.AssetAddDed
 @{
-    ViewData["Title"] = "ListRetNonRetDc";
+    ViewData["Title"] = "Asset Deduction";
     //string query = ViewContext.HttpContext.Request.Query["Active"];
     //string Qid = string.Empty;
     //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["Active"]; }
@@ -19,7 +19,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Store Management</a> </li>
-            <li class="active"> <strong> Returnable NonReturnable Dc </strong> </li>
+            <li class="active"> <strong> Asset Deduction </strong> </li>
         </ol>
     </div>
 </div>
@@ -128,7 +128,7 @@
                             </div>
                             <div class="col-md-9 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("AssetAddDed","AssetAddDed")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Asset Deduction</a>
+                                    <a href="@Url.Action("AssetAddDed","AssetAddDed",new{tag="ded"})" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Asset Deduction</a>
                                     <br>
                                 </div>
 

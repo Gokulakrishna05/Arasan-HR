@@ -340,6 +340,7 @@ namespace Arasan.Services
                                 objCmd.Parameters.Add("PurchaseType", OracleDbType.NVarchar2).Value = "";
                                 objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value =cy.Entered;
                                 objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                                objCmd.Parameters.Add("STOREREQID", OracleDbType.NVarchar2).Value = cy.ID;
                                 objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                 objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 

@@ -20,6 +20,7 @@ namespace Arasan.Models
         public double Net { get; set; }
         public List<SelectListItem> assignList;
         public string Entered { get; set; }
+        public string close { get; set; }
         public string Narr { get; set; }
         public string status { get; set; }
 

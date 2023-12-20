@@ -12,6 +12,7 @@ using Microsoft.Reporting.Map.WebForms.BingMaps;
 using Arasan.Services.Production;
 using Nest;
 using Arasan.Services;
+using Arasan.Services.Store_Management;
 
 namespace Arasan.Controllers 
 {
@@ -30,7 +31,7 @@ namespace Arasan.Controllers
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult AssetAddDed(string id)
+        public IActionResult AssetAddDed(string id,string tag)
         {
             AssetAddDed ca = new AssetAddDed();
             ca.Branch = Request.Cookies["BranchId"];
@@ -38,6 +39,7 @@ namespace Arasan.Controllers
             ca.Typelst = Bindtype();
             ca.Entered = Request.Cookies["UserId"];
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            ca.close = tag;
             List<AdDeItem> TData = new List<AdDeItem>();
             AdDeItem tda = new AdDeItem();
             if (id == null)
@@ -269,7 +271,7 @@ namespace Arasan.Controllers
 
                    
                     ViewRow = "<a href=ViewAssadd?id=" + dtUsers.Rows[i]["ASADDBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ASADDBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "<a href=DeleteAdd?tag=Del&id=" + dtUsers.Rows[i]["ASADDBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 }
                 else
                 {
@@ -327,7 +329,7 @@ namespace Arasan.Controllers
                    
 
                     ViewRow = "<a href=ViewAssded?id=" + dtUsers.Rows[i]["ASDEDBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ASDEDBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "<a href=DeleteDed?tag=Del&id=" + dtUsers.Rows[i]["ASDEDBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 }
                 else
                 {
@@ -378,6 +380,142 @@ namespace Arasan.Controllers
             //DirectItem model = new DirectItem();
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindItemlst());
+        }
+        public IActionResult ViewAssadd(string id)
+        {
+
+            AssetAddDed ca = new AssetAddDed();
+            DataTable dt = new DataTable();
+            DataTable dt1 = new DataTable();
+            DataTable dt2 = new DataTable();
+
+            dt = Asset.ViewAssadd(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Location = dt.Rows[0]["LOCID"].ToString();
+                ca.bin = dt.Rows[0]["BINYN"].ToString();
+                ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.Reason = dt.Rows[0]["REASON"].ToString();
+                ca.Type = dt.Rows[0]["STOCKTRANSTYPE"].ToString();
+                ca.Narr = dt.Rows[0]["NARRATION"].ToString();
+                ca.Gro = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+                ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+
+
+                ca.ID = id;
+
+                List<AdDeItem> Data = new List<AdDeItem>();
+                AdDeItem tda = new AdDeItem();
+                //double tot = 0;
+
+                dt2 = Asset.ViewAssaddDet(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new AdDeItem();
+
+                        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                       
+
+
+                        //DataTable dt3 = new DataTable();
+                        //dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        //if (dt3.Rows.Count > 0)
+                        //{
+                        //    tda.itemname = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        //}
+
+                        tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString() == "" ? "0" : dt2.Rows[i]["RATE"].ToString());
+                        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
+                        tda.Amount = Convert.ToDouble(dt2.Rows[i]["AMOUNT"].ToString() == "" ? "0" : dt2.Rows[i]["AMOUNT"].ToString());
+                        tda.Unit = dt2.Rows[i]["UNIT"].ToString();
+                      
+
+                        Data.Add(tda);
+                    }
+                }
+
+                ca.Itlst = Data;
+
+            }
+            return View(ca);
+        }
+        public IActionResult ViewAssded(string id)
+        {
+
+            AssetAddDed ca = new AssetAddDed();
+            DataTable dt = new DataTable();
+            DataTable dt1 = new DataTable();
+            DataTable dt2 = new DataTable();
+
+            dt = Asset.ViewAssded(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Location = dt.Rows[0]["LOCID"].ToString();
+                ca.bin = dt.Rows[0]["BINYN"].ToString();
+                ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.Reason = dt.Rows[0]["REASON"].ToString();
+                ca.Type = "Direct Deduction";
+                ca.Narr = dt.Rows[0]["NARRATION"].ToString();
+                ca.Gro = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() ==""? "0" :dt.Rows[0]["GROSS"].ToString());
+                ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+                
+
+                
+                ca.ID = id;
+
+                List<AdDeItem> Data = new List<AdDeItem>();
+                AdDeItem tda = new AdDeItem();
+                //double tot = 0;
+
+                dt2 = Asset.ViewAssdedDet(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new AdDeItem();
+
+                        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                   
+                        tda.Stock = dt2.Rows[i]["CLSTK"].ToString();
+
+
+                        //DataTable dt3 = new DataTable();
+                        //dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        //if (dt3.Rows.Count > 0)
+                        //{
+                        //    tda.itemname = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        //}
+
+                        tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString() == "" ? "0" : dt2.Rows[i]["RATE"].ToString());
+                        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
+                        tda.Amount = Convert.ToDouble(dt2.Rows[i]["AMOUNT"].ToString() == "" ? "0" : dt2.Rows[i]["AMOUNT"].ToString());
+                        tda.Unit = dt2.Rows[i]["UNIT"].ToString();
+
+
+                        Data.Add(tda);
+                    }
+                }
+
+                ca.Itlst = Data;
+
+            }
+            return View(ca);
+        }
+        public ActionResult DeleteAdd(string id)
+        {
+            datatrans = new DataTransactions(_connectionString);
+            bool result = datatrans.UpdateStatus("UPDATE ASADDBASIC SET IS_ACTIVE='N'  Where ASADDBASIC.ASADDBASICID='" + id + "'");
+            return RedirectToAction("ListAssetAddition");
+        }
+        public ActionResult DeleteDed(string id)
+        {
+            datatrans = new DataTransactions(_connectionString);
+            bool result = datatrans.UpdateStatus("UPDATE ASDEDBASIC SET IS_ACTIVE='N'  Where ASDEDBASIC.ASDEDBASICID='" + id + "'");
+            return RedirectToAction("ListAssetDeduction");
         }
     }
 }

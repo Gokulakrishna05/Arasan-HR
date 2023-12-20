@@ -32,4 +32,18 @@ namespace Arasan.Models
         public int stockavailable { get; set; }
 
     }
+    public class Asset
+    {
+        public long id { get; set; }
+        public string itemname { get; set; }
+        public double quantity { get; set; }
+        public string plmi { get; set; }
+        public string location { get; set; }
+        public string type { get; set; }
+        public string indentno { get; set; }
+        public string indentdate { get; set; }
+        public double IssuedQty { get; set; }
+        public int stockavailable { get; set; }
+
+    }
 }

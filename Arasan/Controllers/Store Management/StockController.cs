@@ -86,6 +86,34 @@ namespace Arasan.Controllers
             });
         }
 
-      
+        public IActionResult Assetstock(string id)
+        {
+            return View();
+        }
+        public ActionResult ListAssetstock()
+        {
+            List<Asset> EnqChkItem = new List<Asset>();
+            DataTable dtEnq = new DataTable();
+            dtEnq = StockService.GetAssetDeatils();
+            for (int i = 0; i < dtEnq.Rows.Count; i++)
+            {
+                string Approval = string.Empty;
+                EnqChkItem.Add(new Asset
+                {
+                    //id = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
+                    itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
+                    type = dtEnq.Rows[i]["STOCKTRANSTYPE"].ToString(),
+                    quantity = Convert.ToDouble(dtEnq.Rows[i]["QTY"].ToString()),
+                    location = dtEnq.Rows[i]["LOCID"].ToString(),
+                    plmi = dtEnq.Rows[i]["PLUSORMINUS"].ToString(),
+
+                });
+            }
+
+            return Json(new
+            {
+                EnqChkItem
+            });
+        }
     }
 }

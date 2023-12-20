@@ -65,13 +65,24 @@
                 rowdetails: true,
                 theme: 'darkblue',
                 enablebrowserselection: true,
+
+                groups: ['location'],
+                columns: [
+
+                    { text: 'Item Name', columntype: 'dropdownlist', datafield: 'itemname', width: 200 },
+                    { text: 'location', datafield: 'location', width: 200 },
+                     { text: 'Plus/Minus', datafield: 'branchname', width: 200 },
+                  
+                    { text: 'BinId',  datafield: 'binid', width: 200 },
+                  
+
                // groups: ['location'],
                 columns: [ 
                      { text: 'Branch Name', datafield: 'branchname', width: 200 },
                     { text: 'location',  datafield: 'location', width: 100 },
                     { text: 'BinId',  datafield: 'binid', width: 150 },
                     { text: 'Item Name', columntype: 'dropdownlist', datafield: 'itemname', width:400 },
-                 
+ 
                     
                     {
                         text: 'Quantity', /*filtertype: 'input', */datafield: 'quantity', aggregates: ["sum"], cellsalign: 'right',

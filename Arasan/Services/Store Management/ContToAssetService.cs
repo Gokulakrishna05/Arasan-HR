@@ -219,5 +219,31 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable ViewAsscon(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select LOCDETAILS.LOCID,loc.LOCID as location,DOCID,to_char(CONTOASSETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,REASONCODE,CONTOASSETBASICID,NARRATION,GROSS,NET, CONTOASSETBASIC.IS_ACTIVE from CONTOASSETBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID = CONTOASSETBASIC.FROMLOC LEFT OUTER JOIN LOCDETAILS loc ON loc.LOCDETAILSID = CONTOASSETBASIC.DESTLOC where CONTOASSETBASIC.CONTOASSETBASICID='" + id + "'";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable ViewAssconDet(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = " SELECT CONTOASSETBASICID,ITEMMASTER.ITEMID,UNIT,CLSTK,QTY,FCOSTRATE,FITEMVALUE FROM CONTOASSETDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID= CONTOASSETDETAIL.ITEMID WHERE CONTOASSETDETAIL.CONTOASSETBASICID = '" + id + "' ";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+
     }
+
 }

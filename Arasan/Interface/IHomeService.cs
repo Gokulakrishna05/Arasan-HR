@@ -15,8 +15,9 @@ namespace Arasan.Interface
         DataTable GetquoteFollowupnextReport();
         DataTable GetDamageGRN();
         DataTable GetIndent();
-        DataTable GetDamageGRNDetail(string id);
-        DataTable GetMatDetail(string id);
+        DataTable GetDamageGRNDetail();
+        DataTable GetMatDetail( );
+        DataTable GetIssMatDetail( );
         DataTable GetMat(string id);
         DataTable GetEnqFollowupnextReport();
         DataTable GetSalesQuoteFollowupnextReport();

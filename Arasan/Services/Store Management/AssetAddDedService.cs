@@ -300,5 +300,54 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public DataTable ViewAssadd(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select LOCDETAILS.LOCID,DOCID,ASADDBASIC.BINYN,STOCKTRANSTYPE,NARRATION,GROSS,NET,to_char(ASADDBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,REASON,ASADDBASICID, ASADDBASIC.IS_ACTIVE from ASADDBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID = ASADDBASIC.LOCID where ASADDBASIC.ASADDBASICID='" + id+"'";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable ViewAssaddDet(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ASADDBASICID,ITEMMASTER.ITEMID,UNIT,QTY,RATE,AMOUNT FROM ASADDDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID= ASADDDETAIL.ITEMID WHERE ASADDDETAIL.ASADDBASICID = '" + id + "' ";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable ViewAssded(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select LOCDETAILS.LOCID,DOCID,to_char(ASDEDBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,REASON,ASDEDBASICID,ASDEDBASIC.BINYN,NARRATION,GROSS,NET, ASDEDBASIC.IS_ACTIVE from ASDEDBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID = ASDEDBASIC.LOCID where ASDEDBASIC.ASDEDBASICID='" + id + "'";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable ViewAssdedDet(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "  SELECT ASDEDBASICID,ITEMMASTER.ITEMID,UNIT,CLSTK,AVLSTK,QTY,RATE,AMOUNT FROM ASDEDDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID= ASDEDDETAIL.ITEMID WHERE ASDEDDETAIL.ASDEDBASICID = '" + id + "' ";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+
     }
 }
