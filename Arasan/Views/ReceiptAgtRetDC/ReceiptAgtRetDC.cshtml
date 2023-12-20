@@ -609,11 +609,9 @@
 
      function changerecQty(_this, i) {
         try {
-            var qty = document.getElementById("txtPend" + i).value;
+            var qty = document.getElementById("txtRej" + i).value;
             var pur = document.getElementById("txtqty" + i).value;
-            var cl = document.getElementById("txtRej" + i).value;
-            //alert(qty);
-            //alert(pur);
+           
 
             if (qty == "")
                 qty = 0;
@@ -622,17 +620,12 @@
                 pur = 0;
 
 
-           // if (eval(qty) > eval(cl)) {
-           //     document.getElementById("txtRej" + i).value = "0";
-           //     alert("PendQty is Greaterthen ReqQty");
-           //     qty = 0;
-           // }
-           //else if(eval(pur) > eval(cl)) {
-           //     document.getElementById("txtRej" + i).value = "0";
-           //     alert("RejQty is Greaterthen ReqQty");
-           //     qty = 0;
-           // }
-           
+
+            //if (eval(qty) < eval(pur)) {
+            //    document.getElementById("txtRej" + i).value = "0";
+            //    alert("RejQty is Greaterthen ReqQty");
+            //    pur = 0;
+            //}
 
             if (pur > 0) {
                 var tot = eval(qty) - eval(pur);
@@ -641,6 +634,32 @@
                 document.getElementById("txtRecd" + i).value = 0;
             }
 
+
+            var pend = document.getElementById("txtPend" + i).value;
+            var recd = document.getElementById("txtRecd" + i).value;
+           // var pur = document.getElementById("txtqty" + i).value;
+           
+            if (pend == "")
+                pend = 0;
+
+            if (recd == "")
+                recd = 0;
+
+            //if (pur == "")
+            //    pur = 0;
+
+            //if (eval(pend) < eval(pur)) {
+            //    document.getElementById("txtPend" + i).value = "0";
+            //    alert("PendQty is Greaterthen ReqQty");
+            //    pur = 0;
+            //}
+
+            if (recd > 0) {
+                var tot = eval(pend) - eval(recd);
+                document.getElementById("txtRecd" + i).value = tot.toFixed(2);
+            } else {
+                document.getElementById("txtRecd" + i).value = 0;
+            }
 
         }
         catch (ex) {
