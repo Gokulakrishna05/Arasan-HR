@@ -32,7 +32,6 @@ namespace Arasan.Services
             List<PaymentVoucher> cmpList = new List<PaymentVoucher>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
