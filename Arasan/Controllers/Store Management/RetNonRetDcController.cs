@@ -115,8 +115,8 @@ namespace Arasan.Controllers
                             tda.subgrp = dt3.Rows[0]["SUBGROUPCODE"].ToString();
                         }
                         tda.Itemlst = BindItemlst(tda.subgrp);
-                        tda.item = dt2.Rows[i]["CITEMID"].ToString();
-                        tda.saveItemId = dt2.Rows[i]["CITEMID"].ToString();
+                        tda.item = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         DataTable dt4 = new DataTable();
                         dt4 = RetNonRetDcService.GetRetItemDetail(tda.item);
                         if (dt4.Rows.Count > 0)
@@ -575,18 +575,18 @@ namespace Arasan.Controllers
                         //    tda.subgrp = dt3.Rows[0]["SUBGROUPCODE"].ToString();
                         //}
                         //tda.Itemlst = BindItemlst(tda.subgrp);
-                        tda.item = dt2.Rows[i]["CITEMID"].ToString();
-                        tda.saveItemId = dt2.Rows[i]["CITEMID"].ToString();
+                        tda.item = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         DataTable dt4 = new DataTable();
-                        dt4 = RetNonRetDcService.GetRetItem(dt2.Rows[i]["ITEMID"].ToString());
+                        dt4 = RetNonRetDcService.GetRetItem(tda.item);
                         if (dt4.Rows.Count > 0)
                         {
                             tda.Unit = dt4.Rows[0]["UNITID"].ToString();
                             tda.PurRate = dt4.Rows[0]["LATPURPRICE"].ToString();
                         }
-                        tda.Itemlst = BindItemlst(tda.subgrp);
-                        tda.item = dt2.Rows[i]["ITEMID"].ToString();
-                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        //tda.Itemlst = BindItemlst(tda.subgrp);
+                        //tda.item = dt2.Rows[i]["CITEMID"].ToString();
+                        //tda.saveItemId = dt2.Rows[i]["CITEMID"].ToString();
                        
                         tda.Current = dt2.Rows[i]["CLSTOCK"].ToString();
                         tda.Qty = dt2.Rows[i]["QTY"].ToString();
@@ -767,7 +767,7 @@ namespace Arasan.Controllers
                     id = dtUsers.Rows[i]["RDELBASICID"].ToString(),
                     did = dtUsers.Rows[i]["DOCID"].ToString(),
                     ddate = dtUsers.Rows[i]["DOCDATE"].ToString(),
-                    dctype = dtUsers.Rows[i]["DOCID"].ToString(),
+                    dctype = dtUsers.Rows[i]["DELTYPE"].ToString(),
                     party = dtUsers.Rows[i]["PARTYID"].ToString(),
 
 
