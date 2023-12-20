@@ -39,10 +39,10 @@
                 },
                 datafields: [
                     { name: 'itemname', type: 'string' },
-                    { name: 'plmi', type: 'string' },
+                  
                     { name: 'quantity', type: 'string' },
-                    { name: 'location', type: 'string' },
-                    { name: 'type', type: 'string' },
+                    { name: 'loc', type: 'string' },
+                    
 
 
                    
@@ -61,7 +61,7 @@
             $("#grid").jqxGrid(
                 {
 
-                    width: '100%',
+                    width: '50%',
                     source: dataAdapter,
                     //height: 450,
                     autorowheight: true,
@@ -79,11 +79,11 @@
                     enablebrowserselection: true,
                     columns: [
 
-                        { text: ' Item', filtertype: 'checkedlist', datafield: 'itemname', width: 150 },
-                        { text: 'Location', filtertype: 'checkedlist', datafield: 'location', width: 200 },
-                        { text: 'Plus/Minus', filtertype: 'input', datafield: 'plmi', width: 200 },
-                        { text: 'Qty', datafield: 'quantity', width: 300, align: 'center' },
-                        { text: 'Type', datafield: 'type', width: 300, align: 'center' },
+                        { text: ' Item', filtertype: 'checkedlist', datafield: 'itemname', width: 250 },
+                        { text: 'Location', filtertype: 'checkedlist', datafield: 'loc', width: 200 },
+                       
+                        { text: 'Qty', datafield: 'quantity', width: 100, align: 'center' },
+                         
 
 
                          ]

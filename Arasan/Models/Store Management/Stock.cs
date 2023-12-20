@@ -38,7 +38,7 @@ namespace Arasan.Models
         public string itemname { get; set; }
         public double quantity { get; set; }
         public string plmi { get; set; }
-        public string location { get; set; }
+        public string loc { get; set; }
         public string type { get; set; }
         public string indentno { get; set; }
         public string indentdate { get; set; }
