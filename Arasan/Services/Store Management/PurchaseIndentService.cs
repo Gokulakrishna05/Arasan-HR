@@ -457,6 +457,7 @@ namespace Arasan.Services
                     //objCmd.Parameters.Add("PurchaseType", OracleDbType.NVarchar2).Value = cy.Purtype;
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.user;
                     objCmd.Parameters.Add("ENTRYDATE", OracleDbType.Date).Value = DateTime.Now;
+                    objCmd.Parameters.Add("STOREREQID", OracleDbType.NVarchar2).Value ="";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try

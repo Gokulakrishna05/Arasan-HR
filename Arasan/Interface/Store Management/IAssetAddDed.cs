@@ -11,5 +11,9 @@ namespace Arasan.Interface
 
         DataTable GetAllAddition(string id);
         DataTable GetAllDeduction(string id);
+        DataTable ViewAssadd(string id);
+        DataTable ViewAssaddDet(string id);
+        DataTable ViewAssded(string id);
+        DataTable ViewAssdedDet(string id);
     }
 }

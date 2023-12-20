@@ -67,6 +67,7 @@
                                             @Html.HiddenFor(C => C.ID)
                                             @Html.HiddenFor(C => C.Branch)
                                             @Html.HiddenFor(C => C.Entered)
+                                            @Html.HiddenFor(C => C.close,new{@id="closetype"})
                                         </div>
                                     </div>
                                 </div>
@@ -244,8 +245,16 @@
 
                             <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
-                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
-                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListAssetAddDed", "AssetAddDed")'">Cancel</button>
+                            @if (Model.close=="add")
+                            {
+                                <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                                <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListAssetAddition", "AssetAddDed")'">Cancel</button>
+                            }
+                            @if (Model.close=="ded")
+                            {
+                                  <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                                <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListAssetDeduction", "AssetAddDed")'">Cancel</button>                                
+                            }
 
                         </form>
                     }
@@ -303,6 +312,7 @@
         }
     }
     function changedoc(ItemId) {
+        document.getElementById("closetype").value =ItemId;
         $.ajax({
             url: 'GetDocDetail',
             data: { "ItemId": ItemId },

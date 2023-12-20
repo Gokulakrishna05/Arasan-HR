@@ -201,7 +201,7 @@ namespace Arasan.Controllers
                 {
 
 
-                    ViewRow = "<a href=ViewAssadd?id=" + dtUsers.Rows[i]["CONTOASSETBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                    ViewRow = "<a href=ViewAsscon?id=" + dtUsers.Rows[i]["CONTOASSETBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                     DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CONTOASSETBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 }
                 else
@@ -238,6 +238,70 @@ namespace Arasan.Controllers
                 Reg
             });
 
+        }
+        public IActionResult ViewAsscon(string id)
+        {
+
+            ContToAsset ca = new ContToAsset();
+            DataTable dt = new DataTable();
+            DataTable dt1 = new DataTable();
+            DataTable dt2 = new DataTable();
+
+            dt = Asset.ViewAsscon(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Location = dt.Rows[0]["LOCID"].ToString();
+                ca.ToLoc = dt.Rows[0]["location"].ToString();
+             
+                ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.Reason = dt.Rows[0]["REASONCODE"].ToString();
+               
+                ca.Narr = dt.Rows[0]["NARRATION"].ToString();
+                ca.Gro = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+                ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+
+
+
+                ca.ID = id;
+
+                List<ConItem> Data = new List<ConItem>();
+                ConItem tda = new ConItem();
+                //double tot = 0;
+
+                dt2 = Asset.ViewAssconDet(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new ConItem();
+
+                        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+
+                        tda.Stock = dt2.Rows[i]["CLSTK"].ToString();
+
+
+                        //DataTable dt3 = new DataTable();
+                        //dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        //if (dt3.Rows.Count > 0)
+                        //{
+                        //    tda.itemname = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        //}
+
+                        tda.rate = Convert.ToDouble(dt2.Rows[i]["FCOSTRATE"].ToString() == "" ? "0" : dt2.Rows[i]["FCOSTRATE"].ToString());
+                        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
+                        tda.Amount = Convert.ToDouble(dt2.Rows[i]["FITEMVALUE"].ToString() == "" ? "0" : dt2.Rows[i]["FITEMVALUE"].ToString());
+                        tda.Unit = dt2.Rows[i]["UNIT"].ToString();
+
+
+                        Data.Add(tda);
+                    }
+                }
+
+                ca.Itlst = Data;
+
+            }
+            return View(ca);
         }
         public IActionResult ListConToAsset()
         {

@@ -9,5 +9,7 @@ namespace Arasan.Interface
         string ConstoassetCRUD(ContToAsset Cy);
 
         DataTable GetAllConAsset(string id);
+        DataTable ViewAsscon(string id);
+        DataTable ViewAssconDet(string id);
     }
 }

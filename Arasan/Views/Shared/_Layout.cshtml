@@ -170,9 +170,9 @@
                         <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-th-large"></i> <span class="title">Dashboard</span> <span class="arrow"></span> </a>
 
                         <ul class="sub-menu">
-                            <li class="nav-item ">
+                           @* <li class="nav-item ">
                                 <a class="nav-link" href="@Url.Action("Index", "Home")"> <i class="fa fa-money"></i>  <span class="title">Common</span> </a>
-                            </li>
+                            </li>*@
                             <li class="nav-item ">
                                 <a class="nav-link" href="@Url.Action("PurchaseDash", "Home")">  <i class="fa fa-shopping-cart"></i><span class="title">Purchase</span> </a>
                             </li>
@@ -578,6 +578,7 @@
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListConToAsset", "ContToAsset")">Cons To Asset</a></li>
 
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListReceiptAgtRetDC", "ReceiptAgtRetDC")"> Receipt Against Returnable DC</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Assetstock", "Stock")"> Asset Stock</a></li>
 
 
                             @*<li class="nav-item"><a class="nav-link" href="@Url.Action("ScarpYard", "StoresReturn")">Scarp Yard</a></li>
