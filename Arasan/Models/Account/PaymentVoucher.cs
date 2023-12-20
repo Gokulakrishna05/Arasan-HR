@@ -36,6 +36,7 @@ namespace Arasan.Models
         public double TotalCrAmount { get; set; }
         public string VType { get; set; }
        public string Ledgername { get; set; }
+       public string DepitAmount { get; set; }
         public string LedgerId { get; set; }
         public double TotalAmount { get; set; }
         public List<VoucherItem> VoucherLst { get; set; }

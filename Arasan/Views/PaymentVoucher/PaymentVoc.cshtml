@@ -176,8 +176,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Requested Amount<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.ReqAmount, new { @id = "txtReqAmount", @class = "form-control", @TabIndex = 1 ,@readonly="readonly"  })
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row">
+                            @*<div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Requested Amount<label class="Mandatory"></label></label>
@@ -194,7 +202,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                            
                             <div style="height:30px;"></div>
                            @* <div class="row">
@@ -233,31 +241,31 @@
                                                         </td>
                                                          
                                                         <td>
-                                                            @Html.RadioButtonFor(o => o.VoucherLst[i].Credit, "Dr", new { @id = "txtCredit",@TabIndex = 2/*,@onchange="changeentry(this.value," + i + ")"*/ })
+                                                            @Html.RadioButtonFor(o => o.VoucherLst[i].Credit, "Dr", new { @id = "txtCredit",@TabIndex = 2,@onchange="changeCRDR(this.value," + i + ")" })
                                                             <label id="mt-radio">Dr</label>
-                                                            @Html.RadioButtonFor(o => o.VoucherLst[i].Credit, "Cr", new { @id = "txtCredit",@TabIndex = 3/*,@onchange="changeentry(this.value," + i + ")"*/ })
+                                                            @Html.RadioButtonFor(o => o.VoucherLst[i].Credit, "Cr", new { @id = "txtCredit",@TabIndex = 3,@onchange="changeCRDR(this.value," + i + ")" })
                                                             <label id="mt-radio">Cr</label>
                                                         </td>
-                                                        <td> @Html.TextBoxFor(o => o.VoucherLst[i].DepitAmount, new { @id = "txtDepitAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" , @onkeyup = "changeDeAmount(this," + i + ")",@readonly = "readonly"})</td>
+                                                        <td> @Html.TextBoxFor(o => o.VoucherLst[i].DepitAmount, new { @id = "txtDepitAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style="width: 100px;text-align:right", @onkeyup = "changedramt(this," + i + ")",@readonly = "readonly"})</td>
 
-                                                        <td>@Html.TextBoxFor(o => o.VoucherLst[i].CreditAmount, new { @id = "txtCreditAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeCrAmount(this," + i + ")",@readonly = "readonly"})</td>
+                                                        <td>@Html.TextBoxFor(o => o.VoucherLst[i].CreditAmount, new { @id = "txtCreAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)" , style="width: 100px;text-align:right",@readonly = "readonly"})</td>
                                                        
                                                     </tr>
-                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                    <tr id="trBook@(i)" class="chkitemlst1" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
 
                                                         <td>
                                                             @Html.DropDownListFor(o => o.VoucherLst[i].Acc, Model.VoucherLst[i].Acclst, "Please Select", new { @class = "form-control _select newcss", @id = "txtAccount" + i, style = "width: 250px;" })
                                                         </td>
                                                         <td>
-                                                            @Html.RadioButtonFor(o => o.VoucherLst[i].Cre, "Dr", new { @id = "txtCredit",@TabIndex = 2,@onchange="changeentry(this.value," + i + ")",@readonly = "readonly" })
+                                                            @Html.RadioButtonFor(o => o.VoucherLst[i].Cre, "Dr", new { @id = "txtCredit",@TabIndex = 2,@onchange="changeCRDR(this.value," + i + ")" })
                                                             <label id="mt-radio">Dr</label>
-                                                            @Html.RadioButtonFor(o => o.VoucherLst[i].Cre, "Cr", new { @id = "txtCredit",@TabIndex = 3,@onchange="changeentry(this.value," + i + ")" ,@readonly = "readonly"})
+                                                            @Html.RadioButtonFor(o => o.VoucherLst[i].Cre, "Cr", new { @id = "txtCredit",@TabIndex = 3,@onchange="changeCRDR(this.value," + i + ")" })
                                                             <label id="mt-radio">Cr</label>
                                                         </td>
-                                                        <td> @Html.TextBoxFor(o => o.VoucherLst[i].DepAmount, new { @id = "txtDepitAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeDeAmount(this," + i + ")",@readonly = "readonly" })</td>
+                                                        <td> @Html.TextBoxFor(o => o.VoucherLst[i].DepAmount, new { @id = "txtDepAmount" + i, @class = "form-control", @readonly = "readonly",style="width: 100px;text-align:right" })</td>
 
-                                                        <td>@Html.TextBoxFor(o => o.VoucherLst[i].CreAmount, new { @id = "txtCreditAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeCrAmount(this," + i + ")"})</td>
+                                                        <td>@Html.TextBoxFor(o => o.VoucherLst[i].CreAmount, new { @id = "txtCreditAmount" + i, @class = "form-control",@onkeyup = "changecramt(this," + i + ")",@readonly = "readonly",style="width: 100px;text-align:right"})</td>
 
 
 
@@ -271,8 +279,8 @@
                                     </table>
                                 </div>
                             </div>
-                            <div style="height:30px;"></div>
-                            <div class="row">
+                           <div style="height:30px;"></div>
+                            @*<div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <br />   <label for="inputName3" class="col-sm-4 control-label">Total Depit Amount<label class="Mandatory"></label></label>
@@ -291,14 +299,17 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
 
                                        <br />   <label for="inputName3" class="col-sm-2 control-label">Amount In words<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Amtinwords ,new { @id = "txtAinWords", @Class = "form-control", @TabIndex = 1 ,@readonly=true}) <br />
+                                            @Html.TextBoxFor(C => C.Amtinwords ,new { @id = "txtAinWords", @Class = "form-control", @TabIndex = 1 ,@readonly=true})
+                                            @Html.HiddenFor(C => C.TotalDeAmount, new { @id = "txtTotalDeAmount", @class = "form-control", @TabIndex = 1})
+                                            @Html.HiddenFor(C => C.TotalCrAmount, new { @id = "txtTotalCrAmount", @class = "form-control", @TabIndex = 1})
+                                            @Html.HiddenFor(C => C.DepitAmount, new { @id = "txtDepAmount", @class = "form-control", @TabIndex = 1})
                                         </div>
                                     </div>
                                 </div>
@@ -327,87 +338,83 @@
     </div>
 </div>
 <script>
-    function changeDeAmount(_this, i) {
+     $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            var ttot = document.getElementById("txtReqAmount").value;
+            var atot = document.getElementById("txtCreditAmount").value;
+
+            if (ttot == atot) {
+                //alert("Amount and Total are Same.");
+            }
+            else {
+                alert("Amount aren't Same.");
+                isValid = false;
+                return false;
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+            else
+            window.parent.jQuery.fancybox.close();
+        });
+
+
+    });
+    
+    function changecramt(_this, i) {
         try {
 
             var j = 0;
             var qty = 0;
             var tot = 0;
-            $('tr.chkitemlst').each(function () {
-                if ($(this).css('display') !== 'none') {
-                    qty = $(this).find('#txtDepitAmount' + j.toString()).val();
-                    if (qty == "")
-                        qty = 0;
-
-                    tot += eval(qty);
-                }
-                j += 1;
-            });
-            document.getElementById("txtTotalDeAmount").value = tot.toFixed(2);
-            //document.getElementById("txtAmount").value = withDecimal(tot.toFixed(2));
-            var dtot = document.getElementById("txtTotalCrAmount").value;
-            if (dtot == "")
-                dtot = 0;
-            var totclaim = eval(tot) - eval(dtot);
-            document.getElementById("txtClaimAmount").value = totclaim.toFixed(2);
-            
-        }
-        catch (ex) {
-            alert(ex.message);
-        }
-    }
-    function changeCrAmount(_this, i) {
-        try {
-
-            var j = 0;
-            var qty = 0;
-            var tot = 0;
-            $('tr.chkitemlst').each(function () {
+            var crdr = "Cr";
+            $('tr.chkitemlst1').each(function () {
                 if ($(this).css('display') !== 'none') {
                     qty = $(this).find('#txtCreditAmount' + j.toString()).val();
+
                     if (qty == "")
                         qty = 0;
 
                     tot += eval(qty);
+
+
                 }
                 j += 1;
             });
             document.getElementById("txtTotalCrAmount").value = tot.toFixed(2);
-            var dtot = document.getElementById("txtTotalDeAmount").value;
-            if (dtot == "")
-                dtot = 0;
-            var totclaim = eval(dtot) - eval(tot);
-            document.getElementById("txtClaimAmount").value = totclaim.toFixed(2);
         }
         catch (ex) {
             alert(ex.message);
         }
     }
-    //function totAmount(_this) {
-    //    try {
+     function changedramt(_this, i) {
+        try {
 
-    //        var j = 0;
-    //        var dqty = 0;
-    //        var cqty = 0;
-    //        var tot = 0;
-    //        $('tr.chkitemlst').each(function () {
-    //            if ($(this).css('display') !== 'none') {
-    //                dqty = $(this).find('#txtDepitAmount' + j.toString()).val();
-    //                cqty = $(this).find('#txtCreditAmount' + j.toString()).val();
-    //                //if (qty == "")
-    //                //    qty = 0;
+            var j = 0;
+            var qty = 0;
+            var tot = 0;
+            var crdr = "Cr";
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    qty = $(this).find('#txtDepitAmount' + j.toString()).val();
 
-    //                tot = dqty - cqty;
-    //            }
+                    if (qty == "")
+                        qty = 0;
 
-    //        });
-    //        document.getElementById("txtTotalAmount").value = tot.toFixed(2);
-           
-    //    }
-    //    catch (ex) {
-    //        alert(ex.message);
-    //    }
-    //}
+                    tot += eval(qty);
+
+
+                }
+                j += 1;
+            });
+            document.getElementById("txtTotalDeAmount").value = tot.toFixed(2);
+            document.getElementById("txtAinWords").value = withDecimal(tot.toFixed(2));
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
+    }
     $(function () {
         $('._select').select2();
     });
@@ -525,102 +532,37 @@
         });
 
     });
-     $(document).ready(function () 
-     {
-            $('#btnSave').click(function (e) {
-                var depit = document.getElementById("txtTotalDeAmount");
-                var credit = document.getElementById("txtTotalCrAmount");
-                var req = document.getElementById("txtReqAmount");
-               var tot= depit-credit;
-               if (req!=tot)
-               {
-                    alert("Enter Correct Amount")
-               }
+     //$(document).ready(function () 
+     //{
+     //       $('#btnSave').click(function (e) {
+     //           var depit = document.getElementById("txtTotalDeAmount");
+     //           var credit = document.getElementById("txtTotalCrAmount");
+     //           var req = document.getElementById("txtReqAmount");
+     //          var tot= depit-credit;
+     //          if (req!=tot)
+     //          {
+     //               alert("Enter Correct Amount")
+     //          }
 
-            });
+     //       });
 
-     });
-     
-        //function AddRow() {
-        //    var opt = "";
-        //    $.ajax({
-        //        type: "POST",
-        //        url: 'GetAccountJSON',
-        //        success: function (data) {
-
-        //            $.each(data, function () {
-        //                opt += "<option value=" + this.value + ">" + this.text + "</option>";
-        //            });
-        //            AppendRow(opt);
-        //        }
-        //    })
-        //}
-    //function AppendRow(opt) {
-    //    var index = $("#tbBooks").children("tr").length;
-    //    var Account = "<td><select style = 'width: 250px;' class='form-control _select newcss' id='ddlAccount" + index + "' name='VoucherLst[" + index + "].Account' >" + opt + "</select></td>";
-    //    var Type = "<td><input id='ddlCredit" + index + "' name='VoucherLst[" + index + "].Credit' onchange='changeentry(this.value," + index + ")' type='radio' value='Dr'> <label id='mt-radio'>Dr</label><input  id='ddlCredit" + index + "' name='VoucherLst[" + index + "].Credit' onchange='changeentry(this.value," + index + ")' type = 'radio' value='Cr'> <label id='mt-radio'>Cr</label></td> ";
-
-
-    //    var depit = "<td><input class='form-control' id='txtDepitAmount" + index + "' name='VoucherLst[" + index + "].DepitAmount'  style='width: 100px;text-align:right' type='text'  onkeydown = 'return isNumeric2(event.keyCode,this.value)' value='0' /></td>";
-    //    var credit = "<td><input class='form-control' id='txtCreditAmount" + index + "' name='VoucherLst[" + index + "].VoucherLst'  style='width: 100px;text-align:right' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)'  value='0' /></td>";
-
-    //    var removeCell = "<td><input id='Isvalid" + index + "' name='VoucherLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DrumDetlst.Index' type='hidden' value='" + index + "'  /></td>";
-
-    //    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Account + Type + depit + credit + removeCell + "</tr>";
-    //    //alert(Packing);
-    //    $("#tbBooks").append(newRow);
-
-    //    $('._select').select2();
-    //}
-    //function removeRow(id) {
-    //    var table = document.getElementById("dataTable");
-    //    var rowCount = table.rows.length;
-    //    var row = document.getElementById('trBook' + id);
-    //    var j = 0;
-    //    $('tr.chkitemlst').each(function () {
-    //        if ($(this).css('display') !== 'none') {
-    //            j += 1;
-    //        }
-    //    });
-    //    if (j > 1) {
-    //        row.style.display = "none";
-    //        document.getElementById('Isvalid' + id).value = "N";
-    //    }
-    //    else {
-    //        alert("Cannot delete all the rows.")
-    //    }
-    //    var j = 0;
-    //    var qty = 0;
-    //    var tot = 0;
-    //    $('tr.chkitemlst').each(function () {
-    //        if ($(this).css('display') !== 'none') {
-    //            qty = $(this).find('#txtDepitAmount' + j.toString()).val();
-    //            if (qty == "")
-    //                qty = 0;
-
-    //            tot += eval(qty);
-    //        }
-    //        j += 1;
-    //    });
-    //    document.getElementById("txtTotalDeAmount").value = tot.toFixed(2);
-    //    var k = 0;
-    //    var cqty = 0;
-    //    var dtot = 0;
-    //    $('tr.chkitemlst').each(function () {
-    //        if ($(this).css('display') !== 'none') {
-    //            cqty = $(this).find('#txtCreditAmount' + k.toString()).val();
-    //            if (cqty == "")
-    //                cqty = 0;
-
-    //            dtot += eval(cqty);
-    //        }
-    //        k += 1;
-    //    });
-    //    document.getElementById("txtTotalCrAmount").value = dtot.toFixed(2);
-    //    var totclaim = eval(tot) - eval(dtot);
-    //    document.getElementById("txtClaimAmount").value = totclaim.toFixed(2);
-    //}
-         function convertNumberToWords(amount) {
+     //});
+     $(function () {
+        $('._select').select2();
+        var netamt=document.getElementById("txtDepitAmount").value;
+        document.getElementById("txtAinWords").value = withDecimal(netamt);
+    });
+     function withDecimal(n) {
+        var nums = n.toString().split('.')
+        var whole = convertNumberToWords(nums[0])
+        if (nums.length == 2) {
+            var fraction = convertNumberToWords(nums[1])
+            return whole + ' ' + fraction;
+        } else {
+            return whole;
+        }
+    }
+        function convertNumberToWords(amount) {
         var words = new Array();
         words[0] = '';
         words[1] = 'One';
@@ -701,25 +643,29 @@
         }
         return words_string;
     }
-    function withDecimal(n) {
-        var nums = n.toString().split('.')
-        var whole = convertNumberToWords(nums[0])
-        if (nums.length == 2) {
-            var fraction = convertNumberToWords(nums[1])
-            return whole + ' ' + fraction;
-        } else {
-            return whole;
-        }
-    }
-    function changeentry(typeid, i) {
+   
+    //  function changeCRDR(type, i) {
+    //    if (type == "Cr") {
+    //        document.getElementById("symbol" + i).value = "+";
+    //        document.getElementById("txtDepitAmount" + i).readOnly = true;
+    //        document.getElementById("txtCreditAmount" + i).readOnly = false;
+    //    } else if (type == "Dr") {
+    //        document.getElementById("symbol" + i).value = "-";
+
+
+    //        document.getElementById("txtCreditAmount" + i).readOnly = true;
+    //        document.getElementById("txtDepitAmount" + i).readOnly = false;
+    //    }
+    //}
+     function changeCRDR(typeid, i) {
         if (typeid == "Dr") {
-            document.getElementById("txtCreditAmount" + i).readOnly = true;
-            document.getElementById("txtDepitAmount" + i).readOnly = false;
+            document.getElementById("txtDepitAmount" + i).readOnly = true;
+            document.getElementById("txtCreditAmount" + i).readOnly = false;
         }
 
         else {
-            document.getElementById("txtDepitAmount" + i).readOnly = true;
-            document.getElementById("txtCreditAmount" + i).readOnly = false;
+            document.getElementById("txtCreditAmount" + i).readOnly = true;
+            document.getElementById("txtDepitAmount" + i).readOnly = false;
         }
     }
 </script>
