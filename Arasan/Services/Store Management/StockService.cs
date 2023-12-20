@@ -65,7 +65,18 @@ namespace Arasan.Services
         {
 
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,LOCDETAILS.LOCID,to_char(DOCDATE,'dd-MM-yy')DOCDATE,QTY,PLUSORMINUS,STOCKTRANSTYPE from ASSTOCKVALUE LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=ASSTOCKVALUE.ITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ASSTOCKVALUE.LOCID ";
+            SvSql = "Select SUM(ASSTOCKVALUE.QTY) as QTY,ITEMMASTER.ITEMID,LOCDETAILS.LOCID,ASSTOCKVALUE.ITEMID as item,ASSTOCKVALUE.LOCID as loc from ASSTOCKVALUE LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=ASSTOCKVALUE.ITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ASSTOCKVALUE.LOCID  GROUP BY ITEMMASTER.ITEMID,LOCDETAILS.LOCID,ASSTOCKVALUE.ITEMID,ASSTOCKVALUE.LOCID ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAssetDeatilss()
+        {
+
+            string SvSql = string.Empty;
+            SvSql = "Select SUM(ASSTOCKVALUE.QTY) as QTY,ITEMMASTER.ITEMID,LOCDETAILS.LOCID from ASSTOCKVALUE LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=ASSTOCKVALUE.ITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ASSTOCKVALUE.LOCID Where PLUSORMINUS ='m' GROUP BY ITEMMASTER.ITEMID,LOCDETAILS.LOCID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
