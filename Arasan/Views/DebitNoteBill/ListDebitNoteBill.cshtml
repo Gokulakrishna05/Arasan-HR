@@ -35,10 +35,10 @@
                 { name: 'docdate', type: 'string' },
                 { name: 'discount', type: 'string' },
                 { name: 'approve', type: 'string' },
-                { name: 'editrow', type: 'string' },
+                { name: 'view', type: 'string' },
                 { name: 'delrow', type: 'string' },
-
-
+                { name: 'party', type: 'string' },
+                { name: 'net', type: 'string' },
             ],
             id: 'id',
         };
@@ -69,12 +69,13 @@
                 enablebrowserselection: true,
                 columns: [
 
-                    { text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 200 },
-                    { text: 'Doc Id', filtertype: 'checkedlist', datafield: 'docid', width: 200 },
-                    { text: 'Doc Date', filtertype: 'input', datafield: 'docdate', width: 300 },
-                    { text: 'FD', filtertype: 'input', datafield: 'discount', width: 150 },
+                    { text: 'Party Name', datafield: 'party', width: 300 },
+                    { text: 'Doc Id', datafield: 'docid', width: 150 },
+                    { text: 'Doc Date', filtertype: 'input', datafield: 'docdate', width: 150 },
+                    { text: 'Total Amount', filtertype: 'input', datafield: 'net', width: 150 },
+                    { text: 'FD Amount', filtertype: 'input', datafield: 'discount', width: 150 },
                     { text: 'Approve', datafield: 'approve', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                   // { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                 ]
         });
@@ -111,7 +112,7 @@
                             </div>
                             <div class="col-md-9 ">
                             <div class=" textalignright">
-                                    <a href="@Url.Action("DebitNoteBillDet", "DebitNoteBill")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DebitNoteBill</a>
+                                 @*   <a href="@Url.Action("DebitNoteBillDet", "DebitNoteBill")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DebitNoteBill</a>*@
                             <br>
                             </div>
 
@@ -149,37 +150,7 @@
     }
 </script>
 
-@*<script>
-    $(document).ready(function () {
-        $('#example7').DataTable({
-            dom: 'Bfrtip',
-            buttons: [{
-                text: 'copy',
-                extend: "copy",
-                className: 'btn dark btn-outline'
-            }, {
-                text: 'csv',
-                extend: "csv",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'excel',
-                extend: "excel",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'pdf',
-                extend: "pdf",
-                className: 'btn yellow  btn-outline'
-            }, {
-                text: 'print',
-                extend: "print",
-                className: 'btn purple  btn-outline'
-            }]
-        });
 
-
-
-    });
-    </script>
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
@@ -204,4 +175,4 @@
         });
         $(".fancybox1").eq(0).trigger('click');
     }
-</script>*@
+</script>

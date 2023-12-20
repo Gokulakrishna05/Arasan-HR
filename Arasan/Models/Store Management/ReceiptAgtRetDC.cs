@@ -67,6 +67,7 @@ namespace Arasan.Models
         public string serial { get; set; }
         public string Pend { get; set; }
         public string Recd { get; set; }
+        public string qty { get; set; }
         public string rej { get; set; }
         public string Acc { get; set; }
         public string rate { get; set; }

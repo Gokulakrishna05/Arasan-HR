@@ -60,6 +60,7 @@ namespace Arasan.Models
         public string add { get; set; }
         public string city { get; set; }
         public string Entered { get; set; }
+        public string Part { get; set; }
         public string Narration { get; set; }
         public string ddlStatus { get; set; }
 

@@ -83,6 +83,9 @@ namespace Arasan.Models
         public string view { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
+
+        public string party { get; set; }
+        public string net { get; set; }
     }
     public class CreditItem
     {
