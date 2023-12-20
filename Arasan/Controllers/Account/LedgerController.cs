@@ -254,7 +254,7 @@ namespace Arasan.Controllers
 
                 Reg.Add(new ListDayItems
                 {
-                    id = dtUsers.Rows[i]["TRANS1ID"].ToString(),
+                    id = dtUsers.Rows[i]["TRANS2ID"].ToString(),
                     vocherno = dtUsers.Rows[i]["T1VCHNO"].ToString(),
                     vocherdate = dtUsers.Rows[i]["T1VCHDT"].ToString(),
                     tratype = dtUsers.Rows[i]["T1TYPE"].ToString(),
