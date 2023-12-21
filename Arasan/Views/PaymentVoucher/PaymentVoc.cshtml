@@ -236,7 +236,7 @@
                                                 {
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                       <td>
+                                                        <td>
                                                             @Html.TextBoxFor(o => o.VoucherLst[i].Account, new { @class = "form-control", @id = "txtAccount" + i, style = "width: 250px;" ,@readonly = "readonly" })
                                                         </td>
                                                          
@@ -246,9 +246,13 @@
                                                             @Html.RadioButtonFor(o => o.VoucherLst[i].Credit, "Cr", new { @id = "txtCredit",@TabIndex = 3,@onchange="changeCRDR(this.value," + i + ")" })
                                                             <label id="mt-radio">Cr</label>
                                                         </td>
-                                                        <td> @Html.TextBoxFor(o => o.VoucherLst[i].DepitAmount, new { @id = "txtDepitAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style="width: 100px;text-align:right", @onkeyup = "changedramt(this," + i + ")",@readonly = "readonly"})</td>
+                                                        <td> 
+                                                        @Html.TextBoxFor(o => o.VoucherLst[i].DepitAmount, new { @id = "txtDepitAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style="width: 100px;text-align:right", @onkeyup = "changedramt(this," + i + ")",@readonly = "readonly"})
+                                                        </td>
 
-                                                        <td>@Html.TextBoxFor(o => o.VoucherLst[i].CreditAmount, new { @id = "txtCreAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)" , style="width: 100px;text-align:right",@readonly = "readonly"})</td>
+                                                        <td>
+                                                        @Html.TextBoxFor(o => o.VoucherLst[i].CreditAmount, new { @id = "txtCreAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)" , style="width: 100px;text-align:right",@readonly = "readonly"})
+                                                        </td>
                                                        
                                                     </tr>
                                                     <tr id="trBook@(i)" class="chkitemlst1" style="height: 30px;border-bottom: 1px dashed #ddd;">
@@ -263,9 +267,12 @@
                                                             @Html.RadioButtonFor(o => o.VoucherLst[i].Cre, "Cr", new { @id = "txtCredit",@TabIndex = 3,@onchange="changeCRDR(this.value," + i + ")" })
                                                             <label id="mt-radio">Cr</label>
                                                         </td>
-                                                        <td> @Html.TextBoxFor(o => o.VoucherLst[i].DepAmount, new { @id = "txtDepAmount" + i, @class = "form-control", @readonly = "readonly",style="width: 100px;text-align:right" })</td>
-
-                                                        <td>@Html.TextBoxFor(o => o.VoucherLst[i].CreAmount, new { @id = "txtCreditAmount" + i, @class = "form-control",@onkeyup = "changecramt(this," + i + ")",@readonly = "readonly",style="width: 100px;text-align:right"})</td>
+                                                        <td> 
+                                                        @Html.TextBoxFor(o => o.VoucherLst[i].DepAmount, new { @id = "txtDepAmount" + i, @class = "form-control", @readonly = "readonly",style="width: 100px;text-align:right" })
+                                                        </td>
+                                                        <td>
+                                                        @Html.TextBoxFor(o => o.VoucherLst[i].CreAmount, new { @id = "txtCreditAmount" + i, @class = "form-control",@onkeyup = "changecramt(this," + i + ")",@readonly = "readonly",style="width: 100px;text-align:right"})
+                                                        </td>
 
 
 
