@@ -39,7 +39,7 @@
             datafields: [
                 { name: 'departmentcode', type: 'string' },
                 { name: 'departmentname', type: 'string' },
-                { name: 'description', type: 'string' },
+                   
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
 
@@ -72,9 +72,9 @@
                 enablebrowserselection: true,
                 columns: [
 
-                    { text: 'Department Code', filtertype: 'checkedlist', datafield: 'departmentcode', width: 200 },
-                    { text: 'Department Name', filtertype: 'checkedlist', datafield: 'departmentname', width: 200 },
-                    { text: 'Description', filtertype: 'input', datafield: 'description', width: 300 },
+                    { text: 'Department Code', filtertype: 'checkedlist', datafield: 'departmentcode', width: 150 },
+                        { text: 'Department Name', filtertype: 'input', datafield: 'departmentname', width: 200 },
+                 
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                         { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                 ]

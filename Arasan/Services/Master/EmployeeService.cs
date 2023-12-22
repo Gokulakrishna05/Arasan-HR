@@ -146,10 +146,6 @@ namespace Arasan.Services.Master
                         }
 
 
-
-                        //foreach (EduDeatils cp in cy.EduLst)
-                        //{
-
                         using (OracleConnection objConns = new OracleConnection(_connectionString))
                         {
                             OracleCommand objCmds = new OracleCommand("EMPEDUCATIONPROC", objConns);
@@ -219,7 +215,7 @@ namespace Arasan.Services.Master
                                 objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
 
                             }
-                            else
+                            else 
                             {
                                 StatementType = "Update";
                                 objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
@@ -254,7 +250,7 @@ namespace Arasan.Services.Master
         public DataTable GetState()
         {
             string SvSql = string.Empty;
-            SvSql = "select STATE,STATEMASTID from STATEMAST  where IS_ACTIVE='Y'";
+            SvSql = "select STATE,STATEMASTID from STATEMAST ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -332,7 +328,7 @@ namespace Arasan.Services.Master
         public DataTable GetEMPDept()
         {
             string SvSql = string.Empty;
-            SvSql = "select DEPARTMENT_CODE from DEPARTMENTMAST where IS_ACTIVE= 'Y'  ";
+            SvSql = "select DEPARTMENT_NAME,DEPARTMENTMASTID from DEPARTMENTMAST where IS_ACTIVE= 'Y'  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -343,7 +339,7 @@ namespace Arasan.Services.Master
         public DataTable GetDesign()
         {
             string SvSql = string.Empty;
-            SvSql = "select DESIGNATION from DESIGNATIONMAST where  IS_ACTIVE= 'Y'  ";
+            SvSql = "select DESIGNATION,DESIGNATIONMASTID from DESIGNATIONMAST where  IS_ACTIVE= 'Y'  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

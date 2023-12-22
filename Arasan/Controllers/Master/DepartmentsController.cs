@@ -48,7 +48,7 @@ namespace Arasan.Controllers
                 {
                     Dp.Departmentcode = dt.Rows[0]["DEPARTMENT_CODE"].ToString();
                     Dp.DepartmentName = dt.Rows[0]["DEPARTMENT_NAME"].ToString();
-                    Dp.Description = dt.Rows[0]["DESCRIPTION"].ToString();
+                    Dp.Descrip = dt.Rows[0]["DESCRIPTION"].ToString();
 
                 }
 
@@ -177,7 +177,7 @@ namespace Arasan.Controllers
                     id = dtUsers.Rows[i]["DEPARTMENTMASTID"].ToString(),
                     departmentcode = dtUsers.Rows[i]["DEPARTMENT_CODE"].ToString(),
                     departmentname = dtUsers.Rows[i]["DEPARTMENT_NAME"].ToString(),
-                    description = dtUsers.Rows[i]["DESCRIPTION"].ToString(),
+                    //description = dtUsers.Rows[i]["DESCRIPTION"].ToString(),
                     editrow = EditRow,
                     delrow = DeleteRow,
 
