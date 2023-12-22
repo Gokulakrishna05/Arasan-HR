@@ -117,7 +117,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">DC No<label class="mandatory"></label>*</label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">DC No<label class="mandatory">*</label></label>
 
 
                                         <div class="col-sm-8">
@@ -195,9 +195,10 @@
                                                 <th> Bin ID </th>
                                                 @*<th> Batch </th>*@
                                                 @* <th> Serial </th>*@
+                                                <th> Rej Qty </th>
                                                 <th> Pend Qty </th>
                                                 <th> Recd Qty </th>
-                                                <th> Rej Qty </th>
+                                               
                                                 <th> Req Qty </th>
                                                 @*<th> Acc Qty </th>*@
                                                 <th> Rate </th>
@@ -213,10 +214,11 @@
                                                 int j = 1;
                                                 foreach (var item in Model.ReceiptLst.ToList())
                                                 {
-                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;"> 
 
                                                          <td>
                                                             @Html.TextBoxFor(o => o.ReceiptLst[i].itemname, new { @id = "txtItem" + i, @class = "form-control", style = "width: 200px;" , onchange = "changeGroup(this.value," + i + ")"})
+                                                            @Html.HiddenFor(o => o.ReceiptLst[i].saveItemId)
                                                          </td>
                                                            
                                                             <td>
@@ -224,9 +226,11 @@
                                                             </td>
                                                             <td>
                                                             @Html.DropDownListFor(o => o.ReceiptLst[i].bin, Model.ReceiptLst[i].Binlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlbin" + i, style = "width: 200px;" })
-                                                            @Html.HiddenFor(o => o.ReceiptLst[i].saveItemId)
-                                                            </td>
                                                            
+                                                            </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.ReceiptLst[i].qty, new { @id = "txtqty" + i, @class = "form-control", style = "width: 80px;", @onkeyup = "changerecQty(this," + i + ")"})
+                                                        </td>
                                                             
                                                             <td>
                                                             @Html.TextBoxFor(o => o.ReceiptLst[i].Pend, new { @id = "txtPend" + i, @class = "form-control", style = "width: 80px;" , @onkeyup = "changerecQty(this," + i + ")"})
@@ -234,9 +238,7 @@
                                                             <td>
                                                             @Html.TextBoxFor(o => o.ReceiptLst[i].Recd, new { @id = "txtRecd" + i, @class = "form-control", style = "width: 80px;" , @onkeyup = "changeQty(this," + i + ")" })
                                                             </td>
-                                                            <td>
-                                                            @Html.TextBoxFor(o => o.ReceiptLst[i].qty, new { @id = "txtqty" + i, @class = "form-control", style = "width: 80px;", @onkeyup = "changerecQty(this," + i + ")"})
-                                                            </td>
+                                                            
                                                             <td>
                                                             @Html.TextBoxFor(o => o.ReceiptLst[i].rej, new { @id = "txtRej" + i, @class = "form-control", style = "width: 80px;"  })
                                                             </td>
@@ -300,7 +302,7 @@
 
                                     <div style="height:30px;"></div>
                                     <div class="col-lg-10"></div>
-                                    <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave"  >Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListReceiptAgtRetDC", "ReceiptAgtRetDC")'">Cancel</button>
 
                         </form>
@@ -357,6 +359,7 @@
                 $.each(data, function () {
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
                 });
+
                 AppendRow(opt);
             }
         })
@@ -413,8 +416,7 @@
     //    });
     //}
 
-    
-    function changeGroup(ItemId) {
+       function changeGroup(ItemId) {
         $.ajax({
             url: 'GetDCDetails',
             data: { "ItemId": ItemId },
@@ -460,20 +462,18 @@
                     alert(item.itemname);
                     var index = $("#tbBooks").children("tr").length;
 
-                    //var itemname = "<td><label style='width: 150px;'>" + item.itemname + "</label><input type='hidden' value=" + item.id + " id='txtItem" + index + "' name='ReceiptLst[" + index + "].id'></td>";
                     var itemname = "<td><label style='width: 150px;'>" + item.itemname + "</label><input type='hidden' value=" + item.itemid + " id='txtItem" + index + "' name='ReceiptLst[" + index + "].itemid'></td>";
                    
-
                     var unit = "<td><input class='form-control' id='txtUnit" + index + "' name='ReceiptLst[" + index + "].unit'  style='width: 100px;' type='text'  readonly='True'  value=" + item.unit + " /></td>";
 
-                   
-                   // var bin = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlbin" + index + "' name='ReceiptLst[" + index + "].bin Model.ReceiptLst[" + index + "].Binlst'  ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
-                    var bin = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlbin" + index + "' name='ReceiptLst[" + index + "].bin '  ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
+                    var bin = "<td><select style = 'width: 200px;' class='form-control _select newcss'  id='ddlbin " + index + "' name='ReceiptLst[" + index + "].bin '   ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
+
+
+                    var qty = "<td><input class='form-control' id='txtqty" + index + "' name='ReceiptLst[" + index + "].qty'  style='width: 100px;' type='text'   onkeydown='return isNumeric2(event.keyCode,this.value)'  onchange = 'changerecQty(this.value," + index + ")' /></td>";
 
                     var pend = "<td><input class='form-control' id='txtPend" + index + "' name='ReceiptLst[" + index + "].Pend'  style='width: 100px;' type='text'   onkeydown='return isNumeric2(event.keyCode,this.value)' onchange = 'changerecQty(this.value," + index + ")'  /></td>";
 
                     var recd = "<td><input class='form-control' id='txtRecd" + index + "' name='ReceiptLst[" + index + "].Recd'  style='width: 80px;' type='text'   onkeydown='return isNumeric2(event.keyCode,this.value)' onchange = 'changeQty(this.value," + index + ")'  /></td> ";
-                    var qty = "<td><input class='form-control' id='txtqty" + index + "' name='ReceiptLst[" + index + "].qty'  style='width: 100px;' type='text'   onkeydown='return isNumeric2(event.keyCode,this.value)'  onchange = 'changerecQty(this.value," + index + ")' /></td>";
 
                     var rej = "<td><input class='form-control' id='txtRej" + index + "' name='ReceiptLst[" + index + "].rej'  style='width: 80px;' type='text'  readonly='True'   value=" + item.rej + "  /></td>";
 
@@ -487,7 +487,7 @@
 
 
                     var removeCell = "<td><input id='Isvalid" + index + "' name='ReceiptLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='ReceiptLst.Index' type='hidden' value='" + index + "'  /></td>";
-                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemname + unit + bin + pend + recd + qty + rej + rate + removeCell + "</tr>";
+                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemname + unit + bin + qty + pend + recd  + rej + rate + removeCell + "</tr>";
 
                     $("#tbBooks").append(newRow);
                 });
@@ -607,65 +607,95 @@
     //}
 
 
-     function changerecQty(_this, i) {
-        try {
-            var qty = document.getElementById("txtRej" + i).value;
-            var pur = document.getElementById("txtqty" + i).value;
+    // function changerecQty(_this, i) {
+    //    try {
+    //        var qty = document.getElementById("txtRej" + i).value;
+    //        var pur = document.getElementById("txtqty" + i).value;
+    //        //var req = document.getElementById("txtqty" + i).value;
            
 
-            if (qty == "")
-                qty = 0;
+    //        if (qty == "")
+    //            qty = 0;
 
-            if (pur == "")
-                pur = 0;
+    //        if (pur == "")
+    //            pur = 0;
 
+    //        //if (eval(qty) > eval(pur)) {
+    //        //    document.getElementById("txtqty" + i).value = "0";
+    //        //    alert("RejQty is Greaterthen ReqQty");
+    //        //    qty = 0;
+    //        //}
 
-
-            //if (eval(qty) < eval(pur)) {
-            //    document.getElementById("txtRej" + i).value = "0";
-            //    alert("RejQty is Greaterthen ReqQty");
-            //    pur = 0;
-            //}
-
-            if (pur > 0) {
-                var tot = eval(qty) - eval(pur);
-                document.getElementById("txtRecd" + i).value = tot.toFixed(2);
-            } else {
-                document.getElementById("txtRecd" + i).value = 0;
-            }
+    //        if (pur > 0) {
+    //            var tot = eval(qty) - eval(pur);
+    //            document.getElementById("txtRecd" + i).value = tot.toFixed(2);
+    //        } else {
+    //            document.getElementById("txtRecd" + i).value = 0;
+    //        }
 
 
-            var pend = document.getElementById("txtPend" + i).value;
-            var recd = document.getElementById("txtRecd" + i).value;
-           // var pur = document.getElementById("txtqty" + i).value;
+    //        var pend = document.getElementById("txtPend" + i).value;
+    //        var recd = document.getElementById("txtRecd" + i).value;
+    //        // var pur = document.getElementById("txtRej" + i).value;
            
-            if (pend == "")
-                pend = 0;
+    //        if (pend == "")
+    //            pend = 0;
 
-            if (recd == "")
-                recd = 0;
+    //        if (recd == "")
+    //            recd = 0;
 
-            //if (pur == "")
-            //    pur = 0;
+            
+    //        //if (eval(pend) < eval(pur)) {
+    //        //    document.getElementById("txtPend" + i).value = "0";
+    //        //    alert("PendQty is Greaterthen ReqQty");
+    //        //    pur = 0;
+    //        //}
 
-            //if (eval(pend) < eval(pur)) {
-            //    document.getElementById("txtPend" + i).value = "0";
-            //    alert("PendQty is Greaterthen ReqQty");
-            //    pur = 0;
-            //}
+    //        if (recd > 0) {
+    //            var tot = eval(pend) - eval(recd);
+    //            document.getElementById("txtRecd" + i).value = tot.toFixed(2);
+    //        } else {
+    //            document.getElementById("txtRecd" + i).value = 0;
+    //        }
 
-            if (recd > 0) {
-                var tot = eval(pend) - eval(recd);
-                document.getElementById("txtRecd" + i).value = tot.toFixed(2);
-            } else {
-                document.getElementById("txtRecd" + i).value = 0;
-            }
+    //    }
+    //    catch (ex) {
+    //        alert(ex.message);
+    //    }
+    //}
 
-        }
-        catch (ex) {
-            alert(ex.message);
-        }
-    }
+    
+
+    //$(document).ready(function () {
+    //    $('#btnSave').click(function (e) {
+    //        var isValid = true;
+
+
+    //         var pend = document.getElementById("txtRej" + i).value;
+    //        var recd = document.getElementById("txtRecd" + i).value;
+
+    //        if (pend == "")
+    //            pend = 0;
+
+    //        if (recd == "")
+    //            recd = 0;
+
+    //        if (eval(pend) < eval(recd)) {
+    //            document.getElementById("txtRecd" + i).value = "0";
+    //            alert("Recd is Greaterthen Reqqty");
+    //            qty = 0;
+    //        }
+    //                //    
+    //                //    catch (ex) {
+    //                //        alert(ex.message);
+    //                //    }
+    //                //}
+    //            if (isValid == false)
+    //            e.preventDefault();
+
+    //     });
+
+    //});
 
 
     //function changecalQty(_this, i) {
@@ -704,10 +734,16 @@
 
 
 <script>
+
+     $(function () {
+              $('._select').select2();
+          });
+
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
 
+            
 
             if (document.getElementById("ddlLocation").value == "" || document.getElementById("ddlLocation").value == 0) {
                 isValid = false;
@@ -778,98 +814,89 @@
                 });
             }
 
+
+
+               var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                 var pend = document.getElementById("txtRej"+j).value;
+                    var recd = document.getElementById("txtRecd" + j).value;
+
+            if (eval(pend) < eval(recd)) {
+                isValid = false;
+                alert("Recd is Greater then Req qty");
+                return false;
+            }
+            else{
+
+            }
+             j += 1;
+            }
+        });
+
            
-
-          
-
-            if (document.getElementById("ddlStock").value == "" || document.getElementById("ddlStock").value == 0) {
-                isValid = false;
-                $(ddlCustomer_chzn).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Stock");
+           
+            if (isValid == false) {
                 return false;
-            }
-            else {
-                $(ddlStock).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtParty").value == "") {
-                isValid = false;
-                $(txtParty).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Party Id");
-                return false;
-            }
-            else {
-                $(txtParty).css({
-                    "border": "",
-                    "background": ""
-                });
-            }  if (document.getElementById("txtRef").value == "") {
-                isValid = false;
-                $(txtRef).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Ref No");
-                return false;
-            }
-            else {
-                $(txtRef).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-
-            if (document.getElementById("ddlApproved").value == "" || document.getElementById("ddlApproved").value == 0) {
-                isValid = false;
-                $(ddlPro).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Approved By");
-                return false;
-            }
-            else {
-                $(ddlApproved).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddlApproval2").value == "" || document.getElementById("ddlApproval2").value == 0) {
-                isValid = false;
-                $(ddlPro).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Approval2");
-                return false;
-            }
-            else {
-                $(ddlApproval2).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-
-
-
-            if (isValid == false)
                 e.preventDefault();
+
+            }
+                
         });
 
     });
+
+
+    function changerecQty(_this, i) {
+        try {
+            var qty = document.getElementById("txtqty" + i).value;
+            var pur = document.getElementById("txtPend" + i).value;
+            var rej = document.getElementById("txtRej" + i).value;
+
+
+            if (qty == "")
+                qty = 0;
+
+            if (pur == "")
+                pur = 0;
+
+            if (pur > 0) {
+                var tot = eval(qty) + eval(pur);
+                document.getElementById("txtRecd" + i).value = tot.toFixed(2);
+            } else {
+                document.getElementById("txtRecd" + i).value = 0;
+            }
+
+
+
+
+            var pend = document.getElementById("txtRej" + i).value;
+            var recd = document.getElementById("txtRecd" + i).value;
+            // var pur = document.getElementById("txtRej" + i).value;
+
+            if (pend == "")
+                pend = 0;
+
+            if (recd == "")
+                recd = 0;
+
+
+            if (recd > 0) {
+                var tot = eval(pend) - eval(recd);
+                document.getElementById("txtRecd" + i).value = tot.toFixed(2);
+            } else {
+                document.getElementById("txtRecd" + i).value = 0;
+            }
+
+            if (eval(pend) < eval(recd)) {
+                document.getElementById("txtRecd" + i).value = "0";
+                alert("Recd is Greaterthen Reqqty");
+                qty = 0;
+            }
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
+    }
+
 </script>

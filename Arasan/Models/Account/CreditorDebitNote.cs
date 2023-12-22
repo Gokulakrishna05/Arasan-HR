@@ -35,6 +35,8 @@ namespace Arasan.Models
         public string Total { get; set; }
         public string Ref { get; set; }
         public string Refdate { get; set; }
+        public string mid { get; set; }
+        public string Amtinwords { get; set; }
 
         public List<CreDebNoteItems> NoteLst { get; set; }
     }

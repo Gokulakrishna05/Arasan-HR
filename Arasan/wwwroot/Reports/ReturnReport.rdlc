@@ -1070,11 +1070,6 @@
                           <Style>Solid</Style>
                           <Width>1pt</Width>
                         </TopBorder>
-                        <BottomBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                          <Width>1pt</Width>
-                        </BottomBorder>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1111,11 +1106,6 @@
                           <Style>Solid</Style>
                           <Width>1pt</Width>
                         </TopBorder>
-                        <BottomBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                          <Width>1pt</Width>
-                        </BottomBorder>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1150,11 +1140,6 @@
                           <Style>Solid</Style>
                           <Width>1pt</Width>
                         </TopBorder>
-                        <BottomBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                          <Width>1pt</Width>
-                        </BottomBorder>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1165,14 +1150,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox13">
+                    <Textbox Name="QTY">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!QTY.Value)</Value>
+                              <Value>=Fields!QTY.Value</Value>
                               <Style>
                                 <FontSize>8pt</FontSize>
                               </Style>
@@ -1181,7 +1166,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox13</rd:DefaultName>
+                      <rd:DefaultName>QTY</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -1191,11 +1176,6 @@
                           <Style>Solid</Style>
                           <Width>1pt</Width>
                         </TopBorder>
-                        <BottomBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                          <Width>1pt</Width>
-                        </BottomBorder>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1230,11 +1210,6 @@
                           <Style>Solid</Style>
                           <Width>1pt</Width>
                         </TopBorder>
-                        <BottomBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                          <Width>1pt</Width>
-                        </BottomBorder>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1269,11 +1244,6 @@
                           <Style>Solid</Style>
                           <Width>1pt</Width>
                         </TopBorder>
-                        <BottomBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                          <Width>1pt</Width>
-                        </BottomBorder>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1623,11 +1593,6 @@
           <Border>
             <Style>None</Style>
           </Border>
-          <BottomBorder>
-            <Color>LightGrey</Color>
-            <Style>Solid</Style>
-            <Width>1pt</Width>
-          </BottomBorder>
         </Style>
       </Rectangle>
       <Textbox Name="Textbox12">
@@ -1718,16 +1683,6 @@
           <Border>
             <Style>None</Style>
           </Border>
-          <TopBorder>
-            <Color>LightGrey</Color>
-            <Style>Solid</Style>
-            <Width>1pt</Width>
-          </TopBorder>
-          <BottomBorder>
-            <Color>LightGrey</Color>
-            <Style>Solid</Style>
-            <Width>1pt</Width>
-          </BottomBorder>
         </Style>
       </Rectangle>
       <Rectangle Name="Rectangle5">
@@ -1741,10 +1696,6 @@
           <Border>
             <Style>None</Style>
           </Border>
-          <TopBorder>
-            <Color>LightGrey</Color>
-            <Style>Solid</Style>
-          </TopBorder>
         </Style>
       </Rectangle>
     </ReportItems>
@@ -1837,14 +1788,6 @@
             <Border>
               <Style>None</Style>
             </Border>
-            <TopBorder>
-              <Color>LightGrey</Color>
-              <Style>Solid</Style>
-            </TopBorder>
-            <BottomBorder>
-              <Color>LightGrey</Color>
-              <Style>Solid</Style>
-            </BottomBorder>
           </Style>
         </Rectangle>
       </ReportItems>
