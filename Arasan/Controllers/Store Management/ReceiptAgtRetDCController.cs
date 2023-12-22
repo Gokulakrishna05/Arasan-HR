@@ -155,7 +155,7 @@ namespace Arasan.Controllers
             try
             {
                 Cy.ID = id;
-                string Strout = ReceiptAgtRetDCService.ReceiptAgtRetDCCRUD(Cy);
+                string Strout = ""; //ReceiptAgtRetDCService.ReceiptAgtRetDCCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (Cy.ID == null)
