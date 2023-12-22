@@ -38,8 +38,9 @@
                 // synchronize with the server - send update command
             },
             datafields: [
-                { name: 'design', type: 'string' },
+               
                 { name: 'deptname', type: 'string' },
+                    { name: 'design', type: 'string' },
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
 
@@ -72,8 +73,9 @@
                 enablebrowserselection: true,
                 columns: [
 
-                    { text: 'Designation', filtertype: 'checkedlist', datafield: 'design', width: 200 },
+                    
                     { text: 'Department Name', filtertype: 'input', datafield: 'deptname', width: 200 },
+                        { text: 'Designation', filtertype: 'checkedlist', datafield: 'design', width: 200 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                     

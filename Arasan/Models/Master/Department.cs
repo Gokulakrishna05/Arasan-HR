@@ -10,7 +10,7 @@ namespace Arasan.Models
         public string Departmentcode { get; set; }
         public string DepartmentName { get; set; }
         public string status { get; set; }
-        public string Description { get; set; }
+        public string Descrip { get; set; }
         public string IsActive { get; set; }
         public string CreatedOn { get; set; }
         public string CreatedBy { get; set; }

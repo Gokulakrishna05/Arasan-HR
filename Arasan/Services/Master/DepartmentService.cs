@@ -98,7 +98,7 @@ namespace Arasan.Services
                     }
                     objCmd.Parameters.Add("DEPARTMENT_CODE", OracleDbType.NVarchar2).Value = ss.Departmentcode;
                     objCmd.Parameters.Add("DEPARTMENT_NAME", OracleDbType.NVarchar2).Value = ss.DepartmentName;
-                    objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = ss.Description;
+                    objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = ss.Descrip;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.CreatedBy;
@@ -250,11 +250,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select DEPARTMENTMAST.IS_ACTIVE,DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME,DESCRIPTION from DEPARTMENTMAST  WHERE DEPARTMENTMAST.IS_ACTIVE = 'Y' ORDER BY DEPARTMENTMASTID DESC";
+                SvSql = "Select DEPARTMENTMAST.IS_ACTIVE,DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME from DEPARTMENTMAST  WHERE DEPARTMENTMAST.IS_ACTIVE = 'Y' ORDER BY DEPARTMENTMASTID DESC";
             }
             else
             {
-                SvSql = "Select DEPARTMENTMAST.IS_ACTIVE,DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME,DESCRIPTION from DEPARTMENTMAST  WHERE DEPARTMENTMAST.IS_ACTIVE = 'N' ORDER BY DEPARTMENTMASTID DESC";
+                SvSql = "Select DEPARTMENTMAST.IS_ACTIVE,DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME from DEPARTMENTMAST  WHERE DEPARTMENTMAST.IS_ACTIVE = 'N' ORDER BY DEPARTMENTMASTID DESC";
 
             }
             DataTable dtt = new DataTable();
