@@ -29,7 +29,7 @@ namespace Arasan.Controllers
             Home H = new Home();
              
                 int indent = datatrans.GetDataId("select count(*) as cunt from PINDBASIC   where TRUNC(DOCDATE) = TRUNC(SYSDATE)");
-                int enq = datatrans.GetDataId("select count(*) as cunt from PURENQBASIC   where TRUNC(DOCDATE) = TRUNC(SYSDATE)");
+                int enq = datatrans.GetDataId("select count(*) as cunt from PURENQBASIC   where TRUNC(ENQDATE) = TRUNC(SYSDATE)");
                 int quot = datatrans.GetDataId("select count(*) as cunt from PURQUOTBASIC   where TRUNC(DOCDATE) = TRUNC(SYSDATE)");
                 int po = datatrans.GetDataId("select count(*) as cunt from POBASIC   where TRUNC(DOCDATE) = TRUNC(SYSDATE)");
                 int gate = datatrans.GetDataId("select count(*) as cunt from GATE_INWARD   where TRUNC(GATE_IN_DATE) = TRUNC(SYSDATE) ");

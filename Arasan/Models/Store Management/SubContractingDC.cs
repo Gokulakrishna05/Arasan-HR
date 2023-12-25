@@ -21,6 +21,7 @@ namespace Arasan.Models
 
         public List<SelectListItem> Loc;
         public string Location { get; set; }
+        public string Locationid { get; set; }
         public List<SelectListItem> Suplst;
         public string Supplier { get; set; }
         public string Add1 { get; set; }
@@ -49,7 +50,9 @@ namespace Arasan.Models
         public string lotno { get; set; }
         public string drumno { get; set; }
         public string qty { get; set; }
+        public string stkid  { get; set; }
         public string rate { get; set; }
+        public string amount { get; set; }
         public string invid { get; set; }
         public bool drumselect { get; set; }
     }
@@ -60,14 +63,22 @@ namespace Arasan.Models
 
         public List<SelectListItem> Itemlst { get; set; }
         public string ItemId { get; set; }
+        public string item { get; set; }
         public string Unit { get; set; }
+        public string detid { get; set; }
         public string ConFac { get; set; }
         public string Quantity { get; set; }
         public string rate { get; set; }
         public string Amount { get; set; }
         public string saveItemId { get; set; }
+        public string group { get; set; }
+        public string Lotno { get; set; }
+        public string dqty { get; set; }
+        public string drate { get; set; }
         public string DrumIds { get; set; } 
+        public string invid { get; set; } 
        public string Drumsdesc { get; set; }
+       public string stock { get; set; }
        public string Lot { get; set; }
     }
     public class ReceiptDetailItem
@@ -92,6 +103,7 @@ namespace Arasan.Models
         public string loc { get; set; }
         public string tot { get; set; }
         public string view { get; set; }
+        public string approve { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
 

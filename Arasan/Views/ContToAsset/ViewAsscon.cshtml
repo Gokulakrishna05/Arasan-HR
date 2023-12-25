@@ -41,10 +41,21 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Location <label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label"> From Location <label class="mandatory"></label></label>
                                     <div class="col-sm-8">
 
                                         @Html.DisplayFor(C => C.Location) @Html.HiddenFor(C => C.Location)<br>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">To Location <label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.ToLoc) @Html.HiddenFor(C => C.Location)<br>
                                     </div>
                                 </div>
                             </div>

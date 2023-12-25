@@ -74,10 +74,10 @@
                                                 {
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                         <td>@Html.CheckBoxFor(o => o.SUBDDrumlst[i].drumselect, new { @id = "drumslect" + i }) @Html.HiddenFor(o => o.SUBDDrumlst[i].invid, new { @id = "invid" + i }) </td>
-                                                        <td>@Html.DisplayFor(o => o.SUBDDrumlst[i].lotno)</td>
+                                                        <td>@Html.DisplayFor(o => o.SUBDDrumlst[i].lotno)@Html.HiddenFor(o => o.SUBDDrumlst[i].lotno, new { @id = "lotno" + i })</td>
                                                         <td>@Html.DisplayFor(o => o.SUBDDrumlst[i].drumno)@Html.HiddenFor(o => o.SUBDDrumlst[i].drumno, new { @id = "drumno" + i })</td>
                                                         <td>@Html.DisplayFor(o => o.SUBDDrumlst[i].qty)@Html.HiddenFor(o => o.SUBDDrumlst[i].qty, new { @id = "qty" + i })</td>
-                                                        <td>@Html.DisplayFor(o => o.SUBDDrumlst[i].rate)</td>
+                                                        <td>@Html.DisplayFor(o => o.SUBDDrumlst[i].rate)@Html.HiddenFor(o => o.SUBDDrumlst[i].rate, new { @id = "rate" + i })</td>
                                                     </tr>
 
                                                     i = i + 1;
@@ -152,6 +152,9 @@
         if (confirm('Are you sure want to Submit?') == true) {
         var ar1 = "";
         var ar2 = "";
+        var ar3 = "";
+        var ar4 = "";
+        var ar5 = "";
         var tot = 0;
         var j = 0;
         $('tr.chkitemlst').each(function () {
@@ -160,9 +163,14 @@
                 if (checkBox.checked == true) {
                     var invid = document.getElementById('invid' + j).value;
                     var drumno = document.getElementById('drumno' + j).value;
+                        var lot = document.getElementById('lotno' + j).value;
+                        var rate = document.getElementById('rate' + j).value;
                     var qty = document.getElementById('qty' + j).value;
                     ar1 += invid + ",";
                     ar2 += drumno + ",";
+                        ar3 += lot + "#";
+                        ar4 += qty + "-";
+                        ar5 += rate + "-";
                     tot += eval(qty);
                 }
             }
@@ -170,9 +178,15 @@
         });
         var drumid = ar1.substring(0, ar1.length - 1);
         var drumname = ar2.substring(0, ar2.length - 1);
+            var lotno = ar3.substring(0, ar3.length - 1);
+            var dqty = ar4.substring(0, ar4.length - 1);
+            var drate = ar5.substring(0, ar5.length - 1);
         window.parent.document.getElementById('txtQuantity' + rowid).value = tot;
         window.parent.document.getElementById('txtDrumsdesc' + rowid).value = drumname;
         window.parent.document.getElementById('hddrumid' + rowid).value = drumid;
+            window.parent.document.getElementById('lotno' + rowid).value = lotno;
+            window.parent.document.getElementById('dqty' + rowid).value = dqty;
+            window.parent.document.getElementById('drate' + rowid).value = drate;
         window.parent.changeQty(0, rowid);
         window.parent.jQuery.fancybox.close();
         }

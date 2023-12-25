@@ -312,7 +312,7 @@ namespace Arasan.Controllers.Store_Management
                
                 string unit = "";
                 string price = "";
-               
+                string lot = "";
                 dt = SubContractingMaterialReceiptService.GetItemDetails(ItemId);
                
                 if (dt.Rows.Count > 0)
@@ -320,10 +320,10 @@ namespace Arasan.Controllers.Store_Management
 
                     unit = dt.Rows[0]["UNITID"].ToString();
                     price = dt.Rows[0]["LATPURPRICE"].ToString();
-                   
+                    lot = dt.Rows[0]["LOTYN"].ToString();
                 }
 
-                var result = new { unit = unit, price = price };
+                var result = new { unit = unit, price = price, lot = lot };
                 return Json(result);
             }
             catch (Exception ex)
@@ -339,6 +339,7 @@ namespace Arasan.Controllers.Store_Management
 
                 string unitid = "";
                 string rate = "";
+                
 
                 dt = SubContractingMaterialReceiptService.GetItems(ItemId);
 
@@ -347,10 +348,11 @@ namespace Arasan.Controllers.Store_Management
 
                     unitid = dt.Rows[0]["UNITID"].ToString();
                     rate = dt.Rows[0]["LATPURPRICE"].ToString();
+                
 
                 }
 
-                var result = new { unitid = unitid, rate = rate };
+                var result = new { unitid = unitid, rate = rate  };
                 return Json(result);
             }
             catch (Exception ex)
@@ -375,7 +377,7 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public ActionResult DrumSelection(string id)
+        public ActionResult DrumSelection(string id,string rowid)
         {
             SubContractingMaterialReceipt ca = new SubContractingMaterialReceipt();
             List<DrumItemDeatil> TData = new List<DrumItemDeatil>();
@@ -408,38 +410,75 @@ namespace Arasan.Controllers.Store_Management
 
 
         }
-        public ActionResult GetDrumDetails(int ItemId, double rate, int qty)
+        //public ActionResult GetDrumDetails(int ItemId, double rate, int qty)
+        //{
+        //    SubContractingMaterialReceipt ca = new SubContractingMaterialReceipt();
+        //    List<DrumItemDeatil> TData = new List<DrumItemDeatil>();
+        //    DrumItemDeatil tda = new DrumItemDeatil();
+
+        //    int sqty = qty / ItemId;
+        //    for (int i = 1; i <= sqty; i++)
+        //    {
+        //        tda = new DrumItemDeatil();
+
+        //        tda.drulist = BindDrum();
+
+        //        tda.qty = ItemId.ToString();
+        //        tda.rate = rate.ToString();
+        //        Double tamt = ItemId * rate;
+        //        tda.amount = tamt.ToString();
+
+
+        //        tda.Isvalid = "Y";
+
+        //        TData.Add(tda);
+
+
+        //    }
+
+
+        //    ca.drumlist = TData;
+        //    return Json(ca.drumlist);
+
+
+
+        //}
+        public ActionResult GetDrumDetails(int id, int st, string pre)
         {
             SubContractingMaterialReceipt ca = new SubContractingMaterialReceipt();
             List<DrumItemDeatil> TData = new List<DrumItemDeatil>();
             DrumItemDeatil tda = new DrumItemDeatil();
-
-            int sqty = qty / ItemId;
-            for (int i = 1; i <= sqty; i++)
+            for (int i = 1; i <= id; i++)
             {
                 tda = new DrumItemDeatil();
 
-                tda.drulist = BindDrum();
 
-                tda.qty = ItemId.ToString();
-                tda.rate = rate.ToString();
-                Double tamt = ItemId * rate;
-                tda.amount = tamt.ToString();
+                int s = st;
+                int legcode = Convert.ToInt32(s);
+                string code = GetNumberwithPrefix(legcode, 6);
+                //int prefix = Convert.ToInt32(pre);
+                tda.totaldrum = code;
+                string drum = pre + "" + code;
+                tda.drumno = drum.ToString();
+                legcode++;
+                st = legcode;
+               
 
-
-                tda.Isvalid = "Y";
 
                 TData.Add(tda);
-
-
             }
-
 
             ca.drumlist = TData;
             return Json(ca.drumlist);
 
+        }
 
-
+        public static string GetNumberwithPrefix(int Ledgercode, int totalchar)
+        {
+            string tempnumber = Ledgercode.ToString();
+            while (tempnumber.Length < 6)
+                tempnumber = "0" + tempnumber;
+            return tempnumber;
         }
         public JsonResult GetDrumJSON()
         {
@@ -632,6 +671,48 @@ namespace Arasan.Controllers.Store_Management
 
             return View(ca);
         }
+        public IActionResult SubMatReceipt(string id)
+        {
+            SubContractingMaterialReceipt ca = new SubContractingMaterialReceipt();
+            ca.Loc = BindLocation();
+            ca.Brlst = BindBranch();
+            ca.Suplst = BindSupplier("");
+            ca.assignList = BindEmp();
+            ca.DClst = BindDC();
+            ca.Enterd = Request.Cookies["UserId"];
+            ca.Branch = Request.Cookies["BranchId"];
+            ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence("submr");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
 
+            List<SubMaterialItem> TData = new List<SubMaterialItem>();
+            SubMaterialItem tda = new SubMaterialItem();
+            List<SubContractItem> TData1 = new List<SubContractItem>();
+            SubContractItem tda1 = new SubContractItem();
+
+            for (int i = 0; i < 1; i++)
+            {
+                tda = new SubMaterialItem();
+
+                tda.Itemlst = BindItemlst();
+
+                tda.Isvalid = "Y";
+                TData.Add(tda);
+            }
+            for (int i = 0; i < 1; i++)
+            {
+                tda1 = new SubContractItem();
+                tda1.Itemlst = BindItemlst();
+                tda1.Isvalid = "Y";
+                TData1.Add(tda1);
+            }
+            ca.Contlilst = TData1;
+            ca.SubMatlilst = TData;
+
+            return View(ca);
+        }
     }
 }

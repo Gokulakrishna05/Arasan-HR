@@ -23,56 +23,63 @@
                         @Html.AntiForgeryToken()
                         <form>
                             <div class="row">
+
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Item<label class="Mandatory"></label></label>
 
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Start No<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.item, new { @id = "item"})<br />
-                                            @Html.HiddenFor(C => C.ID)
-                                            @Html.HiddenFor(C => C.itemid)
-                                        </div>
 
+                                            @Html.TextBoxFor(C => C.Start, new { @id = "txtStart", @class = "form-control", @TabIndex = 1   , onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                            <br />
+
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">QTY<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.qty )<br />
-                                            @Html.HiddenFor(C => C.qty, new { @id = "qty"})
-                                        </div>
-                                        <br />
 
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Last No<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.End, new { @id = "txtEnd", @class = "form-control", @TabIndex = 1   , onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                            <br />
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
+
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Rate<label class="Mandatory"></label></label>
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Prefix<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.rate)<br />
-                                            @Html.HiddenFor(C => C.rate, new { @id = "rate"})
-                                        </div>
 
-                                        <br />
+                                            @Html.TextBoxFor(C => C.Pri, new { @id = "txtPri", @class = "form-control", @TabIndex = 1  })
+                                            <br />
 
-
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Drum Qty<label class="Mandatory"></label></label>
-
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.DQty, new { @id = "DQty", @class = "form-control", @TabIndex = 3 , @onchange = "changeDrum(this.value)" })<br />
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Total No.Of Drums <label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.Totdrum, new { @id = "txtTotdrum", @class = "form-control", @TabIndex = 1 , onkeydown = "return isNumeric2(event.keyCode,this.value)" , @onchange = "changeDrum(this.value)"  })
+                                            <br />
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div style="height:30px;"></div>
                             <div class="col-md-12">
@@ -158,31 +165,15 @@
         $('._select').select2();
     });
     function changeDrum(ItemId) {
-        var rate = document.getElementById("rate").value;
-
-        var qty = document.getElementById("qty").value;
-
-
+        var pre = document.getElementById("txtPri").value;
+        var st = document.getElementById("txtStart").value;
+        var id = document.getElementById("txtTotdrum").value;
         document.getElementById("tbBooks").innerHTML = "";
-        var opt = "";
-
-
-        $.ajax({
-            type: "POST",
-            url: 'GetDrumJSON',
-            success: function (data) {
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-
-
-            }
-        })
 
         $.ajax({
             url: 'GetDrumDetails',
             type: "post",
-            data: { "ItemId": ItemId, "rate": rate, "qty": qty },
+            data: { "id": id, "st": st, "pre": pre },
             cache: false,
 
             success: function (list) {
@@ -191,22 +182,17 @@
 
                     var index = $("#tbBooks").children("tr").length;
                     //alert(item.batch);
-                    var Drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddldrumno" + index + "' name='drumlist[" + index + "].drumno'><option value=''>Please select</option>" + opt + "</select></td>";
+                    var Drum = "<td><input class='form-control' id='ddldrumno" + index + "' name='drumlist[" + index + "].packdrum'  style='width: 250px;' type='text'  readonly='True'  value=" + item.drumno + " /></td>";
 
 
-                    var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='drumlist[" + index + "].qty'  style='width: 100px;' type='text' readonly='True' value=" + item.qty + " /></td>";
+                    var qty = "<td><input class='form-control' id='txtqty" + index + "' name='drumlist[" + index + "].'qty  style='width: 100px;' type='text'  /></td>";
+                    var rate = "<td><input class='form-control' id='txtrate" + index + "' name='drumlist[" + index + "].'rate  style='width: 100px;' type='text' /></td>";
+                    var amount = "<td><input class='form-control' id='txtamount" + index + "' name='drumlist[" + index + "].'amount  style='width: 120px;' type='text' /></td>";
+
+                    var removeCell = "<td><input id='Isvalid" + index + "' name='drumlist[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='drumlist.Index' type='hidden' value='" + index + "'  /></td>";
 
 
-
-
-
-                    var rate = "<td><input class='form-control' id='txtrate" + index + "' name='drumlist[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;' type='text' value=" + item.rate + " readonly='True' /></td>";
-
-                    var Amount = "<td><input class='form-control' id='txtamount" + index + "' name='drumlist[" + index + "].amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 120px; type='text' value=" + item.amount + " readonly='True' /></td>";
-
-
-
-                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + Qty + rate + Amount + "</tr>";
+                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + qty + rate + amount + removeCell+ "</tr>";
 
                     $("#tbBooks").append(newRow);
                 });
@@ -215,10 +201,6 @@
             error: function () {
                 alert("Data Not Found");
             }
-
-
-
-
         });
 
     }

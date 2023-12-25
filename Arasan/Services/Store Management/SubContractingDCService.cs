@@ -5,6 +5,7 @@ using Arasan.Interface.Store_Management;
 using Arasan.Interface.Master;
 using Oracle.ManagedDataAccess.Client;
 using System.Data;
+using Org.BouncyCastle.Security.Certificates;
 
 namespace Arasan.Services.Store_Management
 {
@@ -27,10 +28,10 @@ namespace Arasan.Services.Store_Management
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetSubContractDrumDetails(string Itemid)
+        public DataTable GetSubContractDrumDetails(string Itemid,string loc)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT DRUM,PLUSQTY as QTY,LOTNO,RATE FROM DRUM_STOCKDET WHERE ITEMID='" + Itemid + "'";
+            SvSql = "SELECT DRUM_NO,BALANCE_QTY,DRUM_STOCK_ID FROM DRUM_STOCK WHERE ITEMID='" + Itemid + "' and LOCID='"+loc+"' and BALANCE_QTY >0";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -40,27 +41,27 @@ namespace Arasan.Services.Store_Management
         public DataTable GetItem()
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT ITEMMASTERID,ITEMID FROM ITEMMASTER";
+            SvSql = "SELECT ITEMMASTERID,ITEMID FROM ITEMMASTER WHERE IGROUP IN('SEMI FINISHED GOODS','Consumables','RAW MATERIAL')";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        //public DataTable GetPartyItem(string ItemId)
-        //{
-        //    string SvSql = string.Empty;
-        //    SvSql = "SELECT WIPITEMID,WCBASICID FROM WCBASIC WHERE PARTYID='" + ItemId + "'";
-        //    DataTable dtt = new DataTable();
-        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-        //    adapter.Fill(dtt);
-        //    return dtt;
-        //}
+        public DataTable GetPartyItem(string ItemId)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT ITEMMASTER.ITEMID,WIPITEMID FROM WCBASIC LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=WCBASIC.WIPITEMID WHERE PARTYID='" + ItemId + "' GROUP BY ITEMMASTER.ITEMID,WIPITEMID";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetItemDetails(string ItemId)
         {
             string SvSql = string.Empty;
-            SvSql = "select UNITMAST.UNITID,LOTYN,ITEMID,ITEMDESC,UNITMAST.UNITMASTID,LATPURPRICE,VALMETHDES,ITEMMASTERPUNIT.CF,ITEMMASTER.LATPURPRICE,QCCOMPFLAG,BINBASIC.BINID from ITEMMASTER LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID LEFT OUTER JOIN ITEMMASTERPUNIT ON  ITEMMASTER.ITEMMASTERID=ITEMMASTERPUNIT.ITEMMASTERID LEFT OUTER JOIN BINBASIC ON BINBASICID=ITEMMASTER.BINNO Where ITEMMASTER.ITEMMASTERID='" + ItemId + "'";
+            SvSql = "select UNITMAST.UNITID,LOTYN,ITEMID,ITEMDESC,UNITMAST.UNITMASTID,LATPURPRICE,VALMETHDES,ITEMMASTERPUNIT.CF,ITEMMASTER.LATPURPRICE,QCCOMPFLAG,BINBASIC.BINID,IGROUP from ITEMMASTER LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID LEFT OUTER JOIN ITEMMASTERPUNIT ON  ITEMMASTER.ITEMMASTERID=ITEMMASTERPUNIT.ITEMMASTERID LEFT OUTER JOIN BINBASIC ON BINBASICID=ITEMMASTER.BINNO Where ITEMMASTER.ITEMMASTERID='" + ItemId + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -225,11 +226,37 @@ namespace Arasan.Services.Store_Management
                                 objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
                                 objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
                                 objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                objCmds.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                 objCmds.ExecuteNonQuery();
+                                Object detid = objCmds.Parameters["OUTID"].Value;
+
+                                 
+                                    string[] Ddrum = cp.Drumsdesc.Split(',');
+                                    string[] Dqty = cp.dqty.Split('-');
+                                    string[] Drate = cp.drate.Split('-');
+                                    string[] dlot = cp.Lotno.Split('#');
+                                    for (int i = 0; i < Ddrum.Length; i++)
+                                    {
+
+                                        string dddrum = Ddrum[i];
+                                        string ddqty = Dqty[i];
+                                        string ddrate = Drate[i];
+                                        string ddlot = dlot[i];
 
 
+                                        if (cp.Isvalid == "Y" && cp.Drumsdesc != "")
+                                        {
 
-                            }
+                                            svSQL = "Insert into SUBCONTDCBATCH(SUBCONTDCBASICID,PARENTRECORDID,BITEMID,BITEMMASTERID,DRUMNO,BQTY,BRATE,BAMOUNT,BLOCID,TLOT) VALUES ('" + Pid + "','" + detid + "','" + cp.ItemId + "','" + cp.ItemId + "','" + dddrum + "','" + ddqty + "','" + ddrate + "','0','" + ss.Location + "','" + ddlot + "')";
+                                            objCmds = new OracleCommand(svSQL, objConn);
+                                            objCmds.ExecuteNonQuery();
+
+                                        }
+                                    }
+                                }
+
+
+                            
                         }
                         if (ss.RECDlst != null)
                         {
@@ -321,7 +348,7 @@ namespace Arasan.Services.Store_Management
         public DataTable GetSubViewDeatils(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT BRANCHMAST.BRANCHID,SUBCONTDCBASIC.DOCID,to_char(SUBCONTDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,SUBCONTDCBASIC.ADD1,SUBCONTDCBASIC.ADD2,SUBCONTDCBASIC.CITY,LOCDETAILS.LOCID,THROUGH,ENTEREDBY,TOTQTY,NARRATION FROM SUBCONTDCBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=SUBCONTDCBASIC.BRANCH LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=SUBCONTDCBASIC.LOCID LEFT OUTER JOIN PARTYMAST on SUBCONTDCBASIC.PARTYID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND SUBCONTDCBASICID='" + id + "'";
+            SvSql = "SELECT BRANCHMAST.BRANCHID,SUBCONTDCBASIC.DOCID,to_char(SUBCONTDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,SUBCONTDCBASIC.ADD1,SUBCONTDCBASIC.ADD2,SUBCONTDCBASIC.CITY,LOCDETAILS.LOCID,SUBCONTDCBASIC.LOCID as loc,THROUGH,ENTEREDBY,TOTQTY,NARRATION FROM SUBCONTDCBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=SUBCONTDCBASIC.BRANCH LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=SUBCONTDCBASIC.LOCID LEFT OUTER JOIN PARTYMAST on SUBCONTDCBASIC.PARTYID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND SUBCONTDCBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -332,7 +359,7 @@ namespace Arasan.Services.Store_Management
         public DataTable GetSubContractViewDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT ITEMMASTER.ITEMID,UNIT,QTY,RATE,AMOUNT FROM SUBCONTDCDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=SUBCONTDCDETAIL.ITEMID WHERE SUBCONTDCBASICID='" + id + "'";
+            SvSql = "SELECT ITEMMASTER.ITEMID,SUBCONTDCDETAIL.ITEMID as item,UNIT,QTY,RATE,AMOUNT,SUBCONTDCDETAILID FROM SUBCONTDCDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=SUBCONTDCDETAIL.ITEMID WHERE SUBCONTDCBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -361,5 +388,163 @@ namespace Arasan.Services.Store_Management
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable ViewSubContractDrumDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT SUBCONTDCBASICID,PARENTRECORDID,BITEMID,BITEMMASTERID,DRUMNO,BQTY,BRATE,BAMOUNT,BLOCID,TLOT FROM SUBCONTDCBATCH   WHERE PARENTRECORDID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+
+        }
+        public string ApproveSubContractingDCCRUD(SubContractingDC cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    objConn.Open();
+
+                    foreach (SubContractingItem cp in cy.SCDIlst)
+                    {
+                        
+                        if (cp.item != "0")
+                        {
+                            DataTable inv = datatrans.GetData("Select TLOT,BQTY,BITEMID,DRUMNO from INVENTORY_ITEM where PARENTRECORDID ='" + cp.detid + "'");
+                            
+                                /////////////////////////Inventory Update
+                              
+                                if (inv.Rows.Count > 0)
+                                {
+
+                                    for (int i = 0; i < inv.Rows.Count; i++)
+                                    {
+                                    if (inv.Rows[i]["DRUMNO"].ToString() == null)
+                                    {
+                                        DataTable dt = datatrans.GetData("Select INVENTORY_ITEM.BALANCE_QTY,INVENTORY_ITEM.ITEM_ID,INVENTORY_ITEM.LOCATION_ID,INVENTORY_ITEM.BRANCH_ID,INVENTORY_ITEM_ID,GRNID,GRN_DATE,LOT_NO from INVENTORY_ITEM where ITEM_ID='"+ inv.Rows[i]["BITEMID"].ToString() + " AND LOT_NO='"+ inv.Rows[i]["TLOT"].ToString() + "' and LOCATION_ID='"+cy.Locationid+"'");
+
+
+
+
+
+                                            double rqty = Convert.ToDouble(dt.Rows[i]["BALANCE_QTY"].ToString());
+                                            double ddqty = Convert.ToDouble(inv.Rows[i]["BQTY"].ToString());
+
+                                        
+                                        if (rqty >= ddqty)
+                                        {
+                                            double bqty = rqty - ddqty;
+
+                                            string Sql = string.Empty;
+                                            Sql = "Update INVENTORY_ITEM SET  BALANCE_QTY='" + bqty + "' WHERE INVENTORY_ITEM_ID='" + dt.Rows[0]["INVENTORY_ITEM_ID"].ToString() + "'";
+                                            OracleCommand objCmdss = new OracleCommand(Sql, objConn);
+
+                                            objCmdss.ExecuteNonQuery();
+                                            OracleCommand objCmdIn = new OracleCommand("INVITEMTRANSPROC", objConn);
+                                            objCmdIn.CommandType = CommandType.StoredProcedure;
+                                            objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                            objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.item;
+                                            objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = cp.detid;
+                                            objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = cy.ID;
+                                            objCmdIn.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = dt.Rows[0]["GRNID"].ToString();
+                                            objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = dt.Rows[0]["INVENTORY_ITEM_ID"].ToString();
+                                            objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "SubContracting DC";
+                                            objCmdIn.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "O";
+                                            objCmdIn.Parameters.Add("TRANS_QTY", OracleDbType.NVarchar2).Value = ddqty;
+                                            objCmdIn.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "SubContracting DC";
+                                            objCmdIn.Parameters.Add("TRANS_DATE", OracleDbType.Date).Value = DateTime.Now;
+                                            objCmdIn.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
+                                            objCmdIn.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
+                                            objCmdIn.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                                            objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = cy.Locationid;
+                                            objCmdIn.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
+                                            objCmdIn.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
+                                            objCmdIn.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
+                                            objCmdIn.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
+                                            objCmdIn.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
+                                            objCmdIn.ExecuteNonQuery();
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        
+                                        DataTable dt = datatrans.GetData("Select DRUM_STOCK.BALANCE_QTY,DRUM_STOCK.ITEMID,DRUM_STOCK.LOCID,DRUM_STOCK.DRUM_NO,DRUM_ID,DRUM_STOCK_ID,WCID from DRUM_STOCK where DRUM_STOCK.ITEMID='" + cp.item + "' AND DRUM_STOCK.LOCID='"+cy.Locationid+"' and DRUM_NO='" + inv.Rows[i]["DRUMNO"].ToString() + "' and BALANCE_QTY!=0 order by DOC_DATE ASC");
+                                        if (dt.Rows.Count > 0)
+                                        {
+                                            double ddqty = Convert.ToDouble(inv.Rows[i]["BQTY"].ToString());
+                                            double rqty = Convert.ToDouble(dt.Rows[i]["BALANCE_QTY"].ToString());
+
+                                                double bqty = rqty - ddqty;
+
+                                                string Sql = string.Empty;
+                                                Sql = "Update DRUM_STOCK SET  BALANCE_QTY='" + bqty + "' WHERE DRUM_STOCK_ID='" + dt.Rows[0]["DRUM_STOCK_ID"].ToString() + "'";
+                                                OracleCommand objCmds = new OracleCommand(Sql, objConn);
+                                                objCmds.ExecuteNonQuery();
+
+
+
+
+                                                OracleCommand objCmdIn = new OracleCommand("DRUMSTKDETPROC", objConn);
+                                                objCmdIn.CommandType = CommandType.StoredProcedure;
+                                                objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                                objCmdIn.Parameters.Add("DRUMSTKID", OracleDbType.NVarchar2).Value = dt.Rows[0]["DRUM_STOCK_ID"].ToString();
+                                                objCmdIn.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.item;
+                                                objCmdIn.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Now;
+                                                objCmdIn.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = inv.Rows[i]["DRUMNO"].ToString();
+                                                objCmdIn.Parameters.Add("T1SOURCEID", OracleDbType.NVarchar2).Value = cp.detid;
+                                                objCmdIn.Parameters.Add("T1SOURCEBASICID", OracleDbType.NVarchar2).Value = cy.ID;
+                                                objCmdIn.Parameters.Add("SOURCETYPE", OracleDbType.NVarchar2).Value = "SubContracting DC";
+                                                objCmdIn.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = dt.Rows[0]["LOCID"].ToString();
+                                                objCmdIn.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = dt.Rows[0]["WCID"].ToString();
+
+                                                objCmdIn.Parameters.Add("PLUSQTY", OracleDbType.NVarchar2).Value = "0";
+                                                objCmdIn.Parameters.Add("MINSQTY", OracleDbType.NVarchar2).Value = ddqty;
+                                                objCmdIn.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
+                                                objCmdIn.Parameters.Add("LOTNO", OracleDbType.NVarchar2).Value = inv.Rows[i]["TLOT"].ToString();
+                                                objCmdIn.Parameters.Add("SHEDNO", OracleDbType.NVarchar2).Value = "";
+
+                                                objCmdIn.ExecuteNonQuery();
+
+                                                
+
+
+
+                                            }
+                                        
+                                    }
+
+                                }
+                            }
+                       
+                        }
+                    }
+                    string Sqla = string.Empty;
+                    Sqla = "Update RDELBASIC SET  STATUS='Approve' WHERE RDELBASICID='" + cy.ID + "'";
+                    OracleCommand objCmdssa = new OracleCommand(Sqla, objConn);
+
+                    objCmdssa.ExecuteNonQuery();
+                    objConn.Close();
+                }
+
+            }
+
+
+
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+
     }
 }
