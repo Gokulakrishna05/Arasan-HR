@@ -23,7 +23,7 @@ namespace Arasan.Services.Store_Management
         public DataTable GetItemDetails(string itemId)
         {
             string SvSql = string.Empty;
-            SvSql = "select UNITMAST.UNITID,LOTYN,ITEMID,ITEMDESC,UNITMAST.UNITMASTID,ITEMMASTER.LATPURPRICE from ITEMMASTER LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID LEFT OUTER JOIN ITEMMASTERPUNIT ON  ITEMMASTER.ITEMMASTERID=ITEMMASTERPUNIT.ITEMMASTERID  Where ITEMMASTER.ITEMMASTERID='" + itemId + "'";
+            SvSql = "select UNITMAST.UNITID,LOTYN,ITEMID,ITEMDESC,UNITMAST.UNITMASTID,ITEMMASTER.LATPURPRICE,LOTYN from ITEMMASTER LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID LEFT OUTER JOIN ITEMMASTERPUNIT ON  ITEMMASTER.ITEMMASTERID=ITEMMASTERPUNIT.ITEMMASTERID  Where ITEMMASTER.ITEMMASTERID='" + itemId + "'";
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
@@ -71,7 +71,7 @@ namespace Arasan.Services.Store_Management
         public DataTable GetItems(string itemId)
         {
             string SvSql = string.Empty;
-            SvSql = "select UNITMAST.UNITID,LOTYN,ITEMID,ITEMDESC,UNITMAST.UNITMASTID,ITEMMASTER.LATPURPRICE from ITEMMASTER LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID LEFT OUTER JOIN ITEMMASTERPUNIT ON  ITEMMASTER.ITEMMASTERID=ITEMMASTERPUNIT.ITEMMASTERID  Where ITEMMASTER.ITEMMASTERID='" + itemId + "'";
+            SvSql = "select UNITMAST.UNITID,LOTYN,ITEMID,ITEMDESC,UNITMAST.UNITMASTID,ITEMMASTER.LATPURPRICE,LOTYN from ITEMMASTER LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID LEFT OUTER JOIN ITEMMASTERPUNIT ON  ITEMMASTER.ITEMMASTERID=ITEMMASTERPUNIT.ITEMMASTERID  Where ITEMMASTER.ITEMMASTERID='" + itemId + "'";
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
@@ -217,6 +217,7 @@ namespace Arasan.Services.Store_Management
                                         string[] Dqty = cp.dqty.Split('-');
                                         string[] Drate = cp.drate.Split('-');
                                         string[] Damount = cp.damount.Split('-');
+                                        int l = 1;
                                         for (int i = 0; i < Ddrum.Length; i++)
                                         {
 
@@ -227,24 +228,50 @@ namespace Arasan.Services.Store_Management
                                             string itemname = datatrans.GetDataString("Select ITEMID  FROM ITEMMASTER where   ITEMMASTERID='" + cp.itemid + "'");
 
                                             string drumname = datatrans.GetDataString("Select DRUMNO  FROM DRUMMAST where DRUMMASTID='" + dddrum + "'");
-                                            string partyname = datatrans.GetDataString("Select PARTYNAME  FROM PARTYMAST where PARTYMASTID='" + cy.Supplier + "'");
-
-                                            string item = itemname;
-                                            string sup = partyname;
-                                            string drum = drumname;
-                                            string doc = cy.DocId;
-
-                                            string lotnumber = string.Format("{0}--{1}--{2}--{3}", item, sup, drum, doc);
-
-
-                                            if (cp.Isvalid == "Y" && cp.drumno != "0")
+                                            if(drumname!="")
                                             {
+                                                
+                                                string partyname = datatrans.GetDataString("Select PARTYNAME  FROM PARTYMAST where PARTYMASTID='" + cy.Supplier + "'");
 
-                                                svSQL = "Insert into SUBACTMRLOT (SUBMRBASICID,PARENTRECORDID,MLITEMID,MLITEMMASTERID,ACTUALDRUM,MLQTY,MLRATE,MLAMOUNT,MLDRUMNO,MLLOTNO) VALUES ('" + Pid + "','" + detid + "','" + cp.itemid + "','" + cp.itemid + "','" + dddrum + "','" + ddqty + "','" + ddrate + "','" + ddamount + "','" + dddrum + "','" + lotnumber + "')";
-                                                objCmds = new OracleCommand(svSQL, objConn);
-                                                objCmds.ExecuteNonQuery();
+                                                string item = itemname;
+                                                string sup = partyname;
+                                                string drum = drumname;
+                                                string doc = cy.DocId;
 
+                                                string lotnumber = string.Format("{0}--{1}-{2}--{3} -{4}", item, drum, cy.Docdate, doc, l.ToString());
+
+
+                                                if (cp.Isvalid == "Y" && cp.drumno != "0")
+                                                {
+
+                                                    svSQL = "Insert into SUBACTMRLOT (SUBMRBASICID,PARENTRECORDID,MLITEMID,MLITEMMASTERID,ACTUALDRUM,MLQTY,MLRATE,MLAMOUNT,MLDRUMNO,MLLOTNO,PKDRUMNO,LOTROWNO,DRUMTYPE,TPRODDRUM) VALUES ('" + Pid + "','" + detid + "','" + cp.itemid + "','" + cp.itemid + "','" + drumname + "','" + ddqty + "','" + ddrate + "','" + ddamount + "','"+ dddrum+"','" + lotnumber + "','" + dddrum + "','" + l + "','PRODDRUM','"+ dddrum+"')";
+                                                    objCmds = new OracleCommand(svSQL, objConn);
+                                                    objCmds.ExecuteNonQuery();
+
+                                                }
                                             }
+                                            else
+                                            {
+                                                string item = itemname;
+
+                                                string drum = drumname;
+                                                string doc = cy.DocId;
+
+                                                string lotnumber = string.Format("{0}--{1}-{2}--{3} -{4}", item, dddrum, cy.Docdate, doc, l.ToString());
+
+
+                                                if (cp.Isvalid == "Y" && cp.drumno != "0")
+                                                {
+
+                                                    svSQL = "Insert into SUBACTMRLOT (SUBMRBASICID,PARENTRECORDID,MLITEMID,MLITEMMASTERID,ACTUALDRUM,MLQTY,MLRATE,MLAMOUNT,MLDRUMNO,MLLOTNO,PKDRUMNO,LOTROWNO,DRUMTYPE,TPRODDRUM) VALUES ('" + Pid + "','" + detid + "','" + cp.itemid + "','" + cp.itemid + "','" + dddrum + "','" + ddqty + "','" + ddrate + "','" + ddamount + "','0','" + lotnumber + "','" + dddrum + "','" + l + "','PACKDRUM','0')";
+                                                    objCmds = new OracleCommand(svSQL, objConn);
+                                                    objCmds.ExecuteNonQuery();
+
+                                                }
+                                            }
+
+                                         
+                                            l++;
                                         }
                                     }
                                 }

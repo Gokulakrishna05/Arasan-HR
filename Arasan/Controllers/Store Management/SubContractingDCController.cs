@@ -53,7 +53,7 @@ namespace Arasan.Controllers.Store_Management
                 for (int i = 0; i < 1; i++)
                 {
                     tda1 = new ReceiptDetailItem();
-                    tda1.Itemlist = BindItemlst();
+                    tda1.Itemlist = BindItemlist("");
                     tda1.Isvalid1 = "Y";
                     TData1.Add(tda1);
                 }
@@ -176,10 +176,12 @@ namespace Arasan.Controllers.Store_Management
             dtUsers = (DataTable)SubContractingDCService.GetAllListSubContractingDCItems(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
+                string approve = string.Empty;
                 string View = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
 
+                approve = "<a href=ApproveSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " ><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
                 View = "<a href=ViewSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 EditRow = "<a href=SubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
@@ -192,6 +194,7 @@ namespace Arasan.Controllers.Store_Management
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     loc = dtUsers.Rows[i]["LOCID"].ToString(),
                     tot = dtUsers.Rows[i]["TOTQTY"].ToString(),
+                    approve = approve,
                     view = View,
                     editrow = EditRow,
                     delrow = DeleteRow,
@@ -239,23 +242,23 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        //public List<SelectListItem> BindItemlist(string id)
-        //{
-        //    try
-        //    {
-        //        DataTable dtDesg = SubContractingDCService.GetPartyItem(id);
-        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
-        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
-        //        {
-        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WIPITEMID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
-        //        }
-        //        return lstdesg;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+        public List<SelectListItem> BindItemlist(string id)
+        {
+            try
+            {
+                DataTable dtDesg = SubContractingDCService.GetPartyItem(id);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["WIPITEMID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindLocation()
         {
             try
@@ -360,14 +363,14 @@ namespace Arasan.Controllers.Store_Management
             return Json(BindItemlst());
 
         }
-        //public JsonResult GetItemJSON(string ItemId)
-        //{
-        //    ReceiptDetailItem model = new ReceiptDetailItem();
-        //    model.Itemlist = BindItemlist(ItemId);
-        //    return Json(BindItemlist(ItemId));
+        public JsonResult GetItemJSON(string ItemId)
+        {
+          ReceiptDetailItem model = new ReceiptDetailItem();
+           model.Itemlist = BindItemlist(ItemId);
+           return Json(BindItemlist(ItemId));
 
-        //}
-        public ActionResult GetItemDetail(string ItemId)
+        }
+        public ActionResult GetItemDetail(string ItemId, string loc)
         {
             try
             {
@@ -378,24 +381,31 @@ namespace Arasan.Controllers.Store_Management
                 string cf = "";
                 string price = "";
                 string lot = "";
+                string group = "";
                 //string binno = "";
                 //string binname = "";
                 dt = SubContractingDCService.GetItemDetails(ItemId);
-                string stock = SubContractingDCService.GetDrumStock(ItemId);
+                string stock = datatrans.GetDataString("Select SUM(BALANCE_QTY) from INVENTORY_ITEM where ITEM_ID='" + ItemId + "' AND BALANCE_QTY > 0 AND LOCATION_ID= '" + loc + "'  ");
+
                 if (dt.Rows.Count > 0)
                 {
 
                     unit = dt.Rows[0]["UNITID"].ToString();
                     price = dt.Rows[0]["LATPURPRICE"].ToString();
                     lot = dt.Rows[0]["LOTYN"].ToString();
-                    dt1 = SubContractingDCService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
+                    group = dt.Rows[0]["IGROUP"].ToString();
+                    if (group == "SEMI FINISHED GOODS")
+                    {
+                        group = "semi";
+                    }
+                        dt1 = SubContractingDCService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
                     if (dt1.Rows.Count > 0)
                     {
                         cf = dt1.Rows[0]["CF"].ToString();
                     }
                 }
 
-                var result = new { unit = unit, cf = cf, price = price, lot = lot, stock = stock };
+                var result = new { unit = unit, cf = cf, price = price, lot = lot, stock = stock , group = group };
                 return Json(result);
             }
             catch (Exception ex)
@@ -403,49 +413,76 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public ActionResult ListSubContractDrumSelection(string itemid)
-        {
-            List<SubContractDDrumdetails> EnqChkItem = new List<SubContractDDrumdetails>();
-            DataTable dtEnq = new DataTable();
-            dtEnq = SubContractingDCService.GetSubContractDrumDetails(itemid);
-            for (int i = 0; i < dtEnq.Rows.Count; i++)
-            {
-
-                EnqChkItem.Add(new SubContractDDrumdetails
-                {
-                    lotno = dtEnq.Rows[i]["LOTNO"].ToString(),
-                    drumno = dtEnq.Rows[i]["DRUM"].ToString(),
-                    qty = dtEnq.Rows[i]["QTY"].ToString(),
-                    rate = dtEnq.Rows[i]["RATE"].ToString(),
-                    //invid = dtEnq.Rows[i]["PLotmastID"].ToString()
-                });
-            }
-
-            return Json(new
-            {
-                EnqChkItem
-            });
-        }
-        public ActionResult SubContractDrumSelection(string itemid, string rowid)
+        public ActionResult ListSubContractDrumSelection(string id)
         {
             SubContractDDDrumdetailstable ca = new SubContractDDDrumdetailstable();
             List<SubContractDDrumdetails> TData = new List<SubContractDDrumdetails>();
             SubContractDDrumdetails tda = new SubContractDDrumdetails();
-            DataTable dtEnq = new DataTable();
-            dtEnq = SubContractingDCService.GetSubContractDrumDetails(itemid);
+           DataTable dtEnq = SubContractingDCService.ViewSubContractDrumDetails(id);
             for (int i = 0; i < dtEnq.Rows.Count; i++)
             {
                 tda = new SubContractDDrumdetails();
-                tda.lotno = dtEnq.Rows[i]["LOTNO"].ToString();
-                tda.drumno = dtEnq.Rows[i]["DRUM"].ToString();
-                tda.qty = dtEnq.Rows[i]["QTY"].ToString();
-                tda.rate = dtEnq.Rows[i]["RATE"].ToString();
+
+                tda.drumno = dtEnq.Rows[i]["DRUMNO"].ToString();
+                tda.qty = dtEnq.Rows[i]["BQTY"].ToString();
+               
+                tda.lotno = dtEnq.Rows[0]["TLOT"].ToString();
+                tda.rate = dtEnq.Rows[0]["BRATE"].ToString();
+                tda.amount = dtEnq.Rows[0]["BAMOUNT"].ToString();
                 //tda.invid = dtEnq.Rows[i]["PLotmastID"].ToString();
                 TData.Add(tda);
             }
             ca.SUBDDrumlst = TData;
             return View(ca);
         }
+        public ActionResult SubContractDrumSelection(string itemid, string rowid, string loc ,string type)
+        {
+            SubContractDDDrumdetailstable ca = new SubContractDDDrumdetailstable();
+            List<SubContractDDrumdetails> TData = new List<SubContractDDrumdetails>();
+            SubContractDDrumdetails tda = new SubContractDDrumdetails();
+            DataTable dtEnq = new DataTable();
+            if (type == "semi")
+            {
+                dtEnq = SubContractingDCService.GetSubContractDrumDetails(itemid, loc);
+                for (int i = 0; i < dtEnq.Rows.Count; i++)
+                {
+                    tda = new SubContractDDrumdetails();
+
+                    tda.drumno = dtEnq.Rows[i]["DRUM_NO"].ToString();
+                    tda.qty = dtEnq.Rows[i]["BALANCE_QTY"].ToString();
+                    tda.stkid = dtEnq.Rows[i]["DRUM_STOCK_ID"].ToString();
+                    DataTable stock = datatrans.GetData("Select RATE,LOTNO from DRUM_STOCKDET where DRUMSTKID='" + tda.stkid + "'");
+
+                    tda.lotno = stock.Rows[0]["LOTNO"].ToString();
+                    tda.rate = stock.Rows[0]["RATE"].ToString();
+                    //tda.invid = dtEnq.Rows[i]["PLotmastID"].ToString();
+                    TData.Add(tda);
+                }
+            }
+            else
+            {
+                
+                dtEnq = datatrans.GetData("Select INVENTORY_ITEM_ID,LOT_NO,BALANCE_QTY,RATE,AMOUNT from INVENTORY_ITEM where ITEM_ID='" + itemid + "' and LOCATION_ID='"+loc+"' and BALANCE_QTY>0");
+                if (dtEnq.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtEnq.Rows.Count; i++)
+                    {
+                        tda = new SubContractDDrumdetails();
+                        tda.invid = dtEnq.Rows[i]["INVENTORY_ITEM_ID"].ToString();
+                        tda.lotno = dtEnq.Rows[i]["LOT_NO"].ToString();
+                        tda.qty = dtEnq.Rows[i]["BALANCE_QTY"].ToString();
+                        tda.rate = dtEnq.Rows[i]["RATE"].ToString();
+
+
+
+                        TData.Add(tda);
+                    }
+                }
+            }
+            ca.SUBDDrumlst = TData;
+            return View(ca);
+        }
+      
         public IActionResult ViewSubContractingDC(string id)
         {
             SubContractingDC st = new SubContractingDC();
@@ -484,9 +521,11 @@ namespace Arasan.Controllers.Store_Management
                     //tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                     tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                     tda.Unit = dt2.Rows[i]["UNIT"].ToString();
+                    tda.detid = dt2.Rows[i]["SUBCONTDCDETAILID"].ToString();
                     tda.Quantity = dt2.Rows[i]["QTY"].ToString();
                     tda.rate = dt2.Rows[i]["RATE"].ToString();
                     tda.Amount = dt2.Rows[i]["AMOUNT"].ToString();
+                  
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -517,6 +556,124 @@ namespace Arasan.Controllers.Store_Management
             st.SCDIlst = TData;
             st.RECDlst = TData1;
             return View(st);
+        }
+        public IActionResult ApproveSubContractingDC(string id)
+        {
+            SubContractingDC st = new SubContractingDC();
+            DataTable dt = new DataTable();
+            dt = SubContractingDCService.GetSubViewDeatils(id);
+            if (dt.Rows.Count > 0)
+            {
+                st.ID = id;
+                st.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                st.DocId = dt.Rows[0]["DOCID"].ToString();
+                st.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                //st.Suplst = BindSupplier();
+                st.Supplier = dt.Rows[0]["PARTYNAME"].ToString();
+                st.Add1 = dt.Rows[0]["ADD1"].ToString();
+                st.Add2 = dt.Rows[0]["ADD2"].ToString();
+                st.City = dt.Rows[0]["CITY"].ToString();
+                st.Location = dt.Rows[0]["LOCID"].ToString();
+                st.Locationid = dt.Rows[0]["loc"].ToString();
+                st.Through = dt.Rows[0]["THROUGH"].ToString();
+                st.Entered = dt.Rows[0]["ENTEREDBY"].ToString();
+                st.TotalQty = dt.Rows[0]["TOTQTY"].ToString();
+                st.Narration = dt.Rows[0]["NARRATION"].ToString();
+                //ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+
+            }
+            List<SubContractingItem> TData = new List<SubContractingItem>();
+            SubContractingItem tda = new SubContractingItem();
+            DataTable dt2 = new DataTable();
+            dt2 = SubContractingDCService.GetSubContractViewDetails(id);
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new SubContractingItem();
+
+                    tda.Itemlst = BindItemlst();
+                    //tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+                    tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                    tda.item = dt2.Rows[i]["item"].ToString();
+                    tda.Unit = dt2.Rows[i]["UNIT"].ToString();
+                    tda.Quantity = dt2.Rows[i]["QTY"].ToString();
+                    tda.rate = dt2.Rows[i]["RATE"].ToString();
+                    tda.Amount = dt2.Rows[i]["AMOUNT"].ToString();
+                    tda.detid = dt2.Rows[i]["SUBCONTDCDETAILID"].ToString();
+                    DataTable drum = datatrans.GetData("Select BITEMID,TLOT,DRUMNO,BQTY,BRATE,BAMOUNT from SUBCONTDCBATCH where PARENTRECORDID='" + tda.detid + "'");
+                    if (drum.Rows.Count > 0)
+                    {
+                        for (int j = 0; j < drum.Rows.Count; j++)
+                        {
+                            tda.Drumsdesc = drum.Rows[j]["DRUMNO"].ToString();
+                            tda.dqty = drum.Rows[j]["BQTY"].ToString();
+                            tda.drate = drum.Rows[j]["BRATE"].ToString();
+                            tda.Lotno = drum.Rows[j]["TLOT"].ToString();
+                        }
+
+                    }
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+            List<ReceiptDetailItem> TData1 = new List<ReceiptDetailItem>();
+            ReceiptDetailItem tda1 = new ReceiptDetailItem();
+            DataTable dt3 = new DataTable();
+            dt3 = SubContractingDCService.GetReceiptViewDetail(id);
+            if (dt3.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt3.Rows.Count; i++)
+                {
+                    tda1 = new ReceiptDetailItem();
+
+                    tda1.Itemlist = BindItemlst();
+                    //tda1.saveItemId = dt3.Rows[i]["ITEMID"].ToString();
+                    tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
+                    tda1.Unit = dt3.Rows[i]["RUNIT"].ToString();
+                    tda1.Quantity = dt3.Rows[i]["ERQTY"].ToString();
+                    tda1.rate = dt3.Rows[i]["ERATE"].ToString();
+                    tda1.Amount = dt3.Rows[i]["EAMOUNT"].ToString();
+                    tda1.Isvalid1 = "Y";
+                    TData1.Add(tda1);
+                }
+            }
+
+
+            st.SCDIlst = TData;
+            st.RECDlst = TData1;
+            return View(st);
+        }
+        [HttpPost]
+        public ActionResult ApproveSubContractingDC(SubContractingDC ss, string id)
+        {
+
+            try
+            {
+                ss.ID = id;
+                string Strout = SubContractingDCService.ApproveSubContractingDCCRUD(ss);
+                if (string.IsNullOrEmpty(Strout))
+                { 
+                        TempData["notice"] = " SubContractingDC Approved Successfully...!";
+                    
+                    return RedirectToAction("ListSubContractingDC");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit SubContractingDC";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(ss);
         }
     }
 }

@@ -35,6 +35,10 @@ namespace Arasan.Models
 
         public string item { get; set; }
         public string itemid { get; set; }
+        public string Pri { get; set; }
+        public string Start { get; set; }
+        public string End { get; set; }
+        public string Totdrum { get; set; }
         public string qty { get; set; }
         public string rate { get; set; }
         public string DQty { get; set; }
@@ -62,6 +66,7 @@ namespace Arasan.Models
         public string amount { get; set; }
         public string supid { get; set; }
 
+        public string lot { get; set; }
         public string drate { get; set; }
         public string dqty { get; set; }
         public string drumno { get; set; }
@@ -78,6 +83,7 @@ namespace Arasan.Models
         public string itemid { get; set; }
         public List<SelectListItem> drulist { get; set; }
         public string drumno { get; set; }
+        public string totaldrum { get; set; }
         public string unitid { get; set; }
 
         public string qty { get; set; }

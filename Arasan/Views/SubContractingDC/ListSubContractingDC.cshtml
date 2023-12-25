@@ -1,7 +1,7 @@
 ﻿@model Arasan.Models.SubContractingDC
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Sub Contracting DC";
 }
 <partial name="JqxGridPartial" />
 @* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
@@ -43,6 +43,7 @@
                 { name: 'docDate', type: 'string' },
                 { name: 'loc', type: 'string' },
                 { name: 'tot', type: 'string' },
+                { name: 'approve', type: 'string' },
                 { name: 'view', type: 'string' },
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
@@ -79,6 +80,7 @@
                     { text: 'Doc Date', datafield: 'docDate', width: 150, align: 'center' },
                     { text: 'Location', filtertype: 'checkedlist', datafield: 'loc', width: 250 },
                     { text: 'Total Qty', filtertype: 'input', datafield: 'tot', width: 100 },
+                    { text: 'Approve', datafield: 'approve', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },

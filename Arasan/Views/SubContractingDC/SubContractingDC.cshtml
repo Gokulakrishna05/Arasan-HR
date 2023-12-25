@@ -165,11 +165,12 @@
                                                                 <tr>
 
                                                                     <th>Item ID</th>
-                                                                    <th>Drum Selection</th>
+                                                                    <th></th>
                                                                     <th>Unit</th>
                                                                     @* <th>CL.Stock</th>*@
                                                                     <th> ConFactor</th>
                                                                     <th> Drums Desc </th>
+                                                                    <th>Stock</th>
                                                                     <th>Qty</th>
                                                                     @* <th>No.Of.Pages</th>*@
                                                                     <th>Rate</th>
@@ -190,18 +191,18 @@
                                                                             <td>
                                                                                 @Html.DropDownListFor(o => o.SCDIlst[i].ItemId, Model.SCDIlst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItemDeatils(this.value," + i + ")" })
                                                                                 @Html.HiddenFor(o => o.SCDIlst[i].saveItemId)
+                                                                                @Html.HiddenFor(o => o.SCDIlst[i].group,new{@id="txtgroup" + i})
+                                                                                @Html.HiddenFor(o => o.SCDIlst[i].dqty,new{@id="dqty" + i})
+                                                                                @Html.HiddenFor(o => o.SCDIlst[i].drate,new{@id="drate" + i})
+                                                                                @Html.HiddenFor(o => o.SCDIlst[i].Lotno, new { @id = "lotno" + i })
+                                                                               
 
                                                                             </td>
-                                                                            @*if (item.lot != "0")
-                                                                { *@
-                                                                            <td>
-                                                                                <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("SubContractDrumSelection", "SubContractingDC")" class='fancybox' data-fancybox-type='iframe' id="hdrumselection@(i)"><img src='../Images/view_icon.png' /></a></div> @Html.HiddenFor(o => o.SCDIlst[i].DrumIds, new { @id = "hddrumid" + i })
+                                                                         
+                                                                             <td>
+                                                                                <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("SubContractDrumSelection", "SubContractingDC")" class='fancybox' data-fancybox-type='iframe' id="hdrumselection@(i)"><img src='../Images/view_icon.png' id="im" /></a></div> @Html.HiddenFor(o => o.SCDIlst[i].DrumIds, new { @id = "hddrumid" + i }) @Html.HiddenFor(o => o.SCDIlst[i].invid, new { @id = "invid" + i })
                                                                             </td>
-                                                                            @*}
-                                                                else
-                                                                {
-                                                                <td></td>
-                                                                }*@
+                                                                            
 
                                                                             <td>
                                                                                 @Html.TextBoxFor(o => o.SCDIlst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
@@ -211,16 +212,20 @@
                                                                             </td>
                                                                             <td>
                                                                                 @Html.TextBoxFor(o => o.SCDIlst[i].Drumsdesc, new { @id = "txtDrumsdesc" + i, @class = "form-control", style = "width: 150px;", @readonly = "readonly"})
+
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.SCDIlst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", @readonly = "readonly" })
+                                                                                @Html.TextBoxFor(o => o.SCDIlst[i].stock, new { @id = "txtstock" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.SCDIlst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
                                                                             </td>
                                                                             <td>
                                                                                 @Html.TextBoxFor(o => o.SCDIlst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
                                                                             </td>
                                                                             <td>
                                                                                 @Html.HiddenFor(o => o.SCDIlst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                                @Html.HiddenFor(o => o.SCDIlst[i].Lot, new { @id = "txtLot" + i })
+                                                                              
 
                                                                                 @Html.TextBoxFor(o => o.SCDIlst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly", @onkeyup = "changeQty(this," + i + ")" })
                                                                             </td>
@@ -280,7 +285,7 @@
 
                                                                         foreach (var item in Model.RECDlst.ToList())
                                                                         {
-                                                                            <tr id="trBook1@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                            <tr id="trBook1@(i)" class="chkitemlst1" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                                                 <td>
                                                                                     @Html.DropDownListFor(o => o.RECDlst[a].ItemId, Model.RECDlst[a].Itemlist, "Please Select", new { @class = "form-control _select newcss", @id = "ddlPartyItem" + a, style = "width: 200px;", onchange = "changeReceiptDetailItem(this.value," + a + ")" })
@@ -370,7 +375,7 @@
                             </div>
 
                             <div style="height:30px;"></div>
-                            <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="submit">Cancel</button>
                         </form>
                     }
@@ -440,7 +445,7 @@
                 alert("Data Not Found");
             }
         });
-       @* $.ajax({
+        $.ajax({
             url: "GetItemJSON",
             type: "post",
             data: { 'ItemId': ItemId },
@@ -449,40 +454,56 @@
                 var newlist;
                 //alert(JSON.stringify(response));
                 newlist = response.Ilst;
-                PopulateDropDown("#ddlPartyItem", response);
+                var i = 0;
+                $('tr.chkitemlst1').each(function () {
+                    if ($(this).css('display') !== 'none') {
+                        PopulateDropDown("#ddlPartyItem" + i, response);
+                        i += 1;
+                    }
+                });
             },
             error: function () {
                 debugger;
                 alert("Please Select Party");
             }
-        });*@
+        });
     }
     function changeItemDeatils(ItemId, i) {
-       @* var locid = document.getElementById("ddlLoc").value;*@
+        var loc = document.getElementById("ddlLocation").value;
         $.ajax({
             url: 'GetItemDetail',
-            data: { "ItemId": ItemId },
+            data: { "ItemId": ItemId, "loc": loc },
             type: "GET",
             success: function (result) {
-
+                 
                 document.getElementById("txtUnit" + i).value = result.unit;
                 document.getElementById("txtConFac" + i).value = result.cf;
                 document.getElementById("txtrate" + i).value = result.price;
-                document.getElementById("txtLot" + i).value = result.lot;
-    @* document.getElementById("txtCurrentStock" + i).value = result.stock;*@
-
-
+                
+                document.getElementById("txtgroup" + i).value = result.group;
+                document.getElementById("txtstock" + i).value = result.stock;
                 },
             error: function () {
                 alert("Data Not Found");
             }
+           
         });
+
+        var g = document.getElementById("txtgroup" + i).value;
+       alert(g);
+       @* if (g == "semi") {
+
+            document.getElementById("im").style.display = "block";
+        }
+        else {
+            document.getElementById("im").style.display = "none";
+        }*@
         if (ItemId == "1") {
             document.getElementById("txtQuantity" + i).value = "1";
 
         }
         else {
-            var url = "/SubContractingDC/SubContractDrumSelection?itemid=" + ItemId + "&rowid=" + i + "";
+            var url = "/SubContractingDC/SubContractDrumSelection?itemid=" + ItemId + "&rowid=" + i + "&loc="+ loc +"&type="+g+"";
             document.getElementById("hdrumselection" + i).href = url;
         }
     }
@@ -497,25 +518,16 @@
 
             var totamt = 0;
            @* var totqtyamount = 0;*@
+            var stock = document.getElementById("txtstock" + i).value;
             var qty = document.getElementById("txtQuantity" + i).value;
             var up = document.getElementById("txtrate" + i).value;
             var CF = document.getElementById("txtConFac" + i).value;
-    @*  var frieght = document.getElementById("txtFrigCharge" + i).value;
-                var IGST = document.getElementById("txtIGSTP" + i).value;
-
-                var CGST = document.getElementById("txtCGSTP" + i).value;
-
-                var SGST = document.getElementById("txtSGSTP" + i).value;
-                var Disc = document.getElementById("txtDisc" + i).value;*@
-    @*var Specialdiscount = document.getElementById("txtSpDisc").value;*@
-
-    @*alert(Specialdiscount);*@
+    
 
                 if (qty == "")
                 qty = 0;
 
-          @*  if (eval(qty) > 0)
-            {*@
+          
 
                 if (up == "")
                     up = 0;
@@ -523,46 +535,22 @@
                 if (CF == "")
                     CF = 1;
 
-    @*  if (IGST == "")
-                    IGST = 0;
+    
+                    if(eval(qty)>eval(stock))
+                    {
+                        alert("qty is Greaterthen Stock");
+                        qty=0;
+                          document.getElementById("txtQuantity" + i).value =0;
+                           document.getElementById("txtAmount" + i).value =0;
 
-
-                    if (CGST == "")
-                    CGST = 0;
-
-
-                    if (SGST == "")
-                    SGST = 0;
-
-                    if (Disc == "")
-                    Disc = 0;
-
-                    if (frieght == "")
-                    frieght = 0;*@
-    @*
-                    if (Specialdiscount == "")
-                    Specialdiscount = 0;
-                    *@
+                    }
+                    else
+                    {
                     var tot = eval(qty) * eval(up) * eval(CF);
                 document.getElementById("txtAmount" + i).value = tot.toFixed(2);
+                    }
 
-    @* var igstperc = (eval(tot) / 100) * eval(IGST);
-                    var cgstperc = (eval(tot) / 100) * eval(CGST);
-                    var sgstperc = (eval(tot) / 100) * eval(SGST);
-                    var Discperc = (eval(tot) / 100) * eval(Disc);*@
-    @* var specperc = (eval(tot) / 100) * eval(Specialdiscount);*@
-
-    @* document.getElementById("txtCGST" + i).value = cgstperc.toFixed(2);
-                    document.getElementById("txtSGST" + i).value = sgstperc.toFixed(2);
-                    document.getElementById("txtIGST" + i).value = igstperc.toFixed(2);
-                    document.getElementById("txtDiscAmount" + i).value = Discperc.toFixed(2);*@
-
-    @* var tottax = eval(tot);*@
-    @* var totdisc = eval(tottax) - eval(Discperc);*@
-
-
-    @*    document.getElementById("txtTotalAmount" + i).value = totdisc.toFixed(2);*@
-
+    
 
                     $('tr.chkitemlst').each(function () {
                         if ($(this).css('display') !== 'none') {
@@ -575,14 +563,7 @@
                             if (itemid == "1") {
                                 totamt += eval(amt);
                             }
-    @* totfrieght += eval(frieght);*@
-
-                           @* qty = $(this).find('#txtQuantity' + j.toString()).val();
-                        alert(qty);
-                        if (qty == "")
-                            qty = 0;
-
-                        totqtyamount += eval(qty);*@
+    
 
                         }
                         j += 1;
@@ -638,16 +619,7 @@
                             var qty = document.getElementById("txtQty" + a).value;
             var up = document.getElementById("Rate" + a).value;
             var CF = document.getElementById("ConFac" + a).value;
-    @*  var frieght = document.getElementById("txtFrigCharge" + i).value;
-                var IGST = document.getElementById("txtIGSTP" + i).value;
-
-                var CGST = document.getElementById("txtCGSTP" + i).value;
-
-                var SGST = document.getElementById("txtSGSTP" + i).value;
-                var Disc = document.getElementById("txtDisc" + i).value;*@
-    @*var Specialdiscount = document.getElementById("txtSpDisc").value;*@
-
-    @*alert(Specialdiscount);*@
+    
 
                         if (qty == "")
                 qty = 0;
@@ -660,45 +632,11 @@
             if (CF == "")
                 CF = 1;
 
-    @*  if (IGST == "")
-                IGST = 0;
-
-
-                if (CGST == "")
-                CGST = 0;
-
-
-                if (SGST == "")
-                SGST = 0;
-
-                if (Disc == "")
-                Disc = 0;
-
-                if (frieght == "")
-                frieght = 0;*@
-    @*
-                if (Specialdiscount == "")
-                Specialdiscount = 0;
-                *@
+     
                             var tot = eval(qty) * eval(up) * eval(CF);
             document.getElementById("txtamount" + a).value = tot.toFixed(2);
 
-    @* var igstperc = (eval(tot) / 100) * eval(IGST);
-                var cgstperc = (eval(tot) / 100) * eval(CGST);
-                var sgstperc = (eval(tot) / 100) * eval(SGST);
-                var Discperc = (eval(tot) / 100) * eval(Disc);*@
-    @* var specperc = (eval(tot) / 100) * eval(Specialdiscount);*@
-
-    @* document.getElementById("txtCGST" + i).value = cgstperc.toFixed(2);
-                document.getElementById("txtSGST" + i).value = sgstperc.toFixed(2);
-                document.getElementById("txtIGST" + i).value = igstperc.toFixed(2);
-                document.getElementById("txtDiscAmount" + i).value = Discperc.toFixed(2);*@
-
-    @* var tottax = eval(tot);*@
-    @* var totdisc = eval(tottax) - eval(Discperc);*@
-
-
-    @*    document.getElementById("txtTotalAmount" + i).value = totdisc.toFixed(2);*@
+    
 
 
                 $('tr.chkitemlst').each(function () {
@@ -723,17 +661,7 @@
                                           }
                     j += 1;
                 });
-    @*var roundamount = Math.ceil(totamount);
-
-                var round = eval(roundamount) - eval(totamount);*@
-
-
-    @* document.getElementById("txtFrig").value = totfrieght.toFixed(2);
-                document.getElementById("gross").value = totamt.toFixed(2);
-                document.getElementById("net").value = totamount.toFixed(2);
-                document.getElementById("hidnet").value = totamount.toFixed(2);
-                document.getElementById("txtRound").value = round.toFixed(2);
-                document.getElementById("hidround").value = round.toFixed(2);*@
+     
 
                 }
         catch (ex) {
@@ -782,15 +710,16 @@
 
                var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='SCDIlst[" + index + "].ItemId' onchange = 'changeItemDeatils(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var drum = "<td><div class='fa-hover col-md-2 col-sm-4'> <a href='/SubContractingDC/SubContractDrumSelection' class='fancybox' data-fancybox-type='iframe' id='hdrumselection" + index + "'><img src='../Images/view_icon.png'></a></div> <input  id='hddrumid" + index + "' name='SCDIlst[" + index + "].DrumIds' type='hidden'> </td>";
+        var drum = "<td><div class='fa-hover col-md-2 col-sm-4'> <a href='/SubContractingDC/SubContractDrumSelection' class='fancybox' data-fancybox-type='iframe' id='hdrumselection" + index + "'><img src='../Images/view_icon.png' id='im' hidden></a></div> <input  id='hddrumid" + index + "' name='SCDIlst[" + index + "].DrumIds' type='hidden'> </td>";
 
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='SCDIlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='SCDIlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /><input class='form-control' id='txtgroup" + index + "' name='SCDIlst[" + index + "].group' type='hidden' /><input class='form-control' id='dqty" + index + "' name='SCDIlst[" + index + "].dqty' type='hidden' /><input class='form-control' id='lot" + index + "' name='SCDIlst[" + index + "].Lotno' type='hidden' /><input class='form-control' id='drate" + index + "' name='SCDIlst[" + index + "].drate' type='hidden' /></td>";
 
         var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='SCDIlst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True'  /></td>";
 
         var drumdesc = "<td><input class='form-control' id='txtDrumsdesc" + index + "' name='SCDIlst[" + index + "].Drumsdesc'  style='width: 150px;' type='text' /></td>";
 
-        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='SCDIlst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text' value='1' onchange = 'changeQty(this.value," + index + ")' readonly='True' /></td>";
+        var Stock = "<td><input class='form-control' id='txtstock" + index + "' name='SCDIlst[" + index + "].stock'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text'   onchange = 'changeQty(this.value," + index + ")' readonly='True' /></td>";
+        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='SCDIlst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text'   onchange = 'changeQty(this.value," + index + ")' /></td>";
 
         var rate = "<td><input class='form-control' id='txtrate" + index + "' name='SCDIlst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text' value='0' onkeyup = 'changeQty(this.value," + index + ")'/></td>";
 
@@ -798,7 +727,7 @@
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='SCDIlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='SCDIlst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Item + drum + Unit + ConFac + drumdesc + Quantity + rate + Amount + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Item + drum + Unit + ConFac + drumdesc + Stock + Quantity + rate + Amount + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
@@ -813,7 +742,7 @@
         var rowCount = table.rows.length;
         var row = document.getElementById('trBook1' + id);
         var j = 0;
-        $('tr.chkitemlst').each(function () {
+        $('tr.chkitemlst1').each(function () {
             if ($(this).css('display') !== 'none') {
                 j += 1;
             }
@@ -830,7 +759,7 @@
         var opt = "";
         $.ajax({
             type: "POST",
-            url: 'GetItemGrpJSON',
+            url: 'GetItemJSON',
             success: function (data) {
 
                 $.each(data, function () {
@@ -860,7 +789,7 @@
 
         var removeCell = "<td><input id='Isvalid1" + index + "' name='RECDlst[" + index + "].Isvalid1' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='RECDlst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + Item + Unit + ConFac + Quantity + rate + Amount + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + Item + Unit + ConFac + Quantity + rate + Amount + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks1").append(newRow);
 
@@ -873,10 +802,59 @@
 </script>
 
 <script>
-    $(document).ready(function () {
+  $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
-            if (document.getElementById("ddlSupplier").value == "") {
+            if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
+                isValid = false;
+                $(ddlBranch).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Branch");
+                return false;
+            }
+            else {
+                $(ddlBranch).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("ddlLocation").value == "" || document.getElementById("ddlLocation").value == 0) {
+                isValid = false;
+                $(ddlLocation).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Location ");
+                return false;Center
+            }
+            else {
+                $(ddlLocation).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+         
+            if (document.getElementById("Docdate").value == "") {
+                isValid = false;
+                $(Docdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Date");
+                return false;
+            }
+            else {
+                $(Docdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("ddlSupplier").value == "" || document.getElementById("ddlSupplier").value == 0) {
                 isValid = false;
                 $(ddlSupplier).css({
                     "border": "1px solid red",
@@ -892,55 +870,11 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("Docdate").value == "") {
-                isValid = false;
-                $(Docdate).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Doc Date");
-                return false;
-            }
-            else {
-                $(Docdate).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddlLocation").value == "") {
-                isValid = false;
-                $(ddlLocation).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Location");
-                return false;
-            }
-            else {
-                $(ddlLocation).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddlEntered").value == "") {
-                isValid = false;
-                $(ddlEntered).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Entered By");
-                return false;
-            }
-            else {
-                $(ddlEntered).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
+           
+          
+    
+            if (isValid == false)
+                e.preventDefault();
         });
 
     });

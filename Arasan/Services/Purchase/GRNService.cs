@@ -308,8 +308,8 @@ namespace Arasan.Services
                         {
                             if (cp.Isvalid == "Y" && cp.saveItemId != "0")
                             {
-                                DataTable lotnogen = datatrans.GetData("Select LOTYN  FROM ITEMMASTER where LOTYN ='YES' AND ITEMMASTERID='" + cp.ItemId + "'");
-                                string itemname = datatrans.GetDataString("select ITEMID from ITEMMASTER where ITEMMASTERID='" + cp.ItemId + "'");
+                                DataTable lotnogen = datatrans.GetData("Select LOTYN  FROM ITEMMASTER where LOTYN ='YES' AND ITEMMASTERID='" + cp.saveItemId + "'");
+                                string itemname = datatrans.GetDataString("select ITEMID from ITEMMASTER where ITEMMASTERID='" + cp.saveItemId + "'");
                                 string lotnumber = "";
                                 if (lotnogen.Rows.Count > 0)
                                 {
