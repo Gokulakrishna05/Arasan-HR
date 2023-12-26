@@ -134,9 +134,11 @@ namespace Arasan.Controllers.Store_Management
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
                 string DeleteRow = string.Empty;
+                string ViewPen = string.Empty;
                 string View = string.Empty;
 
 
+                ViewPen = "<a href=ViewPendingSub?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Edit' /></a>";
                 View = "<a href=ViewSub?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
@@ -150,6 +152,7 @@ namespace Arasan.Controllers.Store_Management
                     docNo = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     loc = dtUsers.Rows[i]["LOCID"].ToString(),
+                    viewpen = ViewPen,
                     view = View,
 
                     delrow = DeleteRow,
@@ -443,22 +446,24 @@ namespace Arasan.Controllers.Store_Management
 
 
         //}
-        public ActionResult GetDrumDetails(int id, int st, string pre)
+        public ActionResult GetDrumDetails(int ItemId, int st, string pre)
         {
             SubContractingMaterialReceipt ca = new SubContractingMaterialReceipt();
             List<DrumItemDeatil> TData = new List<DrumItemDeatil>();
             DrumItemDeatil tda = new DrumItemDeatil();
-            for (int i = 1; i <= id; i++)
+
+            int count = ItemId - st;
+            for (int i = 0; i <= count; i++)
             {
                 tda = new DrumItemDeatil();
 
 
                 int s = st;
                 int legcode = Convert.ToInt32(s);
-                string code = GetNumberwithPrefix(legcode, 6);
+                //string code = GetNumberwithPrefix(legcode, 6);
                 //int prefix = Convert.ToInt32(pre);
-                tda.totaldrum = code;
-                string drum = pre + "" + code;
+                tda.totaldrum = legcode.ToString();
+                string drum = pre + "" + legcode;
                 tda.drumno = drum.ToString();
                 legcode++;
                 st = legcode;
@@ -473,13 +478,13 @@ namespace Arasan.Controllers.Store_Management
 
         }
 
-        public static string GetNumberwithPrefix(int Ledgercode, int totalchar)
-        {
-            string tempnumber = Ledgercode.ToString();
-            while (tempnumber.Length < 6)
-                tempnumber = "0" + tempnumber;
-            return tempnumber;
-        }
+        //public static string GetNumberwithPrefix(int Ledgercode, int totalchar)
+        //{
+        //    string tempnumber = Ledgercode.ToString();
+        //    while (tempnumber.Length < 6)
+        //        tempnumber = "0" + tempnumber;
+        //    return tempnumber;
+        //}
         public JsonResult GetDrumJSON()
         {
             DrumItemDeatil model = new DrumItemDeatil();
@@ -545,14 +550,15 @@ namespace Arasan.Controllers.Store_Management
 
 
                     tda.item = dt2.Rows[i]["ITEMID"].ToString();
-                    tda.itemid = dt2.Rows[i]["RITEM"].ToString();
+                    tda.itemid = dt2.Rows[i]["item"].ToString();
 
-                    tda.unit = dt2.Rows[i]["RUNIT"].ToString();
+                    tda.unit = dt2.Rows[i]["UNITID"].ToString();
                     //tda.unitid = dt2.Rows[i]["UNITID"].ToString();
-                    tda.qty = dt2.Rows[i]["ERQTY"].ToString();
+                    tda.qty = dt2.Rows[i]["BALANCE_QTY"].ToString();
 
-                    tda.rate = dt2.Rows[i]["ERATE"].ToString();
-                    tda.amount = dt2.Rows[i]["EAMOUNT"].ToString();
+                    tda.rate = dt2.Rows[i]["RATE"].ToString();
+                    tda.amount = dt2.Rows[i]["AMOUNT"].ToString();
+                    tda.detid = dt2.Rows[i]["TSOURCEID"].ToString();
 
 
                     tda.Isvalid = "Y";
@@ -659,7 +665,7 @@ namespace Arasan.Controllers.Store_Management
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 tda = new DrumItemDeatil();
-                tda.drumno = dt.Rows[i]["DRUMNO"].ToString();
+                tda.drumno = dt.Rows[i]["ACTUALDRUM"].ToString();
                 tda.qty = dt.Rows[i]["MLQTY"].ToString();
                 tda.rate = dt.Rows[i]["MLRATE"].ToString();
                 tda.amount = dt.Rows[i]["MLAMOUNT"].ToString();
@@ -667,6 +673,42 @@ namespace Arasan.Controllers.Store_Management
                 TData.Add(tda);
             }
             ca.drumlist = TData;
+
+
+            return View(ca);
+        }
+        public IActionResult ViewPendingSub(string id)
+        {
+            SubContractingMaterialReceipt ca = new SubContractingMaterialReceipt();
+            DataTable dt = new DataTable();
+            DataTable dt2 = new DataTable();
+            List<pendingitem> TData = new List<pendingitem>();
+            pendingitem tda = new pendingitem();
+            string coid = datatrans.GetDataString("Select SUBCONTEDETID from SUBMRDETAIL where SUBMRBASICID='" + id + "'");
+
+            dt = datatrans.GetData("Select ITEMMASTER.ITEMID,DCQTY,PENDQTY,RECQTY,SUBMRBASICID from SUBMRDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=SUBMRDETAIL.FGITEMID  where SUBCONTEDETID='" + coid + "'");
+
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    tda = new pendingitem();
+                    tda.item = dt.Rows[i]["ITEMID"].ToString();
+                    tda.baid = dt.Rows[i]["SUBMRBASICID"].ToString();
+                    tda.qty = dt.Rows[i]["DCQTY"].ToString();
+                    tda.penqty = dt.Rows[i]["PENDQTY"].ToString();
+                    tda.recqty = dt.Rows[i]["RECQTY"].ToString();
+
+                    dt2 = datatrans.GetData("Select DOCID,to_char(DOCDATE,'dd-MM-yy')DOCDATE from SUBMRBASIC  where SUBMRBASICID='" + tda.baid + "'");
+                    if (dt2.Rows.Count > 0)
+                    {
+                        tda.docNo = dt2.Rows[0]["DOCID"].ToString();
+                        tda.docDate = dt2.Rows[0]["DOCDATE"].ToString();
+                    }
+                    TData.Add(tda);
+                }
+            }
+            ca.penlst = TData;
 
 
             return View(ca);

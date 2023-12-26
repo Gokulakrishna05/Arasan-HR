@@ -37,7 +37,7 @@
                         @Html.AntiForgeryToken()
                         <form>
 
-                            <div class="row">
+                           @* <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -49,7 +49,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -58,7 +58,9 @@
 
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 ,@readonly="readonly"})
+                                            @Html.HiddenFor(C => C.Enterd)
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Branch)
                                         </div>
                                     </div>
                                 </div>
@@ -176,7 +178,7 @@
                                                                     <th>Item ID</th>
                                                                    
                                                                     <th>Unit</th>
-                                                                    @* <th>PendQty</th>*@
+                                                                     <th>TotQty</th>
                                                                     <th>RecQty</th>
                                                                     <th>Rate</th>
                                                                     <th>Amount</th>
@@ -285,7 +287,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                        @*    <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -296,7 +298,7 @@
                                     </div>
                                 </div>
                             </div>
-
+*@
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -304,7 +306,7 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Narration, new { @id = "txtNarration", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextAreaFor(C => C.Narration, new { @id = "txtNarration", @class = "form-control", @TabIndex = 1 })
                                         </div>
                                     </div>
                                 </div>
@@ -406,20 +408,21 @@
 
                         var index = $("#tbBooks").children("tr").length;
 
-                        var ItemId = "<td><label style='width: 200px;'>" + item.item + "</label><input type='hidden' value=" + item.itemid + " id='txtitemid" + index + "' name='Contlilst[" + index + "].itemid'><input type='hidden' value=" + item.id + " id='txtID" + index + "' name='Contlilst[" + index + "].id'></td>";
+                        var ItemId = "<td><label style='width: 200px;'>" + item.item + "</label><input type='hidden' value=" + item.itemid + " id='txtitemid" + index + "' name='Contlilst[" + index + "].itemid'><input type='hidden' value=" + item.id + " id='txtID" + index + "' name='Contlilst[" + index + "].id'><input type='hidden' value=" + item.detid + " id='txtdetid" + index + "' name='Contlilst[" + index + "].detid'></td>";
 
                         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Contlilst[" + index + "].unit'  style='width: 90px;' type='text'  readonly='True'  value=" + item.unit + " /></td>";
 
 
-                        var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='Contlilst[" + index + "].qty'  style='width: 100px;' type='text' readonly='True' value=" + item.qty + " /></td>";
+                        var Qty = "<td><input class='form-control' id='txtRqty" + index + "' name='Contlilst[" + index + "].qty'  style='width: 100px;' type='text' readonly='True' value=" + item.qty + " /></td>";
+                        var RecQty = "<td><input class='form-control' id='txtrecqty" + index + "' name='Contlilst[" + index + "].recqty'  style='width: 100px;' type='text'   onkeydown='return isNumeric2(event.keyCode,this.value)' onkeyup = 'changeQty(this, " + index + ")'  /></td>";
 
 
 
 
 
-                        var rate = "<td><input class='form-control' id='txtrate" + index + "' name='Contlilst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;' type='text' value=" + item.rate + " readonly='True' /></td>";
+                        var rate = "<td><input class='form-control' id='txtRrate" + index + "' name='Contlilst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;' type='text' value=" + item.rate + " readonly='True' /></td>";
 
-                        var Amount = "<td><input class='form-control' id='txtamount" + index + "' name='Contlilst[" + index + "].amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 120px; type='text' value=" + item.amount + " readonly='True' /></td>";
+                        var Amount = "<td><input class='form-control' id='txtRamount" + index + "' name='Contlilst[" + index + "].amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 120px; type='text' value=" + item.amount + " readonly='True' /></td>";
 
 
 
@@ -428,7 +431,7 @@
 
                         var removeCell = "<td><input id='Isvalid" + index + "' name='Contlilst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='Contlilst.Index' type='hidden' value='" + index + "'  /></td>";
 
-                        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemId + Unit + Qty + rate + Amount + removeCell + "</tr>";
+                        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemId + Unit + Qty + RecQty + rate + Amount + removeCell + "</tr>";
                         $("#tbBooks").append(newRow);
 
                     });
@@ -464,13 +467,13 @@
                 }
             });
         var g = document.getElementById("txtlot" + i).value;
-    
-         if (g == "NO") {
+   
+         if (g == "NO" || g=="") {
 
-            document.getElementById("im").style.display = "block";
+            document.getElementById("im").style.display = "none";
         }
         else {
-            document.getElementById("im").style.display = "none";
+            document.getElementById("im").style.display = "block";
         }
     }
     function Item_Deatils(ItemId, j) {
@@ -621,6 +624,48 @@
         $(function () {
             $('._select').select2();
         });
+    }
+
+    function changeQty(_this, i) {
+        try {
+
+            var j = 0;
+            var qty = 0;
+            var tqty = 0;
+            var tot = 0;
+            var totqty = 0;
+            var tqty = document.getElementById("txtRqty" + i).value;
+            var rqty = document.getElementById("txtrecqty" + i).value;
+            alert(tqty);
+            alert(rqty);
+            if (eval(rqty) > eval(tqty)) {
+                alert("Received Qty is Greaterthen Total Qty ")
+                 document.getElementById("txtrecqty" + i).value=0;
+                 rqty=0;
+            }
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    qty = $(this).find('#txtrecqty' + j.toString()).val();
+                    if (qty == "")
+                        qty = 0;
+
+                    tot += eval(qty);
+
+                    tqty = $(this).find('#txtRqty' + j.toString()).val();
+                    if (tqty == "")
+                        tqty = 0;
+
+                    totqty += eval(tqty);
+                }
+                j += 1;
+            });
+            document.getElementById("qtyrec").value = totqty.toFixed(2);
+            document.getElementById("TotRecqty").value = tot.toFixed(2);
+            document.getElementById("txtqty" +i).value = tot.toFixed(2);
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
     }
 </script>
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>

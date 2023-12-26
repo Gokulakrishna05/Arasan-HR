@@ -16,7 +16,7 @@
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
-        <ol class="breadcrumb">S
+        <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Store Management</a> </li>
             <li class="active"> <strong>Sub Contracting MaterialReceipt</strong> </li>
@@ -43,6 +43,7 @@
                 { name: 'docNo', type: 'string' },
                 { name: 'docDate', type: 'string' },
                 { name: 'loc', type: 'string' },
+                { name: 'viewpen', type: 'string' },
                 { name: 'view', type: 'string' },
                 { name: 'delrow', type: 'string' },
 
@@ -79,6 +80,7 @@
                     { text: 'Doc No', filtertype: 'input', datafield: 'docNo', width: 300 },
                     { text: 'Doc Date', datafield: 'docDate', width: 150, align: 'center' },
                     { text: 'Location', datafield: 'loc', width: 150, align: 'center' },
+                    { text: 'View Pending', datafield: 'viewpen', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                 ]
