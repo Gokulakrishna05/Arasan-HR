@@ -171,7 +171,7 @@
                                                             <tr>
 
                                                                 <th>Exp.Rec.Item</th>
-                                                                <th>Drum</th>
+                                                               
                                                                 <th>Unit ID</th>
                                                                 <th>Exp.Rec.Qty</th>
                                                                 <th>Rate</th>
@@ -181,26 +181,24 @@
                                                         </thead>
                                                         <tbody id="tbBooks1">
                                                             @{
-                                                                int i = 0;
+                                                                int j = 0;
 
-                                                                foreach (var item in Model.SubMatlilst.ToList())
+                                                                foreach (var item in Model.Contlilst.ToList())
                                                                 {
 
-                                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                    <tr id="trBook@(j)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                                         <td>
-                                                                            @Html.DisplayFor(o => o.SubMatlilst[i].item)
-                                                                            @Html.HiddenFor(o => o.SubMatlilst[i].supid)
+                                                                            @Html.DisplayFor(o => o.Contlilst[j].item)
                                                                         </td>
-                                                                        <td><div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("ViewDrum", "SubContractingMaterialReceipt",new{id= item.supid})' class='fancybox' data-fancybox-type="iframe"><img src='../Images/view_icon.png' /></a></div> </td>
-                                                                        <td> @Html.DisplayFor(o => o.SubMatlilst[i].unit) </td>
-                                                                        <td> @Html.DisplayFor(o => o.SubMatlilst[i].qty) </td>
-                                                                        <td> @Html.DisplayFor(o => o.SubMatlilst[i].rate) </td>
-                                                                        <td> @Html.DisplayFor(o => o.SubMatlilst[i].amount) </td>
+                                                                        <td> @Html.DisplayFor(o => o.Contlilst[j].unit)  </td>
+                                                                        <td> @Html.DisplayFor(o => o.Contlilst[j].qty)  </td>
+                                                                        <td> @Html.DisplayFor(o => o.Contlilst[j].rate)  </td>
+                                                                        <td> @Html.DisplayFor(o => o.Contlilst[j].amount) </td>
 
 
                                                                     </tr>
-                                                                    i++;
+                                                                    j++;
                                                                 }
                                                             }
                                                         </tbody>
@@ -226,6 +224,7 @@
                                                             <tr>
 
                                                                 <th>Item ID</th>
+                                                                <th>Drum</th>
                                                                 <th>Unit</th>
                                                                 <th>Qty</th>
                                                                 <th>Rate</th>
@@ -233,27 +232,30 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tbBooks">
-                                                            @{
-                                                                int j = 0;
+                                                             @{
+                                                                int i = 0;
 
-                                                                foreach (var item in Model.Contlilst.ToList())
+                                                                foreach (var item in Model.SubMatlilst.ToList())
                                                                 {
 
-                                                                    <tr id="trBook@(j)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                                         <td>
-                                                                            @Html.DisplayFor(o => o.Contlilst[j].item)
+                                                                            @Html.DisplayFor(o => o.SubMatlilst[i].item)
+                                                                            @Html.HiddenFor(o => o.SubMatlilst[i].supid)
                                                                         </td>
-                                                                        <td> @Html.DisplayFor(o => o.Contlilst[j].unit)  </td>
-                                                                        <td> @Html.DisplayFor(o => o.Contlilst[j].qty)  </td>
-                                                                        <td> @Html.DisplayFor(o => o.Contlilst[j].rate)  </td>
-                                                                        <td> @Html.DisplayFor(o => o.Contlilst[j].amount) </td>
+                                                                        <td><div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("ViewDrum", "SubContractingMaterialReceipt",new{id= item.supid})' class='fancybox' data-fancybox-type="iframe"><img src='../Images/view_icon.png' /></a></div> </td>
+                                                                        <td> @Html.DisplayFor(o => o.SubMatlilst[i].unit) </td>
+                                                                        <td> @Html.DisplayFor(o => o.SubMatlilst[i].qty) </td>
+                                                                        <td> @Html.DisplayFor(o => o.SubMatlilst[i].rate) </td>
+                                                                        <td> @Html.DisplayFor(o => o.SubMatlilst[i].amount) </td>
 
 
                                                                     </tr>
-                                                                    j++;
+                                                                    i++;
                                                                 }
                                                             }
+                                                          
                                                         </tbody>
                                                     </table>
                                                 </div>

@@ -31,6 +31,7 @@ namespace Arasan.Controllers.Store_Management
             st.Suplst = BindSupplier();
             st.assignList = BindEmp();
             st.Branch = Request.Cookies["BranchId"];
+            st.Entered = Request.Cookies["UserId"];
             st.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             DataTable dtv = datatrans.GetSequence("subdc");
             if (dtv.Rows.Count > 0)
@@ -180,10 +181,25 @@ namespace Arasan.Controllers.Store_Management
                 string View = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
 
-                approve = "<a href=ApproveSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " ><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-                View = "<a href=ViewSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                EditRow = "<a href=SubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    if (dtUsers.Rows[i]["STATUS"].ToString() == "Approve")
+                    {
+                        approve = "";
+                        View = "<a href=ViewSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+
+                        EditRow = "";
+                    }
+                    else
+                    {
+                        approve = "<a href=ApproveSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " ><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                        View = "<a href=ViewSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+
+                        EditRow = "<a href=SubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+                    }
+                }
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new ListSubContractingDCItem
@@ -566,10 +582,12 @@ namespace Arasan.Controllers.Store_Management
             {
                 st.ID = id;
                 st.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                st.Branchid = dt.Rows[0]["BRANCH"].ToString();
                 st.DocId = dt.Rows[0]["DOCID"].ToString();
                 st.Docdate = dt.Rows[0]["DOCDATE"].ToString();
                 //st.Suplst = BindSupplier();
                 st.Supplier = dt.Rows[0]["PARTYNAME"].ToString();
+                st.party = dt.Rows[0]["PARTYID"].ToString();
                 st.Add1 = dt.Rows[0]["ADD1"].ToString();
                 st.Add2 = dt.Rows[0]["ADD2"].ToString();
                 st.City = dt.Rows[0]["CITY"].ToString();
@@ -579,6 +597,7 @@ namespace Arasan.Controllers.Store_Management
                 st.Entered = dt.Rows[0]["ENTEREDBY"].ToString();
                 st.TotalQty = dt.Rows[0]["TOTQTY"].ToString();
                 st.Narration = dt.Rows[0]["NARRATION"].ToString();
+                st.Enterd = Request.Cookies["UserId"];
                 //ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
 
             }
@@ -630,6 +649,8 @@ namespace Arasan.Controllers.Store_Management
                     tda1.Itemlist = BindItemlst();
                     //tda1.saveItemId = dt3.Rows[i]["ITEMID"].ToString();
                     tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
+                    tda1.item = dt3.Rows[i]["RITEM"].ToString();
+                    tda1.detid = dt3.Rows[i]["SUBCONTEDETID"].ToString();
                     tda1.Unit = dt3.Rows[i]["RUNIT"].ToString();
                     tda1.Quantity = dt3.Rows[i]["ERQTY"].ToString();
                     tda1.rate = dt3.Rows[i]["ERATE"].ToString();

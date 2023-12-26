@@ -46,7 +46,7 @@
                                     <div class="col-sm-8">
                                         @Html.HiddenFor(C => C.ID)
                                         @Html.DisplayFor(C => C.Branch)
-                                        @Html.HiddenFor(C => C.Branch)
+                                        @Html.HiddenFor(C => C.Branchid)
                                     </div>
                                 </div>
                             </div>
@@ -74,6 +74,7 @@
                                     <div class="col-sm-8">
                                         @Html.DisplayFor(C => C.DocId)
                                         @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Enterd)
                                     </div>
                                 </div>
                             </div>
@@ -94,6 +95,7 @@
 
                                     <div class="col-sm-8">
                                         @Html.DisplayFor(C => C.Supplier)
+                                        @Html.HiddenFor(C => C.party)
                                     </div>
                                 </div>
                             </div>
@@ -264,6 +266,8 @@
                                                                     <tr id="trBook1@(j)" class="chkitemlst1" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                         <td>
                                                                             @Html.DisplayFor(o => o.RECDlst[j].ItemId)
+                                                                            @Html.HiddenFor(o => o.RECDlst[j].item)
+                                                                                @Html.HiddenFor(o => o.RECDlst[j].detid)
                                                                         </td>
                                                                         <td>
                                                                             @Html.DisplayFor(o => o.RECDlst[j].Unit)
@@ -271,12 +275,15 @@
                                                                         </td>
                                                                         <td>
                                                                             @Html.DisplayFor(o => o.RECDlst[j].Quantity)
+                                                                                @Html.HiddenFor(o => o.RECDlst[j].Quantity)
                                                                         </td>
                                                                         <td>
                                                                             @Html.DisplayFor(o => o.RECDlst[j].rate)
+                                                                            @Html.HiddenFor(o => o.RECDlst[j].rate)
                                                                         </td>
                                                                         <td>
                                                                             @Html.DisplayFor(o => o.RECDlst[j].Amount)
+                                                                            @Html.HiddenFor(o => o.RECDlst[j].Amount)
                                                                         </td>
 
 

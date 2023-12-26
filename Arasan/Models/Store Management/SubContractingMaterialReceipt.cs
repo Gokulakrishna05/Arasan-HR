@@ -49,6 +49,7 @@ namespace Arasan.Models
         public List<SubContractItem> Contlilst { get; set; }
 
         public List<DrumItemDeatil> drumlist { get; set; }
+        public List<pendingitem> penlst { get; set; }
     }
     public class SubMaterialItem
     {
@@ -80,6 +81,10 @@ namespace Arasan.Models
 
 
         public string item { get; set; }
+        public string Pri { get; set; }
+        public string Start { get; set; }
+        public string End { get; set; }
+        public string drumqty { get; set; }
         public string itemid { get; set; }
         public List<SelectListItem> drulist { get; set; }
         public string drumno { get; set; }
@@ -100,6 +105,7 @@ namespace Arasan.Models
         public List<SelectListItem> Itemlst { get; set; }
         public string item { get; set; }
         public string itemid { get; set; }
+        public string recqty { get; set; }
         public string qty { get; set; }
         public string unit { get; set; }
         public string unitid { get; set; }
@@ -109,6 +115,7 @@ namespace Arasan.Models
        
         public string amount { get; set; }
         public string supid { get; set; }
+        public string detid { get; set; }
 
 
 
@@ -126,6 +133,22 @@ namespace Arasan.Models
         public string delrow { get; set; }
         public string move { get; set; }
         public string view { get; set; }
+        public string viewpen { get; set; }
+
+    }
+    public class pendingitem
+    {
+        public long id { get; set; }
+        public string item { get; set; }
+        public string supplier { get; set; }
+        public string docNo { get; set; }
+        public string docDate { get; set; }
+        public string loc { get; set; }
+        public string qty { get; set; }
+        public string penqty { get; set; }
+        public string recqty { get; set; }
+        public string baid { get; set; }
+         
 
     }
 }

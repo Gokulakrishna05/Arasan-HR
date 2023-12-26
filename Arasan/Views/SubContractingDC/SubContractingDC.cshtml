@@ -34,7 +34,7 @@
                         <form>
 
                             <div class="row">
-                                <div class="col-md-6">
+                               @* <div class="col-md-6">
                                     <div class="form-group">
 
                                         <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
@@ -44,7 +44,7 @@
                                         </div>
 
                                     </div>
-                                </div>
+                                </div>*@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -65,6 +65,7 @@
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 ,@readonly=true})
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Branch)
                                         </div>
                                     </div>
                                 </div>
