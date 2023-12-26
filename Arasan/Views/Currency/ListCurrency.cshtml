@@ -104,16 +104,16 @@
 
                     <form>
                         <div class="col-md-2 ">
-                            @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                            @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[] 
                             { new SelectListItem() {Text = "Enabled", Value="Y"},
                             new SelectListItem() {Text = "Disabled", Value="N"}},
-                            new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                            new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" }) 
                        
-                            <div class="col-md-9 ">
+                            <div class="col-md-7 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("Currency", "Currency")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Currency</a>
                                     <br>
-                                </div>
+                                </div> 
 
 
                             </div>

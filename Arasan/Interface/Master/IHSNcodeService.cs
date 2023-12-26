@@ -9,7 +9,7 @@ namespace Arasan.Interface.Master
     public interface IHSNcodeService
     {
         string HSNcodeCRUD(HSNcode by);
-        IEnumerable<HSNcode> GetAllHSNcode(string status);
+        //IEnumerable<HSNcode> GetAllHSNcode(string status);
         //HSNcode GetHSNcodeById(string id);
 
         //DataTable GetCGst();

@@ -163,8 +163,8 @@ namespace Arasan.Controllers.Master
         public JsonResult GetStateJSON(string supid)
         {
             Employee model = new Employee();
-            model.Citylst = BindCity(supid);
-            return Json(BindCity(supid));
+            model.Citylst = BindCitySt(supid);
+            return Json(BindCitySt(supid));
 
         }
         public List<SelectListItem> BindLocation(string id)
@@ -309,7 +309,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATE"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATEMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -323,6 +323,23 @@ namespace Arasan.Controllers.Master
             try
             {
                 DataTable dtDesg = EmployeeService.GetCity(id);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CITYNAME"].ToString(), Value = dtDesg.Rows[i]["CITYNAME"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+         public List<SelectListItem> BindCitySt(string id)
+        {
+            try
+            {
+                DataTable dtDesg = EmployeeService.GetCityst(id);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
