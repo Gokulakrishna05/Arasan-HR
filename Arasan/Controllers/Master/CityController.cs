@@ -19,10 +19,10 @@ namespace Arasan.Controllers.Master
         public IActionResult City(string id)
         {
             City st = new City();
-          
+            st.createdby = Request.Cookies["UserId"];
             st.cuntylst = BindCountry();
             st.sta = BindState("");
-            st.createdby = Request.Cookies["UserId"];
+            
 
             if (id == null)
             {
@@ -192,7 +192,7 @@ namespace Arasan.Controllers.Master
                 {
                     id = dtUsers.Rows[i]["CITYID"].ToString(),
                     countryid = dtUsers.Rows[i]["COUNTRY"].ToString(),
-                    state = dtUsers.Rows[i]["STATEID"].ToString(),
+                    state = dtUsers.Rows[i]["STATE"].ToString(),
                     cit = dtUsers.Rows[i]["CITYNAME"].ToString(),
                     editrow = EditRow,
                     delrow = DeleteRow,

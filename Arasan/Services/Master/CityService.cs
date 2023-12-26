@@ -52,7 +52,7 @@ namespace Arasan.Services.Master
         public DataTable GetState(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select STATE,STATEMASTID ,STATEMAST.STATUS from  STATEMAST  where STATEMAST.STATUS='ACTIVE' order by COUNTRYMASTID ";    
+            SvSql = "select STATE,STATEMASTID ,STATEMAST.IS_ACTIVE from  STATEMAST  where STATEMAST.IS_ACTIVE='Y' order by COUNTRYMASTID ";    
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -62,7 +62,7 @@ namespace Arasan.Services.Master
         public DataTable Getcountry()
         {
             string SvSql = string.Empty;
-            SvSql = "select COUNTRYNAME,COUNTRYMASTID,CONMAST.IS_ACTIVE from CONMAST  WHERE CONMAST.IS_ACTIVE='Y' order by COUNTRYMASTID  ";
+            SvSql = "select COUNTRY,COUNTRYMASTID,CONMAST.IS_ACTIVE from CONMAST  WHERE CONMAST.IS_ACTIVE='Y' order by COUNTRY ASC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -137,7 +137,6 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("COUNTRY", OracleDbType.NVarchar2).Value = ss.countryid;
                     objCmd.Parameters.Add("STATEID", OracleDbType.NVarchar2).Value = ss.State;
                     objCmd.Parameters.Add("CITYNAME", OracleDbType.NVarchar2).Value = ss.Cit;
-                    
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     if (ss.ID == null)
                     {
@@ -154,11 +153,9 @@ namespace Arasan.Services.Master
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
                     }
                     catch (Exception ex)
                     {
-                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
                     objConn.Close();
                 }
@@ -233,11 +230,11 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "select CITYMASTER.IS_ACTIVE,CITYNAME,STATEID,CITYID,CONMAST.COUNTRY from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID  WHERE CITYMASTER.IS_ACTIVE = 'Y' ORDER BY CITYID DESC";
+                SvSql = "select CITYMASTER.IS_ACTIVE,CITYNAME,STATEMAST.STATE,CONMAST.COUNTRY,CITYMASTER.CITYID from CITYMASTER left outer join STATEMAST on STATEMAST.STATEMASTID=CITYMASTER.STATEID left outer join CONMAST on CONMAST.COUNTRYMASTID=CITYMASTER.COUNTRYID  WHERE CITYMASTER.IS_ACTIVE = 'Y' ORDER BY CITYID DESC ";
             }
             else
             {
-                SvSql = "select CITYMASTER.IS_ACTIVE,CITYNAME,STATEID,CITYID,CONMAST.COUNTRY from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID  WHERE CITYMASTER.IS_ACTIVE = 'N' ORDER BY CITYID DESC";
+                SvSql = "select CITYMASTER.IS_ACTIVE,CITYNAME,STATEMAST.STATE,CONMAST.COUNTRY,CITYMASTER.CITYID from CITYMASTER left outer join STATEMAST on STATEMAST.STATEMASTID=CITYMASTER.STATEID left outer join CONMAST on CONMAST.COUNTRYMASTID=CITYMASTER.COUNTRYID  WHERE CITYMASTER.IS_ACTIVE = 'N' ORDER BY CITYID DESC ";
 
             }
             DataTable dtt = new DataTable();

@@ -21,46 +21,7 @@ namespace Arasan.Services.Master
 
         }
 
-        //public IEnumerable<Employee> GetAllEmployee(string status)
-        //{
-        //    if (string.IsNullOrEmpty(status))
-        //    {
-        //        status = "ACTIVE";
-        //    }
-        //    List<Employee> cmpList = new List<Employee>();
-        //    using (OracleConnection con = new OracleConnection(_connectionString))
-        //    {
-
-        //        using (OracleCommand cmd = con.CreateCommand())
-        //        {
-        //            con.Open();
-        //            cmd.CommandText = "Select  EMPMAST. EMPNAME, EMPMAST.EMPID, EMPMAST.EMPSEX,to_char( EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,ECADD1, ECCITY,ECSTATE,ECMAILID,ECPHNO,FATHERNAME,MOTHERNAME,EMPPAYCAT,EMPBASIC,PFNO,ESINO,EMPCOST,to_char( EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char( EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char( EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char( EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EMPMASTID,EMPMAST.IS_ACTIVE from EMPMAST order by EMPMAST.EMPID DESC";
-        //            OracleDataReader rdr = cmd.ExecuteReader();
-        //            while (rdr.Read())
-        //            {
-        //                Employee cmp = new Employee
-        //                {
-
-        //                    ID = rdr["EMPMASTID"].ToString(),
-        //                    EmpName = rdr["EMPNAME"].ToString(),
-        //                    EmpNo = rdr["EMPID"].ToString(),
-        //                    Gender = rdr["EMPSEX"].ToString(),
-        //                    DOB = rdr["EMPDOB"].ToString(),
-        //                    Address = rdr["ECADD1"].ToString(),
-        //                    CityId = rdr["ECCITY"].ToString(),
-        //                    StateId = rdr["ECSTATE"].ToString(),
-        //                    EmailId = rdr["ECMAILID"].ToString(),
-        //                    PhoneNo = rdr["ECPHNO"].ToString(),
-        //                    FatherName = rdr["FATHERNAME"].ToString(),
-        //                    MotherName = rdr["MOTHERNAME"].ToString()
-                            
-        //                };
-        //                cmpList.Add(cmp);
-        //            }
-        //        }
-        //    }
-        //    return cmpList;
-        //}
+        
 
         public long GetMregion(string regionid, string id)
         {
@@ -224,6 +185,8 @@ namespace Arasan.Services.Master
                             objCmds.CommandType = CommandType.StoredProcedure;
                             objCmds.Parameters.Add("EMPMASTID", OracleDbType.NVarchar2).Value = Pid;
                             objCmds.Parameters.Add("SKILL", OracleDbType.NVarchar2).Value = cy.SkillSet;
+                            objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
                             objConns.Open();
                             objCmds.ExecuteNonQuery();
                             objConns.Close();
@@ -261,7 +224,17 @@ namespace Arasan.Services.Master
         public DataTable GetCity(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select CITYNAME,CITYID from CITYMASTER  "; /*where STATEID ='"  + id +"'";*/
+            SvSql = "select CITYNAME,CITYID from CITYMASTER where IS_ACTIVE = 'Y' "; /*where STATEID ='"  + id +"'";*/
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        } 
+        public DataTable GetCityst(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select CITYNAME,CITYID from CITYMASTER where STATEID =  '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -271,7 +244,7 @@ namespace Arasan.Services.Master
         public DataTable GetEmployee(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select EMPMAST.EMPNAME,EMPMAST.EMPID,EMPMAST.EMPSEX,to_char(EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,EMPMAST.ECADD1,EMPMAST.ECCITY,EMPMAST.ECSTATE,EMPMAST.ECMAILID,EMPMAST.ECPHNO,EMPMAST.FATHERNAME,EMPMAST.MOTHERNAME,EMPMAST.EMPPAYCAT,EMPMAST.EMPBASIC,EMPMAST.PFNO,EMPMAST.ESINO,EMPMAST.EMPCOST,to_char(EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char(EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char(EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char(EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EMPMASTID  from EMPMAST where EMPMAST.EMPMASTID=" + id + "";
+            SvSql = "Select EMPMAST.EMPNAME,EMPMAST.EMPID,EMPMAST.EMPSEX,to_char(EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,EMPMAST.ECADD1,EMPMAST.ECCITY,EMPMAST.ECSTATE,EMPMAST.ECMAILID,EMPMAST.ECPHNO,EMPMAST.FATHERNAME,EMPMAST.MOTHERNAME,EMPMAST.EMPPAYCAT,EMPMAST.EMPBASIC,EMPMAST.PFNO,EMPMAST.ESINO,EMPMAST.EMPCOST,to_char(EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char(EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char(EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char(EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EMPMASTID  from EMPMAST where EMPMAST.EMPMASTID= '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

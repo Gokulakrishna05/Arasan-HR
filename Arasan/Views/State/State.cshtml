@@ -52,15 +52,9 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Country<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                           @* @Html.DropDownListFor(C => C.countryid, Model.cuntylst,"--Please Select---", new { @id = "ddlcountry", @Class = "form-control _select", @TabIndex = 1 })*@
-
-                                            <select class=" _select js-states form-control">
-
-
-                                                <option value="India">India </option> 
-
-                                            </select>
-                                           @Html.HiddenFor(C => C.ID) 
+                                            @Html.DropDownListFor(C => C.countryid, Model.cuntylst,"--Please Select---", new { @id = "ddlcountry", @Class = "form-control _select", @TabIndex = 1 })
+                                          
+                                            @Html.HiddenFor(C => C.ID) 
                                         </div>
 
 
@@ -68,7 +62,7 @@
                                 </div>
                             </div>
 
-                           @* <div class="row">
+                            <div class="row">
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -80,8 +74,8 @@
 
                                     </div>
                                 </div>
-                            </div>*@
-                            <div class="row">
+                            </div>
+                            @*<div class="row">
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -93,7 +87,7 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div style="height:30px;"></div>
                             <div class="col-lg-8"></div>
                             <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
