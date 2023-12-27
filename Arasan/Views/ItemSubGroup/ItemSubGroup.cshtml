@@ -45,10 +45,37 @@
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Item Sub Group<label class="mandatory">*</label></label>
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Item Category<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.ItemCat, Model.catlst,"--Please Select---", new { @id = "ddlItemCat", @Class = "form-control _select", @TabIndex = 1 }) <br />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group"> 
+
+                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Item Group<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Itemgrp, Model.grplst,"--Please Select---", new { @id = "ddlItemCat", @Class = "form-control _select", @TabIndex = 1 }) <br />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      <br>  <label for="inputName3" class="col-sm-4 control-label">Item Sub Group<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.itemSubGroup, new { @id = "txtitemSubGroup", @class = "form-control", @TabIndex = 1 })<br />
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.createby)
                                         </div>
                                     </div>
                                 </div>
@@ -82,6 +109,24 @@
 </div>
 
 <script>
+
+    $(function () {
+        $('._select').select2();
+    });
+    function PopulateDropDown(dropDownId, list) {
+    @* alert(list);*@
+            $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option> </option>").val(this['value']).html(this['text']));
+            });
+        }
+
+        $(dropDownId).trigger("liszt:updated");
+    }
+
+
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;

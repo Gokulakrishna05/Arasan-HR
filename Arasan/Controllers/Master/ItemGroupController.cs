@@ -4,6 +4,8 @@ using Arasan.Models;
 using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using Arasan.Services;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Arasan.Controllers.Master
 {
@@ -17,6 +19,8 @@ namespace Arasan.Controllers.Master
         public IActionResult ItemGroup(string id)
         {
             ItemGroup ig = new ItemGroup();
+            ig.createby = Request.Cookies["UserId"];
+            ig.catlst = BindCategory();
             if (id == null)
             {
 
@@ -65,6 +69,25 @@ namespace Arasan.Controllers.Master
             }
 
             return View(by);
+        }
+
+        public List<SelectListItem> BindCategory()
+        {
+            try
+            {
+                DataTable dtDesg = itemGroupService.GetCategory();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CATEGORY"].ToString(), Value = dtDesg.Rows[i]["ITEMCATEGORYID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
         public IActionResult ListItemGroup()
         {
@@ -130,7 +153,8 @@ namespace Arasan.Controllers.Master
                 Reg.Add(new ItemGroupGrid
                 {
                     id = dtUsers.Rows[i]["ITEMGROUPID"].ToString(),
-                    itemgroup = dtUsers.Rows[i]["GROUPCODE"].ToString(),
+                    itemgroup = dtUsers.Rows[i]["CATEGORY"].ToString(),
+                    itemcat = dtUsers.Rows[i]["GROUPCODE"].ToString(),
                     itemgroupdescription = dtUsers.Rows[i]["GROUPDESC"].ToString(),
                     editrow = EditRow,
                     delrow = DeleteRow,

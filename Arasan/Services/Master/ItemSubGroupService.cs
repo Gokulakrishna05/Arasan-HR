@@ -58,15 +58,18 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select SGCODE,SGDESC,ITEMSUBGROUPID from ITEMSUBGROUP where ITEMSUBGROUPID=" + eid + "";
+                    cmd.CommandText = "Select SGCODE,SGDESC,ITEMSUBGROUPID,CATEGORY,GROUPCODE from ITEMSUBGROUP where ITEMSUBGROUPID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         ItemSubGroup gro = new ItemSubGroup
                         {
                             ID = rdr["ITEMSUBGROUPID"].ToString(),
+                            
                             itemSubGroup = rdr["SGCODE"].ToString(),
                             Descreption = rdr["SGDESC"].ToString(),
+                            ItemCat = rdr["CATEGORY"].ToString(),
+                            Itemgrp = rdr["GROUPCODE"].ToString(),
                         };
                         ItemSubGroup = gro;
                     }
@@ -75,6 +78,28 @@ namespace Arasan.Services.Master
             return ItemSubGroup;
         }
 
+        public DataTable GetCategory()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMCATEGORYID,CATEGORY from ITEMCATEGORY  ORDER BY ITEMCATEGORYID DESC";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable Getgrp()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMGROUPID,GROUPCODE from ITEMGROUP  ORDER BY ITEMGROUPID DESC";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string ItemSubGroupCRUD(ItemSubGroup sg)
         {
             string msg = "";
@@ -112,6 +137,19 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("SGCODE", OracleDbType.NVarchar2).Value = sg.itemSubGroup;
                     objCmd.Parameters.Add("SGDESC", OracleDbType.NVarchar2).Value = sg.Descreption;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    objCmd.Parameters.Add("CATEGORY", OracleDbType.NVarchar2).Value = sg.ItemCat;
+                    objCmd.Parameters.Add("GROUPCODE", OracleDbType.NVarchar2).Value = sg.Itemgrp; 
+                    if (sg.ID == null)
+                    {
+
+                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = sg.createby;
+                    }
+                    else
+                    {
+                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = sg.createby;
+                    }
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
@@ -187,12 +225,12 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = " Select SGCODE,SGDESC,IS_ACTIVE,ITEMSUBGROUPID from ITEMSUBGROUP WHERE IS_ACTIVE='Y' order by ITEMSUBGROUP.ITEMSUBGROUPID DESC ";
+                SvSql = " Select ITEMSUBGROUP.SGCODE,ITEMSUBGROUP.SGDESC,ITEMSUBGROUP.IS_ACTIVE,ITEMCATEGORY.CATEGORY,ITEMGROUP.GROUPCODE,ITEMSUBGROUP.ITEMSUBGROUPID from ITEMSUBGROUP left outer join ITEMCATEGORY on ITEMCATEGORY.ITEMCATEGORYID = ITEMSUBGROUP.CATEGORY left outer join ITEMGROUP on ITEMGROUP.ITEMGROUPID = ITEMSUBGROUP.GROUPCODE WHERE ITEMSUBGROUP.IS_ACTIVE='Y' order by ITEMSUBGROUP.ITEMSUBGROUPID DESC  ";
 
             }
             else
             {
-                SvSql = " Select SGCODE,SGDESC,IS_ACTIVE,ITEMSUBGROUPID from ITEMSUBGROUP WHERE IS_ACTIVE='N' order by ITEMSUBGROUP.ITEMSUBGROUPID DESC ";
+                SvSql = " Select ITEMSUBGROUP.SGCODE,ITEMSUBGROUP.SGDESC,ITEMSUBGROUP.IS_ACTIVE,ITEMCATEGORY.CATEGORY,ITEMGROUP.GROUPCODE,ITEMSUBGROUP.ITEMSUBGROUPID from ITEMSUBGROUP left outer join ITEMCATEGORY on ITEMCATEGORY.ITEMCATEGORYID = ITEMSUBGROUP.CATEGORY left outer join ITEMGROUP on ITEMGROUP.ITEMGROUPID = ITEMSUBGROUP.GROUPCODE WHERE ITEMSUBGROUP.IS_ACTIVE='N' order by ITEMSUBGROUP.ITEMSUBGROUPID DESC  ";
 
             }
             DataTable dtt = new DataTable();

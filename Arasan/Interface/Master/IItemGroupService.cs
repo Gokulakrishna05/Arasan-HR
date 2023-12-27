@@ -14,5 +14,7 @@ namespace Arasan.Interface.Master
         ItemGroup GetItemGroupById(string id);
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
+
+        DataTable GetCategory();
     }
 }

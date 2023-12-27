@@ -18,6 +18,9 @@ namespace Arasan.Controllers.Master
         public IActionResult ItemCategory(string id)
         {
             ItemCategory ic = new ItemCategory();
+
+            ic.createby = Request.Cookies["UserId"];
+
             if (id == null)
             {
 

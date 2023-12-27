@@ -94,12 +94,13 @@
         });
     });
 
-</script>
-<script>
-    function ConfirmDelete() {
-        return confirm("Are you sure you want to delete?");
+
+    function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
     }
 </script>
+
+
 
 <div class="wrapper-content ">
     <div class="row">
@@ -145,6 +146,12 @@
 </div>
 
 <script>
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
+</script>
+
+@*<script>
     $(document).ready(function () {
         $('#example7').DataTable({
             dom: 'Bfrtip',
@@ -221,4 +228,4 @@
 
     }
    
-</script>
+</script>*@
