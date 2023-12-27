@@ -88,6 +88,7 @@ namespace Arasan.Models
         public string itemid { get; set; }
         public List<SelectListItem> drulist { get; set; }
         public string drumno { get; set; }
+        public string prefix { get; set; }
         public string totaldrum { get; set; }
         public string unitid { get; set; }
 

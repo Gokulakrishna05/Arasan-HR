@@ -459,14 +459,20 @@
                     document.getElementById("txtunit" + i).value = result.unit;
                     document.getElementById("txtrate" + i).value = result.price;
                     document.getElementById("txtlot" + i).value = result.lot;
+                     if (result.lot == "NO" || result.lot=="") {
 
+            document.getElementById("im").style.display = "none";
+        }
+        else {
+            document.getElementById("im").style.display = "block";
+        }
 
                 },
                 error: function () {
                     alert("Data Not Found");
                 }
             });
-        var g = document.getElementById("txtlot" + i).value;
+      @*  var g = document.getElementById("txtlot" + i).value;
    
          if (g == "NO" || g=="") {
 
@@ -474,7 +480,7 @@
         }
         else {
             document.getElementById("im").style.display = "block";
-        }
+        }*@
     }
     function Item_Deatils(ItemId, j) {
     @* var locid = document.getElementById("ddlLoc").value;*@

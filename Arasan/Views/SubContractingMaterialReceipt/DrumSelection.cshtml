@@ -10,6 +10,15 @@
     .newwidth {
         width: 120px;
     }
+
+    div.scroll {
+        width: 100%;
+        height: 400px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        /* text-align: center;*/
+        /*padding: 20px;*/
+    }
 </style>
 
 
@@ -119,7 +128,7 @@
                                                                 @Html.TextBoxFor(C => C.drumlist[i].Pri, new { @id = "txtPri" +i, @class = "form-control", @TabIndex = 1 ,style = "width: 200px;" })
                                                             </td>
                                                             <td>@Html.TextBoxFor(C => C.drumlist[i].Start, new { @id = "txtStart" + i, @class = "form-control", @TabIndex = 2 ,style = "width: 200px;"  , onkeydown = "return isNumeric2(event.keyCode,this.value)" })  </td>
-                                                            <td>  @Html.TextBoxFor(C => C.drumlist[i].End, new { @id = "txtEnd" +i, @class = "form-control", @TabIndex = 3 ,style = "width: 200px;" , onkeydown = "return isNumeric2(event.keyCode,this.value)" , @onchange = "changeDrum(this.value,"+ i +")"})  </td>
+                                                            <td>  @Html.TextBoxFor(C => C.drumlist[i].End, new { @id = "txtEnd" +i, @class = "form-control", @TabIndex = 3 ,style = "width: 200px;" , onkeydown = "return isNumeric2(event.keyCode,this.value)" })  </td>
                                                             <td>
                                                                 @Html.TextBoxFor(C => C.drumlist[i].drumqty, new { @id = "txtdrumqty"+i, @class = "form-control", @TabIndex = 4 ,style = "width: 200px;", onkeydown = "return isNumeric2(event.keyCode,this.value)" ,@onkeyup = "changeTot(this,"+ i+ ")" })
                                                            </td>
@@ -136,6 +145,7 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnEmp" onclick="changeDrum()">Submit</button>
                                 </div>
                             </div>
                             <div style="height:30px;"></div>
@@ -144,6 +154,7 @@
                                 <div class="col-lg-12">
                                     <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
                                         <!-- / ibox-title -->
+                                        <div class="scroll">
                                         <table class="table table-striped table-hover" id="dataTable">
                                             <thead>
                                                 <tr>
@@ -183,6 +194,7 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -213,16 +225,31 @@
     $(function () {
         $('._select').select2();
     });
-    function changeDrum(ItemId,i) {
-        var pre = document.getElementById("txtPri" +i).value;
-        var st = document.getElementById("txtStart"+i).value;
-      
+    function changeDrum( ) {
+        var e = 0;
+
+        var DrumDet = new Array();
+        $('tr.chkitemlst1').each(function () {
+            if ($(this).css('display') !== 'none') {
+                var emp = {};
+                emp.Pri = document.getElementById("txtPri" + e).value;
+                emp.Start = document.getElementById("txtStart" + e).value;
+                emp.End = document.getElementById("txtEnd" + e).value;
+                emp.drumqty = document.getElementById("txtdrumqty" + e).value;
+               
+                DrumDet.push(emp);
+                e += 1;
+            }
+        });
+
         document.getElementById("tbBooks").innerHTML = "";
 
         $.ajax({
             url: 'GetDrumDetails',
-            type: "post",
-            data: { "ItemId": ItemId, "st": st, "pre": pre },
+            type: "POST",
+            data: JSON.stringify(DrumDet),
+                contentType: "application/json",
+            dataType: "json",
             cache: false,
 
             success: function (list) {
@@ -231,12 +258,12 @@
 
                     var index = $("#tbBooks").children("tr").length;
                     //alert(item.batch);
-                    var Drum = "<td><input class='form-control' id='ddldrumno" + index + "' name='drumlist[" + index + "].packdrum'  style='width: 250px;' type='text'  readonly='True'  value=" + item.drumno + " /></td>";
+                    var Drum = "<td><input class='form-control' id='ddldrumno" + index + "' name='drumlist[" + index + "].drumno'  style='width: 250px;' type='text'  readonly='True'  value=" + item.drumno + " /></td>";
 
 
-                    var qty = "<td><input class='form-control' id='txtqty" + index + "' name='drumlist[" + index + "].'qty  style='width: 100px;' type='text'  onkeyup  = 'changeQty(this.value," + index + ")' /></td>";
-                    var rate = "<td><input class='form-control' id='txtrate" + index + "' name='drumlist[" + index + "].'rate  style='width: 100px;' type='text'  onkeyup  = 'changeQty(this.value," + index + ")' /></td>";
-                    var amount = "<td><input class='form-control' id='txtamount" + index + "' name='drumlist[" + index + "].'amount  style='width: 120px;' type='text' /></td>";
+                    var qty = "<td><input class='form-control' id='txtqty" + index + "' name='drumlist[" + index + "].qty'  style='width: 100px;' type='text'  onkeyup  = 'changeQty(this.value," + index + ")' value=" + item.qty + " /></td>";
+                    var rate = "<td><input class='form-control' id='txtrate" + index + "' name='drumlist[" + index + "].rate'  style='width: 100px;' type='text'  onkeyup  = 'changeQty(this.value," + index + ")' /></td>";
+                    var amount = "<td><input class='form-control' id='txtamount" + index + "' name='drumlist[" + index + "].amount'  style='width: 120px;' type='text' /><input id='txtprefix" + index + "' name='drumlist[" + index + "].'prefix type='hidden' value=" + item.prefix + "/></td>";
 
 
 
@@ -324,7 +351,57 @@
         else {
             alert("Cannot delete all the rows.")
         }
+        var e = 0;
 
+        var DrumDet = new Array();
+        $('tr.chkitemlst1').each(function () {
+            if ($(this).css('display') !== 'none') {
+                var emp = {};
+                emp.Pri = document.getElementById("txtPri" + e).value;
+                emp.Start = document.getElementById("txtStart" + e).value;
+                emp.End = document.getElementById("txtEnd" + e).value;
+                emp.drumqty = document.getElementById("txtdrumqty" + e).value;
+
+                DrumDet.push(emp);
+                e += 1;
+            }
+        });
+
+        document.getElementById("tbBooks").innerHTML = "";
+
+        $.ajax({
+            url: 'GetDrumDetails',
+            type: "POST",
+            data: JSON.stringify(DrumDet),
+            contentType: "application/json",
+            dataType: "json",
+            cache: false,
+
+            success: function (list) {
+                //if (list != null && list.length > 0) {
+                list.forEach((item) => {
+
+                    var index = $("#tbBooks").children("tr").length;
+                    //alert(item.batch);
+                    var Drum = "<td><input class='form-control' id='ddldrumno" + index + "' name='drumlist[" + index + "].drumno'  style='width: 250px;' type='text'  readonly='True'  value=" + item.drumno + " /></td>";
+
+
+                    var qty = "<td><input class='form-control' id='txtqty" + index + "' name='drumlist[" + index + "].qty'  style='width: 100px;' type='text'  onkeyup  = 'changeQty(this.value," + index + ")'  value=" + item.qty +" /></td>";
+                    var rate = "<td><input class='form-control' id='txtrate" + index + "' name='drumlist[" + index + "].rate'  style='width: 100px;' type='text'  onkeyup  = 'changeQty(this.value," + index + ")' /></td>";
+                    var amount = "<td><input class='form-control' id='txtamount" + index + "' name='drumlist[" + index + "].amount'  style='width: 120px;' type='text' /><input id='txtprefix" + index + "' name='drumlist[" + index + "].'prefix type='hidden' value=" + item.prefix + "/></td>";
+
+
+
+                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + qty + rate + amount + "</tr>";
+
+                    $("#tbBooks").append(newRow);
+                });
+                //}
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
 
 
     }
@@ -340,9 +417,9 @@
 
 
 
-        var end = "<td><input class='form-control' id='txtEnd" + index + "' name='drumlist[" + index + "].End'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 200px;' type='text' onkeyup  = 'changeDrum(this.value," + index + ")'    /></td>";
+        var end = "<td><input class='form-control' id='txtEnd" + index + "' name='drumlist[" + index + "].End'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 200px;' type='text'     /></td>";
 
-        var qty = "<td><input class='form-control' id='txtdrumqty" + index + "' name='drumlist[" + index + "].drumqty'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 200px; type='text'   /></td>";
+        var qty = "<td><input class='form-control' id='txtdrumqty" + index + "' name='drumlist[" + index + "].drumqty'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 200px; type='text' onkeyup = 'changeTot(this,"+ index+ ")'  /></td>";
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='drumlist[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='drumlist.Index' type='hidden' value='" + index + "'  /></td>";
 
