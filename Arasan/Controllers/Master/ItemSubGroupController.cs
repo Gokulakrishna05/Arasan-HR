@@ -20,6 +20,10 @@ namespace Arasan.Controllers.Master
         public IActionResult ItemSubGroup(string id)
         {
             ItemSubGroup sg = new ItemSubGroup();
+            sg.createby = Request.Cookies["UserId"];
+            sg.catlst = BindCategory();
+            sg.grplst = Bindgrp();
+
             if (id == null)
             {
 
@@ -68,6 +72,44 @@ namespace Arasan.Controllers.Master
 
             return View(sub);
         }
+
+        public List<SelectListItem> BindCategory()
+        {
+            try
+            {
+                DataTable dtDesg = ItemSubGroupService.GetCategory();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CATEGORY"].ToString(), Value = dtDesg.Rows[i]["ITEMCATEGORYID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<SelectListItem> Bindgrp()
+        {
+            try
+            {
+                DataTable dtDesg = ItemSubGroupService.Getgrp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["GROUPCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMGROUPID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
         public IActionResult ListItemSubGroup()
         {
             return View();
@@ -115,7 +157,7 @@ namespace Arasan.Controllers.Master
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y") 
                 {
 
                     EditRow = "<a href=ItemSubGroup?id=" + dtUsers.Rows[i]["ITEMSUBGROUPID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
@@ -133,6 +175,8 @@ namespace Arasan.Controllers.Master
                 Reg.Add(new ItemSubGrid
                 {
                     id = dtUsers.Rows[i]["ITEMSUBGROUPID"].ToString(),
+                    itemcat = dtUsers.Rows[i]["CATEGORY"].ToString(),
+                    itemgrp = dtUsers.Rows[i]["GROUPCODE"].ToString(),
                     itemsubgroup = dtUsers.Rows[i]["SGCODE"].ToString(),
                     descreption = dtUsers.Rows[i]["SGDESC"].ToString(),
                     editrow = EditRow,

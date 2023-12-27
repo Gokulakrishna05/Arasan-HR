@@ -20,6 +20,8 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
+
+
         //public IEnumerable<ItemCategory> GetAllItemCategory(string status)
         //{
         //    if (string.IsNullOrEmpty(status))
@@ -115,7 +117,17 @@ namespace Arasan.Services.Master
 
                     objCmd.Parameters.Add("CATEGORY", OracleDbType.NVarchar2).Value = iy.Category;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    if (iy.ID == null)
+                    {
 
+                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = iy.createby;
+                    }
+                    else
+                    {
+                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = iy.createby;
+                    }
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {

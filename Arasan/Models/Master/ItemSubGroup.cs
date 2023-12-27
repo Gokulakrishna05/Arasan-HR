@@ -5,6 +5,18 @@ namespace Arasan.Models
 {
     public class ItemSubGroup
     {
+        public ItemSubGroup()
+        {
+            this.catlst = new List<SelectListItem>();
+            this.grplst = new List<SelectListItem>();
+        }
+
+        public List<SelectListItem> catlst;
+        public string ItemCat { get; set; }
+
+        public List<SelectListItem> grplst;
+        public string Itemgrp { get; set; }
+        public string createby { get; set; }
         public string ID { get; set; }
 
         public string itemSubGroup { get; set; }
@@ -23,5 +35,8 @@ namespace Arasan.Models
 
         public String editrow { get; set; }
         public String delrow { get; set; }
+
+        public string itemcat { get; set; }
+        public string itemgrp { get; set; }
     }
 }

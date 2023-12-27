@@ -7,6 +7,7 @@ namespace Arasan.Models
         public string ID { get; set; }
       
         public string Category { get; set; }
+        public string createby { get; set; }
 
         public String status { get; set; }
         public String ddlStatus { get; set; }
