@@ -5,6 +5,7 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Text.RegularExpressions;
 
 namespace Arasan.Services.Production
 {
@@ -107,6 +108,161 @@ namespace Arasan.Services.Production
             return dtt;
         }
 
+        public DataTable GetPYROWC()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT W.WCBASICID, W.WCID FROM WCBASIC W,LOCDETAILS LD WHERE W.ILOCATION=LD.LOCDETAILSID AND LD.LOCATIONTYPE='BALL MILL'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetMnth()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select MONTH from SALFCBASIC where IS_ACTIVE='Y' AND FCTYPE='MONTHLY'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetDGPaste(string mnth, string type)
+        {
+            string SvSql = string.Empty;
+            SvSql = @"SELECT ITEMID,SUM(stk) stk,SUM(QTY) REQ,SUM(MINSTK) MINSTK,Decode(Sign(SUM(QTY+MINSTK-STK)),1,SUM(QTY+MINSTK-STK),0) ORD FROM (
+SELECT ITEMID,SUM(QTY) QTY,SUM(STK) STK,SUM(MINSTK) MINSTK FROM (
+SELECT I.ITEMID,0 qty, SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) stk,0 MINSTK
+FROM StockValue S , ItemMaster I , LocDetails L 
+WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='"+ DateTime.Now.ToString("dd-MMM-yyyy") + "' AND S.LocID = L.LocdetailsID  ";
+            SvSql += @"AND i.SUBCATEGORY IN ('DG PASTE') AND i.QCCOMPFLAG='YES' AND L.LocationType IN ('FG GODOWN') 
+HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 
+GROUP BY I.ITEMID
+UNION ALL
+SELECT  I.ITEMID,SUM(SD.QTY) QTY,0 stk,I.MINSTK
+FROM SALFCBASIC SB,SALFCDETAIL SD,ITEMMASTER I
+WHERE SB.SALFCBASICID=SD.SALFCBASICID
+AND SD.ITEMID=I.ITEMMASTERID
+AND I.SUBCATEGORY IN ('DG PASTE') 
+AND ((sb.MONTH='" + mnth + "' And  SB.FCTYPE='"+ type + "') Or (Sb.FCTYPE='YEARLY' And 'YEARLY'='"+ type + "')) ";
+            SvSql += @"GROUP BY I.ITEMID,I.MINSTK,I.ITEMID
+)GROUP BY ITEMID)GROUP BY ITEMID
+ORDER BY ORD DESC";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public List<PFCPYROItem> GetPyroForecast(string mnth, string type)
+        {
+            List<PFCPYROItem> cmpList = new List<PFCPYROItem>();
+            string Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = @"SELECT ITEMID,SUM(QTY) REQ,SUM(MINSTK) MINSTK,SUM(stk) stk,SUM(REJ) REJ,Decode(Sign(SUM(QTY+MINSTK-STK)),1,SUM(QTY+MINSTK-STK),0) ORD FROM (
+SELECT ITEMID,SUM(QTY) QTY,SUM(STK) STK,SUM(MINSTK) MINSTK,REJ FROM (
+SELECT I2.ITEMID,0 qty, SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) stk,0 MINSTK,i2.REJRAWMATPER REJ
+FROM StockValue S , ItemMaster I , LocDetails L,ITEMMASTER I2 
+WHERE S.ItemID = I.ItemMasterID AND S.DocDate <=:Docdate AND S.LocID = L.LocdetailsID 
+AND i.SUBCATEGORY IN ('PYRO POWDER','PYRO DF','PYRO POLISHED') AND i.QCCOMPFLAG='YES' AND L.LocationType in ('FG GODOWN') 
+AND I2.ITEMMASTERID=I.ITEMFROM
+HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 
+GROUP BY I2.ITEMID,i2.REJRAWMATPER
+UNION ALL
+SELECT I.ITEMID,0 qty, Decode(L.RCFLAG,0,SUM(S.PLUSQTY-S.MINUSQTY)) stk,0 MINSTK, 0 rejper
+FROM LStockValue S , ItemMaster I , LocDetails L,LotMast L 
+WHERE S.ItemID = I.ItemMasterID AND S.DocDate <=:Docdate AND S.LocID = L.LocdetailsID And L.LOTNO=S.LOTNO 
+AND i.SUBCATEGORY IN ('PYRO POWDER') AND i.QCCOMPFLAG='YES' AND L.LocationType IN ('CURING','MIXING','POLISH','PACKING') And I.ISUBGROUP='SFG'
+HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0 
+GROUP BY I.ITEMID,i.REJRAWMATPER,L.RCFLAG
+Union All
+SELECT I2.ITEMID,0 qty, Decode(L.RCFLAG,0,SUM(S.PLUSQTY-S.MINUSQTY)) stk,0 MINSTK, 0 rejper
+FROM LStockValue S , ItemMaster I , LocDetails L,LotMast L,Itemmaster I2 
+WHERE S.ItemID = I.ItemMasterID AND S.DocDate <=:Docdate AND S.LocID = L.LocdetailsID And L.LOTNO=S.LOTNO And I.ITEMFROM=i2.ITEMMASTERID
+AND i2.SUBCATEGORY IN ('PYRO POWDER') AND i.QCCOMPFLAG='YES' AND L.LocationType IN ('CURING','MIXING','POLISH','PACKING') And I.ISUBGROUP='FG-PYRO'
+HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0 
+GROUP BY I2.ITEMID,i.REJRAWMATPER,L.RCFLAG
+UNION ALL
+SELECT  I2.ITEMID,SUM(SD.QTY) QTY,0 stk,IM.MINSTK,I2.REJRAWMATPER REJ
+FROM SALFCBASIC SB,SALFCDETAIL SD,ITEMMASTER IM,ITEMMASTER I2
+WHERE SB.SALFCBASICID=SD.SALFCBASICID
+AND SD.ITEMID=IM.ITEMMASTERID
+AND IM.ITEMFROM=I2.ITEMMASTERID
+AND IM.SUBCATEGORY IN ('PYRO POWDER') 
+AND ((sb.MONTH=:MONTH And SB.FCTYPE=:PlanType) Or (Sb.FCTYPE='YEARLY' And 'YEARLY'=:PlanType))
+GROUP BY I2.ITEMID,IM.MINSTK,IM.ITEMID,I2.REJRAWMATPER
+UNION ALL
+SELECT  I1.ITEMID,SUM(SD.QTY*IM.RAWMATPER/100) QTY,0 stk,IM.MINSTK,I1.REJRAWMATPER REJ 
+FROM SALFCBASIC SB,SALFCDETAIL SD,ITEMMASTER IM,ITEMMASTER I1,ITEMMASTER I2
+WHERE SB.SALFCBASICID=SD.SALFCBASICID
+AND SD.ITEMID=IM.ITEMMASTERID
+AND IM.ITEMFROM=I1.ITEMMASTERID
+AND I1.ITEMFROM=I2.ITEMMASTERID
+AND IM.SUBCATEGORY IN ('PYRO DF','PYRO POLISHED') 
+AND ((sb.MONTH=:MONTH And  SB.FCTYPE=:PlanType) Or (Sb.FCTYPE='YEARLY' And 'YEARLY'=:PlanType))
+GROUP BY I1.ITEMID,IM.MINSTK,I1.REJRAWMATPER
+UNION ALL
+SELECT ITEMID,ROUND(SUM(QTY*RAWP/100),0) QTY,0 STK,0 MINSTK,SUM(REJ) REJ FROM (
+SELECT FG,ITEMID,SUM(QTY+MINSTK-STK) QTY,SUM(REJ) REJ,SUM(RAWP)RAWP FROM (
+SELECT IM.ITEMID FG, I1.ITEMID ,SUM(SD.QTY) QTY,0 stk,IM.MINSTK,I1.REJRAWMATPER REJ,IM.RAWMATPER RAWP
+FROM SALFCBASIC SB,SALFCDETAIL SD,ITEMMASTER IM,ITEMMASTER I1
+WHERE SB.SALFCBASICID=SD.SALFCBASICID
+AND SD.ITEMID=IM.ITEMMASTERID
+AND IM.ITEMFROM=I1.ITEMMASTERID
+AND IM.SUBCATEGORY IN ('DG PASTE') 
+AND ((sb.MONTH=:MONTH And  SB.FCTYPE=:PlanType) Or (Sb.FCTYPE='YEARLY' And 'YEARLY'=:PlanType))
+GROUP BY IM.ITEMID,I1.ITEMID,IM.MINSTK,I1.REJRAWMATPER,IM.RAWMATPER,IM.MINSTK
+UNION ALL
+SELECT I.ITEMID,I2.ITEMID,0 qty, SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) stk,0 MINSTK,i2.REJRAWMATPER REJ,0 RAWM
+FROM StockValue S , ItemMaster I , LocDetails L,ITEMMASTER I2 
+WHERE S.ItemID = I.ItemMasterID AND S.DocDate <=:Docdate AND S.LocID = L.LocdetailsID 
+AND i.SUBCATEGORY IN ('DG PASTE') AND i.QCCOMPFLAG='YES' AND L.LocationType IN ('FG GODOWN') 
+AND I2.ITEMMASTERID=I.ITEMFROM
+HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 
+GROUP BY I.ITEMID,I2.ITEMID,i2.REJRAWMATPER
+) GROUP BY ITEMID,FG
+) GROUP BY ITEMID,RAWP
+ORDER BY 2 DESC
+)GROUP BY ITEMID,REJ
+)GROUP BY ITEMID
+ORDER BY ORD DESC";
+                    cmd.Parameters.Add("Docdate", Docdate);
+                    cmd.Parameters.Add("PlanType", type);
+                    cmd.Parameters.Add("MONTH",mnth);
+                    cmd.BindByName = true;
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        PFCPYROItem cmp = new PFCPYROItem
+                        {
+                            itemid = rdr["ITEMID"].ToString(),
+                            required = rdr["REQ"].ToString(),
+                            minstock = rdr["MINSTK"].ToString(),
+                            stock = rdr["stk"].ToString(),
+                            rejqty = rdr["REJ"].ToString(),
+                            target = rdr["ORD"].ToString(),
+                            // itemid = rdr["ITEMID"].ToString(),
+                            //Branch = rdr["BRANCHID"].ToString(),
+
+                            //InvNo = rdr["DOCID"].ToString(),
+
+                            //InvDate = rdr["DOCDATE"].ToString(),
+                            //Party = rdr["PARTYNAME"].ToString(),
+                            //Net = Convert.ToDouble(rdr["NET"].ToString()),
+
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
+      
         public string ProductionForecastingCRUD(ProductionForecasting cy)
         {
             string msg = "";
@@ -189,7 +345,7 @@ namespace Arasan.Services.Production
                         }
                         foreach (PFCDGItem cp in cy.PFCDGILst)
                         {
-                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                            if (cp.Isvalid == "Y" && cp.itemid != "0")
                             {
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
@@ -206,14 +362,14 @@ namespace Arasan.Services.Production
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("PRODFCBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("DGITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                    objCmds.Parameters.Add("DGTARQTY", OracleDbType.NVarchar2).Value = cp.Target;
-                                    objCmds.Parameters.Add("DGMIN", OracleDbType.NVarchar2).Value = cp.Min;
-                                    objCmds.Parameters.Add("DGSTOCK", OracleDbType.NVarchar2).Value = cp.Stock;
-                                    objCmds.Parameters.Add("REQDG", OracleDbType.NVarchar2).Value = cp.Required;
-                                    objCmds.Parameters.Add("DGADDITID", OracleDbType.NVarchar2).Value = cp.DgAdditID;
-                                    objCmds.Parameters.Add("DGADDITREQ", OracleDbType.NVarchar2).Value = cp.ReqAdditive;
-                                    objCmds.Parameters.Add("DGRAWMAT", OracleDbType.NVarchar2).Value = cp.RawMaterial;
+                                    objCmds.Parameters.Add("DGITEMID", OracleDbType.NVarchar2).Value = cp.itemid;
+                                    objCmds.Parameters.Add("DGTARQTY", OracleDbType.NVarchar2).Value = cp.target;
+                                    objCmds.Parameters.Add("DGMIN", OracleDbType.NVarchar2).Value = cp.min;
+                                    objCmds.Parameters.Add("DGSTOCK", OracleDbType.NVarchar2).Value = cp.stock;
+                                    objCmds.Parameters.Add("REQDG", OracleDbType.NVarchar2).Value = cp.required;
+                                    objCmds.Parameters.Add("DGADDITID", OracleDbType.NVarchar2).Value = cp.dgaddit;
+                                    objCmds.Parameters.Add("DGADDITREQ", OracleDbType.NVarchar2).Value = cp.reqadditive;
+                                    objCmds.Parameters.Add("DGRAWMAT", OracleDbType.NVarchar2).Value = cp.rawmaterial;
                                     objCmds.Parameters.Add("DGREQAP", OracleDbType.NVarchar2).Value = cp.ReqPyro;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
@@ -246,13 +402,13 @@ namespace Arasan.Services.Production
                                     objCmds.Parameters.Add("PRODFCBASICID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("PYWCID", OracleDbType.NVarchar2).Value = cp.WorkId;
                                     objCmds.Parameters.Add("WCDAYS", OracleDbType.NVarchar2).Value = cp.CDays;
-                                    objCmds.Parameters.Add("PYITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                    objCmds.Parameters.Add("PYMINSTK", OracleDbType.NVarchar2).Value = cp.MinStock;
-                                    objCmds.Parameters.Add("PYALLREJ", OracleDbType.NVarchar2).Value = cp.PasteRej;
+                                    objCmds.Parameters.Add("PYITEMID", OracleDbType.NVarchar2).Value = cp.itemid;
+                                    objCmds.Parameters.Add("PYMINSTK", OracleDbType.NVarchar2).Value = cp.minstock;
+                                    objCmds.Parameters.Add("PYALLREJ", OracleDbType.NVarchar2).Value = cp.pasterej;
                                     objCmds.Parameters.Add("PYGRCHG", OracleDbType.NVarchar2).Value = cp.GradeChange;
-                                    objCmds.Parameters.Add("PYREJQTY", OracleDbType.NVarchar2).Value = cp.RejQty;
-                                    objCmds.Parameters.Add("PYREQQTY", OracleDbType.NVarchar2).Value = cp.Required;
-                                    objCmds.Parameters.Add("PYTARQTY", OracleDbType.NVarchar2).Value = cp.Target;
+                                    objCmds.Parameters.Add("PYREJQTY", OracleDbType.NVarchar2).Value = cp.rejqty;
+                                    objCmds.Parameters.Add("PYREQQTY", OracleDbType.NVarchar2).Value = cp.required;
+                                    objCmds.Parameters.Add("PYTARQTY", OracleDbType.NVarchar2).Value = cp.target;
                                     objCmds.Parameters.Add("PYPRODCAPD", OracleDbType.NVarchar2).Value = cp.ProdDays;
                                     objCmds.Parameters.Add("PYPRODQTY", OracleDbType.NVarchar2).Value = cp.ProdQty;
                                     objCmds.Parameters.Add("PYRAWREJMAT", OracleDbType.NVarchar2).Value = cp.RejMat;
