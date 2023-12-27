@@ -446,33 +446,40 @@ namespace Arasan.Controllers.Store_Management
 
 
         //}
-        public ActionResult GetDrumDetails(int ItemId, int st, string pre)
+        public ActionResult GetDrumDetails([FromBody] DrumItemDeatil[] model)
         {
             SubContractingMaterialReceipt ca = new SubContractingMaterialReceipt();
             List<DrumItemDeatil> TData = new List<DrumItemDeatil>();
             DrumItemDeatil tda = new DrumItemDeatil();
-
-            int count = ItemId - st;
-            for (int i = 0; i <= count; i++)
+            foreach (DrumItemDeatil emp in model)
             {
-                tda = new DrumItemDeatil();
+                int st = Convert.ToInt32(emp.Start);
+                int ed = Convert.ToInt32(emp.End);
+                string prifix = emp.Pri;
+                string qty = emp.drumqty;
+                int count = ed - st;
+                for (int i = 0; i <= count; i++)
+                {
+                    tda = new DrumItemDeatil();
 
 
-                int s = st;
-                int legcode = Convert.ToInt32(s);
-                //string code = GetNumberwithPrefix(legcode, 6);
-                //int prefix = Convert.ToInt32(pre);
-                tda.totaldrum = legcode.ToString();
-                string drum = pre + "" + legcode;
-                tda.drumno = drum.ToString();
-                legcode++;
-                st = legcode;
-               
+                    int s = st;
+                    int legcode = Convert.ToInt32(s);
+                    //string code = GetNumberwithPrefix(legcode, 6);
+                    //int prefix = Convert.ToInt32(pre);
+                    tda.totaldrum = legcode.ToString();
+                    string drum = prifix + "" + legcode;
+                    tda.drumno = drum.ToString();
+                    tda.prefix = prifix;
+                    tda.qty = qty;
+                    legcode++;
+                    st = legcode;
 
 
-                TData.Add(tda);
+
+                    TData.Add(tda);
+                }
             }
-
             ca.drumlist = TData;
             return Json(ca.drumlist);
 
