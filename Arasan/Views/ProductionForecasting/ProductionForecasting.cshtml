@@ -41,10 +41,10 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
 
-                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
+                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Doc ID<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
+                                                @Html.TextBoxFor(C => C.DocId, new { @id = "DocId", @class = "form-control", @TabIndex = 2 })
                                                 @Html.HiddenFor(C => C.ID)
-                                                @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })<br />
                                             </div>
                                         </div>
                                     </div>
@@ -59,46 +59,38 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-
-                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Doc ID<label class="Mandatory"></label></label>
-                                            <div class="col-sm-8">
-                                                @Html.TextBoxFor(C => C.DocId, new { @id = "DocId", @class = "form-control", @TabIndex = 2 })
-                                                @Html.HiddenFor(C => C.ID)
-                                            </div>
-                                        </div>
                                     </div>
+                                    <div class="row">
+                                   
                                     <div class="col-md-6">
                                         <div class="form-group">
 
                                             <br />  <label for="inputName3" class="col-sm-4 control-label">Plan Type<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
-                                                <select class=" _select js-states form-control">
-
-                                                    <option> </option>
-                                                    <option value="KA"> MONTHLY</option>
-                                                    <option value="KA"> YEARLY</option>
-
-                                                </select>
-
+                                                @Html.RadioButtonFor(o => o.plantype, "MONTHLY", new { @id = "txtplantype",@TabIndex = 2})
+                                                <label id="mt-radio">MONTHLY</label>
+                                                @Html.RadioButtonFor(o => o.plantype, "YEARLY", new { @id = "txtplantype",@TabIndex = 3})
+                                                <label id="mt-radio">YEARLY</label>
                                             </div>
                                         </div>
                                     </div>
-                                    </div>
-                                    <div class="row">
+
                                     <div class="col-md-6">
                                         <div class="form-group">
 
 
                                             <br /> <label for="inputName3" class="col-sm-4 control-label">For The Month Of<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
-                                                @Html.TextBoxFor(C => C.ForMonth, new { @id = "ForMonth", @class = "form-control", @TabIndex = 2 })
+                                                @Html.DropDownListFor(C => C.ForMonth, Model.mnthlst," -- Please Select -- ", new { @id = "ddlmnth", @Class = "form-control _select", @TabIndex = 1 ,@onchange="changemnth(this.value)"})
 
                                             </div>
                                         </div>
                                     </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                    
                                     <div class="col-md-6">
                                         <div class="form-group">
 
@@ -110,8 +102,7 @@
                                             </div>
                                         </div>
                                       </div>
-                                    </div>
-                                    <div class="row">
+                                    
                                     <div class="col-md-6">
                                         <div class="form-group">
 
@@ -123,6 +114,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                  
+                                </div>
+                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
 
@@ -134,8 +128,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <br /> <label for="inputName3" class="col-sm-4 control-label">End Date<label class="Mandatory"></label></label>
@@ -152,8 +144,8 @@
 
                                         <div class="tabs-container">
                                             <ul class="nav nav-tabs">
-                                                <li class="active"><a href="#tab-1" data-toggle="tab">Prod Forecast Detail</a></li>
-                                                <li><a href="#tab-2" data-toggle="tab">Prod Forecast DG Paste </a></li>
+                                              @*  <li ><a href="#tab-1" data-toggle="tab">Prod Forecast Detail</a></li>*@
+                                                <li class="active"><a href="#tab-2" data-toggle="tab">Prod Forecast DG Paste </a></li>
                                                 <li><a href="#tab-3" data-toggle="tab">Prod Forecast Pyro</a></li>
                                                 <li><a href="#tab-4" data-toggle="tab">Prod Forecast Polish</a></li>
                                                 <li><a href="#tab-5" data-toggle="tab">Prod Forecast Rvd</a></li>
@@ -165,7 +157,7 @@
 
                                             </ul>
                                             <div class="tab-content">
-                                                <div class="tab-pane active" id="tab-1">
+                                              @*  <div class="tab-pane active" id="tab-1">
                                                     <!-- 1st tab  -->
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -245,15 +237,11 @@
                                                         </div>
                                                     </div>
                                                     <!-- 1st tab  -->
-                                                </div>
-                                                <div class="tab-pane" id="tab-2">
+                                                </div>*@
+                                                <div class="tab-pane active" id="tab-2">
                                                     <!-- 2nd tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow1()" class="btn sbold green" /></p>
-                                                            </div>
-                                                        </div>
+                                                     
 
                                                         <div class="col-lg-12">
                                                             <div class="ibox float-e-margins">
@@ -274,7 +262,7 @@
                                                                                         <th>DgAdditID </th>
                                                                                         <th> Req Additive </th>
                                                                                         <th>Raw Material</th>
-                                                                                        <th>Req Pyro </th>
+                                                                                       
 
                                                                                     </tr>
                                                                                 </thead>
@@ -287,40 +275,37 @@
 
                                                 foreach (var item in Model.PFCDGILst.ToList())
                                                 {
-                                                                <tr id="trBook1@(j)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                <tr id="trBook1@(j)" class="chkitemlst1" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                
                                                                 <td>
-                                                                    @Html.DropDownListFor(o => o.PFCDGILst[j].ItemId, Model.PFCDGILst[j].PItemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemId" + j, style = "width: 170px;"})
+                                                                   @Html.TextBoxFor(o => o.PFCDGILst[j].itemid, new { @id = "txtItemid" + j, @class = "form-control", style = "width: 120px;" })
                                                                     @Html.HiddenFor(o => o.PFCDGILst[j].saveItemId)
                                                                 </td>
                                                                  <td>
-                                                                  @Html.TextBoxFor(o => o.PFCDGILst[j].Target, new { @id = "txtTarget" + j, @class = "form-control", style = "width: 120px;" })
+                                                                  @Html.TextBoxFor(o => o.PFCDGILst[j].target, new { @id = "txtTarget" + j, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                  <td>
-                                                                  @Html.TextBoxFor(o => o.PFCDGILst[j].Min, new { @id = "txtMin" + j, @class = "form-control", style = "width: 120px;" })
+                                                                  @Html.TextBoxFor(o => o.PFCDGILst[j].min, new { @id = "txtMin" + j, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                  <td>
-                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].Stock, new { @id = "txtStock" + j, @class = "form-control", style = "width: 120px;" })
+                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].stock, new { @id = "txtStock" + j, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                  <td>
-                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].Required, new { @id = "txtRequired" + j, @class = "form-control", style = "width: 120px;" })
+                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].required, new { @id = "txtRequired" + j, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                  <td>
-                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].DgAdditID, new { @id = "txtDgAdditID" + j, @class = "form-control", style = "width: 120px;" })
+                                                                                                    @Html.TextBoxFor(o => o.PFCDGILst[j].dgaddit, new { @id = "txtDgAdditID" + j, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                  <td>
-                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].ReqAdditive, new { @id = "txtReqAdditive" + j, @class = "form-control", style = "width: 120px;" })
+                                                                                                    @Html.TextBoxFor(o => o.PFCDGILst[j].reqadditive, new { @id = "txtReqAdditive" + j, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                 <td>
-                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].RawMaterial, new { @id = "txtRawMaterial" + j, @class = "form-control", style = "width: 120px;" })
+                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].rawmaterial, new { @id = "txtRawMaterial" + j, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
-                                                                <td>
+                                                               @* <td>
                                                                  @Html.TextBoxFor(o => o.PFCDGILst[j].ReqPyro, new { @id = "txtReqPyro" + j, @class = "form-control", style = "width: 120px;" })
-                                                                </td>
-                                                                 <td>
-                                                                                                    @Html.HiddenFor(o => o.PFCDGILst[j].Isvalid, new { @id = "Isvalid" + j })
-                                                                   <img onclick="removeRow1(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(j)" />
-                                                                 </td>
+                                                                </td>*@
+                                                               
 
                                                             </tr>
                                                     j = j + 1;
@@ -344,11 +329,7 @@
                                                 <div class="tab-pane" id="tab-3">
                                                     <!-- 3rd tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow2()" class="btn sbold green" /></p>
-                                                            </div>
-                                                        </div>
+                                                     
 
                                                         <div class="col-lg-12">
                                                             <div class="ibox float-e-margins">
@@ -363,15 +344,13 @@
                                                                                         
                                                                                         <th>Work Center</th>
                                                                                         <th>Cum Days</th>
-                                                                                       @* <th>Sales Tar </th>*@
                                                                                         <th> Prod Item </th>
-                                                                                       @* <th> Stock </th>*@
+                                                                                        <th>Sales Tar </th>
                                                                                         <th> Min Stock </th>
-                                                                                        <th> Paste Rej %</th>
-                                                                                        <th>Grade Change </th>
-                                                                                        <th>Rej Qty </th>
+                                                                                        <th> Stock </th>
                                                                                         <th>Required </th>
-                                                                                        <th>Target(22h) </th>
+                                                                                        <th> Paste Rej %</th>
+                                                                                        <th>Rej Qty </th>
                                                                                         <th>Prod Days </th>
                                                                                         <th>Prod Qty </th>
                                                                                         <th>Rej Mat % </th>
@@ -395,7 +374,7 @@
 
                                                 foreach (var item in Model.PFCPYROILst.ToList())
                                                 {
-                                                             <tr id="trBook2@(k)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                             <tr id="trBook2@(k)" class="chkitemlst2" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                
                                                               
                                                                  <td>
@@ -406,29 +385,29 @@
                                                                   @Html.TextBoxFor(o => o.PFCPYROILst[k].CDays, new { @id = "txtCDays" + k, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                   <td>
-                                                                   @Html.DropDownListFor(o => o.PFCPYROILst[k].ItemId, Model.PFCPYROILst[k].PYItemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemId" + k, style = "width: 170px;"})
+                                                           @Html.TextBoxFor(o => o.PFCPYROILst[k].itemid, new { @id = "txtItemId" + k, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPYROILst[k].target, new { @id = "txtTarget" + k, @class = "form-control", style = "width: 120px;" })
+                                                                                                </td>
+                                                                                                <td>
+                                                                  @Html.TextBoxFor(o => o.PFCPYROILst[k].minstock, new { @id = "txtMinStock" + k, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPYROILst[k].stock, new { @id = "txtRequired" + k, @class = "form-control", style = "width: 120px;" })
+                                                                                                </td>
+                                                                 <td>
+                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].required, new { @id = "txtRequired" + k, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                  <td>
-                                                                  @Html.TextBoxFor(o => o.PFCPYROILst[k].MinStock, new { @id = "txtMinStock" + k, @class = "form-control", style = "width: 120px;" })
+                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].pasterej, new { @id = "txtDgAdditID" + k, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
-                                                                 <td>
-                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].Required, new { @id = "txtRequired" + k, @class = "form-control", style = "width: 120px;" })
-                                                                </td>
-                                                                 <td>
-                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].PasteRej, new { @id = "txtDgAdditID" + k, @class = "form-control", style = "width: 120px;" })
-                                                                </td>
-                                                                 <td>
-                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].GradeChange, new { @id = "txtGradeChange" + k, @class = "form-control", style = "width: 120px;" })
-                                                                </td>
+                                                             
                                                                 <td>
-                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].RejQty, new { @id = "txtRejQty" + k, @class = "form-control", style = "width: 120px;" })
+                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].rejqty, new { @id = "txtRejQty" + k, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
-                                                                <td>
-                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].Required, new { @id = "txtRequired" + k, @class = "form-control", style = "width: 120px;" })
-                                                                </td>
-                                                                <td>
-                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].Target, new { @id = "txtTarget" + k, @class = "form-control", style = "width: 120px;" })
-                                                                </td> 
+                                                               
+                                                              
                                                                 <td>
                                                                  @Html.TextBoxFor(o => o.PFCPYROILst[k].ProdDays, new { @id = "txtProdDays" + k, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
@@ -490,11 +469,7 @@
                                                 <div class="tab-pane" id="tab-4">
                                                     <!-- 4th tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
-                                                            </div>
-                                                        </div>
+                                                     
 
                                                         <div class="col-lg-12">
                                                             <div class="ibox float-e-margins">
@@ -613,11 +588,7 @@
                                                 <div class="tab-pane" id="tab-5">
                                                     <!-- 5th tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
-                                                            </div>
-                                                        </div>
+                                                      
 
                                                         <div class="col-lg-12">
                                                             <div class="ibox float-e-margins">
@@ -713,11 +684,7 @@
                                                 <div class="tab-pane" id="tab-6">
                                                     <!-- 6th tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
-                                                            </div>
-                                                        </div>
+                                                     
 
                                                         <div class="col-lg-12">
                                                             <div class="ibox float-e-margins">
@@ -854,11 +821,7 @@
                                                 <div class="tab-pane" id="tab-7">
                                                     <!-- 7th tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
-                                                            </div>
-                                                        </div>
+                                                      
 
                                                         <div class="row">
                                                             <div class="col-md-6">
@@ -926,11 +889,7 @@
                                                 <div class="tab-pane" id="tab-8">
                                                     <!-- 8th tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
-                                                            </div>
-                                                        </div>
+                                                      
 
                                                         <div class="row">
                                                             <div class="col-md-6">
@@ -1034,11 +993,7 @@
                                                 <div class="tab-pane" id="tab-9">
                                                     <!-- 9th tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
-                                                            </div>
-                                                        </div>
+                                                      
 
                                                         <div class="col-lg-12">
                                                             <div class="ibox float-e-margins">
@@ -1122,11 +1077,7 @@
                                                 <div class="tab-pane" id="tab-10">
                                                     <!-- 10th tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
-                                                            </div>
-                                                        </div>
+                                                     
 
                                                         <div class="col-lg-12">
                                                             <div class="ibox float-e-margins">
@@ -1239,7 +1190,6 @@
     $(function () {
         $('._select').select2();
     });
-    $(".chosen-select").chosen();
     function PopulateDropDown(dropDownId, list) {
         //alert(list);
         $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
@@ -1251,9 +1201,7 @@
         }
         $(dropDownId).trigger("liszt:updated");
     }
-    $(".chosen-select").chosen();
     $('.form_date').datetimepicker({
-        //   language:  'fr',
         weekStart: 1,
         todayBtn: 1,
         autoclose: 1,
@@ -1262,195 +1210,93 @@
         minView: 2,
         forceParse: 0
     });
-    $(".chosen-select").chosen();
-    function removeRow(id) {
-        var table = document.getElementById("dataTable");
-        var rowCount = table.rows.length;
-        var row = document.getElementById('trBook' + id);
-        var j = 0;
-        $('tr.chkitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-        if (j > 1) {
-            row.style.display = "none";
-            document.getElementById('Isvalid' + id).value = "N";
-        }
-        else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-     function removeRow1(id) {
-        var table = document.getElementById("dataTable");
-        var rowCount = table.rows.length;
-        var row = document.getElementById('trBook1' + id);
-        var j = 0;
-        $('tr.chkitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-        if (j > 1) {
-            row.style.display = "none";
-            document.getElementById('Isvalid' + id).value = "N";
-        }
-        else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-    function removeRow2(id) {
-        var table = document.getElementById("dataTable");
-        var rowCount = table.rows.length;
-        var row = document.getElementById('trBook2' + id);
-        var j = 0;
-        $('tr.chkitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-        if (j > 1) {
-            row.style.display = "none";
-            document.getElementById('Isvalid' + id).value = "N";
-        }
-        else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-    function Grup_Change(itemid, i) {
-        //alert(itemid);
-        //debugger;
+   function changemnth(mnth){
+        var type = document.getElementById("txtplantype").value;
+        document.getElementById("tbBooks1").innerHTML = "";
+        document.getElementById("tbBooks2").innerHTML = "";
+
+        var opt = "";
+
         $.ajax({
-            url: "GetItemJSON",
+            type: "POST",
+            url: 'GetWCJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+
+                });
+
+            }
+        })
+
+        $.ajax({
+            url: 'GetDGPaste',
             type: "post",
-            data: { 'itemid': itemid },
+            data: { "mnth": mnth, "type": type },
             cache: false,
-            success: function (response) {
-                var newlist;
-                //alert(JSON.stringify(response));
-                newlist = response.Ilst;
-                PopulateDropDown("#ddlItemId" + i, response);
-            },
-            error: function () {
-                debugger;
-                alert("Please Select Item Group");
-            }
-        });
-    }
-    function changeItem(ItemId, i) {
-        $.ajax({
-            url: 'GetItemDetail',
-            data: { "ItemId": ItemId },
-            type: "GET",
-            success: function (result) {
 
-                document.getElementById("txtUnit" + i).value = result.unit;
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-        });
-    }
-    function AddRow() {
-        var opt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetItemGrpJSON',
-            success: function (data) {
+            success: function (list) {
+                list.forEach((item) => {
 
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                AppendRow(opt);
-            }
-        })
-    }
-     function AddRow1() {
-        var opt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetItemGrpJSON',
-            success: function (data) {
+                    var index = $("#tbBooks1").children("tr").length;
 
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                AppendRow(opt);
-            }
-        })
-    }
-     function AddRow2() {
-        var opt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetItemGrpJSON',
-            success: function (data) {
+                    var ItemId = "<td><label>" + item.itemid + "</label><input id='txtdrumid" + index + "' name='PFCDGILst[" + index + "].itemid' type='hidden'  value=" + item.itemid + "></td>";
 
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                AppendRow(opt);
-            }
-        })
-    }
-    $('.form_date').datetimepicker({
-        //   language:  'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-    });
-   function AppendRow(opt) {
-        var index = $("#tbBooks").children("tr").length;
+                    var Target = "<td><input class='form-control' id='txtTarget" + index + "' name='PFCDGILst[" + index + "].target'  style='width: 100px;' type='text'  readonly='True'  value=" + item.target + " /><input type='hidden' value=" + item.target + " id='txtTarget" + index + "' name='PFCDGILst[" + index + "].target'></td>";
 
-        var PType = "<td><input class='form-control' id='txtPType" + index + "' name='PFCILst[" + index + "].PType'  style='width: 130px;' type='text'   /></td>";
-        var ItemId = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItemId" + index + "' name='Itemlst[" + index + "].ItemId'onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='PFCILst[" + index + "].Unit' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 130px;'  type='text' readonly='True'  /></td>";
-        var PysQty = "<td><input class='form-control' id='txtPysQty" + index + "' name='PFCILst[" + index + "].PysQty'  style='width: 120px;' type='text'   /></td>";
-        var PtmQty = "<td><input class='form-control' id='txtPtmQty" + index + "' name='PFCILst[" + index + "].PtmQty'  style='width: 120px;' type='text' /></td>";
-        var Fqty = "<td><input class='form-control' id='txtFqty" + index + "' name='PFCILst[" + index + "].Fqty'  style='width: 120px;' type='text' /></td>";
-        var removeCell = "<td><input id='Isvalid" + index + "' name='PFCILst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DrumDetlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + PType + ItemId + Unit + PysQty + PtmQty + Fqty + removeCell + "</tr>";
-        //alert(Packing);
-        $("#tbBooks").append(newRow);
+                    var Min = "<td><input class='form-control' id='txtMin" + index + "' name='PFCDGILst[" + index + "].min'  style='width: 100px;' type='text' readonly='True' value=" + item.min + "   /><input class='form-control' id='txtqty" + index + "' name='PFCDGILst[" + index + "].min'  style='width: 80px;' type='hidden' readonly='True' value=" + item.min + "  /></td>";
+
+                    var Stock = "<td><input class='form-control' id='txtStock" + index + "' name='PFCDGILst[" + index + "].stock'  style='width: 100px;' type='text' readonly='True'  value=" + item.stock + " /><input class='form-control' id='txtStock" + index + "' name='PFCDGILst[" + index + "].stock'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.stock + " /></td>";
+
+                    var Required = "<td><input class='form-control' id='txtRequired" + index + "' name='PFCDGILst[" + index + "].required'  style='width: 100px;' type='text' readonly='True'  value=" + item.required + " /><input class='form-control' id='txtRequired" + index + "' name='PFCDGILst[" + index + "].required'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.required + " /></td>";
+
+                    var dgaddit = "<td><label>" + item.dgaddit + "</label><input class='form-control' id='txtDgAdditID" + index + "' name='PFCDGILst[" + index + "].dgaddit'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.dgaddit + " /></td>";
+
+                    var reqadditive = "<td><input class='form-control' id='txtReqAdditive" + index + "' name='PFCDGILst[" + index + "].reqadditive'  style='width: 60px;' type='text' readonly='True'  value=" + item.reqadditive + " /><input class='form-control' id='txtReqAdditive" + index + "' name='PFCDGILst[" + index + "].reqadditive'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.reqadditive + " /></td>";
+
+                    var rawmaterial = "<td><label>" + item.rawmaterial + "</label><input class='form-control' id='txtRawMaterial" + index + "' name='PFCDGILst[" + index + "].rawmaterial'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.rawmaterial + " /></td>";
+
+
+                    var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemId + Target + Min + Stock + Required + dgaddit + reqadditive + rawmaterial  + "</tr>";
+
+
+
+                $("#tbBooks1").append(newRow);
+            });
+    },
+  
+            });
+
 
         $('._select').select2();
-    }
-    function AppendRow1(opt) {
-        var index = $("#tbBooks1").children("tr").length;
+        $.ajax({
+            url: 'GetPyroForecast',
+            type: "post",
+            data: { "mnth": mnth, "type": type },
+            cache: false,
 
-        var ItemId = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItemId" + index + "' name='Itemlst[" + index + "].ItemId><option value=''>Please select</option></select></td>";
-        var Target = "<td><input class='form-control' id='txtTarget" + index + "' name='PFCDGILst[" + index + "].Target'  style='width: 120px;' type='text'   /></td>";
-        var Min = "<td><input class='form-control' id='txtMin" + index + "' name='PFCDGILst[" + index + "].Min'  style='width: 120px;' type='text' /></td>";
-        var Stock = "<td><input class='form-control' id='txtStock" + index + "' name='PFCDGILst[" + index + "].Stock'  style='width: 120px;' type='text' /></td>";
-        var Required = "<td><input class='form-control' id='txtRequired" + index + "' name='PFCDGILst[" + index + "].Required'  style='width: 120px;' type='text' /></td>";
-        var DgAdditID = "<td><input class='form-control' id='txtDgAdditID" + index + "' name='PFCDGILst[" + index + "].DgAdditID'  style='width: 120px;' type='text' /></td>";
-        var ReqAdditive = "<td><input class='form-control' id='txtReqAdditive" + index + "' name='PFCDGILst[" + index + "].ReqAdditive'  style='width: 120px;' type='text' /></td>";
-        var RawMaterial = "<td><input class='form-control' id='txtRawMaterial" + index + "' name='PFCDGILst[" + index + "].RawMaterial'  style='width: 120px;' type='text' /></td>";
-        var ReqPyro = "<td><input class='form-control' id='txtReqPyro" + index + "' name='PFCDGILst[" + index + "].ReqPyro'  style='width: 120px;' type='text' /></td>";
-        var removeCell = "<td><input id='Isvalid" + index + "' name='PFCDGILst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='DrumDetlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + ItemD + Target + Min + Stock + Required + DgAdditID + ReqAdditive + RawMaterial + ReqPyro + removeCell + "</tr>";
-        //alert(Packing);
-        $("#tbBooks1").append(newRow);
+            success: function (list) {
+                list.forEach((item) => {
 
-        $('._select').select2();
-    }
-    function AppendRow2(opt) {
-        var index = $("#tbBooks2").children("tr").length;
+                    var index = $("#tbBooks2").children("tr").length;
 
-        var WorkId = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlWorkId" + index + "' name='Worklst[" + index + "].WorkId><option value=''>Please select</option></select></td>";
-        var CDays = "<td><input class='form-control' id='txtCDays" + index + "' name='PFCPYROILst[" + index + "].CDays'  style='width: 120px;' type='text'   /></td>";
-        var ItemId = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItemId" + index + "' name='Itemlst[" + index + "].ItemId><option value=''>Please select</option></select></td>";
-        var MinStock = "<td><input class='form-control' id='txtMinStock" + index + "' name='PFCPYROILst[" + index + "].MinStock'  style='width: 120px;' type='text' /></td>";
-        var PasteRej = "<td><input class='form-control' id='txtPasteRej" + index + "' name='PFCPYROILst[" + index + "].PasteRej'  style='width: 120px;' type='text' /></td>";
-        var GradeChange = "<td><input class='form-control' id='txtGradeChange" + index + "' name='PFCPYROILst[" + index + "].GradeChange'  style='width: 120px;' type='text' /></td>";
-        var RejQty = "<td><input class='form-control' id='txtRejQty" + index + "' name='PFCPYROILst[" + index + "].RejQty'  style='width: 120px;' type='text' /></td>";
-        var Required = "<td><input class='form-control' id='txtRequired" + index + "' name='PFCPYROILst[" + index + "].Required'  style='width: 120px;' type='text' /></td>";
-        var Target = "<td><input class='form-control' id='txtTarget" + index + "' name='PFCPYROILst[" + index + "].Target'  style='width: 120px;' type='text' /></td>";
-        var ProdDays = "<td><input class='form-control' id='txtProdDays" + index + "' name='PFCPYROILst[" + index + "].ProdDays'  style='width: 120px;' type='text' /></td>";
+                    var WC = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlWorkId" + index + "' name='PFCPYROILst[" + index + "].WorkId '  ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
+
+                    var pend = "<td><input class='form-control' id='txtCDays" + index + "' name='PFCPYROILst[" + index + "].CDays'  style='width: 100px;' type='text'    /></td>";
+
+                    var ItemId = "<td><label>" + item.itemid + "</label><input id='txtItemId" + index + "' name='PFCPYROILst[" + index + "].itemid' type='hidden'  value=" + item.itemid + "></td>";
+
+                    var Target = "<td><input class='form-control' id='txtTarget" + index + "' name='PFCDGILst[" + index + "].target'  style='width: 100px;' type='text'  readonly='True'  value=" + item.target + " /><input type='hidden' value=" + item.target + " id='txtTarget" + index + "' name='PFCDGILst[" + index + "].target'></td>";
+
+                    var Min = "<td><input class='form-control' id='txtMinStock" + index + "' name='PFCPYROILst[" + index + "].minstock'  style='width: 100px;' type='text' readonly='True' value=" + item.minstock + "   /><input class='form-control' id='txtMinStock" + index + "' name='PFCPYROILst[" + index + "].minstock'  style='width: 80px;' type='hidden' readonly='True' value=" + item.minstock + "  /></td>";
+
+                    var Stock = "<td><input class='form-control' id='txtStock" + index + "' name='PFCDGILst[" + index + "].stock'  style='width: 100px;' type='text' readonly='True'  value=" + item.stock + " /><input class='form-control' id='txtStock" + index + "' name='PFCDGILst[" + index + "].stock'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.stock + " /></td>";
+
+                    var Required = "<td><input class='form-control' id='txtRequired" + index + "' name='PFCPYROILst[" + index + "].required'  style='width: 100px;' type='text' readonly='True'  value=" + item.required + " /><input class='form-control' id='txtRequired" + index + "' name='PFCPYROILst[" + index + "].required'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.required + " /></td>";
+                    var PasteRej = "<td><input class='form-control' id='txtPasteRej" + index + "' name='PFCPYROILst[" + index + "].PasteRej'  style='width: 120px;' type='text' /></td>";
+                    var RejQty = "<td><input class='form-control' id='txtRejQty" + index + "' name='PFCPYROILst[" + index + "].RejQty'  style='width: 120px;' type='text' /></td>";
+
+                        var ProdDays = "<td><input class='form-control' id='txtProdDays" + index + "' name='PFCPYROILst[" + index + "].ProdDays'  style='width: 120px;' type='text' /></td>";
         var ProdQty = "<td><input class='form-control' id='txtProdQty" + index + "' name='PFCPYROILst[" + index + "].ProdQty'  style='width: 120px;' type='text' /></td>";
         var RejMat = "<td><input class='form-control' id='txtRejMat" + index + "' name='PFCPYROILst[" + index + "].RejMat'  style='width: 120px;' type='text' /></td>";
         var RejMatReq = "<td><input class='form-control' id='txtRejMatReq" + index + "' name='PFCPYROILst[" + index + "].RejMatReq'  style='width: 120px;' type='text' /></td>";
@@ -1461,11 +1307,18 @@
         var ReqPowder = "<td><input class='form-control' id='txtReqPowder" + index + "' name='PFCPYROILst[" + index + "].ReqPowder'  style='width: 120px;' type='text' /></td>";
         var WStatus = "<td><input class='form-control' id='txtWStatus" + index + "' name='PFCPYROILst[" + index + "].WStatus'  style='width: 120px;' type='text' /></td>";
         var PowderRequired = "<td><input class='form-control' id='txtPowderRequired" + index + "' name='PFCPYROILst[" + index + "].PowderRequired'  style='width: 120px;' type='text' /></td>";
-        var removeCell = "<td><input id='Isvalid" + index + "' name='PFCPYROILst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow2(" + index + ");'  style='cursor:pointer' /><input name='DrumDetlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook2" + index + "'>" + WorkId + CDays + ItemId + MinStock + PasteRej + GradeChange + RejQty + Required + Target + ProdDays + ProdQty + RejMat + RejMatReq + BalanceQty + Additive + Per + AllocAdditive + ReqPowder + WStatus + PowderRequired + removeCell + "</tr>";
-        //alert(Packing);
-        $("#tbBooks2").append(newRow);
 
-        $('._select').select2();
-    }
+
+                    var newRow = "<tr class='chkitemlst2'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + WC + pend + ItemId + Target + Min + Stock + Required + PasteRej + RejQty + ProdDays + ProdQty + RejMat + RejMatReq + BalanceQty + Additive + Per + AllocAdditive + ReqPowder + WStatus + PowderRequired + "</tr>";
+
+
+
+                    $("#tbBooks2").append(newRow);
+                });
+            },
+
+        });
+
+
+            }
 </script>

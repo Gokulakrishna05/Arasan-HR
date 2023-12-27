@@ -31,6 +31,10 @@ namespace Arasan.Models
         public List<PFCPYROItem> PFCPYROILst { get; set; }
 
         public List<PFCPOLIItem> PFCPOLILst { get; set; }
+
+        public string plantype { get; set; }
+
+        public List<SelectListItem> mnthlst { get; set; }
     }
     public class PFCItem
     {
@@ -51,27 +55,27 @@ namespace Arasan.Models
     public class PFCDGItem
     {
         public string ID { get; set; }
-        public string ItemId { get; set; }
+        public string itemid { get; set; }
         public string saveItemId { get; set; }
         public List<SelectListItem> PItemlst { get; set; }
         public string Isvalid { get; set; }
 
-        public string Target { get; set; }
-        public string Min { get; set; }
-        public string Stock { get; set; }
-        public string ReqAdditive { get; set; }
-        public string RawMaterial { get; set; }
+        public string target { get; set; }
+        public string min { get; set; }
+        public string stock { get; set; }
+        public string reqadditive { get; set; }
+        public string rawmaterial { get; set; }
         public string ReqPyro { get; set; }
 
-        public string Required { get; set; }
-        public string DgAdditID { get; set; }
+        public string required { get; set; }
+        public string dgaddit { get; set; }
 
     }
     public class PFCPYROItem
     {
 
         public string ID { get; set; }
-        public string ItemId { get; set; }
+        public string itemid { get; set; }
         public string saveItemId { get; set; }
         public List<SelectListItem> PYItemlst { get; set; }
 
@@ -80,12 +84,12 @@ namespace Arasan.Models
         public string Isvalid { get; set; }
 
         public string CDays { get; set; }
-        public string MinStock { get; set; }
-        public string PasteRej { get; set; }
+        public string minstock { get; set; }
+        public string pasterej { get; set; }
         public string GradeChange { get; set; }
-        public string RejQty { get; set; }
-        public string Required { get; set; }
-        public string Target { get; set; }
+        public string rejqty { get; set; }
+        public string required { get; set; }
+        public string target { get; set; }
         public string ProdDays { get; set; }
         public string ProdQty { get; set; }
         public string RejMat { get; set; }
@@ -97,7 +101,8 @@ namespace Arasan.Models
         public string ReqPowder { get; set; }
         public string WStatus { get; set; }
         public string PowderRequired { get; set; }
-        
+        public string stock { get; set; }
+
     }
     public class PFCPOLIItem
     {
