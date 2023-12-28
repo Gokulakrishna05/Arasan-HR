@@ -65,7 +65,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("SEQUENCEPROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("SEQUENCEPROC", objConn); 
 
 
                     objCmd.CommandType = CommandType.StoredProcedure;

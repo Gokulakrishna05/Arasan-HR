@@ -21,6 +21,7 @@ namespace Arasan.Controllers
             Curing ic = new Curing();
             ic.Cur = BindCuring();
             ic.createdby = Request.Cookies["UserId"];
+
             //ic.STypelst = BindSType();
             //ic.statuslst = BindStatus();
             ic.Sublst = BindSubgroup();

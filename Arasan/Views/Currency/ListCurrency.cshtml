@@ -58,20 +58,22 @@
 
         $("#grid").jqxGrid(
             {
-                width: '100%',
-                source: dataAdapter,
-                height: 450,
-                source: source,
-                sortable: true,
-                filterable: true,
-                groupable: false,
-                pageable: true,
-                showfilterbar: true,
-                //showfilterrow: true,
-                theme: 'darkblue',
-                enablebrowserselection: true,
-
-                columns: [
+                    width: '100%',
+                    source: dataAdapter,
+                    //height: 450,
+                    autorowheight: true,
+                    autoheight: true,
+                    source: source,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
+                    filterbarmode: 'simple',
+                    theme: 'darkblue',
+                    enablebrowserselection: true,
+                    columns: [
 
                     { text: 'Symbol', filtertype: 'checkedlist', datafield: 'currencycode', width: 200 },
                     { text: 'Currency Name', filtertype: 'input', datafield: 'currencyname', width: 200 },
@@ -103,18 +105,18 @@
                 <div class="widgets-container">
 
                     <form>
-                        <div class="col-md-2 ">
+                        <div class="row">
+                          <div class="col-md-2 ">
                             @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[] 
                             { new SelectListItem() {Text = "Enabled", Value="Y"},
                             new SelectListItem() {Text = "Disabled", Value="N"}},
-                            new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" }) 
-                       
+                            new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                          </div>
                             <div class="col-md-7 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("Currency", "Currency")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Currency</a>
                                     <br>
                                 </div> 
-
 
                             </div>
                             </div>

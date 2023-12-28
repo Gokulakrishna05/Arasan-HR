@@ -24,17 +24,22 @@ namespace Arasan.Controllers.Master
             sg.catlst = BindCategory();
             sg.grplst = Bindgrp();
 
-            if (id == null)
+            if (id != null)
             {
-
-            }
-            else
-            {
-                sg = ItemSubGroupService.GetItemSubGroupById(id);
-
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = ItemSubGroupService.GetSubGroup(id);
+                if (dt.Rows.Count > 0)
+                {
+                    sg.itemSubGroup = dt.Rows[0]["SGCODE"].ToString();
+                    sg.Descreption = dt.Rows[0]["SGDESC"].ToString();
+                    sg.ItemCat = dt.Rows[0]["CATEGORY"].ToString();
+                    sg.Itemgrp = dt.Rows[0]["GROUPCODE"].ToString();
+                }
             }
             return View(sg);
         }
+
         [HttpPost]
         public ActionResult ItemSubGroup(ItemSubGroup sub, string id)
         {

@@ -28,6 +28,7 @@ namespace Arasan.Models
         public List<SelectListItem> Brlst;
         public List<SelectListItem> emplst;
         public string Branch { get; set; }
+        public string createby { get; set; }
         public string ddlStatus { get; set; }
     }
 

@@ -23,6 +23,7 @@ namespace Arasan.Controllers.Master
         public IActionResult Designation(string id)
         {
             Designation Dp = new Designation();
+            Dp.createby = Request.Cookies["UserId"];
 
             Dp.DeptNamelst = BindDeptName();
             if (id == null)

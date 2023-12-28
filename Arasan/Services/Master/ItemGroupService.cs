@@ -48,6 +48,16 @@ namespace Arasan.Services.Master
         //    return itgList;
         //}
 
+        public DataTable GetGroup(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select GROUPCODE,GROUPDESC,CATEGORY,ITEMGROUPID from ITEMGROUP where ITEMGROUPID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetCategory()
         {
             string SvSql = string.Empty;
@@ -59,31 +69,31 @@ namespace Arasan.Services.Master
             adapter.Fill(dtt);
             return dtt;
         }
-        public ItemGroup GetItemGroupById(string eid)
-        {
-            ItemGroup ItemGroup = new ItemGroup();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select GROUPCODE,GROUPDESC,CATEGORY,ITEMGROUPID from ITEMGROUP where ITEMGROUPID=" + eid + "";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        ItemGroup itg = new ItemGroup
-                        {
-                            ID = rdr["ITEMGROUPID"].ToString(),
-                            ItemCat = rdr["CATEGORY"].ToString(),
-                            ItemGroups = rdr["GROUPCODE"].ToString(),
-                            ItemGroupDescription = rdr["GROUPDESC"].ToString()
-                        };
-                        ItemGroup = itg;
-                    }
-                }
-            }
-            return ItemGroup;
-        }
+        //public ItemGroup GetItemGroupById(string eid)
+        //{
+        //    ItemGroup ItemGroup = new ItemGroup();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select GROUPCODE,GROUPDESC,CATEGORY,ITEMGROUPID from ITEMGROUP where ITEMGROUPID=" + eid + "";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                ItemGroup itg = new ItemGroup
+        //                {
+        //                    ID = rdr["ITEMGROUPID"].ToString(),
+        //                    ItemCat = rdr["CATEGORY"].ToString(),
+        //                    ItemGroups = rdr["GROUPCODE"].ToString(),
+        //                    ItemGroupDescription = rdr["GROUPDESC"].ToString()
+        //                };
+        //                ItemGroup = itg;
+        //            }
+        //        }
+        //    }
+        //    return ItemGroup;
+        //}
 
         public string ItemGroupCRUD(ItemGroup by)
         {

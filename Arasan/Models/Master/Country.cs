@@ -7,6 +7,7 @@
         public string ConCode { get; set; }
         public string status { get; set; }
         public string ddlStatus { get; set; }
+        public string createby { get; set; }
 
     }
     public class Countrygrid

@@ -22,7 +22,7 @@ namespace Arasan.Controllers
         public IActionResult NewCategory(string id)
         {
             DrumCategory DM = new DrumCategory();
-
+            DM.createby = Request.Cookies["UserId"];
             if (id == null)
             {
 
@@ -131,12 +131,11 @@ namespace Arasan.Controllers
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
 
-                    EditRow = "<a href=DrumCategory?id=" + dtUsers.Rows[i]["CATEGORYID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    EditRow = "<a href=../DrumCategory/NewCategory?id=" + dtUsers.Rows[i]["CATEGORYID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CATEGORYID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 }
                 else
                 {
-
                     EditRow = "";
                     DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["CATEGORYID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
 

@@ -50,34 +50,44 @@ namespace Arasan.Services.Master
         //    return staList;
         //}
         
-        public ItemSubGroup GetItemSubGroupById(string eid)
-        {
-            ItemSubGroup ItemSubGroup = new ItemSubGroup();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select SGCODE,SGDESC,ITEMSUBGROUPID,CATEGORY,GROUPCODE from ITEMSUBGROUP where ITEMSUBGROUPID=" + eid + "";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        ItemSubGroup gro = new ItemSubGroup
-                        {
-                            ID = rdr["ITEMSUBGROUPID"].ToString(),
+        //public ItemSubGroup GetItemSubGroupById(string eid)
+        //{
+        //    ItemSubGroup ItemSubGroup = new ItemSubGroup();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select SGCODE,SGDESC,ITEMSUBGROUPID,CATEGORY,GROUPCODE from ITEMSUBGROUP where ITEMSUBGROUPID=" + eid + "";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                ItemSubGroup gro = new ItemSubGroup
+        //                {
+        //                    ID = rdr["ITEMSUBGROUPID"].ToString(),
                             
-                            itemSubGroup = rdr["SGCODE"].ToString(),
-                            Descreption = rdr["SGDESC"].ToString(),
-                            ItemCat = rdr["CATEGORY"].ToString(),
-                            Itemgrp = rdr["GROUPCODE"].ToString(),
-                        };
-                        ItemSubGroup = gro;
-                    }
-                }
-            }
-            return ItemSubGroup;
-        }
+        //                    itemSubGroup = rdr["SGCODE"].ToString(),
+        //                    Descreption = rdr["SGDESC"].ToString(),
+        //                    ItemCat = rdr["CATEGORY"].ToString(),
+        //                    Itemgrp = rdr["GROUPCODE"].ToString(),
+        //                };
+        //                ItemSubGroup = gro;
+        //            }
+        //        }
+        //    }
+        //    return ItemSubGroup;
+        //}
 
+        public DataTable GetSubGroup(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select SGCODE,SGDESC,ITEMSUBGROUPID,CATEGORY,GROUPCODE from ITEMSUBGROUP where ITEMSUBGROUPID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetCategory()
         {
             string SvSql = string.Empty;
