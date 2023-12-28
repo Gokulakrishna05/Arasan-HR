@@ -12,6 +12,7 @@ namespace Arasan.Models
         public string status { get; set; }
         public string CateType { get; set; }
         public string ddlStatus { get; set; }
+        public string createby { get; set; }
 
 
     }

@@ -57,21 +57,22 @@
         $("#grid").jqxGrid(
             {
 
-                width: '100%',
-                source: dataAdapter,
-                //height: 450,
-                autorowheight: true,
-                autoheight: true,
-                source: source,
-                sortable: true,
-                filterable: true,
-                groupable: false,
-                pageable: true,
-                showfilterbar: true,
-                //showfilterrow: true,
-                theme: 'darkblue',
-                enablebrowserselection: true,
-                columns: [
+                    width: '100%',
+                    source: dataAdapter,
+                    //height: 450,
+                    autorowheight: true,
+                    autoheight: true,
+                    source: source,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
+                    filterbarmode: 'simple',
+                    theme: 'darkblue',
+                    enablebrowserselection: true,
+                    columns: [
 
                     { text: 'Unit Name', filtertype: 'checkedlist', datafield: 'unitname', width: 200 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },

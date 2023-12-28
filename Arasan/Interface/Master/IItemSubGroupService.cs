@@ -9,7 +9,7 @@ namespace Arasan.Interface.Master
     {
         string ItemSubGroupCRUD(ItemSubGroup by);
         //IEnumerable<ItemSubGroup> GetAllItemSubGroup(string status);
-        ItemSubGroup GetItemSubGroupById(string id);
+        //ItemSubGroup GetItemSubGroupById(string id);
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
 
@@ -17,5 +17,6 @@ namespace Arasan.Interface.Master
 
         DataTable Getgrp();
         DataTable GetCategory();
+        DataTable GetSubGroup(string id);
     }
 }

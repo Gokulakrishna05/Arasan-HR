@@ -21,16 +21,18 @@ namespace Arasan.Controllers.Master
             ItemGroup ig = new ItemGroup();
             ig.createby = Request.Cookies["UserId"];
             ig.catlst = BindCategory();
-            if (id == null)
+            if (id != null)
             {
-
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = itemGroupService.GetGroup(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ig.ItemCat = dt.Rows[0]["CATEGORY"].ToString();
+                    ig.ItemGroups = dt.Rows[0]["GROUPCODE"].ToString();
+                    ig.ItemGroupDescription = dt.Rows[0]["GROUPDESC"].ToString();
+                }
             }
-            else
-            {
-                ig = itemGroupService.GetItemGroupById(id);
-
-            }
-           // return View();
             return View(ig);
         }
         [HttpPost]

@@ -30,7 +30,7 @@ namespace Arasan.Services
         public DataTable GetSubgroup()
         {
             string SvSql = string.Empty;
-            SvSql = "Select SUBGROUP from CURINGSUBGROUPMAST";
+            SvSql = "Select SUBGROUP,CURINGSUBGROUPMASTID from CURINGSUBGROUPMAST";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -148,7 +148,7 @@ namespace Arasan.Services
                     else
                     {
                         objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.createdby;
-                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.NVarchar2).Value = DateTime.Now;
+                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     }
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try

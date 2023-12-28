@@ -18,6 +18,7 @@ namespace Arasan.Controllers.Master
         public IActionResult Currency(string id)
         {
             Currency cu = new Currency();
+            cu.createby = Request.Cookies["UserId"];
             if (id == null)
             {
 

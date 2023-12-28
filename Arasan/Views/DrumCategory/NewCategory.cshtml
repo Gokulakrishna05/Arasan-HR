@@ -52,6 +52,7 @@
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.CateType, new { @id = "txtCategory", @class = "form-control",autocomplete="off" , @TabIndex = 2, @size="30" })<br>
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.createby)
                                         </div>
                                     </div>
                                 </div>

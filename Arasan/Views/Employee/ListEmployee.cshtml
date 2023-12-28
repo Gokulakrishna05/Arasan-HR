@@ -62,20 +62,22 @@
 
         $("#grid").jqxGrid(
             {
-
-                width: '100%',
-                source: dataAdapter,
-                height: 450,
-                source: source,
-                sortable: true,
-                filterable: true,
-                groupable: false,
-                pageable: true,
-                showfilterbar: true,
-                //showfilterrow: true,
-                theme: 'darkblue',
-                enablebrowserselection: true,
-                columns: [
+                    width: '100%',
+                    source: dataAdapter,
+                    //height: 450,
+                    autorowheight: true,
+                    autoheight: true,
+                    source: source,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
+                    filterbarmode: 'simple',
+                    theme: 'darkblue',
+                    enablebrowserselection: true,
+                    columns: [
 
                     { text: 'EMP ID', filtertype: 'checkedlist', datafield: 'empno', width: 200 },
                     { text: 'EMP Name', filtertype: 'checkedlist', datafield: 'empname', width: 200 },

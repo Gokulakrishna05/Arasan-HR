@@ -21,6 +21,7 @@ namespace Arasan.Controllers
         public IActionResult CustomerType(string id)
         {
             CustomerType cu = new CustomerType();
+            cu.createby = Request.Cookies["UserId"];
             if (id == null)
             {
 

@@ -23,11 +23,14 @@ namespace Arasan.Controllers
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult Location(string id)
+        public IActionResult Location(string id) 
         {
             Location ca = new Location();
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
+
+            ca.createby = Request.Cookies["UserId"];
+
             if (id == null)
             {
 
@@ -158,7 +161,7 @@ namespace Arasan.Controllers
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
 
-                    EditRow = "<a href=city?id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    EditRow = "<a href=Location?id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 }
                 else

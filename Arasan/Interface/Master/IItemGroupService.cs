@@ -11,10 +11,11 @@ namespace Arasan.Interface.Master
         //IEnumerable<ItemGroup> GetAllItemGroup(string status);
 
         DataTable GetAllItemGroup(string strStatus);
-        ItemGroup GetItemGroupById(string id);
+        //ItemGroup GetItemGroupById(string id);
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
 
         DataTable GetCategory();
+        DataTable GetGroup(string id);
     }
 }

@@ -31,7 +31,7 @@ namespace Arasan.Controllers
         public IActionResult DrumMaster(string id)
         {
             DrumMaster DM = new DrumMaster();
-
+            DM.createby = Request.Cookies["UserId"];
             DM.Categorylst = BindCategory();
             DM.Locationlst = BindLocation();
             DM.DrumTypelst = BindDrumType();

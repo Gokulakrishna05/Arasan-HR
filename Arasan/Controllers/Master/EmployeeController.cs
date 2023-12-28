@@ -29,7 +29,9 @@ namespace Arasan.Controllers.Master
             E.EMPDesignlst = BindEMPDesign();
             E.Statelst = BindState();
             E.Citylst = BindCity("");
+
             E.Branch = Request.Cookies["BranchId"];
+
             //List<EduDeatils> TData = new List<EduDeatils>();60759
             //EduDeatils tda = new EduDeatils();
             if (id == null)
