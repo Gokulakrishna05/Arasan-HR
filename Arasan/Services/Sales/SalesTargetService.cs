@@ -7,6 +7,10 @@ using Oracle.ManagedDataAccess.Client;
 using System.IO;
 //using DocumentFormat.OpenXml.Office2010.Excel;
 using Arasan.Interface;
+using Nest;
+using Microsoft.VisualBasic;
+using System.Globalization;
+using System;
 
 namespace Arasan.Services.Sales
 {
@@ -108,10 +112,10 @@ namespace Arasan.Services.Sales
 
                 datatrans = new DataTransactions(_connectionString);
 
-                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'Tfr-' AND ACTIVESEQUENCE = 'T'  ");
-                string DocId = string.Format("{0}{1}", "Tfr-", (idc + 1).ToString());
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'SFc-' AND ACTIVESEQUENCE = 'T'  ");
+                string DocId = string.Format("{0}{1}", "SFc-", (idc + 1).ToString());
 
-                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='Tfr-' AND ACTIVESEQUENCE ='T'  ";
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='SFc-' AND ACTIVESEQUENCE ='T'  ";
                 try
                 {
                     datatrans.UpdateStatus(updateCMd);
@@ -121,6 +125,19 @@ namespace Arasan.Services.Sales
                     throw ex;
                 }
                 cy.DocId = DocId;
+
+                //if(cy.ID == null)
+                //{
+                //string selectedDate = DateTime.("dd-M-yyyy",cy.FDay);
+                //DateTime birthday = DateTime.ParseExact(selectedDate, "dd-M-yyyy", CultureInfo.InvariantCulture);
+                //int year = birthday.Year;
+                //int month = birthday.Month;
+                //int day = birthday.Day;
+
+                //string monthName = selectedDate;
+                //string year = selectedDate.ToString("YYYY");
+                //} 
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("SALFCBASICPROC", objConn);
@@ -205,6 +222,28 @@ namespace Arasan.Services.Sales
             }
 
             return msg;
+        }
+
+        public DataTable GetSalesTargetDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT SALFCBASICID,BRANCHID,DOCID,to_char(SALFCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,to_char(SALFCBASIC.FDAY,'dd-MON-yyyy')FDAY,to_char(SALFCBASIC.EDAY,'dd-MON-yyyy')EDAY,MON,FINYR FROM SALFCBASIC Where SALFCBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable SalesDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT ITEMID,PARTYID,QTY,RATE,SAMOUNT FROM SALFCDETAIL Where SALFCBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }

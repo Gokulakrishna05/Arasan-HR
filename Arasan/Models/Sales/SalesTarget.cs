@@ -53,6 +53,7 @@ namespace Arasan.Models
         public string docDate { get; set; }
         public string mon { get; set; }
         public string view { get; set; }
+        public string edit { get; set; }
         public string delrow { get; set; }
     }
 }

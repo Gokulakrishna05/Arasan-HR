@@ -70,20 +70,20 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">From Day<label class="mandatory">*</label></label>
+                                        <br /> <label for="datePicker" class="col-sm-4 control-label">From Day<label class="mandatory">*</label></label>
 
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @Html.TextBoxFor(C => C.FDay, new { @id = "txtFDay", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
+                                            @Html.TextBoxFor(C => C.FDay, new { @id = "FDay", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true, @onchange = "calculateFinancialYearAndMonth(this.value)"})
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br /> <label for="datePicker" class="col-sm-4 control-label">To Day<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">To Day<label class="mandatory">*</label></label>
 
                                         <div class="input-group date to_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @Html.TextBoxFor(C => C.TDay, new { @id = "TDay", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true, @onchange = "calculateFinancialYearAndMonth(this.value)" })
+                                            @Html.TextBoxFor(C => C.TDay, new { @id = "TDay", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true})
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
                                     </div>
@@ -130,8 +130,8 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Item</th>
                                                 <th>Party</th>
+                                                <th>Item</th>
                                                 <th>Unit</th>
                                                 <th>Qty</th>
                                                 <th>Rate</th>
@@ -151,13 +151,13 @@
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                         <td>
-                                                            @Html.DropDownListFor(o => o.Targetlst[i].ItemId, Model.Targetlst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
-                                                            @Html.HiddenFor(o => o.Targetlst[i].saveItemId)
+                                                            @Html.DropDownListFor(o => o.Targetlst[i].PartyId, Model.Targetlst[i].Partylst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlParty" + i, style = "width: 200px;"})
+                                                            @Html.HiddenFor(o => o.Targetlst[i].savePartyId)
 
                                                         </td>
                                                         <td>
-                                                            @Html.DropDownListFor(o => o.Targetlst[i].PartyId, Model.Targetlst[i].Partylst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlParty" + i, style = "width: 200px;"})
-                                                            @Html.HiddenFor(o => o.Targetlst[i].savePartyId)
+                                                            @Html.DropDownListFor(o => o.Targetlst[i].ItemId, Model.Targetlst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
+                                                            @Html.HiddenFor(o => o.Targetlst[i].saveItemId)
 
                                                         </td>
                                                         <td>
@@ -205,24 +205,32 @@
     </div>
 </div>
 <script>
-    function calculateFinancialYearAndMonth() {
-        const selectedDate = new Date(document.getElementById('TDay').value);
-        
-        const selectedMonth = selectedDate.getMonth() + 1; // Months are zero-indexed, so we add 1
-        let selectedFinancialYear;
 
-        if (selectedMonth >= 4) {
-            // If the selected month is April or later, it's the selected financial year
-            selectedFinancialYear = selectedDate.getFullYear();
-        } else {
-            // If the selected month is earlier than April, it's the previous financial year
-            selectedFinancialYear = selectedDate.getFullYear() - 1;
-        }
-        
-        document.getElementById("FYear").value = selectedFinancialYear.toFixed(2);
-        document.getElementById("FMonth").value = selectedMonth.toFixed(2);
-        
-        
+    function calculateFinancialYearAndMonth()
+    {
+    // Get the current date
+        const currentDate = new Date(document.getElementById('FDay').value);
+        const lastDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1 , 0);
+        @*const ldate = lastDate.getDate();*@
+       @* alert(ldate)*@
+    // Get full month name
+    const monthOptions = { month: 'long' };
+    const fullMonthName = new Intl.DateTimeFormat('en-US', monthOptions).format(lastDate);
+
+    // Calculate financial year
+    const currentMonth = lastDate.getMonth() + 1; // Months are zero-indexed, so add 1
+    const financialYear = currentMonth >= 4
+        ? `${lastDate.getFullYear()}-${lastDate.getFullYear() + 1}`
+            : `${lastDate.getFullYear() - 1}-${lastDate.getFullYear()}`;
+
+    // Display the results in HTML
+        document.getElementById("FMonth").value = fullMonthName;
+        document.getElementById("FYear").value = financialYear;
+        @*document.getElementById("TDay").value = ` ${ldate} -${fullMonthName} -${financialYear}`;*@
+       
+
+  @*  document.getElementById('fullMonthName').innerText = `Full Month Name: ${fullMonthName}`;
+    document.getElementById('financialYear').innerText = `Financial Year: ${financialYear}`;*@
     }
 </script>
 <script>
@@ -236,6 +244,7 @@
         minView: 2,
         endDate: new Date(),
         forceParse: 0
+
     });
     $('.form_date').datetimepicker({
         //   language:  'fr',
@@ -250,6 +259,7 @@
     }).on('changeDate', function (selected) {
         var minDate = new Date(selected.date.valueOf());
         $('.to_date').datetimepicker('setStartDate', minDate);
+        
     });
     </script>
 <script>
@@ -368,7 +378,7 @@
         var remopt = "";
         $.ajax({
             type: "POST",
-            url: 'GetItemJSON',
+            url: 'GetItemPartyJSON',
             success: function (data) {
 
                 $.each(data, function () {
@@ -376,7 +386,7 @@
                 });
                 $.ajax({
                     type: "POST",
-                    url: 'GetItemPartyJSON',
+                    url: 'GetItemJSON',
                     success: function (data) {
                         $.each(data, function () {
                             remopt += "<option value=" + this.value + ">" + this.text + "</option>";
@@ -393,10 +403,9 @@
     function AppendRow(opt, remopt) {
         var index = $("#tbBooks").children("tr").length;
 
+        var Party = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlParty" + index + "' name='Targetlst[" + index + "].PartyId'><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Targetlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
-
-        var Party = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlParty" + index + "' name='Targetlst[" + index + "].PartyId'><option value=''>Please select</option>" + remopt + "</select></td>";
+        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Targetlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + remopt + "</select></td>";
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Targetlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
@@ -408,7 +417,7 @@
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='Targetlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Targetlst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Item + Party + Unit + Quantity + rate + Amount + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Party + Item  + Unit + Quantity + rate + Amount + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
