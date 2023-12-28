@@ -31,7 +31,7 @@ namespace Arasan.Controllers.Sales
             SalesTarget ca = new SalesTarget();
             ca.Brlst = BindBranch();
             //ca.Partylst = BindGParty();
-            DataTable dtv = datatrans.GetSequence("Dbnot");
+            DataTable dtv = datatrans.GetSequence("SalFc");
             if (dtv.Rows.Count > 0)
             {
                 ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
@@ -53,7 +53,39 @@ namespace Arasan.Controllers.Sales
             }
             else
             {
+                DataTable dt = new DataTable();
+                //double total = 0;
+                dt = SalesTargetService.GetSalesTargetDeatils(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                    ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.FDay = dt.Rows[0]["FDAY"].ToString();
+                    ca.TDay = dt.Rows[0]["EDAY"].ToString();
+                    ca.FMonth = dt.Rows[0]["MON"].ToString();
+                    ca.FYear = dt.Rows[0]["FINYR"].ToString();
+                    ca.ID = id;
 
+                }
+                DataTable dt2 = new DataTable();
+
+                dt2 = SalesTargetService.SalesDeatils(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new SalesTargetItem();
+                        tda.Itemlst = BindItemlst();
+                        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.Partylst = BindGParty();
+                        tda.PartyId = dt2.Rows[i]["PARTYID"].ToString();
+                        tda.Quantity = dt2.Rows[i]["QTY"].ToString();
+                        tda.rate = dt2.Rows[i]["RATE"].ToString();
+                        tda.Amount = dt2.Rows[i]["SAMOUNT"].ToString();
+                        TData.Add(tda);
+                    }
+                }
 
             }
 
@@ -67,6 +99,7 @@ namespace Arasan.Controllers.Sales
             try
             {
                 Cy.ID = id;
+
                 string Strout = SalesTargetService.SalesTargetCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {
@@ -150,10 +183,11 @@ namespace Arasan.Controllers.Sales
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
                 string View = string.Empty;
-
+                string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
 
                 View = "<a href=ViewSalesTarget?id=" + dtUsers.Rows[i]["SALFCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                EditRow = "<a href=SalesTarget?id=" + dtUsers.Rows[i]["SALFCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["SALFCBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new ListSalesTargetItem
@@ -164,6 +198,7 @@ namespace Arasan.Controllers.Sales
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     mon = dtUsers.Rows[i]["MON"].ToString(),
                     view = View,
+                    edit = EditRow,
                     delrow = DeleteRow,
 
 
