@@ -98,6 +98,8 @@ namespace Arasan.Models
         public string amount { get; set; }
 
         public string Isvalid { get; set; }
+
+        public string uniqueid { get; set; }
     }
     public class SubContractItem
     {
