@@ -19,6 +19,7 @@ namespace Arasan.Models
         public string[] Location { get; set; }
         //public string Location { get; set; }
         public string ddlStatus { get; set; }
+        public string createby { get; set; }
 
     }
     public class EmpBindList

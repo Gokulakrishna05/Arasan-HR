@@ -20,6 +20,7 @@ namespace Arasan.Controllers.Master
         public IActionResult State(string id)
         {
             State st = new State();
+            st.createby = Request.Cookies["UserId"];
             st.cuntylst = BindCountry();
             if (id == null)
             {

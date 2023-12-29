@@ -28,7 +28,7 @@ namespace Arasan.Controllers
         public IActionResult ETariff(string id)   
         {
             ETariff AG = new ETariff();
-
+            AG.createby = Request.Cookies["UserId"];
             if (id != null)
             {
                 DataTable dt = new DataTable();

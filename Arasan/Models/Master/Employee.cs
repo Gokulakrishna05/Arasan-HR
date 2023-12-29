@@ -87,6 +87,7 @@ namespace Arasan.Models
         //public List<EduDeatils> EduLst { get; set; }
         public string SkillSet { get; set; }
         public string ddlStatus { get; set; }
+      
 
     }
     public class MultipleLocation

@@ -25,6 +25,8 @@ namespace Arasan.Controllers.Master
         public IActionResult Employee(string id)
         {
             Employee E = new Employee();
+
+            E.createby = Request.Cookies["UserId"];
             E.EMPDeptlst = BindEMPDept();
             E.EMPDesignlst = BindEMPDesign();
             E.Statelst = BindState();

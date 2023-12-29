@@ -56,9 +56,16 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("TARIFFID", OracleDbType.NVarchar2).Value = cy.Tariff;
                     objCmd.Parameters.Add("TARIFFDESC", OracleDbType.NVarchar2).Value = cy.Tariffdes;
                     objCmd.Parameters.Add("PERCENTAGE", OracleDbType.NVarchar2).Value = cy.Per;
-                    //objCmd.Parameters.Add("CGST", OracleDbType.NVarchar2).Value = cy.Cgst;
-                    //objCmd.Parameters.Add("IGST", OracleDbType.NVarchar2).Value = cy.Igst;
-
+                    if (cy.ID == null)
+                    {
+                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
+                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
+                    else
+                    {
+                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
+                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 

@@ -90,6 +90,7 @@ namespace Arasan.Models
         public string Isvalid { get; set; }
         public string status { get; set; }
         public string ddlStatus { get; set; }
+        public string createby { get; set; }
 
     }
     public class PartyGrid

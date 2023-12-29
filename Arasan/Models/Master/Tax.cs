@@ -17,6 +17,7 @@ namespace Arasan.Models
         public string Percentage { get; set; }
         public string status { get; set; }
         public string ddlStatus { get; set; }
+        public string createby { get; set; }
 
 
     }

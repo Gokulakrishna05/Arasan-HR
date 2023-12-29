@@ -63,6 +63,7 @@ namespace Arasan.Models
         public string Unit { get; set; }
         public string Remarks { get; set; }
         public string ddlStatus { get; set; }
+        public string createby { get; set; }
 
         public List<WorkCentersDetail> WorkCenterlst { get; set; }
 
