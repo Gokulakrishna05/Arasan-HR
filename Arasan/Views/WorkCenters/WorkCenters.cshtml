@@ -54,6 +54,7 @@
                                           
                                              @Html.TextBoxFor(C => C.Wid, new { @id = "txtWid", @class = "form-control", @TabIndex = 1})
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.createby)
                                         </div>
                                     </div>
                                 </div>
@@ -401,9 +402,6 @@
                                                             @Html.TextBoxFor(o => o.WorkCenterlst[i].MCost, new { @id = "txtMCost" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 120px;" })
                                                         </td>
                                                        
-
-
-
                                                         <td>
                                                             @Html.HiddenFor(o => o.WorkCenterlst[i].Isvalid, new { @id = "Isvalid" + i })
                                                             <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Suplst.Index" type="hidden" value="@(i)" />

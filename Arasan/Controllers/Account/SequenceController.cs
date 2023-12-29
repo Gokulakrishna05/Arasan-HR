@@ -30,6 +30,7 @@ namespace Arasan.Controllers
         public IActionResult Sequence(string id)
         {
             Sequence sq = new Sequence();
+            sq.createby = Request.Cookies["UserId"];
             sq.Start = DateTime.Now.ToString("dd-MMM-yyyy");
             if (id == null)
             {

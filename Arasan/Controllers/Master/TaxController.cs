@@ -23,6 +23,7 @@ namespace Arasan.Controllers
         public IActionResult Tax(string id)
         {
             Tax ca = new Tax();
+            ca.createby = Request.Cookies["UserId"];
             ca.Taxtypelst = BindTaxtype();
 
             if (id != null)

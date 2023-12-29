@@ -76,10 +76,10 @@ namespace Arasan.Services.Master
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                using (OracleConnection objConn = new OracleConnection(_connectionString))  
                 {
                     objConn.Open();
-                    if (cy.ID == null)
+                    if (cy.ID == null) 
                     {       
                         svSQL = "Insert into TESTDESCMASTER (TESTDESC,UNIT,VALUEORMANUAL) VALUES ('" + cy.Des + "','" + cy.Unit + "','" + cy.Value + "')";
                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);

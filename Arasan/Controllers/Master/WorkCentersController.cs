@@ -26,6 +26,8 @@ namespace Arasan.Controllers.Master
         public IActionResult WorkCenters(string id)
         {
             WorkCenters ca = new WorkCenters();
+
+            ca.createby = Request.Cookies["UserId"];
             ca.Loc = BindLocation();
             ca.QCLst = BindLocation();
             ca.WIPLst = BindLocation();

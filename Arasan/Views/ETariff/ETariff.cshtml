@@ -47,6 +47,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Tariff ID<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.createby)
                                             @Html.TextBoxFor(C => C.Tariff, new { @id = "txtTariff", @class = "form-control", @TabIndex = 2, @size="30" })<br>
 
                                         </div>

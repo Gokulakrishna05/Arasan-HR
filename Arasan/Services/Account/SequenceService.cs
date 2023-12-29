@@ -88,6 +88,16 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("EDDATE", OracleDbType.NVarchar2).Value = cy.End;
                     objCmd.Parameters.Add("LASTNO", OracleDbType.NVarchar2).Value = cy.Last;
                     objCmd.Parameters.Add("ACTIVESEQUENCE", OracleDbType.NVarchar2).Value = "T";
+                    if (cy.ID == null)
+                    {
+                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
+                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
+                    else
+                    {
+                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
+                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                     try

@@ -27,9 +27,7 @@ namespace Arasan.Controllers.Master
         {
             EmpMultipleAllocation ca = new EmpMultipleAllocation();
 
-
-
-            //ca.Location = Request.Cookies["LocationId"];
+            ca.createby = Request.Cookies["UserId"];
             ca.EDate = DateTime.Now.ToString("dd-MMM-yyyy");
 
             if (piid == null)

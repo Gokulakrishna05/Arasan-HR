@@ -23,6 +23,7 @@ namespace Arasan.Controllers
         public IActionResult Unit(string id)
         {
             Unit ca = new Unit();
+            ca.createby = Request.Cookies["UserId"];
             if (id != null)
             {
                 DataTable dt = new DataTable();

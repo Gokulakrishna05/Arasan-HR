@@ -29,6 +29,8 @@ namespace Arasan.Controllers.Master
         public IActionResult PartyMaster(string id)
         {
             PartyMaster ca = new PartyMaster();
+
+            ca.createby = Request.Cookies["UserId"];
             ca.Countrylst = BindCountry();
             ca.Statelst = BindState();
             ca.Citylst = BindCity();

@@ -77,6 +77,16 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("EMPID", OracleDbType.NVarchar2).Value = cy.Emp;
                     objCmd.Parameters.Add("CREATEDDATE", OracleDbType.NVarchar2).Value = cy.EDate;
                     //objCmd.Parameters.Add("CREATEDDATE", OracleDbType.NVarchar2).Value = cy.Location[i];
+                    if (cy.ID == null)
+                    {
+                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
+                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
+                    else
+                    {
+                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
+                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     objCmd.ExecuteNonQuery();
@@ -84,7 +94,7 @@ namespace Arasan.Services.Master
 
                     for (int i = 0; i < cy.Location.Length; i++)
                     {
-                        svSQL = "Insert into EMPALLOCATIONDETAILS (EMPALLOCATIONID,LOCATIONID) VALUES ('" + Pid + "','" + cy.Location[i] + "')";
+                        svSQL = "Insert into EMPALLOCATIONDETAILS (EMPALLOCATIONID,LOCATIONID,IS_ACTIVE) VALUES ('" + Pid + "','" + cy.Location[i] + "', 'Y')";
                         OracleCommand objCmddts = new OracleCommand(svSQL, objConn);
                         objCmddts.ExecuteNonQuery();
 
