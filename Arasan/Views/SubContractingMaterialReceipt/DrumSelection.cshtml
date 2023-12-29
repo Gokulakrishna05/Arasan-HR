@@ -125,12 +125,13 @@
                                                         <tr id="trBook1@(i)" class="chkitemlst1" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                             <td>
+                                                                @Html.HiddenFor(C => C.drumlist[i].uniqueid, new { @id = "hduni" +i})
                                                                 @Html.TextBoxFor(C => C.drumlist[i].Pri, new { @id = "txtPri" +i, @class = "form-control", @TabIndex = 1 ,style = "width: 200px;" })
                                                             </td>
                                                             <td>@Html.TextBoxFor(C => C.drumlist[i].Start, new { @id = "txtStart" + i, @class = "form-control", @TabIndex = 2 ,style = "width: 200px;"  , onkeydown = "return isNumeric2(event.keyCode,this.value)" })  </td>
                                                             <td>  @Html.TextBoxFor(C => C.drumlist[i].End, new { @id = "txtEnd" +i, @class = "form-control", @TabIndex = 3 ,style = "width: 200px;" , onkeydown = "return isNumeric2(event.keyCode,this.value)" })  </td>
                                                             <td>
-                                                                @Html.TextBoxFor(C => C.drumlist[i].drumqty, new { @id = "txtdrumqty"+i, @class = "form-control", @TabIndex = 4 ,style = "width: 200px;", onkeydown = "return isNumeric2(event.keyCode,this.value)" ,@onkeyup = "changeTot(this,"+ i+ ")" })
+                                                                @Html.TextBoxFor(C => C.drumlist[i].drumqty, new { @id = "txtdrumqty"+i, @class = "form-control", @TabIndex = 4 ,style = "width: 200px;", onkeydown = "return isNumeric2(event.keyCode,this.value)" /*,@onkeyup = "changeTot(this,"+ i+ ")"*/ })
                                                            </td>
                                                             <td>
                                                                 @Html.HiddenFor(o => o.drumlist[i].Isvalid, new { @id = "Isvalid" + i })
@@ -145,7 +146,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnEmp" onclick="changeDrum()">Submit</button>
+                                    <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnEmp" onclick="changeDrum()">Create Drum</button>
                                 </div>
                             </div>
                             <div style="height:30px;"></div>
@@ -225,7 +226,42 @@
     $(function () {
         $('._select').select2();
     });
-    function changeDrum( ) {
+    function changeDrum() {
+        var e = 0;
+                  document.getElementById("tbBooks").innerHTML = "";
+
+        $('tr.chkitemlst1').each(function () {
+            if ($(this).css('display') !== 'none') {
+                var Pri = document.getElementById("txtPri" + e).value;
+                var Start = document.getElementById("txtStart" + e).value;
+                var End = document.getElementById("txtEnd" + e).value;
+                var drumqty = document.getElementById("txtdrumqty" + e).value;
+               var unid=document.getElementById("hduni" + e).value;
+                     var count = eval(End) - eval(Start);
+                 for (let j = eval(Start); j < eval(End) + 1; j++) 
+                  {
+                            var drumno = Pri + j;
+
+                    var index = $("#tbBooks").children("tr").length;
+                      var Drum = "<td><input class='form-control' id='ddldrumno" + index + "' name='drumlist[" + index + "].drumno'  style='width: 250px;' type='text'  readonly='True'  value=" + drumno + "  /></td>";
+                        var qty = "<td><input class='form-control' id='txtqty" + index + "' name='drumlist[" + index + "].qty'  style='width: 100px;' type='text'   value=" + drumqty + " /></td>";
+                      var rate = "<td><input class='form-control' id='txtrate" + index + "' name='drumlist[" + index + "].rate'  style='width: 100px;' type='text'   /></td>";
+                        var amount = "<td><input class='form-control' id='txtamount" + index + "' name='drumlist[" + index + "].amount'  style='width: 120px;' type='text' /><input id='txtprefix" + index + "' name='drumlist[" + index + "].'prefix type='hidden' value=" + unid + " ></td>";
+                      var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + qty + rate + amount + "</tr>";
+                      $("#tbBooks").append(newRow);
+                  }
+
+               
+               
+            }
+               e += 1;
+        });
+
+
+     
+
+    }
+    @*function changeDrum( ) {
         var e = 0;
 
         var DrumDet = new Array();
@@ -278,7 +314,7 @@
             }
         });
 
-    }
+    }*@
     function changeQty(_this, a) {
         try {
   var j = 0;
@@ -347,70 +383,40 @@
         if (j > 1) {
             row.style.display = "none";
             document.getElementById('Isvalid' + id).value = "N";
-        }
+            var unid=document.getElementById('hduni' + id).value;
+            //////////delete row
+             
+              var i = 0;
+          $('tr.chkitemlst').each(function () {
+              if ($(this).css('display') !== 'none') {
+                              var secrow = document.getElementById('trBook' + i);
+    
+                             var unipre=document.getElementById('txtprefix' + i).value ;
+                       if(unipre==unid)
+                   {
+                            secrow.style.display = "none";
+            // document.getElementById('Isvalid' + i).value = "N";
+                   }
+
+                  i += 1;
+              }
+          });
+
+
+           //////////delete row
+          }
         else {
             alert("Cannot delete all the rows.")
         }
-        var e = 0;
-
-        var DrumDet = new Array();
-        $('tr.chkitemlst1').each(function () {
-            if ($(this).css('display') !== 'none') {
-                var emp = {};
-                emp.Pri = document.getElementById("txtPri" + e).value;
-                emp.Start = document.getElementById("txtStart" + e).value;
-                emp.End = document.getElementById("txtEnd" + e).value;
-                emp.drumqty = document.getElementById("txtdrumqty" + e).value;
-
-                DrumDet.push(emp);
-                e += 1;
-            }
-        });
-
-        document.getElementById("tbBooks").innerHTML = "";
-
-        $.ajax({
-            url: 'GetDrumDetails',
-            type: "POST",
-            data: JSON.stringify(DrumDet),
-            contentType: "application/json",
-            dataType: "json",
-            cache: false,
-
-            success: function (list) {
-                //if (list != null && list.length > 0) {
-                list.forEach((item) => {
-
-                    var index = $("#tbBooks").children("tr").length;
-                    //alert(item.batch);
-                    var Drum = "<td><input class='form-control' id='ddldrumno" + index + "' name='drumlist[" + index + "].drumno'  style='width: 250px;' type='text'  readonly='True'  value=" + item.drumno + " /></td>";
-
-
-                    var qty = "<td><input class='form-control' id='txtqty" + index + "' name='drumlist[" + index + "].qty'  style='width: 100px;' type='text'  onkeyup  = 'changeQty(this.value," + index + ")'  value=" + item.qty +" /></td>";
-                    var rate = "<td><input class='form-control' id='txtrate" + index + "' name='drumlist[" + index + "].rate'  style='width: 100px;' type='text'  onkeyup  = 'changeQty(this.value," + index + ")' /></td>";
-                    var amount = "<td><input class='form-control' id='txtamount" + index + "' name='drumlist[" + index + "].amount'  style='width: 120px;' type='text' /><input id='txtprefix" + index + "' name='drumlist[" + index + "].'prefix type='hidden' value=" + item.prefix + "/></td>";
-
-
-
-                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + qty + rate + amount + "</tr>";
-
-                    $("#tbBooks").append(newRow);
-                });
-                //}
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-        });
-
+      
 
     }
     function AppendRow(opt) {
         var index = $("#tbBooks1").children("tr").length;
+        var uniqueid = "pre-" + index;
 
- 
 
-        var pri = "<td><input class='form-control' id='txtPri" + index + "' name='drumlist[" + index + "].Pri'  style='width: 200px;' type='text'   /></td>";
+          var pri = "<td><input class='form-control' id='txtPri" + index + "' name='drumlist[" + index + "].Pri'  style='width: 200px;' type='text'   /><input name='drumlist[" + index + "].uniqueid' type='hidden' value='" + uniqueid + "' id='hduni" + index + "' /></td>";
         var start = "<td><input class='form-control' id='txtStart" + index + "' name='drumlist[" + index + "].Start'  style='width: 200px;' type='text'  onkeydown='return isNumeric2(event.keyCode,this.value)'  /></td>";
 
 

@@ -405,6 +405,7 @@ namespace Arasan.Controllers.Store_Management
                 tda.drulist = BindDrum();
                 tda.ID = id;
                 tda.Isvalid = "Y";
+                tda.uniqueid = "pre-" + i;
                 TData.Add(tda);
             }
             ca.drumlist = TData;
