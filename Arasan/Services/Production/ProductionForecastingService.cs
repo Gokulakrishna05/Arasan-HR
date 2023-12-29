@@ -262,7 +262,239 @@ ORDER BY ORD DESC";
             }
             return cmpList;
         }
-      
+        public List<PFCPOLIItem> GetPolishForecast(string mnth, string type)
+        {
+            List<PFCPOLIItem> cmpList = new List<PFCPOLIItem>();
+            string Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = @"SELECT ITEMID,SUM(QTY) Tar,SUM(MINSTK) MINSTK,SUM(stk) stk,Decode(Sign(SUM(QTY+MINSTK-STK)),1,SUM(QTY+MINSTK-STK),0) ORD FROM (
+SELECT ITEMID,SUM(QTY) QTY,SUM(STK) STK,SUM(MINSTK) MINSTK FROM (
+SELECT I2.ITEMID,0 qty, SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) stk,0 MINSTK
+FROM StockValue S , ItemMaster I , LocDetails L,ITEMMASTER I2 
+WHERE S.ItemID = I.ItemMasterID AND S.DocDate <=:Docdate AND S.LocID = L.LocdetailsID 
+AND (I.SUBCATEGORY IN ('PIGMENT POWDER','PYRO DF','PYRO POLISHED') or I2.SUBCATEGORY IN ('PIGMENT POWDER','PYRO DF','PYRO POLISHED'))  
+AND i.QCCOMPFLAG='YES' AND L.LocationType IN ('FG GODOWN') 
+AND I2.ITEMMASTERID=I.ITEMMASTERID
+HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 
+GROUP BY I2.ITEMID
+UNION ALL
+SELECT I.ITEMID,0 qty, SUM(DECODE(LM.RCFLAG,0,(S.PLUSQTY-S.MINUSQTY),0)) stk,0 MINSTK
+FROM LStockValue S , ItemMaster I , LocDetails L,LotMast LM,ItemMaster I2 
+WHERE S.ItemID = I.ItemMasterID AND S.DocDate <=:Docdate AND S.LocID = L.LocdetailsID 
+AND (I.SUBCATEGORY IN ('PIGMENT POWDER','PYRO DF','PYRO POLISHED') or I2.SUBCATEGORY IN ('PIGMENT POWDER','PYRO DF','PYRO POLISHED'))
+And I2.ITEMMASTERID=I.ITEMMASTERID
+AND Lm.lotno=S.lotno 
+AND i.QCCOMPFLAG='YES' AND L.LocationType IN ('CURING') 
+HAVING SUM(DECODE(LM.RCFLAG,0,(S.PLUSQTY-S.MINUSQTY),0)) > 0 
+GROUP BY I.ITEMID
+UNION ALL
+SELECT  IM.ITEMID,SUM(SD.QTY) QTY,0 stk,IM.MINSTK
+FROM SALFCBASIC SB,SALFCDETAIL SD,ITEMMASTER IM,ITEMMASTER I2
+WHERE SB.SALFCBASICID=SD.SALFCBASICID
+AND SD.ITEMID=IM.ITEMMASTERID
+AND IM.ITEMFROM=I2.ITEMMASTERID
+AND IM.SUBCATEGORY IN ('PIGMENT POWDER','PYRO DF','PYRO POLISHED')   
+AND ((sb.MONTH=:MONTH And  SB.FCTYPE=:PlanType) Or (Sb.FCTYPE='YEARLY' And 'YEARLY'=:Plantype))
+GROUP BY I2.ITEMID,IM.MINSTK,IM.ITEMID
+Union All
+SELECT  I2.ITEMID,SUM((SD.QTY*IM.RAWMATPER)/100) QTY,0 stk,IM.MINSTK
+FROM SALFCBASIC SB,SALFCDETAIL SD,ITEMMASTER IM,ITEMMASTER I2
+WHERE SB.SALFCBASICID=SD.SALFCBASICID
+AND SD.ITEMID=IM.ITEMMASTERID
+AND IM.ITEMFROM=I2.ITEMMASTERID
+AND I2.SUBCATEGORY IN ('PIGMENT POWDER','PYRO DF','PYRO POLISHED')  
+AND ((sb.MONTH=:MONTH And  SB.FCTYPE=:PlanType) Or (Sb.FCTYPE='YEARLY' And 'YEARLY'=:Plantype))
+GROUP BY I2.ITEMID,IM.MINSTK
+)GROUP BY ITEMID
+)GROUP BY ITEMID 
+ORDER BY ord desc";
+                    cmd.Parameters.Add("Docdate", Docdate);
+                    cmd.Parameters.Add("PlanType", type);
+                    cmd.Parameters.Add("MONTH", mnth);
+                    cmd.BindByName = true;
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        PFCPOLIItem cmp = new PFCPOLIItem
+                        {
+                            itemid = rdr["ITEMID"].ToString(),
+                            required = rdr["Tar"].ToString(),
+                            minstock = rdr["MINSTK"].ToString(),
+                            stock = rdr["stk"].ToString(),
+                          
+                            target = rdr["ORD"].ToString(),
+                            // itemid = rdr["ITEMID"].ToString(),
+                            //Branch = rdr["BRANCHID"].ToString(),
+
+                            //InvNo = rdr["DOCID"].ToString(),
+
+                            //InvDate = rdr["DOCDATE"].ToString(),
+                            //Party = rdr["PARTYNAME"].ToString(),
+                            //Net = Convert.ToDouble(rdr["NET"].ToString()),
+
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
+
+        public List<PFCPASTEItem> GetPasteForecast(string mnth, string type)
+        {
+            List<PFCPASTEItem> cmpList = new List<PFCPASTEItem>();
+            string Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = @"Select Itemid,Decode(sign(Sum(qty-stk+min)),1,Sum(qty-stk+min) ,0) qty,Sum(qty) tar,Sum(stk) stk,Sum(min) min from (
+SELECT I2.ITEMID,SUM(SD.QTY*0.9) QTY,0 stk, 0 min 
+FROM SALFCBASIC SB,SALFCDETAIL SD,ITEMMASTER IM,ITEMMASTER I2
+WHERE SB.SALFCBASICID=SD.SALFCBASICID
+AND SD.ITEMID=IM.ITEMMASTERID
+AND IM.ITEMFROM=I2.ITEMMASTERID
+AND IM.SUBCATEGORY IN ('NON LEAFING PASTE','LEAFING PASTE') 
+AND ((sb.MONTH=:MONTH And  SB.FCTYPE=:PlanType) Or (Sb.FCTYPE='YEARLY' And 'YEARLY'=:Plantype))
+GROUP BY SB.DOCID,I2.ITEMID
+Union ALL
+Select I1.itemid,0,Sum(x.stk) stk,Sum(x.minstk) minstk From (
+SELECT I.ITEMID,0,SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) stk,I.MINSTK,I.ITEmFrom iid
+FROM StockValue S , ItemMaster I , LocDetails L   
+WHERE S.ItemID = I.ItemMasterID AND S.DocDate <=:Docdate AND S.LocID = L.LocdetailsID 
+AND i.SUBCATEGORY IN ('NON LEAFING PASTE','LEAFING PASTE') AND i.QCCOMPFLAG='YES'
+HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 
+GROUP BY I.ITEMID,I.MINSTK,I.ITEmFrom
+) X,Itemmaster I1 where I1.itemMasterID=X.iid
+Group By I1.itemid
+Union ALL
+SELECT I.ITEMID,0, SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) stk,I.MINSTK
+FROM StockValue S , ItemMaster I , LocDetails L   
+WHERE S.ItemID = I.ItemMasterID AND S.DocDate <=:Docdate AND S.LocID = L.LocdetailsID 
+AND i.SUBCATEGORY IN ('NON LEAFING CAKE','LEAFING CAKE') AND i.QCCOMPFLAG='YES'
+HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 
+GROUP BY I.ITEMID,I.MINSTK) Group by itemid 
+UNION ALL
+Select I.ITEMID,Sum(D.RVDPRODQTY) Qty,0,0,0 from ProdFcBasic B,ProdFcRvd D,Itemmaster I Where B.PRODFCBASICID=D.PRODFCBASICID  And I.ITEMMASTERID=D.RVDRAWMAT Group by I.ITEMID
+Order by 2 Desc";
+                    cmd.Parameters.Add("Docdate", Docdate);
+                    cmd.Parameters.Add("PlanType", type);
+                    cmd.Parameters.Add("MONTH", mnth);
+                    cmd.BindByName = true;
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        PFCPASTEItem cmp = new PFCPASTEItem
+                        {
+                            itemid = rdr["ITEMID"].ToString(),
+                            required = rdr["Tar"].ToString(),
+                            minstock = rdr["min"].ToString(),
+                            stock = rdr["stk"].ToString(),
+
+                            target = rdr["qty"].ToString(),
+                            // itemid = rdr["ITEMID"].ToString(),
+                            //Branch = rdr["BRANCHID"].ToString(),
+
+                            //InvNo = rdr["DOCID"].ToString(),
+
+                            //InvDate = rdr["DOCDATE"].ToString(),
+                            //Party = rdr["PARTYNAME"].ToString(),
+                            //Net = Convert.ToDouble(rdr["NET"].ToString()),
+
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
+        public List<PFCPACKItem> GetPackForecast(string mnth, string type)
+        {
+            List<PFCPACKItem> cmpList = new List<PFCPACKItem>();
+            string Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = @"SELECT TYPES, PARTYID,ITEM,SUM(TAR) TAR,RAWM,DRUM,PACKID,PACK,QTY,LATPURPRICE,SUM(PKG) PKG FROM (
+SELECT '01 LOCAL' TYPES, PARTYID,ITEM,SUM(TAR) TAR,RAWM,DRUM,PACKID,CI.ITEMID PACK,QTY,CI.LATPURPRICE,ROUND(SUM(CI.LATPURPRICE/QTY),2) PKG FROM (
+SELECT PARTYID,ITEMID ITEM,RAWM,DRUM,PB.PACKBASICID PACKID,PD.PDRUMQTY QTY,TAR FROM (
+SELECT P.PARTYID, I.ITEMID,I2.ITEMID RAWM,MAX(L.DRUMNO) DRUM,SD.QTY TAR
+FROM SALFCBASIC SB,SALFCDETAIL SD,ITEMMASTER I,PARTYMAST P,ITEMMASTER I2,EXINVBASIC E,EXINVLOT L
+WHERE SB.SALFCBASICID=SD.SALFCBASICID
+AND I2.ITEMMASTERID=I.ITEMFROM
+AND P.PARTYMASTID=SD.PARTYID
+AND SD.ITEMID=I.ITEMMASTERID
+AND ((sb.MONTH=:MONTH And  SB.FCTYPE=:PlanType) Or (Sb.FCTYPE='YEARLY' And 'YEARLY'=:Plantype))
+AND P.PARTYMASTID=E.PARTYID 
+AND E.EXINVBASICID=L.EXINVBASICID 
+AND I.ITEMMASTERID=L.LITEMID
+GROUP BY I.ITEMID,I2.ITEMID,P.PARTYID,SD.QTY) X,PACKBASIC PB,PACKPDETAIL PD
+WHERE PB.PACKBASICID=PD.PACKBASICID AND PD.PDRUMNO=X.DRUM
+) Y,PACKCONSDETAIL CD,ITEMMASTER CI
+WHERE CD.PACKBASICID=Y.PACKID AND CI.ITEMMASTERID=CD.CITEMID
+AND CD.CONSQTY=(SELECT MAX(CONSQTY) FROM PACKCONSDETAIL WHERE PACKBASICID=Y.PACKID)
+AND CD.CONSRATE=(SELECT MAX(CONSRATE) FROM PACKCONSDETAIL WHERE PACKBASICID=Y.PACKID)
+GROUP BY PARTYID,ITEM,RAWM,DRUM,PACKID,CI.ITEMID,QTY,CI.LATPURPRICE
+UNION ALL
+SELECT'02 EXPORT' TYPES, PARTYID,ITEM,SUM(TAR) TAR,RAWM,DRUM,PACKID,CI.ITEMID PACK,QTY,CI.LATPURPRICE,ROUND(SUM(CI.LATPURPRICE/QTY),2) PKG FROM (
+SELECT PARTYID,ITEMID ITEM,RAWM,DRUM,PB.PACKBASICID PACKID,PD.PDRUMQTY QTY,TAR FROM (
+SELECT P.PARTYID, I.ITEMID,I2.ITEMID RAWM,MAX(L.DRUMNO) DRUM,SD.QTY TAR
+FROM SALFCBASIC SB,SALFCDETAIL SD,ITEMMASTER I,PARTYMAST P,ITEMMASTER I2,EEXINVBASIC E,EEXINVLOT L
+WHERE SB.SALFCBASICID=SD.SALFCBASICID
+AND I2.ITEMMASTERID=I.ITEMFROM
+AND P.PARTYMASTID=SD.PARTYID
+AND SD.ITEMID=I.ITEMMASTERID
+AND ((sb.MONTH=:MONTH And  SB.FCTYPE=:PlanType) Or (Sb.FCTYPE='YEARLY' And 'YEARLY'=:Plantype))
+AND P.PARTYMASTID=E.PARTYID 
+AND E.EEXINVBASICID=L.EEXINVBASICID 
+AND I.ITEMMASTERID=L.LITEMID
+GROUP BY I.ITEMID,I2.ITEMID,P.PARTYID,SD.QTY) X,PACKBASIC PB,PACKPDETAIL PD
+WHERE PB.PACKBASICID=PD.PACKBASICID AND PD.PDRUMNO=X.DRUM
+) Y,PACKCONSDETAIL CD,ITEMMASTER CI
+WHERE CD.PACKBASICID=Y.PACKID AND CI.ITEMMASTERID=CD.CITEMID
+AND CD.CONSQTY=(SELECT MAX(CONSQTY) FROM PACKCONSDETAIL WHERE PACKBASICID=Y.PACKID)
+AND CD.CONSRATE=(SELECT MAX(CONSRATE) FROM PACKCONSDETAIL WHERE PACKBASICID=Y.PACKID)
+GROUP BY PARTYID,ITEM,RAWM,DRUM,PACKID,CI.ITEMID,QTY,CI.LATPURPRICE)
+GROUP BY PARTYID,ITEM,RAWM,DRUM,PACKID,PACK,QTY,LATPURPRICE,TYPES
+ORDER BY 1,2";
+                    cmd.Parameters.Add("Docdate", Docdate);
+                    cmd.Parameters.Add("PlanType", type);
+                    cmd.Parameters.Add("MONTH", mnth);
+                    cmd.BindByName = true;
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        PFCPACKItem cmp = new PFCPACKItem
+                        {
+                            targetitem = rdr["item"].ToString(),
+                            packmat = rdr["PACK"].ToString(),
+                            packqty = rdr["QTY"].ToString(),
+                            rawmat = rdr["RAWM"].ToString(),
+                            party = rdr["PARTYID"].ToString(),
+                            targetqty = rdr["TAR"].ToString(),
+                            // itemid = rdr["ITEMID"].ToString(),
+                            //Branch = rdr["BRANCHID"].ToString(),
+
+                            //InvNo = rdr["DOCID"].ToString(),
+
+                            //InvDate = rdr["DOCDATE"].ToString(),
+                            //Party = rdr["PARTYNAME"].ToString(),
+                            //Net = Convert.ToDouble(rdr["NET"].ToString()),
+
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
         public string ProductionForecastingCRUD(ProductionForecasting cy)
         {
             string msg = "";
@@ -370,7 +602,7 @@ ORDER BY ORD DESC";
                                     objCmds.Parameters.Add("DGADDITID", OracleDbType.NVarchar2).Value = cp.dgaddit;
                                     objCmds.Parameters.Add("DGADDITREQ", OracleDbType.NVarchar2).Value = cp.reqadditive;
                                     objCmds.Parameters.Add("DGRAWMAT", OracleDbType.NVarchar2).Value = cp.rawmaterial;
-                                    objCmds.Parameters.Add("DGREQAP", OracleDbType.NVarchar2).Value = cp.ReqPyro;
+                                    objCmds.Parameters.Add("DGREQAP", OracleDbType.NVarchar2).Value = cp.reqpyro;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();

@@ -17,6 +17,9 @@ namespace Arasan.Interface.Production
         DataTable GetPYROWC();
         DataTable GetDGPaste(string mnth, string type);
         List<PFCPYROItem> GetPyroForecast(string mnth, string type); 
+        List<PFCPOLIItem> GetPolishForecast(string mnth, string type); 
+        List<PFCPASTEItem> GetPasteForecast(string mnth, string type); 
+        List<PFCPACKItem> GetPackForecast(string mnth, string type); 
         string ProductionForecastingCRUD(ProductionForecasting cy);
     }
 }

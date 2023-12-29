@@ -42,6 +42,14 @@ namespace Arasan.Controllers.Production
             PFCPYROItem tda2 = new PFCPYROItem();
             List<PFCPOLIItem> TData3 = new List<PFCPOLIItem>();
             PFCPOLIItem tda3 = new PFCPOLIItem();
+            List<PFCRVDItem> TData4 = new List<PFCRVDItem>();
+            PFCRVDItem tda4 = new PFCRVDItem();
+            List<PFCPASTEItem> TData5 = new List<PFCPASTEItem>();
+            PFCPASTEItem tda5 = new PFCPASTEItem();
+            List<PFCAPPRODItem> TData6 = new List<PFCAPPRODItem>();
+            PFCAPPRODItem tda6 = new PFCAPPRODItem();
+            List<PFCPACKItem> TData7 = new List<PFCPACKItem>();
+            PFCPACKItem tda7 = new PFCPACKItem();
             if (id == null)
             {
                 ca.plantype = "MONTHLY";
@@ -74,6 +82,38 @@ namespace Arasan.Controllers.Production
                     //tda3.POItemlst = BindItemlst("");
                     tda3.Isvalid = "Y";
                     TData3.Add(tda3);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda4 = new PFCRVDItem();
+                    tda4.POWorklst = BindWorkCenter();
+                    //tda3.POItemlst = BindItemlst("");
+                    tda4.Isvalid = "Y";
+                    TData4.Add(tda4);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda5 = new PFCPASTEItem();
+                    tda5.Worklst = BindWorkCenter();
+                    //tda3.POItemlst = BindItemlst("");
+                    tda5.Isvalid = "Y";
+                    TData5.Add(tda5);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda6 = new PFCAPPRODItem();
+                    tda6.Worklst = BindWorkCenter();
+                    //tda3.POItemlst = BindItemlst("");
+                    tda6.Isvalid = "Y";
+                    TData6.Add(tda6);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda7 = new PFCPACKItem();
+                    tda7.partylst = BindParty();
+                    //tda3.POItemlst = BindItemlst("");
+                    tda7.Isvalid = "Y";
+                    TData7.Add(tda7);
                 }
             }
             else
@@ -134,7 +174,7 @@ namespace Arasan.Controllers.Production
                         tda1.dgaddit = dt3.Rows[0]["DGADDITID"].ToString();
                         tda1.reqadditive = dt3.Rows[0]["DGADDITREQ"].ToString();
                         tda1.rawmaterial = dt3.Rows[0]["DGRAWMAT"].ToString();
-                        tda1.ReqPyro = dt3.Rows[0]["DGREQAP"].ToString();
+                        tda1.reqpyro = dt3.Rows[0]["DGREQAP"].ToString();
                         tda1.saveItemId = dt3.Rows[i]["ITEMID"].ToString();
                         tda1.ID = id;
                         TData1.Add(tda1);
@@ -186,27 +226,27 @@ namespace Arasan.Controllers.Production
                     for (int i = 0; i < dt5.Rows.Count; i++)
                     {
                         tda3 = new PFCPOLIItem();
-                        tda3.POItemlst = BindItemlst(tda3.ItemId);
-                        tda3.ItemId = dt5.Rows[0]["PIGWCID"].ToString();
+                    
+                        tda3.itemid = dt5.Rows[0]["PIGWCID"].ToString();
 
                         tda3.POWorklst = BindWorkCenter();
-                        tda3.WorkId = dt5.Rows[0]["PIGITEMID"].ToString();
+                        tda3.workid = dt5.Rows[0]["PIGITEMID"].ToString();
 
-                        tda3.WCDays = dt5.Rows[0]["PIGWCDAYS"].ToString();
-                        tda3.Target = dt5.Rows[0]["PIGTARGET"].ToString();
-                        tda3.Capacity = dt5.Rows[0]["PIGCAP"].ToString();
-                        tda3.Stock = dt5.Rows[0]["PIGSTOCK"].ToString();
-                        tda3.MinStock = dt5.Rows[0]["PIGMINSTK"].ToString();
-                        tda3.Required = dt5.Rows[0]["PIGRAWREQ"].ToString();
-                        tda3.Days = dt5.Rows[0]["PIGDAYS"].ToString();
-                        tda3.Additive = dt5.Rows[0]["PIGADDIT"].ToString();
-                        tda3.Add = dt5.Rows[0]["PIGADDPER"].ToString();
-                        tda3.RejMat = dt5.Rows[0]["PIGRAWMAT"].ToString();
-                        tda3.ReqPer = dt5.Rows[0]["PIGRAWREQPER"].ToString();
-                        tda3.RvdQty = dt5.Rows[0]["PIGRVDQTY"].ToString();
-                        tda3.PyroPowder = dt5.Rows[0]["PIGPYPO"].ToString();
-                        tda3.PyroQty = dt5.Rows[0]["PIGPYQTY"].ToString();
-                        tda3.PowderRequired = dt5.Rows[0]["PIGPOWREQ"].ToString();
+                        tda3.wcdays = dt5.Rows[0]["PIGWCDAYS"].ToString();
+                        tda3.target = dt5.Rows[0]["PIGTARGET"].ToString();
+                        tda3.capacity = dt5.Rows[0]["PIGCAP"].ToString();
+                        tda3.stock = dt5.Rows[0]["PIGSTOCK"].ToString();
+                        tda3.minstock = dt5.Rows[0]["PIGMINSTK"].ToString();
+                        tda3.required = dt5.Rows[0]["PIGRAWREQ"].ToString();
+                        tda3.days = dt5.Rows[0]["PIGDAYS"].ToString();
+                        tda3.additive = dt5.Rows[0]["PIGADDIT"].ToString();
+                        tda3.add = dt5.Rows[0]["PIGADDPER"].ToString();
+                        tda3.rejmat = dt5.Rows[0]["PIGRAWMAT"].ToString();
+                        tda3.reqper = dt5.Rows[0]["PIGRAWREQPER"].ToString();
+                        tda3.rvdqty = dt5.Rows[0]["PIGRVDQTY"].ToString();
+                        tda3.pyropowder = dt5.Rows[0]["PIGPYPO"].ToString();
+                        tda3.pyroqty = dt5.Rows[0]["PIGPYQTY"].ToString();
+                        tda3.powderrequired = dt5.Rows[0]["PIGPOWREQ"].ToString();
                         tda3.ID = id;
                         TData3.Add(tda3);
                     }
@@ -219,6 +259,10 @@ namespace Arasan.Controllers.Production
             ca.PFCDGILst = TData1;
             ca.PFCPYROILst = TData2;
             ca.PFCPOLILst = TData3;
+            ca.PFCRVDLst = TData4;
+            ca.PFCPASTELst = TData5;
+            ca.PFCAPPRODLst = TData6;
+            ca.PFCPACKLst = TData7;
             return View(ca);
         }
         public IActionResult ProdForecasting(string id)
@@ -326,7 +370,7 @@ namespace Arasan.Controllers.Production
                         tda1.dgaddit = dt3.Rows[0]["DGADDITID"].ToString();
                         tda1.reqadditive = dt3.Rows[0]["DGADDITREQ"].ToString();
                         tda1.rawmaterial = dt3.Rows[0]["DGRAWMAT"].ToString();
-                        tda1.ReqPyro = dt3.Rows[0]["DGREQAP"].ToString();
+                        tda1.reqpyro = dt3.Rows[0]["DGREQAP"].ToString();
                         tda1.saveItemId = dt3.Rows[i]["ITEMID"].ToString();
                         tda1.ID = id;
                         TData1.Add(tda1);
@@ -378,27 +422,27 @@ namespace Arasan.Controllers.Production
                     for (int i = 0; i < dt5.Rows.Count; i++)
                     {
                         tda3 = new PFCPOLIItem();
-                        tda3.POItemlst = BindItemlst(tda3.ItemId);
-                        tda3.ItemId = dt5.Rows[0]["PIGWCID"].ToString();
+
+                        tda3.itemid = dt5.Rows[0]["PIGWCID"].ToString();
 
                         tda3.POWorklst = BindWorkCenter();
-                        tda3.WorkId = dt5.Rows[0]["PIGITEMID"].ToString();
+                        tda3.workid = dt5.Rows[0]["PIGITEMID"].ToString();
 
-                        tda3.WCDays = dt5.Rows[0]["PIGWCDAYS"].ToString();
-                        tda3.Target = dt5.Rows[0]["PIGTARGET"].ToString();
-                        tda3.Capacity = dt5.Rows[0]["PIGCAP"].ToString();
-                        tda3.Stock = dt5.Rows[0]["PIGSTOCK"].ToString();
-                        tda3.MinStock = dt5.Rows[0]["PIGMINSTK"].ToString();
-                        tda3.Required = dt5.Rows[0]["PIGRAWREQ"].ToString();
-                        tda3.Days = dt5.Rows[0]["PIGDAYS"].ToString();
-                        tda3.Additive = dt5.Rows[0]["PIGADDIT"].ToString();
-                        tda3.Add = dt5.Rows[0]["PIGADDPER"].ToString();
-                        tda3.RejMat = dt5.Rows[0]["PIGRAWMAT"].ToString();
-                        tda3.ReqPer = dt5.Rows[0]["PIGRAWREQPER"].ToString();
-                        tda3.RvdQty = dt5.Rows[0]["PIGRVDQTY"].ToString();
-                        tda3.PyroPowder = dt5.Rows[0]["PIGPYPO"].ToString();
-                        tda3.PyroQty = dt5.Rows[0]["PIGPYQTY"].ToString();
-                        tda3.PowderRequired = dt5.Rows[0]["PIGPOWREQ"].ToString();
+                        tda3.wcdays = dt5.Rows[0]["PIGWCDAYS"].ToString();
+                        tda3.target = dt5.Rows[0]["PIGTARGET"].ToString();
+                        tda3.capacity = dt5.Rows[0]["PIGCAP"].ToString();
+                        tda3.stock = dt5.Rows[0]["PIGSTOCK"].ToString();
+                        tda3.minstock = dt5.Rows[0]["PIGMINSTK"].ToString();
+                        tda3.required = dt5.Rows[0]["PIGRAWREQ"].ToString();
+                        tda3.days = dt5.Rows[0]["PIGDAYS"].ToString();
+                        tda3.additive = dt5.Rows[0]["PIGADDIT"].ToString();
+                        tda3.add = dt5.Rows[0]["PIGADDPER"].ToString();
+                        tda3.rejmat = dt5.Rows[0]["PIGRAWMAT"].ToString();
+                        tda3.reqper = dt5.Rows[0]["PIGRAWREQPER"].ToString();
+                        tda3.rvdqty = dt5.Rows[0]["PIGRVDQTY"].ToString();
+                        tda3.pyropowder = dt5.Rows[0]["PIGPYPO"].ToString();
+                        tda3.pyroqty = dt5.Rows[0]["PIGPYQTY"].ToString();
+                        tda3.powderrequired = dt5.Rows[0]["PIGPOWREQ"].ToString();
                         tda3.ID = id;
                         TData3.Add(tda3);
                     }
@@ -502,6 +546,11 @@ namespace Arasan.Controllers.Production
             return Json(BindPYROWC());
 
         }
+        public JsonResult GetPartyJSON()
+        {
+            return Json(BindParty());
+
+        }
 
         public List<SelectListItem> BindPYROWC()
         {
@@ -512,6 +561,23 @@ namespace Arasan.Controllers.Production
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindParty()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetSupplier();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -625,6 +691,41 @@ namespace Arasan.Controllers.Production
             ProductionForecasting model = new ProductionForecasting();
             model.PFCPYROILst = _ProdForecastServ.GetPyroForecast(mnth, type); 
             return Json(model.PFCPYROILst);
+
+        }
+        public ActionResult GetPolishForecast(string mnth, string type)
+        {
+            ProductionForecasting model = new ProductionForecasting();
+            model.PFCPOLILst = _ProdForecastServ.GetPolishForecast(mnth, type);
+            return Json(model.PFCPOLILst);
+
+        }
+        public ActionResult GetRVDForecast(string mnth, string type)
+        {
+            ProductionForecasting model = new ProductionForecasting();
+            //model.PFCPYROILst = _ProdForecastServ.GetPyroForecast(mnth, type);
+            return Json(model.PFCRVDLst);
+
+        }
+        public ActionResult GetPasteForecast(string mnth, string type)
+        {
+            ProductionForecasting model = new ProductionForecasting();
+            model.PFCPASTELst = _ProdForecastServ.GetPasteForecast(mnth, type);
+            return Json(model.PFCPASTELst);
+
+        }
+        public ActionResult GetAPForecast(string mnth, string type)
+        {
+            ProductionForecasting model = new ProductionForecasting();
+            //model.PFCPYROILst = _ProdForecastServ.GetPyroForecast(mnth, type);
+            return Json(model.PFCAPPRODLst);
+
+        }
+        public ActionResult GetPackingForecast(string mnth, string type)
+        {
+            ProductionForecasting model = new ProductionForecasting();
+            model.PFCPACKLst = _ProdForecastServ.GetPackForecast(mnth, type);
+            return Json(model.PFCPACKLst);
 
         }
     }
