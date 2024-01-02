@@ -60,7 +60,7 @@ namespace Arasan.Services.Production
         public DataTable GetProdForecastDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PRODFCBASICID,PTYPE,ITEMMASTER.ITEMID,UNITMAST.UNITID,PREVYQTY,PREVMQTY,PQTY from PRODFCDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PRODFCDETAIL.ITEMID LEFT OUTER JOIN UNITMAST on UNITMAST.UNITMASTID=PRODFCDETAIL.UNIT where PRODFCDETAILID='" + id + "' ";
+            SvSql = "select PRODFCBASICID,PTYPE,ITEMMASTER.ITEMID,UNITMAST.UNITID,PREVYQTY,PREVMQTY,PQTY from PRODFCDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PRODFCDETAIL.ITEMID LEFT OUTER JOIN UNITMAST on UNITMAST.UNITMASTID=PRODFCDETAIL.UNIT where PRODFCBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -70,7 +70,7 @@ namespace Arasan.Services.Production
         public DataTable GetProdForecastDGPasteDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PRODFCBASICID,ITEMMASTER.ITEMID,DGITEMID,DGTARQTY,DGMIN,DGSTOCK,REQDG,it.ITEMID as item,DGADDITID,DGADDITREQ,it1.ITEMID as item1,DGRAWMAT,DGREQAP from PROFCDG  LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PROFCDG.DGITEMID LEFT OUTER JOIN ITEMMASTER it on it.ITEMMASTERID=PROFCDG.DGADDITID LEFT OUTER JOIN ITEMMASTER it1 on it1.ITEMMASTERID=PROFCDG.DGRAWMAT where PROFCDGID='" + id + "' ";
+            SvSql = "Select PRODFCBASICID,ITEMMASTER.ITEMID,DGITEMID,DGTARQTY,DGMIN,DGSTOCK,REQDG,it.ITEMID as item,DGADDITID,DGADDITREQ,it1.ITEMID as item1,DGRAWMAT,DGREQAP from PROFCDG  LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PROFCDG.DGITEMID LEFT OUTER JOIN ITEMMASTER it on it.ITEMMASTERID=PROFCDG.DGADDITID LEFT OUTER JOIN ITEMMASTER it1 on it1.ITEMMASTERID=PROFCDG.DGRAWMAT where PRODFCBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -81,7 +81,7 @@ namespace Arasan.Services.Production
         public DataTable GetProdForecastPyroDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PYWCID,WCDAYS,ITEMMASTER.ITEMID,PYITEMID,PYMINSTK,PYALLREJ,PYGRCHG,PYREJQTY,PYREQQTY,PYTARQTY, PYPRODCAPD,PYPRODQTY,PYRAWREJMAT,PYRAWREJMATPER,PREBALQTY,PYADD1,PYADDPER,ALLOCADD,PYREQAP,WSTATUS,POWREQ from PRODFCPY LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PRODFCPY.PYITEMID LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPY.PYWCID where PRODFCPYID='" + id + "' ";
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PYWCID,WCDAYS,ITEMMASTER.ITEMID,PYITEMID,PYMINSTK,PYALLREJ,PYGRCHG,PYREJQTY,PYREQQTY,PYTARQTY, PYPRODCAPD,PYPRODQTY,PYRAWREJMAT,PYRAWREJMATPER,PREBALQTY,it.ITEMID as item,PYADD1,PYADDPER,ALLOCADD,PYREQAP,WSTATUS,POWREQ from PRODFCPY LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PRODFCPY.PYITEMID LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPY.PYWCID LEFT OUTER JOIN ITEMMASTER it on it.ITEMMASTERID=PRODFCPY.PYADD1 where PRODFCBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -91,7 +91,7 @@ namespace Arasan.Services.Production
         public DataTable GetProdForecastPolishDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PIGWCID,PIGWCDAYS,ITEMMASTER.ITEMID,PIGITEMID,PIGTARGET,PIGCAP,PIGSTOCK,PIGMINSTK,PIGRAWREQ,PIGDAYS,it.ITEMID as item,PIGADDIT,PIGADDPER,it1.ITEMID as item1,PIGRAWMAT,PIGRAWREQPER,PIGRVDQTY,PIGPYPO,PIGPYQTY,PIGPOWREQ from PRODFCPIG LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPIG.PIGWCID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PRODFCPIG.PIGITEMID LEFT OUTER JOIN ITEMMASTER it on it.ITEMMASTERID=PRODFCPIG.PIGADDIT LEFT OUTER JOIN ITEMMASTER it1 on it1.ITEMMASTERID=PRODFCPIG.PIGRAWMAT where PRODFCPIGID='" + id + "' ";
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PIGWCID,PIGWCDAYS,ITEMMASTER.ITEMID,  it.ITEMID as item,it1.ITEMID as item1 ,PIGCAP,PIGAVAILQTY,PIGMINSTK,PIGRAWREQ,PIGPRODD,PIGADDIT,PIGADDPER,PIGRAWMAT,PIGRAWREQPER,PIGREQQTY,PIGRAWMATPY,PIGRAWREQPY,PIGPOWREQ from PRODFCPIG LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPIG.PIGWCID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PRODFCPIG.PIGITEMID LEFT OUTER JOIN ITEMMASTER it on it.ITEMMASTERID=PRODFCPIG.PIGADDIT LEFT OUTER JOIN ITEMMASTER it1 on it1.ITEMMASTERID=PRODFCPIG.PIGRAWMAT where PRODFCBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -101,7 +101,7 @@ namespace Arasan.Services.Production
         public DataTable GetProdForecastRVDDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PRODFCBASICID,WCBASIC.WCID,RVDWCID,ITEMMASTER.ITEMID,RVDITEMID,RVDPRODQTY,RVDCONS,RVDCONSQTY,it.ITEMID as item,RVDRAWMAT,RVDPOWREQ,RVDWCDAYS,RVDMTOREC,RVDMTOLOS from PRODFCRVD LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCRVD.RVDWCID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PRODFCRVD.RVDITEMID LEFT OUTER JOIN ITEMMASTER it on it.ITEMMASTERID=PRODFCRVD.RVDRAWMAT where PRODFCPIGID='" + id + "' ";
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,RVDWCID,ITEMMASTER.ITEMID,RVDITEMID,RVDPRODQTY,RVDCONS,RVDCONSQTY,it.ITEMID as item,RVDRAWMAT,RVDPOWREQ,RVDWCDAYS,RVDMTOREC,RVDMTOLOS from PRODFCRVD LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCRVD.RVDWCID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PRODFCRVD.RVDITEMID LEFT OUTER JOIN ITEMMASTER it on it.ITEMMASTERID=PRODFCRVD.RVDRAWMAT where PRODFCBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -111,7 +111,7 @@ namespace Arasan.Services.Production
         public DataTable GetProdForecastPasteDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PAWCID,ITEMMASTER.ITEMID,PAITEMID,PANOOFCHG,PAALLADDIT,PATARGQTY,PASTK,PAMINSTK,PAPROD,PAAPPOW,PABALQTY,RVDLOSTQTY,MIXINGMTO,PACOACONS,PAMTOC,PAADDC,PAPOWREQ,RVDLOSTQTY from PRODFCPA LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPA.PAWCID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PRODFCPA.PAITEMID where PRODFCPIGID='" + id + "' ";
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PAWCID,ITEMMASTER.ITEMID,PAITEMID,PANOOFCHG,PAALLADDIT,PATARGQTY,PASTK,PAMINSTK,PAPROD,PAAPPOW,PABALQTY,RVDLOSTQTY,MIXINGMTO,PACOACONS,PAMTOC,it.ITEMID as item,PAADD1,PAPOWREQ from PRODFCPA LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPA.PAWCID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PRODFCPA.PAITEMID LEFT OUTER JOIN ITEMMASTER it on it.ITEMMASTERID=PRODFCPA.PAADD1 where PRODFCBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -141,7 +141,7 @@ namespace Arasan.Services.Production
         public DataTable GetProdForecastAPProdDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PRODFCBASICID,WCBASIC.WCID,APWCID,APWCDAYS,APPRODCAP,APPRODD,APPRODQTY,FUELREQ,RMREQ,APPPOWREQ,APTARPROD from PRODFCAPP LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCAPP.APWCID where PRODFCPIGID='" + id + "' ";
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,APWCID,APWCDAYS,APPRODCAP,APPRODD,APPRODQTY,FUELREQ,RMREQ,APPPOWREQ,APTARPROD from PRODFCAPP LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCAPP.APWCID where PRODFCBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -151,7 +151,7 @@ namespace Arasan.Services.Production
         public DataTable GetProdForecastPackDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PRODFCBASICID,PARTYMAST.PARTYID,ITEMMASTER.ITEMID,TARITEMID,TARQTY,it.ITEMID as item,PACKMAT,PACKQTY,PACKMATREQ,it1.ITEMID as item1,PACKMATPRI from PROFCPACK LEFT OUTER JOIN PARTYMAST on PARTYMAST.PARTYMASTID=PROFCPACK.PARTYID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PROFCPACK.TARITEMID LEFT OUTER JOIN ITEMMASTER it on it.ITEMMASTERID=PROFCPACK.PACKMAT LEFT OUTER JOIN ITEMMASTER it1 on it1.ITEMMASTERID=PROFCPACK.PACKMATPRI   where PRODFCPIGID='" + id + "' ";
+            SvSql = "select PRODFCBASICID,PARTYMAST.PARTYID,ITEMMASTER.ITEMID,TARITEMID,TARQTY,it.ITEMID as item,PACKMAT,PACKQTY,PACKMATREQ,it1.ITEMID as item1,PACKMATPRI from PROFCPACK LEFT OUTER JOIN PARTYMAST on PARTYMAST.PARTYMASTID=PROFCPACK.PARTYID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PROFCPACK.TARITEMID LEFT OUTER JOIN ITEMMASTER it on it.ITEMMASTERID=PROFCPACK.PACKMAT LEFT OUTER JOIN ITEMMASTER it1 on it1.ITEMMASTERID=PROFCPACK.TARFROM   where PRODFCBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -829,7 +829,7 @@ ORDER BY 1,2";
                                 {
                                     if (cp.WorkId != null)
                                     {
-                                        svSQL = "Insert into PRODFCPA (PRODFCBASICID,PAWCID,PAITEMID,PANOOFCHG,PAALLADDIT,PATARGQTY,PASTK,PAMINSTK,PAPROD,PAAPPOW,PABALQTY,RVDLOSTQTY,MIXINGMTO,PACOACONS,PAMTOC,PAADDC,PAPOWREQ,RVDLOSTQTY) VALUES ('" + Pid + "','" + cp.WorkId + "','" + cp.saveitemid + "','" + cp.charge + "','" + cp.allocadditive + "','" + cp.target + "','" + cp.stock + "','" + cp.minstock + "','" + cp.production + "','" + cp.appowder + "','" + cp.balance + "','"+cp.rvdloss+"','"+cp.missmto+"','"+cp.coarse+"','"+cp.mtocost+"','"+cp.additiveid+"','"+cp.powerrequired+"')";
+                                        svSQL = "Insert into PRODFCPA (PRODFCBASICID,PAWCID,PAITEMID,PANOOFCHG,PAALLADDIT,PATARGQTY,PASTK,PAMINSTK,PAPROD,PAAPPOW,PABALQTY,RVDLOSTQTY,MIXINGMTO,PACOACONS,PAMTOC,PAADD1,PAPOWREQ) VALUES ('" + Pid + "','" + cp.WorkId + "','" + cp.saveitemid + "','" + cp.charge + "','" + cp.allocadditive + "','" + cp.target + "','" + cp.stock + "','" + cp.minstock + "','" + cp.production + "','" + cp.appowder + "','" + cp.balance + "','"+cp.rvdloss+"','"+cp.missmto+"','"+cp.coarse+"','"+cp.mtocost+"','"+cp.additiveid+"','"+cp.powerrequired+"')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -885,7 +885,7 @@ ORDER BY 1,2";
                                 {
                                     if (cp.partyid != null)
                                     {
-                                        svSQL = "Insert into PROFCPACK (PRODFCBASICID,PARTYID,TARITEMID,TARQTY,PACKMAT,PACKQTY,PACKMATREQ,PACKMATPRI) VALUES ('" + Pid + "','" + cp.partyid + "','" + cp.saveitemid + "','" + cp.targetqty + "','" + cp.packmatid + "','" + cp.packqty + "','" + cp.reqmat + "','" + cp.rawmatid + "')";
+                                        svSQL = "Insert into PROFCPACK (PRODFCBASICID,PARTYID,TARITEMID,TARQTY,PACKMAT,PACKQTY,PACKMATREQ,TARFROM) VALUES ('" + Pid + "','" + cp.partyid + "','" + cp.saveitemid + "','" + cp.targetqty + "','" + cp.packmatid + "','" + cp.packqty + "','" + cp.reqmat + "','" + cp.rawmatid + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
