@@ -152,6 +152,7 @@ namespace Arasan.Services
         {
 
             try
+
             {
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
@@ -200,12 +201,12 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "select EMAILCONFIG_ID,SMTP_HOST,PORT_NO,EMAIL_ID,PASSWORD,SSL,SIGNATURE from EMAIL_CONFIG WHERE EMAIL_CONFIG.IS_ACTIVE = 'Y' ORDER BY EMAILCONFIG_ID DESC ";
+                SvSql = "select IS_ACTIVE,EMAILCONFIG_ID,SMTP_HOST,PORT_NO,EMAIL_ID,PASSWORD,SSL,SIGNATURE from EMAIL_CONFIG WHERE EMAIL_CONFIG.IS_ACTIVE = 'Y' ORDER BY EMAILCONFIG_ID DESC ";
 
             }
             else
             {
-                SvSql = "select EMAILCONFIG_ID,SMTP_HOST,PORT_NO,EMAIL_ID,PASSWORD,SSL,SIGNATURE from EMAIL_CONFIG WHERE EMAIL_CONFIG.IS_ACTIVE = 'N' ORDER BY EMAILCONFIG_ID DESC ";
+                SvSql = "select IS_ACTIVE, EMAILCONFIG_ID,SMTP_HOST,PORT_NO,EMAIL_ID,PASSWORD,SSL,SIGNATURE from EMAIL_CONFIG WHERE EMAIL_CONFIG.IS_ACTIVE = 'N' ORDER BY EMAILCONFIG_ID DESC ";
 
             }
             DataTable dtt = new DataTable();
