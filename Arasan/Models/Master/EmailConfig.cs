@@ -15,6 +15,7 @@ namespace Arasan.Models
         public String Signature { get; set; }
         public String status { get; set; }
         public String ddlStatus { get; set; }
+        public String createby { get; set; }
         public object Attachment { get; internal set; }
     } 
     

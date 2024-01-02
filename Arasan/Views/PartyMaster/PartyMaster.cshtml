@@ -94,7 +94,7 @@
                             </div>
 
 
-                                            <div class="row">
+                                          
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                          <label for="inputName3" class="col-sm-4 control-label">Ledger Name<label class="mandatory">*</label></label>
@@ -104,9 +104,10 @@
 
                                                     </div>
                                                 </div>
-                                            </div>
+                                          
 
                           </div>
+                          <br>
                               <div class="row">
 
                                 <div class="col-md-6">
@@ -782,6 +783,42 @@
                     "background": ""
                 });
             }
+
+            
+            if (document.getElementById("ddlPartyCategory").value == "" || document.getElementById("ddlPartyCategory").value == 0) {
+                isValid = false;
+                $(ddlPartyCategory).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Party Category");
+                return false;
+            }
+            else {
+                $(ddlPartyCategory).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlLedger").value == "" || document.getElementById("ddlLedger").value == 0) {
+                isValid = false;
+                $(ddlLedger).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Ledger Name");
+                return false;
+            }
+            else {
+                $(ddlLedger).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            
             if (document.getElementById("PartyGroup").value == "") {
                 isValid = false;
                 $(PartyGroup).css({
@@ -814,22 +851,7 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("ddlLedger").value == "") {
-                isValid = false;
-                $(ddlLedger).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Ledger");
-                return false;
-            }
-            else {
-                $(ddlLedger).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+            
             if (document.getElementById("RateCode").value == "") {
                 isValid = false;
                 $(RateCode).css({
@@ -837,7 +859,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter RateCode");
+                alert("Please Enter Rate Code");
                 return false;
             }
             else {

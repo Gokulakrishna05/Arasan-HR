@@ -52,7 +52,7 @@ namespace Arasan.Services.Master
         public DataTable GetEditItemDescription(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT TESTDESCMASTERID,TESTDESC,UNITMAST.UNITID,VALUEORMANUAL FROM TESTDESCMASTER LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=TESTDESCMASTER.UNIT  where TESTDESCMASTERID=" + id + "";
+            SvSql = "SELECT TESTDESCMASTERID,TESTDESC,UNIT,VALUEORMANUAL FROM TESTDESCMASTER where TESTDESCMASTERID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -81,13 +81,13 @@ namespace Arasan.Services.Master
                     objConn.Open();
                     if (cy.ID == null) 
                     {       
-                        svSQL = "Insert into TESTDESCMASTER (TESTDESC,UNIT,VALUEORMANUAL) VALUES ('" + cy.Des + "','" + cy.Unit + "','" + cy.Value + "')";
+                        svSQL = "Insert into TESTDESCMASTER (TESTDESC,UNIT,VALUEORMANUAL,IS_ACTIVE) VALUES ('" + cy.Des + "','" + cy.Unit + "','" + cy.Value + "','Y')";                            //   ,CREATED_BY,CREATED_ON  , '" + cy.createby + "','" + DateTime.Now + "'
                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                         objCmds.ExecuteNonQuery();
                     }
                     else
                     {
-                        svSQL = " UPDATE TESTDESCMASTER SET TESTDESC ='" + cy.Des + "', UNIT = '" + cy.Unit + "', VALUEORMANUAL = '" + cy.Value + "' Where TESTDESCMASTERID = '" + cy.ID + "'";
+                        svSQL = " UPDATE TESTDESCMASTER SET TESTDESC ='" + cy.Des + "', UNIT = '" + cy.Unit + "', VALUEORMANUAL = '" + cy.Value + "'  Where TESTDESCMASTERID = '" + cy.ID + "'";       //,UPDATED_BY = '" + cy.createby + "' ,UPDATED_ON ='" + DateTime.Now + "'
                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                         objCmds.ExecuteNonQuery();
                     }
@@ -107,7 +107,7 @@ namespace Arasan.Services.Master
         }
 
 
-        public string StatusChange(string tag, int id)
+        public string StatusChange(string tag, string id)
         {
 
             try
@@ -129,17 +129,40 @@ namespace Arasan.Services.Master
             }
             return "";
         }
+       public string RemoveChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE TESTDESCMASTER SET IS_ACTIVE ='Y' WHERE TESTDESCMASTERID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+            return "";
+        }
         public DataTable GetAllItemDescription(string strStatus)
         {
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "SELECT TESTDESCMASTERID,TESTDESC,UNITMAST.UNITID,VALUEORMANUAL FROM TESTDESCMASTER LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=TESTDESCMASTER.UNIT WHERE TESTDESCMASTER.IS_ACTIVE='Y' order by TESTDESCMASTER.TESTDESCMASTERID DESC ";
+                SvSql = "SELECT TESTDESCMASTER.IS_ACTIVE,TESTDESCMASTER.TESTDESCMASTERID,TESTDESCMASTER.TESTDESC,UNITMAST.UNITID,TESTDESCMASTER.VALUEORMANUAL FROM TESTDESCMASTER LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=TESTDESCMASTER.UNIT WHERE TESTDESCMASTER.IS_ACTIVE='Y' order by TESTDESCMASTER.TESTDESCMASTERID DESC  ";
 
             }
             else
             {
-                SvSql = "SELECT TESTDESCMASTERID,TESTDESC,UNITMAST.UNITID,VALUEORMANUAL FROM TESTDESCMASTER LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=TESTDESCMASTER.UNIT WHERE TESTDESCMASTER.IS_ACTIVE='N' order by TESTDESCMASTER.TESTDESCMASTERID DESC ";
+                SvSql = "SELECT TESTDESCMASTER.IS_ACTIVE,TESTDESCMASTER.TESTDESCMASTERID,TESTDESCMASTER.TESTDESC,UNITMAST.UNITID,TESTDESCMASTER.VALUEORMANUAL FROM TESTDESCMASTER LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=TESTDESCMASTER.UNIT WHERE TESTDESCMASTER.IS_ACTIVE='N' order by TESTDESCMASTER.TESTDESCMASTERID DESC  ";
 
             }
             DataTable dtt = new DataTable();

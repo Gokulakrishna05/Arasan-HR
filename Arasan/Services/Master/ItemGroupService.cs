@@ -121,7 +121,7 @@ namespace Arasan.Services.Master
                     if (by.ID == null)
                      {
                     StatementType = "Insert";
-                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value; 
                     }
                 else
                 {

@@ -245,22 +245,22 @@
                     "background": ""
                 });
             }
-            //if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
-            //    isValid = false;
-            //    $(ddlBranch).css({
-            //        "border": "1px solid red",
-            //        "background": "#FFCECE"
-            //    });
+            if (document.getElementById("txtEmailId").value == "") {
+                isValid = false;
+                $(txtEmailId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
-            //    alert("Please Select Branch");
-            //    return false;
-            //}
-            //else {
-            //    $(ddlBranch).css({
-            //        "border": "",
-            //        "background": ""
-            //    });
-            //}
+                alert("Please Enter E-mail");
+                return false;
+            }
+            else {
+                $(txtEmailId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
            
             if (document.getElementById("txtLocationType").value == "") {
                 isValid = false;
@@ -274,23 +274,6 @@
             }
             else {
                 $(txtLocationType).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-            if (document.getElementById("txtContactPer").value == "") {
-                isValid = false;
-                $(txtContactPer).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Contact Person");
-                return false;
-            }
-            else {
-                $(txtContactPer).css({
                     "border": "",
                     "background": ""
                 });
@@ -311,39 +294,24 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtAddress").value == "") {
+            if (document.getElementById("txtContactPer").value == "") {
                 isValid = false;
-                $(txtAddress).css({
+                $(txtContactPer).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Address");
+                alert("Please Enter Contact Person");
                 return false;
             }
             else {
-                $(txtAddress).css({
+                $(txtContactPer).css({
                     "border": "",
                     "background": ""
                 });
             }
-            if (document.getElementById("txtEmailId").value == "") {
-                isValid = false;
-                $(txtEmailId).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter E-mail");
-                return false;
-            }
-            else {
-                $(txtEmailId).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
+           
+           
 
             if (isValid == false)
                 e.preventDefault();

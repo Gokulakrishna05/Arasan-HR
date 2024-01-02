@@ -129,11 +129,12 @@ namespace Arasan.Services.Master
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("HSNCODEID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("TARIFFID", OracleDbType.NVarchar2).Value = cp.tariff;
+                                    objCmds.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = 'Y';
                                    
 
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
-                                    objCmds.ExecuteNonQuery();
+                                    objCmds.ExecuteNonQuery(); 
                                     objConns.Close();
                                 }
 

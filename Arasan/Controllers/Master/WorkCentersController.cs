@@ -227,10 +227,26 @@ namespace Arasan.Controllers.Master
             }
         }
 
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteMR(string tag, string id)
         {
 
             string flag = WorkCentersService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListWorkCenters");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListWorkCenters");
+            }
+        }
+
+        public ActionResult Remove(string tag, string id)
+        {
+
+            string flag = WorkCentersService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

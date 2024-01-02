@@ -17,6 +17,7 @@ namespace Arasan.Interface.Master
 
         DataTable GetAllItemDescription(string strStatus);
 
-        string StatusChange(string tag, int id);
+        string StatusChange(string tag, string id);
+        string RemoveChange(string tag, string id);
     }
 }

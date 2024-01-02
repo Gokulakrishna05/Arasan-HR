@@ -223,7 +223,7 @@ namespace Arasan.Services.Master
             return msg;
         }
 
-        public string StatusChange(string tag, int id)
+        public string StatusChange(string tag, string id)
         {
 
             try
@@ -245,7 +245,8 @@ namespace Arasan.Services.Master
             }
             return "";
         }
-        public string RemoveChange(string tag, int id)
+
+        public string RemoveChange(string tag, string id)
         {
 
             try
@@ -268,6 +269,7 @@ namespace Arasan.Services.Master
             return "";
 
         }
+      
 
         public DataTable GetAllWorkCenters(string strStatus)
         {

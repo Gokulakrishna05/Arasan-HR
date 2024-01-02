@@ -11,8 +11,8 @@ namespace Arasan.Interface.Master
         string UnitCRUD(Unit cy);
         //IEnumerable<Unit> GetAllUnit(string status);
         DataTable GetUnit(string id);
-        string StatusChange(string tag, int id);
-        string RemoveChange(string tag, int id);
+        string StatusChange(string tag, string id);
+        string RemoveChange(string tag, string id);
 
         DataTable GetAllUnit(string strStatus);
     }

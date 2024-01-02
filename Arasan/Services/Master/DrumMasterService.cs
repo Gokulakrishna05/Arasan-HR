@@ -168,13 +168,13 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public string StatusChange(string tag, int id)
+        public string StatusChange(string tag, int id) 
         {
 
             try
             {
                 string svSQL = string.Empty;
-                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                using (OracleConnection objConnT = new OracleConnection(_connectionString)) 
                 {
                     svSQL = "UPDATE DRUMMAST SET IS_ACTIVE ='N' WHERE DRUMMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);

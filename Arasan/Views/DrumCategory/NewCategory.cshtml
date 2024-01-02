@@ -48,7 +48,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">CategoryType<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Category Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.CateType, new { @id = "txtCategory", @class = "form-control",autocomplete="off" , @TabIndex = 2, @size="30" })<br>
                                             @Html.HiddenFor(C => C.ID)
@@ -74,7 +74,7 @@
 
                             <div style="height:30px;"></div>
                             <div class="col-lg-8"></div>
-                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Submit</button>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListNewCategory", "DrumCategory")">Cancel</a>
 
                         </form>
@@ -98,7 +98,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter CategoryType");
+                alert("Please Enter Category Type");
                 return false;
             }
             else {
@@ -107,39 +107,8 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtDes").value == "") {
-                isValid = false;
-                $(txtDes).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+           
 
-                alert("Please Enter Description");
-                return false;
-            }
-            else {
-                $(txtDes).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-            if (document.getElementById("txtStatus").value == "") {
-                isValid = false;
-                $(txtStatus).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Status");
-                return false;
-            }
-            else {
-                $(txtStatus).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
 
             if (isValid == false)
                 e.preventDefault();

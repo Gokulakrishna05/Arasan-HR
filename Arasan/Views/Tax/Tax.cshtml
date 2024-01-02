@@ -96,7 +96,23 @@
         $('#btnSave').click(function (e) {
             var isValid = true;
 
-           
+            if (document.getElementById("ddlTaxtype").value == "" || document.getElementById("ddlTaxtype").value == 0) {
+                isValid = false;
+                $(ddlTaxtype).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Party Tax type");
+                return false;
+            }
+            else {
+                $(ddlTaxtype).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
             if (document.getElementById("txtPercentage").value == "") {
                 isValid = false;
                 $(txtPercentage).css({

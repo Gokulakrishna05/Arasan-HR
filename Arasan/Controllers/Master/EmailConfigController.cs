@@ -31,10 +31,10 @@ namespace Arasan.Controllers
         {
 
             EmailConfig EC = new EmailConfig();
-
+            EC.createby = Request.Cookies["UserId"];
             //for edit & delete
 
-                if (id != null)
+            if (id != null)
                 {
                     DataTable dt = new DataTable();
                     double total = 0;

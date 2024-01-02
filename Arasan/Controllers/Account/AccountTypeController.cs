@@ -97,7 +97,7 @@ namespace Arasan.Controllers
         public static string GetNumberwithPrefix(int AccountCode, int totalchar)
         {
             string tempnumber = AccountCode.ToString();
-            while (tempnumber.Length < 3)
+            while (tempnumber.Length < 3) 
                 tempnumber = "0" + tempnumber;
             return tempnumber;
         }
