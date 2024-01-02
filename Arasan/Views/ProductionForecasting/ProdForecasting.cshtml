@@ -59,6 +59,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -291,7 +292,7 @@
 
                                                                                                     <td>
                                                                                                         @Html.DropDownListFor(o => o.PFCDGILst[j].itemid, Model.PFCDGILst[j].PItemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemId" + j, style = "width: 170px;"})
-                                                                                                        @Html.HiddenFor(o => o.PFCDGILst[j].saveItemId)
+                                                                                                        @Html.HiddenFor(o => o.PFCDGILst[j].saveitemid)
                                                                                                     </td>
                                                                                                     <td>
                                                                                                         @Html.TextBoxFor(o => o.PFCDGILst[j].target, new { @id = "txtTarget" + j, @class = "form-control", style = "width: 120px;" })
@@ -400,7 +401,7 @@
 
                                                                                                     <td>
                                                                                                         @Html.DropDownListFor(o => o.PFCPYROILst[k].WorkId, Model.PFCPYROILst[k].Worklst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlWorkId" + k, style = "width: 170px;"})
-                                                                                                        @Html.HiddenFor(o => o.PFCPYROILst[k].saveItemId)
+                                                                                                        @Html.HiddenFor(o => o.PFCPYROILst[k].saveitemid)
                                                                                                     </td>
                                                                                                     <td>
                                                                                                         @Html.TextBoxFor(o => o.PFCPYROILst[k].CDays, new { @id = "txtCDays" + k, @class = "form-control", style = "width: 120px;" })
@@ -445,10 +446,10 @@
                                                                                                         @Html.TextBoxFor(o => o.PFCPYROILst[k].BalanceQty, new { @id = "txtBalanceQty" + k, @class = "form-control", style = "width: 120px;" })
                                                                                                     </td>
                                                                                                     <td>
-                                                                                                        @Html.TextBoxFor(o => o.PFCPYROILst[k].Additive, new { @id = "txtAdditive" + k, @class = "form-control", style = "width: 120px;" })
+                                                                                                        @Html.TextBoxFor(o => o.PFCPYROILst[k].additive, new { @id = "txtAdditive" + k, @class = "form-control", style = "width: 120px;" })
                                                                                                     </td>
                                                                                                     <td>
-                                                                                                        @Html.TextBoxFor(o => o.PFCPYROILst[k].Per, new { @id = "txtPer" + k, @class = "form-control", style = "width: 120px;" })
+                                                                                                        @Html.TextBoxFor(o => o.PFCPYROILst[k].per, new { @id = "txtPer" + k, @class = "form-control", style = "width: 120px;" })
                                                                                                     </td>
                                                                                                     <td>
                                                                                                         @Html.TextBoxFor(o => o.PFCPYROILst[k].AllocAdditive, new { @id = "txtAllocAdditive" + k, @class = "form-control", style = "width: 120px;" })

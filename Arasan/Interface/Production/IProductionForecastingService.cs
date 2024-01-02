@@ -11,7 +11,14 @@ namespace Arasan.Interface.Production
         DataTable GetProdForecastDetail(string id);
         DataTable GetProdForecastDGPasteDetail(string id);
         DataTable GetProdForecastPolishDetail(string id);
+        DataTable GetProdForecastRVDDetail(string id);
+        DataTable GetProdForecastPasteDetail(string id);
+        DataTable GetAPSDeatils(string id);
+        DataTable GetAPReqDeatils(string id);
         DataTable GetProdForecastPyroDetail(string id);
+        DataTable GetProdForecastAPProdDetail(string id);
+        DataTable GetProdForecastPackDetail(string id);
+        DataTable GetAllProdFC(string id);
         DataTable GetWorkCenter();
         DataTable GetMnth();
         DataTable GetPYROWC();
