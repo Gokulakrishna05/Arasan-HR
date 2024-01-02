@@ -143,16 +143,7 @@
         // creage grid
         $("#grid").jqxGrid(
          {
-                //width: 710,
-                //height: 465,
-                //source: source,
-                //pageable: true,
-                //filterable: true,
-                //autoheight: true,
-                //sortable: true,
-                //rowdetails: true,
-                //rowsheight: 35,
-                //initrowdetails: initrowdetails,
+               
 
                 width: '100%',
                 source: dataAdapter,
@@ -224,7 +215,7 @@
                                 new SelectListItem() {Text = "Disabled", Value="N"}},
                                 new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
                             </div>
-                            <div class="col-md-9 ">
+                            <div class="col-md-8 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("HSNcode", "HSNcode")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add HSN Code</a>
                                     <br>
