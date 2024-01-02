@@ -16,6 +16,7 @@ namespace Arasan.Services.Production
         public ProductionForecastingService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
 
         public IEnumerable<ProductionForecasting> GetAllProductionForecasting()
@@ -48,7 +49,7 @@ namespace Arasan.Services.Production
         public DataTable GetPFDeatils(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select BRANCHID,DOCID,to_char(PRODFCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PLANTYPE,MONTH,INCDECPER,HD,to_char(PRODFCBASIC.FINYRPST,'dd-MON-yyyy')FINYRPST,to_char(PRODFCBASIC.FINYRPED,'dd-MON-yyyy')FINYRPED,ENTEREDBY from PRODFCBASIC    where PRODFCBASICID= '" + id + "'";
+            SvSql = "select  DOCID,to_char(PRODFCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PLANTYPE,MONTH,INCDECPER,HD,to_char(PRODFCBASIC.FINYRPST,'dd-MON-yyyy')FINYRPST,to_char(PRODFCBASIC.FINYRPED,'dd-MON-yyyy')FINYRPED,ENTEREDBY from PRODFCBASIC    where PRODFCBASICID= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -59,7 +60,7 @@ namespace Arasan.Services.Production
         public DataTable GetProdForecastDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PRODFCBASICID,PTYPE,ITEMID,UNIT,PREVYQTY,PREVMQTY,PQTY from PRODFCDETAIL where PRODFCDETAILID='" + id + "' ";
+            SvSql = "select PRODFCBASICID,PTYPE,ITEMMASTER.ITEMID,UNITMAST.UNITID,PREVYQTY,PREVMQTY,PQTY from PRODFCDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PRODFCDETAIL.ITEMID LEFT OUTER JOIN UNITMAST on UNITMAST.UNITMASTID=PRODFCDETAIL.UNIT where PRODFCDETAILID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -69,7 +70,7 @@ namespace Arasan.Services.Production
         public DataTable GetProdForecastDGPasteDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PRODFCBASICID,DGITEMID,DGTARQTY,DGMIN,DGSTOCK,REQDG,DGADDITID,DGADDITREQ,DGRAWMAT,DGREQAP from PROFCDG where PROFCDGID='" + id + "' ";
+            SvSql = "Select PRODFCBASICID,ITEMMASTER.ITEMID,DGITEMID,DGTARQTY,DGMIN,DGSTOCK,REQDG,it.ITEMID as item,DGADDITID,DGADDITREQ,it1.ITEMID as item1,DGRAWMAT,DGREQAP from PROFCDG  LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PROFCDG.DGITEMID LEFT OUTER JOIN ITEMMASTER it on it.ITEMMASTERID=PROFCDG.DGADDITID LEFT OUTER JOIN ITEMMASTER it1 on it1.ITEMMASTERID=PROFCDG.DGRAWMAT where PROFCDGID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -80,7 +81,7 @@ namespace Arasan.Services.Production
         public DataTable GetProdForecastPyroDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PRODFCBASICID,PYWCID,WCDAYS,PYITEMID,PYMINSTK,PYALLREJ,PYGRCHG,PYREJQTY,PYREQQTY,PYTARQTY, PYPRODCAPD,PYPRODQTY,PYRAWREJMAT,PYRAWREJMATPER,PREBALQTY,PYADD1,PYADDPER,ALLOCADD,PYREQAP,WSTATUS,POWREQ from PRODFCPY where PRODFCPYID='" + id + "' ";
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PYWCID,WCDAYS,ITEMMASTER.ITEMID,PYITEMID,PYMINSTK,PYALLREJ,PYGRCHG,PYREJQTY,PYREQQTY,PYTARQTY, PYPRODCAPD,PYPRODQTY,PYRAWREJMAT,PYRAWREJMATPER,PREBALQTY,PYADD1,PYADDPER,ALLOCADD,PYREQAP,WSTATUS,POWREQ from PRODFCPY LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PRODFCPY.PYITEMID LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPY.PYWCID where PRODFCPYID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -90,7 +91,67 @@ namespace Arasan.Services.Production
         public DataTable GetProdForecastPolishDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PRODFCBASICID,PIGWCID,PIGWCDAYS,PIGITEMID,PIGTARGET,PIGCAP,PIGSTOCK,PIGMINSTK,PIGRAWREQ,PIGDAYS,PIGADDIT,PIGADDPER,PIGRAWMAT,PIGRAWREQPER,PIGRVDQTY,PIGPYPO,PIGPYQTY,PIGPOWREQ from PRODFCPIG where PRODFCPIGID='" + id + "' ";
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PIGWCID,PIGWCDAYS,ITEMMASTER.ITEMID,PIGITEMID,PIGTARGET,PIGCAP,PIGSTOCK,PIGMINSTK,PIGRAWREQ,PIGDAYS,it.ITEMID as item,PIGADDIT,PIGADDPER,it1.ITEMID as item1,PIGRAWMAT,PIGRAWREQPER,PIGRVDQTY,PIGPYPO,PIGPYQTY,PIGPOWREQ from PRODFCPIG LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPIG.PIGWCID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PRODFCPIG.PIGITEMID LEFT OUTER JOIN ITEMMASTER it on it.ITEMMASTERID=PRODFCPIG.PIGADDIT LEFT OUTER JOIN ITEMMASTER it1 on it1.ITEMMASTERID=PRODFCPIG.PIGRAWMAT where PRODFCPIGID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetProdForecastRVDDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,RVDWCID,ITEMMASTER.ITEMID,RVDITEMID,RVDPRODQTY,RVDCONS,RVDCONSQTY,it.ITEMID as item,RVDRAWMAT,RVDPOWREQ,RVDWCDAYS,RVDMTOREC,RVDMTOLOS from PRODFCRVD LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCRVD.RVDWCID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PRODFCRVD.RVDITEMID LEFT OUTER JOIN ITEMMASTER it on it.ITEMMASTERID=PRODFCRVD.RVDRAWMAT where PRODFCPIGID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetProdForecastPasteDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PAWCID,ITEMMASTER.ITEMID,PAITEMID,PANOOFCHG,PAALLADDIT,PATARGQTY,PASTK,PAMINSTK,PAPROD,PAAPPOW,PABALQTY,RVDLOSTQTY,MIXINGMTO,PACOACONS,PAMTOC,PAADDC,PAPOWREQ,RVDLOSTQTY from PRODFCPA LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPA.PAWCID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PRODFCPA.PAITEMID where PRODFCPIGID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAPSDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select  PRODFCBASICID,APPOWREQ,APREQ,APAVAILSTK,APMINSTK,APREQPOW from PRODFCAP    where PRODFCBASICID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAPReqDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select  PRODFCBASICID,REQAPPOWPY,REQAPPOWPA,REQAPPOWAP,REQAPPOW,APPOWSTOCK,MELTCOAW,REQPOWQTY,APPOWMIN from PRODREQBASIC    where PRODFCBASICID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetProdForecastAPProdDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,APWCID,APWCDAYS,APPRODCAP,APPRODD,APPRODQTY,FUELREQ,RMREQ,APPPOWREQ,APTARPROD from PRODFCAPP LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCAPP.APWCID where PRODFCPIGID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetProdForecastPackDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PRODFCBASICID,PARTYMAST.PARTYID,ITEMMASTER.ITEMID,TARITEMID,TARQTY,it.ITEMID as item,PACKMAT,PACKQTY,PACKMATREQ,it1.ITEMID as item1,PACKMATPRI from PROFCPACK LEFT OUTER JOIN PARTYMAST on PARTYMAST.PARTYMASTID=PROFCPACK.PARTYID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PROFCPACK.TARITEMID LEFT OUTER JOIN ITEMMASTER it on it.ITEMMASTERID=PROFCPACK.PACKMAT LEFT OUTER JOIN ITEMMASTER it1 on it1.ITEMMASTERID=PROFCPACK.PACKMATPRI   where PRODFCPIGID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -236,26 +297,35 @@ ORDER BY ORD DESC";
                     cmd.Parameters.Add("MONTH",mnth);
                     cmd.BindByName = true;
                     OracleDataReader rdr = cmd.ExecuteReader();
+                  
                     while (rdr.Read())
                     {
+                        string Additive = datatrans.GetDataString("SELECT   I1.ItemID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID = I.ADD1");
+                        string Additiveid = datatrans.GetDataString("SELECT   I1.ITEMMASTERID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID = I.ADD1");
+                        string Per = datatrans.GetDataString("SELECT add1per FROM ITEMMASTER WHERE ITEMID='" + rdr["ITEMID"].ToString() + "'");
+
                         PFCPYROItem cmp = new PFCPYROItem
                         {
                             itemid = rdr["ITEMID"].ToString(),
+                            saveitemid = datatrans.GetDataString("SELECT   ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["ITEMID"].ToString() + "'"),
                             required = rdr["REQ"].ToString(),
                             minstock = rdr["MINSTK"].ToString(),
                             stock = rdr["stk"].ToString(),
                             rejqty = rdr["REJ"].ToString(),
                             target = rdr["ORD"].ToString(),
-                            // itemid = rdr["ITEMID"].ToString(),
-                            //Branch = rdr["BRANCHID"].ToString(),
+                            additive = Additive,
+                            additiveid = Additiveid,
+                            per = Per,
+                           // itemid = rdr["ITEMID"].ToString(),
+                        //Branch = rdr["BRANCHID"].ToString(),
 
-                            //InvNo = rdr["DOCID"].ToString(),
+                        //InvNo = rdr["DOCID"].ToString(),
 
-                            //InvDate = rdr["DOCDATE"].ToString(),
-                            //Party = rdr["PARTYNAME"].ToString(),
-                            //Net = Convert.ToDouble(rdr["NET"].ToString()),
+                        //InvDate = rdr["DOCDATE"].ToString(),
+                        //Party = rdr["PARTYNAME"].ToString(),
+                        //Net = Convert.ToDouble(rdr["NET"].ToString()),
 
-                        };
+                    };
                         cmpList.Add(cmp);
                     }
                 }
@@ -322,21 +392,26 @@ ORDER BY ord desc";
                         PFCPOLIItem cmp = new PFCPOLIItem
                         {
                             itemid = rdr["ITEMID"].ToString(),
+                            saveitemid = datatrans.GetDataString("SELECT   ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["ITEMID"].ToString() + "'"),
                             required = rdr["Tar"].ToString(),
                             minstock = rdr["MINSTK"].ToString(),
                             stock = rdr["stk"].ToString(),
                           
                             target = rdr["ORD"].ToString(),
-                            // itemid = rdr["ITEMID"].ToString(),
-                            //Branch = rdr["BRANCHID"].ToString(),
+                            additive = datatrans.GetDataString("SELECT   I1.ItemID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID = I.ADD1"),
+                            additiveid = datatrans.GetDataString("SELECT   I1.ITEMMASTERID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID = I.ADD1"),
+                            rawmat = datatrans.GetDataString("SELECT I1.ItemID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID=I.ITEMFROM"),
+                            rawmatid = datatrans.GetDataString("SELECT I1.ITEMMASTERID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID=I.ITEMFROM"),
+                        // itemid = rdr["ITEMID"].ToString(),
+                        //Branch = rdr["BRANCHID"].ToString(),
 
-                            //InvNo = rdr["DOCID"].ToString(),
+                        //InvNo = rdr["DOCID"].ToString(),
 
-                            //InvDate = rdr["DOCDATE"].ToString(),
-                            //Party = rdr["PARTYNAME"].ToString(),
-                            //Net = Convert.ToDouble(rdr["NET"].ToString()),
+                        //InvDate = rdr["DOCDATE"].ToString(),
+                        //Party = rdr["PARTYNAME"].ToString(),
+                        //Net = Convert.ToDouble(rdr["NET"].ToString()),
 
-                        };
+                    };
                         cmpList.Add(cmp);
                     }
                 }
@@ -392,11 +467,15 @@ Order by 2 Desc";
                         PFCPASTEItem cmp = new PFCPASTEItem
                         {
                             itemid = rdr["ITEMID"].ToString(),
+                            saveitemid = datatrans.GetDataString("SELECT   ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["ITEMID"].ToString() + "'"),
                             required = rdr["Tar"].ToString(),
                             minstock = rdr["min"].ToString(),
                             stock = rdr["stk"].ToString(),
 
                             target = rdr["qty"].ToString(),
+                            additive = datatrans.GetDataString("SELECT   I1.ItemID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID = I.ADD1"),
+                            additiveid = datatrans.GetDataString("SELECT   I1.ITEMMASTERID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID = I.ADD1"),
+
                             // itemid = rdr["ITEMID"].ToString(),
                             //Branch = rdr["BRANCHID"].ToString(),
 
@@ -474,10 +553,14 @@ ORDER BY 1,2";
                         PFCPACKItem cmp = new PFCPACKItem
                         {
                             targetitem = rdr["item"].ToString(),
+                            saveitemid = datatrans.GetDataString("SELECT ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["item"].ToString() + "'"),
                             packmat = rdr["PACK"].ToString(),
+                           packmatid = datatrans.GetDataString("SELECT   ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["PACK"].ToString() + "'"),
                             packqty = rdr["QTY"].ToString(),
                             rawmat = rdr["RAWM"].ToString(),
+                           rawmatid = datatrans.GetDataString("SELECT   ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["RAWM"].ToString() + "'"),
                             party = rdr["PARTYID"].ToString(),
+                            partyid = datatrans.GetDataString("SELECT   PARTYMASTID FROM PARTYMAST WHERE  PARTYID ='" + rdr["PARTYID"].ToString() + "'"),
                             targetqty = rdr["TAR"].ToString(),
                             // itemid = rdr["ITEMID"].ToString(),
                             //Branch = rdr["BRANCHID"].ToString(),
@@ -501,7 +584,22 @@ ORDER BY 1,2";
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
 
+
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'PFc-' AND ACTIVESEQUENCE = 'T'");
+                string docid = string.Format("{0}{1}", "PFc-", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='PFc-' AND ACTIVESEQUENCE ='T'";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                cy.DocId = docid;
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("PRODFCBASICPROC", objConn);
@@ -522,13 +620,13 @@ ORDER BY 1,2";
 
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = cy.Docdate;
-                    objCmd.Parameters.Add("PLANTYPE", OracleDbType.NVarchar2).Value = cy.PType;
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
+                    objCmd.Parameters.Add("PLANTYPE", OracleDbType.NVarchar2).Value = cy.plantype;
                     objCmd.Parameters.Add("MONTH", OracleDbType.NVarchar2).Value = cy.ForMonth;
                     objCmd.Parameters.Add("INCDECPER", OracleDbType.NVarchar2).Value = cy.Ins;;
                     objCmd.Parameters.Add("HD", OracleDbType.NVarchar2).Value = cy.Hd;
-                    objCmd.Parameters.Add("FINYRPST", OracleDbType.Date).Value = cy.Fordate;
-                    objCmd.Parameters.Add("FINYRPED", OracleDbType.Date).Value = cy.Enddate;
+                    objCmd.Parameters.Add("FINYRPST", OracleDbType.NVarchar2).Value = cy.Fordate;
+                    objCmd.Parameters.Add("FINYRPED", OracleDbType.NVarchar2).Value = cy.Enddate;
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -544,11 +642,11 @@ ORDER BY 1,2";
                         }
                         foreach (PFCItem ca in cy.PFCILst)
                         {
-                            if (ca.Isvalid == "Y" && ca.PType != "0")
+                            if (ca.Isvalid == "Y" && ca.PType != null)
                             {
-                                using (OracleConnection objConns = new OracleConnection(_connectionString))
-                                {
-                                    OracleCommand objCmds = new OracleCommand("PRODFCDETAILPROC", objConns);
+                                 
+                                     
+                                    OracleCommand objCmds = new OracleCommand("PRODFCDETAILPROC", objConn);
                                     if (cy.ID == null)
                                     {
                                         StatementType = "Insert";
@@ -568,20 +666,19 @@ ORDER BY 1,2";
                                     objCmds.Parameters.Add("PREVMQTY", OracleDbType.NVarchar2).Value = ca.PtmQty;
                                     objCmds.Parameters.Add("PQTY", OracleDbType.NVarchar2).Value = ca.Fqty;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                    objConns.Open();
-                                    objCmds.ExecuteNonQuery();
-                                    objConns.Close();
-                                }
 
+                                    objCmds.ExecuteNonQuery();
+
+
+
+                                }
                             }
-                        }
-                        foreach (PFCDGItem cp in cy.PFCDGILst)
-                        {
-                            if (cp.Isvalid == "Y" && cp.itemid != "0")
+                            foreach (PFCDGItem cp in cy.PFCDGILst)
                             {
-                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                if ( cp.saveitemid != null)
                                 {
-                                    OracleCommand objCmds = new OracleCommand("PROFCDGPROC", objConns);
+
+                                    OracleCommand objCmds = new OracleCommand("PROFCDGPROC", objConn);
                                     if (cy.ID == null)
                                     {
                                         StatementType = "Insert";
@@ -594,32 +691,31 @@ ORDER BY 1,2";
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("PRODFCBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("DGITEMID", OracleDbType.NVarchar2).Value = cp.itemid;
+                                    objCmds.Parameters.Add("DGITEMID", OracleDbType.NVarchar2).Value = cp.saveitemid;
                                     objCmds.Parameters.Add("DGTARQTY", OracleDbType.NVarchar2).Value = cp.target;
                                     objCmds.Parameters.Add("DGMIN", OracleDbType.NVarchar2).Value = cp.min;
                                     objCmds.Parameters.Add("DGSTOCK", OracleDbType.NVarchar2).Value = cp.stock;
                                     objCmds.Parameters.Add("REQDG", OracleDbType.NVarchar2).Value = cp.required;
-                                    objCmds.Parameters.Add("DGADDITID", OracleDbType.NVarchar2).Value = cp.dgaddit;
+                                    objCmds.Parameters.Add("DGADDITID", OracleDbType.NVarchar2).Value = cp.dgadditid;
                                     objCmds.Parameters.Add("DGADDITREQ", OracleDbType.NVarchar2).Value = cp.reqadditive;
-                                    objCmds.Parameters.Add("DGRAWMAT", OracleDbType.NVarchar2).Value = cp.rawmaterial;
+                                    objCmds.Parameters.Add("DGRAWMAT", OracleDbType.NVarchar2).Value = cp.rawmaterialid;
                                     objCmds.Parameters.Add("DGREQAP", OracleDbType.NVarchar2).Value = cp.reqpyro;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                    objConns.Open();
+
                                     objCmds.ExecuteNonQuery();
-                                    objConns.Close();
+
+
+
+
+
                                 }
-
-
-
                             }
-                        }
-                        foreach (PFCPYROItem cp in cy.PFCPYROILst)
-                        {
-                            if (cp.Isvalid == "Y" && cp.WorkId != "0")
+                            foreach (PFCPYROItem cp in cy.PFCPYROILst)
                             {
-                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                if ( cp.WorkId != null)
                                 {
-                                    OracleCommand objCmds = new OracleCommand("PRODFCPYPROC", objConns);
+
+                                    OracleCommand objCmds = new OracleCommand("PRODFCPYPROC", objConn);
                                     if (cy.ID == null)
                                     {
                                         StatementType = "Insert";
@@ -634,7 +730,7 @@ ORDER BY 1,2";
                                     objCmds.Parameters.Add("PRODFCBASICID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("PYWCID", OracleDbType.NVarchar2).Value = cp.WorkId;
                                     objCmds.Parameters.Add("WCDAYS", OracleDbType.NVarchar2).Value = cp.CDays;
-                                    objCmds.Parameters.Add("PYITEMID", OracleDbType.NVarchar2).Value = cp.itemid;
+                                    objCmds.Parameters.Add("PYITEMID", OracleDbType.NVarchar2).Value = cp.saveitemid;
                                     objCmds.Parameters.Add("PYMINSTK", OracleDbType.NVarchar2).Value = cp.minstock;
                                     objCmds.Parameters.Add("PYALLREJ", OracleDbType.NVarchar2).Value = cp.pasterej;
                                     objCmds.Parameters.Add("PYGRCHG", OracleDbType.NVarchar2).Value = cp.GradeChange;
@@ -646,71 +742,159 @@ ORDER BY 1,2";
                                     objCmds.Parameters.Add("PYRAWREJMAT", OracleDbType.NVarchar2).Value = cp.RejMat;
                                     objCmds.Parameters.Add("PYRAWREJMATPER", OracleDbType.NVarchar2).Value = cp.RejMatReq;
                                     objCmds.Parameters.Add("PREBALQTY", OracleDbType.NVarchar2).Value = cp.BalanceQty;
-                                    objCmds.Parameters.Add("PYADD1", OracleDbType.NVarchar2).Value = cp.Additive;
-                                    objCmds.Parameters.Add("PYADDPER", OracleDbType.NVarchar2).Value = cp.Per;
+                                    objCmds.Parameters.Add("PYADD1", OracleDbType.NVarchar2).Value = cp.additiveid;
+                                    objCmds.Parameters.Add("PYADDPER", OracleDbType.NVarchar2).Value = cp.per;
                                     objCmds.Parameters.Add("ALLOCADD", OracleDbType.NVarchar2).Value = cp.AllocAdditive;
                                     objCmds.Parameters.Add("PYREQAP", OracleDbType.NVarchar2).Value = cp.ReqPowder;
                                     objCmds.Parameters.Add("WSTATUS", OracleDbType.NVarchar2).Value = cp.WStatus;
                                     objCmds.Parameters.Add("POWREQ", OracleDbType.NVarchar2).Value = cp.PowderRequired;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                    objConns.Open();
+
                                     objCmds.ExecuteNonQuery();
-                                    objConns.Close();
+
+
+
+
+
                                 }
+                            }
+                            foreach (PFCPOLIItem cp in cy.PFCPOLILst)
+                            {
+                                if ( cp.workid != null)
+                                {
+                                    OracleCommand objCmds = new OracleCommand("PRODFCPIGPROC", objConn);
+                                    if (cy.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                    }
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("PRODFCBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("PIGWCID", OracleDbType.NVarchar2).Value = cp.workid;
+                                    objCmds.Parameters.Add("PIGWCDAYS", OracleDbType.NVarchar2).Value = cp.wcdays;
+                                    objCmds.Parameters.Add("PIGITEMID", OracleDbType.NVarchar2).Value = cp.saveitemid;
+                                    objCmds.Parameters.Add("PYMINSTK", OracleDbType.NVarchar2).Value = cp.target;
+                                    objCmds.Parameters.Add("PIGCAP", OracleDbType.NVarchar2).Value = cp.capacity;
+                                    objCmds.Parameters.Add("PIGAVAILQTY", OracleDbType.NVarchar2).Value = cp.stock;
+                                    objCmds.Parameters.Add("PIGMINSTK", OracleDbType.NVarchar2).Value = cp.minstock;
+                                    objCmds.Parameters.Add("PIGRAWREQ", OracleDbType.NVarchar2).Value = cp.required;
+                                    objCmds.Parameters.Add("PIGPRODD", OracleDbType.NVarchar2).Value = cp.days;
+                                    objCmds.Parameters.Add("PIGADDIT", OracleDbType.NVarchar2).Value = cp.additiveid;
+                                    objCmds.Parameters.Add("PIGALLOCADD", OracleDbType.NVarchar2).Value = cp.add;
+                                    objCmds.Parameters.Add("PIGRAWMAT", OracleDbType.NVarchar2).Value = cp.rawmatid;
+                                    objCmds.Parameters.Add("PIGRAWREQPER", OracleDbType.NVarchar2).Value = cp.reqper;
+                                    objCmds.Parameters.Add("PIGREQQTY", OracleDbType.NVarchar2).Value = cp.rvdqty;
+                                    objCmds.Parameters.Add("PIGRAWMATPY", OracleDbType.NVarchar2).Value = cp.pyropowder;
+                                    objCmds.Parameters.Add("PIGRAWREQPY", OracleDbType.NVarchar2).Value = cp.pyroqty;
+                                    objCmds.Parameters.Add("PIGPOWREQ", OracleDbType.NVarchar2).Value = cp.powderrequired;
+
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
+                                    objCmds.ExecuteNonQuery();
 
 
 
+
+
+                                }
+                            }
+                        if (cy.PFCRVDLst != null)
+                        {
+                            if (cy.ID == null)
+                            {
+                                foreach (PFCRVDItem cp in cy.PFCRVDLst)
+                                {
+                                    if (cp.workid != null)
+                                    {
+                                        svSQL = "Insert into PRODFCRVD (PRODFCBASICID,RVDWCID,RVDITEMID,RVDPRODQTY,RVDCONS,RVDCONSQTY,RVDRAWMAT,RVDPOWREQ,RVDWCDAYS,RVDMTOREC,RVDMTOLOS) VALUES ('" + Pid + "','"+ cp.workid+"','" + cp.itemid + "','" + cp.prodqty + "','" + cp.cons + "','"+cp.consqty+"','" + cp.rawmat + "','" + cp.powderrequired + "','" + cp.wcdays + "','"+cp.mto+"','"+cp.mtoloss+"')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+
+                                    }
+
+                                }
                             }
                         }
-                        //foreach (PFCPOLIItem cp in cy.PFCPOLILst)
-                        //{
-                        //    if (cp.Isvalid == "Y" && cp.WorkId != "0")
-                        //    {
-                        //        using (OracleConnection objConns = new OracleConnection(_connectionString))
-                        //        {
-                        //            OracleCommand objCmds = new OracleCommand("PSPARAMDETAILPROC", objConns);
-                        //            if (cy.ID == null)
-                        //            {
-                        //                StatementType = "Insert";
-                        //                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                        //            }
-                        //            else
-                        //            {
-                        //                StatementType = "Update";
-                        //                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                        //            }
-                        //            objCmds.CommandType = CommandType.StoredProcedure;
-                        //            objCmds.Parameters.Add("PRODFCBASICID", OracleDbType.NVarchar2).Value = Pid;
-                        //            objCmds.Parameters.Add("PYWCID", OracleDbType.NVarchar2).Value = cp.WorkId;
-                        //            objCmds.Parameters.Add("WCDAYS", OracleDbType.NVarchar2).Value = cp.CDays;
-                        //            objCmds.Parameters.Add("PYITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                        //            objCmds.Parameters.Add("PYMINSTK", OracleDbType.NVarchar2).Value = cp.MinStock;
-                        //            objCmds.Parameters.Add("PYALLREJ", OracleDbType.NVarchar2).Value = cp.PasteRej;
-                        //            objCmds.Parameters.Add("PYGRCHG", OracleDbType.NVarchar2).Value = cp.GradeChange;
-                        //            objCmds.Parameters.Add("PYREJQTY", OracleDbType.NVarchar2).Value = cp.RejQty;
-                        //            objCmds.Parameters.Add("PYREQQTY", OracleDbType.NVarchar2).Value = cp.Required;
-                        //            objCmds.Parameters.Add("PYTARQTY", OracleDbType.NVarchar2).Value = cp.Target;
-                        //            objCmds.Parameters.Add("PYPRODCAPD", OracleDbType.NVarchar2).Value = cp.ProdDays;
-                        //            objCmds.Parameters.Add("PYPRODQTY", OracleDbType.NVarchar2).Value = cp.ProdQty;
-                        //            objCmds.Parameters.Add("PYRAWREJMAT", OracleDbType.NVarchar2).Value = cp.RejMat;
-                        //            objCmds.Parameters.Add("PYRAWREJMATPER", OracleDbType.NVarchar2).Value = cp.RejMatReq;
-                        //            objCmds.Parameters.Add("PREBALQTY", OracleDbType.NVarchar2).Value = cp.BalanceQty;
-                        //            objCmds.Parameters.Add("PYADD1", OracleDbType.NVarchar2).Value = cp.Additive;
-                        //            objCmds.Parameters.Add("PYADDPER", OracleDbType.NVarchar2).Value = cp.Per;
-                        //            objCmds.Parameters.Add("ALLOCADD", OracleDbType.NVarchar2).Value = cp.AllocAdditive;
-                        //            objCmds.Parameters.Add("PYREQAP", OracleDbType.NVarchar2).Value = cp.ReqPowder;
-                        //            objCmds.Parameters.Add("WSTATUS", OracleDbType.NVarchar2).Value = cp.WStatus;
-                        //            objCmds.Parameters.Add("POWREQ", OracleDbType.NVarchar2).Value = cp.PowderRequired;
-                        //            objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                        //            objConns.Open();
-                        //            objCmds.ExecuteNonQuery();
-                        //            objConns.Close();
-                        //        }
+                        if (cy.PFCPASTELst != null)
+                        {
+                            if (cy.ID == null)
+                            {
+                                foreach (PFCPASTEItem cp in cy.PFCPASTELst)
+                                {
+                                    if (cp.WorkId != null)
+                                    {
+                                        svSQL = "Insert into PRODFCPA (PRODFCBASICID,PAWCID,PAITEMID,PANOOFCHG,PAALLADDIT,PATARGQTY,PASTK,PAMINSTK,PAPROD,PAAPPOW,PABALQTY,RVDLOSTQTY,MIXINGMTO,PACOACONS,PAMTOC,PAADDC,PAPOWREQ,RVDLOSTQTY) VALUES ('" + Pid + "','" + cp.WorkId + "','" + cp.saveitemid + "','" + cp.charge + "','" + cp.allocadditive + "','" + cp.target + "','" + cp.stock + "','" + cp.minstock + "','" + cp.production + "','" + cp.appowder + "','" + cp.balance + "','"+cp.rvdloss+"','"+cp.missmto+"','"+cp.coarse+"','"+cp.mtocost+"','"+cp.additiveid+"','"+cp.powerrequired+"')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+
+                                    }
+
+                                }
+                            }
+                        }
+                        if (cy.ID == null)
+                        {
+
+                            svSQL = "Insert into PRODFCAP (PRODFCBASICID,APPOWREQ,APREQ,APAVAILSTK,APMINSTK,APREQPOW) VALUES ('" + Pid + "','" + cy.apspowder + "','" + cy.reqqty + "','" + cy.avlstk + "','" + cy.ministk + "','" + cy.reqappowder + "')";
+                            OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                            objCmds.ExecuteNonQuery();
 
 
 
-                        //    }
-                        //}
+                        }
+                        if (cy.ID == null)
+                        {
+
+                            svSQL = "Insert into PRODREQBASIC (PRODFCBASICID,REQAPPOWPY,REQAPPOWPA,REQAPPOWAP,REQAPPOW,APPOWSTOCK,MELTCOAW,REQPOWQTY,APPOWMIN) VALUES ('" + Pid + "','" + cy.appyro + "','" + cy.appaste + "','" + cy.apfg + "','" + cy.reqappow + "','" + cy.apstk + "','"+cy.coarse+"','"+cy.power+"','"+cy.ministk+"')";
+                            OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                            objCmds.ExecuteNonQuery();
+
+
+
+                        }
+                        if (cy.PFCAPPRODLst != null)
+                        {
+                            if (cy.ID == null)
+                            {
+                                foreach (PFCAPPRODItem cp in cy.PFCAPPRODLst)
+                                {
+                                    if (cp.WorkId != null)
+                                    {
+                                        svSQL = "Insert into PRODFCAPP (PRODFCBASICID,APWCID,APWCDAYS,APPRODCAP,APPRODD,APPRODQTY,FUELREQ,RMREQ,APPPOWREQ,APTARPROD) VALUES ('" + Pid + "','" + cp.WorkId + "','" + cp.wdays + "','" + cp.capacity + "','" + cp.proddays + "','" + cp.production + "','" + cp.fuelreq + "','" + cp.ingotreq + "','" + cp.powerrequired + "','" + cp.target + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+
+                                    }
+
+                                }
+                            }
+                        }
+                        if (cy.PFCPACKLst != null)
+                        {
+                            if (cy.ID == null)
+                            {
+                                foreach (PFCPACKItem cp in cy.PFCPACKLst)
+                                {
+                                    if (cp.partyid != null)
+                                    {
+                                        svSQL = "Insert into PROFCPACK (PRODFCBASICID,PARTYID,TARITEMID,TARQTY,PACKMAT,PACKQTY,PACKMATREQ,PACKMATPRI) VALUES ('" + Pid + "','" + cp.partyid + "','" + cp.saveitemid + "','" + cp.targetqty + "','" + cp.packmatid + "','" + cp.packqty + "','" + cp.reqmat + "','" + cp.rawmatid + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+
+                                    }
+
+                                }
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -726,6 +910,25 @@ ORDER BY 1,2";
             }
 
             return msg;
+        }
+
+        public DataTable GetAllProdFC(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "select  DOCID,PLANTYPE,MONTH,to_char(DOCDATE,'dd-MM-yy')DOCDATE,PRODFCBASICID FROM PRODFCBASIC  WHERE PRODFCBASIC.IS_ACTIVE='Y' ORDER BY  PRODFCBASICID DESC";
+            }
+            else
+            {
+                SvSql = "select  DOCID,PLANTYPE,MONTH,to_char(DOCDATE,'dd-MM-yy')DOCDATE,PRODFCBASICID FROM PRODFCBASIC  WHERE PRODFCBASIC.IS_ACTIVE='N' ORDER BY  PRODFCBASICID DESC";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }

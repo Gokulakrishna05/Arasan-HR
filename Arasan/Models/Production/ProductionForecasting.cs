@@ -24,6 +24,7 @@ namespace Arasan.Models
         public string Hd { get; set; }
         public string Fordate { get; set; }
         public string Enddate { get; set; }
+        public string ddlStatus { get; set; }
 
         public List<PFCItem> PFCILst { get; set; }
 
@@ -74,7 +75,7 @@ namespace Arasan.Models
     {
         public string ID { get; set; }
         public string itemid { get; set; }
-        public string saveItemId { get; set; }
+        public string saveitemid { get; set; }
         public List<SelectListItem> PItemlst { get; set; }
         public string Isvalid { get; set; }
 
@@ -83,11 +84,13 @@ namespace Arasan.Models
         public string stock { get; set; }
         public string reqadditive { get; set; }
         public string rawmaterial { get; set; }
+        public string rawmaterialid { get; set; }
         public string reqpyro { get; set; }
          
 
         public string required { get; set; }
         public string dgaddit { get; set; }
+        public string dgadditid { get; set; }
 
     }
     public class PFCPYROItem
@@ -95,7 +98,7 @@ namespace Arasan.Models
 
         public string ID { get; set; }
         public string itemid { get; set; }
-        public string saveItemId { get; set; }
+        public string saveitemid { get; set; }
         public List<SelectListItem> PYItemlst { get; set; }
 
         public string WorkId { get; set; }
@@ -114,8 +117,9 @@ namespace Arasan.Models
         public string RejMat { get; set; }
         public string RejMatReq { get; set; }
         public string BalanceQty { get; set; }
-        public string Additive { get; set; }
-        public string Per { get; set; }
+        public string additive { get; set; }
+        public string additiveid { get; set; }
+        public string per { get; set; }
         public string AllocAdditive { get; set; }
         public string ReqPowder { get; set; }
         public string WStatus { get; set; }
@@ -127,6 +131,7 @@ namespace Arasan.Models
     {
         public string ID { get; set; }
         public string itemid { get; set; }
+        public string saveitemid { get; set; }
         public List<SelectListItem> POItemlst { get; set; }
         public string workid { get; set; }
         public List<SelectListItem> POWorklst { get; set; }
@@ -139,6 +144,7 @@ namespace Arasan.Models
         public string required { get; set; }
         public string days { get; set; }
         public string additive { get; set; }
+        public string additiveid { get; set; }
         public string add { get; set; }
         public string rejmat { get; set; }
         public string reqper { get; set; }
@@ -146,6 +152,7 @@ namespace Arasan.Models
         public string pyropowder { get; set; }
         public string pyroqty { get; set; }
         public string rawmat { get; set; }
+        public string rawmatid { get; set; }
         public string powderrequired { get; set; }
 
     }
@@ -177,7 +184,8 @@ namespace Arasan.Models
 
         public string ID { get; set; }
         public string itemid { get; set; }
-        public string saveItemId { get; set; }
+      
+        public string saveitemid { get; set; }
         public List<SelectListItem> PYItemlst { get; set; }
 
         public string WorkId { get; set; }
@@ -200,6 +208,7 @@ namespace Arasan.Models
         public string mtocost { get; set; }
         public string missmto { get; set; }
         public string additive { get; set; }
+        public string additiveid { get; set; }
         public string toloss { get; set; }
         public string allocadditive { get; set; }
         public string toprod { get; set; }
@@ -237,10 +246,11 @@ namespace Arasan.Models
 
         public string ID { get; set; }
         public string itemid { get; set; }
-        public string saveItemId { get; set; }
+        public string saveitemid { get; set; }
         public List<SelectListItem> partylst { get; set; }
 
         public string party { get; set; }
+        public string partyid { get; set; }
         public List<SelectListItem> Worklst { get; set; }
         public string Isvalid { get; set; }
 
@@ -252,9 +262,25 @@ namespace Arasan.Models
 
         public string targetqty { get; set; }
         public string rawmat { get; set; }
+        public string rawmatid { get; set; }
          
         public string packmat { get; set; }
+        public string packmatid { get; set; }
         public string packqty { get; set; }
         public string reqmat { get; set; }
+    }
+
+    public class ProdFCList
+    {
+        public string id { get; set; }
+        public string docid { get; set; }
+        public string docdate { get; set; }
+        public string month { get; set; }
+        public string plan { get; set; }
+       
+        public string viewrow { get; set; }
+        public string delrow { get; set; }
+
+
     }
 }
