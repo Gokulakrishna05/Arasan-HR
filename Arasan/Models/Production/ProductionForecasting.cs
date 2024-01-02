@@ -162,6 +162,7 @@ namespace Arasan.Models
         public string itemid { get; set; }
         public List<SelectListItem> POItemlst { get; set; }
         public string workid { get; set; }
+        public string saveitemid { get; set; }
         public List<SelectListItem> POWorklst { get; set; }
         public string Isvalid { get; set; }
         public string wcdays { get; set; }

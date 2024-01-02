@@ -518,7 +518,7 @@ namespace Arasan.Controllers.Production
                 string DeleteRow = string.Empty;
                 string View = string.Empty;
 
-                View = "<a href=ViewProdFc?id=" + dtUsers.Rows[i]["PRODFCBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View' /></a>";
+                View = "<a href=ViewProdFc?id=" + dtUsers.Rows[i]["PRODFCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PRODFCBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate'  /></a>";
 
                 Reg.Add(new ProdFCList
@@ -911,7 +911,7 @@ namespace Arasan.Controllers.Production
                         tda2.RejMat = dt4.Rows[i]["PYRAWREJMAT"].ToString();
                         tda2.RejMatReq = dt4.Rows[i]["PYRAWREJMATPER"].ToString();
                         tda2.BalanceQty = dt4.Rows[i]["PREBALQTY"].ToString();
-                        tda2.additive = dt4.Rows[i]["PYADD1"].ToString();
+                        tda2.additive = dt4.Rows[i]["item"].ToString();
                         tda2.per = dt4.Rows[i]["PYADDPER"].ToString();
                         tda2.AllocAdditive = dt4.Rows[i]["ALLOCADD"].ToString();
                         tda2.ReqPowder = dt4.Rows[i]["PYREQAP"].ToString();
@@ -937,19 +937,19 @@ namespace Arasan.Controllers.Production
                         tda3.workid = dt5.Rows[i]["WCID"].ToString();
 
                         tda3.wcdays = dt5.Rows[i]["PIGWCDAYS"].ToString();
-                        tda3.target = dt5.Rows[i]["PIGTARGET"].ToString();
+                         
                         tda3.capacity = dt5.Rows[i]["PIGCAP"].ToString();
-                        tda3.stock = dt5.Rows[i]["PIGSTOCK"].ToString();
+                        tda3.stock = dt5.Rows[i]["PIGAVAILQTY"].ToString();
                         tda3.minstock = dt5.Rows[i]["PIGMINSTK"].ToString();
                         tda3.required = dt5.Rows[i]["PIGRAWREQ"].ToString();
-                        tda3.days = dt5.Rows[i]["PIGDAYS"].ToString();
+                        tda3.days = dt5.Rows[i]["PIGPRODD"].ToString();
                         tda3.additive = dt5.Rows[i]["item"].ToString();
                         tda3.add = dt5.Rows[i]["PIGADDPER"].ToString();
                         tda3.rejmat = dt5.Rows[i]["item1"].ToString();
                         tda3.reqper = dt5.Rows[i]["PIGRAWREQPER"].ToString();
-                        tda3.rvdqty = dt5.Rows[i]["PIGRVDQTY"].ToString();
-                        tda3.pyropowder = dt5.Rows[i]["PIGPYPO"].ToString();
-                        tda3.pyroqty = dt5.Rows[i]["PIGPYQTY"].ToString();
+                        tda3.rvdqty = dt5.Rows[i]["PIGREQQTY"].ToString();
+                        tda3.pyropowder = dt5.Rows[i]["PIGRAWREQPY"].ToString();
+                        tda3.pyroqty = dt5.Rows[i]["PIGRAWMATPY"].ToString();
                         tda3.powderrequired = dt5.Rows[i]["PIGPOWREQ"].ToString();
                         tda3.ID = id;
                         TData3.Add(tda3);
@@ -1006,7 +1006,7 @@ namespace Arasan.Controllers.Production
                     tda5.rvdloss = dt7.Rows[i]["RVDLOSTQTY"].ToString();
                     tda5.missmto = dt7.Rows[i]["MIXINGMTO"].ToString();
                     tda5.coarse = dt7.Rows[i]["PACOACONS"].ToString();
-                    tda5.addcost = dt7.Rows[i]["PAADDC"].ToString();
+                    tda5.addcost = dt7.Rows[i]["item"].ToString();
                     tda5.powerrequired = dt7.Rows[i]["PAPOWREQ"].ToString();
                     
                      
@@ -1089,7 +1089,7 @@ namespace Arasan.Controllers.Production
                     tda7 = new PFCPACKItem();
 
                     tda7.party = dt11.Rows[i]["PARTYID"].ToString();
-                    tda7.itemid = dt11.Rows[i]["ITEMID"].ToString();
+                    tda7.targetitem = dt11.Rows[i]["ITEMID"].ToString();
                     tda7.packmat = dt11.Rows[i]["item"].ToString();
                     tda7.rawmat = dt11.Rows[i]["item1"].ToString();
                     tda7.targetqty = dt11.Rows[i]["TARQTY"].ToString();
