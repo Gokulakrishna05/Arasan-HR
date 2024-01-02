@@ -54,7 +54,7 @@
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.DeptName, Model.DeptNamelst,"Please Select", new { @id = "ddlDeptName", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
 
-                                        </div>
+                                        </div> 
 
 
                                     </div>
@@ -81,7 +81,7 @@
                            
 
                             <div style="height:30px;"></div>
-                            <div class="col-lg-6"></div>
+                            <div class="col-lg-8"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListDesignation", "Designation")">Cancel</a>
 
@@ -144,22 +144,7 @@
         $('#btnSave').click(function (e) {
             var isValid = true;
 
-            if (document.getElementById("txtDesignation").value == "") {
-                isValid = false;
-                $(txtDesignation).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Designation");
-                return false;
-            }
-            else {
-                $(txtDesignation).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+            
             if (document.getElementById("ddlDeptName").value == "" || document.getElementById("ddlDeptName").value == 0) {
                 isValid = false;
                 $(ddlDeptName).css({
@@ -178,7 +163,22 @@
             }
 
             
+            if (document.getElementById("txtDesignation").value == "") {
+                isValid = false;
+                $(txtDesignation).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
+                alert("Please Enter Designation");
+                return false;
+            }
+            else {
+                $(txtDesignation).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
 
             if (isValid == false)
                 e.preventDefault();

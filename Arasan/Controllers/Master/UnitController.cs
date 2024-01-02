@@ -77,7 +77,7 @@ namespace Arasan.Controllers
         {
             return View();
         }
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteMR(string tag, string id)
         {
 
             string flag = UnitService.StatusChange(tag, id);
@@ -92,7 +92,7 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListUnit");
             }
         }
-        public ActionResult Remove(string tag, int id)
+        public ActionResult Remove(string tag, string id)
         {
 
             string flag = UnitService.RemoveChange(tag, id);

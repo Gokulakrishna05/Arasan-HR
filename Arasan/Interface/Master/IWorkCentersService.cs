@@ -15,9 +15,9 @@ public interface IWorkCentersService
 
     string WorkCentersCRUD(WorkCenters cy);
 
-    string StatusChange(string tag, int id);
+    string StatusChange(string tag, string id);
+    string RemoveChange(string tag, string id);
 
-    string RemoveChange(string tag, int id);
 
     DataTable GetAllWorkCenters(string strStatus);
 }

@@ -25,6 +25,9 @@ namespace Arasan.Controllers.Master
         public IActionResult ItemDescription(string id)
         {
             ItemDescription br = new ItemDescription();
+
+            //br.createby = Request.Cookies["UserId"];
+
             br.Unitlst = BindUnit();
             if (id != null)
             {
@@ -33,7 +36,7 @@ namespace Arasan.Controllers.Master
                 if (dt.Rows.Count > 0)
                 {
                     br.Des = dt.Rows[0]["TESTDESC"].ToString();
-                    br.Unit = dt.Rows[0]["UNITID"].ToString();
+                    br.Unit = dt.Rows[0]["UNIT"].ToString();
                     br.Value = dt.Rows[0]["VALUEORMANUAL"].ToString();
                     br.ID = id;
                 }
@@ -114,7 +117,7 @@ namespace Arasan.Controllers.Master
             }
         }
 
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteMR(string tag, string id)
         {
 
             string flag = ItemDescriptionService.StatusChange(tag, id);
@@ -129,7 +132,23 @@ namespace Arasan.Controllers.Master
                 return RedirectToAction("ListItemDescription");
             }
         }
+         public ActionResult Remove(string tag, string id)
+        {
 
+            string flag = ItemDescriptionService.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListItemDescription");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListItemDescription");
+            }
+        }
+
+      
         public ActionResult MyListItemgrid(string strStatus)
         {
             List<ItemDescriptiongrid> Reg = new List<ItemDescriptiongrid>();
@@ -142,9 +161,19 @@ namespace Arasan.Controllers.Master
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                EditRow = "<a href=ItemDescription?id=" + dtUsers.Rows[i]["TESTDESCMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["TESTDESCMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
+                    EditRow = "<a href=ItemDescription?id=" + dtUsers.Rows[i]["TESTDESCMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["TESTDESCMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
 
+                else
+                {
+
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["TESTDESCMASTERID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
                 Reg.Add(new ItemDescriptiongrid
                 {
                     id = dtUsers.Rows[i]["TESTDESCMASTERID"].ToString(),

@@ -49,7 +49,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Country Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.HiddenFor(C => C.ID)
-                                            @Html.HiddenFor(C => C.createdby)
+                                            @Html.HiddenFor(C => C.createdby) 
                                             @Html.DropDownListFor(C => C.countryid, Model.cuntylst,"---Please Select---", new { @id = "ddlcountry", @Class = "form-control _select", @TabIndex = 1,onchange = "StateChange(value)"  })<br />
                                         </div>
 
@@ -85,7 +85,7 @@
                             </div>
                             </div>
                              <div class="col-lg-5"></div>
-                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Submit</button>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListCity", "City")">Cancel</a>
                       
               </form>

@@ -72,7 +72,7 @@ namespace Arasan.Services
                 string gcode = cy.GrpCode;
                 string docid = string.Format("{0}{1}", grouptype, gcode.ToString());
                
-                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                using (OracleConnection objConn = new OracleConnection(_connectionString)) 
                 {
                     OracleCommand objCmd = new OracleCommand("ACCGROPROC", objConn);
                    
