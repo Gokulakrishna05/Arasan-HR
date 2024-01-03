@@ -92,7 +92,7 @@ namespace Arasan.Services
         public DataTable GetIndent()
         {
             string SvSql = string.Empty;
-            SvSql = "select DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,PINDBASICID,BRANCHMAST.BRANCHID from PINDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PINDBASIC.BRANCHID Order by PINDBASIC.DOCDATE DESC fetch  first 5 rows only ";
+            SvSql = "select DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,IPINDBASICID,BRANCHMAST.BRANCHID from IPINDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=IPINDBASIC.BRANCHID Order by IPINDBASIC.DOCDATE DESC fetch  first 5 rows only ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -143,7 +143,7 @@ namespace Arasan.Services
         public DataTable GetIndentItem(string PRID)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            SvSql = "Select ITEMMASTER.ITEMID,UNITMAST.UNITID,IPINDDETAIL.QTY,IPINDDETAIL.IPINDBASICID,LOCDETAILS.LOCID,IPINDDETAIL.IPINDDETAILID ,to_char(IPINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE from IPINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=IPINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=IPINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=IPINDDETAIL.DEPARTMENT ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -153,7 +153,7 @@ namespace Arasan.Services
         public DataTable GetIndentItemApprove()
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN PINDBASIC ON PINDBASIC.PINDBASICID=PINDDETAIL.PINDBASICID WHERE PINDDETAIL.APPROVED1 IS NULL ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            SvSql = "Select ITEMMASTER.ITEMID,UNITMAST.UNITID,IPINDDETAIL.QTY,IPINDDETAIL.IPINDBASICID,LOCDETAILS.LOCID,IPINDDETAIL.IPINDDETAILID ,to_char(IPINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from IPINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=IPINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=IPINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=IPINDDETAIL.DEPARTMENT LEFT OUTER JOIN IPINDBASIC ON IPINDBASIC.IPINDBASICID=IPINDDETAIL.IPINDBASICID WHERE IPINDDETAIL.APPROVED1 IS NULL ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -163,7 +163,7 @@ namespace Arasan.Services
         public DataTable GetIndentItemApproved()
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN PINDBASIC ON PINDBASIC.PINDBASICID=PINDDETAIL.PINDBASICID WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            SvSql = "Select ITEMMASTER.ITEMID,UNITMAST.UNITID,IPINDDETAIL.QTY,IPINDDETAIL.IPINDBASICID,LOCDETAILS.LOCID,IPINDDETAIL.IPINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN IPINDBASIC ON IPINDBASIC.IPINDBASICID=PINDDETAIL.IPINDBASICID WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -173,7 +173,7 @@ namespace Arasan.Services
         public DataTable GetIndentItemSuppDetail()
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN PINDBASIC ON PINDBASIC.PINDBASICID=PINDDETAIL.PINDBASICID WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            SvSql = "Select ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,IPINDDETAIL.QTY,IPINDDETAIL.IPINDBASICID,LOCDETAILS.LOCID,IPINDDETAIL.IPINDDETAILID ,to_char(IPINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from IPINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=IPINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=IPINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=IPINDDETAIL.DEPARTMENT LEFT OUTER JOIN IPINDBASIC ON IPINDBASIC.IPINDBASICID=IPINDDETAIL.IPINDBASICID WHERE IPINDDETAIL.APPROVED2 IS NULL AND IPINDDETAIL.APPROVED1 IS NOT NULL ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -183,7 +183,7 @@ namespace Arasan.Services
         public DataTable GetIndentItembyItemd(string ItemId)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PINDDETAIL.ITEMID,PINDDETAIL.PINDBASICID,PINDDETAIL.PINDDETAILID  from PINDDETAIL  WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL AND PINDDETAIL.ITEMID='" + ItemId + "'";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            SvSql = "Select IPINDDETAIL.ITEMID,IPINDDETAIL.PINDBASICID,IPINDDETAIL.IPINDDETAILID  from IPINDDETAIL  WHERE IPINDDETAIL.APPROVED2 IS NULL AND IPINDDETAIL.APPROVED1 IS NOT NULL AND IPINDDETAIL.ITEMID='" + ItemId + "'";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -193,7 +193,7 @@ namespace Arasan.Services
         public DataTable GetIndentItemSupp()
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,SUM(PINDDETAIL.QTY) as QTY,ITEMMASTER.ITEMMASTERID from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID  WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL GROUP BY ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID  ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            SvSql = "Select ITEMMASTER.ITEMID,SUM(IPINDDETAIL.QTY) as QTY,ITEMMASTER.ITEMMASTERID from IPINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=IPINDDETAIL.ITEMID  WHERE IPINDDETAIL.APPROVED2 IS NULL AND IPINDDETAIL.APPROVED1 IS NOT NULL GROUP BY ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID  ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -203,7 +203,7 @@ namespace Arasan.Services
         public DataTable GetIndentItemSuppEnq(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,SUM(PINDDETAIL.QTY) as QTY,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,UNITMAST.UNITMASTID from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL AND PINDDETAIL.ITEMID='" + id + "' GROUP BY ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,UNITMAST.UNITMASTID";
+            SvSql = "Select ITEMMASTER.ITEMID,SUM(IPINDDETAIL.QTY) as QTY,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,UNITMAST.UNITMASTID from IPINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=IPINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  WHERE IPINDDETAIL.APPROVED2 IS NULL AND IPINDDETAIL.APPROVED1 IS NOT NULL AND IPINDDETAIL.ITEMID='" + id + "' GROUP BY ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,UNITMAST.UNITMASTID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -278,7 +278,7 @@ namespace Arasan.Services
         public DataTable GetIndetnPlacedDetails(string ItemId)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SUM(PINDDETAIL.QTY) as QTY,PINDDETAIL.ITEMID from PINDDETAIL WHERE PINDDETAIL.APPROVED1 IS NULL AND PINDDETAIL.ITEMID='" + ItemId + "' GROUP BY PINDDETAIL.ITEMID ";
+            SvSql = "Select SUM(IPINDDETAIL.QTY) as QTY,IPINDDETAIL.ITEMID from IPINDDETAIL WHERE IPINDDETAIL.APPROVED1 IS NULL AND IPINDDETAIL.ITEMID='" + ItemId + "' GROUP BY IPINDDETAIL.ITEMID ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -379,7 +379,7 @@ namespace Arasan.Services
                         {
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED2='YES',APPROVAL2U='SRRAJAN',APP2DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PURENQDETAILID='" + EnqId + "' Where PINDDETAILID='" + dt.Rows[i]["PINDDETAILID"].ToString() + "'");
+                                bool result = datatrans.UpdateStatus("UPDATE IPINDDETAIL SET APPROVED2='YES',APPROVAL2U='SRRAJAN',APP2DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PURENQDETAILID='" + EnqId + "' Where IPINDDETAILID='" + dt.Rows[i]["IPINDDETAILID"].ToString() + "'");
                             }
                         }
 
@@ -434,7 +434,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("PIPROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("PIIPROC", objConn);
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (cy.ID == null)
@@ -477,7 +477,7 @@ namespace Arasan.Services
                             {
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
-                                    OracleCommand objCmds = new OracleCommand("PIDETAILPROC", objConns);
+                                    OracleCommand objCmds = new OracleCommand("PIIDETAILPROC", objConns);
                                     if (cy.ID == null)
                                     {
                                         StatementType = "Insert";
@@ -513,7 +513,7 @@ namespace Arasan.Services
                                     string Sql = string.Empty;
                                     if (StatementType == "Insert")
                                     {
-                                        Sql = "Insert into PINDTENDC (PINDBASICID,TERMNCDN) Values ('" + Pid + "','" + cp.TANDC + "') ";
+                                        Sql = "Insert into IPINDTANDC (IPINDBASICID,TERMS) Values ('" + Pid + "','" + cp.TANDC + "') ";
                                     }
                                     else
                                     {
