@@ -114,12 +114,12 @@ namespace Arasan.Controllers.Store_Management
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                EditRow = "<a href=PurchaseImportIndent?id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteIndent?tag=Del&id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + " onclick='return confirm(" + "\"Are you sure you want to Disable this record...?\"" + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                EditRow = "<a href=PurchaseImportIndent?id=" + dtUsers.Rows[i]["IPINDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteIndent?tag=Del&id=" + dtUsers.Rows[i]["IPINDBASICID"].ToString() + " onclick='return confirm(" + "\"Are you sure you want to Disable this record...?\"" + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new IndentBindList
                 {
-                    piid = Convert.ToInt64(dtUsers.Rows[i]["PINDBASICID"].ToString()),
+                    piid = Convert.ToInt64(dtUsers.Rows[i]["IPINDBASICID"].ToString()),
                     branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     indentno = dtUsers.Rows[i]["DOCID"].ToString(),
                     indentdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
@@ -144,8 +144,8 @@ namespace Arasan.Controllers.Store_Management
             {
                 EnqChkItem.Add(new IndentItemBindList
                 {
-                    indentid = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
-                    piid = Convert.ToInt64(dtEnq.Rows[i]["PINDBASICID"].ToString()),
+                    indentid = Convert.ToInt64(dtEnq.Rows[i]["IPINDDETAILID"].ToString()),
+                    piid = Convert.ToInt64(dtEnq.Rows[i]["IPINDBASICID"].ToString()),
                     itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
                     unit = dtEnq.Rows[i]["UNITID"].ToString(),
                     quantity = dtEnq.Rows[i]["QTY"].ToString(),
@@ -169,12 +169,12 @@ namespace Arasan.Controllers.Store_Management
             {
                 string Approval = string.Empty;
                 string DisApproval = string.Empty;
-                Approval = "IndentApproved?id=" + dtEnq.Rows[i]["PINDDETAILID"].ToString() + "";
-                DisApproval = "IndentDisApproved?id=" + dtEnq.Rows[i]["PINDDETAILID"].ToString() + "";
+                Approval = "IndentApproved?id=" + dtEnq.Rows[i]["IPINDDETAILID"].ToString() + "";
+                DisApproval = "IndentDisApproved?id=" + dtEnq.Rows[i]["IPINDDETAILID"].ToString() + "";
                 EnqChkItem.Add(new IndentItemBindList
                 {
-                    indentid = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
-                    piid = Convert.ToInt64(dtEnq.Rows[i]["PINDBASICID"].ToString()),
+                    indentid = Convert.ToInt64(dtEnq.Rows[i]["IPINDDETAILID"].ToString()),
+                    piid = Convert.ToInt64(dtEnq.Rows[i]["IPINDBASICID"].ToString()),
                     itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
                     unit = dtEnq.Rows[i]["UNITID"].ToString(),
                     quantity = dtEnq.Rows[i]["QTY"].ToString(),
@@ -202,8 +202,8 @@ namespace Arasan.Controllers.Store_Management
             {
                 EnqChkItem.Add(new IndentItemBindList
                 {
-                    indentid = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
-                    piid = Convert.ToInt64(dtEnq.Rows[i]["PINDBASICID"].ToString()),
+                    indentid = Convert.ToInt64(dtEnq.Rows[i]["IPINDDETAILID"].ToString()),
+                    piid = Convert.ToInt64(dtEnq.Rows[i]["IPINDBASICID"].ToString()),
                     itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
                     unit = dtEnq.Rows[i]["UNITID"].ToString(),
                     quantity = dtEnq.Rows[i]["QTY"].ToString(),
@@ -256,8 +256,8 @@ namespace Arasan.Controllers.Store_Management
             {
                 EnqChkItem.Add(new IndentItemBindList
                 {
-                    indentid = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
-                    piid = Convert.ToInt64(dtEnq.Rows[i]["PINDBASICID"].ToString()),
+                    indentid = Convert.ToInt64(dtEnq.Rows[i]["IPINDDETAILID"].ToString()),
+                    piid = Convert.ToInt64(dtEnq.Rows[i]["IPINDBASICID"].ToString()),
                     itemid = dtEnq.Rows[i]["ITEMMASTERID"].ToString(),
                     itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
                     unit = dtEnq.Rows[i]["UNITID"].ToString(),
@@ -445,14 +445,14 @@ namespace Arasan.Controllers.Store_Management
         public ActionResult IndentApproved(string id)
         {
             datatrans = new DataTransactions(_connectionString);
-            bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED1='YES',APPROVAL1U='SRRAJAN',APP1DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id + "'");
+            bool result = datatrans.UpdateStatus("UPDATE IPINDDETAIL SET APPROVED1='YES',APPROVAL1U='SRRAJAN',APP1DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where IPINDDETAILID='" + id + "'");
             return RedirectToAction("List_PI_Approval");
         }
         public ActionResult IndentDisApproved(string id)
         {
             string user = Request.Cookies["UserId"];
             datatrans = new DataTransactions(_connectionString);
-            bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED1='NO',MODIFYBY='" + user + "',MODIFY_ON='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id + "'");
+            bool result = datatrans.UpdateStatus("UPDATE IPINDDETAIL SET APPROVED1='NO',MODIFYBY='" + user + "',MODIFY_ON='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where IPINDDETAILID='" + id + "'");
             return RedirectToAction("List_PI_Approval");
         }
         public List<SelectListItem> BindItemGrplst()

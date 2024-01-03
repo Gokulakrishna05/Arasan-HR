@@ -192,6 +192,8 @@ internal class Program
         builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();
         builder.Services.TryAddSingleton<IAssetTransfer, AssetTransferService>();
         builder.Services.TryAddSingleton<ISalesTargetService, SalesTargetService>();
+        builder.Services.TryAddSingleton<IPurchaseImportIndent, PurchaseImportIndentService>();
+        builder.Services.TryAddSingleton<IPurchaseImportEnqService, PurchaseImportEnqService>();
 
 
         //builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();
