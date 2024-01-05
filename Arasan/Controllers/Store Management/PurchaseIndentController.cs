@@ -604,7 +604,7 @@ namespace Arasan.Controllers.Store_Management
         {
             return View();
         }
-        public IActionResult List_PI_Supp_Allocation()
+        public IActionResult List_PI_Supp_Allocation() 
         {
             return View();
         }

@@ -30,6 +30,7 @@ namespace Arasan.Controllers
         public IActionResult PurchaseImportEnq(String id)
         {
             PurchaseImportEnq ca = new PurchaseImportEnq();
+            ca.Branch = Request.Cookies["BranchId"];
             ca.Brlst = BindBranch();
             ca.Suplst = BindSupplier();
             ca.Curlst = BindCurrency();
