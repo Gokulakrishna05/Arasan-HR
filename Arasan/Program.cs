@@ -192,6 +192,7 @@ internal class Program
         builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();
         builder.Services.TryAddSingleton<IAssetTransfer, AssetTransferService>();
         builder.Services.TryAddSingleton<ISalesTargetService, SalesTargetService>();
+        builder.Services.TryAddSingleton<IIPO, ImportPOService>();
 
 
         //builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();
@@ -281,4 +282,13 @@ internal class Program
 
         });
 
+    [Obsolete]
+    public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
+    {
+        // Other configurations...
+
+        app.UseStaticFiles(); // Enable static file serving, e.g., for wwwroot folder
+
+        // More configurations...
+    }
 }
