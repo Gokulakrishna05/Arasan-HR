@@ -114,12 +114,12 @@ namespace Arasan.Controllers.Store_Management
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                EditRow = "<a href=PurchaseImportIndent?id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteIndent?tag=Del&id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + " onclick='return confirm(" + "\"Are you sure you want to Disable this record...?\"" + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                EditRow = "<a href=PurchaseImportIndent?id=" + dtUsers.Rows[i]["IPINDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteIndent?tag=Del&id=" + dtUsers.Rows[i]["IPINDBASICID"].ToString() + " onclick='return confirm(" + "\"Are you sure you want to Disable this record...?\"" + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new IndentBindList
                 {
-                    piid = Convert.ToInt64(dtUsers.Rows[i]["PINDBASICID"].ToString()),
+                    piid = Convert.ToInt64(dtUsers.Rows[i]["IPINDBASICID"].ToString()),
                     branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     indentno = dtUsers.Rows[i]["DOCID"].ToString(),
                     indentdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
@@ -137,15 +137,15 @@ namespace Arasan.Controllers.Store_Management
         }
         public ActionResult ListIndentItemgrid(string PRID)
         {
-            List<IndentItemBindList> EnqChkItem = new List<IndentItemBindList>();
+            List<IndentItemImportBindList> EnqChkItem = new List<IndentItemImportBindList>();
             DataTable dtEnq = new DataTable();
             dtEnq = PurIndent.GetIndentItem(PRID);
             for (int i = 0; i < dtEnq.Rows.Count; i++)
             {
-                EnqChkItem.Add(new IndentItemBindList
+                EnqChkItem.Add(new IndentItemImportBindList
                 {
-                    indentid = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
-                    piid = Convert.ToInt64(dtEnq.Rows[i]["PINDBASICID"].ToString()),
+                    indentid = Convert.ToInt64(dtEnq.Rows[i]["IPINDDETAILID"].ToString()),
+                    piid = Convert.ToInt64(dtEnq.Rows[i]["IPINDBASICID"].ToString()),
                     itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
                     unit = dtEnq.Rows[i]["UNITID"].ToString(),
                     quantity = dtEnq.Rows[i]["QTY"].ToString(),
@@ -162,19 +162,19 @@ namespace Arasan.Controllers.Store_Management
 
         public ActionResult ListIndentItemgridApproval(string PRID)
         {
-            List<IndentItemBindList> EnqChkItem = new List<IndentItemBindList>();
+            List<IndentItemImportBindList> EnqChkItem = new List<IndentItemImportBindList>();
             DataTable dtEnq = new DataTable();
             dtEnq = PurIndent.GetIndentItemApprove();
             for (int i = 0; i < dtEnq.Rows.Count; i++)
             {
                 string Approval = string.Empty;
                 string DisApproval = string.Empty;
-                Approval = "IndentApproved?id=" + dtEnq.Rows[i]["PINDDETAILID"].ToString() + "";
-                DisApproval = "IndentDisApproved?id=" + dtEnq.Rows[i]["PINDDETAILID"].ToString() + "";
-                EnqChkItem.Add(new IndentItemBindList
+                Approval = "IndentApproved?id=" + dtEnq.Rows[i]["IPINDDETAILID"].ToString() + "";
+                DisApproval = "IndentDisApproved?id=" + dtEnq.Rows[i]["IPINDDETAILID"].ToString() + "";
+                EnqChkItem.Add(new IndentItemImportBindList
                 {
-                    indentid = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
-                    piid = Convert.ToInt64(dtEnq.Rows[i]["PINDBASICID"].ToString()),
+                    indentid = Convert.ToInt64(dtEnq.Rows[i]["IPINDDETAILID"].ToString()),
+                    piid = Convert.ToInt64(dtEnq.Rows[i]["IPINDBASICID"].ToString()),
                     itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
                     unit = dtEnq.Rows[i]["UNITID"].ToString(),
                     quantity = dtEnq.Rows[i]["QTY"].ToString(),
@@ -195,15 +195,15 @@ namespace Arasan.Controllers.Store_Management
 
         public ActionResult ListIndentItemgridApproved(string PRID)
         {
-            List<IndentItemBindList> EnqChkItem = new List<IndentItemBindList>();
+            List<IndentItemImportBindList> EnqChkItem = new List<IndentItemImportBindList>();
             DataTable dtEnq = new DataTable();
             dtEnq = PurIndent.GetIndentItemApproved();
             for (int i = 0; i < dtEnq.Rows.Count; i++)
             {
-                EnqChkItem.Add(new IndentItemBindList
+                EnqChkItem.Add(new IndentItemImportBindList
                 {
-                    indentid = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
-                    piid = Convert.ToInt64(dtEnq.Rows[i]["PINDBASICID"].ToString()),
+                    indentid = Convert.ToInt64(dtEnq.Rows[i]["IPINDDETAILID"].ToString()),
+                    piid = Convert.ToInt64(dtEnq.Rows[i]["IPINDBASICID"].ToString()),
                     itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
                     unit = dtEnq.Rows[i]["UNITID"].ToString(),
                     quantity = dtEnq.Rows[i]["QTY"].ToString(),
@@ -222,15 +222,15 @@ namespace Arasan.Controllers.Store_Management
 
         public ActionResult ListIndentItemgridSupp(string PRID)
         {
-            List<IndentItemBindList> EnqChkItem = new List<IndentItemBindList>();
+            List<IndentItemImportBindList> EnqChkItem = new List<IndentItemImportBindList>();
             DataTable dtEnq = new DataTable();
             dtEnq = PurIndent.GetIndentItemSupp();
             string assign = string.Empty;
 
             for (int i = 0; i < dtEnq.Rows.Count; i++)
             {
-                assign = "IndentSupAllocation?id=" + dtEnq.Rows[i]["ITEMMASTERID"].ToString() + "";
-                EnqChkItem.Add(new IndentItemBindList
+                assign = "ImportIndentSupAllocation?id=" + dtEnq.Rows[i]["ITEMMASTERID"].ToString() + "";
+                EnqChkItem.Add(new IndentItemImportBindList
                 {
 
                     itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
@@ -249,15 +249,15 @@ namespace Arasan.Controllers.Store_Management
 
         public ActionResult ListIndentItemgridSuppDetails()
         {
-            List<IndentItemBindList> EnqChkItem = new List<IndentItemBindList>();
+            List<IndentItemImportBindList> EnqChkItem = new List<IndentItemImportBindList>();
             DataTable dtEnq = new DataTable();
             dtEnq = PurIndent.GetIndentItemSuppDetail();
             for (int i = 0; i < dtEnq.Rows.Count; i++)
             {
-                EnqChkItem.Add(new IndentItemBindList
+                EnqChkItem.Add(new IndentItemImportBindList
                 {
-                    indentid = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
-                    piid = Convert.ToInt64(dtEnq.Rows[i]["PINDBASICID"].ToString()),
+                    indentid = Convert.ToInt64(dtEnq.Rows[i]["IPINDDETAILID"].ToString()),
+                    piid = Convert.ToInt64(dtEnq.Rows[i]["IPINDBASICID"].ToString()),
                     itemid = dtEnq.Rows[i]["ITEMMASTERID"].ToString(),
                     itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
                     unit = dtEnq.Rows[i]["UNITID"].ToString(),
@@ -445,14 +445,14 @@ namespace Arasan.Controllers.Store_Management
         public ActionResult IndentApproved(string id)
         {
             datatrans = new DataTransactions(_connectionString);
-            bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED1='YES',APPROVAL1U='SRRAJAN',APP1DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id + "'");
+            bool result = datatrans.UpdateStatus("UPDATE IPINDDETAIL SET APPROVED1='YES',APPROVAL1U='SRRAJAN',APP1DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where IPINDDETAILID='" + id + "'");
             return RedirectToAction("List_PI_Approval");
         }
         public ActionResult IndentDisApproved(string id)
         {
             string user = Request.Cookies["UserId"];
             datatrans = new DataTransactions(_connectionString);
-            bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED1='NO',MODIFYBY='" + user + "',MODIFY_ON='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id + "'");
+            bool result = datatrans.UpdateStatus("UPDATE IPINDDETAIL SET APPROVED1='NO',MODIFYBY='" + user + "',MODIFY_ON='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where IPINDDETAILID='" + id + "'");
             return RedirectToAction("List_PI_Approval");
         }
         public List<SelectListItem> BindItemGrplst()
@@ -567,15 +567,15 @@ namespace Arasan.Controllers.Store_Management
         {
             PurchaseImportIndent MR = new PurchaseImportIndent();
 
-            List<TotalStockItem> TData = new List<TotalStockItem>();
-            TotalStockItem tda = new TotalStockItem();
+            List<ImportTotalStockItem> TData = new List<ImportTotalStockItem>();
+            ImportTotalStockItem tda = new ImportTotalStockItem();
             DataTable dtt = datatrans.GetData("Select ITEMMASTER.ITEMID,ITEM_ID,LOCDETAILS.LOCID,INVENTORY_ITEM_ID,LOCATION_ID,to_char(GRN_DATE,'dd-MON-yyyy')GRN_DATE,ITEM_ID,BALANCE_QTY from INVENTORY_ITEM left outer join ITEMMASTER ON ITEMMASTERID=INVENTORY_ITEM.ITEM_ID left outer join LOCDETAILS ON LOCDETAILSID=INVENTORY_ITEM.LOCATION_ID where ITEM_ID=" + id + " AND BALANCE_QTY > 0 AND LOCATION_ID NOT IN '10001000000827' AND BRANCH_ID='10001000000001'  ");
 
             if (dtt.Rows.Count > 0)
             {
                 for (int i = 0; i < dtt.Rows.Count; i++)
                 {
-                    tda = new TotalStockItem();
+                    tda = new ImportTotalStockItem();
                     tda.item = dtt.Rows[i]["ITEMID"].ToString();
                     tda.itemid = dtt.Rows[i]["ITEM_ID"].ToString();
                     tda.invid = dtt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
@@ -610,15 +610,15 @@ namespace Arasan.Controllers.Store_Management
         }
         public IActionResult List_PI_MSupp_Allocation()
         {
-            IndentSuppMultipleAllocate PI = new IndentSuppMultipleAllocate();
+            ImportIndentSuppMultipleAllocate PI = new ImportIndentSuppMultipleAllocate();
             PI.Partylst = BindSupplier();
             return View(PI);
         }
-        public ActionResult IndentSupAllocation(string id)
+        public ActionResult ImportIndentSupAllocation(string id)
         {
-            IndentSupAllocation ca = new IndentSupAllocation();
-            List<IndentSupAllocationList> TData = new List<IndentSupAllocationList>();
-            IndentSupAllocationList tda = new IndentSupAllocationList();
+            ImportIndentSupAllocation ca = new ImportIndentSupAllocation();
+            List<ImportIndentSupAllocationList> TData = new List<ImportIndentSupAllocationList>();
+            ImportIndentSupAllocationList tda = new ImportIndentSupAllocationList();
             DataTable dt = new DataTable();
             dt = PurIndent.GetHistory(id);
             DataTable da = new DataTable();
@@ -631,7 +631,7 @@ namespace Arasan.Controllers.Store_Management
             }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                tda = new IndentSupAllocationList();
+                tda = new ImportIndentSupAllocationList();
                 tda.PartyName = dt.Rows[i]["PARTYNAME"].ToString();
                 tda.Rate = dt.Rows[i]["RATE"].ToString();
                 tda.Unit = dt.Rows[i]["PUNIT"].ToString();
@@ -644,13 +644,13 @@ namespace Arasan.Controllers.Store_Management
             ca.HSupLst = TData;
 
 
-            List<IndentSuppAllocate> TDataa = new List<IndentSuppAllocate>();
-            IndentSuppAllocate tdaa = new IndentSuppAllocate();
+            List<ImportIndentSuppAllocate> TDataa = new List<ImportIndentSuppAllocate>();
+            ImportIndentSuppAllocate tdaa = new ImportIndentSuppAllocate();
             DataTable dt1 = new DataTable();
             dt1 = PurIndent.GetLasttwoSupp(id);
             for (int i = 0; i < dt1.Rows.Count; i++)
             {
-                tdaa = new IndentSuppAllocate();
+                tdaa = new ImportIndentSuppAllocate();
                 tdaa.Partytype = "Existing";
                 tdaa.Partylst = BindOldSupp(id);
                 tdaa.PartyName = dt1.Rows[i]["PARTYID"].ToString();
@@ -687,15 +687,15 @@ namespace Arasan.Controllers.Store_Management
             {
                 string nu = number;
             }
-            IndentSupAllocation ca = new IndentSupAllocation();
-            List<IndentSuppAllocate> TDataa = new List<IndentSuppAllocate>();
-            IndentSuppAllocate tdaa = new IndentSuppAllocate();
+            ImportIndentSuppAllocate ca = new ImportIndentSuppAllocate();
+            List<ImportIndentSuppAllocate> TDataa = new List<ImportIndentSuppAllocate>();
+            ImportIndentSuppAllocate tdaa = new ImportIndentSuppAllocate();
             DataTable dt1 = new DataTable();
             //dt1 = PurIndent.GetLasttwoSupp(id);
             foreach (string number in sed.Split(','))
             {
                 string nu = number.Trim();
-                tdaa = new IndentSuppAllocate();
+                tdaa = new ImportIndentSuppAllocate();
                 tdaa.Partylst = BindSupplier();
                 //tdaa.ItemName=
                 DataTable dr = new DataTable();
