@@ -1,32 +1,33 @@
-﻿@model Arasan.Models.PurchaseQuo
+﻿@model Arasan.Models.PurchaseImportQuo
 
 @{
     Layout = "_PopupLayout";
-    ViewData["Title"] = "Purchase Enquiry";
+    ViewData["Title"] = "PurchaseImport Enquiry";
 }
 <style>
     .newwidth {
         width: 120px;
     }
-</style> 
+</style>
+
 
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
-            <div class="ibox float-e-margins"> 
-                <div class="widgets-container">  
-                    @using (Html.BeginForm("ViewEnq", "PurchaseEnq", FormMethod.Post))
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    @using (Html.BeginForm("ViewEnq", "PurchaseImportEnq", FormMethod.Post)) 
                     {
-                        @Html.AntiForgeryToken()
+                        @Html.AntiForgeryToken() 
                         <form>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
+                                    <div class="form-group"> 
 
                                         <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.HiddenFor(C => C.ID)
-                                            @Html.DisplayFor(C => C.Branch)
+                                            @Html.HiddenFor(C => C.ID) 
+                                            @Html.DisplayFor(C => C.Branch) 
                                         </div>
                                     </div>
                                 </div>
@@ -125,8 +126,8 @@
 
                             </div>
                             <div style="height:30px;"></div>
-@*                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18" onClick="window.parent.jQuery.fancybox.close();">Generate Quote</button>
-*@                            
+                            @*                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18" onClick="window.parent.jQuery.fancybox.close();">Generate Quote</button>
+                        *@
                             <input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />
 
 

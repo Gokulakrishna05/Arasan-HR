@@ -32,8 +32,8 @@ namespace Arasan.Interface
         DataTable GetPurchaseQuoDetails(string id);
         //DataTable GetFolowup(string enqid);
         DataTable GetFolowup(string enqid);
-        string PurchaseFollowupCRUD(QuoFollowup pf);
-        IEnumerable<QuoFollowup> GetAllPurchaseFollowup();
+        string PurchaseFollowupCRUD(QuoImportFollowup pf);
+        IEnumerable<QuoImportFollowup> GetAllPurchaseFollowup();
 
         string StatusChange(string tag, string id);
 
