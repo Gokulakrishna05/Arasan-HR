@@ -108,6 +108,10 @@ namespace Arasan.Controllers
                         tad1.Date = dt1.Rows[0]["DOCDATE"].ToString();
                         tad1.location = dt1.Rows[0]["LOCID"].ToString();
                     }
+                    else
+                    {
+                        tad1.Date = DateTime.Now.ToString("dd-MMM-yyyy");
+                    }
                     DateTime Current = DateTime.Parse(tad1.Date);
 
                     TimeSpan difference = DateTime.Now - Current;
@@ -141,6 +145,10 @@ namespace Arasan.Controllers
                         tad2.docid = dt1.Rows[0]["DOCID"].ToString();
                         tad2.Date = dt1.Rows[0]["DOCDATE"].ToString();
                         tad2.location = dt1.Rows[0]["LOCID"].ToString();
+                    }
+                    else
+                    {
+                        tad2.Date = DateTime.Now.ToString("dd-MMM-yyyy");
                     }
                     DateTime Current = DateTime.Parse(tad2.Date);
 
