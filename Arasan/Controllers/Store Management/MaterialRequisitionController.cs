@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Interface.Master;
 using Newtonsoft.Json.Linq;
 using Arasan.Services.Store_Management;
-using DocumentFormat.OpenXml.Office2010.Excel;
+//using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace Arasan.Controllers.Store_Management
 {
@@ -33,8 +33,8 @@ namespace Arasan.Controllers.Store_Management
             MaterialRequisition MR = new MaterialRequisition();
             MR.Brlst = BindBranch();
             var userId = Request.Cookies["UserId"];
-            //MR.Loclst = GetLoc(userId);
-            MR.Loclst = GetLocation();
+            MR.Loclst = GetLoc(userId);
+            //MR.Loclst = GetLocation();
             MR.Worklst = BindWorkCenter("");
             MR.Processlst = BindProcess("");
             MR.assignList = BindEmp();
@@ -508,6 +508,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
 
+                    tda.IndQty = Convert.ToDouble(dtt.Rows[i]["PENDING_QTY"].ToString() == "" ? "0" : dtt.Rows[i]["PENDING_QTY"].ToString());
                     tda.indentid = dtt.Rows[i]["STORESREQDETAILID"].ToString();
                     tda.Storeid = dtt.Rows[i]["STORESREQBASICID"].ToString();
                     tda.Isvalid = "Y";
@@ -539,7 +540,11 @@ namespace Arasan.Controllers.Store_Management
                     {
                         stkqty = Convert.ToDouble(tda.ClosingStock);
                     }
-                    if (stkqty > reqqty)
+                    if (tda.IndQty > 0)
+                    {
+                        tda.InvQty = tda.IndQty;
+                    }
+                   else if (stkqty > reqqty)
                     {
                         tda.InvQty = reqqty;
                         tda.IndQty = 0;
@@ -549,6 +554,8 @@ namespace Arasan.Controllers.Store_Management
                         tda.InvQty = stkqty;
                         tda.IndQty = (reqqty - stkqty);
                     }
+                    
+                     
                     //tda.Itemlst = BindItemlst();
                     DataTable stock = datatrans.GetData("Select SUM(BALANCE_QTY) as qty from INVENTORY_ITEM where ITEM_ID='" + tda.ItemId + "' AND BALANCE_QTY > 0 AND LOCATION_ID NOT IN '" + storeid + "' AND BRANCH_ID='" + MR.BranchId + "'  ");
                     if (stock.Rows.Count > 0)
@@ -908,13 +915,13 @@ namespace Arasan.Controllers.Store_Management
             MR.Entered = Request.Cookies["UserId"];
             List<ItemLotNo> TData = new List<ItemLotNo>();
             ItemLotNo tda = new ItemLotNo();
-            DataTable dtt = datatrans.GetData("Select ITEMID from STORESREQDETAIL WHERE STORESREQBASICID='"+id+"' ");
-            if (dtt.Rows.Count > 0)
-            {
-                for (int j = 0; j < dtt.Rows.Count; j++)
-                {
-                    tda.itemid = dtt.Rows[j]["ITEMID"].ToString();
-                    DataTable dt2 = materialReq.GetItemLot(tda.itemid, storeid, "10001000000001");
+            //DataTable dtt = datatrans.GetData("Select ITEMID from STORESREQDETAIL WHERE STORESREQBASICID='"+id+"' ");
+            //if (dtt.Rows.Count > 0)
+            //{
+            //    for (int j = 0; j < dtt.Rows.Count; j++)
+            //    {
+            //        tda.itemid = dtt.Rows[j]["ITEMID"].ToString();
+                    DataTable dt2 = materialReq.GetItemLot(id, storeid, "10001000000001");
 
                     if (dt2.Rows.Count > 0)
                     {
@@ -931,8 +938,8 @@ namespace Arasan.Controllers.Store_Management
                             TData.Add(tda);
                         }
                     }
-                }
-            }
+                //}
+            //}
             MR.lotlst = TData;
             return View(MR);
         }

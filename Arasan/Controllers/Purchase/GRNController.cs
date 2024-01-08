@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Services.Qualitycontrol;
-using DocumentFormat.OpenXml.Office2010.Excel;
+//using DocumentFormat.OpenXml.Office2010.Excel;
 using System.Collections;
 using System.Transactions;
 using Org.BouncyCastle.Security.Certificates;
-using DocumentFormat.OpenXml.Wordprocessing;
+//using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Arasan.Controllers
 {
@@ -106,7 +106,9 @@ namespace Arasan.Controllers
                             tda.Conversionfactor = dt4.Rows[0]["CF"].ToString();
 
                         }
+                        
                         tda.LOTYN= dt2.Rows[i]["LOTYN"].ToString();
+                        tda.grndetid= dt2.Rows[i]["GRNBLDETAILID"].ToString();
                         //tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString());
                         tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString() == "" ? "0" : dt2.Rows[i]["RATE"].ToString());
                         tda.CostRate= Convert.ToDouble(dt2.Rows[i]["RATE"].ToString() == "" ? "0" : dt2.Rows[i]["RATE"].ToString());
@@ -124,8 +126,11 @@ namespace Arasan.Controllers
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         tda.Amount = toaamt;
                         tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                        double cf = Convert.ToDouble(tda.Conversionfactor);
+                        tda.ConvQty = tda.Goodqty * cf;
                         tda.PURLst = BindPurType();
                         //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
+                        tda.DamageQty = Convert.ToDouble(dt2.Rows[i]["DAMAGE_QTY"].ToString() == "" ? "0" : dt2.Rows[i]["DAMAGE_QTY"].ToString());
                         tda.CGSTPer = Convert.ToDouble(dt2.Rows[i]["CGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTP"].ToString());
                         tda.SGSTPer = Convert.ToDouble(dt2.Rows[i]["SGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTP"].ToString());
                         tda.IGSTPer = Convert.ToDouble(dt2.Rows[i]["IGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTP"].ToString());
@@ -1141,10 +1146,10 @@ namespace Arasan.Controllers
                 po.POdt = dt.Rows[0]["PODate"].ToString();
                 po.Packingcharges = Convert.ToDouble(dt.Rows[0]["PACKING_CHRAGES"].ToString() == "" ? "0" : dt.Rows[0]["PACKING_CHRAGES"].ToString());
                 po.otherdeduction = Convert.ToDouble(dt.Rows[0]["OTHER_CHARGES"].ToString() == "" ? "0" : dt.Rows[0]["OTHER_CHARGES"].ToString());
-                po.Round = Convert.ToDouble(dt.Rows[0]["PACKING_CHRAGES"].ToString() == "" ? "0" : dt.Rows[0]["PACKING_CHRAGES"].ToString());
-                po.Roundminus = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_PLUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_PLUS"].ToString());
-                po.Packingcharges = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_MINUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_MINUS"].ToString());
-                
+                po.Round = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_PLUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_PLUS"].ToString());
+                po.Roundminus = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_MINUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_MINUS"].ToString());
+                //po.Packingcharges = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_MINUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_MINUS"].ToString());
+
                 po.Narration = dt.Rows[0]["NARRATION"].ToString();
 
 
@@ -1172,6 +1177,7 @@ namespace Arasan.Controllers
                 {
                     for (int i = 0; i < dtt.Rows.Count; i++)
                     {
+                        tda = new POItem();
                         tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
                         tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                         tda.rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString() == "" ? "0" : dtt.Rows[i]["RATE"].ToString());
@@ -1212,8 +1218,7 @@ namespace Arasan.Controllers
             dtUsers = (DataTable)GRNService.GetAllListDamageGRNItem(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
-                DataTable dtUsers1 = new DataTable();
-                dtUsers1 = (DataTable)GRNService.GetAllListDamageGRNItemDetail(dtUsers.Rows[i]["GRNBLBASICID"].ToString());
+                
                 string View = string.Empty;
                 string MovePR = string.Empty;
                 string MoveDN = string.Empty;
@@ -1231,14 +1236,15 @@ namespace Arasan.Controllers
                 Reg.Add(new GRNItemsDetail
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["GRNBLBASICID"].ToString()),
-                    branch = dtUsers1.Rows[i]["BRANCHID"].ToString(),
-                    enqno = dtUsers1.Rows[i]["DOCID"].ToString(),
-                    docDate = dtUsers1.Rows[i]["DOCDATE"].ToString(),
-                    supplier = dtUsers1.Rows[i]["PARTYNAME"].ToString(),
+
+                    enqno = dtUsers.Rows[i]["DOCID"].ToString(),
+
                     damage = dtUsers.Rows[i]["DAMAGE_QTY"].ToString(),
 
-                  
-                    
+                    supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    item= dtUsers.Rows[i]["ITEMID"].ToString(),
+
+
                     view = View,
                     move = MovePR,
                     movedn = MoveDN,
@@ -1247,7 +1253,7 @@ namespace Arasan.Controllers
 
 
 
-                });
+                }); ;
             }
 
             return Json(new

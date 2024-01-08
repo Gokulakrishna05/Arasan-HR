@@ -10,6 +10,7 @@
     <Content Remove="wwwroot\Reports\Basic.rdlc" />
     <Content Remove="wwwroot\Reports\EnqReport.rdlc" />
     <Content Remove="wwwroot\Reports\QuotationReport.rdlc" />
+    <Content Remove="wwwroot\Reports\ReturnReport.rdlc" />
     <Content Remove="wwwroot\Reports\SEqubasic.rdlc" />
     <Content Remove="wwwroot\Reports\SQbasic.rdlc" />
   </ItemGroup>
@@ -34,6 +35,7 @@
     <None Include="Views\ProFormaInvoice\ProFormaInvoice.cshtml" />
     <None Include="wwwroot\Reports\EnqReport.rdlc" />
     <None Include="wwwroot\Reports\QuotationReport.rdlc" />
+    <None Include="wwwroot\Reports\ReturnReport.rdlc" />
     <None Include="wwwroot\Reports\SEqubasic.rdlc" />
     <None Include="wwwroot\Reports\SQbasic.rdlc" />
   </ItemGroup>
@@ -41,7 +43,6 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
     <PackageReference Include="Dapper" Version="2.0.143" />
-    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Viewer" Version="17.2.0" />
     <PackageReference Include="jsTree" Version="3.1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
@@ -99,6 +100,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DataSet7.xsd</DependentUpon>
     </Compile>
+    <Compile Update="DataSet8.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DataSet8.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="Return.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Return.xsd</DependentUpon>
+    </Compile>
     <Compile Update="SQ.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -153,6 +164,14 @@
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet7.Designer.cs</LastGenOutput>
     </None>
+     <None Update="DataSet8.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>DataSet8.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="Return.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>Return.Designer.cs</LastGenOutput>
+     </None>
      <None Update="SQ.xsd">
        <Generator>MSDataSetGenerator</Generator>
        <LastGenOutput>SQ.Designer.cs</LastGenOutput>
@@ -160,6 +179,7 @@
    </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\Master\NewFolder\NewFolder\" />
     <Folder Include="wwwroot\assets\js\vendor\editorsjs\" />
     <Folder Include="wwwroot\pdfdownload\" />
   </ItemGroup>

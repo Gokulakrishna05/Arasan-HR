@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Interface.Master;
-using DocumentFormat.OpenXml.Wordprocessing;
+//using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Arasan.Controllers.Store_Management
 {
@@ -604,7 +604,7 @@ namespace Arasan.Controllers.Store_Management
         {
             return View();
         }
-        public IActionResult List_PI_Supp_Allocation()
+        public IActionResult List_PI_Supp_Allocation() 
         {
             return View();
         }

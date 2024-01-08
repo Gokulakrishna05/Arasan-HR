@@ -57,6 +57,7 @@
  
                                            @* @Html.DropDownListFor(C => C.Location, Model.Cur, new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 })*@
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.createdby)
  
                                         </div>
 
@@ -189,22 +190,22 @@
                         "background": ""
                     });
                 }
-            if (document.getElementById("txtCap").value == "") {
-                    isValid = false;
-                $(txtCap).css({
-                        "border": "1px solid red",
-                        "background": "#FFCECE"
-                    });
+            //if (document.getElementById("txtCap").value == "") {
+            //        isValid = false;
+            //    $(txtCap).css({
+            //            "border": "1px solid red",
+            //            "background": "#FFCECE"
+            //        });
 
-                alert("Please Enter Capacity");
-                    return false;
-                }
-                else {
-                $(txtCap).css({
-                        "border": "",
-                        "background": ""
-                    });
-                }
+            //    alert("Please Enter Capacity");
+            //        return false;
+            //    }
+            //    else {
+            //    $(txtCap).css({
+            //            "border": "",
+            //            "background": ""
+            //        });
+            //    }
 
 
                 if (isValid == false)

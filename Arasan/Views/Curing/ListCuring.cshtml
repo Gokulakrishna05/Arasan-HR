@@ -60,19 +60,22 @@
         $("#grid").jqxGrid(
             {
 
-                width: '100%',
-                source: dataAdapter,
-                height: 450,
-                source: source,
-                sortable: true,
-                filterable: true,
-                groupable: false,
-                pageable: true,
-                showfilterbar: true,
-                //showfilterrow: true,
-                theme: 'darkblue',
-                enablebrowserselection: true,
-                columns: [
+                    width: '100%',
+                    source: dataAdapter,
+                    //height: 450,
+                    autorowheight: true,
+                    autoheight: true,
+                    source: source,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
+                    filterbarmode: 'simple',
+                    theme: 'darkblue',
+                    enablebrowserselection: true,
+                    columns: [
 
                     { text: 'Location Name', filtertype: 'checkedlist', datafield: 'location', width: 200 },
                     { text: 'Sub Group', filtertype: 'checkedlist', datafield: 'sub', width: 150 },
@@ -94,12 +97,13 @@
         });
     });
 
-</script>
-<script>
-    function ConfirmDelete() {
-        return confirm("Are you sure you want to delete?");
+
+    function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
     }
 </script>
+
+
 
 <div class="wrapper-content ">
     <div class="row">
@@ -117,7 +121,7 @@
                             </div>
 
 
-                            <div class="col-md-9 ">
+                            <div class="col-md-8 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("Curing","Curing")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Curing</a>
                                     <br>
@@ -145,6 +149,12 @@
 </div>
 
 <script>
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
+</script>
+
+@*<script>
     $(document).ready(function () {
         $('#example7').DataTable({
             dom: 'Bfrtip',
@@ -221,4 +231,4 @@
 
     }
    
-</script>
+</script>*@

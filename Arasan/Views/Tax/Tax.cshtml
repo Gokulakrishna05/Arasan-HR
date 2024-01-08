@@ -53,6 +53,7 @@
 
                                             @Html.DropDownListFor(C => C.Taxtype, Model.Taxtypelst,"Please Select", new { @id = "ddlTaxtype", @Class = "form-control _select", @TabIndex = 1 })
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.createby)
                                         </div>
                                 </div>
                             </div>
@@ -95,7 +96,23 @@
         $('#btnSave').click(function (e) {
             var isValid = true;
 
-           
+            if (document.getElementById("ddlTaxtype").value == "" || document.getElementById("ddlTaxtype").value == 0) {
+                isValid = false;
+                $(ddlTaxtype).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Party Tax type");
+                return false;
+            }
+            else {
+                $(ddlTaxtype).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
             if (document.getElementById("txtPercentage").value == "") {
                 isValid = false;
                 $(txtPercentage).css({

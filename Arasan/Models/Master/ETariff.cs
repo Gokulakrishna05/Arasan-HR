@@ -14,6 +14,7 @@ namespace Arasan.Models
         public string Cgst { get; set; }
         public string Igst { get; set; }
         public string ddlStatus { get; set; }
+        public string createby { get; set; }
     } 
     
     public class ETariffgrid

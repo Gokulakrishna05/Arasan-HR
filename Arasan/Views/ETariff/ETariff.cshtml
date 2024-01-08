@@ -47,6 +47,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Tariff ID<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.createby)
                                             @Html.TextBoxFor(C => C.Tariff, new { @id = "txtTariff", @class = "form-control", @TabIndex = 2, @size="30" })<br>
 
                                         </div>
@@ -58,9 +59,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Tariff Des<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Tariff Des<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Tariffdes, new { @id = "txtTariffdes", @class = "form-control", @TabIndex = 2, @size="30" })<br>
+                                            @Html.TextBoxFor(C => C.Tariffdes, new { @id = "txtTariffdes", @class = "form-control", @TabIndex = 2, @size="30" ,@maxlength = 10})<br>
                                         </div>
 
 
@@ -81,36 +82,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @*<div class="row">
-                                <div class="col-lg-3"></div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">CGST<label class="mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Cgst, new { @id = "txtCgst", @class = "form-control", @TabIndex = 2, @size="30",onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div> 
-                            <div class="row">
-                                <div class="col-lg-3"></div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">IGST<label class="mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Igst, new { @id = "txtIgst", @class = "form-control", @TabIndex = 2, @size="30",onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-
-*@
+                            
 
                             <div style="height:30px;"></div>
                             <div class="col-lg-8"></div>
@@ -161,7 +133,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter TariffID");
+                alert("Please Enter Tariff ID");
                 return false;
             }
             else {
@@ -170,22 +142,22 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtTariffdes").value == "") {
-                isValid = false;
-                $(txtTariffdes).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+            //if (document.getElementById("txtTariffdes").value == "") {
+            //    isValid = false;
+            //    $(txtTariffdes).css({
+            //        "border": "1px solid red",
+            //        "background": "#FFCECE"
+            //    });
 
-                alert("Please Enter Tariffdes");
-                return false;
-            }
-            else {
-                $(txtTariffdes).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+            //    alert("Please Enter Tariff des");
+            //    return false;
+            //}
+            //else {
+            //    $(txtTariffdes).css({
+            //        "border": "",
+            //        "background": ""
+            //    });
+            //}
             if (document.getElementById("txtSgst").value == "") {
                 isValid = false;
                 $(txtSgst).css({

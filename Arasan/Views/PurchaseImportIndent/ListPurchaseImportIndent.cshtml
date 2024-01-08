@@ -1,0 +1,191 @@
+﻿@model Arasan.Models.PurchaseImportIndent
+
+@{
+    ViewData["Title"] = "Index";
+}
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+<partial name="JqxGridPartial" />
+@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Purchase</a> </li>
+            <li class="active"> <strong>Purchase Indent</strong> </li>
+        </ol>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var source =
+        {
+            url: "/PurchaseImportIndent/MyListIndentgrid",
+            datatype: "json",
+            updaterow: function (rowid, rowdata) {
+                // synchronize with the server - send update command
+            },
+            datafields: [
+                { name: 'piid', type: 'string' },
+                { name: 'indentno', type: 'string' },
+                { name: 'indentdate', type: 'string' },
+                { name: 'branch', type: 'string' }
+            ],
+            id: 'piid',
+        };
+        var dataAdapter = new $.jqx.dataAdapter(source,
+            { contentType: 'application/json; charset=utf-8' }, {
+            loadComplete: function  () {
+
+            }
+        }
+        );
+        //alert(JSON.stringify(employeesAdapter));
+
+        var ordersSource =
+        {
+            url: "/PurchaseImportIndent/ListIndentItemgrid",
+            datafields: [
+                { name: 'indentid', type: 'string' },
+                { name: 'piid', type: 'string' },
+                { name: 'itemname', type: 'string' },
+                { name: 'unit', type: 'string' },
+                { name: 'quantity', type: 'float' },
+                { name: 'location', type: 'string' },
+                { name: 'duedate', type: 'string' }
+            ],
+
+            datatype: "json",
+
+            async: false
+        };
+        var dataAdapter = new $.jqx.dataAdapter(ordersSource,
+            { contentType: 'application/json; charset=utf-8' }, { autoBind: true }
+        );
+        dataAdapter.dataBind();
+        //var ordersDataAdapter2 = new $.jqx.dataAdapter(ordersSource, { autoBind: true });
+        var orders = dataAdapter.records;
+
+        console.log(dataAdapter);
+
+        var nestedGrids = new Array();
+        // create nested grid.
+        var initrowdetails = function (index, parentElement, gridElement, record) {
+            var id = record.uid.toString();
+            var grid = $($(parentElement).children()[0]);
+            nestedGrids[index] = grid;
+            var filtergroup = new $.jqx.filter();
+            var filter_or_operator = 1;
+            var filtervalue = id;
+            var filtercondition = 'equal';
+            var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+            // fill the orders depending on the id.
+            var ordersbyid = [];
+            for (var m = 0; m < orders.length; m++) {
+                var result = filter.evaluate(orders[m]["piid"]);
+                if (result)
+                    ordersbyid.push(orders[m]);
+            }
+            var orderssource = {
+                datafields: [
+                    { name: 'piid', type: 'string' },
+                    { name: 'itemname', type: 'string' },
+                    { name: 'unit', type: 'string' },
+                    { name: 'quantity', type: 'int' },
+                    { name: 'location', type: 'string' },
+                    { name: 'duedate', type: 'string' }
+                ],
+                id: 'indentid',
+                localdata: ordersbyid
+            }
+            var nestedGridAdapter = new $.jqx.dataAdapter(orderssource);
+            if (grid != null) {
+                grid.jqxGrid({
+                    theme: 'darkblue',
+                    source: nestedGridAdapter, width: 780,
+                    columns: [
+                        { text: 'Product Name', datafield: 'itemname', width: 200 },
+                        { text: 'Unit', datafield: 'unit', width: 80 },
+                        { text: 'Quantity', datafield: 'quantity', width: 150 },
+                        { text: 'Location', datafield: 'location', width: 150 },
+                        { text: 'Due Date', datafield: 'duedate', width: 200 }
+                    ]
+                });
+            }
+        }
+        var renderer = function (row, column, value) {
+
+            return '<span style="margin-left: 4px; margin-top: 9px; float: left; ">' + value + '</span>';
+        }
+        //alert(initrowdetails);
+        // creage grid
+        $("#grid").jqxGrid(
+            {
+                width: '100%',
+                source: dataAdapter,
+                height: 365,
+                source: source,
+                pageable: true,
+                filterable: true,
+                autoheight: true,
+                sortable: true,
+                rowdetails: true,
+                showfilterbar: true,
+                theme: 'darkblue',
+                rowsheight: 35,
+                enablebrowserselection: true,
+                initrowdetails: initrowdetails,
+                rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
+                ready: function () {
+                    $("#grid").jqxGrid('showrowdetails', 1);
+                },
+                columns: [
+
+                    { text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 300 },
+                    { text: 'IndentNo', filtertype: 'input', datafield: 'indentno', width: 300 },
+                    { text: 'IndentDate', datafield: 'docDate', datafield: 'indentdate', align: 'center', width: 230 },
+                ]
+            });
+    });
+</script>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+
+                    <form>
+                        <div class="row">
+                            <div class="col-md-12 ">
+                                <div class=" textalignright">
+                                    <a href="@Url.Action("PurchaseImportIndent", "PurchaseImportIndent")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Purchase Indent</a>
+                                    <br>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-2 "> </div>
+                            <div class="col-md-10 ">
+                                <div id="grid">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

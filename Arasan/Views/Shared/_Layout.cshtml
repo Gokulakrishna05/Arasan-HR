@@ -87,7 +87,7 @@
     <!-- END LOGO -->
     <div class="library-menu"> <span class="one">-</span> <span class="two">-</span> <span class="three">-</span> </div><div class="top-nev-mobile-togal"><i class="glyphicon glyphicon-cog"></i></div>
     <!-- BEGIN TOP NAVIGATION MENU -->
-    <li class="top-menu">
+    <div class="top-menu">
 <!--  TOP NAVIGATION MENU -->
 
   <div class="hor-menu  hor-menu-light hidden-sm hidden-xs">
@@ -164,17 +164,33 @@
                     </li>*@
                
 
-                   <li class="nav-item">
 
+                           
+                    <li class="nav-item">
+                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-th-large"></i> <span class="title">Dashboard</span> <span class="arrow"></span> </a>
+
+                        <ul class="sub-menu">
+
+                           @* <li class="nav-item ">
+
+                          @*  <li class="nav-item ">
+
+                                <a class="nav-link" href="@Url.Action("Index", "Home")"> <i class="fa fa-money"></i>  <span class="title">Common</span> </a>
+                            </li>*@
                             <li class="nav-item ">
-                                <a class="nav-link" href="@Url.Action("Index", "Home")">  <i class="fa fa-th-large"></i><span class="title">Dashboard</span> </a>
+                                <a class="nav-link" href="@Url.Action("PurchaseDash", "Home")">  <i class="fa fa-shopping-cart"></i><span class="title">Purchase</span> </a>
                             </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="@Url.Action("QcDashboard", "QcDashboard")">  <i class="fa fa-th-large"></i><span class="title">Qc Dashboard</span> </a>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("QcDashboard", "QcDashboard")"> <i class="fa fa-flask"></i> <span class="title">Qc</span> </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("Proddashboard", "Home")"> <i class="fa fa-table"></i> <span class="title">Curing set</span> </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("PurchaseReport", "PurchaseReport")"> <i class="fa fa-table"></i> <span class="title">Report</span> </a>
+                            </li>
+                        </ul>
                     </li>
-                           <li class="nav-item ">
-                                <a class="nav-link" href="@Url.Action("Proddashboard", "Home")">  <i class="fa fa-th-large"></i><span class="title">Curing set</span> </a>
-                            </li>
                      
                    <li class="nav-item active open">
 
@@ -193,6 +209,8 @@
 
                            
                             </ul> </li>
+
+
                              <li class="nav-item"> <a class="nav-link" href="javascript:;"> Account <span class="arrow nav-toggle"></span> </a>
                                         <ul class="sub-menu">
 
@@ -223,31 +241,9 @@
                              <li class="nav-item">
                                         <a class="nav-link" href="@Url.Action("ListDayBook", "Ledger")"> <span class="title">Day Book</span> </a>
                                     </li>
-                           @*  <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("ListSequence", "Sequence")"> <span class="title">Sequence</span> </a>
- 
-                                    </li>*@
-                            @* <li class="nav-item">
- 
-                                    </li>
-
-                            
-                                     <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("ListAccountGroup", "AccountGroup")"> <span class="title">Account Group</span> </a>
-
-                             <li class="nav-item">
- 
-                                        <a class="nav-link" href="@Url.Action("ListPaymentRequest", "PaymentRequest")"> <span class="title">Payment Request</span> </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("ListApprovedPaymentRequest", "PaymentRequest")"> <span class="title">View Payment Request</span> </a>
- 
-                                    </li>*@
- 
-                                   
- 
-                           
+                      
                             </ul> </li>
+
 
                           	<li class="nav-item">
                                 <a class="nav-link" href="javascript:;"> <span class="arrow nav-toggle">Item </span> </a>
@@ -269,6 +265,8 @@
                             </li>
 							 
                            </ul></li>
+
+
                             <li class="nav-item">
                                 <a class="nav-link" href="javascript:;"> <span class="arrow nav-toggle">Qc </span> </a>
                                 <ul class="sub-menu">
@@ -277,6 +275,7 @@
                                     </li>
                                 </ul>
                             </li>
+
                                  <li class="nav-item"> <a class="nav-link" href="javascript:;"> Common <span class="arrow nav-toggle"></span> </a>  
                                       <ul class="sub-menu">
                                    
@@ -362,14 +361,17 @@
                               </li>
 
                             
+
                          
                       </ul>
-                    <li class="nav-item">
+
+</li>
+                    
                 
                  
                 <li class="nav-item">
 
-                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-money"></i> <span class="title">Purchase</span> <span class="arrow"></span> </a>
+                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-shopping-cart"></i>  <span class="title">Purchase</span> <span class="arrow"></span> </a>
                            <ul class="sub-menu">
                                 <li class="nav-item"><a class="nav-link" href="@Url.Action("List_Purchase_Indent", "PurchaseIndent")">Purchase Indent</a></li>
                                   <li class="nav-item"><a class="nav-link" href="@Url.Action("List_PI_Approval", "PurchaseIndent")">Purchase Indent Approval</a></li>
@@ -433,7 +435,79 @@
                             </li>*@
                         </ul>
                     </li>
-                  <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-shopping-cart"></i> <span class="title">Sales</span> <span class="arrow"></span> </a>
+
+                      <li class="nav-item">
+
+                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-shopping-cart"></i>  <span class="title">Purchase Import</span> <span class="arrow"></span> </a>
+                           <ul class="sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="@Url.Action("ListPurchaseImportIndent", "PurchaseImportIndent")">Purchase Indent</a></li>
+                                  <li class="nav-item"><a class="nav-link" href="@Url.Action("List_PI_Approval", "PurchaseIndent")">Purchase Indent Approval</a></li>
+                                  <li class="nav-item"><a class="nav-link" href="@Url.Action("List_PI_MSupp_Allocation", "PurchaseIndent")">Supplier Allocation</a></li>
+                            <li class="nav-item">
+
+                                <a class="nav-link" href="@Url.Action("ListPurchaseImportEnq", "PurchaseImportEnq")"> <span class="title">Enquiry</span> </a> 
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListPurchaseImportQuo", "PurchaseImportQuo")"> <span class="title">Quotation</span> </a>
+                            </li>
+
+                           
+                            <li class="nav-item active">
+                                <a class="nav-link" href="@Url.Action("ListDirectPurchase", "DirectPurchase")"> <span class="title">Direct Purchase</span> </a>
+
+                            </li>
+
+                                                     
+
+                             <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListImportPO", "ImportPO")"> <span class="title">Purchase Order</span> </a>
+                            </li>    
+                            
+							<li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("GateInward", "PO")"> <span class="title">PO Gate Inward</span> </a>
+                            </li> 
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListGateInward", "PO")"> <span class="title">List GateInward</span> </a>
+                            </li>
+
+							 <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListGRN", "GRN")"> <span class="title">GRN</span> </a>
+                            </li>
+                             <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListDamageGRN", "GRN")"> <span class="title">GRN Defect</span> </a>
+                            </li>
+                           @* <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListDirectPurchaseGRN", "DirectPurchase")"> <span class="title">DirectPurchase GRN</span> </a>
+                            </li>*@
+
+														
+
+
+							
+@*
+                                 <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Direct_Purchase", "PurchaseEnq")"> <span class="title">Direct Purchase</span> </a>
+                            </li>*@
+							
+
+						@*	<li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Purchse_Order_close", "PurchaseEnq")"> <span class="title">Purchase Order Short close</span> </a>
+                            </li>
+							<li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Purchse_Indent", "PurchaseEnq")"> <span class="title">Purchase indent short close</span> </a>
+                            </li>
+							<li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Purchase_Order_ament", "PurchaseEnq")"> <span class="title">Purchase Order Amendment</span> </a>
+                            </li>*@
+                        </ul>
+                    </li>
+
+
+
+
+                    <li class="nav-item">
+                        <a class="nav-link nav-toggle" href="javascript:;"><i class="fa fa-money"></i> <span class="title">Sales</span> <span class="arrow"></span> </a>
           <ul class="sub-menu">
 
              @* <li class="nav-item"><a class="nav-link" href="@Url.Action("Sales_Forecasting", "SalesEnquiry")">Sales Forecasting</a></li>*@
@@ -454,6 +528,7 @@
                <li class="nav-item active"><a class="nav-link" href="@Url.Action("Excise_Invoice", "SalesEnquiry")">Excise Invoice</a></li>
              <li class="nav-item"><a class="nav-link" href="@Url.Action("ListDepotInvoice", "DepotInvoice")">Depot Invoice</a></li>            
              <li class="nav-item"><a class="nav-link" href="@Url.Action("Supplimantry_Invoice", "SalesEnquiry")">Supplimentary Invoice</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSalesTarget", "SalesTarget")">Sales Target</a></li>
                            
                            @* <li class="nav-item"><a class="nav-link" href="@Url.Action("Credit_Note_Bill", "SalesEnquiry")">Credit_Note_Bill</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Credit_Note_Approval", "SalesEnquiry")">Credit_Note_Approval</a></li>*@
@@ -495,6 +570,7 @@
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListPackingNote", "PackingNote")">Packing Note</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListDrumIssueEntry", "DrumIssueEntry")">Drum Issue Entry</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("DrumHistory", "DrumLocation")">Drum History</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListDrumLocation", "DrumLocation")">Drum Location</a></li>
                            @* <li class="nav-item"><a class="nav-link" href="@Url.Action("DrumStockReconcilation", "ProcessCostEntry")">Drum Stock Reconcilation</a></li>*@
                             @* <li class="nav-item"><a class="nav-link" href="@Url.Action("DrumChangeUnPackingEntry", "ProcessCostEntry")">Drum Change/Un Packing Entry</a></li>
                             <li class="nav-item active"><a class="nav-link" href="@Url.Action("MaterialSplittingEntry", "ProcessCostEntry")">Material Splitting Entry</a></li>
@@ -513,8 +589,9 @@
             
           </ul>
         </li>
-        	
-        <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-check"></i> <span class="title">Quality Control</span> <span class="arrow"></span> </a>
+
+                    <li class="nav-item">
+                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-flask"></i>  <span class="title">Quality Control</span> <span class="arrow"></span> </a>
           <ul class="sub-menu">
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListQCTesting", "QCTesting")">QC Testing</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListQCResult","QCResult")">QC Result</a></li>
@@ -531,7 +608,7 @@
                     </li>
                     <li class="nav-item">
 
-                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-database"></i> <span class="title">Account</span> <span class="arrow"></span> </a>
+                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-money"></i> <span class="title">Account</span> <span class="arrow"></span> </a>
                         <ul class="sub-menu">
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("ListPaymentRequest", "PaymentRequest")"> <span class="title">Payment Request</span> </a>
@@ -540,24 +617,28 @@
                                 <a class="nav-link" href="@Url.Action("ListApprovedPaymentRequest", "PaymentRequest")"> <span class="title">Payment Voucher</span> </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ListDebitNoteBill", "DebitNoteBill")"> <span class="title">Debit Note Bill</span></a>
+                                <a class="nav-link" href="@Url.Action("DebitNoteBillDet", "DebitNoteBill")"> <span class="title">Future Discount</span> </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListDebitNoteBill", "DebitNoteBill")"> <span class="title"> Approve DN Bill</span></a>
                                 </li>
                                 
                                 <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("CreditorDebitNotes", "CreditorDebitNotes")"> <span class="title">Credit/DebitNote</span></a>
+                                <a class="nav-link" href="@Url.Action("CreditorDebitNotes", "CreditorDebitNotes")"> <span class="title">CN/DN</span></a>
                                 </li>
 
                         </ul>
                     </li>
 
-                     <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-address-card"></i> <span class="title">StoreManagement</span> <span class="arrow"></span> </a>
+                    <li class="nav-item">
+                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-database"></i> <span class="title">StoreManagement</span> <span class="arrow"></span> </a>
 
-                        <ul class="sub-menu"> Material Requisition
+                        <ul class="sub-menu"> 
                              <li class="nav-item"><a class="nav-link" href="@Url.Action("IndentStockIssue", "Stock")">Stock In Hand</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Storestock", "Stock")">Store Stock </a></li>
-                                 <li class="nav-item"><a class="nav-link" href="@Url.Action("ListDrumLocation", "DrumLocation")">Drum Location</a></li>
+                                
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListMaterialRequisition", "MaterialRequisition")">Material Requisition</a></li>
-                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListMaterialReq", "MaterialRequisition")">Approve Material Requisition</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListMaterialReq", "MaterialRequisition")">Approve MR</a></li>
                             @*<li class="nav-item"><a class="nav-link" href="@Url.Action("IndentStockIssue", "Stock")">Indent Stock Issue</a></li>*@
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListStockIn", "StockIn")">Indent Stock Issue</a></li>
                             @* <li class="nav-item"><a class="nav-link" href="@Url.Action("IssueToProduction", "IssueToProduction")">Issue To Production</a></li>*@
@@ -566,14 +647,34 @@
                             @*<li class="nav-item"><a class="nav-link" href="@Url.Action("Returnable_NonReturnable_Dc", "StoresReturn")">Returnable NonReturnable Dc</a></li>*@
                             @*<li class="nav-item"><a class="nav-link" href="@Url.Action("List_StoreAcc", "StoreAcc")">Stores Acceptance</a></li>*@
                            @* <li class="nav-item"><a class="nav-link" href="@Url.Action("Receipt_Against_Returnable_DC", "StoresReturn")">Receipt Against Returnable DC</a></li>*@
-                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListStoreIssueCons", "StoreIssueConsumables")">Stores Issuse Consumbables</a></li>
+                       @*     <li class="nav-item"><a class="nav-link" href="@Url.Action("ListStoreIssueCons", "StoreIssueConsumables")">Stores Issuse Consumbables</a></li>
                            
-                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListStoreIssuePro", "StoreIssueProduction")">Stores Issuse Production</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListStoreIssuePro", "StoreIssueProduction")">Stores Issuse Production</a></li>*@
                            @* <li class="nav-item"><a class="nav-link" href="@Url.Action("Material_Requisition_Short_Close", "StoresReturn")">Material Requisition Short Close</a></li>*@
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListPurchaseReturn", "PurReturn")">Purchase Return</a></li>
-                           @* <li class="nav-item"><a class="nav-link" href="@Url.Action("Receipt_for_SubContract", "StoresReturn")">Receipt for SubContract</a></li>*@
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListDirectDeduction", "DirectDeduction")">Direct Deduction</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListDirectAddition", "DirectAddition")">Direct Addition</a></li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="javascript:;"> Asset <span class="arrow nav-toggle"></span> </a>
+                                <ul class="sub-menu">
+                                    <li class="nav-item"><a class="nav-link" href="@Url.Action("ListAssetAddition", "AssetAddDed")">Asset Addition </a></li>
+                                    <li class="nav-item"><a class="nav-link" href="@Url.Action("ListAssetDeduction", "AssetAddDed")">Asset Deduction</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="@Url.Action("ListConToAsset", "ContToAsset")">Consumable To Asset Transfer</a></li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="@Url.Action("ListAssetTransfer", "AssetTransfer")"> <span class="title">Asset Transfer</span> </a>
+                                    </li>
+
+
+                                </ul>
+                            </li>
+
+                         
+
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListRetNonRetDc", "RetNonRetDc")">Returnable NonReturnable Dc</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListReceiptAgtRetDC", "ReceiptAgtRetDC")"> Receipt Against Returnable DC</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Assetstock", "Stock")"> Asset Stock</a></li>
+
 
                             @*<li class="nav-item"><a class="nav-link" href="@Url.Action("ScarpYard", "StoresReturn")">Scarp Yard</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Sub_Contracting_DC", "StoresReturn")">Sub Contracting DC</a></li>
@@ -583,7 +684,22 @@
                         </ul>
 
                     </li>
-		
+                    <li class="nav-item">
+
+                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="icon-paper-plane"></i> <span class="title">Sub Contract</span> <span class="arrow"></span> </a>
+                        <ul class="sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListSubContractingDC", "SubContractingDC")"> <span class="title">Sub Contracting DC</span> </a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListReceiptSubContract", "ReceiptSubContract")">Receipt for SubContract</a></li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListSubContractingMaterialReceipt", "SubContractingMaterialReceipt")"> <span class="title">Sub Contracting Material Receipt</span> </a>
+                            </li>
+                           
+
+                        </ul>
+		</li>
               @*    <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"><i class="fa fa-envelope"></i> <span class="title">Mailbox </span><span class="label label-warning pull-right">16/70</span></a>
           <ul class="sub-menu" >
             <li class="nav-item"><a class="nav-link" href="mailbox.html">Inbox</a></li>
@@ -592,7 +708,7 @@
            
           </ul>
         </li>*@
-                        </ul> 
+             </ul>          
                  
      </div>
   </div>
@@ -679,10 +795,10 @@
     
       
 <!-- start footer -->
- <div class="footer">
+@* <div class="footer">
                     
                     <div> <strong>Copyright</strong> iCanD </div>
-                </div>
+                </div>*@
     </div>
   </div>
 </div>

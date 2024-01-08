@@ -32,7 +32,6 @@ namespace Arasan.Services
             List<PaymentVoucher> cmpList = new List<PaymentVoucher>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
@@ -148,41 +147,21 @@ namespace Arasan.Services
                         }
                         foreach (VoucherItem cp in cy.VoucherLst)
                         {
-                            if (cp.Isvalid == "Y" && cp.Account != "0")
+                            if (cp.Account != "0")
                             {
-                                using (OracleConnection objConns = new OracleConnection(_connectionString))
-                                {
-                                    OracleCommand objCmds = new OracleCommand("VOUCHERDETPROC", objConns);
-                                    if (cy.ID == null)
-                                    {
-                                        StatementType = "Insert";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                    }
-                                    else
-                                    {
-                                        StatementType = "Update";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                    }
-                                    objCmds.CommandType = CommandType.StoredProcedure;
-                                    objCmds.Parameters.Add("PAYMENTVOUCHERID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("ACCTYPE", OracleDbType.NVarchar2).Value = cp.Credit;
-                                    objCmds.Parameters.Add("ACCNAME", OracleDbType.NVarchar2).Value = cp.Account;
-                                    objCmds.Parameters.Add("CREDIT_AMOUNT", OracleDbType.NVarchar2).Value = cp.CreditAmount;
-                                    objCmds.Parameters.Add("DEPIT_AMOUNT", OracleDbType.NVarchar2).Value = cp.DepitAmount;
-                                     
-                                   
-                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                    objConns.Open();
-                                    objCmds.ExecuteNonQuery();
-                                    objConns.Close();
-                                }
-
-
+                              
+                               svSQL = "Insert into PAYMENTVOUCHER (PAYMENTVOUCHERID,ACCTYPE,ACCTYPE,ACCNAME,ACCNAME,CREDIT_AMOUNT,CREDIT_AMOUNT,DEPIT_AMOUNT,DEPIT_AMOUNT) VALUES ('" + Pid + "','" + cp.Credit + "','" + cp.Cre + "','" + cp.Account + "','" + cp.Acc + "','" + cp.CreditAmount + "','" + cp.Cre + "','" + cp.DepitAmount + "','" + cp.DepAmount + "')";
+                               OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                               objCmds.ExecuteNonQuery();
 
                             }
+                               
                         }
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+
+                            
                     }
+                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                    
                     catch (Exception ex)
                     {
                         //System.Console.WriteLine("Exception: {0}", ex.ToString());
@@ -211,7 +190,7 @@ namespace Arasan.Services
         public DataTable GetVoucherDet(string id)
         {
             string SvSql = string.Empty;
-            SvSql = " select PAYMENTVOUCHERID,ACCTYPE,ACCNAME,CREDIT_AMOUNT,DEPIT_AMOUNT from PAYMENTVOUCHDET where PAYMENTVOUCHERID='" + id + "' ";
+            SvSql = "select PAYMENTVOUCHERID,ACCTYPE,ACCNAME,CREDIT_AMOUNT,DEPIT_AMOUNT from PAYMENTVOUCHDET where PAYMENTVOUCHERID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -222,6 +201,16 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = " select VCHTYPEID,DESCRIPTION from VCHTYPE where DESCRIPTION='Payment' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPaymentVoucherDet(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT LEDGERNAME FROM  PARTYMAST WHERE PARTYNAME='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

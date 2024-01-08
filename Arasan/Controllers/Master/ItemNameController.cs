@@ -5,7 +5,7 @@ using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services.Master;
 using Arasan.Services.Store_Management;
-using DocumentFormat.OpenXml.Presentation;
+//using DocumentFormat.OpenXml.Presentation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -118,6 +118,7 @@ namespace Arasan.Controllers.Master
                     //ca.FQCTemp = dt.Rows[0]["FGQCTEMP"].ToString();
 
                     ca.Curing = dt.Rows[0]["CURINGDAY"].ToString();
+                    ca.Auto = dt.Rows[0]["AUTOINDENT"].ToString();
                     ca.createdby = Request.Cookies["UserId"];
                 }
                 DataTable dt2 = new DataTable();

@@ -53,8 +53,11 @@
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Country<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.countryid, Model.cuntylst,"--Please Select---", new { @id = "ddlcountry", @Class = "form-control _select", @TabIndex = 1 })
+                                          
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.createby)
                                         </div>
+
 
                                     </div>
                                 </div>
@@ -73,22 +76,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-3"></div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">StateCode<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.StateCode, new { @id = "txtStateCode", onkeydown = "return isNumeric2(event.keyCode,this.value)", @class = "form-control", @TabIndex = 1 })
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
+                          
                             <div style="height:30px;"></div>
                             <div class="col-lg-8"></div>
-                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Submit</button>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListState", "State")">Cancel</a>
 
                         </form>
@@ -99,10 +90,69 @@
     </div>
 </div>
 
+
 <script>
+
     $(function () {
         $('._select').select2();
     });
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+
+          
+            if (document.getElementById("ddlcountry").value == "") {
+                isValid = false;
+                $(ddlcountry).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter country");
+                return false;
+            }
+            else {
+                $(ddlcountry).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtStateName").value == "") {
+                isValid = false;
+                $(txtStateName).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter StateName");
+                return false;
+            }
+            else {
+                $(txtStateName).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            
+
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+
+</script>
+
+
+@*<script>
+    $(function () {
+        $('._select').select2();
+    });
+
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
@@ -124,22 +174,7 @@
                 });
             }
 
-            //if (document.getElementById("ddlcountry").value == "") {
-            //    isValid = false;
-            //    $(ddlcountry).css({
-            //        "border": "1px solid red",
-            //        "background": "#FFCECE"
-            //    });
-
-            //    alert("Please Select Country");
-            //    return false;
-            //}
-            //else {
-            //    $(ddlcountry).css({
-            //        "border": "",
-            //        "background": ""
-            //    });
-            //}
+            
             if (document.getElementById("txtStateName").value == "") {
                 isValid = false;
                 $(txtStateName).css({
@@ -156,23 +191,7 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtStateCode").value == "") {
-                isValid = false;
-                $(txtStateCode).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter State Code");
-                return false;
-            }
-            else {
-                $(txtStateCode).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
+          
 
             if (isValid == false)
                 e.preventDefault();
@@ -180,4 +199,4 @@
         });
 
     });
-</script>
+</script>*@

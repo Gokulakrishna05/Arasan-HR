@@ -13,6 +13,15 @@
         top: 2px;
         left: 5px;
     }
+
+    div.scroll {
+        width: 100%;
+        height: 400px;
+        overflow-x: auto;
+        overflow-y: auto;
+        /* text-align: center;*/
+        /*padding: 20px;*/
+    }
 </style>
 <div class="page-content-wrapper animated fadeInRight">
     <div class="row wrapper border-bottom page-heading">
@@ -32,7 +41,7 @@
                     <div class="widgets-container">
                         <h5 style="font-size:14px">Production Forecasting</h5>
                         <hr>
-                        @using (Html.BeginForm("PackingNote", "PackingNote", FormMethod.Post))
+                        @using (Html.BeginForm("ProductionForecasting", "ProductionForecasting", FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
 
@@ -41,10 +50,12 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
 
-                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
+                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Doc ID<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
+                                                @Html.TextBoxFor(C => C.DocId, new { @id = "DocId", @class = "form-control", @TabIndex = 1,@readonly="readonly" })
                                                 @Html.HiddenFor(C => C.ID)
-                                                @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                                @Html.HiddenFor(C => C.Branch)
+                                                @Html.HiddenFor(C => C.Enterd)
                                             </div>
                                         </div>
                                     </div>
@@ -59,46 +70,38 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-
-                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Doc ID<label class="Mandatory"></label></label>
-                                            <div class="col-sm-8">
-                                                @Html.TextBoxFor(C => C.DocId, new { @id = "DocId", @class = "form-control", @TabIndex = 2 })
-                                                @Html.HiddenFor(C => C.ID)
-                                            </div>
-                                        </div>
                                     </div>
+                                    <div class="row">
+                                   
                                     <div class="col-md-6">
                                         <div class="form-group">
 
                                             <br />  <label for="inputName3" class="col-sm-4 control-label">Plan Type<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
-                                                <select class=" _select js-states form-control">
-
-                                                    <option> </option>
-                                                    <option value="KA"> MONTHLY</option>
-                                                    <option value="KA"> YEARLY</option>
-
-                                                </select>
-
+                                                @Html.RadioButtonFor(o => o.plantype, "MONTHLY", new { @id = "txtplantype",@TabIndex = 2})
+                                                <label id="mt-radio">MONTHLY</label>
+                                                @Html.RadioButtonFor(o => o.plantype, "YEARLY", new { @id = "txtplantype",@TabIndex = 3})
+                                                <label id="mt-radio">YEARLY</label>
                                             </div>
                                         </div>
                                     </div>
-                                    </div>
-                                    <div class="row">
+
                                     <div class="col-md-6">
                                         <div class="form-group">
 
 
                                             <br /> <label for="inputName3" class="col-sm-4 control-label">For The Month Of<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
-                                                @Html.TextBoxFor(C => C.ForMonth, new { @id = "ForMonth", @class = "form-control", @TabIndex = 2 })
+                                                @Html.DropDownListFor(C => C.ForMonth, Model.mnthlst," -- Please Select -- ", new { @id = "ddlmnth", @Class = "form-control _select", @TabIndex = 1 ,@onchange="changemnth(this.value)"})
 
                                             </div>
                                         </div>
                                     </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                    
                                     <div class="col-md-6">
                                         <div class="form-group">
 
@@ -110,8 +113,7 @@
                                             </div>
                                         </div>
                                       </div>
-                                    </div>
-                                    <div class="row">
+                                    
                                     <div class="col-md-6">
                                         <div class="form-group">
 
@@ -123,6 +125,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                  
+                                </div>
+                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
 
@@ -134,8 +139,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <br /> <label for="inputName3" class="col-sm-4 control-label">End Date<label class="Mandatory"></label></label>
@@ -165,7 +168,7 @@
 
                                             </ul>
                                             <div class="tab-content">
-                                                <div class="tab-pane active" id="tab-1">
+                                            <div class="tab-pane active" id="tab-1">
                                                     <!-- 1st tab  -->
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -246,14 +249,10 @@
                                                     </div>
                                                     <!-- 1st tab  -->
                                                 </div>
-                                                <div class="tab-pane" id="tab-2">
+                                                <div class="tab-pane " id="tab-2">
                                                     <!-- 2nd tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow1()" class="btn sbold green" /></p>
-                                                            </div>
-                                                        </div>
+                                                     
 
                                                         <div class="col-lg-12">
                                                             <div class="ibox float-e-margins">
@@ -274,7 +273,8 @@
                                                                                         <th>DgAdditID </th>
                                                                                         <th> Req Additive </th>
                                                                                         <th>Raw Material</th>
-                                                                                        <th>Req Pyro </th>
+                                                                                        <th>Req Pyro</th>
+                                                                                       
 
                                                                                     </tr>
                                                                                 </thead>
@@ -287,40 +287,40 @@
 
                                                 foreach (var item in Model.PFCDGILst.ToList())
                                                 {
-                                                                <tr id="trBook1@(j)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                <tr id="trBook1@(j)" class="chkitemlst1" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                
                                                                 <td>
-                                                                    @Html.DropDownListFor(o => o.PFCDGILst[j].ItemId, Model.PFCDGILst[j].PItemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemId" + j, style = "width: 170px;"})
-                                                                    @Html.HiddenFor(o => o.PFCDGILst[j].saveItemId)
+                                                                   @Html.TextBoxFor(o => o.PFCDGILst[j].itemid, new { @id = "txtItemid" + j, @class = "form-control", style = "width: 120px;" })
+                                                                    @Html.HiddenFor(o => o.PFCDGILst[j].saveitemid)
                                                                 </td>
                                                                  <td>
-                                                                  @Html.TextBoxFor(o => o.PFCDGILst[j].Target, new { @id = "txtTarget" + j, @class = "form-control", style = "width: 120px;" })
+                                                                  @Html.TextBoxFor(o => o.PFCDGILst[j].target, new { @id = "txtTarget" + j, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                  <td>
-                                                                  @Html.TextBoxFor(o => o.PFCDGILst[j].Min, new { @id = "txtMin" + j, @class = "form-control", style = "width: 120px;" })
+                                                                  @Html.TextBoxFor(o => o.PFCDGILst[j].min, new { @id = "txtMin" + j, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                  <td>
-                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].Stock, new { @id = "txtStock" + j, @class = "form-control", style = "width: 120px;" })
+                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].stock, new { @id = "txtStock" + j, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                  <td>
-                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].Required, new { @id = "txtRequired" + j, @class = "form-control", style = "width: 120px;" })
+                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].required, new { @id = "txtRequired" + j, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                  <td>
-                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].DgAdditID, new { @id = "txtDgAdditID" + j, @class = "form-control", style = "width: 120px;" })
+                                                                                                    @Html.TextBoxFor(o => o.PFCDGILst[j].dgaddit, new { @id = "txtDgAdditID" + j, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                  <td>
-                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].ReqAdditive, new { @id = "txtReqAdditive" + j, @class = "form-control", style = "width: 120px;" })
+                                                                                                    @Html.TextBoxFor(o => o.PFCDGILst[j].reqadditive, new { @id = "txtReqAdditive" + j, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                 <td>
-                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].RawMaterial, new { @id = "txtRawMaterial" + j, @class = "form-control", style = "width: 120px;" })
+                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].rawmaterial, new { @id = "txtRawMaterial" + j, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                 <td>
+                                                                       @Html.TextBoxFor(o => o.PFCDGILst[j].reqpyro, new { @id = "txtreqpyro" + j, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                               @* <td>
                                                                  @Html.TextBoxFor(o => o.PFCDGILst[j].ReqPyro, new { @id = "txtReqPyro" + j, @class = "form-control", style = "width: 120px;" })
-                                                                </td>
-                                                                 <td>
-                                                                                                    @Html.HiddenFor(o => o.PFCDGILst[j].Isvalid, new { @id = "Isvalid" + j })
-                                                                   <img onclick="removeRow1(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(j)" />
-                                                                 </td>
+                                                                </td>*@
+                                                               
 
                                                             </tr>
                                                     j = j + 1;
@@ -344,11 +344,7 @@
                                                 <div class="tab-pane" id="tab-3">
                                                     <!-- 3rd tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow2()" class="btn sbold green" /></p>
-                                                            </div>
-                                                        </div>
+                                                     
 
                                                         <div class="col-lg-12">
                                                             <div class="ibox float-e-margins">
@@ -357,21 +353,20 @@
                                                                 <div id="demo3" class="ibox-content collapse in">
                                                                     <div class="borderedTable">
                                                                         <div class="table-scrollable">
+                                                                             <div class="scroll">
                                                                             <table class="table table-striped table-hover">
                                                                                 <thead>
                                                                                     <tr>
                                                                                         
                                                                                         <th>Work Center</th>
                                                                                         <th>Cum Days</th>
-                                                                                       @* <th>Sales Tar </th>*@
                                                                                         <th> Prod Item </th>
-                                                                                       @* <th> Stock </th>*@
+                                                                                        <th>Sales Tar </th>
                                                                                         <th> Min Stock </th>
-                                                                                        <th> Paste Rej %</th>
-                                                                                        <th>Grade Change </th>
-                                                                                        <th>Rej Qty </th>
+                                                                                        <th> Stock </th>
                                                                                         <th>Required </th>
-                                                                                        <th>Target(22h) </th>
+                                                                                        <th> Paste Rej %</th>
+                                                                                        <th>Rej Qty </th>
                                                                                         <th>Prod Days </th>
                                                                                         <th>Prod Qty </th>
                                                                                         <th>Rej Mat % </th>
@@ -395,40 +390,40 @@
 
                                                 foreach (var item in Model.PFCPYROILst.ToList())
                                                 {
-                                                             <tr id="trBook2@(k)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                             <tr id="trBook2@(k)" class="chkitemlst2" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                
                                                               
                                                                  <td>
                                                                    @Html.DropDownListFor(o => o.PFCPYROILst[k].WorkId, Model.PFCPYROILst[k].Worklst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlWorkId" + k, style = "width: 170px;"})
-                                                                   @Html.HiddenFor(o => o.PFCPYROILst[k].saveItemId)
+                                                                   @Html.HiddenFor(o => o.PFCPYROILst[k].saveitemid)
                                                                 </td>
                                                                  <td>
                                                                   @Html.TextBoxFor(o => o.PFCPYROILst[k].CDays, new { @id = "txtCDays" + k, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                   <td>
-                                                                   @Html.DropDownListFor(o => o.PFCPYROILst[k].ItemId, Model.PFCPYROILst[k].PYItemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemId" + k, style = "width: 170px;"})
+                                                           @Html.TextBoxFor(o => o.PFCPYROILst[k].itemid, new { @id = "txtItemId" + k, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPYROILst[k].target, new { @id = "txtTarget" + k, @class = "form-control", style = "width: 120px;" })
+                                                                                                </td>
+                                                                                                <td>
+                                                                  @Html.TextBoxFor(o => o.PFCPYROILst[k].minstock, new { @id = "txtMinStock" + k, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPYROILst[k].stock, new { @id = "txtRequired" + k, @class = "form-control", style = "width: 120px;" })
+                                                                                                </td>
+                                                                 <td>
+                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].required, new { @id = "txtRequired" + k, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                  <td>
-                                                                  @Html.TextBoxFor(o => o.PFCPYROILst[k].MinStock, new { @id = "txtMinStock" + k, @class = "form-control", style = "width: 120px;" })
+                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].pasterej, new { @id = "txtDgAdditID" + k, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
-                                                                 <td>
-                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].Required, new { @id = "txtRequired" + k, @class = "form-control", style = "width: 120px;" })
-                                                                </td>
-                                                                 <td>
-                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].PasteRej, new { @id = "txtDgAdditID" + k, @class = "form-control", style = "width: 120px;" })
-                                                                </td>
-                                                                 <td>
-                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].GradeChange, new { @id = "txtGradeChange" + k, @class = "form-control", style = "width: 120px;" })
-                                                                </td>
+                                                             
                                                                 <td>
-                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].RejQty, new { @id = "txtRejQty" + k, @class = "form-control", style = "width: 120px;" })
+                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].rejqty, new { @id = "txtRejQty" + k, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
-                                                                <td>
-                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].Required, new { @id = "txtRequired" + k, @class = "form-control", style = "width: 120px;" })
-                                                                </td>
-                                                                <td>
-                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].Target, new { @id = "txtTarget" + k, @class = "form-control", style = "width: 120px;" })
-                                                                </td> 
+                                                               
+                                                              
                                                                 <td>
                                                                  @Html.TextBoxFor(o => o.PFCPYROILst[k].ProdDays, new { @id = "txtProdDays" + k, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
@@ -445,10 +440,10 @@
                                                                  @Html.TextBoxFor(o => o.PFCPYROILst[k].BalanceQty, new { @id = "txtBalanceQty" + k, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                 <td>
-                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].Additive, new { @id = "txtAdditive" + k, @class = "form-control", style = "width: 120px;" })
+                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].additive, new { @id = "txtAdditive" + k, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                 <td>
-                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].Per, new { @id = "txtPer" + k, @class = "form-control", style = "width: 120px;" })
+                                                                 @Html.TextBoxFor(o => o.PFCPYROILst[k].per, new { @id = "txtPer" + k, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                 <td>
                                                                  @Html.TextBoxFor(o => o.PFCPYROILst[k].AllocAdditive, new { @id = "txtAllocAdditive" + k, @class = "form-control", style = "width: 120px;" })
@@ -465,7 +460,7 @@
 
                                                                  <td>
                                                                      @Html.HiddenFor(o => o.PFCPYROILst[k].Isvalid, new { @id = "Isvalid" + k })
-                                                                   <img onclick="removeRow2(@(k));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(k)" />
+                                                                                                        <img onclick="removeRow2(@(k));" src="../Images/delete.png" style="cursor:pointer" /> <input name="PFCPYROILst.Index" type="hidden" value="@(k)" />
                                                                  </td>
 
                                                             </tr>
@@ -480,6 +475,7 @@
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -490,11 +486,7 @@
                                                 <div class="tab-pane" id="tab-4">
                                                     <!-- 4th tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
-                                                            </div>
-                                                        </div>
+                                                     
 
                                                         <div class="col-lg-12">
                                                             <div class="ibox float-e-margins">
@@ -506,7 +498,7 @@
                                                                             <table class="table table-striped table-hover">
                                                                                 <thead>
                                                                                     <tr>
-                                                                                        <th> S. No. </th>
+                                                                                     
                                                                                         <th>Work Center</th>
                                                                                         <th>Wc Days</th>
                                                                                         <th>Item Name </th>
@@ -526,80 +518,89 @@
                                                                                         <th> Powder Required</th>
                                                                                     </tr>
                                                                                 </thead>
-                                                                                <tbody>
-                                                                                    <tr>
-                                                                                        <td> 1 </td>
+                                                                                <tbody id="tbBooks3">
+                                                                                      @{
+
+                                                                   int p = 0;
+                                                
 
 
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-
-
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td> 2 </td>
-
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td> 3 </td>
+                                                                 foreach (var item in Model.PFCPOLILst.ToList())
+                                                                    {
+                                                             <tr id="trBook3@(p)" class="chkitemlst3" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                               
 
 
 
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                        <td>
+                                                                                            @Html.DropDownListFor(o => o.PFCPOLILst[p].workid, Model.PFCPOLILst[p].POWorklst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlPWorkId" + p, style = "width: 170px;"})
+                                                                                            @Html.HiddenFor(o => o.PFCPOLILst[p].saveitemid)
+                                                                                        </td>
+                                                                                        <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPOLILst[p].wcdays, new { @id = "txtwcdays" + p, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCPOLILst[p].itemid, new { @id = "txtitemid" + p, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCPOLILst[p].target, new { @id = "txttarget" + p, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPOLILst[p].capacity, new { @id = "txtcapacity" + p, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCPOLILst[p].stock, new { @id = "txtstock" + p, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPOLILst[p].minstock, new { @id = "txtminstock" + p, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCPOLILst[p].required, new { @id = "txtrequired" + p, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
 
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCPOLILst[p].days, new { @id = "txtdays" + p, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
 
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                    </tr>
+
+                                                                                        <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPOLILst[p].additive, new { @id = "txtadditive" + p, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCPOLILst[p].add, new { @id = "txtadd" + p, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCPOLILst[p].rawmat, new { @id = "txtrawmat" + p, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPOLILst[p].reqper, new { @id = "txtreqper" + p, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCPOLILst[p].rvdqty, new { @id = "txtrvdqty" + p, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCPOLILst[p].pyropowder, new { @id = "txtpyropowder" + p, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCPOLILst[p].pyroqty, new { @id = "txtpyroqty" + p, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCPOLILst[p].powderrequired, new { @id = "txtpowderrequired" + p, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+
+                                                                                                <td>
+                                                                                                    @Html.HiddenFor(o => o.PFCPOLILst[p].Isvalid, new { @id = "Isvalid" + p })
+                                                                                                    <img onclick="removeRow3(@(p));" src="../Images/delete.png" style="cursor:pointer" /> <input name="PFCPOLILst.Index" type="hidden" value="@(p)" />
+                                                                                                </td>
+
+                                                                                            </tr>
+                                                                                            p = p + 1;
+
+
+                                                                                        }
+                                                                                    }
+                                                                                    
+                                                                                   
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
@@ -613,11 +614,7 @@
                                                 <div class="tab-pane" id="tab-5">
                                                     <!-- 5th tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
-                                                            </div>
-                                                        </div>
+                                                      
 
                                                         <div class="col-lg-12">
                                                             <div class="ibox float-e-margins">
@@ -629,7 +626,7 @@
                                                                             <table class="table table-striped table-hover">
                                                                                 <thead>
                                                                                     <tr>
-                                                                                        <th> S. No. </th>
+                                                                                       
                                                                                         <th>Work Center</th>
                                                                                         <th>Wc Days</th>
                                                                                         <th>Item Name </th>
@@ -644,62 +641,75 @@
                                                                                         <th>Power Required</th>
 
                                                                                 </thead>
-                                                                                <tbody>
-                                                                                    <tr>
-                                                                                        <td> 1 </td>
+                                                                                <tbody id="tbBooks4">
+                                                                                      @{
 
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td> 2 </td>
-
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td> 3 </td>
+                                                                   int r = 0;
+                                                
 
 
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                 foreach (var item in Model.PFCRVDLst.ToList())
+                                                                    {
+                                                             <tr id="trBook4@(r)" class="chkitemlst4" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                               
 
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
 
-                                                                                    </tr>
+
+                                                                                        <td>
+                                                                                            @Html.DropDownListFor(o => o.PFCRVDLst[r].workid, Model.PFCRVDLst[r].POWorklst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlPWorkId" + r, style = "width: 170px;"})
+                                                                                                    @Html.HiddenFor(o => o.PFCRVDLst[r].saveitemid)
+                                                                                        </td>
+                                                                                        <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCRVDLst[r].wcdays, new { @id = "txtwcdays" + r, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCRVDLst[r].itemid, new { @id = "txtitemid" + r, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCRVDLst[r].prodqty, new { @id = "txtprodqty" + r, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCRVDLst[r].days, new { @id = "txtdays" + r, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+
+
+                                                                                        <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCRVDLst[r].cons, new { @id = "txtcons" + r, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCRVDLst[r].consqty, new { @id = "txtconsqty" + r, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCRVDLst[r].rawmat, new { @id = "txtrawmat" + r, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCRVDLst[r].qty, new { @id = "txtqty" + r, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCRVDLst[r].mto, new { @id = "txtmto" + r, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCRVDLst[r].mtoloss, new { @id = "txtmtoloss" + r, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.PFCRVDLst[r].powderrequired, new { @id = "txtpowderrequired" + r, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+
+                                                                                                <td>
+                                                                                                    @Html.HiddenFor(o => o.PFCRVDLst[r].Isvalid, new { @id = "Isvalid" + r })
+                                                                                                    <img onclick="removeRow4(@(r));" src="../Images/delete.png" style="cursor:pointer" /> <input name="PFCRVDLst.Index" type="hidden" value="@(r)" />
+                                                                                                </td>
+
+                                                                                            </tr>
+                                                                                            r = r + 1;
+
+
+                                                                                        }
+                                                                                    }
+                                                                                    
+                                                                                   
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
@@ -713,11 +723,7 @@
                                                 <div class="tab-pane" id="tab-6">
                                                     <!-- 6th tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
-                                                            </div>
-                                                        </div>
+                                                     
 
                                                         <div class="col-lg-12">
                                                             <div class="ibox float-e-margins">
@@ -729,7 +735,7 @@
                                                                             <table class="table table-striped table-hover">
                                                                                 <thead>
                                                                                     <tr>
-                                                                                        <th> S. No. </th>
+                                                                                        
                                                                                         <th>WCID</th>
                                                                                         <th>Cum Days </th>
                                                                                         <th> Item ID</th>
@@ -741,106 +747,121 @@
                                                                                         <th> Prod.Days </th>
                                                                                         <th> Production </th>
                                                                                         <th> Ap Powder </th>
-                                                                                        <th> Palance </th>
+                                                                                        <th> Balance </th>
                                                                                         <th> Additive </th>
                                                                                         <th> Alloc Addit </th>
-                                                                                        <th> O Prod(kg) </th>
+                                                                                        <th> TO Prod(kg) </th>
                                                                                         <th> Rvd Loss </th>
-                                                                                        <th> O Loss(kg) </th>
-                                                                                        <th> In Coarse(kg) </th>
+                                                                                        <th> TO Loss(kg) </th>
+                                                                                        <th> to In Coarse(kg) </th>
                                                                                         <th> Mixing MTO </th>
-                                                                                        <th> O Req(Ltd) </th>
+                                                                                        <th> TO Req(Ltd) </th>
                                                                                         <th> Additive Cost </th>
                                                                                         <th> Mto Cost </th>
                                                                                         <th> Power Required </th>
                                                                                     </tr>
                                                                                 </thead>
-                                                                                <tbody>
-                                                                                    <tr>
-                                                                                        <td> 1 </td>
+                                                                               <tbody id="tbBooks5">
+                                                                                      @{
 
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td> 2 </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td> 3 </td>
+                                                int t = 0;
+                                                
 
 
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
+                                                foreach (var item in Model.PFCPASTELst.ToList())
+                                                {
+                                                             <tr id="trBook5@(t)" class="chkitemlst5" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                               
+                                                              
+                                                                 <td>
+                                                                   @Html.DropDownListFor(o => o.PFCPASTELst[t].WorkId, Model.PFCPASTELst[t].Worklst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlWorkId" + k, style = "width: 170px;"})
+                                                                   @Html.HiddenFor(o => o.PFCPASTELst[t].saveitemid)
+                                                                </td>
+                                                                 <td>
+                                                                  @Html.TextBoxFor(o => o.PFCPASTELst[t].CDays, new { @id = "txtCDays" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                  <td>
+                                                           @Html.TextBoxFor(o => o.PFCPASTELst[t].itemid, new { @id = "txtItemId" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPASTELst[t].charge, new { @id = "txtcharge" + t, @class = "form-control", style = "width: 120px;" })
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPASTELst[t].target, new { @id = "txttarget" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPASTELst[t].stock, new { @id = "txtstock" + t, @class = "form-control", style = "width: 120px;" })
+                                                                                                </td>
+                                                                                                 <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPASTELst[t].minstock, new { @id = "txtminstock" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                 <td>
+                                                                 @Html.TextBoxFor(o => o.PFCPASTELst[t].required, new { @id = "txtrequired" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                
+                                                             
+                                                                <td>
+                                                                 @Html.TextBoxFor(o => o.PFCPASTELst[t].proddays, new { @id = "txtproddays" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                               
+                                                              
+                                                                <td>
+                                                                 @Html.TextBoxFor(o => o.PFCPASTELst[t].production, new { @id = "txtproduction" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPASTELst[t].appowder, new { @id = "txtappowder" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                <td>
+                                                                 @Html.TextBoxFor(o => o.PFCPASTELst[t].balance, new { @id = "txtbalance" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                <td>
+                                                                 @Html.TextBoxFor(o => o.PFCPASTELst[t].additive, new { @id = "txtadditive" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                <td>
+                                                                 @Html.TextBoxFor(o => o.PFCPASTELst[t].allocadditive, new { @id = "txtallocadditive" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                <td>
+                                                                 @Html.TextBoxFor(o => o.PFCPASTELst[t].toprod, new { @id = "txttoprod" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                <td>
+                                                                 @Html.TextBoxFor(o => o.PFCPASTELst[t].rvdloss, new { @id = "txtrvdloss" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                <td>
+                                                                 @Html.TextBoxFor(o => o.PFCPASTELst[t].toloss, new { @id = "txttoloss" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                <td>
+                                                                 @Html.TextBoxFor(o => o.PFCPASTELst[t].coarse, new { @id = "txtcoarse" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                <td>
+                                                                 @Html.TextBoxFor(o => o.PFCPASTELst[t].missmto, new { @id = "txtmissmto" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPASTELst[t].toreq, new { @id = "txttoreq" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                 <td>
+                                                                 @Html.TextBoxFor(o => o.PFCPASTELst[t].addcost, new { @id = "txtaddcost" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                <td>
+                                                                 @Html.TextBoxFor(o => o.PFCPASTELst[t].mtocost, new { @id = "txtmtocost" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPASTELst[t].powerrequired, new { @id = "txtpowerrequired" + t, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
 
-                                                                                        <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                    </tr>
+                                                                 <td>
+                                                                                                    @Html.HiddenFor(o => o.PFCPASTELst[t].Isvalid, new { @id = "Isvalid" + t })
+                                                                   <img onclick="removeRow5(@(t));" src="../Images/delete.png" style="cursor:pointer" /> <input name="PFCPASTELst.Index" type="hidden" value="@(t)" />
+                                                                 </td>
+
+                                                            </tr>
+                                                    k = k + 1;
+                                                    
+
+                                                }
+                                            }
+
+
+
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
@@ -854,11 +875,7 @@
                                                 <div class="tab-pane" id="tab-7">
                                                     <!-- 7th tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
-                                                            </div>
-                                                        </div>
+                                                      
 
                                                         <div class="row">
                                                             <div class="col-md-6">
@@ -866,7 +883,7 @@
 
                                                                     <br /><br />  <label for="inputName3" class="col-sm-4 control-label">Req APS Powder<label class="Mandatory"></label></label>
                                                                     <div class="col-sm-8">
-                                                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                                            @Html.TextBoxFor(C => C.apspowder, new { @id = "apspowder", @class = "form-control", @TabIndex = 2 })<br />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -878,7 +895,7 @@
 
                                                                     <label for="inputName3" class="col-sm-4 control-label">Required Qty<label class="Mandatory"></label></label>
                                                                     <div class="col-sm-8">
-                                                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                                         @Html.TextBoxFor(C => C.reqqty, new { @id = "reqqty", @class = "form-control", @TabIndex = 2 })<br />
 
                                                                     </div>
                                                                 </div>
@@ -891,7 +908,7 @@
                                                                     <label for="inputName3" class="col-sm-4 control-label">Available Stock<label class="Mandatory"></label></label>
                                                                     <div class="col-sm-8">
 
-                                                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                                        @Html.TextBoxFor(C => C.avlstk, new { @id = "avlstk", @class = "form-control", @TabIndex = 2 })<br />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -903,7 +920,7 @@
                                                                     <label for="inputName3" class="col-sm-4 control-label">Minimum Stock<label class="Mandatory"></label></label>
                                                                     <div class="col-sm-8">
 
-                                                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                                         @Html.TextBoxFor(C => C.ministk, new { @id = "ministk", @class = "form-control", @TabIndex = 2 })<br />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -914,7 +931,7 @@
 
                                                                     <label for="inputName3" class="col-sm-4 control-label">Required AP Powder<label class="Mandatory"></label></label>
                                                                     <div class="col-sm-8">
-                                                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                                        @Html.TextBoxFor(C => C.reqappowder, new { @id = "reqappowder", @class = "form-control", @TabIndex = 2 })<br />
 
                                                                     </div>
                                                                 </div>
@@ -926,11 +943,7 @@
                                                 <div class="tab-pane" id="tab-8">
                                                     <!-- 8th tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
-                                                            </div>
-                                                        </div>
+                                                      
 
                                                         <div class="row">
                                                             <div class="col-md-6">
@@ -938,7 +951,8 @@
 
                                                                     <br /><br />  <label for="inputName3" class="col-sm-4 control-label">AP for Pyro<label class="Mandatory"></label></label>
                                                                     <div class="col-sm-8">
-                                                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                                                                                                               @Html.TextBoxFor(C => C.appyro, new { @id = "appyro", @class = "form-control", @TabIndex = 2 })<br />
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -950,7 +964,8 @@
 
                                                                     <label for="inputName3" class="col-sm-4 control-label">AP for Paste<label class="Mandatory"></label></label>
                                                                     <div class="col-sm-8">
-                                                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                                                                                                               @Html.TextBoxFor(C => C.appaste, new { @id = "appaste", @class = "form-control", @TabIndex = 2 })<br />
+
 
                                                                     </div>
                                                                 </div>
@@ -963,7 +978,7 @@
                                                                     <label for="inputName3" class="col-sm-4 control-label">AP for FG-APS<label class="Mandatory"></label></label>
                                                                     <div class="col-sm-8">
 
-                                                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                                        @Html.TextBoxFor(C => C.apfg, new { @id = "apfg", @class = "form-control", @TabIndex = 2 })<br />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -975,7 +990,7 @@
                                                                     <label for="inputName3" class="col-sm-4 control-label">Req AP Powder<label class="Mandatory"></label></label>
                                                                     <div class="col-sm-8">
 
-                                                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                                        @Html.TextBoxFor(C => C.reqappow, new { @id = "reqappow", @class = "form-control", @TabIndex = 2 })<br />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -986,7 +1001,7 @@
 
                                                                     <label for="inputName3" class="col-sm-4 control-label">APS Minimum Stock<label class="Mandatory"></label></label>
                                                                     <div class="col-sm-8">
-                                                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                                        @Html.TextBoxFor(C => C.apsministk, new { @id = "apsministk", @class = "form-control", @TabIndex = 2 })<br />
 
                                                                     </div>
                                                                 </div>
@@ -998,7 +1013,7 @@
 
                                                                     <label for="inputName3" class="col-sm-4 control-label">APS Stock<label class="Mandatory"></label></label>
                                                                     <div class="col-sm-8">
-                                                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                                        @Html.TextBoxFor(C => C.apstk, new { @id = "apstk", @class = "form-control", @TabIndex = 2 })<br />
 
                                                                     </div>
                                                                 </div>
@@ -1010,7 +1025,7 @@
 
                                                                     <label for="inputName3" class="col-sm-4 control-label">Coarse Melting<label class="Mandatory"></label></label>
                                                                     <div class="col-sm-8">
-                                                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                                        @Html.TextBoxFor(C => C.coarse, new { @id = "coarse", @class = "form-control", @TabIndex = 2 })<br />
 
                                                                     </div>
                                                                 </div>
@@ -1022,7 +1037,7 @@
 
                                                                     <label for="inputName3" class="col-sm-4 control-label">Powder Requirement<label class="Mandatory"></label></label>
                                                                     <div class="col-sm-8">
-                                                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                                        @Html.TextBoxFor(C => C.power, new { @id = "power", @class = "form-control", @TabIndex = 2 })<br />
 
                                                                     </div>
                                                                 </div>
@@ -1034,11 +1049,7 @@
                                                 <div class="tab-pane" id="tab-9">
                                                     <!-- 9th tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
-                                                            </div>
-                                                        </div>
+                                                      
 
                                                         <div class="col-lg-12">
                                                             <div class="ibox float-e-margins">
@@ -1050,7 +1061,7 @@
                                                                             <table class="table table-striped table-hover">
                                                                                 <thead>
                                                                                     <tr>
-                                                                                        <th> S. No. </th>
+                                                                                        
                                                                                         <th>Work Center</th>
                                                                                         <th>Wc.Days</th>
                                                                                         <th>Capacity/Day </th>
@@ -1063,52 +1074,66 @@
 
                                                                                     </tr>
                                                                                 </thead>
-                                                                                <tbody>
-                                                                                    <tr>
-                                                                                        <td> 1 </td>
+                                                                                <tbody id="tbBooks6">
+                                                                                      @{
 
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                        <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td> 2 </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                        <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td> 3 </td>
+                                                int z = 0;
+                                                
 
 
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
+                                                foreach (var item in Model.PFCAPPRODLst.ToList())
+                                                {
+                                                             <tr id="trBook6@(z)" class="chkitemlst6" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                               
+                                                              
+                                                                 <td>
+                                                                   @Html.DropDownListFor(o => o.PFCAPPRODLst[z].WorkId, Model.PFCAPPRODLst[z].Worklst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlWorkId" + z, style = "width: 170px;"})
+                                                                   @Html.HiddenFor(o => o.PFCAPPRODLst[z].saveItemId)
+                                                                </td>
+                                                                 <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCAPPRODLst[z].wdays, new { @id = "txtwdays" + z, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                  <td>
+                                                                  @Html.TextBoxFor(o => o.PFCAPPRODLst[z].capacity, new { @id = "txtcapacity" + z, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                                             
+                                                                 <td>
+                                                                  @Html.TextBoxFor(o => o.PFCAPPRODLst[z].target, new { @id = "txttarget" + z, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                
+                                                             
+                                                                <td>
+                                                                  @Html.TextBoxFor(o => o.PFCAPPRODLst[z].proddays, new { @id = "txtproddays" + z, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                               
+                                                              
+                                                                <td>
+                                                                  @Html.TextBoxFor(o => o.PFCAPPRODLst[z].production, new { @id = "txtproduction" + z, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                <td>
+                                                                  @Html.TextBoxFor(o => o.PFCAPPRODLst[z].fuelreq, new { @id = "txtfuelreq" + z, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                <td>
+                                                                  @Html.TextBoxFor(o => o.PFCAPPRODLst[z].ingotreq, new { @id = "txtingotreq" + z, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                                <td>
+                                                                  @Html.TextBoxFor(o => o.PFCAPPRODLst[z].powerrequired, new { @id = "txtpowerrequired" + z, @class = "form-control", style = "width: 120px;" })
+                                                                </td>
+                                                               
+                                                                 <td>
+                                                                                                    @Html.HiddenFor(o => o.PFCAPPRODLst[z].Isvalid, new { @id = "Isvalid" + z })
+                                                                   <img onclick="removeRow6(@(z));" src="../Images/delete.png" style="cursor:pointer" /> <input name="PFCAPPRODLst.Index" type="hidden" value="@(z)" />
+                                                                 </td>
 
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
+                                                            </tr>
+                                                    z = z + 1;
+                                                    
 
-                                                                                        <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                    </tr>
+                                                }
+                                            }
+
+
+
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
@@ -1122,11 +1147,7 @@
                                                 <div class="tab-pane" id="tab-10">
                                                     <!-- 10th tab  -->
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
-                                                            </div>
-                                                        </div>
+                                                     
 
                                                         <div class="col-lg-12">
                                                             <div class="ibox float-e-margins">
@@ -1135,10 +1156,11 @@
                                                                 <div id="demo3" class="ibox-content collapse in">
                                                                     <div class="borderedTable">
                                                                         <div class="table-scrollable">
+                                                                             <div class="scroll">
                                                                             <table class="table table-striped table-hover">
                                                                                 <thead>
                                                                                     <tr>
-                                                                                        <th> S. No. </th>
+                                                                                       
                                                                                         <th>Party ID</th>
                                                                                         <th>Target Item</th>
                                                                                         <th>TarQty</th>
@@ -1149,51 +1171,64 @@
 
                                                                                     </tr>
                                                                                 </thead>
-                                                                                <tbody>
-                                                                                    <tr>
-                                                                                        <td> 1 </td>
+                                                                                <tbody id="tbBooks7">
+                                                                                    @{
 
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                        <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td> 2 </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                        <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td> 3 </td>
+                                                                                        int g = 0;
 
 
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
 
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                        foreach (var item in Model.PFCPACKLst.ToList())
+                                                                                        {
+                                                                                            <tr id="trBook7@(g)" class="chkitemlst7" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                                                        <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                        <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
 
-                                                                                    </tr>
+                                                                                                <td>
+                                                                                                    @Html.DropDownListFor(o => o.PFCPACKLst[g].party, Model.PFCPACKLst[g].partylst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlparty" + z, style = "width: 170px;"})
+                                                                                                    @Html.HiddenFor(o => o.PFCPACKLst[g].saveitemid)
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPACKLst[g].targetitem, new { @id = "targetitem" + g, @class = "form-control", style = "width: 120px;" })
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPACKLst[g].targetqty, new { @id = "targetqty" + g, @class = "form-control", style = "width: 120px;" })
+                                                                                                </td>
+
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPACKLst[g].rawmat, new { @id = "rawmat" + g, @class = "form-control", style = "width: 120px;" })
+                                                                                                </td>
+
+
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPACKLst[g].packmat, new { @id = "packmat" + g, @class = "form-control", style = "width: 120px;" })
+                                                                                                </td>
+
+
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPACKLst[g].packqty, new { @id = "packqty" + g, @class = "form-control", style = "width: 120px;" })
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.PFCPACKLst[g].reqmat, new { @id = "reqmat" + g, @class = "form-control", style = "width: 120px;" })
+                                                                                                </td>
+                                                                                               
+
+                                                                                                <td>
+                                                                                                    @Html.HiddenFor(o => o.PFCPACKLst[g].Isvalid, new { @id = "Isvalid" + g })
+                                                                                                    <img onclick="removeRow7(@(g));" src="../Images/delete.png" style="cursor:pointer" /> <input name="PFCPACKLst.Index" type="hidden" value="@(g)" />
+                                                                                                </td>
+
+                                                                                            </tr>
+                                                                                            z = z + 1;
+
+
+                                                                                        }
+                                                                                    }
+
+
+
                                                                                 </tbody>
                                                                             </table>
+                                                                        </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1206,7 +1241,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-7">
+                                   @* <div class="col-md-7">
                                         <div class="form-group">
                                             <br />   <label for="inputName3" class="col-sm-4 control-label">Enterd By<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
@@ -1216,7 +1251,7 @@
                                         </div>
                                     </div>
 
-                                </div>
+                                </div>*@
                                 <div style="height:30px;"></div>
                                 <div class="col-lg-10"></div>
                                 <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
@@ -1239,7 +1274,6 @@
     $(function () {
         $('._select').select2();
     });
-    $(".chosen-select").chosen();
     function PopulateDropDown(dropDownId, list) {
         //alert(list);
         $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
@@ -1251,9 +1285,7 @@
         }
         $(dropDownId).trigger("liszt:updated");
     }
-    $(".chosen-select").chosen();
     $('.form_date').datetimepicker({
-        //   language:  'fr',
         weekStart: 1,
         todayBtn: 1,
         autoclose: 1,
@@ -1262,210 +1294,347 @@
         minView: 2,
         forceParse: 0
     });
-    $(".chosen-select").chosen();
-    function removeRow(id) {
-        var table = document.getElementById("dataTable");
-        var rowCount = table.rows.length;
-        var row = document.getElementById('trBook' + id);
-        var j = 0;
-        $('tr.chkitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-        if (j > 1) {
-            row.style.display = "none";
-            document.getElementById('Isvalid' + id).value = "N";
-        }
-        else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-     function removeRow1(id) {
-        var table = document.getElementById("dataTable");
-        var rowCount = table.rows.length;
-        var row = document.getElementById('trBook1' + id);
-        var j = 0;
-        $('tr.chkitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-        if (j > 1) {
-            row.style.display = "none";
-            document.getElementById('Isvalid' + id).value = "N";
-        }
-        else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-    function removeRow2(id) {
-        var table = document.getElementById("dataTable");
-        var rowCount = table.rows.length;
-        var row = document.getElementById('trBook2' + id);
-        var j = 0;
-        $('tr.chkitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-        if (j > 1) {
-            row.style.display = "none";
-            document.getElementById('Isvalid' + id).value = "N";
-        }
-        else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-    function Grup_Change(itemid, i) {
-        //alert(itemid);
-        //debugger;
+   function changemnth(mnth){
+        var type = document.getElementById("txtplantype").value;
+        document.getElementById("tbBooks1").innerHTML = "";
+        document.getElementById("tbBooks2").innerHTML = "";
+        document.getElementById("tbBooks3").innerHTML = "";
+        document.getElementById("tbBooks4").innerHTML = "";
+        document.getElementById("tbBooks5").innerHTML = "";
+        document.getElementById("tbBooks6").innerHTML = "";
+        document.getElementById("tbBooks7").innerHTML = "";
+
+        var opt = "";
+        var par = "";
+
         $.ajax({
-            url: "GetItemJSON",
+            type: "POST",
+            url: 'GetWCJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+
+                });
+
+            }
+        })
+
+        $.ajax({
+            url: 'GetDGPaste',
             type: "post",
-            data: { 'itemid': itemid },
+            data: { "mnth": mnth, "type": type },
             cache: false,
-            success: function (response) {
-                var newlist;
-                //alert(JSON.stringify(response));
-                newlist = response.Ilst;
-                PopulateDropDown("#ddlItemId" + i, response);
-            },
-            error: function () {
-                debugger;
-                alert("Please Select Item Group");
-            }
-        });
-    }
-    function changeItem(ItemId, i) {
-        $.ajax({
-            url: 'GetItemDetail',
-            data: { "ItemId": ItemId },
-            type: "GET",
-            success: function (result) {
 
-                document.getElementById("txtUnit" + i).value = result.unit;
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-        });
-    }
-    function AddRow() {
-        var opt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetItemGrpJSON',
-            success: function (data) {
+            success: function (list) {
+                list.forEach((item) => {
 
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                AppendRow(opt);
-            }
-        })
-    }
-     function AddRow1() {
-        var opt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetItemGrpJSON',
-            success: function (data) {
+                    var index = $("#tbBooks1").children("tr").length;
 
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                AppendRow(opt);
-            }
-        })
-    }
-     function AddRow2() {
-        var opt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetItemGrpJSON',
-            success: function (data) {
+                    var ItemId = "<td><label>" + item.itemid + "</label><input name='PFCDGILst[" + index + "].saveitemid' type='hidden'  value=" + item.saveitemid + "></td>";
 
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                AppendRow(opt);
-            }
-        })
-    }
-    $('.form_date').datetimepicker({
-        //   language:  'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-    });
-   function AppendRow(opt) {
-        var index = $("#tbBooks").children("tr").length;
+                    var Target = "<td><input class='form-control' id='txtTarget" + index + "' name='PFCDGILst[" + index + "].target'  style='width: 100px;' type='text'  readonly='True'  value=" + item.target + " /><input type='hidden' value=" + item.target + " id='txtTarget" + index + "' name='PFCDGILst[" + index + "].target'></td>";
 
-        var PType = "<td><input class='form-control' id='txtPType" + index + "' name='PFCILst[" + index + "].PType'  style='width: 130px;' type='text'   /></td>";
-        var ItemId = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItemId" + index + "' name='Itemlst[" + index + "].ItemId'onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='PFCILst[" + index + "].Unit' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 130px;'  type='text' readonly='True'  /></td>";
-        var PysQty = "<td><input class='form-control' id='txtPysQty" + index + "' name='PFCILst[" + index + "].PysQty'  style='width: 120px;' type='text'   /></td>";
-        var PtmQty = "<td><input class='form-control' id='txtPtmQty" + index + "' name='PFCILst[" + index + "].PtmQty'  style='width: 120px;' type='text' /></td>";
-        var Fqty = "<td><input class='form-control' id='txtFqty" + index + "' name='PFCILst[" + index + "].Fqty'  style='width: 120px;' type='text' /></td>";
-        var removeCell = "<td><input id='Isvalid" + index + "' name='PFCILst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DrumDetlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + PType + ItemId + Unit + PysQty + PtmQty + Fqty + removeCell + "</tr>";
-        //alert(Packing);
-        $("#tbBooks").append(newRow);
+                    var Min = "<td><input class='form-control' id='txtMin" + index + "' name='PFCDGILst[" + index + "].min'  style='width: 100px;' type='text' readonly='True' value=" + item.min + "   /><input class='form-control' id='txtqty" + index + "' name='PFCDGILst[" + index + "].min'  style='width: 80px;' type='hidden' readonly='True' value=" + item.min + "  /></td>";
+
+                    var Stock = "<td><input class='form-control' id='txtStock" + index + "' name='PFCDGILst[" + index + "].stock'  style='width: 100px;' type='text' readonly='True'  value=" + item.stock + " /><input class='form-control' id='txtStock" + index + "' name='PFCDGILst[" + index + "].stock'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.stock + " /></td>";
+
+                    var Required = "<td><input class='form-control' id='txtRequired" + index + "' name='PFCDGILst[" + index + "].required'  style='width: 100px;' type='text' readonly='True'  value=" + item.required + " /><input class='form-control' id='txtRequired" + index + "' name='PFCDGILst[" + index + "].required'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.required + " /></td>";
+
+                    var dgaddit = "<td><label>" + item.dgaddit + "</label><input class='form-control' id='txtDgAdditID" + index + "' name='PFCDGILst[" + index + "].dgadditid'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.dgadditid + " /></td>";
+
+                    var reqadditive = "<td><input class='form-control' id='txtReqAdditive" + index + "' name='PFCDGILst[" + index + "].reqadditive'  style='width: 60px;' type='text' readonly='True'  value=" + item.reqadditive + " /><input class='form-control' id='txtReqAdditive" + index + "' name='PFCDGILst[" + index + "].reqadditive'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.reqadditive + " /></td>";
+
+                    var rawmaterial = "<td><label>" + item.rawmaterial + "</label><input class='form-control' id='txtRawMaterial" + index + "' name='PFCDGILst[" + index + "].rawmaterialid'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.rawmaterialid + " /></td>";
+                    var ReqPyro = "<td><input class='form-control' id='txtreqpyro" + index + "' name='PFCDGILst[" + index + "].reqpyro'  style='width: 60px;' type='text' readonly='True'   /></td>";
+
+
+                    var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + ItemId + Target + Min + Stock + Required + dgaddit + reqadditive + rawmaterial  + ReqPyro + "</tr>";
+
+
+
+                $("#tbBooks1").append(newRow);
+            });
+    },
+  
+            });
+
 
         $('._select').select2();
-    }
-    function AppendRow1(opt) {
-        var index = $("#tbBooks1").children("tr").length;
+        $.ajax({
+            url: 'GetPyroForecast',
+            type: "post",
+            data: { "mnth": mnth, "type": type },
+            cache: false,
 
-        var ItemId = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItemId" + index + "' name='Itemlst[" + index + "].ItemId><option value=''>Please select</option></select></td>";
-        var Target = "<td><input class='form-control' id='txtTarget" + index + "' name='PFCDGILst[" + index + "].Target'  style='width: 120px;' type='text'   /></td>";
-        var Min = "<td><input class='form-control' id='txtMin" + index + "' name='PFCDGILst[" + index + "].Min'  style='width: 120px;' type='text' /></td>";
-        var Stock = "<td><input class='form-control' id='txtStock" + index + "' name='PFCDGILst[" + index + "].Stock'  style='width: 120px;' type='text' /></td>";
-        var Required = "<td><input class='form-control' id='txtRequired" + index + "' name='PFCDGILst[" + index + "].Required'  style='width: 120px;' type='text' /></td>";
-        var DgAdditID = "<td><input class='form-control' id='txtDgAdditID" + index + "' name='PFCDGILst[" + index + "].DgAdditID'  style='width: 120px;' type='text' /></td>";
-        var ReqAdditive = "<td><input class='form-control' id='txtReqAdditive" + index + "' name='PFCDGILst[" + index + "].ReqAdditive'  style='width: 120px;' type='text' /></td>";
-        var RawMaterial = "<td><input class='form-control' id='txtRawMaterial" + index + "' name='PFCDGILst[" + index + "].RawMaterial'  style='width: 120px;' type='text' /></td>";
-        var ReqPyro = "<td><input class='form-control' id='txtReqPyro" + index + "' name='PFCDGILst[" + index + "].ReqPyro'  style='width: 120px;' type='text' /></td>";
-        var removeCell = "<td><input id='Isvalid" + index + "' name='PFCDGILst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='DrumDetlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + ItemD + Target + Min + Stock + Required + DgAdditID + ReqAdditive + RawMaterial + ReqPyro + removeCell + "</tr>";
-        //alert(Packing);
-        $("#tbBooks1").append(newRow);
+            success: function (list) {
+                list.forEach((item) => {
 
-        $('._select').select2();
-    }
-    function AppendRow2(opt) {
-        var index = $("#tbBooks2").children("tr").length;
+                    var index = $("#tbBooks2").children("tr").length;
 
-        var WorkId = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlWorkId" + index + "' name='Worklst[" + index + "].WorkId><option value=''>Please select</option></select></td>";
-        var CDays = "<td><input class='form-control' id='txtCDays" + index + "' name='PFCPYROILst[" + index + "].CDays'  style='width: 120px;' type='text'   /></td>";
-        var ItemId = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItemId" + index + "' name='Itemlst[" + index + "].ItemId><option value=''>Please select</option></select></td>";
-        var MinStock = "<td><input class='form-control' id='txtMinStock" + index + "' name='PFCPYROILst[" + index + "].MinStock'  style='width: 120px;' type='text' /></td>";
-        var PasteRej = "<td><input class='form-control' id='txtPasteRej" + index + "' name='PFCPYROILst[" + index + "].PasteRej'  style='width: 120px;' type='text' /></td>";
-        var GradeChange = "<td><input class='form-control' id='txtGradeChange" + index + "' name='PFCPYROILst[" + index + "].GradeChange'  style='width: 120px;' type='text' /></td>";
-        var RejQty = "<td><input class='form-control' id='txtRejQty" + index + "' name='PFCPYROILst[" + index + "].RejQty'  style='width: 120px;' type='text' /></td>";
-        var Required = "<td><input class='form-control' id='txtRequired" + index + "' name='PFCPYROILst[" + index + "].Required'  style='width: 120px;' type='text' /></td>";
-        var Target = "<td><input class='form-control' id='txtTarget" + index + "' name='PFCPYROILst[" + index + "].Target'  style='width: 120px;' type='text' /></td>";
-        var ProdDays = "<td><input class='form-control' id='txtProdDays" + index + "' name='PFCPYROILst[" + index + "].ProdDays'  style='width: 120px;' type='text' /></td>";
+                    var WC = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlWorkId" + index + "' name='PFCPYROILst[" + index + "].WorkId'  ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
+
+                    var pend = "<td><input class='form-control' id='txtCDays" + index + "' name='PFCPYROILst[" + index + "].CDays'  style='width: 100px;' type='text'    /></td>";
+
+                    var ItemId = "<td><label>" + item.itemid + "</label><input id='txtItemId" + index + "' name='PFCPYROILst[" + index + "].saveitemid' type='hidden'  value=" + item.saveitemid + "></td>";
+
+                    var Target = "<td><input class='form-control' id='txtTarget" + index + "' name='PFCDGILst[" + index + "].target'  style='width: 100px;' type='text'  readonly='True'  value=" + item.target + " /><input type='hidden' value=" + item.target + " id='txtTarget" + index + "' name='PFCPYROILst[" + index + "].target'></td>";
+
+                    var Min = "<td><input class='form-control' id='txtMinStock" + index + "' name='PFCPYROILst[" + index + "].minstock'  style='width: 100px;' type='text' readonly='True' value=" + item.minstock + "   /><input class='form-control' id='txtMinStock" + index + "' name='PFCPYROILst[" + index + "].minstock'  style='width: 80px;' type='hidden' readonly='True' value=" + item.minstock + "  /></td>";
+
+                    var Stock = "<td><input class='form-control' id='txtStock" + index + "' name='PFCDGILst[" + index + "].stock'  style='width: 100px;' type='text' readonly='True'  value=" + item.stock + " /><input class='form-control' id='txtStock" + index + "' name='PFCPYROILst[" + index + "].stock'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.stock + " /></td>";
+
+                    var Required = "<td><input class='form-control' id='txtRequired" + index + "' name='PFCPYROILst[" + index + "].required'  style='width: 100px;' type='text' readonly='True'  value=" + item.required + " /><input class='form-control' id='txtRequired" + index + "' name='PFCPYROILst[" + index + "].required'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.required + " /></td>";
+                    var PasteRej = "<td><input class='form-control' id='txtPasteRej" + index + "' name='PFCPYROILst[" + index + "].PasteRej'  style='width: 120px;' type='text' /></td>";
+                    var RejQty = "<td><input class='form-control' id='txtRejQty" + index + "' name='PFCPYROILst[" + index + "].RejQty'  style='width: 120px;' type='text' /></td>";
+
+                        var ProdDays = "<td><input class='form-control' id='txtProdDays" + index + "' name='PFCPYROILst[" + index + "].ProdDays'  style='width: 120px;' type='text' /></td>";
         var ProdQty = "<td><input class='form-control' id='txtProdQty" + index + "' name='PFCPYROILst[" + index + "].ProdQty'  style='width: 120px;' type='text' /></td>";
         var RejMat = "<td><input class='form-control' id='txtRejMat" + index + "' name='PFCPYROILst[" + index + "].RejMat'  style='width: 120px;' type='text' /></td>";
         var RejMatReq = "<td><input class='form-control' id='txtRejMatReq" + index + "' name='PFCPYROILst[" + index + "].RejMatReq'  style='width: 120px;' type='text' /></td>";
         var BalanceQty = "<td><input class='form-control' id='txtBalanceQty" + index + "' name='PFCPYROILst[" + index + "].BalanceQty'  style='width: 120px;' type='text' /></td>";
-        var Additive = "<td><input class='form-control' id='txtAdditive" + index + "' name='PFCPYROILst[" + index + "].Additive'  style='width: 120px;' type='text' /></td>";
-        var Per = "<td><input class='form-control' id='txtPer" + index + "' name='PFCPYROILst[" + index + "].Per'  style='width: 120px;' type='text' /></td>";
+                    var Additive = "<td><label>" + item.additive + "</label><input class='form-control' id='txtAdditive" + index + "' name='PFCPYROILst[" + index + "].additiveid'  style='width: 120px;' type='hidden' value=" + item.additiveid + " /></td>";
+                    var Per = "<td><input class='form-control' id='txtPer" + index + "' name='PFCPYROILst[" + index + "].per'  style='width: 120px;' type='text' value=" + item.per + " /></td>";
         var AllocAdditive = "<td><input class='form-control' id='txtAllocAdditive" + index + "' name='PFCPYROILst[" + index + "].AllocAdditive'  style='width: 120px;' type='text' /></td>";
         var ReqPowder = "<td><input class='form-control' id='txtReqPowder" + index + "' name='PFCPYROILst[" + index + "].ReqPowder'  style='width: 120px;' type='text' /></td>";
         var WStatus = "<td><input class='form-control' id='txtWStatus" + index + "' name='PFCPYROILst[" + index + "].WStatus'  style='width: 120px;' type='text' /></td>";
         var PowderRequired = "<td><input class='form-control' id='txtPowderRequired" + index + "' name='PFCPYROILst[" + index + "].PowderRequired'  style='width: 120px;' type='text' /></td>";
-        var removeCell = "<td><input id='Isvalid" + index + "' name='PFCPYROILst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow2(" + index + ");'  style='cursor:pointer' /><input name='DrumDetlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook2" + index + "'>" + WorkId + CDays + ItemId + MinStock + PasteRej + GradeChange + RejQty + Required + Target + ProdDays + ProdQty + RejMat + RejMatReq + BalanceQty + Additive + Per + AllocAdditive + ReqPowder + WStatus + PowderRequired + removeCell + "</tr>";
-        //alert(Packing);
-        $("#tbBooks2").append(newRow);
 
-        $('._select').select2();
-    }
+
+                    var newRow = "<tr class='chkitemlst2'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook2" + index + "'>" + WC + pend + ItemId + Target + Min + Stock + Required + PasteRej + RejQty + ProdDays + ProdQty + RejMat + RejMatReq + BalanceQty + Additive + Per + AllocAdditive + ReqPowder + WStatus + PowderRequired + "</tr>";
+
+
+
+                    $("#tbBooks2").append(newRow);
+                });
+            },
+
+        });
+
+         $.ajax({
+            url: 'GetPolishForecast',
+            type: "post",
+            data: { "mnth": mnth, "type": type },
+            cache: false,
+
+            success: function (list) {
+                list.forEach((item) => {
+
+                    var index = $("#tbBooks3").children("tr").length;
+
+                    var Work = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlWorkId" + index + "' name='PFCPOLILst[" + index + "].workid'  ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
+
+                    var WCDays = "<td><input class='form-control' id='txtwcdays" + index + "' name='PFCPOLILst[" + index + "].wcdays'  style='width: 100px;' type='text'    /></td>";
+
+                    var ItemId = "<td><label>" + item.itemid + "</label><input id='txtItemId" + index + "' name='PFCPOLILst[" + index + "].saveitemid' type='hidden'  value=" + item.saveitemid + "></td>";
+
+                    var Target = "<td><input class='form-control' id='txttarget" + index + "' name='PFCPOLILst[" + index + "].target'  style='width: 100px;' type='text'  readonly='True'  value=" + item.target + " /><input type='hidden' value=" + item.target + " id='txtTarget" + index + "' name='PFCPOLILst[" + index + "].target'></td>";
+
+                    var Capacity = "<td><input class='form-control' id='txtcapacity" + index + "' name='PFCPOLILst[" + index + "].capacity'  style='width: 100px;' type='text' readonly='True'    /><input class='form-control' id='txtMinStock" + index + "' name='PFCPOLILst[" + index + "].minstock'  style='width: 80px;' type='hidden' readonly='True' value=" + item.minstock + "  /></td>";
+                    var Stock = "<td><input class='form-control' id='txtStock" + index + "' name='PFCPOLILst[" + index + "].stock'  style='width: 100px;' type='text' readonly='True'  value=" + item.stock + " /><input class='form-control' id='txtStock" + index + "' name='PFCPOLILst[" + index + "].stock'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.stock + " /></td>";
+
+                    var Min = "<td><input class='form-control' id='txtminstock" + index + "' name='PFCPOLILst[" + index + "].minstock'  style='width: 100px;' type='text' readonly='True' value=" + item.minstock + "   /><input class='form-control' id='txtMinStock" + index + "' name='PFCPOLILst[" + index + "].minstock'  style='width: 80px;' type='hidden' readonly='True' value=" + item.minstock + "  /></td>";
+
+
+                    var Required = "<td><input class='form-control' id='txtrequired" + index + "' name='PFCPOLILst[" + index + "].required'  style='width: 100px;' type='text' readonly='True'  value=" + item.required + " /><input class='form-control' id='txtRequired" + index + "' name='PFCPOLILst[" + index + "].required'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.required + " /></td>";
+                    var Days = "<td><input class='form-control' id='txtdays" + index + "' name='PFCPOLILst[" + index + "].days'  style='width: 120px;' type='text' /></td>";
+                    var Additive = "<td><label>" + item.additive + "</label><input class='form-control' id='txtadditive" + index + "' name='PFCPOLILst[" + index + "].additiveid'  style='width: 120px;' type='hidden' value=" + item.additiveid + " /></td>";
+                    var AllocAdditive = "<td><input class='form-control' id='txtadd" + index + "' name='PFCPOLILst[" + index + "].add'  style='width: 120px;' type='text' /></td>";
+
+                    var RawMat = "<td><label>" + item.rawmat + "</label><input class='form-control' id='txtrawmat" + index + "' name='PFCPOLILst[" + index + "].rawmatid'  style='width: 120px;' type='hidden' value=" + item.rawmatid + " /></td>";
+
+                        var ReqPer = "<td><input class='form-control' id='txtreqper" + index + "' name='PFCPOLILst[" + index + "].reqper'  style='width: 120px;' type='text' /></td>";
+        var RvdQty = "<td><input class='form-control' id='txtrvdqty" + index + "' name='PFCPOLILst[" + index + "].rvdqty'  style='width: 120px;' type='text' /></td>";
+        var PyroPowder = "<td><input class='form-control' id='txtpyropowder" + index + "' name='PFCPOLILst[" + index + "].pyropowder'  style='width: 120px;' type='text' /></td>";
+        var PyroQty = "<td><input class='form-control' id='txtpyroqty" + index + "' name='PFCPOLILst[" + index + "].pyroqty'  style='width: 120px;' type='text' /></td>";
+      var PowderRequired = "<td><input class='form-control' id='txtpowderrequired" + index + "' name='PFCPOLILst[" + index + "].PowderRequired'  style='width: 120px;' type='text' /></td>";
+
+
+                    var newRow = "<tr class='chkitemlst3'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook3" + index + "'>" + Work + WCDays + ItemId + Target + Capacity + Stock + Min + Required + Days + Additive + AllocAdditive + RawMat + ReqPer + RvdQty + PyroPowder + PyroQty + PowderRequired + "</tr>";
+
+
+
+                    $("#tbBooks3").append(newRow);
+                });
+            },
+
+        });
+
+         $.ajax({
+            url: 'GetRVDForecast',
+            type: "post",
+            data: { "mnth": mnth, "type": type },
+            cache: false,
+
+            success: function (list) {
+                list.forEach((item) => {
+
+                    var index = $("#tbBooks4").children("tr").length;
+
+                    var Work = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlPWorkId" + index + "' name='PFCRVDLst[" + index + "].workid'  ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
+
+                    var WCDays = "<td><input class='form-control' id='txtwcdays" + index + "' name='PFCRVDLst[" + index + "].wcdays'  style='width: 100px;' type='text'    /></td>";
+
+                    var ItemId = "<td><input  class='form-control' id='txtItemId" + index + "' name='PFCRVDLst[" + index + "].itemid' type='text'   /></td>";
+
+                    var Prodqty = "<td><input class='form-control' id='txtprodqty" + index + "' name='PFCRVDLst[" + index + "].prodqty'  style='width: 100px;' type='text'   /><input type='hidden' value=" + item.target + " id='txtTarget" + index + "' name='PFCRVDLst[" + index + "].target'></td>";
+
+                   var Days = "<td><input class='form-control' id='txtdays" + index + "' name='PFCRVDLst[" + index + "].days'  style='width: 120px;' type='text' /></td>";
+                           var Cons = "<td><input class='form-control' id='txtcons" + index + "' name='PFCRVDLst[" + index + "].cons'  style='width: 120px;' type='text' /></td>";
+                    var consqty = "<td><input class='form-control' id='txtconsqty" + index + "' name='PFCRVDLst[" + index + "].consqty'  style='width: 120px;' type='text' /></td>";
+
+                    var RawMat = "<td><input class='form-control' id='txtrawmat" + index + "' name='PFCRVDLst[" + index + "].rawmat'  style='width: 120px;' type='text' /></td>";
+
+                        var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='PFCRVDLst[" + index + "].qty'  style='width: 120px;' type='text' /></td>";
+        var Mto = "<td><input class='form-control' id='txtmto" + index + "' name='PFCRVDLst[" + index + "].mto'  style='width: 120px;' type='text' /></td>";
+        var MtoLoss = "<td><input class='form-control' id='txtmtoloss" + index + "' name='PFCRVDLst[" + index + "].mtoloss'  style='width: 120px;' type='text' /></td>";
+       var PowderRequired = "<td><input class='form-control' id='txtpowderrequired" + index + "' name='PFCRVDLst[" + index + "].PowderRequired'  style='width: 120px;' type='text' /></td>";
+
+
+                    var newRow = "<tr class='chkitemlst4'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook4" + index + "'>" + Work + WCDays + ItemId + Prodqty + Days + Cons + consqty + RawMat + Qty + Mto + MtoLoss  + PowderRequired + "</tr>";
+
+
+
+                    $("#tbBooks4").append(newRow);
+                });
+            },
+
+        });
+          $.ajax({
+            url: 'GetPasteForecast',
+            type: "post",
+            data: { "mnth": mnth, "type": type },
+            cache: false,
+
+            success: function (list) {
+                list.forEach((item) => {
+
+                    var index = $("#tbBooks5").children("tr").length;
+
+                    var WC = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlWorkId" + index + "' name='PFCPASTELst[" + index + "].WorkId'  ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
+
+                    var cday = "<td><input class='form-control' id='txtCDays" + index + "' name='PFCPASTELst[" + index + "].CDays'  style='width: 100px;' type='text'    /></td>";
+
+                    var ItemId = "<td><label>" + item.itemid + "</label><input id='txtItemId" + index + "' name='PFCPASTELst[" + index + "].saveitemid' type='hidden'  value=" + item.saveitemid + "></td>";
+
+                    var Charge = "<td><input class='form-control' id='txtcharge" + index + "' name='PFCPASTELst[" + index + "].charge'  style='width: 100px;' type='text'  readonly='True'    /><input type='hidden' value=" + item.target + " id='txtTarget" + index + "' name='PFCPASTELst[" + index + "].target'></td>";
+                    var Target = "<td><input class='form-control' id='txtTarget" + index + "' name='PFCPASTELst[" + index + "].target'  style='width: 100px;' type='text'  readonly='True'  value=" + item.target + " /><input type='hidden' value=" + item.target + " id='txtTarget" + index + "' name='PFCPASTELst[" + index + "].target'></td>";
+                    var Stock = "<td><input class='form-control' id='txtStock" + index + "' name='PFCPASTELst[" + index + "].stock'  style='width: 100px;' type='text' readonly='True'  value=" + item.stock + " /><input class='form-control' id='txtStock" + index + "' name='PFCPASTELst[" + index + "].stock'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.stock + " /></td>";
+
+                    var Min = "<td><input class='form-control' id='txtMinStock" + index + "' name='PFCPASTELst[" + index + "].minstock'  style='width: 100px;' type='text' readonly='True' value=" + item.minstock + "   /><input class='form-control' id='txtMinStock" + index + "' name='PFCPASTELst[" + index + "].minstock'  style='width: 80px;' type='hidden' readonly='True' value=" + item.minstock + "  /></td>";
+
+
+                    var Required = "<td><input class='form-control' id='txtRequired" + index + "' name='PFCPASTELst[" + index + "].required'  style='width: 100px;' type='text' readonly='True'  value=" + item.required + " /><input class='form-control' id='txtRequired" + index + "' name='PFCPASTELst[" + index + "].required'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.required + " /></td>";
+                    var prodday = "<td><input class='form-control' id='txtproddays" + index + "' name='PFCPASTELst[" + index + "].proddays'  style='width: 120px;' type='text' /></td>";
+                    var Production = "<td><input class='form-control' id='txtproduction" + index + "' name='PFCPASTELst[" + index + "].production'  style='width: 120px;' type='text' /></td>";
+
+                        var ApPowder = "<td><input class='form-control' id='txtappowder" + index + "' name='PFCPASTELst[" + index + "].appowder'  style='width: 120px;' type='text' /></td>";
+                    var Balance = "<td><input class='form-control' id='txtbalance" + index + "' name='PFCPASTELst[" + index + "].balance'  style='width: 120px;' type='text' /></td>";
+                    var Additive = "<td> <label>" + item.additive + "</label><input class='form-control' id='txtAdditive" + index + "' name='PFCPASTELst[" + index + "].additiveid'  style='width: 120px;' type='hidden' value=" + item.additiveid + " /></td>";
+                                    var AllocAdditive = "<td><input class='form-control' id='txtAllocAdditive" + index + "' name='PFCPASTELst[" + index + "].AllocAdditive'  style='width: 120px;' type='text' /></td>";
+
+                        var Toprod = "<td><input class='form-control' id='txttoprod" + index + "' name='PFCPASTELst[" + index + "].toprod'  style='width: 120px;' type='text' /></td>";
+        var RvdLoss = "<td><input class='form-control' id='txtrvdloss" + index + "' name='PFCPASTELst[" + index + "].rvdloss'  style='width: 120px;' type='text' /></td>";
+        var ToLoss = "<td><input class='form-control' id='txtRejMatReq" + index + "' name='PFCPASTELst[" + index + "].toloss'  style='width: 120px;' type='text' /></td>";
+                    var coarse = "<td><input class='form-control' id='txtcoarse" + index + "' name='PFCPASTELst[" + index + "].coarse'  style='width: 120px;' type='text' /></td>";
+                    var Mixing = "<td><input class='form-control' id='txtmissmto" + index + "' name='PFCPASTELst[" + index + "].missmto'  style='width: 120px;' type='text' /></td>";
+        var toreq = "<td><input class='form-control' id='txttoreq" + index + "' name='PFCPASTELst[" + index + "].toreq'  style='width: 120px;' type='text' /></td>";
+        var AddCost = "<td><input class='form-control' id='txtaddcost" + index + "' name='PFCPASTELst[" + index + "].addcost'  style='width: 120px;' type='text' /></td>";
+                    var mtocost = "<td><input class='form-control' id='txtmtocost" + index + "' name='PFCPASTELst[" + index + "].mtocost'  style='width: 120px;' type='text' /></td>";
+                    var PowderRequired = "<td><input class='form-control' id='txtpowderrequired" + index + "' name='PFCPASTELst[" + index + "].powderrequired'  style='width: 120px;' type='text' /></td>";
+
+
+                    var newRow = "<tr class='chkitemlst5'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook5" + index + "'>" + WC + cday + ItemId +Charge+ Target +Stock+ Min  + Required + prodday + Production + ApPowder + Balance + Additive + AllocAdditive + Toprod + RvdLoss + ToLoss + coarse + Mixing + toreq + AddCost + mtocost + PowderRequired + "</tr>";
+
+
+
+                    $("#tbBooks5").append(newRow);
+                });
+            },
+
+        });
+
+         $.ajax({
+            url: 'GetAPForecast',
+            type: "post",
+            data: { "mnth": mnth, "type": type },
+            cache: false,
+
+            success: function (list) {
+                list.forEach((item) => {
+
+                    var index = $("#tbBooks6").children("tr").length;
+
+                    var Work = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlPWorkId" + index + "' name='PFCAPPRODLst[" + index + "].WorkId'  ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
+
+                    var WCDays = "<td><input class='form-control' id='txtwdays" + index + "' name='PFCAPPRODLst[" + index + "].wdays'  style='width: 100px;' type='text'    /></td>";
+
+                    var Capacity = "<td> <input  class='form-control' id='txtcapacity" + index + "' name='PFCAPPRODLst[" + index + "].capacity' type='text'   ></td>";
+
+                    var Prodtarget = "<td><input class='form-control' id='txttarget" + index + "' name='PFCAPPRODLst[" + index + "].target'  style='width: 100px;' type='text'    /></td>";
+
+                   var ProdDays = "<td><input class='form-control' id='txtproddays" + index + "' name='PFCAPPRODLst[" + index + "].proddays'  style='width: 120px;' type='text' /></td>";
+                    var Production = "<td><input class='form-control' id='txtproduction" + index + "' name='PFCAPPRODLst[" + index + "].production'  style='width: 120px;' type='text' /></td>";
+                    var FuelReq = "<td><input class='form-control' id='txtfuelreq" + index + "' name='PFCAPPRODLst[" + index + "].fuelreq'  style='width: 120px;' type='text' /></td>";
+
+                    var Ingotreq = "<td><input class='form-control' id='txtingotreq" + index + "' name='PFCAPPRODLst[" + index + "].ingotreq'  style='width: 120px;' type='text' /></td>";
+
+                    var PowerReq = "<td><input class='form-control' id='txtpowerrequired" + index + "' name='PFCAPPRODLst[" + index + "].powerrequired'  style='width: 120px;' type='text' /></td>";
+        
+
+                    var newRow = "<tr class='chkitemlst6'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook6" + index + "'>" + Work + WCDays + Capacity + Prodtarget + ProdDays + Production + FuelReq + Ingotreq + PowerReq + "</tr>";
+
+
+
+                    $("#tbBooks6").append(newRow);
+                });
+            },
+
+        });
+
+     $.ajax({
+            type: "POST",
+            url: 'GetPartyJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    par += "<option value=" + this.value + ">" + this.text + "</option>";
+
+                });
+
+            }
+        })
+        $.ajax({
+            url: 'GetPackingForecast',
+            type: "post",
+            data: { "mnth": mnth, "type": type },
+            cache: false,
+
+            success: function (list) {
+                list.forEach((item) => {
+
+                    var index = $("#tbBooks7").children("tr").length;
+
+                    @*var party = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlparty" + index + "' name='PFCAPPRODLst[" + index + "].party '  ><option value=''>-- Please select -- </option>" + par + "</select></td>";*@
+                                                        var party = "<td> <label>" + item.party + "</label><input class='form-control' id='txttargetitem" + index + "' name='PFCPACKLst[" + index + "].partyid'  style='width: 100px;' type='hidden'  value=" + item.partyid + "   /></td>";
+
+                    var TargetItem = "<td> <label>" + item.targetitem + "</label><input class='form-control' id='txttargetitem" + index + "' name='PFCPACKLst[" + index + "].saveitemid'  style='width: 100px;' type='hidden'  value=" + item.saveitemid +"   /></td>";
+
+                    var TargetQty = "<td><input class='form-control' style='width: 120px;' id='txttargetqty" + index + "' name='PFCPACKLst[" + index + "].targetqty' type='text'  value=" + item.targetqty + " /></td>";
+
+                    var Rawmat = "<td> <label>" + item.rawmat + "</label><input class='form-control' id='txtrawmat" + index + "' name='PFCPACKLst[" + index + "].rawmatid'  style='width: 100px;' type='hidden'  readonly='True'  value=" + item.rawmatid + " /></td>";
+
+                   var PackingMat = "<td> <label>" + item.packmat + "</label><input class='form-control' id='txtpackmat" + index + "' name='PFCPACKLst[" + index + "].packmatid'  style='width: 120px;' type='hidden'  value=" + item.packmatid + " /></td>";
+                    var Packingqty = "<td><input class='form-control' id='txtpackqty" + index + "' name='PFCPACKLst[" + index + "].packqty'  style='width: 120px;' type='text' value=" + item.packqty + " /></td>";
+                    var ReqMat = "<td><input class='form-control' id='txtreqmat" + index + "' name='PFCPACKLst[" + index + "].reqmat'  style='width: 120px;' type='text' /></td>";
+
+                   
+                    var newRow = "<tr class='chkitemlst7'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook7" + index + "'>" + party + TargetItem + TargetQty + Rawmat + PackingMat + Packingqty + ReqMat + "</tr>";
+
+
+
+                    $("#tbBooks7").append(newRow);
+                });
+            },
+
+        });
+            }
 </script>

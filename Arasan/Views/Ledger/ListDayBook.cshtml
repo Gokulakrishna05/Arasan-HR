@@ -78,12 +78,12 @@
                 columns: [
                     { text: 'Vocher No', filtertype: 'checkedlist', datafield: 'vocherno', width: 120 },
                     { text: 'Vocher Date', datafield: 'vocherdate', width: 100, align: 'center' },
-                    { text: 'Trans Type', filtertype: 'checkedlist', datafield: 'tratype', align: 'center', width: 150 },
+                    { text: 'Trans Type', filtertype: 'checkedlist', datafield: 'tratype', align: 'center', width: 80 },
                     { text: 'Voucher Memo', filtertype: 'input', datafield: 'vocmemo', width: 150, align: 'center' },
-                    { text: 'Vocher Type', datafield: 'vtype', width: 150, align: 'center' },
+                    { text: 'Vocher Type', datafield: 'vtype', width: 80, align: 'center' },
                     { text: 'Ledger Code', datafield: 'ledgercode', width: 200, align: 'center' },
                     { text: 'Debit Amount', datafield: 'debitamount', width: 150, align: 'left' },
-                    { text: 'Credit Amount', datafield: 'creditamount', width: 150, align: 'right'/*, text align: 'right'*/  },
+                    { text: 'Credit Amount', datafield: 'creditamount', width: 150, align: 'left' },
                 ]
             });
         //$("#ddlStatus").change(function () {
@@ -111,7 +111,7 @@
                                 <div class="col-sm-7">
                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
 
-                                        @*@Html.TextBoxFor(C => C.SStart, new { @id = "SStart", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })*@
+                                       @* @Html.TextBoxFor(C => C.SStart, new { @id = "SStart", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })*@
                                         <input id="SStart" class="form-control" readonly="readonly" value="@strfrom" />
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                     </div>
@@ -174,18 +174,18 @@
     function loadReport() {
         var dtfrom = document.getElementById("SStart").value;
         var dtto = document.getElementById("SEnd").value;
-        var strsech = document.getElementById("txtprosearch").value;
+        //var strsech = document.getElementById("txtprosearch").value;
 
-        var url = 'ListDayBook?strfrom=' + dtfrom + '&strTo=' + dtto + '&strProSearch=' + strsech;
+        var url = 'ListDayBook?strfrom=' + dtfrom + '&strTo=' + dtto  /*'&strProSearch=' + strsech*/;
         window.location.href = url;
 
-        //source.data = {
-        //    strfrom: dtfrom,
-        //    strTo: dtto,
-        //    strProSearch: strsech,
-        //    strstatus: ""
-        //};
-        //$("#grid").jqxGrid({ source: source });
+        source.data = {
+            strfrom: dtfrom,
+            strTo: dtto,
+            strProSearch: strsech,
+            strstatus: ""
+        };
+        $("#grid").jqxGrid({ source: source });
     }
 
 </script>

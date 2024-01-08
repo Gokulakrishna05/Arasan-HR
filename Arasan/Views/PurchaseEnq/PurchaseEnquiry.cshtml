@@ -49,8 +49,8 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Supplier Name<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 2,disabled="disabled"})
-                                                    
-                                                 
+
+                                            @Html.HiddenFor(C => C.Supplier)
                                                 </div>
                                             </div>
                                         </div>
@@ -274,7 +274,7 @@
                                     </div>
 								
 								 <div style="height:30px;"></div>
-                        <div class="col-lg-8"></div>
+                        <div class="col-lg-10"></div>
                             <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListEnquiry", "PurchaseEnq")">Cancel</a>
               </from>

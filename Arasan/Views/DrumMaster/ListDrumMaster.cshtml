@@ -62,20 +62,22 @@
 
         $("#grid").jqxGrid(
             {
-
-                width: '100%',
-                source: dataAdapter,
-                height: 450,
-                source: source,
-                sortable: true,
-                filterable: true,
-                groupable: false,
-                pageable: true,
-                showfilterbar: true,
-                //showfilterrow: true,
-                theme: 'darkblue',
-                enablebrowserselection: true,
-                columns: [
+                    width: '100%',
+                    source: dataAdapter,
+                    //height: 450,
+                    autorowheight: true,
+                    autoheight: true,
+                    source: source,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
+                    filterbarmode: 'simple',
+                    theme: 'darkblue',
+                    enablebrowserselection: true,
+                    columns: [
 
                     { text: 'DrumNo', filtertype: 'checkedlist', datafield: 'drumnno', width: 200 },
                     { text: 'Doc Date', filtertype: 'checkedlist', datafield: 'docdate', width: 200 },
@@ -85,7 +87,7 @@
                    
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                         { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
-                ]
+                  ]
         });
         $("#ddlStatus").change(function () {
             var value = "Y";
@@ -121,7 +123,7 @@
                            </div>
                            
 
-                            <div class="col-md-9 ">
+                            <div class="col-md-8 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("DrumMaster","DrumMaster")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DrumMaster</a>
                                     <br>

@@ -7,6 +7,8 @@ namespace Arasan.Interface
         DataTable GetStockInHand();
         DataTable GetIndentDeatils();
         DataTable GetStockDeatils();
+        DataTable GetAssetDeatils();
+        DataTable GetAssetDeatilss();
 
         DataTable GetBinid();
     }

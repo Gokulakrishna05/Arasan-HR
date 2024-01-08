@@ -10,7 +10,7 @@ using Arasan.Services.Master;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using System.Xml.Linq;
-using DocumentFormat.OpenXml.Wordprocessing;
+//using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Arasan.Controllers
 {
@@ -128,8 +128,9 @@ namespace Arasan.Controllers
 
             //}
           
-                ca.EnqLst = TData;
+               
             }
+            ca.EnqLst = TData;
             return View(ca);
 
         }

@@ -56,21 +56,22 @@
 
         $("#grid").jqxGrid(
             {
-                width: '100%',
-                source: dataAdapter,
-                //height: 450,
-                autorowheight: true,
-                autoheight: true,
-                source: source,
-                sortable: true,
-                filterable: true,
-                groupable: false,
-                pageable: true,
-                showfilterbar: true,
-                //showfilterrow: true,
-                theme: 'darkblue',
-                enablebrowserselection: true,
-                columns: [
+                    width: '100%',
+                    source: dataAdapter,
+                    //height: 450,
+                    autorowheight: true,
+                    autoheight: true,
+                    source: source,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
+                    filterbarmode: 'simple',
+                    theme: 'darkblue',
+                    enablebrowserselection: true,
+                    columns: [
 
                     { text: 'Tariff ID', filtertype: 'checkedlist', datafield: 'tariff', width: 200 },
                     { text: 'Tariff Des', filtertype: 'checkedlist', datafield: 'tariffdes', width: 200 },
@@ -113,7 +114,7 @@
                                 new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
                            </div>
 
-                            <div class="col-md-9 ">
+                            <div class="col-md-8 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("ETariff","ETariff")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add ETariff</a>
                                     <br>

@@ -386,6 +386,12 @@ namespace Arasan.Controllers.Stores_Management
                 throw ex;
             }
         }
+
+        public ActionResult Sub_Contracting_Material_Receipt()
+        {
+            return View();
+        }
+
     }
 }
 

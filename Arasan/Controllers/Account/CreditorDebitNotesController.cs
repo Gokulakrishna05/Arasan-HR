@@ -60,6 +60,46 @@ namespace Arasan.Controllers
             return View(ca);
         }
 
+        //[HttpPost]
+        //public ActionResult CreditorDebitNotes(CreditorDebitNote Cy, string id)
+        //{
+
+        //    try
+        //    {
+        //        Cy.ID = id;
+        //        Cy.branchid= Request.Cookies["BranchId"];
+        //        Cy.createdby = Request.Cookies["UserId"];
+        //        string Strout = CreditorDebitNote.CreditorDebitNotesCRUD(Cy);
+        //        if (string.IsNullOrEmpty(Strout))
+        //        {
+        //            if (Cy.ID == null)
+        //            {
+        //                TempData["notice"] = "CreditorDebitNote Inserted Successfully...!";
+        //            }
+        //            else
+        //            {
+        //                TempData["notice"] = "CreditorDebitNote Updated Successfully...!";
+        //            }
+        //            return RedirectToAction("CreditorDebitNotes");
+        //        }
+
+        //        else
+        //        {
+        //            ViewBag.PageTitle = "Edit DebitNoteBill";
+        //            TempData["notice"] = Strout;
+        //            //return View();
+        //        }
+
+        //        // }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+
+        //    return View(Cy);
+        //}
+
         public List<SelectListItem> BindVTypelst()
         {
 

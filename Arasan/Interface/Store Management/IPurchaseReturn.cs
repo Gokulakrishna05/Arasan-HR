@@ -26,6 +26,7 @@ namespace Arasan.Interface
         DataTable GetPurchaseReturnDes(string id);
         IEnumerable<PurchaseReturn> GetAllPurReturn(string st, string ed);
         DataTable GetCity(string id);
+        DataTable GetArea(string id);
         DataTable Getstkqty(string grnid,string locid,string brid);
         DataTable GetviewPurchaseReturn(string id);
         DataTable GetviewPurchaseReturnDetail(string id);

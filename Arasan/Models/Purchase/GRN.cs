@@ -1,4 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office.CoverPageProps;
+﻿//using DocumentFormat.OpenXml.Office.CoverPageProps;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
 namespace Arasan.Models
@@ -133,7 +133,6 @@ namespace Arasan.Models
         public string branch { get; set; }
         public string supplier { get; set; }
         public string damage { get; set; }
-
         public string enqno { get; set; }
         public string docDate { get; set; }
         public string qcresult { get; set; }
@@ -146,6 +145,7 @@ namespace Arasan.Models
         public string movedn { get; set; }
         public string acc { get; set; }
         public string pono { get; set; }
+        public string item { get; set; }
         //public string Account { get; set; }
     }
     public class GRNAccount

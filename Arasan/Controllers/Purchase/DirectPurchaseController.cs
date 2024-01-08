@@ -5,9 +5,9 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Models;
 using Arasan.Services;
-using DocumentFormat.OpenXml.Vml;
-using DocumentFormat.OpenXml.Wordprocessing;
-using DocumentFormat.OpenXml.Office2010.Excel;
+//using DocumentFormat.OpenXml.Vml;
+//using DocumentFormat.OpenXml.Wordprocessing;
+//using DocumentFormat.OpenXml.Office2010.Excel;
 
 
 namespace Arasan.Controllers

@@ -65,7 +65,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("SEQUENCEPROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("SEQUENCEPROC", objConn); 
 
 
                     objCmd.CommandType = CommandType.StoredProcedure;
@@ -88,6 +88,16 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("EDDATE", OracleDbType.NVarchar2).Value = cy.End;
                     objCmd.Parameters.Add("LASTNO", OracleDbType.NVarchar2).Value = cy.Last;
                     objCmd.Parameters.Add("ACTIVESEQUENCE", OracleDbType.NVarchar2).Value = "T";
+                    if (cy.ID == null)
+                    {
+                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
+                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
+                    else
+                    {
+                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
+                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                     try
@@ -127,11 +137,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "T" || strStatus == null)
             {
-                SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE  WHERE SEQUENCE.ACTIVESEQUENCE = 'T' ORDER BY SEQUENCEID DESC";
+                SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID,ACTIVESEQUENCE from SEQUENCE  WHERE SEQUENCE.ACTIVESEQUENCE = 'T' ORDER BY SEQUENCEID DESC";
             }
             else
             {
-                SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE  WHERE SEQUENCE.ACTIVESEQUENCE = 'F' ORDER BY SEQUENCEID DESC";
+                SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID,ACTIVESEQUENCE from SEQUENCE  WHERE SEQUENCE.ACTIVESEQUENCE = 'F' ORDER BY SEQUENCEID DESC";
 
             }
             DataTable dtt = new DataTable();
@@ -164,5 +174,30 @@ namespace Arasan.Services
             return "";
 
         }
+
+        public string RemoveChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE SEQUENCE SET ACTIVESEQUENCE ='T' WHERE SEQUENCEID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+
     }
 }

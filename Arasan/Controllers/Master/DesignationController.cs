@@ -6,7 +6,7 @@ using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services;
 using Arasan.Services.Master;
-using DocumentFormat.OpenXml.Bibliography;
+//using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -23,6 +23,7 @@ namespace Arasan.Controllers.Master
         public IActionResult Designation(string id)
         {
             Designation Dp = new Designation();
+            Dp.createby = Request.Cookies["UserId"];
 
             Dp.DeptNamelst = BindDeptName();
             if (id == null)

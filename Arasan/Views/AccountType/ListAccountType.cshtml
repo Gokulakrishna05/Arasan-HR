@@ -1,9 +1,9 @@
 ﻿@model Arasan.Models.AccountType
 @{
     ViewData["Title"] = "ListAccountType";
-    string query = ViewContext.HttpContext.Request.Query["status"];
-    string Qid = string.Empty;
-    if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
+    //string query = ViewContext.HttpContext.Request.Query["status"];
+    //string Qid = string.Empty;
+    //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
 }
 <partial name="JqxGridPartial" />
 
@@ -23,23 +23,26 @@
         </ol>
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         var source =
         {
-            url: "/AccountType/MyListItemgrid",
+                url: "/AccountType/MyListItemgrid",
 
+            data: {
+                strstatus: ""
+            },
             datatype: "json",
             updaterow: function (rowid, rowdata) {
                 // synchronize with the server - send update command
             },
             datafields: [
-                { name: 'accountclass', type: 'string' },
-                { name: 'accounttype', type: 'string' },
-                { name: 'accountCode', type: 'string' },
-                { name: 'editrow', type: 'string' },
-                { name: 'delrow', type: 'string' },
-
+                    { name: 'accountclass', type: 'string' },
+                    { name: 'accounttype', type: 'string' },
+                    { name: 'accountCode', type: 'string' },
+                    { name: 'editrow', type: 'string' },
+                    { name: 'delrow', type: 'string' },
 
             ],
             id: 'id',
@@ -54,33 +57,51 @@
 
         $("#grid").jqxGrid(
             {
+
                 width: '100%',
                 source: dataAdapter,
-                height: 510,
+                //height: 450,
+                autorowheight: true,
+                autoheight: true,
                 source: source,
                 sortable: true,
                 filterable: true,
                 groupable: false,
                 pageable: true,
-                showfilterrow: true,
+                showfilterbar: true,
+                //showfilterrow: true,
+                    filterbarmode: 'simple',
 
+                theme: 'darkblue',
                 enablebrowserselection: true,
-
-                 theme: 'darkblue',
-		enablebrowserselection :true,
-
                 columns: [
+                        { text: 'Account Class', filtertype: 'checkedlist', datafield: 'accountclass', width: 200 },
+                        { text: 'AccountType', filtertype: 'input', datafield: 'accounttype', width: 200 },
+                        { text: 'AccountCode', datafield: 'accountCode', width: 300 },
+                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
 
-                    { text: 'Account Class', datafield: 'accountclass', width: 200 },
-                    { text: 'AccountType', datafield: 'accounttype', width: 200 },
-                    { text: 'AccountCode', datafield: 'accountCode', width: 300 },
-                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                 ]
             });
-
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
     });
+
+     function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
+    }
+
 </script>
+
+
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -88,14 +109,16 @@
                 <div class="widgets-container">
 
                     <form>
-                        @*<div class="row">
-                           <div class="col-md-6 ">
-                            <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
-                                    <option value="" selected>Open</option>
-                                <option value='INACTIVE'>Close</option>
-                               
-                            </select>
-                        </div>*@
+                            
+                        <div class="row">
+                            <div class="col-md-2 ">
+
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                { new SelectListItem() {Text = "Enabled", Value="Y"},
+                                new SelectListItem() {Text = "Disabled", Value="N"}},
+                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                            </div>
+
 
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
@@ -104,15 +127,14 @@
                                 </div>
 
                             </div>
+                        </div>
                         <div class="row">
-                            <div class="col-md-2 "></div>
-                            <div class="col-md-8 ">
+
+                            <div class="col-md-10 ">
                                 <div id="grid">
                                 </div>
                             </div>
-                            <div class="col-md-2 "></div>
                         </div>
-                        @*</div>*@
 
                       
                     </form>
@@ -124,6 +146,12 @@
 </div>
 
 <script>
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
+</script>
+
+@*<script>
     $(document).ready(function () {
         $('#example7').DataTable({
             dom: 'Bfrtip',
@@ -200,8 +228,6 @@
         //window.location.reload();
 
     }
-    $(document).ready(function () {
-        var val2 = "@Qid";
-        $('#dllstatus').val(val2);
-    });
+   
 </script>
+*@

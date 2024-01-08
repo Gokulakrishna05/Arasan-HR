@@ -1,7 +1,8 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
-using DocumentFormat.OpenXml.Office2010.Excel;
+//using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Reporting.Map.WebForms.BingMaps;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
@@ -113,7 +114,7 @@ namespace Arasan.Services
         public DataTable GetGRNItembyID(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select GRNBLDETAIL.QTY,GRNBLDETAIL.GRNBLBASICID,GRNBLDETAIL.ITEMID,UNITMAST.UNITID,GRNBLDETAIL.RATE,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,PURTYPE,ITEMMASTER.LOTYN from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GRNBLDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where GRNBLDETAIL.GRNBLBASICID='" + name + "'";
+            SvSql = "Select GRNBLDETAIL.QTY,GRNBLDETAIL.GRNBLDETAILID,GRNBLDETAIL.GRNBLBASICID,GRNBLDETAIL.ITEMID,UNITMAST.UNITID,GRNBLDETAIL.RATE,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,PURTYPE,DAMAGE_QTY,ITEMMASTER.LOTYN from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GRNBLDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where GRNBLDETAIL.GRNBLBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -307,8 +308,8 @@ namespace Arasan.Services
                         {
                             if (cp.Isvalid == "Y" && cp.saveItemId != "0")
                             {
-                                DataTable lotnogen = datatrans.GetData("Select LOTYN  FROM ITEMMASTER where LOTYN ='YES' AND ITEMMASTERID='" + cp.ItemId + "'");
-                                string itemname = datatrans.GetDataString("select ITEMID from ITEMMASTER where ITEMMASTERID='" + cp.ItemId + "'");
+                                DataTable lotnogen = datatrans.GetData("Select LOTYN  FROM ITEMMASTER where LOTYN ='YES' AND ITEMMASTERID='" + cp.saveItemId + "'");
+                                string itemname = datatrans.GetDataString("select ITEMID from ITEMMASTER where ITEMMASTERID='" + cp.saveItemId + "'");
                                 string lotnumber = "";
                                 if (lotnogen.Rows.Count > 0)
                                 {
@@ -334,10 +335,23 @@ namespace Arasan.Services
                                     objConnT.Open();
                                     objCmds.ExecuteNonQuery();
                                     objConnT.Close();
+                                    if (cp.DamageQty > 0)
+                                    {
+
+                                        DateTime currentdate = DateTime.Now;
+                                        DateTime expiry = currentdate.AddDays(10);
+                                        string notifidate= currentdate.ToString("dd-MMM-yyyy");
+                                        string expirydate= expiry.ToString("dd-MMM-yyyy");
+
+                                        svSQL = "Insert into PURNOTIFICATION (T1SOURCEID,TYPE,NOTIFYDATE,DISPLAY,ACK,EXPIRYDATE) VALUES ('" + cp.grndetid + "','GRN','" + notifidate + "','GRN DAMAGE','N','"+ expirydate + "')";
+
+                                        objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+                                    }
                                 }
 
                                 /////////////////////////Inventory details
-                              
+
                                 string GRNITEMID = datatrans.GetDataString("Select GRNBLDETAILID from GRNBLDETAIL where GRNBLBASICID='" + cy.GRNID + "'  AND ITEMID='" + cp.saveItemId + "' ");
                                 //string wcid = datatrans.GetDataString("Select WCBASICID from WCBASIC where ILOCATION='10001000000827' ");
                                 using (OracleConnection objConnI = new OracleConnection(_connectionString))
@@ -350,8 +364,10 @@ namespace Arasan.Services
                                     objCmdI.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = cy.GRNID;
                                     objCmdI.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = cy.GRNID;
                                     objCmdI.Parameters.Add("GRN_DATE", OracleDbType.Date).Value = DateTime.Parse(cy.GRNdate);
-                                    objCmdI.Parameters.Add("REC_GOOD_QTY", OracleDbType.NVarchar2).Value = cp.Goodqty;
-                                    objCmdI.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = cp.Goodqty;
+
+                                    objCmdI.Parameters.Add("REC_GOOD_QTY", OracleDbType.NVarchar2).Value = cp.ConvQty;
+                                    objCmdI.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = cp.ConvQty;
+
                                     objCmdI.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
                                     objCmdI.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
                                     objCmdI.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
@@ -530,7 +546,8 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select GRNBLDETAIL.GRNBLBASICID,GRNBLDETAIL.DAMAGE_QTY from GRNBLDETAIL    Where  GRNBLDETAIL.DAMAGE_QTY >0";
+                //SvSql = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,PARTYMAST.PARTYNAME,GRNBLBASIC.GRNBLBASICID,GRNBLDETAIL.DAMAGE_QTY from GRNBLBASIC  LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID  , GRNBLDETAIL    Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND  GRNBLDETAIL.DAMAGE_QTY >0";
+                SvSql = "Select B.DOCID,to_char(B.DOCDATE,'dd-MON-yyyy') DOCDATE,P.PARTYNAME,B.GRNBLBASICID,D.DAMAGE_QTY,I.ITEMID from GRNBLDETAIL D,GRNBLBASIC B,PARTYMAST P,ITEMMASTER I  where B.PARTYID=P.PARTYMASTID  AND D.GRNBLBASICID=B.GRNBLBASICID AND I.ITEMMASTERID=D.ITEMID AND  D.DAMAGE_QTY >0";
             }
             
             DataTable dtt = new DataTable();
@@ -539,18 +556,18 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetAllListDamageGRNItemDetail(string strStatus)
-        {
-            string SvSql = string.Empty;
+        //public DataTable GetAllListDamageGRNItemDetail(string strStatus)
+        //{
+        //    string SvSql = string.Empty;
 
-            SvSql = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,QCSTATUS,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,GRNBLBASIC.GRNBLBASICID,GRNBLBASIC.STATUS from GRNBLBASIC  LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY    Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND GRNBLBASIC.GRNBLBASICID='"+strStatus+"'";
+        //    SvSql = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,QCSTATUS,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,GRNBLBASIC.GRNBLBASICID,GRNBLBASIC.STATUS from GRNBLBASIC  LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY    Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND GRNBLBASIC.GRNBLBASICID='"+strStatus+"'";
 
 
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
     }
 }

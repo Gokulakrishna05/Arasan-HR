@@ -13,12 +13,13 @@ using Arasan.Interface.Qualitycontrol;
 using Arasan.Interface.Stores_Management;
 using Arasan.Interface.Sales;
 using Arasan.Services.Sales;
-using GrapeCity.ActiveReports.Aspnetcore.Viewer;
 using System.Collections.Generic;
 using Arasan.Models;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Hosting;
 using Arasan.Interface.Account;
+using Arasan.Services.Report;
+using Arasan.Interface.Report;
 
 
 
@@ -178,6 +179,38 @@ internal class Program
         builder.Services.TryAddSingleton<IETariff, ETariffService>();
         builder.Services.TryAddSingleton<ICreditorDebitNote, CreditorDebitNoteService>();
 
+        builder.Services.TryAddSingleton<ISubContractingDC, SubContractingDCService>();
+
+
+        builder.Services.TryAddSingleton<IReceiptSubContract, ReceiptSubContractService>();
+
+        builder.Services.TryAddSingleton<IRetNonRetDc, RetNonRetDcService>();
+        builder.Services.TryAddSingleton<IAssetAddDed, AssetAddDedService>();
+        builder.Services.TryAddSingleton<IContToAsset, ContToAssetService>();
+
+        builder.Services.TryAddSingleton<IReceiptAgtRetDC, ReceiptAgtRetDCService>();
+
+
+        builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();
+        builder.Services.TryAddSingleton<IAssetTransfer, AssetTransferService>();
+        builder.Services.TryAddSingleton<ISalesTargetService, SalesTargetService>();
+        builder.Services.TryAddSingleton<IPurchaseReportService, PurchaseReportService>();
+
+        builder.Services.TryAddSingleton<IIPO, ImportPOService>();
+
+        builder.Services.TryAddSingleton<IPurchaseImportIndent, PurchaseImportIndentService>();
+        builder.Services.TryAddSingleton<IPurchaseImportEnqService, PurchaseImportEnqService>();
+        builder.Services.TryAddSingleton<IPurchaseImportQuo, PurchaseImportQuoService>();
+
+
+
+        //builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();
+
+
+ 
+
+
+
 
 
 
@@ -205,13 +238,13 @@ internal class Program
         
         app.UseHttpsRedirection();
         app.UseStaticFiles();
-        DirectoryInfo di = new DirectoryInfo(@"~/pdfdownload");
-        app.UseReporting(settings =>
-        {
-            //settings.UseFileStore(new System.IO.DirectoryInfo(IWebHostEnvironment.ContentRootPath + @"\pdfdownload\"));
-           settings.UseFileStore(di);
-            settings.UseCompression = true;
-        });
+        //DirectoryInfo di = new DirectoryInfo(@"~/pdfdownload");
+        //app.UseReporting(settings =>
+        //{
+        //    //settings.UseFileStore(new System.IO.DirectoryInfo(IWebHostEnvironment.ContentRootPath + @"\pdfdownload\"));
+        //   settings.UseFileStore(di);
+        //    settings.UseCompression = true;
+        //});
         app.UseRouting();
        
 
@@ -258,4 +291,13 @@ internal class Program
 
         });
 
+    [Obsolete]
+    public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
+    {
+        // Other configurations...
+
+        app.UseStaticFiles(); // Enable static file serving, e.g., for wwwroot folder
+
+        // More configurations...
+    }
 }

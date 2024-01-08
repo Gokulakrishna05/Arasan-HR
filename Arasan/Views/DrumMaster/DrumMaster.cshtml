@@ -50,6 +50,7 @@
 
                                             @* for edit & delete*@
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.createby)
                                         </div>
                                     </div>
                                 </div>
@@ -172,86 +173,23 @@
                     "background": ""
                  });
             }
-            if (document.getElementById("DocDate").value == "") {
-                isValid = false;
-                $(DocDate).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+            //if (document.getElementById("DocDate").value == "") {
+            //    isValid = false;
+            //    $(DocDate).css({
+            //        "border": "1px solid red",
+            //        "background": "#FFCECE"
+            //    });
 
-                alert("Please Select DocDate");
-                return false;
-            }
-            else {
-                $(DocDate).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtTarget").value == "") {
-                isValid = false;
-                $(txtTarget).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+            //    alert("Please Select DocDate");
+            //    return false;
+            //}
+            //else {
+            //    $(DocDate).css({
+            //        "border": "",
+            //        "background": ""
+            //    });
+            //}
 
-                alert("Please Enter Target Weight");
-                return false;
-            }
-            else {
-                $(txtTarget).css({
-                    "border": "",
-                    "background": ""
-                });
-            } 
-            if (document.getElementById("ddlCategory").value == "") {
-                isValid = false;
-                $(ddlCategory).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Category"); 
-                return false;
-            }
-            else {
-                $(ddlCategory).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddlLocation").value == "") {
-                isValid = false;
-                $(ddlLocation).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Location"); ddlLocation
-                return false;
-            }
-            else {
-                $(ddlLocation).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddlDrumType").value == "") {
-                isValid = false;
-                $(ddlDrumType).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select DrumType"); ddlLocation
-                return false;
-            }
-            else {
-                $(ddlDrumType).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
             if (document.getElementById("ddlCategory").value == "" || document.getElementById("ddlCategory").value == 0) {
                 isValid = false;
                 $(ddlCategory).css({
@@ -285,6 +223,8 @@
                     "background": ""
                 });
             }
+           
+           
 
             if (document.getElementById("ddlDrumType").value == "" || document.getElementById("ddlDrumType").value == 0) {
                 isValid = false;
@@ -303,6 +243,22 @@
                 });
             }
 
+            //if (document.getElementById("txtTarget").value == "") {
+            //    isValid = false;
+            //    $(txtTarget).css({
+            //        "border": "1px solid red",
+            //        "background": "#FFCECE"
+            //    });
+
+            //    alert("Please Enter Target Weight");
+            //    return false;
+            //}
+            //else {
+            //    $(txtTarget).css({
+            //        "border": "",
+            //        "background": ""
+            //    });
+            //}
             if (isValid == false)
                 e.preventDefault();
 

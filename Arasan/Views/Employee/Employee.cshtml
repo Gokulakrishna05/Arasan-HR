@@ -81,6 +81,7 @@
                                                         @Html.TextBoxFor(C => C.EmpNo, new { @id = "EmpId", @class = "form-control", @TabIndex = 1,autocomplete="off"})
                                                         @Html.HiddenFor(C => C.ID)
                                                           @Html.HiddenFor(C => C.Branch)
+                                                          @Html.HiddenFor(C => C.createby) 
                                                     <br />
                                                 </div>
                                             </div>
@@ -105,9 +106,6 @@
 
                                           </div>
                                        </div>
-                                        <br />
-
-                          
                         
                                       <div class="col-md-6">
                                         <div class="form-group">
@@ -117,8 +115,6 @@
                                                     @Html.TextBoxFor(C => C.DOB, new { @id = "DOB", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                               <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                      </div>
-													
-													
 												
                                         </div>
                                       </div>
@@ -158,7 +154,7 @@
                                                         <br />
                                                     </div>
                                                 </div>
-                                            </div><br />
+                                            </div>
 
                                   
                                 
@@ -722,22 +718,22 @@
                     "background": ""
                 });
             }
-             if (document.getElementById("DOB").value == "") {
-                isValid = false;
-                $(DOB).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+            // if (document.getElementById("DOB").value == "") {
+            //    isValid = false;
+            //    $(DOB).css({
+            //        "border": "1px solid red",
+            //        "background": "#FFCECE"
+            //    });
 
-                alert("Please Select DOB");
-                return false;
-            }
-            else {
-                $(DOB).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+            //    alert("Please Select DOB");
+            //    return false;
+            //}
+            //else {
+            //    $(DOB).css({
+            //        "border": "",
+            //        "background": ""
+            //    });
+            //}
              if (document.getElementById("Phoneno").value == "") {
                 isValid = false;
                 $(Phoneno).css({

@@ -23,7 +23,8 @@ namespace Arasan.Models
         
         public List<SelectListItem> Grouplst;
        
-
+        public string createdby { get; set; }
+        public string branchid { get; set; }
         public string Group { get; set; }
 
         public List<SelectListItem> Ledgerlst;
@@ -34,6 +35,8 @@ namespace Arasan.Models
         public string Total { get; set; }
         public string Ref { get; set; }
         public string Refdate { get; set; }
+        public string mid { get; set; }
+        public string Amtinwords { get; set; }
 
         public List<CreDebNoteItems> NoteLst { get; set; }
     }

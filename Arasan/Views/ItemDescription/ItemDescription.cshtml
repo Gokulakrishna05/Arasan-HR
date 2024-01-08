@@ -44,6 +44,7 @@
                                             @Html.TextBoxFor(C => C.Des, new { @id = "txtDes", @class = "form-control", @TabIndex = 2,@size="30"})
                                           
                                             @Html.HiddenFor(C => C.ID)
+                                            @*@Html.HiddenFor(C => C.createby)*@
                                         </div>
                                     </div>
                                 </div>
@@ -82,7 +83,8 @@
                                 </div>
                             </div>
                             <div style="height:30px;"></div>
-                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
+                            <div class="col-lg-10"></div>
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Submit</button>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListItemDescription", "ItemDescription")">Cancel</a>
 
                         </form>

@@ -438,7 +438,7 @@ namespace Arasan.Controllers.Store_Management
                         tda.Process =dtt.Rows[i]["PROCESSID"].ToString();
 
 
-                        tda.Process = dtt.Rows[i]["PROCESSID"].ToString() ;
+                        tda.Process = dtt.Rows[i]["PROCESSID"].ToString(); 
 
 
                         //tda.Process = Convert.ToDouble(dtt.Rows[i]["PROCESSID"].ToString() == "" ? "0" : dtt.Rows[i]["PROCESSID"].ToString());

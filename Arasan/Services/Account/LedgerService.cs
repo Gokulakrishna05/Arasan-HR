@@ -1,7 +1,7 @@
 ﻿using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
-using DocumentFormat.OpenXml.Office2010.Excel;
+//using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
@@ -220,10 +220,28 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable GetAllListDayBookItem()
+        public DataTable GetAllListDayBookItem(string strfrom, string strTo)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT T1VCHNO,T1VCHDT,TRANS1.TRANS1ID,T1TYPE,T1NARR,DBCR,MID,DBAMOUNT,CRAMOUNT FROM TRANS1 INNER JOIN  TRANS2 ON TRANS1.TRANS1ID=TRANS2.TRANS1ID";
+            if (strfrom != null && strTo != null)
+            {
+                SvSql = "SELECT TRANS2ID,T1VCHNO,to_char(TRANS1.T1VCHDT,'dd-MON-yyyy')T1VCHDT,TRANS1.TRANS1ID,T1TYPE,T1NARR,DBCR,MID,DBAMOUNT,CRAMOUNT FROM TRANS1 INNER JOIN  TRANS2 ON TRANS1.TRANS1ID=TRANS2.TRANS1ID WHERE TRANS1.T1VCHDT BETWEEN '" + strfrom + "'  AND '" + strTo + "'";
+            }
+            else
+            {
+                SvSql = "SELECT TRANS2ID,T1VCHNO,to_char(TRANS1.T1VCHDT,'dd-MON-yyyy')T1VCHDT,TRANS1.TRANS1ID,T1TYPE,T1NARR,DBCR,MID,DBAMOUNT,CRAMOUNT FROM TRANS1 INNER JOIN  TRANS2 ON TRANS1.TRANS1ID=TRANS2.TRANS1ID WHERE TRANS1.T1VCHDT > sysdate-30";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAllListDayBookItems(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT LEDNAME FROM accledger WHERE LEDGERID= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

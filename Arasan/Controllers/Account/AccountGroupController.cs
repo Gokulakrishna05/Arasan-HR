@@ -110,21 +110,7 @@ namespace Arasan.Controllers
         //        throw ex;
         //    }
         //}
-        public ActionResult DeleteMR(string tag, int id)
-        {
-
-            string flag = accountGroup.StatusChange(tag, id);
-            if (string.IsNullOrEmpty(flag))
-            {
-
-                return RedirectToAction("ListAccountGroup");
-            }
-            else
-            {
-                TempData["notice"] = flag;
-                return RedirectToAction("ListAccountGroup");
-            }
-        }
+        
         public IActionResult ListAccountGroup()
         {
             //IEnumerable<AccountGroup> cmp = accountGroup.GetAllAccountGroup();
@@ -203,62 +189,62 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public ActionResult DeleteMR(string tag, int id)
+        {
 
-        //public ActionResult GetItemDetail(string ItemId)
-        //{
-        //    try
-        //    {
-        //        DataTable dt2 = new DataTable();
-        //        DataTable dt = new DataTable();
+            string flag = accountGroup.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
 
-        //        string code = "";
-        //        string type = "";
-        //        string grp = "";
-        //        string acc = "";
+                return RedirectToAction("ListAccountGroup");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListAccountGroup");
+            }
+        }
+        public ActionResult Remove(string tag, int id)
+        {
 
-        //        dt = accountGroup.Getaccgrpcode(ItemId);
+            string flag = accountGroup.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
 
-        //        if (dt2.Rows.Count > 0)
-        //        {
-        //            grp = dt2.Rows[0]["ACCCLASS_CODE"].ToString();
-
-        //            dt2 = accountGroup.Getgrpcode(grp);
-        //            if (dt.Rows.Count > 0)
-        //            {
-
-        //                code = dt.Rows[0]["ACCOUNTCODE"].ToString();
-        //                type = dt.Rows[0]["ACCOUNTCLASS"].ToString();
-        //            }
-
-        //        }
-
-        //        acc = grp + "" + code;
-
-
-        //        var result = new { acc = acc };
-        //        return Json(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-        public ActionResult MyListItemgrid()
+                return RedirectToAction("ListAccountGroup");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListAccountGroup");
+            }
+        }
+        public ActionResult MyListItemgrid(string strStatus)
         {
             List<AGroup> Reg = new List<AGroup>();
             DataTable dtUsers = new DataTable();
-
-            dtUsers = accountGroup.GetAllAGroup();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = accountGroup.GetAllAGroup(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
+
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
+
+                    EditRow = "<a href=AccountGroup?id=" + dtUsers.Rows[i]["ACCGROUPID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ACCGROUPID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["ACCGROUPID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
                 
-
-                EditRow = "<a href=AccountGroup?id=" + dtUsers.Rows[i]["ACCGROUPID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ACCGROUPID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-
                 Reg.Add(new AGroup
                 {
                     //id = Convert.ToDouble(dtUsers.Rows[i]["ACCGROUPID"].ToString(),

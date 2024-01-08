@@ -62,27 +62,29 @@
 
         $("#grid").jqxGrid(
             {
+                    width: '100%',
+                    source: dataAdapter,
+                    //height: 450,
+                    autorowheight: true,
+                    autoheight: true,
+                    source: source,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
+                    filterbarmode: 'simple',
+                    theme: 'darkblue',
+                    enablebrowserselection: true,
+                    columns: [
 
-                width: '100%',
-                source: dataAdapter,
-                height: 450,
-                source: source,
-                sortable: true,
-                filterable: true,
-                groupable: false,
-                pageable: true,
-                showfilterbar: true,
-                //showfilterrow: true,
-                theme: 'darkblue',
-                enablebrowserselection: true,
-                columns: [
-
-                    { text: 'EMP ID', filtertype: 'checkedlist', datafield: 'empno', width: 200 },
+                    { text: 'EMP ID', filtertype: 'checkedlist', datafield: 'empno', width: 150 },
                     { text: 'EMP Name', filtertype: 'checkedlist', datafield: 'empname', width: 200 },
-                    { text: 'Gender', filtertype: 'checkedlist', datafield: 'gender', width: 200 },
+                    { text: 'Gender', filtertype: 'checkedlist', datafield: 'gender', width: 100 },
                     {text: 'DOB', filtertype: 'checkedlist', datafield: 'dob', width: 100 },
-                    { text: 'Phone No', filtertype: 'input', datafield: 'phoneno', width: 100 },
-                    { text: 'Email', datafield: 'emailid', width: 100 },
+                    { text: 'Phone No', filtertype: 'input', datafield: 'phoneno', width: 120 },
+                    { text: 'Email', datafield: 'emailid', width: 200 },
                     { text: 'Multiple Location', datafield: 'multi', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
@@ -122,7 +124,7 @@
                             </div>
 
 
-                            <div class="col-md-9 ">
+                            <div class="col-md-8">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("Employee","Employee")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Employee</a>
                                     <br>

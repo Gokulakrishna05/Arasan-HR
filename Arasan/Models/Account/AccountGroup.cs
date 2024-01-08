@@ -29,6 +29,7 @@ namespace Arasan.Models
         public string Grouptype { get; set; }
         public string Accclass { get; set; }
         public string docid { get; set; }
+        public string ddlStatus { get; set; }
     }
 
     public class AGroup

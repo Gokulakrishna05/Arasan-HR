@@ -5,7 +5,7 @@ using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services;
 using Arasan.Services.Master;
-using DocumentFormat.OpenXml.Bibliography;
+//using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -23,6 +23,7 @@ namespace Arasan.Controllers
         public IActionResult Tax(string id)
         {
             Tax ca = new Tax();
+            ca.createby = Request.Cookies["UserId"];
             ca.Taxtypelst = BindTaxtype();
 
             if (id != null)

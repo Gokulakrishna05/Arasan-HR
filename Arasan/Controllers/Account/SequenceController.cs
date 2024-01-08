@@ -8,7 +8,7 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 using Newtonsoft.Json.Linq;
-using DocumentFormat.OpenXml.Bibliography;
+//using DocumentFormat.OpenXml.Bibliography;
 //using PdfSharp.Pdf.Content.Objects;
 
 
@@ -30,6 +30,7 @@ namespace Arasan.Controllers
         public IActionResult Sequence(string id)
         {
             Sequence sq = new Sequence();
+            sq.createby = Request.Cookies["UserId"];
             sq.Start = DateTime.Now.ToString("dd-MMM-yyyy");
             if (id == null)
             {
@@ -115,6 +116,22 @@ namespace Arasan.Controllers
             }
         }
 
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = sequence.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListItemGroup");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListItemGroup");
+            }
+        }
+
         public ActionResult MyListItemgrid(string strStatus)
         {
             List<Sequencegrid> Reg = new List<Sequencegrid>();
@@ -127,9 +144,21 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                EditRow = "<a href=Sequence?id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteSeq?tag=Del&id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                if (dtUsers.Rows[i]["ACTIVESEQUENCE"].ToString() == "T")
+                {
 
+                    EditRow = "<a href=Sequence?id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteSeq?tag=Del&id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
+
+               
                 Reg.Add(new Sequencegrid
                 {
                     id = dtUsers.Rows[i]["SEQUENCEID"].ToString(),

@@ -38,16 +38,16 @@
                 // synchronize with the server - send update command
             },
             datafields: [
-                { name: 'branch', type: 'string' },
+              
                 { name: 'enqno', type: 'string' },
-                { name: 'docDate', type: 'string' },
+                { name: 'supplier', type: 'string' },
+                { name: 'item', type: 'string' },
                 { name: 'damage', type: 'string' },
-             
                 { name: 'move', type: 'string' },
                 { name: 'movedn', type: 'string' },
                 { name: 'view', type: 'string' },
-                { name: 'editrow', type: 'string' },
-                { name: 'delrow', type: 'string' },
+                //{ name: 'editrow', type: 'string' },
+                //{ name: 'delrow', type: 'string' },
 
             ],
             id: 'id',
@@ -78,16 +78,16 @@
                 theme: 'darkblue',
                 enablebrowserselection: true,
                 columns: [
-                    { text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
+                  
                     { text: 'GRN No', filtertype: 'input', datafield: 'enqno', width: 150 },
-                    { text: 'GRN Date', datafield: 'docDate', width: 100, align: 'center' },
-                    { text: 'Supplier', filtertype: 'checkedlist', datafield: 'supplier', width: 250 },
-                    { text: 'Damage Qty', filtertype: 'checkedlist', datafield: 'damage', width: 250 },
+                    { text: 'Supplier', datafield: 'supplier', width: 300 },
+                    { text: 'Item Name', datafield: 'item', width: 300 },
+                    { text: 'Damage Qty',  datafield: 'damage', width: 100 },
                     { text: 'Purchase Return', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
                     { text: 'Debit Note', datafield: 'movedn', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
-                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    //{ text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    //{ text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
                 ]
             });
@@ -162,10 +162,10 @@
             width: '80%',
             height: '10%',
             arrows: false,
-            afterClose: function () {
-                location.reload();
-                return;
-            }
+            //afterClose: function () {
+            //    location.reload();
+            //    return;
+            //}
         });
         fancybox123 = $.fancybox;
     });

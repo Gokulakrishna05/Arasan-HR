@@ -41,6 +41,8 @@
                 // synchronize with the server - send update command
             },
             datafields: [
+                    { name: 'itemcat', type: 'string' },
+                    { name: 'itemgrp', type: 'string' },
                 { name: 'itemsubgroup', type: 'string' },
                 { name: 'descreption', type: 'string' },
                 { name: 'editrow', type: 'string' },
@@ -73,12 +75,15 @@
                 pageable: true,
                 showfilterbar: true,
                 //showfilterrow: true,
+                    filterbarmode: 'simple',
                 theme: 'darkblue',
                 enablebrowserselection: true,
                 columns: [
 
-                    { text: 'Item Sub Group', filtertype: 'checkedlist', datafield: 'itemsubgroup', width: 200 },
-                    { text: 'Description', filtertype: 'input', datafield: 'descreption', width: 200 },
+                        { text: 'Item Category', filtertype: 'checkedlist', datafield: 'itemcat', width: 200 },
+                        { text: 'Item Group', filtertype: 'checkedlist', datafield: 'itemgrp', width: 150 },
+                        { text: 'Item Sub Group', filtertype: 'checkedlist', datafield: 'itemsubgroup', width: 150 },
+                        { text: 'Description', filtertype: 'input', datafield: 'descreption', width: 150 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                 ]

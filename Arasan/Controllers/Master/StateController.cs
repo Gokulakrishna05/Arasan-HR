@@ -4,7 +4,7 @@ using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services.Master;
-using DocumentFormat.OpenXml.Bibliography;
+//using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -20,7 +20,8 @@ namespace Arasan.Controllers.Master
         public IActionResult State(string id)
         {
             State st = new State();
-            
+            st.createby = Request.Cookies["UserId"];
+            st.cuntylst = BindCountry();
             if (id == null)
             {
 
@@ -85,23 +86,23 @@ namespace Arasan.Controllers.Master
             return View();
         }
 
-        //public List<SelectListItem> BindCountry()
-        //{
-        //    try
-        //    {
-        //        DataTable dtDesg = StateService.Getcountry();
-        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
-        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
-        //        {
-        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRY"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
-        //        }
-        //        return lstdesg;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+        public List<SelectListItem> BindCountry()
+        {
+            try
+            {
+                DataTable dtDesg = StateService.Getcountry();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRY"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public ActionResult DeleteMR(string tag, int id)
         {
@@ -166,7 +167,7 @@ namespace Arasan.Controllers.Master
                 {
                     id = dtUsers.Rows[i]["STATEMASTID"].ToString(),
                     statename = dtUsers.Rows[i]["STATE"].ToString(),
-                    statecode = dtUsers.Rows[i]["STCODE"].ToString(),
+                    //statecode = dtUsers.Rows[i]["STCODE"].ToString(),
                     countryid = dtUsers.Rows[i]["COUNTRY"].ToString(),
                     editrow = EditRow,
                     delrow = DeleteRow,

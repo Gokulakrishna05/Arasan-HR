@@ -23,6 +23,7 @@ namespace Arasan.Controllers
         public IActionResult Unit(string id)
         {
             Unit ca = new Unit();
+            ca.createby = Request.Cookies["UserId"];
             if (id != null)
             {
                 DataTable dt = new DataTable();
@@ -76,7 +77,7 @@ namespace Arasan.Controllers
         {
             return View();
         }
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteMR(string tag, string id)
         {
 
             string flag = UnitService.StatusChange(tag, id);
@@ -91,7 +92,7 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListUnit");
             }
         }
-        public ActionResult Remove(string tag, int id)
+        public ActionResult Remove(string tag, string id)
         {
 
             string flag = UnitService.RemoveChange(tag, id);

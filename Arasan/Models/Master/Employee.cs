@@ -17,6 +17,7 @@ namespace Arasan.Models
         public string ID { get; set; }
         public string EmpName { get; set; }
         public string Branch { get; set; }
+        public string createby { get; set; }
         public string MultipleLoc { get; set; }
         public string Region { get; set; }
         public string Gender { get; set; }
@@ -86,6 +87,7 @@ namespace Arasan.Models
         //public List<EduDeatils> EduLst { get; set; }
         public string SkillSet { get; set; }
         public string ddlStatus { get; set; }
+      
 
     }
     public class MultipleLocation

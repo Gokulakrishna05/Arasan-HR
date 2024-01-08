@@ -7,7 +7,7 @@ using Arasan.Interface;
 using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
-using DocumentFormat.OpenXml.Bibliography;
+//using DocumentFormat.OpenXml.Bibliography;
 
 namespace Arasan.Controllers.Master
 {
@@ -29,6 +29,8 @@ namespace Arasan.Controllers.Master
         public IActionResult PartyMaster(string id)
         {
             PartyMaster ca = new PartyMaster();
+
+            ca.createby = Request.Cookies["UserId"];
             ca.Countrylst = BindCountry();
             ca.Statelst = BindState();
             ca.Citylst = BindCity();

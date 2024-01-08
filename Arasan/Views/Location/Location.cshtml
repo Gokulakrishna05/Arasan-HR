@@ -53,6 +53,7 @@
                                         @Html.TextBoxFor(C => C.LocationId, new { @id = "txtLocationId", @class = "form-control", @TabIndex = 1 })<br />
                                             @Html.HiddenFor(C => C.ID)
                                             @Html.HiddenFor(C => C.Branch)
+                                            @Html.HiddenFor(C => C.createby)
                                     </div>
 
                                     </div>
@@ -209,8 +210,8 @@
                             </div>    *@
                             <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
-                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
-                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ListLocation", "Location")">Cancel</a>
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Submit</button>
+                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ListLocation", "Location")">Cancel</a> 
 
                         </form>
                     }
@@ -244,22 +245,22 @@
                     "background": ""
                 });
             }
-            //if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
-            //    isValid = false;
-            //    $(ddlBranch).css({
-            //        "border": "1px solid red",
-            //        "background": "#FFCECE"
-            //    });
+            if (document.getElementById("txtEmailId").value == "") {
+                isValid = false;
+                $(txtEmailId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
-            //    alert("Please Select Branch");
-            //    return false;
-            //}
-            //else {
-            //    $(ddlBranch).css({
-            //        "border": "",
-            //        "background": ""
-            //    });
-            //}
+                alert("Please Enter E-mail");
+                return false;
+            }
+            else {
+                $(txtEmailId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
            
             if (document.getElementById("txtLocationType").value == "") {
                 isValid = false;
@@ -273,23 +274,6 @@
             }
             else {
                 $(txtLocationType).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-            if (document.getElementById("txtContactPer").value == "") {
-                isValid = false;
-                $(txtContactPer).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Contact Person");
-                return false;
-            }
-            else {
-                $(txtContactPer).css({
                     "border": "",
                     "background": ""
                 });
@@ -310,39 +294,24 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtAddress").value == "") {
+            if (document.getElementById("txtContactPer").value == "") {
                 isValid = false;
-                $(txtAddress).css({
+                $(txtContactPer).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Address");
+                alert("Please Enter Contact Person");
                 return false;
             }
             else {
-                $(txtAddress).css({
+                $(txtContactPer).css({
                     "border": "",
                     "background": ""
                 });
             }
-            if (document.getElementById("txtEmailId").value == "") {
-                isValid = false;
-                $(txtEmailId).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter E-mail");
-                return false;
-            }
-            else {
-                $(txtEmailId).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
+           
+           
 
             if (isValid == false)
                 e.preventDefault();

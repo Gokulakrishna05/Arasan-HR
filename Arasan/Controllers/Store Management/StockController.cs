@@ -63,7 +63,7 @@ namespace Arasan.Controllers
             dtEnq = StockService.GetStockDeatils();
             for (int i = 0; i < dtEnq.Rows.Count; i++)
             {
-                
+
                 string Approval = string.Empty;
                 EnqChkItem.Add(new StockGrid
                 {
@@ -86,6 +86,53 @@ namespace Arasan.Controllers
             });
         }
 
-      
+        public IActionResult Assetstock(string id)
+        {
+            return View();
+        }
+        public ActionResult ListAssetstock()
+        {
+            List<Asset> EnqChkItem = new List<Asset>();
+            DataTable dtEnq = new DataTable();
+            DataTable dtEnq1 = new DataTable();
+            dtEnq = StockService.GetAssetDeatils();
+            
+            for (int i = 0; i < dtEnq.Rows.Count; i++)
+            {
+                 
+                string p = datatrans.GetDataString("Select SUM(QTY) from ASSTOCKVALUE where ITEMID='" + dtEnq.Rows[i]["item"].ToString() + "' AND LOCID='" + dtEnq.Rows[i]["loc"].ToString() + "' and PLUSORMINUS='p' ");
+                string m = datatrans.GetDataString("Select SUM(QTY) from ASSTOCKVALUE where ITEMID='" + dtEnq.Rows[i]["item"].ToString() + "' AND LOCID='" + dtEnq.Rows[i]["loc"].ToString() + "' and PLUSORMINUS='m' ");
+                if(p=="")
+                {
+                    p = "0";
+                }
+                if (m == "")
+                {
+                    m = "0";
+                }
+                double pm1 = Convert.ToDouble(p);
+                double pm2 = Convert.ToDouble(m);
+                double pm = pm1 - pm2;
+                string Approval = string.Empty;
+                if (pm > 0)
+                {
+                    EnqChkItem.Add(new Asset
+                    {
+                        //id = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
+                        itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
+
+                        quantity = pm,
+                        loc = dtEnq.Rows[i]["LOCID"].ToString(),
+
+
+                    });
+                }
+            }
+
+            return Json(new
+            {
+                EnqChkItem
+            });
+        }
     }
 }

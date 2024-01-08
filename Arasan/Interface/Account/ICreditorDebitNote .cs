@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using System.Data;
-using GrapeCity.DataVisualization.Chart;
+//using GrapeCity.DataVisualization.Chart;
 
 namespace Arasan.Interface.Account
 {
@@ -18,5 +18,9 @@ namespace Arasan.Interface.Account
         DataTable GetGrpDetail(string id);
         DataTable GetGRPbyId(string id);
         DataTable GetLedbyId(string id);
+
+        
+        //string CreditorDebitNotesCRUD(CreditorDebitNote cy);
+
     }
 }

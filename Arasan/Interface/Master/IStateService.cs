@@ -12,6 +12,7 @@ namespace Arasan.Interface.Master
         State GetStateById(string id);
 
         DataTable GetEditState(string id);
+        DataTable Getcountry();
 
         //DataTable Getcountry();
         string StatusChange(string tag, int id);

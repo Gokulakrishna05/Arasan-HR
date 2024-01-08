@@ -7,6 +7,7 @@
         public string UnitCode { get; set; }
         public string status { get; set; }
         public string ddlStatus { get; set; }
+        public string createby { get; set; }
 
 
     } 

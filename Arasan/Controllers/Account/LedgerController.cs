@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 using Newtonsoft.Json.Linq;
 using Arasan.Services.Master;
-using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace Arasan.Controllers
 {
@@ -243,22 +242,25 @@ namespace Arasan.Controllers
             //IEnumerable<Ledger> cmp = ledger.GetAllLedger();
             return View();
         }
-        public ActionResult MyListDayBookgrid()
+        public ActionResult MyListDayBookgrid(string strfrom, string strTo)
         {
             List<ListDayItems> Reg = new List<ListDayItems>();
             DataTable dtUsers = new DataTable();
-            dtUsers = (DataTable)ledger.GetAllListDayBookItem();
+            dtUsers = (DataTable)ledger.GetAllListDayBookItem(strfrom, strTo);
+            DataTable dt = new DataTable();
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
+                dt = (DataTable)ledger.GetAllListDayBookItems(dtUsers.Rows[i]["MID"].ToString());
+
                 Reg.Add(new ListDayItems
                 {
-                    id = dtUsers.Rows[i]["TRANS1ID"].ToString(),
+                    id = dtUsers.Rows[i]["TRANS2ID"].ToString(),
                     vocherno = dtUsers.Rows[i]["T1VCHNO"].ToString(),
                     vocherdate = dtUsers.Rows[i]["T1VCHDT"].ToString(),
                     tratype = dtUsers.Rows[i]["T1TYPE"].ToString(),
                     vocmemo = dtUsers.Rows[i]["T1NARR"].ToString(),
                     vtype = dtUsers.Rows[i]["DBCR"].ToString(),
-                    ledgercode = dtUsers.Rows[i]["MID"].ToString(),
+                    ledgercode = dt.Rows[0]["LEDNAME"].ToString(),
                     debitamount = dtUsers.Rows[i]["DBAMOUNT"].ToString(),
                     creditamount = dtUsers.Rows[i]["CRAMOUNT"].ToString(),
                 });

@@ -69,19 +69,20 @@
                 pageable: true,
                 showfilterbar: true,
                 //showfilterrow: true,
+                filterbarmode: 'simple',
                 theme: 'darkblue',
                 enablebrowserselection: true,
 
                 columns: [
 
-                    { text: 'Prefix', filtertype: 'checkedlist', datafield: 'prefix', width: 200 },
-                    { text: 'Trans', filtertype: 'checkedlist', datafield: 'trans', width: 200 },
-                    { text: 'Last', filtertype: 'input', datafield: 'last', width: 300 },
-                    { text: 'Des', datafield: 'des', width: 110, align: 'center' },
+                    { text: 'Prefix', filtertype: 'checkedlist', datafield: 'prefix', width: 150 },
+                    { text: 'Trans', filtertype: 'checkedlist', datafield: 'trans', width: 150 },
+                    { text: 'Last', filtertype: 'input', datafield: 'last', width: 150 },
+                    { text: 'Des', datafield: 'des', width: 300, align: 'center' },
                     { text: 'Start', datafield: 'start', width: 110, align: 'center' },
                     { text: 'End', datafield: 'end', width: 110, align: 'center' },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                 ]
             });
         $("#ddlStatus").change(function () {
@@ -95,6 +96,11 @@
             $("#grid").jqxGrid({ source: source });
         });
     });
+
+    function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
+    }
+
 </script>
 <div class="wrapper-content ">
     <div class="row">
@@ -111,7 +117,7 @@
                                 new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
                             </div>
 
-                            <div class="col-md-12 ">
+                            <div class="col-md-9 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("Sequence", "Sequence")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Sequence</a>
                                     <br>

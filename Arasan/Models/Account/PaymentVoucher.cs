@@ -1,4 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office.CoverPageProps;
+﻿//using DocumentFormat.OpenXml.Office.CoverPageProps;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
 namespace Arasan.Models
@@ -36,6 +36,7 @@ namespace Arasan.Models
         public double TotalCrAmount { get; set; }
         public string VType { get; set; }
        public string Ledgername { get; set; }
+       public string DepitAmount { get; set; }
         public string LedgerId { get; set; }
         public double TotalAmount { get; set; }
         public List<VoucherItem> VoucherLst { get; set; }
@@ -59,6 +60,11 @@ namespace Arasan.Models
         public double CreditAmount { get; set; }
         public double DepitAmount { get; set; }
         public string Isvalid { get; set; }
+        public string Acc { get; set; }
+        public string Cre { get; set; }
+
+        public double DepAmount { get; set; }
+        public double CreAmount { get; set; }
 
     }
 }

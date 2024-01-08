@@ -48,31 +48,52 @@ namespace Arasan.Services.Master
         //    return itgList;
         //}
 
-
-        public ItemGroup GetItemGroupById(string eid)
+        public DataTable GetGroup(string id)
         {
-            ItemGroup ItemGroup = new ItemGroup();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select GROUPCODE,GROUPDESC,ITEMGROUPID from ITEMGROUP where ITEMGROUPID=" + eid + "";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        ItemGroup itg = new ItemGroup
-                        {
-                            ID = rdr["ITEMGROUPID"].ToString(),
-                            ItemGroups = rdr["GROUPCODE"].ToString(),
-                            ItemGroupDescription = rdr["GROUPDESC"].ToString()
-                        };
-                        ItemGroup = itg;
-                    }
-                }
-            }
-            return ItemGroup;
+            string SvSql = string.Empty;
+            SvSql = "Select GROUPCODE,GROUPDESC,CATEGORY,ITEMGROUPID from ITEMGROUP where ITEMGROUPID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
+        public DataTable GetCategory()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMCATEGORYID,CATEGORY from ITEMCATEGORY  ORDER BY ITEMCATEGORYID DESC";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        //public ItemGroup GetItemGroupById(string eid)
+        //{
+        //    ItemGroup ItemGroup = new ItemGroup();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select GROUPCODE,GROUPDESC,CATEGORY,ITEMGROUPID from ITEMGROUP where ITEMGROUPID=" + eid + "";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                ItemGroup itg = new ItemGroup
+        //                {
+        //                    ID = rdr["ITEMGROUPID"].ToString(),
+        //                    ItemCat = rdr["CATEGORY"].ToString(),
+        //                    ItemGroups = rdr["GROUPCODE"].ToString(),
+        //                    ItemGroupDescription = rdr["GROUPDESC"].ToString()
+        //                };
+        //                ItemGroup = itg;
+        //            }
+        //        }
+        //    }
+        //    return ItemGroup;
+        //}
 
         public string ItemGroupCRUD(ItemGroup by)
         {
@@ -98,9 +119,9 @@ namespace Arasan.Services.Master
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (by.ID == null)
-                {
+                     {
                     StatementType = "Insert";
-                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value; 
                     }
                 else
                 {
@@ -112,6 +133,17 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("GROUPCODE", OracleDbType.NVarchar2).Value = by.ItemGroups;
                     objCmd.Parameters.Add("GROUPDESC", OracleDbType.NVarchar2).Value = by.ItemGroupDescription;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    objCmd.Parameters.Add("CATEGORY", OracleDbType.NVarchar2).Value = by.ItemCat;
+                    if (by.ID == null)
+                    {
+                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = by.createby;
+                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
+                    else 
+                    {
+                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = by.createby;
+                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -188,12 +220,12 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = " Select GROUPCODE,GROUPDESC , ITEMGROUPID,IS_ACTIVE from ITEMGROUP WHERE IS_ACTIVE='Y' order by ITEMGROUP.ITEMGROUPID DESC ";
+                SvSql = " Select ITEMGROUP.GROUPCODE,ITEMGROUP.GROUPDESC , ITEMGROUP.ITEMGROUPID,ITEMGROUP.IS_ACTIVE ,ITEMCATEGORY.CATEGORY from ITEMGROUP left outer join ITEMCATEGORY on ITEMCATEGORY.ITEMCATEGORYID = ITEMGROUP.CATEGORY WHERE ITEMGROUP.IS_ACTIVE='Y' order by ITEMGROUP.ITEMGROUPID DESC ";
 
             }
             else
             {
-                SvSql = " Select GROUPCODE,GROUPDESC , ITEMGROUPID ,IS_ACTIVE from ITEMGROUP WHERE IS_ACTIVE='N' order by ITEMGROUP.ITEMGROUPID DESC ";
+                SvSql = " Select ITEMGROUP.GROUPCODE,ITEMGROUP.GROUPDESC , ITEMGROUP.ITEMGROUPID,ITEMGROUP.IS_ACTIVE ,ITEMCATEGORY.CATEGORY from ITEMGROUP left outer join ITEMCATEGORY on ITEMCATEGORY.ITEMCATEGORYID = ITEMGROUP.CATEGORY WHERE ITEMGROUP.IS_ACTIVE='N' order by ITEMGROUP.ITEMGROUPID DESC ";
 
             }
             DataTable dtt = new DataTable();

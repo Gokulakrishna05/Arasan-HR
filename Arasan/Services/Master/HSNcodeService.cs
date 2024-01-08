@@ -18,32 +18,32 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<HSNcode> GetAllHSNcode(string status)
-        {
-            List<HSNcode> staList = new List<HSNcode>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<HSNcode> GetAllHSNcode(string status)
+        //{
+        //    List<HSNcode> staList = new List<HSNcode>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select HSNCODEID,HSNCODE,DESCRIPTION,CGST,SGST,IGST,STATUS from HSNCODE WHERE STATUS= 'ACTIVE' order by HSNCODE.HSNCODEID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        HSNcode sta = new HSNcode
-                        {
-                            ID = rdr["HSNCODEID"].ToString(),
-                            HCode = rdr["HSNCODE"].ToString(),
-                            Dec = rdr["DESCRIPTION"].ToString(),
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select HSNCODEID,HSNCODE,DESCRIPTION,CGST,SGST,IGST,STATUS from HSNCODE WHERE STATUS= 'ACTIVE' order by HSNCODE.HSNCODEID DESC";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                HSNcode sta = new HSNcode
+        //                {
+        //                    ID = rdr["HSNCODEID"].ToString(),
+        //                    HCode = rdr["HSNCODE"].ToString(),
+        //                    Dec = rdr["DESCRIPTION"].ToString(),
                            
-                        };
-                        staList.Add(sta);
-                    }
-                }
-            }
-            return staList;
-        }
+        //                };
+        //                staList.Add(sta);
+        //            }
+        //        }
+        //    }
+        //    return staList;
+        //}
 
          
         public string HSNcodeCRUD(HSNcode ss)
@@ -86,7 +86,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("HSNCODE", OracleDbType.NVarchar2).Value = ss.HCode;
                     objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = ss.Dec;
 
-                    objCmd.Parameters.Add("ISACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     if (ss.ID == null)
                     {
                        
@@ -129,11 +129,12 @@ namespace Arasan.Services.Master
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("HSNCODEID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("TARIFFID", OracleDbType.NVarchar2).Value = cp.tariff;
+                                    objCmds.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = 'Y';
                                    
 
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
-                                    objCmds.ExecuteNonQuery();
+                                    objCmds.ExecuteNonQuery(); 
                                     objConns.Close();
                                 }
 
@@ -193,11 +194,11 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select ISACTIVE,HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE ISACTIVE='Y' Order by HSNCODEID DESC  ";
+                SvSql = "Select IS_ACTIVE,HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE IS_ACTIVE='Y' Order by HSNCODEID DESC  ";
             }
             else
             {
-                SvSql = "Select ISACTIVE,HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE ISACTIVE='N' Order by HSNCODEID DESC  ";
+                SvSql = "Select IS_ACTIVE,HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE IS_ACTIVE='N' Order by HSNCODEID DESC  ";
 
             }
             DataTable dtt = new DataTable();
@@ -290,7 +291,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE HSNCODE SET ISACTIVE ='N' WHERE HSNCODEID='" + id + "'";
+                    svSQL = "UPDATE HSNCODE SET IS_ACTIVE ='N' WHERE HSNCODEID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -313,7 +314,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE HSNCODE SET ISACTIVE ='Y' WHERE HSNCODEID='" + id + "'";
+                    svSQL = "UPDATE HSNCODE SET IS_ACTIVE ='Y' WHERE HSNCODEID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

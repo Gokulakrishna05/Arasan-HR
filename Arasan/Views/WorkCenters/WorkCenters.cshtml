@@ -54,6 +54,7 @@
                                           
                                              @Html.TextBoxFor(C => C.Wid, new { @id = "txtWid", @class = "form-control", @TabIndex = 1})
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.createby)
                                         </div>
                                     </div>
                                 </div>
@@ -401,9 +402,6 @@
                                                             @Html.TextBoxFor(o => o.WorkCenterlst[i].MCost, new { @id = "txtMCost" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 120px;" })
                                                         </td>
                                                        
-
-
-
                                                         <td>
                                                             @Html.HiddenFor(o => o.WorkCenterlst[i].Isvalid, new { @id = "Isvalid" + i })
                                                             <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Suplst.Index" type="hidden" value="@(i)" />
@@ -595,38 +593,23 @@
                 });
             }
 
-          if (document.getElementById("ddlWType").value == "") {
+          if (document.getElementById("Docdate").value == "") {
                 isValid = false;
-                $(ddlWType).css({
+                $(Docdate).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Work Center Type");
+                alert("Please Enter Docdate");
                 return false;
           }
             else {
-                $(ddlWType).css({
+                $(Docdate).css({
                     "border": "",
                     "background": ""
                 });
-            }
-            if (document.getElementById("ddIloc").value == "") {
-                isValid = false;
-                $(ddIloc).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Issuse Location");
-                return false;
-            }
-            else {
-                $(ddIloc).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+            } 
+            
             if (document.getElementById("ddlQcLoc").value == "") {
                 isValid = false;
                 $(ddlQcLoc).css({
@@ -634,7 +617,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Work QC Location");
+                alert("Please Enter QC Location");
                 return false;
             }
             else {
@@ -642,7 +625,7 @@
                     "border": "",
                     "background": ""
                 });
-            }
+            } 
             if (document.getElementById("ddlWipItemid").value == "") {
                 isValid = false;
                 $(ddlWipItemid).css({
@@ -650,7 +633,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter WIP Item ID");
+                alert("Please Enter Wip Itemid");
                 return false;
             }
             else {
@@ -658,23 +641,7 @@
                     "border": "",
                     "background": ""
                 });
-            }
-            if (document.getElementById("ddlWipLocid").value == "") {
-                isValid = false;
-                $(ddlWipLocid).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter WIP Loc ID");
-                return false;
-            }
-            else {
-                $(ddlWipLocid).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+            } 
             if (document.getElementById("ddlConvItem").value == "") {
                 isValid = false;
                 $(ddlConvItem).css({
@@ -682,7 +649,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Conv Item ID");
+                alert("Please Enter Conv ItemName");
                 return false;
             }
             else {
@@ -690,39 +657,8 @@
                     "border": "",
                     "background": ""
                 });
-            }
-            if (document.getElementById("ddlConvLoc").value == "") {
-                isValid = false;
-                $(ddlConvLoc).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+            } 
 
-                alert("Please Enter Conv Location");
-                return false;
-            }
-            else {
-                $(ddlConvLoc).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddlDrumLoc").value == "") {
-                isValid = false;
-                $(ddlDrumLoc).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Drum Issuse Location");
-                return false;
-            }
-            else {
-                $(ddlDrumLoc).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
             if (document.getElementById("txtUttl").value == "") {
                 isValid = false;
                 $(txtUttl).css({
@@ -732,13 +668,46 @@
 
                 alert("Please Enter Utilization");
                 return false;
-            }
+          }
             else {
                 $(txtUttl).css({
                     "border": "",
                     "background": ""
                 });
             }
+             if (document.getElementById("txtCost").value == "") {
+                isValid = false;
+                $(txtCost).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Cost");
+                return false;
+          }
+            else {
+                $(txtCost).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtUnit").value == "") {
+                isValid = false;
+                $(txtUnit).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Unit");
+                return false;
+          }
+            else {
+                $(txtUnit).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+           
 
 
              if (isValid == false)

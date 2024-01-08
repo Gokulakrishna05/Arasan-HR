@@ -1,0 +1,266 @@
+﻿@model Arasan.Models.ReceiptAgtRetDC
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "ReceiptAgtRetDC";
+}
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Sales</a> </li>
+            <li class="active"> <strong>Receipt Against Returnable DC</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Receipt Against Returnable DC</h5>
+                    <hr>
+                    @using (Html.BeginForm("ApproveReceiptAgtRetDC", "ReceiptAgtRetDC", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                    <form>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.Location) @Html.HiddenFor(C => C.Locationid)<br>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Document ID <label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.Did) @Html.HiddenFor(C => C.Did)<br>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div style="height:10px;"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.DDate) @Html.HiddenFor(C => C.ID)<br>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Ref No<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.Ref) @Html.HiddenFor(C => C.Ref)<br>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Ref Date<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.RefDate) @Html.HiddenFor(C => C.RefDate)<br>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <br /> <label for="inputName3" class="col-sm-4 control-label">D.C Type<label class="mandatory"></label></label>
+
+
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.DcType) @Html.HiddenFor(C => C.DcType)<br>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <br /> <label for="inputName3" class="col-sm-4 control-label">DC No<label class="mandatory"></label></label>
+
+
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.Dcno) @Html.HiddenFor(C => C.Dcno)<br>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <br />
+                                    <label for="inputName3" class="col-sm-4 control-label">D.C Date<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.DcDate) @Html.HiddenFor(C => C.DcDate)<br>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Party ID<label class="mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.Party) @Html.HiddenFor(C => C.Party)<br>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <br /><label for="inputName3" class="col-sm-4 control-label">Stock Type<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.Stock) @Html.HiddenFor(C => C.Stock)<br>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div style="height:30px;"></div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+
+                                    <div class="ibox-content collapse in">
+                                        <div class="widgets-container">
+                                            <div>
+                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                    <thead>
+
+<tr>
+                                                    <th>Item Name</th>
+                                                    <th> Unit </th>
+                                                    <th> Bin ID </th>
+                                                        @*<th> Batch </th>*@
+                                                    <th> Serial </th>
+                                                    <th> Pend Qty </th>
+                                                    <th> Recd Qty </th>
+                                                    <th> Rej Qty </th>
+                                                    <th> Acc Qty </th>
+                                                    <th> Rate </th>
+                                                    <th>Amount</th>
+
+                                                    </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        @{
+                                                            int i = 0;
+
+                                                            foreach (var item in Model.ReceiptLst.ToList())
+                                                            {
+
+                                                                <tr>
+
+
+                                                                        <td>@Html.DisplayFor(o => o.ReceiptLst[i].itemname)@Html.HiddenFor(o => o.ReceiptLst[i].saveItemId)</td>
+                                                                    <td>@Html.DisplayFor(o => o.ReceiptLst[i].unit)</td>
+                                                                    <td>@Html.DisplayFor(o => o.ReceiptLst[i].bin)</td>
+                                                                    <td>@Html.DisplayFor(o => o.ReceiptLst[i].serial)</td>
+                                                                    <td>@Html.DisplayFor(o => o.ReceiptLst[i].Pend)</td>
+
+                                                                        <td>@Html.DisplayFor(o => o.ReceiptLst[i].Recd)@Html.HiddenFor(o => o.ReceiptLst[i].Recd)</td>
+
+                                                                  
+
+                                                                    <td>@Html.DisplayFor(o => o.ReceiptLst[i].rej)</td>
+                                                                    <td>@Html.DisplayFor(o => o.ReceiptLst[i].Acc)</td>
+                                                                    <td>@Html.DisplayFor(o => o.ReceiptLst[i].rate)</td>
+                                                                    <td>@Html.DisplayFor(o => o.ReceiptLst[i].amount)</td>
+
+
+                                                                </tr>
+
+                                                                i++;
+                                                            }
+                                                        }
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+
+                                    <br /> <label for="inputName3" class="col-sm-2 control-label">Narration<label class="Mandatory"></label></label>
+                                    <div class="col-sm-10">
+                                        @Html.DisplayFor(C => C.Narration) @Html.HiddenFor(C => C.Narration)<br>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                     
+
+
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18" onClick="window.parent.jQuery.fancybox.close();">Approve</button>
+
+                            <input type="button" class="btn btn-danger" value="Close" onclick="window.parent.jQuery.fancybox.close();" />
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+
+    $(function () {
+        $(document).on('click', '.closeFancybox', function () {
+            $.fancybox.close();
+        })
+    })
+</script>

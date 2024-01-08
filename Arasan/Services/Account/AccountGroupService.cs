@@ -72,7 +72,7 @@ namespace Arasan.Services
                 string gcode = cy.GrpCode;
                 string docid = string.Format("{0}{1}", grouptype, gcode.ToString());
                
-                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                using (OracleConnection objConn = new OracleConnection(_connectionString)) 
                 {
                     OracleCommand objCmd = new OracleCommand("ACCGROPROC", objConn);
                    
@@ -142,6 +142,30 @@ namespace Arasan.Services
             return "";
 
         }
+
+        public string RemoveChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE ACCGROUP SET IS_ACTIVE ='Y' WHERE ACCGROUPID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
         public DataTable GetAccountGroup(string id)
         {
             string SvSql = string.Empty;
@@ -152,10 +176,19 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetAllAGroup()
+        public DataTable GetAllAGroup(string strStatus)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ACCGROUP.ACCGROUPID,ACCGROUP.BRANCHID,ACCGROUP.ACCOUNTGROUP,ACCTYPE.ACCOUNTTYPE,ACCGROUP.GROUPCODE,ACCGROUP.DISPLAY_NAME FROM ACCGROUP LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID =ACCGROUP.ACCOUNTTYPE WHERE ACCGROUP.IS_ACTIVE = 'Y' ORDER BY ACCGROUPID DESC";
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select ACCGROUP.IS_ACTIVE,ACCGROUP.ACCGROUPID,ACCGROUP.BRANCHID,ACCGROUP.ACCOUNTGROUP,ACCTYPE.ACCOUNTTYPE,ACCGROUP.GROUPCODE,ACCGROUP.DISPLAY_NAME FROM ACCGROUP LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID =ACCGROUP.ACCOUNTTYPE WHERE ACCGROUP.IS_ACTIVE = 'Y' ORDER BY ACCGROUPID DESC";
+
+            }
+            else
+            {
+                SvSql = "Select ACCGROUP.IS_ACTIVE,ACCGROUP.ACCGROUPID,ACCGROUP.BRANCHID,ACCGROUP.ACCOUNTGROUP,ACCTYPE.ACCOUNTTYPE,ACCGROUP.GROUPCODE,ACCGROUP.DISPLAY_NAME FROM ACCGROUP LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID =ACCGROUP.ACCOUNTTYPE WHERE ACCGROUP.IS_ACTIVE = 'N' ORDER BY ACCGROUPID DESC";
+
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

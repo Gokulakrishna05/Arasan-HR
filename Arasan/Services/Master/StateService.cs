@@ -49,17 +49,19 @@ namespace Arasan.Services.Master
         //    }
         //    return staList;
         //}
-        //public DataTable Getcountry()
-        //{
-        //    string SvSql = string.Empty;
-        //    //SvSql = "select COUNTRYNAME,COUNTRYMASTID from CONMAST  WHERE STATUS='ACTIVE' order by COUNTRYMASTID asc" ;
-        //    SvSql = "select COUNTRY,COUNTRYMASTID from CONMAST WHERE IS_ACTIVE ='Y' order by COUNTRYMASTID DESC";
-        //    DataTable dtt = new DataTable();
-        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-        //    adapter.Fill(dtt);
-        //    return dtt;
-        //}
+
+
+        public DataTable Getcountry()
+        {
+            string SvSql = string.Empty;
+            //SvSql = "select COUNTRYNAME,COUNTRYMASTID from CONMAST  WHERE STATUS='ACTIVE' order by COUNTRYMASTID asc" ;
+            SvSql = "select COUNTRY,COUNTRYMASTID from CONMAST WHERE IS_ACTIVE ='Y' order by COUNTRYMASTID DESC";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetEditState(string id)
         {
             string SvSql = string.Empty;
@@ -114,7 +116,7 @@ namespace Arasan.Services.Master
                 }
                 
 
-                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                using (OracleConnection objConn = new OracleConnection(_connectionString)) 
                 {
                     OracleCommand objCmd = new OracleCommand("STATEPROC", objConn);
                     /*objCmd.Connection = objConn;
@@ -133,9 +135,20 @@ namespace Arasan.Services.Master
                     }
 
                     objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = ss.StateName;
-                    objCmd.Parameters.Add("STCODE", OracleDbType.NVarchar2).Value = ss.StateCode;
+                    //objCmd.Parameters.Add("STCODE", OracleDbType.NVarchar2).Value = ss.StateCode;
                     objCmd.Parameters.Add("COUNTRYMASTID", OracleDbType.NVarchar2).Value = ss.countryid;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+
+                    if (ss.ID == null)
+                    {
+                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.createby;
+                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
+                    else
+                    {
+                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = ss.createby;
+                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -210,13 +223,12 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "select STATEMAST.IS_ACTIVE,STATEMAST.STATE,STATEMAST.STCODE,CONMAST.COUNTRY,STATEMAST.STATEMASTID from  STATEMAST LEFT OUTER JOIN CONMAST ON CONMAST.COUNTRYMASTID = STATEMAST.COUNTRYMASTID WHERE STATEMAST.IS_ACTIVE = 'Y' ORDER BY STATEMAST.STATEMASTID DESC ";
-
+                SvSql = "select STATEMAST.IS_ACTIVE,STATEMAST.STATE,CONMAST.COUNTRY,STATEMAST.STATEMASTID from  STATEMAST LEFT OUTER JOIN CONMAST ON CONMAST.COUNTRYMASTID = STATEMAST.COUNTRYMASTID WHERE STATEMAST.IS_ACTIVE = 'Y' ORDER BY STATEMAST.STATEMASTID DESC ";
 
             }
             else
             {
-                SvSql = "select STATEMAST.IS_ACTIVE,STATEMAST.STATE,STATEMAST.STCODE,CONMAST.COUNTRY,STATEMAST.STATEMASTID from  STATEMAST LEFT OUTER JOIN CONMAST ON CONMAST.COUNTRYMASTID = STATEMAST.COUNTRYMASTID WHERE STATEMAST.IS_ACTIVE = 'N' ORDER BY STATEMAST.STATEMASTID DESC ";
+                SvSql = "select STATEMAST.IS_ACTIVE,STATEMAST.STATE,CONMAST.COUNTRY,STATEMAST.STATEMASTID from  STATEMAST LEFT OUTER JOIN CONMAST ON CONMAST.COUNTRYMASTID = STATEMAST.COUNTRYMASTID WHERE STATEMAST.IS_ACTIVE = 'N' ORDER BY STATEMAST.STATEMASTID DESC ";
 
             }
             DataTable dtt = new DataTable();

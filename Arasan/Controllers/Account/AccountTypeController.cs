@@ -97,7 +97,7 @@ namespace Arasan.Controllers
         public static string GetNumberwithPrefix(int AccountCode, int totalchar)
         {
             string tempnumber = AccountCode.ToString();
-            while (tempnumber.Length < 3)
+            while (tempnumber.Length < 3) 
                 tempnumber = "0" + tempnumber;
             return tempnumber;
         }
@@ -151,21 +151,31 @@ namespace Arasan.Controllers
             }
         }
 
-        public ActionResult MyListItemgrid()
+        public ActionResult MyListItemgrid(string strStatus)
         {
             List<AType> Reg = new List<AType>();
             DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
 
-            dtUsers = AccountTypeService.GetAllType();
+            dtUsers = AccountTypeService.GetAllType(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
-                
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
 
-                EditRow = "<a href=AccountType?id=" + dtUsers.Rows[i]["ACCOUNTTYPEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ACCOUNTTYPEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    EditRow = "<a href=AccountType?id=" + dtUsers.Rows[i]["ACCOUNTTYPEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ACCOUNTTYPEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["ACCOUNTTYPEID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
 
                 Reg.Add(new AType
                 {

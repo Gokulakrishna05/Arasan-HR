@@ -103,6 +103,16 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("SSL", OracleDbType.NVarchar2).Value = ss.SSL;
                     objCmd.Parameters.Add("SIGNATURE", OracleDbType.NVarchar2).Value = ss.Signature;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    if (ss.ID == null)
+                    {
+                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.createby;
+                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
+                    else
+                    {
+                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = ss.createby;
+                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                     try
@@ -142,6 +152,7 @@ namespace Arasan.Services
         {
 
             try
+
             {
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
@@ -190,12 +201,12 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "select EMAILCONFIG_ID,SMTP_HOST,PORT_NO,EMAIL_ID,PASSWORD,SSL,SIGNATURE from EMAIL_CONFIG WHERE EMAIL_CONFIG.IS_ACTIVE = 'Y' ORDER BY EMAILCONFIG_ID DESC ";
+                SvSql = "select IS_ACTIVE,EMAILCONFIG_ID,SMTP_HOST,PORT_NO,EMAIL_ID,PASSWORD,SSL,SIGNATURE from EMAIL_CONFIG WHERE EMAIL_CONFIG.IS_ACTIVE = 'Y' ORDER BY EMAILCONFIG_ID DESC ";
 
             }
             else
             {
-                SvSql = "select EMAILCONFIG_ID,SMTP_HOST,PORT_NO,EMAIL_ID,PASSWORD,SSL,SIGNATURE from EMAIL_CONFIG WHERE EMAIL_CONFIG.IS_ACTIVE = 'N' ORDER BY EMAILCONFIG_ID DESC ";
+                SvSql = "select IS_ACTIVE, EMAILCONFIG_ID,SMTP_HOST,PORT_NO,EMAIL_ID,PASSWORD,SSL,SIGNATURE from EMAIL_CONFIG WHERE EMAIL_CONFIG.IS_ACTIVE = 'N' ORDER BY EMAILCONFIG_ID DESC ";
 
             }
             DataTable dtt = new DataTable();

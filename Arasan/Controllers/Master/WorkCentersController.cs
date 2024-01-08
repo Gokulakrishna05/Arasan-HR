@@ -26,6 +26,8 @@ namespace Arasan.Controllers.Master
         public IActionResult WorkCenters(string id)
         {
             WorkCenters ca = new WorkCenters();
+
+            ca.createby = Request.Cookies["UserId"];
             ca.Loc = BindLocation();
             ca.QCLst = BindLocation();
             ca.WIPLst = BindLocation();
@@ -225,10 +227,26 @@ namespace Arasan.Controllers.Master
             }
         }
 
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteMR(string tag, string id)
         {
 
             string flag = WorkCentersService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListWorkCenters");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListWorkCenters");
+            }
+        }
+
+        public ActionResult Remove(string tag, string id)
+        {
+
+            string flag = WorkCentersService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

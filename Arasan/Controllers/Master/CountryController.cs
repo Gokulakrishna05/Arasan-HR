@@ -21,6 +21,7 @@ namespace Arasan.Controllers
         public IActionResult Country(string id)
         {
             Country ic = new Country();
+            ic.createby = Request.Cookies["UserId"];
             if (id == null)
             {
 

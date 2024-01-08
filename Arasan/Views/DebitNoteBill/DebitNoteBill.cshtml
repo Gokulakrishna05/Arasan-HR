@@ -178,7 +178,7 @@
                                                         <td>
                                                            @*@Html.DropDownListFor(o => o.Depitlst[i].InvNo, Model.Depitlst[i].Grnlst, "---Please Select---", new { @class = "form-control _select newcss", @id = "ddlInvNo" + i, style = "width: 170px;",onchange = "Grup_Change(this.value," + i + ")"})*@
                                                                                                                                                                                   @Html.TextBoxFor(o => o.Depitlst[i].InvNo, new { @id = "ddlInvNo" + i, @class = "form-control", style = "width: 180px;", @readonly = "readonly"})
-
+                                                                                                                                                                                                                                              @Html.HiddenFor(o => o.Depitlst[i].Invid)
                                                         </td>
                                                         <td>
                                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
@@ -247,7 +247,7 @@
 
                                     </table>
                                 </div>
-                            </div>
+                            </div> 
                               
                        
 
@@ -334,6 +334,13 @@
 <script>
     $(function () {
         $('._select').select2();
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                changeQty(0, j);
+                j += 1;
+            }
+        });
     });
     function PopulateDropDown(dropDownId, list) {
         //alert(list);

@@ -1,5 +1,6 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
+using AspNetCore;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
@@ -54,6 +55,28 @@ namespace Arasan.Services
             
             string SvSql = string.Empty;
             SvSql = "Select SUM(INVENTORY_ITEM.BALANCE_QTY) as QTY,ITEMMASTER.ITEMID,BINBASIC.BINID,UNITMAST.UNITID,BRANCHMAST.BRANCHID,LOCDETAILS.LOCID from INVENTORY_ITEM LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=INVENTORY_ITEM.ITEM_ID LEFT OUTER JOIN BINBASIC ON BINBASICID = ITEMMASTER.BINNO  LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=INVENTORY_ITEM.BRANCH_ID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=INVENTORY_ITEM.LOCATION_ID Where BALANCE_QTY !=0 AND  LOCDETAILS.LOCID = 'STORES' GROUP BY ITEMMASTER.ITEMID,BINBASIC.BINID,UNITMAST.UNITID,BRANCHMAST.BRANCHID,LOCDETAILS.LOCID";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAssetDeatils()
+        {
+
+            string SvSql = string.Empty;
+            SvSql = "Select SUM(ASSTOCKVALUE.QTY) as QTY,ITEMMASTER.ITEMID,LOCDETAILS.LOCID,ASSTOCKVALUE.ITEMID as item,ASSTOCKVALUE.LOCID as loc from ASSTOCKVALUE LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=ASSTOCKVALUE.ITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ASSTOCKVALUE.LOCID  GROUP BY ITEMMASTER.ITEMID,LOCDETAILS.LOCID,ASSTOCKVALUE.ITEMID,ASSTOCKVALUE.LOCID ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAssetDeatilss()
+        {
+
+            string SvSql = string.Empty;
+            SvSql = "Select SUM(ASSTOCKVALUE.QTY) as QTY,ITEMMASTER.ITEMID,LOCDETAILS.LOCID from ASSTOCKVALUE LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=ASSTOCKVALUE.ITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ASSTOCKVALUE.LOCID Where PLUSORMINUS ='m' GROUP BY ITEMMASTER.ITEMID,LOCDETAILS.LOCID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -123,6 +123,16 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("DRUMTYPE", OracleDbType.NVarchar2).Value = ss.DrumType;
                     objCmd.Parameters.Add("TAREWT", OracleDbType.NVarchar2).Value = ss.TargetWeight;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    if (ss.ID == null)
+                    {
+                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.createby;
+                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
+                    else
+                    {
+                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = ss.createby;
+                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                     try
@@ -158,13 +168,13 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public string StatusChange(string tag, int id)
+        public string StatusChange(string tag, int id) 
         {
 
             try
             {
                 string svSQL = string.Empty;
-                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                using (OracleConnection objConnT = new OracleConnection(_connectionString)) 
                 {
                     svSQL = "UPDATE DRUMMAST SET IS_ACTIVE ='N' WHERE DRUMMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);

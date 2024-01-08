@@ -5,7 +5,7 @@ using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services;
 using Arasan.Services.Master;
-using DocumentFormat.OpenXml.Bibliography;
+//using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -31,10 +31,10 @@ namespace Arasan.Controllers
         {
 
             EmailConfig EC = new EmailConfig();
-
+            EC.createby = Request.Cookies["UserId"];
             //for edit & delete
 
-                if (id != null)
+            if (id != null)
                 {
                     DataTable dt = new DataTable();
                     double total = 0;
@@ -140,9 +140,19 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                EditRow = "<a href=EmailConfig?id=" + dtUsers.Rows[i]["EMAILCONFIG_ID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["EMAILCONFIG_ID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y") 
+                {
 
+                    EditRow = "<a href=EmailConfig?id=" + dtUsers.Rows[i]["EMAILCONFIG_ID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["EMAILCONFIG_ID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+
+                else
+                {
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["EMAILCONFIG_ID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
                 Reg.Add(new EmailConfigGrid
                 {
                     id = dtUsers.Rows[i]["EMAILCONFIG_ID"].ToString(),

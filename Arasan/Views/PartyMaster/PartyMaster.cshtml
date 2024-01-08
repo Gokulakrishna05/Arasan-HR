@@ -62,9 +62,9 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Party ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.PartyCode, new { @id = "PartyCode", @class = "form-control",  autocomplete="off", @TabIndex = 1})
-<br />
+                                                        @Html.TextBoxFor(C => C.PartyCode, new { @id = "PartyCode", @class = "form-control",  autocomplete="off", @TabIndex = 1})<br />
                                                          @Html.HiddenFor(C => C.ID)
+                                                        @Html.HiddenFor(C => C.createby)
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +73,7 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label">Party Name<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.PartyName, new { @id = "PartyName", @class = "form-control", @TabIndex = 1,autocomplete="off"})
+                                                        @Html.TextBoxFor(C => C.PartyName, new { @id = "PartyName", @class = "form-control", @TabIndex = 1,autocomplete="off"}) <br />
                                     </div>
 
                                 </div>
@@ -87,26 +87,27 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label">Party Category<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.PartyCategory, Model.Categorylst, new { @id = "ddlPartyCategory", @Class = "form-control _select", autocomplete="off", @TabIndex = 1 })<br />
+                                                        @Html.DropDownListFor(C => C.PartyCategory, Model.Categorylst, new { @id = "ddlPartyCategory", @Class = "form-control _select", autocomplete="off", @TabIndex = 1 }) <br />
                                                     </div>
 
                                 </div>
                             </div>
 
 
-                                            <div class="row">
+                                          
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Ledger Name<label class="mandatory">*</label></label>
+                                                         <label for="inputName3" class="col-sm-4 control-label">Ledger Name<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
-                                                            @Html.DropDownListFor(C => C.Ledger, Model.Ledgerlst," -- Please Select -- ", new { @id = "ddlLedger", @Class = "form-control _select", @TabIndex = 1 })
+                                                            @Html.DropDownListFor(C => C.Ledger, Model.Ledgerlst," -- Please Select -- ", new { @id = "ddlLedger", @Class = "form-control _select", @TabIndex = 1 })<br />
                                                         </div>
 
                                                     </div>
                                                 </div>
-                                            </div>
+                                          
 
                           </div>
+                          <br>
                               <div class="row">
 
                                 <div class="col-md-6">
@@ -127,7 +128,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Comm.Code<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.Comm, new { @id = "Comm", autocomplete="off", @class = "form-control", @TabIndex = 1})
+                                                        @Html.TextBoxFor(C => C.Comm, new { @id = "Comm", autocomplete="off", @class = "form-control", @TabIndex = 1}) <br />
                                     </div>
 
                                  </div>
@@ -144,11 +145,11 @@
 
                                                         @Html.RadioButtonFor(C => C.Regular, "YES", new { @TabIndex = 2 })
                                                             <label id="mt-radio">YES</label>&emsp;
-                                                        @Html.RadioButtonFor(C => C.Regular, "NO", new { @TabIndex = 3 })
+                                                        @Html.RadioButtonFor(C => C.Regular, "NO", new { @TabIndex = 3 }) 
                                                         <label id="mt-radio">NO</label>
 
 
-                                                    </div><br />
+                                                    </div><br />   
                                     </div>
 
                                 </div>
@@ -782,6 +783,42 @@
                     "background": ""
                 });
             }
+
+            
+            if (document.getElementById("ddlPartyCategory").value == "" || document.getElementById("ddlPartyCategory").value == 0) {
+                isValid = false;
+                $(ddlPartyCategory).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Party Category");
+                return false;
+            }
+            else {
+                $(ddlPartyCategory).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlLedger").value == "" || document.getElementById("ddlLedger").value == 0) {
+                isValid = false;
+                $(ddlLedger).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Ledger Name");
+                return false;
+            }
+            else {
+                $(ddlLedger).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            
             if (document.getElementById("PartyGroup").value == "") {
                 isValid = false;
                 $(PartyGroup).css({
@@ -814,22 +851,7 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("ddlLedger").value == "") {
-                isValid = false;
-                $(ddlLedger).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Ledger");
-                return false;
-            }
-            else {
-                $(ddlLedger).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+            
             if (document.getElementById("RateCode").value == "") {
                 isValid = false;
                 $(RateCode).css({
@@ -837,7 +859,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter RateCode");
+                alert("Please Enter Rate Code");
                 return false;
             }
             else {

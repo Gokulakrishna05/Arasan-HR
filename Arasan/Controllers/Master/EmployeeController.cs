@@ -4,7 +4,7 @@ using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services.Master;
-using DocumentFormat.OpenXml.Bibliography;
+//using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -25,11 +25,15 @@ namespace Arasan.Controllers.Master
         public IActionResult Employee(string id)
         {
             Employee E = new Employee();
+
+            E.createby = Request.Cookies["UserId"];
             E.EMPDeptlst = BindEMPDept();
             E.EMPDesignlst = BindEMPDesign();
             E.Statelst = BindState();
             E.Citylst = BindCity("");
+
             E.Branch = Request.Cookies["BranchId"];
+
             //List<EduDeatils> TData = new List<EduDeatils>();60759
             //EduDeatils tda = new EduDeatils();
             if (id == null)
@@ -163,8 +167,8 @@ namespace Arasan.Controllers.Master
         public JsonResult GetStateJSON(string supid)
         {
             Employee model = new Employee();
-            model.Citylst = BindCity(supid);
-            return Json(BindCity(supid));
+            model.Citylst = BindCitySt(supid);
+            return Json(BindCitySt(supid));
 
         }
         public List<SelectListItem> BindLocation(string id)
@@ -309,7 +313,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATE"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATEMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -335,6 +339,23 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
+         public List<SelectListItem> BindCitySt(string id)
+        {
+            try
+            {
+                DataTable dtDesg = EmployeeService.GetCityst(id);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CITYNAME"].ToString(), Value = dtDesg.Rows[i]["CITYNAME"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public List<SelectListItem> BindEMPDept()
         {
@@ -344,7 +365,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DEPARTMENT_CODE"].ToString(), Value = dtDesg.Rows[i]["DEPARTMENT_CODE"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DEPARTMENT_NAME"].ToString(), Value = dtDesg.Rows[i]["DEPARTMENTMASTID"].ToString() });
                 }
                 return lstdesg;
             }
