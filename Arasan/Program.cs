@@ -18,6 +18,8 @@ using Arasan.Models;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Hosting;
 using Arasan.Interface.Account;
+using Arasan.Services.Report;
+using Arasan.Interface.Report;
 
 
 
@@ -192,6 +194,7 @@ internal class Program
         builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();
         builder.Services.TryAddSingleton<IAssetTransfer, AssetTransferService>();
         builder.Services.TryAddSingleton<ISalesTargetService, SalesTargetService>();
+        builder.Services.TryAddSingleton<IPurchaseReportService, PurchaseReportService>();
 
         builder.Services.TryAddSingleton<IIPO, ImportPOService>();
 
