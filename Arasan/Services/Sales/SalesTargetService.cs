@@ -128,11 +128,11 @@ namespace Arasan.Services.Sales
 
                 //if(cy.ID == null)
                 //{
-                //string selectedDate = DateTime.("dd-M-yyyy",cy.FDay);
-                //DateTime birthday = DateTime.ParseExact(selectedDate, "dd-M-yyyy", CultureInfo.InvariantCulture);
-                //int year = birthday.Year;
-                //int month = birthday.Month;
-                //int day = birthday.Day;
+                string selectedDate = cy.FDay;
+                DateTime birthday = DateTime.ParseExact(selectedDate, "dd-M-yyyy", CultureInfo.InvariantCulture);
+                int year = birthday.Year;
+                int month = birthday.Month;
+                int day = birthday.Day;
 
                 //string monthName = selectedDate;
                 //string year = selectedDate.ToString("YYYY");
