@@ -364,8 +364,10 @@ namespace Arasan.Services
                                     objCmdI.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = cy.GRNID;
                                     objCmdI.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = cy.GRNID;
                                     objCmdI.Parameters.Add("GRN_DATE", OracleDbType.Date).Value = DateTime.Parse(cy.GRNdate);
+
                                     objCmdI.Parameters.Add("REC_GOOD_QTY", OracleDbType.NVarchar2).Value = cp.ConvQty;
                                     objCmdI.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = cp.ConvQty;
+
                                     objCmdI.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
                                     objCmdI.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
                                     objCmdI.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
@@ -398,7 +400,7 @@ namespace Arasan.Services
                                         objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = Invid;
                                         objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "GRN";
                                         objCmdIn.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "I";
-                                        objCmdIn.Parameters.Add("TRANS_QTY", OracleDbType.NVarchar2).Value = cp.BillQty;
+                                        objCmdIn.Parameters.Add("TRANS_QTY", OracleDbType.NVarchar2).Value = cp.Goodqty;
                                         objCmdIn.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "GRN";
                                         objCmdIn.Parameters.Add("TRANS_DATE", OracleDbType.Date).Value = DateTime.Now;
                                         objCmdIn.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
