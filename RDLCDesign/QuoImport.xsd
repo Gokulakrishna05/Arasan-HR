@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="QuoImport" targetNamespace="http://tempuri.org/QuoImport.xsd" xmlns:mstns="http://tempuri.org/QuoImport.xsd" xmlns="http://tempuri.org/QuoImport.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection ConnectionStringObject="DATA SOURCE=192.168.0.13:1521/orcl;TNS_ADMIN=C:\Users\ac1\Oracle\network\admin;PASSWORD=Master_1234;PERSIST SECURITY INFO=True;USER ID=TAAIERP" IsAppSettingsProperty="false" Modifier="Assembly" Name="TAAIERP.orcl2" ParameterPrefix=":" Provider="Oracle.ManagedDataAccess.Client" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="IPURQUOTBASICTableAdapter" GeneratorDataComponentClassName="IPURQUOTBASICTableAdapter" Name="IPURQUOTBASIC" UserDataComponentName="IPURQUOTBASICTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="TAAIERP.orcl2" DbObjectName="TAAIERP.IPURQUOTBASIC" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT DOCID, DOCDATE, MAINCURRENCY FROM TAAIERP.IPURQUOTBASIC</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="DOCID" DataSetColumn="DOCID" />
+              <Mapping SourceColumn="DOCDATE" DataSetColumn="DOCDATE" />
+              <Mapping SourceColumn="MAINCURRENCY" DataSetColumn="MAINCURRENCY" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="IPURQUOTDETAILTableAdapter" GeneratorDataComponentClassName="IPURQUOTDETAILTableAdapter" Name="IPURQUOTDETAIL" UserDataComponentName="IPURQUOTDETAILTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="TAAIERP.orcl2" DbObjectName="TAAIERP.IPURQUOTDETAIL" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT ITEMID, UNIT, CF, QTY, PRIQTY, RATE FROM TAAIERP.IPURQUOTDETAIL</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="ITEMID" DataSetColumn="ITEMID" />
+              <Mapping SourceColumn="UNIT" DataSetColumn="UNIT" />
+              <Mapping SourceColumn="CF" DataSetColumn="CF" />
+              <Mapping SourceColumn="QTY" DataSetColumn="QTY" />
+              <Mapping SourceColumn="PRIQTY" DataSetColumn="PRIQTY" />
+              <Mapping SourceColumn="RATE" DataSetColumn="RATE" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="PARTYMASTTableAdapter" GeneratorDataComponentClassName="PARTYMASTTableAdapter" Name="PARTYMAST" UserDataComponentName="PARTYMASTTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="TAAIERP.orcl2" DbObjectName="TAAIERP.PARTYMAST" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <DeleteCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>DELETE FROM "TAAIERP"."PARTYMAST" WHERE (("PARTYMASTID" = :Original_PARTYMASTID) AND ((:IsNull_PARTYNAME = 1 AND "PARTYNAME" IS NULL) OR ("PARTYNAME" = :Original_PARTYNAME)) AND ((:IsNull_ADD1 = 1 AND "ADD1" IS NULL) OR ("ADD1" = :Original_ADD1)) AND ((:IsNull_ADD2 = 1 AND "ADD2" IS NULL) OR ("ADD2" = :Original_ADD2)) AND ((:IsNull_ADD3 = 1 AND "ADD3" IS NULL) OR ("ADD3" = :Original_ADD3)) AND ((:IsNull_STATE = 1 AND "STATE" IS NULL) OR ("STATE" = :Original_STATE)) AND ((:IsNull_GSTNO = 1 AND "GSTNO" IS NULL) OR ("GSTNO" = :Original_GSTNO)) AND ((:IsNull_SCODE = 1 AND "SCODE" IS NULL) OR ("SCODE" = :Original_SCODE)))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="Original_PARTYMASTID" Precision="0" ProviderType="Decimal" Scale="0" Size="22" SourceColumn="PARTYMASTID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_PARTYNAME" Precision="0" ProviderType="Int32" Scale="0" Size="50" SourceColumn="PARTYNAME" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_PARTYNAME" Precision="0" ProviderType="Varchar2" Scale="0" Size="50" SourceColumn="PARTYNAME" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_ADD1" Precision="0" ProviderType="Int32" Scale="0" Size="50" SourceColumn="ADD1" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_ADD1" Precision="0" ProviderType="Varchar2" Scale="0" Size="50" SourceColumn="ADD1" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_ADD2" Precision="0" ProviderType="Int32" Scale="0" Size="50" SourceColumn="ADD2" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_ADD2" Precision="0" ProviderType="Varchar2" Scale="0" Size="50" SourceColumn="ADD2" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_ADD3" Precision="0" ProviderType="Int32" Scale="0" Size="50" SourceColumn="ADD3" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_ADD3" Precision="0" ProviderType="Varchar2" Scale="0" Size="50" SourceColumn="ADD3" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_STATE" Precision="0" ProviderType="Int32" Scale="0" Size="30" SourceColumn="STATE" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_STATE" Precision="0" ProviderType="Varchar2" Scale="0" Size="30" SourceColumn="STATE" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_GSTNO" Precision="0" ProviderType="Int32" Scale="0" Size="15" SourceColumn="GSTNO" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_GSTNO" Precision="0" ProviderType="Varchar2" Scale="0" Size="15" SourceColumn="GSTNO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_SCODE" Precision="0" ProviderType="Int32" Scale="0" Size="25" SourceColumn="SCODE" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_SCODE" Precision="0" ProviderType="Varchar2" Scale="0" Size="25" SourceColumn="SCODE" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </DeleteCommand>
+                <InsertCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>INSERT INTO "TAAIERP"."PARTYMAST" ("PARTYMASTID", "PARTYNAME", "ADD1", "ADD2", "ADD3", "STATE", "GSTNO", "SCODE") VALUES (:PARTYMASTID, :PARTYNAME, :ADD1, :ADD2, :ADD3, :STATE, :GSTNO, :SCODE)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="PARTYMASTID" Precision="0" ProviderType="Decimal" Scale="0" Size="22" SourceColumn="PARTYMASTID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="PARTYNAME" Precision="0" ProviderType="Varchar2" Scale="0" Size="50" SourceColumn="PARTYNAME" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="ADD1" Precision="0" ProviderType="Varchar2" Scale="0" Size="50" SourceColumn="ADD1" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="ADD2" Precision="0" ProviderType="Varchar2" Scale="0" Size="50" SourceColumn="ADD2" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="ADD3" Precision="0" ProviderType="Varchar2" Scale="0" Size="50" SourceColumn="ADD3" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="STATE" Precision="0" ProviderType="Varchar2" Scale="0" Size="30" SourceColumn="STATE" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="GSTNO" Precision="0" ProviderType="Varchar2" Scale="0" Size="15" SourceColumn="GSTNO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="SCODE" Precision="0" ProviderType="Varchar2" Scale="0" Size="25" SourceColumn="SCODE" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </InsertCommand>
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT PARTYMASTID, PARTYNAME, ADD1, ADD2, ADD3, STATE, GSTNO, SCODE FROM TAAIERP.PARTYMAST</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+                <UpdateCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE "TAAIERP"."PARTYMAST" SET "PARTYMASTID" = :PARTYMASTID, "PARTYNAME" = :PARTYNAME, "ADD1" = :ADD1, "ADD2" = :ADD2, "ADD3" = :ADD3, "STATE" = :STATE, "GSTNO" = :GSTNO, "SCODE" = :SCODE WHERE (("PARTYMASTID" = :Original_PARTYMASTID) AND ((:IsNull_PARTYNAME = 1 AND "PARTYNAME" IS NULL) OR ("PARTYNAME" = :Original_PARTYNAME)) AND ((:IsNull_ADD1 = 1 AND "ADD1" IS NULL) OR ("ADD1" = :Original_ADD1)) AND ((:IsNull_ADD2 = 1 AND "ADD2" IS NULL) OR ("ADD2" = :Original_ADD2)) AND ((:IsNull_ADD3 = 1 AND "ADD3" IS NULL) OR ("ADD3" = :Original_ADD3)) AND ((:IsNull_STATE = 1 AND "STATE" IS NULL) OR ("STATE" = :Original_STATE)) AND ((:IsNull_GSTNO = 1 AND "GSTNO" IS NULL) OR ("GSTNO" = :Original_GSTNO)) AND ((:IsNull_SCODE = 1 AND "SCODE" IS NULL) OR ("SCODE" = :Original_SCODE)))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="PARTYMASTID" Precision="0" ProviderType="Decimal" Scale="0" Size="22" SourceColumn="PARTYMASTID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="PARTYNAME" Precision="0" ProviderType="Varchar2" Scale="0" Size="50" SourceColumn="PARTYNAME" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="ADD1" Precision="0" ProviderType="Varchar2" Scale="0" Size="50" SourceColumn="ADD1" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="ADD2" Precision="0" ProviderType="Varchar2" Scale="0" Size="50" SourceColumn="ADD2" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="ADD3" Precision="0" ProviderType="Varchar2" Scale="0" Size="50" SourceColumn="ADD3" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="STATE" Precision="0" ProviderType="Varchar2" Scale="0" Size="30" SourceColumn="STATE" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="GSTNO" Precision="0" ProviderType="Varchar2" Scale="0" Size="15" SourceColumn="GSTNO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="SCODE" Precision="0" ProviderType="Varchar2" Scale="0" Size="25" SourceColumn="SCODE" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="Original_PARTYMASTID" Precision="0" ProviderType="Decimal" Scale="0" Size="22" SourceColumn="PARTYMASTID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_PARTYNAME" Precision="0" ProviderType="Int32" Scale="0" Size="50" SourceColumn="PARTYNAME" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_PARTYNAME" Precision="0" ProviderType="Varchar2" Scale="0" Size="50" SourceColumn="PARTYNAME" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_ADD1" Precision="0" ProviderType="Int32" Scale="0" Size="50" SourceColumn="ADD1" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_ADD1" Precision="0" ProviderType="Varchar2" Scale="0" Size="50" SourceColumn="ADD1" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_ADD2" Precision="0" ProviderType="Int32" Scale="0" Size="50" SourceColumn="ADD2" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_ADD2" Precision="0" ProviderType="Varchar2" Scale="0" Size="50" SourceColumn="ADD2" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_ADD3" Precision="0" ProviderType="Int32" Scale="0" Size="50" SourceColumn="ADD3" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_ADD3" Precision="0" ProviderType="Varchar2" Scale="0" Size="50" SourceColumn="ADD3" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_STATE" Precision="0" ProviderType="Int32" Scale="0" Size="30" SourceColumn="STATE" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_STATE" Precision="0" ProviderType="Varchar2" Scale="0" Size="30" SourceColumn="STATE" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_GSTNO" Precision="0" ProviderType="Int32" Scale="0" Size="15" SourceColumn="GSTNO" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_GSTNO" Precision="0" ProviderType="Varchar2" Scale="0" Size="15" SourceColumn="GSTNO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_SCODE" Precision="0" ProviderType="Int32" Scale="0" Size="25" SourceColumn="SCODE" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_SCODE" Precision="0" ProviderType="Varchar2" Scale="0" Size="25" SourceColumn="SCODE" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </UpdateCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="PARTYMASTID" DataSetColumn="PARTYMASTID" />
+              <Mapping SourceColumn="PARTYNAME" DataSetColumn="PARTYNAME" />
+              <Mapping SourceColumn="ADD1" DataSetColumn="ADD1" />
+              <Mapping SourceColumn="ADD2" DataSetColumn="ADD2" />
+              <Mapping SourceColumn="ADD3" DataSetColumn="ADD3" />
+              <Mapping SourceColumn="STATE" DataSetColumn="STATE" />
+              <Mapping SourceColumn="GSTNO" DataSetColumn="GSTNO" />
+              <Mapping SourceColumn="SCODE" DataSetColumn="SCODE" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ImportQuoTableAdapter" GeneratorDataComponentClassName="ImportQuoTableAdapter" Name="ImportQuo" UserDataComponentName="ImportQuoTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="TAAIERP.orcl2" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        TAAIERP.IPURQUOTBASIC.DOCID, TAAIERP.IPURQUOTBASIC.DOCDATE, TAAIERP.IPURQUOTBASIC.ENQNO, TAAIERP.IPURQUOTBASIC.ENQDATE, TAAIERP.IPURQUOTDETAIL.ITEMID, TAAIERP.IPURQUOTDETAIL.UNIT, 
+                         TAAIERP.IPURQUOTDETAIL.CF, TAAIERP.IPURQUOTDETAIL.QTY, TAAIERP.IPURQUOTDETAIL.RATE, TAAIERP.IPURQUOTDETAIL.PRIQTY, TAAIERP.IPURQUOTDETAIL.ITEMDESC, TAAIERP.PARTYMAST.PARTYNAME, 
+                         TAAIERP.PARTYMAST.PARTYID, TAAIERP.PARTYMAST.ADD1, TAAIERP.PARTYMAST.ADD2, TAAIERP.PARTYMAST.ADD3, TAAIERP.PARTYMAST.STATE, TAAIERP.PARTYMAST.GSTNO
+FROM            TAAIERP.IPURQUOTBASIC INNER JOIN
+                         TAAIERP.IPURQUOTDETAIL ON TAAIERP.IPURQUOTBASIC.IPURQUOTBASICID = TAAIERP.IPURQUOTDETAIL.IPURQUOTBASICID, TAAIERP.PARTYMAST</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="DOCID" DataSetColumn="DOCID" />
+              <Mapping SourceColumn="DOCDATE" DataSetColumn="DOCDATE" />
+              <Mapping SourceColumn="ENQNO" DataSetColumn="ENQNO" />
+              <Mapping SourceColumn="ENQDATE" DataSetColumn="ENQDATE" />
+              <Mapping SourceColumn="ITEMID" DataSetColumn="ITEMID" />
+              <Mapping SourceColumn="UNIT" DataSetColumn="UNIT" />
+              <Mapping SourceColumn="CF" DataSetColumn="CF" />
+              <Mapping SourceColumn="QTY" DataSetColumn="QTY" />
+              <Mapping SourceColumn="RATE" DataSetColumn="RATE" />
+              <Mapping SourceColumn="PRIQTY" DataSetColumn="PRIQTY" />
+              <Mapping SourceColumn="ITEMDESC" DataSetColumn="ITEMDESC" />
+              <Mapping SourceColumn="PARTYNAME" DataSetColumn="PARTYNAME" />
+              <Mapping SourceColumn="PARTYID" DataSetColumn="PARTYID" />
+              <Mapping SourceColumn="ADD1" DataSetColumn="ADD1" />
+              <Mapping SourceColumn="ADD2" DataSetColumn="ADD2" />
+              <Mapping SourceColumn="ADD3" DataSetColumn="ADD3" />
+              <Mapping SourceColumn="STATE" DataSetColumn="STATE" />
+              <Mapping SourceColumn="GSTNO" DataSetColumn="GSTNO" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="QuoImport" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="QuoImport" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="QuoImport">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="IPURQUOTBASIC" msprop:Generator_RowClassName="IPURQUOTBASICRow" msprop:Generator_RowEvHandlerName="IPURQUOTBASICRowChangeEventHandler" msprop:Generator_RowDeletedName="IPURQUOTBASICRowDeleted" msprop:Generator_RowDeletingName="IPURQUOTBASICRowDeleting" msprop:Generator_RowEvArgName="IPURQUOTBASICRowChangeEvent" msprop:Generator_TablePropName="IPURQUOTBASIC" msprop:Generator_RowChangedName="IPURQUOTBASICRowChanged" msprop:Generator_UserTableName="IPURQUOTBASIC" msprop:Generator_RowChangingName="IPURQUOTBASICRowChanging" msprop:Generator_TableClassName="IPURQUOTBASICDataTable" msprop:Generator_TableVarName="tableIPURQUOTBASIC">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DOCID" msprop:Generator_UserColumnName="DOCID" msprop:Generator_ColumnPropNameInTable="DOCIDColumn" msprop:Generator_ColumnPropNameInRow="DOCID" msprop:Generator_ColumnVarNameInTable="columnDOCID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DOCDATE" msprop:Generator_UserColumnName="DOCDATE" msprop:Generator_ColumnPropNameInTable="DOCDATEColumn" msprop:Generator_ColumnPropNameInRow="DOCDATE" msprop:Generator_ColumnVarNameInTable="columnDOCDATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="MAINCURRENCY" msprop:Generator_UserColumnName="MAINCURRENCY" msprop:Generator_ColumnPropNameInTable="MAINCURRENCYColumn" msprop:Generator_ColumnPropNameInRow="MAINCURRENCY" msprop:Generator_ColumnVarNameInTable="columnMAINCURRENCY" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="IPURQUOTDETAIL" msprop:Generator_RowClassName="IPURQUOTDETAILRow" msprop:Generator_RowEvHandlerName="IPURQUOTDETAILRowChangeEventHandler" msprop:Generator_RowDeletedName="IPURQUOTDETAILRowDeleted" msprop:Generator_RowDeletingName="IPURQUOTDETAILRowDeleting" msprop:Generator_RowEvArgName="IPURQUOTDETAILRowChangeEvent" msprop:Generator_TablePropName="IPURQUOTDETAIL" msprop:Generator_RowChangedName="IPURQUOTDETAILRowChanged" msprop:Generator_UserTableName="IPURQUOTDETAIL" msprop:Generator_RowChangingName="IPURQUOTDETAILRowChanging" msprop:Generator_TableClassName="IPURQUOTDETAILDataTable" msprop:Generator_TableVarName="tableIPURQUOTDETAIL">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ITEMID" msprop:Generator_UserColumnName="ITEMID" msprop:Generator_ColumnPropNameInTable="ITEMIDColumn" msprop:Generator_ColumnPropNameInRow="ITEMID" msprop:Generator_ColumnVarNameInTable="columnITEMID" type="xs:decimal" minOccurs="0" />
+              <xs:element name="UNIT" msprop:Generator_UserColumnName="UNIT" msprop:Generator_ColumnPropNameInTable="UNITColumn" msprop:Generator_ColumnPropNameInRow="UNIT" msprop:Generator_ColumnVarNameInTable="columnUNIT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CF" msprop:Generator_UserColumnName="CF" msprop:Generator_ColumnPropNameInTable="CFColumn" msprop:Generator_ColumnPropNameInRow="CF" msprop:Generator_ColumnVarNameInTable="columnCF" type="xs:double" minOccurs="0" />
+              <xs:element name="QTY" msprop:Generator_UserColumnName="QTY" msprop:Generator_ColumnPropNameInTable="QTYColumn" msprop:Generator_ColumnPropNameInRow="QTY" msprop:Generator_ColumnVarNameInTable="columnQTY" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PRIQTY" msprop:Generator_UserColumnName="PRIQTY" msprop:Generator_ColumnPropNameInTable="PRIQTYColumn" msprop:Generator_ColumnPropNameInRow="PRIQTY" msprop:Generator_ColumnVarNameInTable="columnPRIQTY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="RATE" msprop:Generator_UserColumnName="RATE" msprop:Generator_ColumnPropNameInTable="RATEColumn" msprop:Generator_ColumnPropNameInRow="RATE" msprop:Generator_ColumnVarNameInTable="columnRATE" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="PARTYMAST" msprop:Generator_RowClassName="PARTYMASTRow" msprop:Generator_RowEvHandlerName="PARTYMASTRowChangeEventHandler" msprop:Generator_RowDeletedName="PARTYMASTRowDeleted" msprop:Generator_RowDeletingName="PARTYMASTRowDeleting" msprop:Generator_RowEvArgName="PARTYMASTRowChangeEvent" msprop:Generator_TablePropName="PARTYMAST" msprop:Generator_RowChangedName="PARTYMASTRowChanged" msprop:Generator_UserTableName="PARTYMAST" msprop:Generator_RowChangingName="PARTYMASTRowChanging" msprop:Generator_TableClassName="PARTYMASTDataTable" msprop:Generator_TableVarName="tablePARTYMAST">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PARTYMASTID" msprop:Generator_UserColumnName="PARTYMASTID" msprop:Generator_ColumnPropNameInTable="PARTYMASTIDColumn" msprop:Generator_ColumnPropNameInRow="PARTYMASTID" msprop:Generator_ColumnVarNameInTable="columnPARTYMASTID" type="xs:decimal" />
+              <xs:element name="PARTYNAME" msprop:Generator_UserColumnName="PARTYNAME" msprop:Generator_ColumnPropNameInTable="PARTYNAMEColumn" msprop:Generator_ColumnPropNameInRow="PARTYNAME" msprop:Generator_ColumnVarNameInTable="columnPARTYNAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ADD1" msprop:Generator_UserColumnName="ADD1" msprop:Generator_ColumnPropNameInTable="ADD1Column" msprop:Generator_ColumnPropNameInRow="ADD1" msprop:Generator_ColumnVarNameInTable="columnADD1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ADD2" msprop:Generator_UserColumnName="ADD2" msprop:Generator_ColumnPropNameInTable="ADD2Column" msprop:Generator_ColumnPropNameInRow="ADD2" msprop:Generator_ColumnVarNameInTable="columnADD2" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ADD3" msprop:Generator_UserColumnName="ADD3" msprop:Generator_ColumnPropNameInTable="ADD3Column" msprop:Generator_ColumnPropNameInRow="ADD3" msprop:Generator_ColumnVarNameInTable="columnADD3" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="STATE" msprop:Generator_UserColumnName="STATE" msprop:Generator_ColumnPropNameInTable="STATEColumn" msprop:Generator_ColumnPropNameInRow="STATE" msprop:Generator_ColumnVarNameInTable="columnSTATE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="GSTNO" msprop:Generator_UserColumnName="GSTNO" msprop:Generator_ColumnPropNameInTable="GSTNOColumn" msprop:Generator_ColumnPropNameInRow="GSTNO" msprop:Generator_ColumnVarNameInTable="columnGSTNO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SCODE" msprop:Generator_UserColumnName="SCODE" msprop:Generator_ColumnPropNameInTable="SCODEColumn" msprop:Generator_ColumnPropNameInRow="SCODE" msprop:Generator_ColumnVarNameInTable="columnSCODE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ImportQuo" msprop:Generator_RowEvHandlerName="ImportQuoRowChangeEventHandler" msprop:Generator_RowDeletedName="ImportQuoRowDeleted" msprop:Generator_RowDeletingName="ImportQuoRowDeleting" msprop:Generator_RowEvArgName="ImportQuoRowChangeEvent" msprop:Generator_TablePropName="ImportQuo" msprop:Generator_RowChangedName="ImportQuoRowChanged" msprop:Generator_RowChangingName="ImportQuoRowChanging" msprop:Generator_TableClassName="ImportQuoDataTable" msprop:Generator_RowClassName="ImportQuoRow" msprop:Generator_TableVarName="tableImportQuo" msprop:Generator_UserTableName="ImportQuo">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DOCID" msprop:Generator_ColumnPropNameInRow="DOCID" msprop:Generator_ColumnPropNameInTable="DOCIDColumn" msprop:Generator_ColumnVarNameInTable="columnDOCID" msprop:Generator_UserColumnName="DOCID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DOCDATE" msprop:Generator_ColumnPropNameInRow="DOCDATE" msprop:Generator_ColumnPropNameInTable="DOCDATEColumn" msprop:Generator_ColumnVarNameInTable="columnDOCDATE" msprop:Generator_UserColumnName="DOCDATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ENQNO" msprop:Generator_ColumnPropNameInRow="ENQNO" msprop:Generator_ColumnPropNameInTable="ENQNOColumn" msprop:Generator_ColumnVarNameInTable="columnENQNO" msprop:Generator_UserColumnName="ENQNO" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ENQDATE" msprop:Generator_ColumnPropNameInRow="ENQDATE" msprop:Generator_ColumnPropNameInTable="ENQDATEColumn" msprop:Generator_ColumnVarNameInTable="columnENQDATE" msprop:Generator_UserColumnName="ENQDATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ITEMID" msprop:Generator_ColumnPropNameInRow="ITEMID" msprop:Generator_ColumnPropNameInTable="ITEMIDColumn" msprop:Generator_ColumnVarNameInTable="columnITEMID" msprop:Generator_UserColumnName="ITEMID" type="xs:decimal" minOccurs="0" />
+              <xs:element name="UNIT" msprop:Generator_ColumnPropNameInRow="UNIT" msprop:Generator_ColumnPropNameInTable="UNITColumn" msprop:Generator_ColumnVarNameInTable="columnUNIT" msprop:Generator_UserColumnName="UNIT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CF" msprop:Generator_ColumnPropNameInRow="CF" msprop:Generator_ColumnPropNameInTable="CFColumn" msprop:Generator_ColumnVarNameInTable="columnCF" msprop:Generator_UserColumnName="CF" type="xs:double" minOccurs="0" />
+              <xs:element name="QTY" msprop:Generator_ColumnPropNameInRow="QTY" msprop:Generator_ColumnPropNameInTable="QTYColumn" msprop:Generator_ColumnVarNameInTable="columnQTY" msprop:Generator_UserColumnName="QTY" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="RATE" msprop:Generator_ColumnPropNameInRow="RATE" msprop:Generator_ColumnPropNameInTable="RATEColumn" msprop:Generator_ColumnVarNameInTable="columnRATE" msprop:Generator_UserColumnName="RATE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PRIQTY" msprop:Generator_ColumnPropNameInRow="PRIQTY" msprop:Generator_ColumnPropNameInTable="PRIQTYColumn" msprop:Generator_ColumnVarNameInTable="columnPRIQTY" msprop:Generator_UserColumnName="PRIQTY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ITEMDESC" msprop:Generator_ColumnPropNameInRow="ITEMDESC" msprop:Generator_ColumnPropNameInTable="ITEMDESCColumn" msprop:Generator_ColumnVarNameInTable="columnITEMDESC" msprop:Generator_UserColumnName="ITEMDESC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="80" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PARTYNAME" msprop:Generator_ColumnPropNameInRow="PARTYNAME" msprop:Generator_ColumnPropNameInTable="PARTYNAMEColumn" msprop:Generator_ColumnVarNameInTable="columnPARTYNAME" msprop:Generator_UserColumnName="PARTYNAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PARTYID" msprop:Generator_ColumnPropNameInRow="PARTYID" msprop:Generator_ColumnPropNameInTable="PARTYIDColumn" msprop:Generator_ColumnVarNameInTable="columnPARTYID" msprop:Generator_UserColumnName="PARTYID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ADD1" msprop:Generator_ColumnPropNameInRow="ADD1" msprop:Generator_ColumnPropNameInTable="ADD1Column" msprop:Generator_ColumnVarNameInTable="columnADD1" msprop:Generator_UserColumnName="ADD1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ADD2" msprop:Generator_ColumnPropNameInRow="ADD2" msprop:Generator_ColumnPropNameInTable="ADD2Column" msprop:Generator_ColumnVarNameInTable="columnADD2" msprop:Generator_UserColumnName="ADD2" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ADD3" msprop:Generator_ColumnPropNameInRow="ADD3" msprop:Generator_ColumnPropNameInTable="ADD3Column" msprop:Generator_ColumnVarNameInTable="columnADD3" msprop:Generator_UserColumnName="ADD3" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="STATE" msprop:Generator_ColumnPropNameInRow="STATE" msprop:Generator_ColumnPropNameInTable="STATEColumn" msprop:Generator_ColumnVarNameInTable="columnSTATE" msprop:Generator_UserColumnName="STATE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="GSTNO" msprop:Generator_ColumnPropNameInRow="GSTNO" msprop:Generator_ColumnPropNameInTable="GSTNOColumn" msprop:Generator_ColumnVarNameInTable="columnGSTNO" msprop:Generator_UserColumnName="GSTNO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MOBILE" msprop:Generator_ColumnPropNameInRow="MOBILE" msprop:Generator_ColumnPropNameInTable="MOBILEColumn" msprop:Generator_ColumnVarNameInTable="columnMOBILE" msprop:Generator_UserColumnName="MOBILE" type="xs:string" minOccurs="0" />
+              <xs:element name="CITY" msprop:Generator_ColumnPropNameInRow="CITY" msprop:Generator_ColumnPropNameInTable="CITYColumn" msprop:Generator_ColumnVarNameInTable="columnCITY" msprop:Generator_UserColumnName="CITY" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:PARTYMAST" />
+      <xs:field xpath="mstns:PARTYMASTID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

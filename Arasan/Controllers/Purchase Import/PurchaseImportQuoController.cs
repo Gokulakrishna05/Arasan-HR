@@ -162,7 +162,7 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
 
                 MailRow = "<a href=SendMail?tag=Del&id=" + dtUsers.Rows[i]["IPURQUOTBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
-                FollowUp = "<a href=Followup?id=" + dtUsers.Rows[i]["IPURQUOTBASICID"].ToString() + "><img src='../Images/followup.png' /></a>";
+                FollowUp = "<a href=FollowupImport?id=" + dtUsers.Rows[i]["IPURQUOTBASICID"].ToString() + "><img src='../Images/followup.png' /></a>";
                 //if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "N")
                 //{
 
@@ -187,7 +187,7 @@ namespace Arasan.Controllers
                 Pdf = "<a href=Print?id=" + dtUsers.Rows[i]["IPURQUOTBASICID"].ToString() + "><img src='../Images/pdficon.png' width='20' alt='Deactivate' target='_blank' /></a>";
 
                 //Pdf = "<a href=Print?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "<img src='../Images/pdficon.png' width='30' /></a>";
-                View = "<a href=ViewPurQuote?id=" + dtUsers.Rows[i]["IPURQUOTBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                View = "<a href=ViewImportPurQuote?id=" + dtUsers.Rows[i]["IPURQUOTBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 //EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["IPURQUOTBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
@@ -343,7 +343,7 @@ namespace Arasan.Controllers
             return View(ca);
         }
 
-        public IActionResult ViewPurQuote(string id)
+        public IActionResult ViewImportPurQuote(string id)
         {
             PurchaseImportQuo ca = new PurchaseImportQuo();
             DataTable dt = new DataTable();
@@ -583,9 +583,9 @@ namespace Arasan.Controllers
         //    //model.ItemGrouplst = BindItemGrplst(value);
         //    return Json(BindItemGrplst());
         //}
-        public IActionResult Followup(string id)
+        public IActionResult FollowupImport(string id)
         {
-            QuoFollowup cmp = new QuoFollowup();
+            QuoImportFollowup cmp = new QuoImportFollowup();
             cmp.EnqassignList = BindEmployee();
             List<QuotationFollowupDetails> TData = new List<QuotationFollowupDetails>();
             if (id == null)
@@ -632,7 +632,7 @@ namespace Arasan.Controllers
         }
 
       [HttpPost]
-        public ActionResult Followup(QuoFollowup Pf, string id)
+        public ActionResult Followup(QuoImportFollowup Pf, string id)
         {
 
             try
@@ -681,7 +681,7 @@ namespace Arasan.Controllers
             string mimtype = "";
             int extension = 1;
             DataSet ds = new DataSet();
-            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\QuotationReport.rdlc";
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\QuotationImportReport.rdlc";
             Dictionary<string, string> Parameters = new Dictionary<string, string>();
             //  Parameters.Add("rp1", " Hi Everyone");
             var PQuoitem = await PurquoService.GetPQuoItem(id);
@@ -695,7 +695,7 @@ namespace Arasan.Controllers
             //ds.Tables.AddRange(new DataTable[] { dt, dt2 });
             //ReportDataSource rds = new AspNetCore.Reporting.ReportDataSource("DataSet_Reservaties", ds.Tables[0]);
             LocalReport localReport = new LocalReport(path);
-            localReport.AddDataSource("PurchaseQuotation", PQuoitem);
+            localReport.AddDataSource("DataSet1", PQuoitem);
             //localReport.AddDataSource("DataSet1_DataTable1", po);
             var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
             return File(result.MainStream, "application/Pdf");

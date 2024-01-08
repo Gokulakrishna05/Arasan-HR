@@ -127,9 +127,7 @@ namespace Arasan.Controllers
                 }
                 ca.Net = Math.Round(total, 2);
 
-                //}
-
-               
+                
             }
             ca.EnqLst = TData;
             return View(ca);
@@ -137,7 +135,7 @@ namespace Arasan.Controllers
         }
         public IActionResult ViewEnq(string id)
         {
-            PurchaseQuo ca = new PurchaseQuo();
+            PurchaseImportQuo ca = new PurchaseImportQuo();
             DataTable dt = new DataTable();
             DataTable dtt = new DataTable();
             dt = PurenqService.GetPurchaseEnqByID(id);
@@ -152,15 +150,15 @@ namespace Arasan.Controllers
                 ca.Recid = Request.Cookies["UserId"];
                 ca.ID = id;
             }
-            List<QoItem> Data = new List<QoItem>();
-            QoItem tda = new QoItem();
+            List<ImportQoItem> Data = new List<ImportQoItem>();
+            ImportQoItem tda = new ImportQoItem();
             double tot = 0;
             dtt = PurenqService.GetPurchaseEnqItemDetails(id);
             if (dtt.Rows.Count > 0)
             {
                 for (int i = 0; i < dtt.Rows.Count; i++)
                 {
-                    tda = new QoItem();
+                    tda = new ImportQoItem();
                     tda.ItemId = dtt.Rows[i]["ITEMNAME"].ToString();
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
@@ -175,9 +173,9 @@ namespace Arasan.Controllers
             return View(ca);
         }
 
-        public IActionResult ViewPurEnq(string id)
+        public IActionResult ViewImportPurEnq(string id)
         {
-            PurchaseQuo ca = new PurchaseQuo();
+            PurchaseImportQuo ca = new PurchaseImportQuo();
             DataTable dt = new DataTable();
             DataTable dtt = new DataTable();
             dt = PurenqService.GetPurchaseEnq(id);
@@ -191,15 +189,15 @@ namespace Arasan.Controllers
                 ca.EnqDate = dt.Rows[0]["ENQDATE"].ToString();
                 ca.ID = id;
             }
-            List<QoItem> Data = new List<QoItem>();
-            QoItem tda = new QoItem();
+            List<ImportQoItem> Data = new List<ImportQoItem>();
+            ImportQoItem tda = new ImportQoItem();
             double tot = 0;
             dtt = PurenqService.GetPurchaseEnqItem(id);
             if (dtt.Rows.Count > 0)
             {
                 for (int i = 0; i < dtt.Rows.Count; i++)
                 {
-                    tda = new QoItem();
+                    tda = new ImportQoItem();
                     tda.ItemId = dtt.Rows[i]["ITEMNAME"].ToString();
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
@@ -218,7 +216,7 @@ namespace Arasan.Controllers
             IEnumerable<ImportEnqItem> cmp = PurenqService.GetAllPurenquriyItem(id);
             return View(cmp);
         }
-        public IActionResult Regenerate(string id)
+        public IActionResult RegenerateImport(string id)
         {
             PurchaseImportEnq ca = new PurchaseImportEnq();
             ca.Brlst = BindBranch();
@@ -443,7 +441,7 @@ namespace Arasan.Controllers
         }
 
         [HttpPost]
-        public ActionResult ViewEnq(PurchaseQuo Cy, string id)
+        public ActionResult ViewEnq(PurchaseImportQuo Cy, string id)
         {
             try
             {
@@ -476,7 +474,7 @@ namespace Arasan.Controllers
                 throw ex;
             }
 
-            return RedirectToAction("ListPurchaseQuo");
+            return RedirectToAction("ListPurchaseImportQuo");
         }
         public IActionResult ListPurchaseImportEnq()
         {
@@ -500,7 +498,7 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
 
                 MailRow = "<a href=SendMail?tag=Del&id=" + dtUsers.Rows[i]["IPURENQBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
-                FollowUp = "<a href=Followup?id=" + dtUsers.Rows[i]["IPURENQBASICID"].ToString() + "><img src='../Images/followup.png' /></a>";
+                FollowUp = "<a href=FollowupImport?id=" + dtUsers.Rows[i]["IPURENQBASICID"].ToString() + "><img src='../Images/followup.png' /></a>";
                 //if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "N")
                 //{
 
@@ -521,8 +519,8 @@ namespace Arasan.Controllers
 
                 }
                 //}
-                Regenerate = "<a href=Regenerate?id=" + dtUsers.Rows[i]["IPURENQBASICID"].ToString() + "><img src='../Images/Change.png' alt='Edit' /></a>";
-                View = "<a href=ViewPurEnq?id=" + dtUsers.Rows[i]["IPURENQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                Regenerate = "<a href=RegenerateImport?id=" + dtUsers.Rows[i]["IPURENQBASICID"].ToString() + "><img src='../Images/Change.png' alt='Edit' /></a>";
+                View = "<a href=ViewImportPurEnq?id=" + dtUsers.Rows[i]["IPURENQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 //EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["IPURENQBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
@@ -730,7 +728,7 @@ namespace Arasan.Controllers
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindItemGrplst());
         }
-        public IActionResult Followup(string id)
+        public IActionResult FollowupImport(string id)
         {
             PurchaseImportFollowup cmp = new PurchaseImportFollowup();
             cmp.EnqassignList = BindEmpFolw();
