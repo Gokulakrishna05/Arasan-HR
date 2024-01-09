@@ -177,9 +177,8 @@ namespace Arasan.Controllers
                 }
                 else
                 {
-                    MoveToPO = "<a href=ViewQuote?id=" + dtUsers.Rows[i]["IPURQUOTBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                    MoveToPO = "<a href=ViewImportQuote?id=" + dtUsers.Rows[i]["IPURQUOTBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
                     EditRow = "<a href=PurchaseImportQuo?id=" + dtUsers.Rows[i]["IPURQUOTBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-
 
                    
                 }
@@ -304,7 +303,7 @@ namespace Arasan.Controllers
         {
             return View();
         }
-        public IActionResult ViewQuote(string id)
+        public IActionResult ViewImportQuote(string id)
         {
             PurchaseImportQuo ca = new PurchaseImportQuo();
             DataTable dt = new DataTable();

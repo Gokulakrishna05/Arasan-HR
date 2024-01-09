@@ -181,7 +181,6 @@
    </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Master\NewFolder\NewFolder\" />
     <Folder Include="wwwroot\assets\js\vendor\editorsjs\" />
     <Folder Include="wwwroot\pdfdownload\" />
   </ItemGroup>
