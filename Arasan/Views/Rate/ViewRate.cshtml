@@ -1,0 +1,183 @@
+﻿@model Arasan.Models.Rate
+
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "Rate";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+</style>
+
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    @using (Html.BeginForm("ViewRate", "Rate", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                           
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Doc No<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.DocId)
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Docdate)
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Rate Code<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Ratecode)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Rate Name<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.RateName)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Valid From<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.ValidFrom)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Valid To<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.ValidTo)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">UF<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.UF)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Rate Type<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.RateType)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="height:30px;"></div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="ibox float-e-margins">
+
+                                        <div class="ibox-content collapse in">
+                                            <div class="widgets-container">
+                                                <div>
+                                                    <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>RCode</th>
+                                                                <th>Item</th>
+                                                                <th>Unit</th>
+                                                                <th>Rate</th>
+                                                                <th>Valid From</th>
+                                                                <th>Valid To</th>
+                                                                <th>Rate Type</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            @{
+                                                                int i = 0;
+
+                                                                foreach (var item in Model.RATElist.ToList())
+                                                                {
+
+                                                                    <tr>
+                                                                        <td>@Html.DisplayFor(o => o.RATElist[i].RCode)</td>
+                                                                        <td>@Html.DisplayFor(o => o.RATElist[i].ItemId)</td>
+                                                                        <td>@Html.DisplayFor(o => o.RATElist[i].Unit)</td>
+                                                                        <td>@Html.DisplayFor(o => o.RATElist[i].rate)</td>
+                                                                        <td>@Html.DisplayFor(o => o.RATElist[i].Validfrom)</td>
+                                                                        <td>@Html.DisplayFor(o => o.RATElist[i].Validto)</td>
+                                                                        <td>@Html.DisplayFor(o => o.RATElist[i].Type)</td>
+
+                                                                    </tr>
+                                                                    i++;
+                                                                }
+                                                            }
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @* <div style="height:30px;"></div>
+                        <div class="col-lg-10"></div>
+                        <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListSalesTarget", "SalesTarget")'">Cancel</button>
+                        *@
+
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $(document).on('click', '.closeFancybox', function () {
+            $.fancybox.close();
+        })
+    })
+</script>
+
+
