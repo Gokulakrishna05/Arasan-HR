@@ -351,14 +351,16 @@
     });
     function PopulateDropDown(dropDownId, list) {
         //alert(list);
-        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        $(dropDownId).empty().append('');
+        var fvalue="";
         if (list != null && list.length > 0) {
             $(dropDownId).removeAttr("disabled");
             $.each(list, function () {
+                fvalue = this['value'];
                 $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
             });
         }
-        $(dropDownId).trigger("liszt:updated");
+        $(dropDownId).select2().val(fvalue).trigger("change");
     }
     function changeDcDeatils(ItemId) {
     @* $.ajax({
@@ -386,6 +388,7 @@
                     //alert(JSON.stringify(response));
                     newlist = response.Ilst;
                     PopulateDropDown("#ddlSupplier", response);
+
                 },
                 error: function () {
                     debugger;
