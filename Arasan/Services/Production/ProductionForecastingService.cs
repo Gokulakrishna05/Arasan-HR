@@ -308,6 +308,7 @@ ORDER BY ORD DESC";
                         {
                             itemid = rdr["ITEMID"].ToString(),
                             saveitemid = datatrans.GetDataString("SELECT   ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["ITEMID"].ToString() + "'"),
+                            
                             required = rdr["REQ"].ToString(),
                             minstock = rdr["MINSTK"].ToString(),
                             stock = rdr["stk"].ToString(),
@@ -316,16 +317,10 @@ ORDER BY ORD DESC";
                             additive = Additive,
                             additiveid = Additiveid,
                             per = Per,
-                           // itemid = rdr["ITEMID"].ToString(),
-                        //Branch = rdr["BRANCHID"].ToString(),
 
-                        //InvNo = rdr["DOCID"].ToString(),
+                        };
+                        cmp.pasterej = datatrans.GetDataString("Select Decode(sign(3-round(sum(rc/(oq+1)*100),2)),1,round(sum(rc/(oq+1)*100),2),3) rcper from (Select nvl(sum(oq),1) oq,nvl(sum(rc),1) rc from (Select 0 oq,Sum(B.OQTY) rc from FQTVEBAsic B,Itemmaster I Where B.DOCDATE between :QcStDt and '"+ Docdate + "' And B.Finalresult='NOT OK' and I.ITEMID=:PYItemid and B.RESULTTYPE='RECHARGE' And I.ITEMMASTERID=B.ITEMIDUnion AllSelect Sum(D.OQTY) Oq,0 From Nprodbasic B,Nprodoutdet D,Itemmaster I where I.ITEMMASTERID=D.OITEMID and B.NPRODBASICID=D.NPRODBASICID and B.DOCDATE between :QcStDt and '"+ Docdate + "' and I.ITEMID='" + cmp.saveitemid + "'))");
 
-                        //InvDate = rdr["DOCDATE"].ToString(),
-                        //Party = rdr["PARTYNAME"].ToString(),
-                        //Net = Convert.ToDouble(rdr["NET"].ToString()),
-
-                    };
                         cmpList.Add(cmp);
                     }
                 }
