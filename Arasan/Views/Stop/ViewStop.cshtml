@@ -1,0 +1,191 @@
+﻿@model Arasan.Models.Stop
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "Stop";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+
+    a {
+        outline: none;
+        text-decoration: none;
+        color: #000;
+    }
+
+        a:hover, a:active, a:focus {
+            outline: none;
+            text-decoration: none;
+            color: #000;
+        }
+
+    .container {
+        max-width: 960px;
+    }
+
+    .panel-default > .panel-heading {
+        color: #333;
+        background-color: #fff;
+        border-color: #e4e5e7;
+        padding: 0;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        .panel-default > .panel-heading a {
+            display: block;
+            padding: 10px 15px;
+        }
+
+            .panel-default > .panel-heading a:after {
+                content: "";
+                position: relative;
+                top: 1px;
+                display: inline-block;
+                /*    font-family: 'Glyphicons Halflings';*/
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                float: right;
+                transition: transform .25s linear;
+                -webkit-transition: -webkit-transform .25s linear;
+            }
+
+            .panel-default > .panel-heading a[aria-expanded="true"] {
+                background-color: #49B6D6;
+            }
+
+                .panel-default > .panel-heading a[aria-expanded="true"]:after {
+                    content: "\2212";
+                    -webkit-transform: rotate(180deg);
+                    transform: rotate(180deg);
+                }
+
+            .panel-default > .panel-heading a[aria-expanded="false"]:after {
+                content: "\002b";
+                -webkit-transform: rotate(90deg);
+                transform: rotate(90deg);
+            }
+
+    .accordion-option {
+        width: 100%;
+        float: left;
+        clear: both;
+        margin: 15px 0;
+    }
+
+        .accordion-option .title {
+            font-size: 20px;
+            font-weight: bold;
+            float: left;
+            padding: 0;
+            margin: 0;
+        }
+
+        .accordion-option .toggle-accordion {
+            float: right;
+            font-size: 16px;
+            color: #AAB7B8;
+        }
+
+            .accordion-option .toggle-accordion:before {
+                content: "Expand All";
+            }
+
+            .accordion-option .toggle-accordion.active:before {
+                content: "Collapse All";
+            }
+
+    .panel-title a {
+        background-color: #AAB7B8;
+    }
+
+    .panel-body table tr td {
+        padding: 5px;
+    }
+
+    .panel-body table {
+        /* font-size: 15px;*/
+        font-weight: normal;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong>Stop</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Stop</h5>
+                    <hr>
+
+                    <form>
+
+                        <div class="row">
+                            <div class="col-lg-3"></div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Stop ID<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.SID) @Html.HiddenFor(C => C.SID)<br>
+
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            </div>
+                            <br />
+                        <div class="row">
+                            <div class="col-lg-3"></div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Stop Desc<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.SDESC) @Html.HiddenFor(C => C.SDESC)<br>
+
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                    <div style="height:30px;"></div>
+                    @*<div class="col-lg-10"></div>*@
+
+                    <input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    
+    $(function(){
+    $(document).on('click','.closeFancybox',function(){
+            $.fancybox.close();
+    })
+})
+</script>

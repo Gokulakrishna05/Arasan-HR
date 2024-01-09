@@ -318,7 +318,7 @@ namespace Arasan.Controllers
                 ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                 ca.EnqNo = dt.Rows[0]["ENQNO"].ToString();
                 ca.EnqDate = dt.Rows[0]["ENQDATE"].ToString();
-                ca.ID= id;
+                ca.ID= id; 
             }
             List<QoItem> Data = new List<QoItem>();
             QoItem tda = new QoItem();
