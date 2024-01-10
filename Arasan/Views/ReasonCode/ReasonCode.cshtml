@@ -31,23 +31,14 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Process ID<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            <select class=" _select js-states form-control">
+                                           @Html.DropDownListFor(C => C.Process, Model.Proclst, new { @id = "ddlprocess", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
 
-                                                <option> </option>
-                                                <option value="CH">MAINTENANCE </option>
-                                                <option value="KA">DG-MIXING </option>
-                                                <option value="TAAI">PYRO-BLENDING</option>
-                                                <option value="TAAI">PASTE-BLENDING</option>
-                                                <option value="TAAI">POLISHING</option>
-                                                <option value="TAAI">ATOMISATION</option>
-
-                                            </select><br />
                                         </div>
                                     </div>
                                 </div>
 
 
-                                <div class="col-md-8">
+                               @* <div class="col-md-8">
                                     <div class="form-group">
 
                                         <label for="inputName3" class="col-sm-4 control-label">ModBy<label class="Mandatory"></label></label>
@@ -56,7 +47,7 @@
 
                                         </div>
                                     </div>
-                                </div>                                                                                  
+                                </div>          *@                                                                        
                             </div>
                                 <div style="height:30px;"></div>
                                 <div class="row">
@@ -84,7 +75,7 @@
                                                                 <th>Reason </th>
                                                                 <th>Type</th>
                                                                 <th> Description</th>
-                                                                <th> Group Id </th>
+                                                                <th> Stop Id </th>
 
                                                             </tr>
                                                         </thead>
@@ -110,8 +101,9 @@
                                                                 @Html.TextBoxFor(o => o.ReLst[i].Description, new { @id = "txtDescription" + i, @class = "form-control", style = "width: 130px;" })
                                                             </td>
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.ReLst[i].GroupId, new { @id = "txtGroupId" + i, @class = "form-control", style = "width: 130px;" })
-                                                            </td>
+                                                                @Html.DropDownListFor(o => o.ReLst[i].GroupId, Model.ReLst[i].Grouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlGroupId" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
+
+                                                                </td>
                                                             <td>
                                                                 @Html.HiddenFor(o => o.ReLst[i].Isvalid, new { @id = "Isvalid" + i })
                                                                 <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
@@ -157,7 +149,7 @@
         minView: 2,
         forceParse: 0
     });
-    $(".chosen-select").chosen();
+    @*$(".chosen-select").chosen();
     function removeRow(id) {
         var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
@@ -175,7 +167,31 @@
         else {
             alert("Cannot delete all the rows.")
         }
+    }*@
+
+
+        $(function () {
+            $('._select').select2();
+        });
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");  
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
     }
+
     function changeType(id) {
         $.ajax({
             url: "GetTypeJSON",
@@ -226,6 +242,7 @@
             alert("Cannot delete all the rows.")
         }
   }
+    $(".chosen-select").chosen();
   function PopulateDropDown(dropDownId, list) {
         //alert(list);
         $(dropDownId).empty().append();
@@ -237,18 +254,22 @@
         }
         $(dropDownId).trigger("liszt:updated");
   }
+    $(function () {
+        $('._select').select2();
+    });
 
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
         var Reason = "<td><input class='form-control' id='txtReason" + index + "' name='ReLst[" + index + "].Reason'  style='width: 130px;'  type='text'  /></td>";
 
-        var Category = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlCategory" + index + "' name='ReLst[" + index + "].Category' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var Category = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlCategory" + index + "' name='ReLst[" + index + "].Category' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
         var Description = "<td><input class='form-control' id='txtDescription" + index + "' name='ReLst[" + index + "].Description'  style='width: 130px;'  type='text'  /></td>";
 
-        var GroupId = "<td><input class='form-control' id='txtGroupId" + index + "' name='ReLst[" + index + "].GroupId'  style='width: 130px;'  type='text'  /></td>";
-        
+@*        var GroupId = "<td><input class='form-control' id='txtGroupId" + index + "' name='ReLst[" + index + "].GroupId'  style='width: 130px;'  type='text'  /></td>";
+            *@        var GroupId = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlGroupId" + index + "' name='ReLst[" + index + "].GroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+
         var removeCell = "<td><input id='Isvalid" + index + "' name='ReLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='ReLst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
@@ -256,9 +277,40 @@
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
-        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
     }
 
 
 </script>
 
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("ddlprocess").value == "") {
+                isValid = false;
+                $(ddlprocess).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Process ID");
+                return false;
+            }
+            else {
+                $(ddlprocess).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+
+</script>

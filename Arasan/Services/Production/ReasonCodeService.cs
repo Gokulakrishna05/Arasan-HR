@@ -19,38 +19,68 @@ namespace Arasan.Services.Production
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
 
-        public IEnumerable<ReasonCode> GetAllReasonCode()
-        {
-            List<ReasonCode> cmpList = new List<ReasonCode>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<ReasonCode> GetAllReasonCode()
+        //{
+        //    List<ReasonCode> cmpList = new List<ReasonCode>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = " Select MODBY,REASONBASICID from REASONBASIC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        ReasonCode cmp = new ReasonCode
-                        {
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = " Select MODBY,REASONBASICID from REASONBASIC";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                ReasonCode cmp = new ReasonCode
+        //                {
 
-                            ID = rdr["REASONBASICID"].ToString(),
-                            ModBy = rdr["MODBY"].ToString(),
+        //                    ID = rdr["REASONBASICID"].ToString(),
+        //                    ModBy = rdr["MODBY"].ToString(),
                            
 
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
 
         public DataTable GetReasonCode(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select MODBYO,REASONBASICID  from REASONBASIC where REASONBASICID=" + id + "";
+            SvSql = "select PROCESSID ,REASONBASICID from REASONBASIC  where REASONBASICID= '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetReasonItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select REASON,RTYPE,DESCRIPTION,STOPID from REASONDETAIL where REASONBASICID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable Getstop()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select STOPDESC,STOPMASTID from STOPMAST order by STOPMASTID desc";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable Getprocess()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PROCESSMASTID,PROCESSID from PROCESSMAST order by PROCESSMASTID desc";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -81,7 +111,8 @@ namespace Arasan.Services.Production
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
 
-                    objCmd.Parameters.Add("MODBY", OracleDbType.NVarchar2).Value = cy.ModBy;
+                    objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value ="Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 
@@ -91,6 +122,7 @@ namespace Arasan.Services.Production
                         objCmd.ExecuteNonQuery();
                         Object Pid = objCmd.Parameters["OUTID"].Value;
                         //string Pid = "0";
+
                         if (cy.ID != null)
                         {
                             Pid = cy.ID;
@@ -145,6 +177,72 @@ namespace Arasan.Services.Production
         }
 
 
-        
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE REASONBASIC SET IS_ACTIVE ='N' WHERE REASONBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+
+        public string RemoveChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE REASONBASIC SET IS_ACTIVE ='Y' WHERE REASONBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+        public DataTable GetAllReason(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "select PROCESSMAST.PROCESSID,REASONBASICID,IS_ACTIVE from REASONBASIC LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID = REASONBASIC.REASONBASICID  where REASONBASIC.IS_ACTIVE='Y' ORDER BY REASONBASICID DESC ";
+
+            }
+            else
+            {
+                SvSql = "select PROCESSMAST.PROCESSID,REASONBASICID,IS_ACTIVE from REASONBASIC LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID = REASONBASIC.REASONBASICID  where REASONBASIC.IS_ACTIVE='N' ORDER BY REASONBASICID DESC ";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
     }
 }

@@ -28,6 +28,7 @@ namespace Arasan.Controllers.Production
         {
             ReasonCode ca = new ReasonCode();
             ca.assignList = BindEmp();
+            ca.Proclst = BindProc();
             //ca.Categorylst = BindCategory();
             List<ReasonItem> TData = new List<ReasonItem>();
             ReasonItem tda = new ReasonItem();
@@ -37,6 +38,7 @@ namespace Arasan.Controllers.Production
                 {
                     tda = new ReasonItem();
                     tda.Categorylst = BindCategory();
+                    tda.Grouplst = BindGroup();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -48,10 +50,29 @@ namespace Arasan.Controllers.Production
                 dt = ReasonCodeService.GetReasonCode(id);
                 if (dt.Rows.Count > 0)
                 {
-                    ca.ModBy = dt.Rows[0]["MODBY"].ToString();
+                    ca.Process = dt.Rows[0]["PROCESSID"].ToString();
                     //ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
 
                     
+                }
+                DataTable dt2 = new DataTable();
+
+                dt2 = ReasonCodeService.GetReasonItem(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new ReasonItem();
+                        double toaamt = 0;
+                        tda.Grouplst = BindGroup();
+                        tda.Reason = dt2.Rows[i]["REASON"].ToString();
+                        tda.Category = dt2.Rows[i]["RTYPE"].ToString();
+                        tda.Description = dt2.Rows[i]["DESCRIPTION"].ToString();
+                        tda.GroupId = dt2.Rows[i]["STOPID"].ToString();
+
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
                 }
 
             }
@@ -127,11 +148,45 @@ namespace Arasan.Controllers.Production
             {
                 throw ex;
             }
+        } 
+        
+        public List<SelectListItem> BindProc()
+        {
+            try
+            {
+                DataTable dtDesg = ReasonCodeService.Getprocess();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PROCESSID"].ToString(), Value = dtDesg.Rows[i]["PROCESSMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        } 
+        public List<SelectListItem> BindGroup()
+        {
+            try
+            {
+                DataTable dtDesg = ReasonCodeService.Getstop();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STOPDESC"].ToString(), Value = dtDesg.Rows[i]["STOPMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public IActionResult ListReasonCode()
         {
-            IEnumerable<ReasonCode> cmp = ReasonCodeService.GetAllReasonCode();
-            return View(cmp);
+            return View();
         }
         public JsonResult GetItemJSON()
         {
@@ -146,5 +201,85 @@ namespace Arasan.Controllers.Production
         //    //  model.ItemGrouplst = BindItemGrplst(value);
         //    return Json(BindItemGrplst());
         //}
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = ReasonCodeService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListReasonCode");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListReasonCode");
+            }
+        }
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = ReasonCodeService.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListReasonCode");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListReasonCode");
+            }
+        }
+
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<Reasongrid> Reg = new List<Reasongrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = ReasonCodeService.GetAllReason(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+                
+               
+
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y") 
+                {
+
+                    //ViewRow = "<a href=viewStop?id=" + dtUsers.Rows[i]["STOPMASTID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
+                    EditRow = "<a href=ReasonCode?id=" + dtUsers.Rows[i]["REASONBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["REASONBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+
+                    //ViewRow = "";
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["REASONBASICID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
+
+                Reg.Add(new Reasongrid
+                {
+                    id = dtUsers.Rows[i]["REASONBASICID"].ToString(),
+                    process = dtUsers.Rows[i]["PROCESSID"].ToString(),
+                    //viewrow = ViewRow,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+
     }
 }
