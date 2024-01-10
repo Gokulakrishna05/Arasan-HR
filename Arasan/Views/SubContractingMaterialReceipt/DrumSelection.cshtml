@@ -425,7 +425,7 @@
 
         var end = "<td><input class='form-control' id='txtEnd" + index + "' name='drumlist[" + index + "].End'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 200px;' type='text'     /></td>";
 
-        var qty = "<td><input class='form-control' id='txtdrumqty" + index + "' name='drumlist[" + index + "].drumqty'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 200px; type='text' onkeyup = 'changeTot(this,"+ index+ ")'  /></td>";
+        var qty = "<td><input class='form-control' id='txtdrumqty" + index + "' name='drumlist[" + index + "].drumqty'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 200px; type='text'  /></td>";
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='drumlist[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='drumlist.Index' type='hidden' value='" + index + "'  /></td>";
 
