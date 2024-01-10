@@ -9,7 +9,10 @@ namespace Arasan.Interface.Store_Management
     {
         DataTable GetAllListSubContractingDCItems(string strStatus);
         string GetDrumStock(string itemId);
-        DataTable GetItem();
+        DataTable GetSupplier( );
+        DataTable GetLocation( );
+        DataTable GetPackItem( );
+        DataTable GetItem(string value);
         DataTable GetPartyDetails(string itemId);
         DataTable GetPartyItem(string itemId);
         DataTable GetItemDetails(string ItemId);
@@ -17,6 +20,7 @@ namespace Arasan.Interface.Store_Management
         string StatusChange(string tag, string id);
         string SubContractingDCCRUD(SubContractingDC ss);
         string ApproveSubContractingDCCRUD(SubContractingDC ss);
+        string PackMatSubConDCCRUD(SubContractingDC ss);
 
         DataTable GetItemCF(string ItemId, string unitid);
         DataTable GetSubContractingDCDeatils(string id);

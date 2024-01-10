@@ -1,6 +1,7 @@
 ﻿@model Arasan.Models.ImportPO
 
 @{
+    Layout = "_PopupLayout";
     ViewData["Title"] = "Index";
 }
 <partial name="JqxGridPartial" />
@@ -74,7 +75,7 @@
                 enablebrowserselection: true,
                 columns: [
                     //{ text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
-                    { text: 'DocNmae', filtertype: 'input', datafield: 'upload', width: 500 },
+                    { text: 'Doc Name', filtertype: 'input', datafield: 'upload', width: 500 },
                     
                 ]
             });

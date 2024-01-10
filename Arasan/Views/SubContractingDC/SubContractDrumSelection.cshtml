@@ -56,10 +56,11 @@
                                         <thead>
                                             <tr>
                                                 <th> @Html.CheckBoxFor(P => P.selectall, new { @id = "Selectallchk" , @onclick = "enableAllrepview();" })</th>
-                                                <th>BATCH NO</th>
-                                                <th>DRUM NO</th>
-                                                <th>QTY</th>
-                                                <th>RATE </th>
+                                                <th>Batch No</th>
+                                                <th>Drum No</th>
+                                                <th>Stock</th>
+                                                <th>Req Qty</th>
+                                                <th>Rate </th>
 
 
 
@@ -77,6 +78,15 @@
                                                         <td>@Html.DisplayFor(o => o.SUBDDrumlst[i].lotno)@Html.HiddenFor(o => o.SUBDDrumlst[i].lotno, new { @id = "lotno" + i })</td>
                                                         <td>@Html.DisplayFor(o => o.SUBDDrumlst[i].drumno)@Html.HiddenFor(o => o.SUBDDrumlst[i].drumno, new { @id = "drumno" + i })</td>
                                                         <td>@Html.DisplayFor(o => o.SUBDDrumlst[i].qty)@Html.HiddenFor(o => o.SUBDDrumlst[i].qty, new { @id = "qty" + i })</td>
+                                                        @if (item.drumno != null)
+                                                        {
+                                                            <td>@Html.TextBoxFor(o => o.SUBDDrumlst[i].reqqty,new{ @id = "reqqty" + i, @class = "form-control",@style = "width: 100px;",@readonly="readonly"})@Html.HiddenFor(o => o.SUBDDrumlst[i].reqqty, new { @id = "reqqty" + i })</td>
+                                                        }
+                                                        else
+                                                        {
+                                                             <td>@Html.TextBoxFor(o => o.SUBDDrumlst[i].reqqty,new{ @id = "reqqty" + i, @class = "form-control",@style = "width: 100px;"})@Html.HiddenFor(o => o.SUBDDrumlst[i].reqqty, new { @id = "reqqty" + i })</td>
+ 
+                                                        }
                                                         <td>@Html.DisplayFor(o => o.SUBDDrumlst[i].rate)@Html.HiddenFor(o => o.SUBDDrumlst[i].rate, new { @id = "rate" + i })</td>
                                                     </tr>
 
@@ -165,7 +175,7 @@
                     var drumno = document.getElementById('drumno' + j).value;
                         var lot = document.getElementById('lotno' + j).value;
                         var rate = document.getElementById('rate' + j).value;
-                    var qty = document.getElementById('qty' + j).value;
+                    var qty = document.getElementById('reqqty' + j).value;
                     ar1 += invid + ",";
                     ar2 += drumno + ",";
                         ar3 += lot + "#";

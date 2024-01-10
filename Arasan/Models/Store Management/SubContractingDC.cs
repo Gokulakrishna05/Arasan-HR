@@ -40,6 +40,7 @@ namespace Arasan.Models
 
         public List<SubContractingItem> SCDIlst { get; set; }
         public List<ReceiptDetailItem> RECDlst { get; set; }
+        public List<PackMatItem> packlst { get; set; }
 
     }
     public class SubContractDDDrumdetailstable
@@ -53,6 +54,7 @@ namespace Arasan.Models
         public string lotno { get; set; }
         public string drumno { get; set; }
         public string qty { get; set; }
+        public string reqqty { get; set; }
         public string stkid  { get; set; }
         public string rate { get; set; }
         public string amount { get; set; }
@@ -84,6 +86,31 @@ namespace Arasan.Models
        public string stock { get; set; }
        public string Lot { get; set; }
     }
+    public class PackMatItem
+    {
+        public string id { get; set; }
+        public string Isvalid { get; set; }
+
+        public List<SelectListItem> Itemlst { get; set; }
+        public string ItemId { get; set; }
+        public string item { get; set; }
+        public string Unit { get; set; }
+        public string detid { get; set; }
+        public string ConFac { get; set; }
+        public string Quantity { get; set; }
+        public string rate { get; set; }
+        public string Amount { get; set; }
+        public string saveItemId { get; set; }
+        public string group { get; set; }
+        public string Lotno { get; set; }
+        public string dqty { get; set; }
+        public string drate { get; set; }
+        public string DrumIds { get; set; }
+        public string invid { get; set; }
+        public string Drumsdesc { get; set; }
+        public string stock { get; set; }
+        public string Lot { get; set; }
+    }
     public class ReceiptDetailItem
     {
         public string id { get; set; }
@@ -109,6 +136,7 @@ namespace Arasan.Models
         public string tot { get; set; }
         public string view { get; set; }
         public string approve { get; set; }
+        public string pack { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
 

@@ -22,7 +22,7 @@
                     {
                         @Html.AntiForgeryToken()
                         <form>
-                            <div class="row">
+                     @*       <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Item<label class="Mandatory"></label></label>
@@ -73,7 +73,7 @@
                             </div>
 
                         
-                        </div>
+                        </div>*@
                             <div style="height:30px;"></div>
                              <div class="col-md-12">
                                 <div class="btn-group">
@@ -109,7 +109,7 @@
                                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                             <td>
-                                                                @Html.DropDownListFor(o => o.drumlst[i].drumno, Model.drumlst[i].drumlist, "Please Select", new { @class = "form-control _select newcss", @id = "ddldrumno" + i, style = "width: 200px;", onchange = "Item_Change(this.value," + i + ")" })
+                                                                @Html.DropDownListFor(o => o.drumlst[i].drumno, Model.drumlst[i].drumlist, "Please Select", new { @class = "form-control _select newcss", @id = "ddldrumno" + i, style = "width: 200px;" })
 </td>
                                                             <td>@Html.TextBoxFor(o => o.drumlst[i].qty, new { @id = "txtqty" + i, @class = "form-control", style = "width: 100px;" })  </td>
                                                             <td>@Html.TextBoxFor(o => o.drumlst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 100px;" })  </td>

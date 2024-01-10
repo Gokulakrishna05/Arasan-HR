@@ -110,6 +110,7 @@ namespace Arasan.Models
         public string itemid { get; set; }
         public string recqty { get; set; }
         public string qty { get; set; }
+        public string cf { get; set; }
         public string unit { get; set; }
         public string unitid { get; set; }
 
