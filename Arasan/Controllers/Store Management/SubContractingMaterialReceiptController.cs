@@ -694,7 +694,11 @@ namespace Arasan.Controllers.Store_Management
             pendingitem tda = new pendingitem();
             string coid = datatrans.GetDataString("Select SUBCONTEDETID from SUBMRDETAIL where SUBMRBASICID='" + id + "'");
 
-            dt = datatrans.GetData("Select ITEMMASTER.ITEMID,DCQTY,PENDQTY,RECQTY,SUBMRBASICID from SUBMRDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=SUBMRDETAIL.FGITEMID  where SUBCONTEDETID='" + coid + "'");
+            if(coid != "0")
+            {
+                dt = datatrans.GetData("Select ITEMMASTER.ITEMID,DCQTY,PENDQTY,RECQTY,SUBMRBASICID from SUBMRDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=SUBMRDETAIL.FGITEMID  where SUBCONTEDETID='" + coid + "'");
+            }
+           
 
             if (dt.Rows.Count > 0)
             {
