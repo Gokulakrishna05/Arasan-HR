@@ -221,9 +221,9 @@ namespace Arasan.Controllers
 
                 //}
                 //Download = "<a href=CreatePDF?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
-                Doc = "<a href=CollectDoc?id=" + dtUsers.Rows[i]["IPOBASICID"].ToString() + " ><img src='../Images/move_quote.png' alt='Edit' /></a>";
+                Doc = "<a href=CollectDoc?id=" + dtUsers.Rows[i]["IPOBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe' ><img src='../Images/Upload.png' width='20px' alt='Edit' /></a>";
 
-                EditRow = "<a href=importPO?id=" + dtUsers.Rows[i]["iPOBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                EditRow = "<a href=importPO?id=" + dtUsers.Rows[i]["IPOBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
  
                 View = "<a href=ViewPOrder?id=" + dtUsers.Rows[i]["IPOBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["IPOBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
@@ -830,7 +830,7 @@ namespace Arasan.Controllers
                 
 
 
-                Upload = "<a href='/" + dtUsers.Rows[i]["DOCNAME"].ToString() + "' target='_blank' title='Attachement'>" + dtUsers.Rows[i]["DOCNAME"].ToString() + "</a>";
+                Upload = "<a href='/" + dtUsers.Rows[i]["PATH"].ToString() + "' target='_blank' title='Attachement'>" + dtUsers.Rows[i]["DOCNAME"].ToString() + "</a>";
 
                  
                 Reg.Add(new IPOItems

@@ -29,11 +29,10 @@ namespace Arasan.Services.Store_Management
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetSupplier(string id)
+        public DataTable GetSupplier( )
         {
             string SvSql = string.Empty;
-            //SvSql = "Select PARTYMAST.PARTYMASTID,PARTYMAST.PARTYNAME from PARTYMAST  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND PARTYMAST.PARTYNAME IS NOT NULL";
-            SvSql = "Select PARTYMAST.PARTYNAME,SUBCONTDCBASIC.PARTYID from SUBCONTDCBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=SUBCONTDCBASIC.PARTYID  Where SUBCONTDCBASICID='" + id + "'";
+            SvSql = "Select PartyMASTID ,P.PartyID,P.ADD1,P.ADD2,P.CITY, W.ConvLociD,W.ConvItemID From PartyMast P,WCBASIC w Where PartyCat  in ('SUB CONTRACTOR', 'BOTH') AND w.PARTYID = P.PARTYMASTID Order By 2";
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
@@ -111,11 +110,11 @@ namespace Arasan.Services.Store_Management
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select DOCID,SUBMRBASICID,PARTYMAST.PARTYNAME,to_char(SUBMRBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,LOCDETAILS.LOCID from SUBMRBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=SUBMRBASIC.PARTYID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=SUBMRBASIC.FROMLOCATION  WHERE SUBMRBASIC.IS_ACTIVE='Y'";
+                SvSql = "Select DOCID,SUBMRBASICID,PARTYMAST.PARTYNAME,to_char(SUBMRBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,LOCDETAILS.LOCID from SUBMRBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=SUBMRBASIC.PARTYID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=SUBMRBASIC.FROMLOCATION  WHERE SUBMRBASIC.IS_ACTIVE='Y' ORDER BY SUBMRBASIC.SUBMRBASICID DESC";
             }
             else
             {
-                SvSql = "Select DOCID,SUBMRBASICID,PARTYMAST.PARTYNAME,to_char(SUBMRBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,LOCDETAILS.LOCID from SUBMRBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=SUBMRBASIC.PARTYID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=SUBMRBASIC.FROMLOCATION  WHERE SUBMRBASIC.IS_ACTIVE='N'";
+                SvSql = "Select DOCID,SUBMRBASICID,PARTYMAST.PARTYNAME,to_char(SUBMRBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,LOCDETAILS.LOCID from SUBMRBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=SUBMRBASIC.PARTYID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=SUBMRBASIC.FROMLOCATION  WHERE SUBMRBASIC.IS_ACTIVE='N' ORDER BY SUBMRBASIC.SUBMRBASICID DESC";
 
             }
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -408,7 +407,7 @@ namespace Arasan.Services.Store_Management
                                     if (cp.Isvalid == "Y" && cp.itemid != "0")
                                     {
 
-                                        svSQL = "Insert into SUBMRDETAIL (SUBMRBASICID,FGITEMID,FGITEMDESC,UNIT,RECQTY,DCQTY,PENDQTY,COSTRATE,AMOUNT,SUBCONTEDETID) VALUES ('" + Pid + "','" + cp.itemid + "','" + lotnumber + "','" + cp.unit + "','" + cp.recqty + "','" + cp.qty + "','" + penqty + "','" + cp.rate + "','" + cp.amount + "','" + cp.detid + "') RETURNING SUBMRDETAILID INTO :LASTCID";
+                                        svSQL = "Insert into SUBMRDETAIL (SUBMRBASICID,FGITEMID,FGITEMDESC,UNIT,RECQTY,DCQTY,PENDQTY,COSTRATE,AMOUNT,SUBCONTEDETID) VALUES ('" + Pid + "','" + cp.itemid + "','" + lotnumber + "','" + cp.unit + "','" + cp.recqty + "','" + cp.qty + "','" + penqty + "','" + cp.rate + "','" + cp.amount + "','0') RETURNING SUBMRDETAILID INTO :LASTCID";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
 
@@ -437,7 +436,7 @@ namespace Arasan.Services.Store_Management
                                                 objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                                 objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.itemid;
                                                 objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = detlid;
-                                                objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = cy.ID;
+                                                objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
                                                 objCmdIn.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Supplier;
                                                 objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
                                                 objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "SUBMAT DC";
@@ -460,18 +459,18 @@ namespace Arasan.Services.Store_Management
                                     }
                                     if(penqty==0)
                                     {
-                                        DataTable baasic = datatrans.GetData("Select SUBMRBASICID  FROM SUBMRDETAIL where SUBCONTEDETID='" + cp.itemid + "'");
-                                        if (baasic.Rows.Count > 0)
-                                        {
-                                            for (int i = 0; i < baasic.Rows.Count; i++)
-                                            {
+                                        //DataTable baasic = datatrans.GetData("Select SUBMRBASICID  FROM SUBMRDETAIL where SUBCONTEDETID='" + cp.itemid + "'");
+                                        //if (baasic.Rows.Count > 0)
+                                        //{
+                                        //    for (int i = 0; i < baasic.Rows.Count; i++)
+                                        //    {
                                                 string Sqla = string.Empty;
-                                                Sqla = "Update SUBMRBASIC SET  STATUS='Close'  WHERE SUBMRBASICID='" + baasic.Rows[i]["INVENTORY_ITEM_ID"].ToString() + "'";
+                                                Sqla = "Update SUBMRBASIC SET  STATUS='Close'  WHERE SUBMRBASICID='" + Pid + "'";
                                                 OracleCommand objCmdssa = new OracleCommand(Sqla, objConn);
 
                                                 objCmdssa.ExecuteNonQuery();
-                                            }
-                                        }
+                                        //    }
+                                        //}
                                     }
                                 }
                             }
@@ -528,6 +527,17 @@ namespace Arasan.Services.Store_Management
             string SvSql = string.Empty;
             SvSql = "SELECT SUBMRBASICID,PARENTRECORDID,SUBACTMRLOT.MLQTY,SUBACTMRLOT.MLRATE,SUBACTMRLOT.MLAMOUNT,SUBACTMRLOT.ACTUALDRUM,SUBACTMRLOT.MLLOTNO FROM SUBACTMRLOT WHERE PARENTRECORDID='" + id + "'";
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetPartyItem(string ItemId)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT ITEMMASTER.ITEMID,WIPITEMID FROM WCBASIC LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=WCBASIC.WIPITEMID WHERE PARTYID='" + ItemId + "' GROUP BY ITEMMASTER.ITEMID,WIPITEMID";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;

@@ -6,10 +6,14 @@ namespace Arasan.Interface
     public interface IReceiptSubContract
     {
 
-        DataTable GetSupplier(string id);
+        DataTable GetSupplier( );
+        DataTable GetLocation( );
+        DataTable GetRecItem( );
+        DataTable GetItem( string id);
         DataTable GetDC();
         DataTable GetDrum();
         DataTable GetDCDetails(string id);
+        DataTable GetItemDetails(string id);
         DataTable GetRecvItemDetails(string id);
         DataTable GetDelivItemDetails(string id);
         DataTable GetReceiptSubContract(string id);
