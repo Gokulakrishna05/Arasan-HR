@@ -208,17 +208,17 @@ namespace Arasan.Controllers.Production
                         tda2.rejqty = dt4.Rows[0]["PYREJQTY"].ToString();
                         tda2.required = dt4.Rows[0]["PYREQQTY"].ToString();
                         tda2.target = dt4.Rows[0]["PYTARQTY"].ToString();
-                        tda2.ProdDays = dt4.Rows[0]["PYPRODCAPD"].ToString();
-                        tda2.ProdQty = dt4.Rows[0]["PYPRODQTY"].ToString();
-                        tda2.RejMat = dt4.Rows[0]["PYRAWREJMAT"].ToString();
-                        tda2.RejMatReq = dt4.Rows[0]["PYRAWREJMATPER"].ToString();
-                        tda2.BalanceQty = dt4.Rows[0]["PREBALQTY"].ToString();
+                        tda2.proddays = dt4.Rows[0]["PYPRODCAPD"].ToString();
+                        tda2.prodqty = dt4.Rows[0]["PYPRODQTY"].ToString();
+                        tda2.rejmat = dt4.Rows[0]["PYRAWREJMAT"].ToString();
+                        tda2.rejmatreq = dt4.Rows[0]["PYRAWREJMATPER"].ToString();
+                        tda2.balanceqty = dt4.Rows[0]["PREBALQTY"].ToString();
                         tda2.additive = dt4.Rows[0]["PYADD1"].ToString();
                         tda2.per = dt4.Rows[0]["PYADDPER"].ToString();
-                        tda2.AllocAdditive = dt4.Rows[0]["ALLOCADD"].ToString();
-                        tda2.ReqPowder = dt4.Rows[0]["PYREQAP"].ToString();
-                        tda2.WStatus = dt4.Rows[0]["WSTATUS"].ToString();
-                        tda2.PowderRequired = dt4.Rows[0]["POWREQ"].ToString();
+                        tda2.allocadditive = dt4.Rows[0]["ALLOCADD"].ToString();
+                        tda2.reqpowder = dt4.Rows[0]["PYREQAP"].ToString();
+                        tda2.wstatus = dt4.Rows[0]["WSTATUS"].ToString();
+                        tda2.powderrequired = dt4.Rows[0]["POWREQ"].ToString();
                         tda2.ID = id;
                         TData2.Add(tda2);
                     }
@@ -404,17 +404,17 @@ namespace Arasan.Controllers.Production
                         tda2.rejqty = dt4.Rows[0]["PYREJQTY"].ToString();
                         tda2.required = dt4.Rows[0]["PYREQQTY"].ToString();
                         tda2.target = dt4.Rows[0]["PYTARQTY"].ToString();
-                        tda2.ProdDays = dt4.Rows[0]["PYPRODCAPD"].ToString();
-                        tda2.ProdQty = dt4.Rows[0]["PYPRODQTY"].ToString();
-                        tda2.RejMat = dt4.Rows[0]["PYRAWREJMAT"].ToString();
-                        tda2.RejMatReq = dt4.Rows[0]["PYRAWREJMATPER"].ToString();
-                        tda2.BalanceQty = dt4.Rows[0]["PREBALQTY"].ToString();
+                        tda2.proddays = dt4.Rows[0]["PYPRODCAPD"].ToString();
+                        tda2.prodqty = dt4.Rows[0]["PYPRODQTY"].ToString();
+                        tda2.rejmat = dt4.Rows[0]["PYRAWREJMAT"].ToString();
+                        tda2.rejmatreq = dt4.Rows[0]["PYRAWREJMATPER"].ToString();
+                        tda2.balanceqty = dt4.Rows[0]["PREBALQTY"].ToString();
                         tda2.additive = dt4.Rows[0]["PYADD1"].ToString();
                         tda2.per = dt4.Rows[0]["PYADDPER"].ToString();
-                        tda2.AllocAdditive = dt4.Rows[0]["ALLOCADD"].ToString();
-                        tda2.ReqPowder = dt4.Rows[0]["PYREQAP"].ToString();
-                        tda2.WStatus = dt4.Rows[0]["WSTATUS"].ToString();
-                        tda2.PowderRequired = dt4.Rows[0]["POWREQ"].ToString();
+                        tda2.allocadditive = dt4.Rows[0]["ALLOCADD"].ToString();
+                        tda2.reqpowder = dt4.Rows[0]["PYREQAP"].ToString();
+                        tda2.wstatus = dt4.Rows[0]["WSTATUS"].ToString();
+                        tda2.powderrequired = dt4.Rows[0]["POWREQ"].ToString();
                         tda2.ID = id;
                         TData2.Add(tda2);
                     }
@@ -588,6 +588,22 @@ namespace Arasan.Controllers.Production
             return Json(BindPYROWC());
 
         }
+
+        public JsonResult GetPolishJSON()
+        {
+            return Json(BindPolishWC());
+
+        }
+        public JsonResult GetRVDJSON()
+        {
+            return Json(BindRVDWC());
+
+        }
+        public JsonResult GetPasteJSON()
+        {
+            return Json(BindPasteWC());
+
+        }
         public JsonResult GetPartyJSON()
         {
             return Json(BindParty());
@@ -611,6 +627,60 @@ namespace Arasan.Controllers.Production
                 throw ex;
             }
         }
+        public List<SelectListItem> BindPolishWC()
+        {
+            try
+            {
+                DataTable dtDesg = _ProdForecastServ.GetPolishWC();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SelectListItem> BindPasteWC()
+        {
+            try
+            {
+                DataTable dtDesg = _ProdForecastServ.GetPasteWC();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SelectListItem> BindRVDWC()
+        {
+            try
+            {
+                DataTable dtDesg = _ProdForecastServ.GetRVDWC();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<SelectListItem> BindParty()
         {
             try
@@ -720,7 +790,11 @@ namespace Arasan.Controllers.Production
                     tda1.saveitemid = datatrans.GetDataString("Select ITEMMASTERID From ITEMMASTER WHERE ITEMID='" + tda1.itemid + "'");
                     tda1.dgaddit= datatrans.GetDataString("SELECT   I1.ItemID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='"+ tda1.itemid + "' AND I1.ITEMMASTERID = I.ADD1");
                     tda1.dgadditid= datatrans.GetDataString("SELECT   I1.ITEMMASTERID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + tda1.itemid + "' AND I1.ITEMMASTERID = I.ADD1");
-                    tda1.reqadditive = datatrans.GetDataString("SELECT add1per FROM ITEMMASTER WHERE ITEMID='" + tda1.itemid + "'");
+                    string additive= datatrans.GetDataString("SELECT add1per FROM ITEMMASTER WHERE ITEMID='" + tda1.itemid + "'");
+                    double addit = Math.Round(Convert.ToDouble(tda1.required) * (Convert.ToDouble(additive) / 100));
+                    double reqpyro= Convert.ToDouble(tda1.required) - addit;
+                    tda1.reqadditive = addit.ToString();
+                    tda1.reqpyro = reqpyro.ToString();
                     tda1.rawmaterial = datatrans.GetDataString("SELECT I1.ItemID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID='"+ tda1.itemid + "' AND I1.ITEMMASTERID=I.ITEMFROM");
                     tda1.rawmaterialid = datatrans.GetDataString("SELECT I1.ITEMMASTERID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID='" + tda1.itemid + "' AND I1.ITEMMASTERID=I.ITEMFROM");
                     TData1.Add(tda1);
@@ -906,17 +980,17 @@ namespace Arasan.Controllers.Production
                         tda2.rejqty = dt4.Rows[i]["PYREJQTY"].ToString();
                         tda2.required = dt4.Rows[i]["PYREQQTY"].ToString();
                         tda2.target = dt4.Rows[i]["PYTARQTY"].ToString();
-                        tda2.ProdDays = dt4.Rows[i]["PYPRODCAPD"].ToString();
-                        tda2.ProdQty = dt4.Rows[i]["PYPRODQTY"].ToString();
-                        tda2.RejMat = dt4.Rows[i]["PYRAWREJMAT"].ToString();
-                        tda2.RejMatReq = dt4.Rows[i]["PYRAWREJMATPER"].ToString();
-                        tda2.BalanceQty = dt4.Rows[i]["PREBALQTY"].ToString();
+                        tda2.proddays = dt4.Rows[i]["PYPRODCAPD"].ToString();
+                        tda2.prodqty = dt4.Rows[i]["PYPRODQTY"].ToString();
+                        tda2.rejmat = dt4.Rows[i]["PYRAWREJMAT"].ToString();
+                        tda2.rejmatreq = dt4.Rows[i]["PYRAWREJMATPER"].ToString();
+                        tda2.balanceqty = dt4.Rows[i]["PREBALQTY"].ToString();
                         tda2.additive = dt4.Rows[i]["item"].ToString();
                         tda2.per = dt4.Rows[i]["PYADDPER"].ToString();
-                        tda2.AllocAdditive = dt4.Rows[i]["ALLOCADD"].ToString();
-                        tda2.ReqPowder = dt4.Rows[i]["PYREQAP"].ToString();
-                        tda2.WStatus = dt4.Rows[i]["WSTATUS"].ToString();
-                        tda2.PowderRequired = dt4.Rows[i]["POWREQ"].ToString();
+                        tda2.allocadditive = dt4.Rows[i]["ALLOCADD"].ToString();
+                        tda2.reqpowder = dt4.Rows[i]["PYREQAP"].ToString();
+                        tda2.wstatus = dt4.Rows[i]["WSTATUS"].ToString();
+                        tda2.powderrequired = dt4.Rows[i]["POWREQ"].ToString();
                         tda2.ID = id;
                         TData2.Add(tda2);
                     }
