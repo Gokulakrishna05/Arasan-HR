@@ -201,9 +201,15 @@ internal class Program
         builder.Services.TryAddSingleton<IPurchaseImportIndent, PurchaseImportIndentService>();
         builder.Services.TryAddSingleton<IPurchaseImportEnqService, PurchaseImportEnqService>();
         builder.Services.TryAddSingleton<IPurchaseImportQuo, PurchaseImportQuoService>();
+
+        builder.Services.TryAddSingleton<IStop, StopService>();
+
         builder.Services.TryAddSingleton<IRateCodeService, RateCodeService>();
         builder.Services.TryAddSingleton<IRateService, RateService>();
+
         builder.Services.TryAddSingleton<IGRNReportService, GRNReportService>();
+
+
 
 
 

@@ -85,7 +85,7 @@
                                         <br />   <label for="inputName3" class="col-sm-4 control-label">Rec.Location<label class="mandatory">*</label></label>
 
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Location, Model.Loc," -- Please Select -- ", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 10,onchange = "changeItem(this.value)" })
+                                            @Html.DropDownListFor(C => C.Location, Model.Loc," -- Please Select -- ", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 3,onchange = "changeItem(this.value)" })
                                         </div>
                                     </div>
                                 </div>
@@ -94,7 +94,7 @@
                                     <div class="form-group">
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Rec.Work.Center<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.WorkCenter, new { @id = "txtWorkCenter", @class = "form-control", @TabIndex = 1 ,@readonly="readonly"})
+                                            @Html.TextBoxFor(C => C.WorkCenter, new { @id = "txtWorkCenter", @class = "form-control", @TabIndex = 4 ,@readonly="readonly"})
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
@@ -102,7 +102,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
+                                @*<div class="col-md-6">
                                     <div class="form-group">
 
                                         <br /><label for="inputName3" class="col-sm-4 control-label">D.C.No<label class="mandatory">*</label></label>
@@ -110,13 +110,13 @@
                                             @Html.DropDownListFor(C => C.DCNo, Model.DClst," -- Please Select -- ", new { @id = "ddlDC", @Class = "form-control _select", @TabIndex = 5 ,onchange = "changeDcDeatils(this.value)"})<br />
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Party ID<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst," -- Please Select -- ", new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 6 })
+                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst," -- Please Select -- ", new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 5,onchange = "changePartyItem(this.value)" })
                                         </div>
                                     </div>
                                 </div>
@@ -128,7 +128,7 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Ref No<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.RefNo, new { @id = "txtRefNo", @class = "form-control", @TabIndex = 3  })
+                                            @Html.TextBoxFor(C => C.RefNo, new { @id = "txtRefNo", @class = "form-control", @TabIndex = 6  })
                                         </div>
                                     </div>
                                 </div>
@@ -137,7 +137,7 @@
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Ref Date<label class="Mandatory"></label></label>
 
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @Html.TextBoxFor(C => C.RefDate, new { @id = "RefDate", @class = "form-control", @TabIndex = 4,@size="32",@readonly=true })
+                                            @Html.TextBoxFor(C => C.RefDate, new { @id = "RefDate", @class = "form-control", @TabIndex = 7,@size="32",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
 
@@ -161,11 +161,11 @@
                                             <div class="tab-pane active" id="tab-1">
                                                 <!-- 1st tab  -->
 
-                                                <div class="col-md-12">
+                                                @*<div class="col-md-12">
                                                     <div class="btn-group">
                                                         <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow1()" class="btn sbold green" /></p>
                                                     </div>
-                                                </div>
+                                                </div>*@
 
 
                                                 <div class="col-lg-12">
@@ -186,6 +186,51 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody id="tbBooks">
+                                                                @{
+
+                                                                        int a = 0;
+                                                                         
+
+                                                                        foreach (var item in Model.Contlilst.ToList())
+                                                                        {
+                                                                            <tr id="trBook@(a)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                                <td>
+                                                                                    @Html.DropDownListFor(o => o.Contlilst[a].itemid, Model.Contlilst[a].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlPartyItem" + a, style = "width: 200px;", onchange = "Item_Deatils(this.value," + a + ")" })
+                                                                                   
+
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.Contlilst[a].unit, new { @id = "UnitID" + a, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
+                                                                                </td>
+                                                                                
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.Contlilst[a].qty, new { @id = "txtTQty" + a, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeReciptQty(this," + a + ")"})
+                                                                                </td>
+                                                                                 <td>
+                                                                                    @Html.TextBoxFor(o => o.Contlilst[a].recqty, new { @id = "txtrecqty" + a, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeReciptQty(this," + a + ")"})
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.Contlilst[a].rate, new { @id = "txtRrate" + a, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeReciptQty(this," + a + ")" })
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.HiddenFor(o => o.Contlilst[a].Isvalid, new { @id = "Isvalid1" + a })
+
+                                                                                    @Html.TextBoxFor(o => o.Contlilst[a].amount, new { @id = "txtamount" + a, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly", @onkeyup = "changeReciptQty(this," + a + ")" })
+                                                                                </td>
+
+
+                                                                                <td>
+                                                                                    @Html.HiddenFor(o => o.Contlilst[a].Isvalid, new { @id = "Isvalid" + a })
+                                                                                    <img onclick="removeRow1(@(a));" src="../Images/delete.png" style="cursor:pointer" /> <input name="RECDlst.Index" type="hidden" value="@(a)" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            a = a + 1;
+                                                                           
+
+                                                                        }
+                                                                    }
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -235,7 +280,7 @@
                                                                                 @Html.HiddenFor(o => o.SubMatlilst[i].damount, new { @id = "txtdamount" + i })
                                                                                 </td>
                                                                             <td><div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("DrumSelection", "SubContractingMaterialReceipt",new{id= item.id ,rowid=i})' class='fancybox' data-fancybox-type="iframe"><img src='../Images/view_icon.png' id="im" hidden/></a></div> </td>
-                                                                            <td>@Html.TextBoxFor(o => o.SubMatlilst[i].unit, new { @id = "txtunit" + i, @class = "form-control", style = "width: 100px;" })  </td>
+                                                                            <td>@Html.TextBoxFor(o => o.SubMatlilst[i].unit, new { @id = "txtunit" + i, @class = "form-control", style = "width: 100px;",@readonly="readonly" })  </td>
                                                                             <td>@Html.TextBoxFor(o => o.SubMatlilst[i].qty, new { @id = "txtqty" + i, @class = "form-control", style = "width: 100px;" })  </td>
                                                                             <td>@Html.TextBoxFor(o => o.SubMatlilst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 100px;" })  </td>
                                                                             <td>@Html.TextBoxFor(o => o.SubMatlilst[i].amount, new { @id = "txtamount" + i, @class = "form-control", style = "width: 120px;" }) </td>
@@ -272,7 +317,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Qty to be Recived<label class="Mandatory"></label></label>
 
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.qtyrec, new { @id = "qtyrec", @class = "form-control", @TabIndex = 11 })<br />
+                                            @Html.TextBoxFor(C => C.qtyrec, new { @id = "qtyrec", @class = "form-control", @TabIndex = 8,@readonly="readonly" })<br />
                                         </div>
 
                                     </div>
@@ -282,7 +327,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Recived Qty<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.TotRecqty, new { @id = "TotRecqty", @class = "form-control", @TabIndex = 11 })<br />
+                                            @Html.TextBoxFor(C => C.TotRecqty, new { @id = "TotRecqty", @class = "form-control", @TabIndex = 9,@readonly="readonly" })<br />
                                         </div>
                                     </div>
                                 </div>
@@ -306,7 +351,7 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextAreaFor(C => C.Narration, new { @id = "txtNarration", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextAreaFor(C => C.Narration, new { @id = "txtNarration", @class = "form-control", @TabIndex = 10 })
                                         </div>
                                     </div>
                                 </div>
@@ -349,18 +394,83 @@
         forceParse: 0,
         showMeridian: 1
     });
-    function PopulateDropDown(dropDownId, list) {
+  function PopulateDropDown(dropDownId, list) {
         //alert(list);
-        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        $(dropDownId).empty().append('');
+        var fvalue="";
         if (list != null && list.length > 0) {
             $(dropDownId).removeAttr("disabled");
             $.each(list, function () {
+                fvalue = this['value'];
                 $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
             });
         }
-        $(dropDownId).trigger("liszt:updated");
+        $(dropDownId).select2().val(fvalue).trigger("change");
     }
-    function changeDcDeatils(ItemId) {
+
+     function changeReciptQty(_this, a) {
+        try {
+    @* var GTot = 0;*@
+                        var j = 0;
+            var qty = 0;
+            var tot = 0;
+    @* var totfrieght = 0;*@
+
+                        var totamt = 0;
+                        var totalqty = 0;
+    @* var totamount = 0;*@
+                            var qty = document.getElementById("txtTQty" + a).value;
+                            var recqty = document.getElementById("txtrecqty" + a).value;
+            var up = document.getElementById("txtRrate" + a).value;
+             
+    
+
+                        if (recqty == "")
+                recqty = 0;
+
+
+
+            if (up == "")
+                up = 0;
+
+             
+
+     
+                            var tot = eval(recqty) * eval(up)  ;
+            document.getElementById("txtamount" + a).value = tot.toFixed(2);
+
+    
+
+
+                $('tr.chkitemlst').each(function () {
+                    if ($(this).css('display') !== 'none') {
+
+    @* var itemid = $(this).find('#ddlItem' + j.toString()).val();*@
+                                var amt = $(this).find('#txtrecqty' + j.toString()).val();
+                        if (amt == "")
+                            amt = 0;
+                            totamt += eval(amt); 
+    
+    
+     var tqty = $(this).find('#txtTQty' + j.toString()).val();
+                            if (tqty == "")
+                            tqty = 0;
+
+                            totalqty += eval(tqty); 
+
+                                          }
+                    j += 1;
+                });
+     
+                 document.getElementById("TotRecqty").value = totamt.toFixed(2);
+                 document.getElementById("qtyrec").value = totalqty.toFixed(2);
+                  document.getElementById("txtqty" +a).value = totamt.toFixed(2);
+                }
+        catch (ex) {
+            alert(ex.message);
+        }
+    }
+   @* function changeDcDeatils(ItemId) {
     @* $.ajax({
             url: 'GetDCDetail',s
             data: { "ItemId": ItemId },
@@ -375,7 +485,7 @@
             error: function () {
             alert("Data Not Found");
             }
-            });*@
+            }); 
             $.ajax({
                 url: "GetPartyJSON",
                 type: "post",
@@ -386,6 +496,7 @@
                     //alert(JSON.stringify(response));
                     newlist = response.Ilst;
                     PopulateDropDown("#ddlSupplier", response);
+
                 },
                 error: function () {
                     debugger;
@@ -447,7 +558,33 @@
         });
 
 
+    }*@
+    function changePartyItem(ItemId) {
+       
+        $.ajax({
+            url: "GetItemDelJSON",
+            type: "post",
+            data: { 'ItemId': ItemId },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                var i = 0;
+                $('tr.chkitemlst').each(function () {
+                    if ($(this).css('display') !== 'none') {
+                        PopulateDropDown("#ddlPartyItem" + i, response);
+                        i += 1;
+                    }
+                });
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Party");
+            }
+        });
     }
+   
     function ItemChange(ItemId, i) {
     @* var locid = document.getElementById("ddlLoc").value;*@
             $.ajax({
@@ -490,7 +627,7 @@
                 type: "GET",
                 success: function (result) {
 
-                    document.getElementById("txtRunit" + j).value = result.unitid;
+                    document.getElementById("UnitID" + j).value = result.unitid;
                     document.getElementById("txtRrate" + j).value = result.rate;
 
 
@@ -531,11 +668,11 @@
         });
     }
     function removeRow(id) {
-        var table = document.getElementById("dataTable");
+        var table = document.getElementById("dataTable1");
         var rowCount = table.rows.length;
-        var row = document.getElementById('trBook' + id);
+        var row = document.getElementById('trBook1' + id);
         var j = 0;
-        $('tr.chkitemlst').each(function () {
+        $('tr.chkitemlst1').each(function () {
             if ($(this).css('display') !== 'none') {
                 j += 1;
             }
@@ -589,11 +726,11 @@
         });
     }
     function removeRow1(id) {
-        var table = document.getElementById("dataTable1");
+        var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
-        var row = document.getElementById('trBook1' + id);
+        var row = document.getElementById('trBook' + id);
         var j = 0;
-        $('tr.chkitemlst1').each(function () {
+        $('tr.chkitemlst').each(function () {
             if ($(this).css('display') !== 'none') {
                 j += 1;
             }
@@ -609,22 +746,22 @@
     function AppendRow1(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        //var ItemGrp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='MRlst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var ItemId = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Contlilst[" + index + "].item' style='width:150px;' onchange = 'Item_Deatils(this.value," + index + ")'> <option value=''>Please select</option>" + opt + " < /select><input type='hidden'   id='txtitemid" + index + "' name='Contlilst[" + index + "].itemid'><input type='hidden'  id='txtID" + index + "' name='Contlilst[" + index + "].id'></td>";
+        var ItemId = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlPartyItem" + index + "' name='Contlilst[" + index + "].item' style='width:150px;' onchange = 'Item_Deatils(this.value," + index + ")'> <option value=''>Please select</option>" + opt + " < /select><input type='hidden'   id='txtitemid" + index + "' name='Contlilst[" + index + "].itemid'><input type='hidden'  id='txtID" + index + "' name='Contlilst[" + index + "].id'></td>";
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Contlilst[" + index + "].unit'  style='width: 100px;' type='text'  '    /></td>";
 
 
-        var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='Contlilst[" + index + "].qty'  style='width: 100px;' type='text'   /></td>";
+        var Qty = "<td><input class='form-control' id='txtTQty" + index + "' name='Contlilst[" + index + "].qty'  style='width: 100px;' type='text'   /></td>";
+        var ReqQty = "<td><input class='form-control' id='txtreqqty" + index + "' name='Contlilst[" + index + "].reqqty'  style='width: 100px;' type='text'   /></td>";
 
-        var rate = "<td><input class='form-control' id='txtrate" + index + "' name='Contlilst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;' type='text'  /></td>";
+        var rate = "<td><input class='form-control' id='Rate" + index + "' name='Contlilst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;' type='text'  /></td>";
 
         var Amount = "<td><input class='form-control' id='txtamount" + index + "' name='Contlilst[" + index + "].amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 120px; type='text'   /></td>";
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='Contlilst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='Contlilst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + ItemId + Unit + Qty + rate + Amount + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + ItemId + Unit + Qty + ReqQty + rate + Amount + removeCell + "</tr>";
         $("#tbBooks").append(newRow);
 
         $(function () {
@@ -632,7 +769,7 @@
         });
     }
 
-    function changeQty(_this, i) {
+   @* function changeQty(_this, i) {
         try {
 
             var j = 0;
@@ -672,7 +809,7 @@
         catch (ex) {
             alert(ex.message);
         }
-    }
+    }*@
 </script>
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>

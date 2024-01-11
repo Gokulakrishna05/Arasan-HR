@@ -87,7 +87,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6">
+                           @* <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">D.C.No<label class="Mandatory"></label></label>
@@ -95,13 +95,13 @@
                                         @Html.DropDownListFor(C => C.DCNo, Model.DClst," -- Please Select -- ", new { @id = "ddlDC", @Class = "form-control _select", @TabIndex = 5 ,onchange = "changeItem(this.value)"})<br />
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Recived From<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                        @Html.DropDownListFor(C => C.Supplier, Model.Suplst," -- Please Select -- ", new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 6 })<br />
+                                        @Html.DropDownListFor(C => C.Supplier, Model.Suplst," -- Please Select -- ", new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 6,onchange = "changeItem(this.value)" })<br />
                                     </div>
                                 </div>
                             </div>
@@ -219,8 +219,8 @@
                                                                             @Html.DropDownListFor(o => o.Delilst[i].item, Model.Delilst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlitem" + i, style = "width: 200px;", onchange = "Item_Change(this.value," + i + ")" })
                                                                         </td>
                                                                         <td><div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("DrumSelection", "ReceiptSubContract",new{id= item.id ,rowid=i})' class='fancybox' data-fancybox-type="iframe"><img src='../Images/view_icon.png' /></a></div> </td>
-                                                                        <td>@Html.TextBoxFor(o => o.Delilst[i].unit, new { @id = "txtunit" + i, @class = "form-control", style = "width: 100px;" })  </td>
-                                                                        <td>@Html.TextBoxFor(o => o.Delilst[i].qty, new { @id = "txtqty" + i, @class = "form-control", style = "width: 100px;" })  </td>
+                                                                        <td>@Html.TextBoxFor(o => o.Delilst[i].unit, new { @id = "txtunit" + i, @class = "form-control", style = "width: 100px;" }) @Html.HiddenFor(o => o.Delilst[i].val, new { @id = "val" + i }) </td>
+                                                                        <td>@Html.TextBoxFor(o => o.Delilst[i].qty, new { @id = "txtqty" + i, @class = "form-control", style = "width: 100px;" , @onkeyup = "changeReciptQty(this," + i + ")"})  </td>
                                                                         <td>@Html.TextBoxFor(o => o.Delilst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 100px;" })  </td>
                                                                         <td>@Html.TextBoxFor(o => o.Delilst[i].amount, new { @id = "txtamount" + i, @class = "form-control", style = "width: 120px;" }) </td>
                                                                         <td>
@@ -272,15 +272,15 @@
                                                                     <tr id="trBook1@(j)" class="chkitemlst1" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                                         <td>
-                                                                            @Html.DropDownListFor(o => o.Reclst[j].item, Model.Delilst[j].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlRitem" + i, style = "width: 200px;", onchange = "Item_Change(this.value," + j + ")" })
+                                                                            @Html.DropDownListFor(o => o.Reclst[j].item, Model.Reclst[j].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlRitem" + j, style = "width: 200px;", onchange = "Item_ChangeDet(this.value," + j + ")" })
                                                                         </td>
                                                                         <td>@Html.TextBoxFor(o => o.Reclst[j].unit, new { @id = "txtRunit" + j, @class = "form-control", style = "width: 100px;" })  </td>
-                                                                        <td>@Html.TextBoxFor(o => o.Reclst[j].qty, new { @id = "txtRqty" + j, @class = "form-control", style = "width: 100px;" })  </td>
+                                                                        <td>@Html.TextBoxFor(o => o.Reclst[j].qty, new { @id = "txtRqty" + j, @class = "form-control", style = "width: 100px;",@onkeyup = "changeQty(this," + j + ")"})  </td>
                                                                         <td>@Html.TextBoxFor(o => o.Reclst[j].rate, new { @id = "txtRrate" + j, @class = "form-control", style = "width: 100px;" })  </td>
                                                                         <td>@Html.TextBoxFor(o => o.Reclst[j].amount, new { @id = "txtRamount" + j, @class = "form-control", style = "width: 120px;" }) </td>
                                                                         <td>
                                                                             @Html.HiddenFor(o => o.Reclst[j].Isvalid, new { @id = "Isvalid" + j })
-                                                                                <img onclick="removeRow1(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Delilst.Index" type="hidden" value="@(j)" />
+                                                                                <img onclick="removeRow1(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Reclst.Index" type="hidden" value="@(j)" />
                                                                         </td>
 
                                                                     </tr>
@@ -377,7 +377,19 @@
     forceParse: 0,
         showMeridian: 1
     });
-
+     function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('');
+        var fvalue="";
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                fvalue = this['value'];
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).select2().val(fvalue).trigger("change");
+    }
 
      function changeItem(ItemId) {
         $.ajax({
@@ -395,137 +407,170 @@
                 alert("Data Not Found");
             }
         });
-        $.ajax({
-            url: "GetPartyJSON",
+         
+         $.ajax({
+            url: "GetItemDelJSON",
             type: "post",
-            data: { 'itemid': ItemId },
+            data: { 'ItemId': ItemId },
             cache: false,
             success: function (response) {
                 var newlist;
                 //alert(JSON.stringify(response));
-                newlist = response.Ilst;
-                PopulateDropDown("#ddlSupplier", response);
+                newlist = response.Itemlst;
+                var i = 0;
+                $('tr.chkitemlst1').each(function () {
+                    if ($(this).css('display') !== 'none') {
+                        PopulateDropDown("#ddlRitem" + i, response);
+                        i += 1;
+                    }
+                });
             },
             error: function () {
                 debugger;
-                alert("Please Select Dc No");
+                alert("Please Select Party");
             }
         });
+        //document.getElementById("tbBooks").innerHTML = "";
+        //document.getElementById("tbBooks1").innerHTML = "";
+        //$.ajax({
+        //    url: 'GetRecivedDetail',
 
-        document.getElementById("tbBooks").innerHTML = "";
-        document.getElementById("tbBooks1").innerHTML = "";
-        $.ajax({
-            url: 'GetRecivedDetail',
+        //    type: "post",
+        //    data: { "ItemId": ItemId, },
+        //    cache: false,
+        //    success: function (list) {
+        //        if (list != null && list.length > 0) {
 
-            type: "post",
-            data: { "ItemId": ItemId, },
-            cache: false,
-            success: function (list) {
-                if (list != null && list.length > 0) {
+        //            list.forEach((item) => {
 
-                    list.forEach((item) => {
+        //                var index = $("#tbBooks").children("tr").length;
 
-                        var index = $("#tbBooks").children("tr").length;
+        //                var ItemId = "<td><label style='width: 200px;'>" + item.item + "</label><input type='hidden' value=" + item.itemid + " id='txtitemid" + index + "' name='Reclst[" + index + "].itemid'><input type='hidden' value=" + item.id + " id='txtID" + index + "' name='Reclst[" + index + "].id'></td>";
 
-                        var ItemId = "<td><label style='width: 200px;'>" + item.item + "</label><input type='hidden' value=" + item.itemid + " id='txtitemid" + index + "' name='Reclst[" + index + "].itemid'><input type='hidden' value=" + item.id + " id='txtID" + index + "' name='Reclst[" + index + "].id'></td>";
-
-                        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Reclst[" + index + "].unit'  style='width: 90px;' type='text'  readonly='True'  value=" + item.unit + " /></td>";
-
-
-                        var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='Reclst[" + index + "].qty'  style='width: 100px;' type='text' readonly='True' value=" + item.qty + " /></td>";
+        //                var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Reclst[" + index + "].unit'  style='width: 90px;' type='text'  readonly='True'  value=" + item.unit + " /></td>";
 
 
-
-
-
-                        var rate = "<td><input class='form-control' id='txtrate" + index + "' name='Reclst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;' type='text' value=" + item.rate + " readonly='True' /></td>";
-
-                        var Amount = "<td><input class='form-control' id='txtamount" + index + "' name='Reclst[" + index + "].amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 120px; type='text' value=" + item.amount + " readonly='True' /></td>";
+        //                var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='Reclst[" + index + "].qty'  style='width: 100px;' type='text' readonly='True' value=" + item.qty + " /></td>";
 
 
 
 
 
+        //                var rate = "<td><input class='form-control' id='txtrate" + index + "' name='Reclst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;' type='text' value=" + item.rate + " readonly='True' /></td>";
 
-                        var removeCell = "<td><input id='Isvalid" + index + "' name='Reclst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='Reclst.Index' type='hidden' value='" + index + "'  /></td>";
-
-                        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>"  + ItemId  + Unit  + Qty + rate + Amount +  removeCell + "</tr>";
-                        $("#tbBooks").append(newRow);
-
-                    });
-
-                }
-
-
-            },
-            error: function () {
-                debugger;
-                alert("Please Select Supplier");
-            }
-        });
-        $.ajax({
-            url: 'GetDeliverItemDetail',
-
-            type: "post",
-            data: { "ItemId": ItemId, },
-            cache: false,
-            success: function (list) {
-                if (list != null && list.length > 0) {
-
-                    list.forEach((item) => {
-
-                        var index = $("#tbBooks1").children("tr").length;
-
-                        var ItemId = "<td><label style='width: 200px;'>" + item.item + "</label><input type='hidden' value=" + item.itemid + " id='txtitemid" + index + "' name='Delilst[" + index + "].itemid'><input type='hidden' value=" + item.drumno + " id='txtdrumno" + index + "' name='Delilst[" + index + "].drumno'><input type='hidden' value=" + item.dqty + " id='txtdqty" + index + "' name='Delilst[" + index + "].dqty'><input type='hidden' value=" + item.drate + " id='txtdrate" + index + "' name='Delilst[" + index + "].drate'><input type='hidden' value=" + item.damount + " id='txtdamount" + index + "' name='Delilst[" + index + "].damount'><input type='hidden' value=" + item.supid + " id='txtsupid" + index + "' name='Delilst[" + index + "].supid'></td>";
-                        var Drum = "<td><div class='fa-hover col-md-2 col-sm-4''> <a href='@Url.Action("DrumSelection", "ReceiptSubContract")?rowid=0&id=" + item.supid + "' class='fancybox' data-fancybox-type='iframe' ><img src='../Images/view_icon.png' /></a></div> </td>";
-
-                        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Delilst[" + index + "].unit'  style='width: 90px;' type='text'  readonly='True'  value=" + item.unit + " /></td>";
-
-
-                        var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='Delilst[" + index + "].qty'  style='width: 100px;' type='text' readonly='True' value=" + item.qty + " /></td>";
-
-
-
-
-
-                        var rate = "<td><input class='form-control' id='txtrate" + index + "' name='Delilst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;' type='text' value=" + item.rate + " readonly='True' /></td>";
-
-                        var Amount = "<td><input class='form-control' id='txtamount" + index + "' name='Delilst[" + index + "].amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 120px;' type='text' value=" + item.amount + " readonly='True' /></td>";
+        //                var Amount = "<td><input class='form-control' id='txtamount" + index + "' name='Reclst[" + index + "].amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 120px; type='text' value=" + item.amount + " readonly='True' /></td>";
 
 
 
 
 
 
-                        var removeCell = "<td><input id='Isvalid" + index + "' name='Delilst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Delilst.Index' type='hidden' value='" + index + "'  /></td>";
+        //                var removeCell = "<td><input id='Isvalid" + index + "' name='Reclst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='Reclst.Index' type='hidden' value='" + index + "'  /></td>";
 
-                        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemId +Drum+ Unit + Qty + rate + Amount + removeCell + "</tr>";
-                        $("#tbBooks1").append(newRow);
+        //                var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>"  + ItemId  + Unit  + Qty + rate + Amount +  removeCell + "</tr>";
+        //                $("#tbBooks").append(newRow);
 
-                    });
+        //            });
 
-                }
+        //        }
 
 
-            },
-            error: function () {
-                debugger;
-                alert("Please Select DC Number");
-            }
-        });
+        //    },
+        //    error: function () {
+        //        debugger;
+        //        alert("Please Select Supplier");
+        //    }
+        //});
+        //$.ajax({
+        //    url: 'GetDeliverItemDetail',
+
+        //    type: "post",
+        //    data: { "ItemId": ItemId, },
+        //    cache: false,
+        //    success: function (list) {
+        //        if (list != null && list.length > 0) {
+
+        //            list.forEach((item) => {
+
+        //                var index = $("#tbBooks1").children("tr").length;
+
+        //                var ItemId = "<td><label style='width: 200px;'>" + item.item + "</label><input type='hidden' value=" + item.itemid + " id='txtitemid" + index + "' name='Delilst[" + index + "].itemid'><input type='hidden' value=" + item.drumno + " id='txtdrumno" + index + "' name='Delilst[" + index + "].drumno'><input type='hidden' value=" + item.dqty + " id='txtdqty" + index + "' name='Delilst[" + index + "].dqty'><input type='hidden' value=" + item.drate + " id='txtdrate" + index + "' name='Delilst[" + index + "].drate'><input type='hidden' value=" + item.damount + " id='txtdamount" + index + "' name='Delilst[" + index + "].damount'><input type='hidden' value=" + item.supid + " id='txtsupid" + index + "' name='Delilst[" + index + "].supid'></td>";
+        //                var Drum = "<td><div class='fa-hover col-md-2 col-sm-4''> <a href='@Url.Action("DrumSelection", "ReceiptSubContract")?rowid=0&id=" + item.supid + "' class='fancybox' data-fancybox-type='iframe' ><img src='../Images/view_icon.png' /></a></div> </td>";
+
+        //                var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Delilst[" + index + "].unit'  style='width: 90px;' type='text'  readonly='True'  value=" + item.unit + " /></td>";
+
+
+        //                var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='Delilst[" + index + "].qty'  style='width: 100px;' type='text' readonly='True' value=" + item.qty + " /></td>";
+
+
+
+
+
+        //                var rate = "<td><input class='form-control' id='txtrate" + index + "' name='Delilst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;' type='text' value=" + item.rate + " readonly='True' /></td>";
+
+        //                var Amount = "<td><input class='form-control' id='txtamount" + index + "' name='Delilst[" + index + "].amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 120px;' type='text' value=" + item.amount + " readonly='True' /></td>";
+
+
+
+
+
+
+        //                var removeCell = "<td><input id='Isvalid" + index + "' name='Delilst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Delilst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        //                var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemId +Drum+ Unit + Qty + rate + Amount + removeCell + "</tr>";
+        //                $("#tbBooks1").append(newRow);
+
+        //            });
+
+        //        }
+
+
+        //    },
+        //    error: function () {
+        //        debugger;
+        //        alert("Please Select DC Number");
+        //    }
+        //});
         }
-         function PopulateDropDown(dropDownId, list) {
-                 //alert(list);
-                $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
-                if (list != null && list.length > 0) {
-                    $(dropDownId).removeAttr("disabled");
-                    $.each(list, function () {
-                        $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
-                    });
-                }
-                $(dropDownId).trigger("liszt:updated");
-            }
+        function Item_Change(ItemId, a) {
+        $.ajax({
+            url: 'GetItemDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
 
+                document.getElementById("txtunit" + a).value = result.unit;
+                document.getElementById("val" + a).value = result.val;
+                document.getElementById("txtrate" + a).value = result.price;
+
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+  
+      
+     function Item_ChangeDet(ItemId, a) {
+        $.ajax({
+            url: 'GetItemDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtRunit" + a).value = result.unit;
+              
+                document.getElementById("txtRrate" + a).value = result.price;
+
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+  
 
     function AddRow() {
         var opt = "";
@@ -621,6 +666,119 @@
         $(function () {
             $('._select').select2();
         });
+    }
+    function changeReciptQty(_this, a) {
+        try {
+    @* var GTot = 0;*@
+                        var j = 0;
+            var qty = 0;
+            var tot = 0;
+    @* var totfrieght = 0;*@
+
+                        var totamt = 0;
+                        var totalqty = 0;
+    @* var totamount = 0;*@
+                            var qty = document.getElementById("txtqty" + a).value;
+            var up = document.getElementById("txtrate" + a).value;
+         
+    
+
+                        if (qty == "")
+                qty = 0;
+
+
+
+            if (up == "")
+                up = 0;
+
+            
+
+     
+                            var tot = eval(qty) * eval(up) ;
+            document.getElementById("txtamount" + a).value = tot.toFixed(2);
+
+    
+
+
+                $('tr.chkitemlst').each(function () {
+                    if ($(this).css('display') !== 'none') {
+
+    @* var itemid = $(this).find('#ddlItem' + j.toString()).val();*@
+                                
+
+    
+    
+     var tqty = $(this).find('#txtqty' + j.toString()).val();
+                            if (tqty == "")
+                            tqty = 0;
+
+                            totalqty += eval(tqty); 
+
+                                          }
+                    j += 1;
+                });
+     
+                 document.getElementById("TotRecqty").value = totalqty.toFixed(2);
+                }
+        catch (ex) {
+            alert(ex.message);
+        }
+    }
+      function changeQty(_this, a) {
+        try {
+    @* var GTot = 0;*@
+                        var j = 0;
+            var qty = 0;
+            var tot = 0;
+    @* var totfrieght = 0;*@
+
+                        var totamt = 0;
+                        var totalqty = 0;
+    @* var totamount = 0;*@
+                            var qty = document.getElementById("txtRqty" + a).value;
+            var up = document.getElementById("txtRrate" + a).value;
+         
+    
+
+                        if (qty == "")
+                qty = 0;
+
+
+
+            if (up == "")
+                up = 0;
+
+            
+
+     
+                            var tot = eval(qty) * eval(up) ;
+            document.getElementById("txtRamount" + a).value = tot.toFixed(2);
+
+    
+
+
+                $('tr.chkitemlst1').each(function () {
+                    if ($(this).css('display') !== 'none') {
+
+    @* var itemid = $(this).find('#ddlItem' + j.toString()).val();*@
+                             
+    
+    
+     var tqty = $(this).find('#txtRqty' + j.toString()).val();
+                            if (tqty == "")
+                            tqty = 0;
+
+                            totalqty += eval(tqty); 
+
+                                          }
+                    j += 1;
+                });
+     
+                 document.getElementById("qtyrec").value = totalqty.toFixed(2);
+                }
+        catch (ex) {
+            alert(ex.message);
+        }
     }
     function removeRow(id) {
         var table = document.getElementById("dataTable");

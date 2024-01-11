@@ -377,6 +377,7 @@ namespace Arasan.Services
 
                             String strFleName = strLongFilePath1.Replace(sFileType1, "") + String.Format("{0:ddMMMyyyy-hhmmsstt}", DateTime.Now) + sFileType1;
                             var fileName = Path.Combine("wwwroot/uploads", strFleName);
+                            var fileName1 = Path.Combine("uploads", strFleName);
                             var name = file.FileName;
                             // Save the file to the target folder
 
@@ -386,7 +387,7 @@ namespace Arasan.Services
 
 
                                  
-                                svSQL = "Insert into IPODOCDETAIL (IPOBASICID,IPODOCDETAILROW,DOCNAME) VALUES ('" + cy.ID + "','" + r + "','" + fileName + "')";
+                                svSQL = "Insert into IPODOCDETAIL (IPOBASICID,IPODOCDETAILROW,DOCNAME,PATH) VALUES ('" + cy.ID + "','" + r + "','"+ name +"','" + fileName1 + "')";
                                 OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
                                 objCmdss.ExecuteNonQuery();
 
@@ -408,7 +409,7 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
            
-                SvSql = "Select IPOBASICID,IPODOCDETAILROW,DOCNAME,IPODOCDETAILID FROM IPODOCDETAIL WHERE IPOBASICID='" + id+"' ";
+                SvSql = "Select IPOBASICID,IPODOCDETAILROW,DOCNAME,PATH,IPODOCDETAILID FROM IPODOCDETAIL WHERE IPOBASICID='" + id+"' ";
             
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);

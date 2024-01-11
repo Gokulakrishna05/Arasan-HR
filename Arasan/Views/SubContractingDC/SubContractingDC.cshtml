@@ -50,7 +50,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Location, Model.Loc," -- Please Select -- ", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Location, Model.Loc," -- Please Select -- ", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1,@onchange="changeItemDet(this.value)" })
 
                                         </div>
                                     </div>
@@ -341,7 +341,7 @@
                             </div>
 
                             <div style="height:30px;"></div>
-                            <div class="row">
+                            @*<div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -351,7 +351,8 @@
 
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
+                                 <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Total Qty <label class="Mandatory"></label></label>
@@ -362,14 +363,13 @@
 
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
+                            
                                 <div class="col-md-6">
                                     <div class="form-group">
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Narration, new { @id = "txtNarration", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextAreaFor(C => C.Narration, new { @id = "txtNarration", @class = "form-control", @TabIndex = 1 })
                                         </div>
                                     </div>
                                 </div>
@@ -387,18 +387,20 @@
     </div>
 </div>
 <script>
-    $(".chosen-select").chosen();
-    function PopulateDropDown(dropDownId, list) {
+   function PopulateDropDown(dropDownId, list) {
         //alert(list);
-        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        $(dropDownId).empty().append('');
+        var fvalue="";
         if (list != null && list.length > 0) {
             $(dropDownId).removeAttr("disabled");
             $.each(list, function () {
+                fvalue = this['value'];
                 $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
             });
         }
-        $(dropDownId).trigger("liszt:updated");
+        $(dropDownId).select2().val(fvalue).trigger("change");
     }
+
     $(function () {
         $('._select').select2();
     });
@@ -469,6 +471,31 @@
             }
         });
     }
+    function changeItemDet(ItemId) {
+    
+        $.ajax({
+            url: "GetStockItemJSON",
+            type: "post",
+            data: { 'ItemId': ItemId },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                var i = 0;
+                $('tr.chkitemlst1').each(function () {
+                    if ($(this).css('display') !== 'none') {
+                        PopulateDropDown("#ddlItem" + i, response);
+                        i += 1;
+                    }
+                });
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Party");
+            }
+        });
+    }
     function changeItemDeatils(ItemId, i) {
         var loc = document.getElementById("ddlLocation").value;
         $.ajax({
@@ -491,7 +518,7 @@
         });
 
         var g = document.getElementById("txtgroup" + i).value;
-       alert(g);
+        
        @* if (g == "semi") {
 
             document.getElementById("im").style.display = "block";
@@ -616,6 +643,7 @@
     @* var totfrieght = 0;*@
 
                         var totamt = 0;
+                        var totalqty = 0;
     @* var totamount = 0;*@
                             var qty = document.getElementById("txtQty" + a).value;
             var up = document.getElementById("Rate" + a).value;
@@ -640,7 +668,7 @@
     
 
 
-                $('tr.chkitemlst').each(function () {
+                $('tr.chkitemlst1').each(function () {
                     if ($(this).css('display') !== 'none') {
 
     @* var itemid = $(this).find('#ddlItem' + j.toString()).val();*@
@@ -648,22 +676,19 @@
                         if (amt == "")
                             amt = 0;
 
-    @*if (itemid == "1") {*@
-                            totamt += eval(amt);
-    @*}*@
-    @* totfrieght += eval(frieght);*@
+    
+    
+     var tqty = $(this).find('#txtQty' + j.toString()).val();
+                            if (tqty == "")
+                            tqty = 0;
 
-    @*  var tamt = $(this).find('#txtTotalAmount' + j.toString()).val();
-                            if (tamt == "")
-                            tamt = 0;
-
-                            totamount += eval(tamt);*@
+                            totalqty += eval(tqty); 
 
                                           }
                     j += 1;
                 });
      
-
+                 document.getElementById("TotalQty").value = totalqty.toFixed(2);
                 }
         catch (ex) {
             alert(ex.message);

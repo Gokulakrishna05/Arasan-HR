@@ -84,7 +84,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = 'Y';
                     objCmd.Parameters.Add("EBY", OracleDbType.NVarchar2).Value = cy.Approved;
                     objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = PART;
-
+                    objCmd.Parameters.Add("DCREFID", OracleDbType.NVarchar2).Value ="";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try

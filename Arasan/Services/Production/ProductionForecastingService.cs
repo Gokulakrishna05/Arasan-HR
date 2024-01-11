@@ -172,13 +172,47 @@ namespace Arasan.Services.Production
         public DataTable GetPYROWC()
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT W.WCBASICID, W.WCID FROM WCBASIC W,LOCDETAILS LD WHERE W.ILOCATION=LD.LOCDETAILSID AND LD.LOCATIONTYPE='BALL MILL'";
+            SvSql = "SELECT W.WCBASICID, W.WCID FROM WCBASIC W,LOCDETAILS LD WHERE W.ILOCATION=LD.LOCDETAILSID AND LD.LOCATIONTYPE='BALL MILL' order by 2";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public DataTable GetPolishWC()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT W.WCBASICID, W.WCID FROM WCBASIC W,LOCDETAILS LD WHERE W.ILOCATION=LD.LOCDETAILSID AND LD.LOCATIONTYPE='POLISH' order by 2";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetRVDWC()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT W.WCBASICID, W.WCID FROM WCBASIC W,LOCDETAILS LD WHERE W.ILOCATION=LD.LOCDETAILSID AND LD.LOCATIONTYPE='RVD' order by 2";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetPasteWC()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT W.WCBASICID, W.WCID FROM WCBASIC W,LOCDETAILS LD WHERE W.ILOCATION=LD.LOCDETAILSID AND LD.LOCATIONTYPE='PASTE' order by 2";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
         public DataTable GetMnth()
         {
             string SvSql = string.Empty;
@@ -220,6 +254,11 @@ ORDER BY ORD DESC";
         {
             List<PFCPYROItem> cmpList = new List<PFCPYROItem>();
             string Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DateTime now = DateTime.Now;
+            var sDate = new DateTime(now.Year, now.Month, 1);
+            var eDate = sDate.AddMonths(1).AddDays(-1);
+            string startDate = sDate.ToString("dd-MMM-yyyy");
+            string endDate = eDate.ToString("dd-MMM-yyyy");
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
                 using (OracleCommand cmd = con.CreateCommand())
@@ -308,7 +347,9 @@ ORDER BY ORD DESC";
                         {
                             itemid = rdr["ITEMID"].ToString(),
                             saveitemid = datatrans.GetDataString("SELECT   ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["ITEMID"].ToString() + "'"),
+                            
                             required = rdr["REQ"].ToString(),
+                            balanceqty= rdr["REQ"].ToString(),
                             minstock = rdr["MINSTK"].ToString(),
                             stock = rdr["stk"].ToString(),
                             rejqty = rdr["REJ"].ToString(),
@@ -316,16 +357,12 @@ ORDER BY ORD DESC";
                             additive = Additive,
                             additiveid = Additiveid,
                             per = Per,
-                           // itemid = rdr["ITEMID"].ToString(),
-                        //Branch = rdr["BRANCHID"].ToString(),
-
-                        //InvNo = rdr["DOCID"].ToString(),
-
-                        //InvDate = rdr["DOCDATE"].ToString(),
-                        //Party = rdr["PARTYNAME"].ToString(),
-                        //Net = Convert.ToDouble(rdr["NET"].ToString()),
-
-                    };
+                            wstatus="Pending"
+                        };
+                        cmp.pasterej = datatrans.GetDataString("Select Decode(sign(3-round(sum(rc/(oq+1)*100),2)),1,round(sum(rc/(oq+1)*100),2),3) rcper from (Select nvl(sum(oq),1) oq,nvl(sum(rc),1) rc from (Select 0 oq,Sum(B.OQTY) rc from FQTVEBAsic B,Itemmaster I Where B.DOCDATE between '"+ startDate + "' and '" + endDate + "' And B.Finalresult='NOT OK' and I.ITEMID='" + cmp.saveitemid + "' and B.RESULTTYPE='RECHARGE' And I.ITEMMASTERID=B.ITEMID Union All Select Sum(D.OQTY) Oq,0 From Nprodbasic B,Nprodoutdet D,Itemmaster I where I.ITEMMASTERID=D.OITEMID and B.NPRODBASICID=D.NPRODBASICID and B.DOCDATE between '" + startDate + "' and '"+ endDate + "' and I.ITEMID='" + cmp.saveitemid + "'))");
+                        double rem = Convert.ToDouble(cmp.target) + Convert.ToDouble(cmp.minstock) - Convert.ToDouble(cmp.stock);
+                        double regqty= Math.Floor(rem * (Convert.ToDouble(cmp.pasterej) / 100));
+                        cmp.rejqty= regqty.ToString();
                         cmpList.Add(cmp);
                     }
                 }
@@ -389,6 +426,7 @@ ORDER BY ord desc";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
+                        string Per = datatrans.GetDataString("SELECT add1per FROM ITEMMASTER WHERE ITEMID='" + rdr["ITEMID"].ToString() + "'");
                         PFCPOLIItem cmp = new PFCPOLIItem
                         {
                             itemid = rdr["ITEMID"].ToString(),
@@ -396,7 +434,7 @@ ORDER BY ord desc";
                             required = rdr["Tar"].ToString(),
                             minstock = rdr["MINSTK"].ToString(),
                             stock = rdr["stk"].ToString(),
-                          
+                          add= Per,
                             target = rdr["ORD"].ToString(),
                             additive = datatrans.GetDataString("SELECT   I1.ItemID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID = I.ADD1"),
                             additiveid = datatrans.GetDataString("SELECT   I1.ITEMMASTERID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID = I.ADD1"),
@@ -555,13 +593,14 @@ ORDER BY 1,2";
                             targetitem = rdr["item"].ToString(),
                             saveitemid = datatrans.GetDataString("SELECT ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["item"].ToString() + "'"),
                             packmat = rdr["PACK"].ToString(),
-                           packmatid = datatrans.GetDataString("SELECT   ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["PACK"].ToString() + "'"),
+                            packmatid = datatrans.GetDataString("SELECT   ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["PACK"].ToString() + "'"),
                             packqty = rdr["QTY"].ToString(),
                             rawmat = rdr["RAWM"].ToString(),
-                           rawmatid = datatrans.GetDataString("SELECT   ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["RAWM"].ToString() + "'"),
+                            rawmatid = datatrans.GetDataString("SELECT   ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["RAWM"].ToString() + "'"),
                             party = rdr["PARTYID"].ToString(),
                             partyid = datatrans.GetDataString("SELECT   PARTYMASTID FROM PARTYMAST WHERE  PARTYID ='" + rdr["PARTYID"].ToString() + "'"),
                             targetqty = rdr["TAR"].ToString(),
+                            //reqmat = (Convert.ToDouble(rdr["TAR"].ToString()) - Convert.ToDouble(rdr["RAWM"].ToString())).ToString,
                             // itemid = rdr["ITEMID"].ToString(),
                             //Branch = rdr["BRANCHID"].ToString(),
 
@@ -737,17 +776,17 @@ ORDER BY 1,2";
                                     objCmds.Parameters.Add("PYREJQTY", OracleDbType.NVarchar2).Value = cp.rejqty;
                                     objCmds.Parameters.Add("PYREQQTY", OracleDbType.NVarchar2).Value = cp.required;
                                     objCmds.Parameters.Add("PYTARQTY", OracleDbType.NVarchar2).Value = cp.target;
-                                    objCmds.Parameters.Add("PYPRODCAPD", OracleDbType.NVarchar2).Value = cp.ProdDays;
-                                    objCmds.Parameters.Add("PYPRODQTY", OracleDbType.NVarchar2).Value = cp.ProdQty;
-                                    objCmds.Parameters.Add("PYRAWREJMAT", OracleDbType.NVarchar2).Value = cp.RejMat;
-                                    objCmds.Parameters.Add("PYRAWREJMATPER", OracleDbType.NVarchar2).Value = cp.RejMatReq;
-                                    objCmds.Parameters.Add("PREBALQTY", OracleDbType.NVarchar2).Value = cp.BalanceQty;
+                                    objCmds.Parameters.Add("PYPRODCAPD", OracleDbType.NVarchar2).Value = cp.proddays;
+                                    objCmds.Parameters.Add("PYPRODQTY", OracleDbType.NVarchar2).Value = cp.prodqty;
+                                    objCmds.Parameters.Add("PYRAWREJMAT", OracleDbType.NVarchar2).Value = cp.rejmat;
+                                    objCmds.Parameters.Add("PYRAWREJMATPER", OracleDbType.NVarchar2).Value = cp.rejmatreq;
+                                    objCmds.Parameters.Add("PREBALQTY", OracleDbType.NVarchar2).Value = cp.balanceqty;
                                     objCmds.Parameters.Add("PYADD1", OracleDbType.NVarchar2).Value = cp.additiveid;
                                     objCmds.Parameters.Add("PYADDPER", OracleDbType.NVarchar2).Value = cp.per;
-                                    objCmds.Parameters.Add("ALLOCADD", OracleDbType.NVarchar2).Value = cp.AllocAdditive;
-                                    objCmds.Parameters.Add("PYREQAP", OracleDbType.NVarchar2).Value = cp.ReqPowder;
-                                    objCmds.Parameters.Add("WSTATUS", OracleDbType.NVarchar2).Value = cp.WStatus;
-                                    objCmds.Parameters.Add("POWREQ", OracleDbType.NVarchar2).Value = cp.PowderRequired;
+                                    objCmds.Parameters.Add("ALLOCADD", OracleDbType.NVarchar2).Value = cp.allocadditive;
+                                    objCmds.Parameters.Add("PYREQAP", OracleDbType.NVarchar2).Value = cp.reqpowder;
+                                    objCmds.Parameters.Add("WSTATUS", OracleDbType.NVarchar2).Value = cp.wstatus;
+                                    objCmds.Parameters.Add("POWREQ", OracleDbType.NVarchar2).Value = cp.powderrequired;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                                     objCmds.ExecuteNonQuery();

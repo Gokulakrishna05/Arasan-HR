@@ -112,18 +112,18 @@ namespace Arasan.Models
         public string rejqty { get; set; }
         public string required { get; set; }
         public string target { get; set; }
-        public string ProdDays { get; set; }
-        public string ProdQty { get; set; }
-        public string RejMat { get; set; }
-        public string RejMatReq { get; set; }
-        public string BalanceQty { get; set; }
+        public string proddays { get; set; }
+        public string prodqty { get; set; }
+        public string rejmat { get; set; }
+        public string rejmatreq { get; set; }
+        public string balanceqty { get; set; }
         public string additive { get; set; }
         public string additiveid { get; set; }
         public string per { get; set; }
-        public string AllocAdditive { get; set; }
-        public string ReqPowder { get; set; }
-        public string WStatus { get; set; }
-        public string PowderRequired { get; set; }
+        public string allocadditive { get; set; }
+        public string reqpowder { get; set; }
+        public string wstatus { get; set; }
+        public string powderrequired { get; set; }
         public string stock { get; set; }
 
     }

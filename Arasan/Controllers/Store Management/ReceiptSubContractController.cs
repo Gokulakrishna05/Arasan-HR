@@ -34,7 +34,7 @@ namespace Arasan.Controllers
             ca.Branch = Request.Cookies["BranchId"];
             ca.DClst = BindDC();
             ca.Loclst = BindLoc();
-            ca.Suplst = BindSupplier("");
+            ca.Suplst = BindSupplier();
             ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.enterd = Request.Cookies["UserId"];
             DataTable dtv = datatrans.GetSequence("rsubc");
@@ -52,7 +52,7 @@ namespace Arasan.Controllers
             {
                 tda = new ReceiptDeliverItem();
                  
-                tda.Itemlst = BindItemlst();
+                tda.Itemlst = BindRecItemlst();
                  
                 tda.Isvalid = "Y";
                 TData.Add(tda);
@@ -61,7 +61,7 @@ namespace Arasan.Controllers
             {
                 tda1 = new ReceiptRecivItem();
                
-                tda1.Itemlst = BindItemlst();
+                tda1.Itemlst = BindItemlst("");
                
                 tda1.Isvalid = "Y";
                 TData1.Add(tda1);
@@ -108,15 +108,15 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public List<SelectListItem> BindSupplier(string id)
+        public List<SelectListItem> BindSupplier( )
         {
             try
             {
-                DataTable dtDesg = Receipt.GetSupplier(id);
+                DataTable dtDesg = Receipt.GetSupplier( );
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYID"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -129,7 +129,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = datatrans.GetLocation();
+                DataTable dtDesg = Receipt.GetLocation();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -142,11 +142,35 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindItemlst()
+        public List<SelectListItem> BindItemlst(string id)
         {
             try
             {
-                DataTable dtDesg = datatrans.GetItem();
+                DataTable dtDesg = Receipt.GetItem(id);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["WIPITEMID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public JsonResult GetItemDelJSON(string ItemId)
+        {
+            ReceiptRecivItem model = new ReceiptRecivItem();
+            model.Itemlst = BindItemlst(ItemId);
+            return Json(BindItemlst(ItemId));
+
+        }
+        public List<SelectListItem> BindRecItemlst()
+        {
+            try
+            {
+                DataTable dtDesg = Receipt.GetRecItem();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -206,12 +230,39 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public JsonResult GetPartyJSON(string itemid)
+        public ActionResult GetItemDetail(string ItemId, string loc)
         {
-            ReceiptSubContract model = new ReceiptSubContract();
-            model.Suplst = BindSupplier(itemid);
-            return Json(BindSupplier(itemid));
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
 
+                string unit = "";
+                string cf = "";
+                string price = "";
+                string val = "";
+               
+                //string binno = "";
+                //string binname = "";
+                dt = Receipt.GetItemDetails(ItemId);
+ 
+                if (dt.Rows.Count > 0)
+                {
+
+                    unit = dt.Rows[0]["UNITID"].ToString();
+                    price = dt.Rows[0]["LATPURPRICE"].ToString();
+                    val= dt.Rows[0]["VALMETHOD"].ToString();
+                 
+                   
+                }
+
+                var result = new { unit = unit, cf = cf, price = price, val= val };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public ActionResult GetRecivedDetail(string ItemId)
         {
@@ -550,17 +601,11 @@ namespace Arasan.Controllers
         public JsonResult GetItemJSON()
         {
             ReceiptDeliverItem model = new ReceiptDeliverItem();
-            model.Itemlst = BindItemlst();
-            return Json(BindItemlst());
+            model.Itemlst = BindRecItemlst();
+            return Json(BindRecItemlst());
 
         }
-        public JsonResult GetItemDelJSON()
-        {
-            ReceiptRecivItem model = new ReceiptRecivItem();
-            model.Itemlst = BindItemlst();
-            return Json(BindItemlst());
-
-        }
+      
 
     }
 }

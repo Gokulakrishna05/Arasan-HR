@@ -31,7 +31,7 @@ namespace Arasan.Controllers.Store_Management
             SubContractingMaterialReceipt ca = new SubContractingMaterialReceipt();
             ca.Loc = BindLocation();
             ca.Brlst = BindBranch();
-            ca.Suplst = BindSupplier("");
+            ca.Suplst = BindSupplier();
             ca.assignList = BindEmp();
             ca.DClst = BindDC();
             ca.Enterd = Request.Cookies["UserId"];
@@ -60,7 +60,7 @@ namespace Arasan.Controllers.Store_Management
             for (int i = 0; i < 1; i++)
             {
                 tda1 = new SubContractItem();
-                tda1.Itemlst = BindItemlst();
+                tda1.Itemlst = BindItemlist("");
                 tda1.Isvalid = "Y";
                 TData1.Add(tda1);
             }
@@ -118,12 +118,30 @@ namespace Arasan.Controllers.Store_Management
             return Json(BindItemlst());
 
         }
-        public JsonResult GetItemDelJSON()
+         
+        public JsonResult GetItemDelJSON(string ItemId)
         {
             SubContractItem model = new SubContractItem();
-            model.Itemlst = BindItemlst();
-            return Json(BindItemlst());
+            model.Itemlst = BindItemlist(ItemId);
+            return Json(BindItemlist(ItemId));
 
+        }
+        public List<SelectListItem> BindItemlist(string id)
+        {
+            try
+            {
+                DataTable dtDesg = SubContractingMaterialReceiptService.GetPartyItem(id);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["WIPITEMID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public ActionResult MyListSubContractingMaterialReceiptGrid(string strStatus)
         {
@@ -168,13 +186,7 @@ namespace Arasan.Controllers.Store_Management
             });
 
         }
-        public JsonResult GetPartyJSON(string itemid)
-        {
-            SubContractingMaterialReceipt model = new SubContractingMaterialReceipt();
-            model.Suplst = BindSupplier(itemid);
-            return Json(BindSupplier(itemid));
-
-        }
+        
         public List<SelectListItem> BindDC()
         {
             try
@@ -229,15 +241,15 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public List<SelectListItem> BindSupplier(string id)
+        public List<SelectListItem> BindSupplier()
         {
             try
             {
-                DataTable dtDesg = SubContractingMaterialReceiptService.GetSupplier(id);
+                DataTable dtDesg = SubContractingMaterialReceiptService.GetSupplier();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYID"].ToString(), Value = dtDesg.Rows[i]["PartyMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -694,7 +706,11 @@ namespace Arasan.Controllers.Store_Management
             pendingitem tda = new pendingitem();
             string coid = datatrans.GetDataString("Select SUBCONTEDETID from SUBMRDETAIL where SUBMRBASICID='" + id + "'");
 
-            dt = datatrans.GetData("Select ITEMMASTER.ITEMID,DCQTY,PENDQTY,RECQTY,SUBMRBASICID from SUBMRDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=SUBMRDETAIL.FGITEMID  where SUBCONTEDETID='" + coid + "'");
+            if(coid != "0")
+            {
+                dt = datatrans.GetData("Select ITEMMASTER.ITEMID,DCQTY,PENDQTY,RECQTY,SUBMRBASICID from SUBMRDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=SUBMRDETAIL.FGITEMID  where SUBCONTEDETID='" + coid + "'");
+            }
+           
 
             if (dt.Rows.Count > 0)
             {
@@ -726,7 +742,7 @@ namespace Arasan.Controllers.Store_Management
             SubContractingMaterialReceipt ca = new SubContractingMaterialReceipt();
             ca.Loc = BindLocation();
             ca.Brlst = BindBranch();
-            ca.Suplst = BindSupplier("");
+            ca.Suplst = BindSupplier();
             ca.assignList = BindEmp();
             ca.DClst = BindDC();
             ca.Enterd = Request.Cookies["UserId"];

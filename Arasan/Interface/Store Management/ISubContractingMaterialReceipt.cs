@@ -10,13 +10,14 @@ namespace Arasan.Interface.Store_Management
         DataTable GetSubDelivItemDetails(string itemId);
         DataTable GetDrum();
         DataTable GetDrumItemDetails(string id);
+        DataTable GetPartyItem(string id);
         DataTable GetItemDetails(string itemId);
         DataTable GetItems(string itemId);
         DataTable GetWCDetails(string itemId);
         string SubContractingMaterialReceiptCRUD(SubContractingMaterialReceipt cy);
         DataTable GetSubRecvItemDetails(string itemId);
         DataTable GetDC();
-        DataTable GetSupplier(string id);
+        DataTable GetSupplier( );
         DataTable GetSubContract(string id);
         DataTable GetMaterialReceipt(string id);
         DataTable GetReceiptItem(string id);
