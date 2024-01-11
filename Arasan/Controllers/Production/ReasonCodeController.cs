@@ -60,10 +60,11 @@ namespace Arasan.Controllers.Production
                 dt2 = ReasonCodeService.GetReasonItem(id);
                 if (dt2.Rows.Count > 0)
                 {
-                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    for (int i = 0; i < dt2.Rows.Count; i++) 
                     {
                         tda = new ReasonItem();
                         double toaamt = 0;
+                        tda.Categorylst = BindCategory();
                         tda.Grouplst = BindGroup();
                         tda.Reason = dt2.Rows[i]["REASON"].ToString();
                         tda.Category = dt2.Rows[i]["RTYPE"].ToString();
@@ -202,14 +203,14 @@ namespace Arasan.Controllers.Production
         //    return Json(BindItemGrplst());
         //}
 
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteMR(string tag, string id)
         {
 
             string flag = ReasonCodeService.StatusChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 
-                return RedirectToAction("ListReasonCode");
+                return RedirectToAction("ListReasonCode"); 
             }
             else
             {
@@ -217,7 +218,7 @@ namespace Arasan.Controllers.Production
                 return RedirectToAction("ListReasonCode");
             }
         }
-        public ActionResult Remove(string tag, int id)
+        public ActionResult Remove(string tag, string id)
         {
 
             string flag = ReasonCodeService.RemoveChange(tag, id);
@@ -231,6 +232,17 @@ namespace Arasan.Controllers.Production
                 TempData["notice"] = flag;
                 return RedirectToAction("ListReasonCode");
             }
+        }
+
+        public JsonResult GetItemCatJSON()
+        {
+            
+            return Json(BindCategory());
+        }
+        public JsonResult GetItemstopJSON()
+        {
+            
+            return Json(BindGroup());
         }
 
         public ActionResult MyListItemgrid(string strStatus)

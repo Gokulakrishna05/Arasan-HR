@@ -91,6 +91,7 @@ namespace Arasan.Services.Production
         public string ReasonCodeCRUD(ReasonCode cy)
         {
             string msg = "";
+            string sv = "";
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
@@ -121,20 +122,28 @@ namespace Arasan.Services.Production
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
                         Object Pid = objCmd.Parameters["OUTID"].Value;
-                        //string Pid = "0";
 
                         if (cy.ID != null)
                         {
                             Pid = cy.ID;
                         }
+                       
+                      //if (cy.ID != null)
+                        //{
+                        //    Pid = cy.ID;
 
+                        //    sv = "DELETE REASONDETAIL WHERE REASONBASICID = '" + Pid + "' ";
+                        //    OracleCommand objCmdd = new OracleCommand(sv, objConn);
+                        //    objCmdd.ExecuteNonQuery();
+                        //}
                         foreach (ReasonItem cp in cy.ReLst)
                         {
-                            if (cp.Isvalid == "Y" && cp.Reason != "0")
+                            if (cp.Isvalid == "Y" && cp.Category != "0")
                             {
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
                                     OracleCommand objCmds = new OracleCommand("REASONDETAILPROC", objConns);
+
                                     if (cy.ID == null)
                                     {
                                         StatementType = "Insert";
@@ -142,9 +151,17 @@ namespace Arasan.Services.Production
                                     }
                                     else
                                     {
-                                        StatementType = "Update";
-                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                        sv = "DELETE REASONDETAIL WHERE REASONBASICID = '" + Pid + "' "; 
+                                        OracleCommand objCmdd = new OracleCommand(sv, objConn);
+                                        objCmdd.ExecuteNonQuery();
+
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                     }
+
+                                    //StatementType = "Insert";
+                                    //objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("REASONBASICID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("REASON", OracleDbType.NVarchar2).Value = cp.Reason;
@@ -152,6 +169,7 @@ namespace Arasan.Services.Production
                                     objCmds.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = cp.Description;
                                     objCmds.Parameters.Add("STOPID", OracleDbType.NVarchar2).Value = cp.GroupId;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
                                     objConns.Close();
@@ -177,7 +195,7 @@ namespace Arasan.Services.Production
         }
 
 
-        public string StatusChange(string tag, int id)
+        public string StatusChange(string tag, string id)
         {
 
             try
@@ -201,7 +219,7 @@ namespace Arasan.Services.Production
 
         }
 
-        public string RemoveChange(string tag, int id)
+        public string RemoveChange(string tag, string id)
         {
 
             try
@@ -229,12 +247,12 @@ namespace Arasan.Services.Production
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "select PROCESSMAST.PROCESSID,REASONBASICID,IS_ACTIVE from REASONBASIC LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID = REASONBASIC.REASONBASICID  where REASONBASIC.IS_ACTIVE='Y' ORDER BY REASONBASICID DESC ";
+                SvSql = "select PROCESSMAST.PROCESSID,REASONBASICID,IS_ACTIVE from REASONBASIC LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID = REASONBASIC.PROCESSID  where REASONBASIC.IS_ACTIVE='Y' ORDER BY REASONBASICID DESC ";
 
             }
             else
             {
-                SvSql = "select PROCESSMAST.PROCESSID,REASONBASICID,IS_ACTIVE from REASONBASIC LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID = REASONBASIC.REASONBASICID  where REASONBASIC.IS_ACTIVE='N' ORDER BY REASONBASICID DESC ";
+                SvSql = "select PROCESSMAST.PROCESSID,REASONBASICID,IS_ACTIVE from REASONBASIC LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID = REASONBASIC.PROCESSID  where REASONBASIC.IS_ACTIVE='N' ORDER BY REASONBASICID DESC ";
 
             }
             DataTable dtt = new DataTable();
