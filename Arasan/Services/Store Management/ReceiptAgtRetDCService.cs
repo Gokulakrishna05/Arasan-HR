@@ -313,7 +313,8 @@ namespace Arasan.Services.Store_Management
         public DataTable Getdocno() 
         {
             string SvSql = string.Empty;
-            SvSql = "select DOCID ,RDELBASICID from RDELBASIC WHERE DCREFID IS NULL  order by RDELBASICID DESC";
+            //SvSql = "select DOCID ,RDELBASICID from RDELBASIC WHERE DCREFID IS NULL  order by RDELBASICID DESC";
+            SvSql = "select DOCID ,RDELBASICID from RDELBASIC order by RDELBASICID DESC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

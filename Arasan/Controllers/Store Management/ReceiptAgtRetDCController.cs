@@ -33,6 +33,7 @@ namespace Arasan.Controllers
         {
             ReceiptAgtRetDC ca = new ReceiptAgtRetDC();
 
+           
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
             ca.DDate = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -262,7 +263,24 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+       
+        public List<SelectListItem> Bindbranchlst()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "(TAAI)SVK-FACTORY", Value = "(TAAI)SVK-FACTORY" });
+                lstdesg.Add(new SelectListItem() { Text = "(TAAI)CHENNAI-DEPOT", Value = "(TAAI)CHENNAI-DEPOT" });
+                lstdesg.Add(new SelectListItem() { Text = "(TAAI)KOLKATA-DEPOT", Value = "(TAAI)KOLKATA-DEPOT" });
+                lstdesg.Add(new SelectListItem() { Text = "All Branches", Value = "All Branches" });
 
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindParty()
         {
             try
@@ -528,6 +546,15 @@ namespace Arasan.Controllers
         }
         public IActionResult ListReceiptAgtRetDC()
         {
+            return View();
+        }
+        
+        public IActionResult ReceiptReport()
+        {
+            ReceiptAgtRetDC ca = new ReceiptAgtRetDC();
+
+            ca.branchlst = Bindbranchlst();
+
             return View();
         }
         public ActionResult DeleteMR(string tag, int id)

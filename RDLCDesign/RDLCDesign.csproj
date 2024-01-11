@@ -22,6 +22,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Update="ReceiptDataSet.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ReceiptDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Update="RetDataSet.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -43,6 +48,10 @@
     <None Update="DataSet4.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet4.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="ReceiptDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ReceiptDataSet.Designer.cs</LastGenOutput>
     </None>
     <None Update="RetDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
