@@ -62,6 +62,7 @@
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Rate Code<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Ratecode, Model.Ratelst," -- Please Select -- ", new { @id = "ddlRatecode", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
                                 </div>

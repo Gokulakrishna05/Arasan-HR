@@ -203,6 +203,7 @@ internal class Program
         builder.Services.TryAddSingleton<IPurchaseImportQuo, PurchaseImportQuoService>();
         builder.Services.TryAddSingleton<IRateCodeService, RateCodeService>();
         builder.Services.TryAddSingleton<IRateService, RateService>();
+        builder.Services.TryAddSingleton<IGRNReportService, GRNReportService>();
 
 
 
