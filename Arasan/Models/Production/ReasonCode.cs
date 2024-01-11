@@ -39,6 +39,7 @@ namespace Arasan.Models
         public List<SelectListItem> Categorylst { get; set; }
 
         public string Category { get; set; }
+        public string saveCategory { get; set; }
     }
 
     public class Reasongrid

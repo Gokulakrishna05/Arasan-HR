@@ -37,7 +37,7 @@
                     // synchronize with the server - send update command
                 },
                 datafields: [
-                    { name: 'modby', type: 'string' },
+                    { name: 'process', type: 'string' },
                     //{ name: 'viewrow', type: 'string' },
                     { name: 'editrow', type: 'string' },
                     { name: 'delrow', type: 'string' },
@@ -73,7 +73,7 @@
                     enablebrowserselection: true,
                     columns: [
 
-                        { text: 'Process ID', filtertype: 'checkedlist', datafield: 'Process', width: 150 },
+                        { text: 'Process ID', filtertype: 'checkedlist', datafield: 'process', width: 150 },
                         { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                         { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                     ]
