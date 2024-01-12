@@ -549,14 +549,14 @@ namespace Arasan.Controllers
             return View();
         }
         
-        public IActionResult ReceiptReport()
-        {
-            ReceiptAgtRetDC ca = new ReceiptAgtRetDC();
+        //public IActionResult ReceiptReport()
+        //{
+        //    ReceiptAgtRetDC ca = new ReceiptAgtRetDC();
 
-            ca.branchlst = Bindbranchlst();
+        //    ca.branchlst = Bindbranchlst();
 
-            return View();
-        }
+        //    return View();
+        //}
         public ActionResult DeleteMR(string tag, int id)
         {
 
