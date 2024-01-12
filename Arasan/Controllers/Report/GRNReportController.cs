@@ -102,7 +102,7 @@ namespace Arasan.Controllers.Report
         {
             try
             {
-                DataTable dtDesg = datatrans.GetBranch();
+                DataTable dtDesg = GRNReportService.GetBranch();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -122,12 +122,12 @@ namespace Arasan.Controllers.Report
             return Json(BindItemlst(itemid));
 
         }
-        public ActionResult MyListGRNReportGrid(string Branch, string Customer,string dtFrom,string dtTo)
+        public ActionResult MyListGRNReportGrid(string Branch, string Customer,string Item,string dtFrom,string dtTo)
         {
             List<GRNReportItems> Reg = new List<GRNReportItems>();
             DataTable dtUsers = new DataTable();
 
-            dtUsers = (DataTable)GRNReportService.GetAllReport(Branch, Customer,dtFrom, dtTo);
+            dtUsers = (DataTable)GRNReportService.GetAllReport(Branch, Customer, Item,dtFrom, dtTo);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 
