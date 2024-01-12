@@ -31,5 +31,8 @@ namespace Arasan.Interface.Store_Management
         DataTable GetSubContractViewDetails(string id);
         DataTable GetReceiptViewDetail(string id);
         //DataTable GetPartyItem(string ItemId);
+
+        Task<IEnumerable<Subcondcdet>> GetSubcondc(string id );
+        Task<IEnumerable<Subcondcdetet>> GetSubcondcdet(string id );
     }
 }
