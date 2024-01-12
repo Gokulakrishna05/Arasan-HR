@@ -875,6 +875,32 @@ namespace Arasan.Controllers.Production
             return Json(model.PFCPACKLst);
 
         }
+        public ActionResult GetpyrowcDetail(string itemid,string wcid)
+        {
+            try
+            {
+                string tar = datatrans.GetDataString("Select Sum(tar) Tar from (SELECT SUM(WD.PRATE*22) TAR FROM WCBASIC W,WCPRODDETAIL WD,ITEMMASTER I WHERE W.WCBASICID=WD.WCBASICID AND W.WCBASICID='" + wcid + "' AND I.ITEMMASTERID=WD.ITEMID AND WD.ITEMTYPE='Primary' AND I.ITEMMASTERID='" + itemid + "' )");
+                var result = new { tar = tar };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetWcPower(string wcid)
+        {
+            try
+            {
+                string powe = datatrans.GetDataString("Select EBCONSPERHR from wcbasic where wcbasicid='" + wcid + "'");
+                var result = new { powe = powe };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public IActionResult ViewProdFc(string id)
         {
             ProductionForecasting ca = new ProductionForecasting();

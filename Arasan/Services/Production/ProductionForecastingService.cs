@@ -2,6 +2,7 @@
 using Arasan.Models;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
+using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -349,7 +350,7 @@ ORDER BY ORD DESC";
                             saveitemid = datatrans.GetDataString("SELECT   ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["ITEMID"].ToString() + "'"),
                             
                             required = rdr["REQ"].ToString(),
-                            balanceqty= rdr["REQ"].ToString(),
+                           // balanceqty= rdr["REQ"].ToString(),
                             minstock = rdr["MINSTK"].ToString(),
                             stock = rdr["stk"].ToString(),
                             rejqty = rdr["REJ"].ToString(),
@@ -359,10 +360,16 @@ ORDER BY ORD DESC";
                             per = Per,
                             wstatus="Pending"
                         };
-                        cmp.pasterej = datatrans.GetDataString("Select Decode(sign(3-round(sum(rc/(oq+1)*100),2)),1,round(sum(rc/(oq+1)*100),2),3) rcper from (Select nvl(sum(oq),1) oq,nvl(sum(rc),1) rc from (Select 0 oq,Sum(B.OQTY) rc from FQTVEBAsic B,Itemmaster I Where B.DOCDATE between '"+ startDate + "' and '" + endDate + "' And B.Finalresult='NOT OK' and I.ITEMID='" + cmp.saveitemid + "' and B.RESULTTYPE='RECHARGE' And I.ITEMMASTERID=B.ITEMID Union All Select Sum(D.OQTY) Oq,0 From Nprodbasic B,Nprodoutdet D,Itemmaster I where I.ITEMMASTERID=D.OITEMID and B.NPRODBASICID=D.NPRODBASICID and B.DOCDATE between '" + startDate + "' and '"+ endDate + "' and I.ITEMID='" + cmp.saveitemid + "'))");
+                        //cmp.pasterej = datatrans.GetDataString("Select Decode(sign(3-round(sum(rc/(oq+1)*100),2)),1,round(sum(rc/(oq+1)*100),2),3) rcper from (Select nvl(sum(oq),1) oq,nvl(sum(rc),1) rc from (Select 0 oq,Sum(B.OQTY) rc from FQTVEBAsic B,Itemmaster I Where B.DOCDATE between '"+ startDate + "' and '" + endDate + "' And B.Finalresult='NOT OK' and I.ITEMID='" + cmp.saveitemid + "' and B.RESULTTYPE='RECHARGE' And I.ITEMMASTERID=B.ITEMID Union All Select Sum(D.OQTY) Oq,0 From Nprodbasic B,Nprodoutdet D,Itemmaster I where I.ITEMMASTERID=D.OITEMID and B.NPRODBASICID=D.NPRODBASICID and B.DOCDATE between '" + startDate + "' and '"+ endDate + "' and I.ITEMID='" + cmp.saveitemid + "'))");
+                        cmp.pasterej = "0.16";
                         double rem = Convert.ToDouble(cmp.target) + Convert.ToDouble(cmp.minstock) - Convert.ToDouble(cmp.stock);
                         double regqty= Math.Floor(rem * (Convert.ToDouble(cmp.pasterej) / 100));
                         cmp.rejqty= regqty.ToString();
+                        double required=Math.Round(rem - regqty);
+                        cmp.required = required.ToString();
+                        cmp.balanceqty= required.ToString();
+                        cmp.rejmat = "2";
+                        //cmp.targethrs = datatrans.GetDataString("Select Sum(tar) Tar from (SELECT SUM(WD.PRATE*22) TAR FROM WCBASIC W,WCPRODDETAIL WD,ITEMMASTER I WHERE W.WCBASICID=WD.WCBASICID AND W.WCID=:PYWCID AND I.ITEMMASTERID=WD.ITEMID \r\nAND WD.ITEMTYPE='Primary' AND I.ITEMID=:PYITEMID\r\nUnion All\r\nSELECT SUM(WD.PRATE*22) TAR FROM NMPC.WCBASIC W,NMPC.WCPRODDETAIL WD,ITEMMASTER I WHERE W.WCBASICID=WD.WCBASICID AND W.WCID=:PYWCID AND I.ITEMMASTERID=WD.ITEMID \r\nAND WD.ITEMTYPE='Primary' AND I.ITEMID=:PYITEMID\r\n)");
                         cmpList.Add(cmp);
                     }
                 }
