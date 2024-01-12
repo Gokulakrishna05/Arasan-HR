@@ -135,11 +135,55 @@ namespace Arasan.Models
         public string loc { get; set; }
         public string tot { get; set; }
         public string view { get; set; }
+        public string recept { get; set; }
         public string approve { get; set; }
         public string pack { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
 
+
+    }
+
+    public class Subcondcdet
+    {
+        public string DOCDATE { get; set; }
+        public string DOCID { get; set; }
+
+      
+        public string ITEMID { get; set; }
+        public string PARTYID { get; set; }
+        
+        public string ADD1 { get; set; }
+        public string ADD2 { get; set; }
+        public string CITY { get; set; }
+        public string THROUGH { get; set; }
+     
+       
+        public string HSN { get; set; }
+        public string ADDRESS { get; set; }
+        public string UNIT { get; set; }
+        public double QTY { get; set; }
+        public double NOOFBAGS { get; set; }
+        public string GSTNO { get; set; }
+        public double RATE { get; set; }
+        public double AMOUNT { get; set; }
+        public double ERQTY { get; set; }
+        public double EAMOUNT { get; set; }
+        public double ERATE { get; set; }
+         
+    }
+    public class Subcondcdetet
+    {
+        
+        public string ITEMID { get; set; }
+        public string HSN { get; set; }
+        public string RUNIT { get; set; }
+         
+         
+        
+        public double ERQTY { get; set; }
+        public double EAMOUNT { get; set; }
+        public double ERATE { get; set; }
 
     }
 }

@@ -4,6 +4,7 @@ using Arasan.Interface.Store_Management;
 using Arasan.Models;
 using Arasan.Services;
 using Arasan.Services.Store_Management;
+using AspNetCore.Reporting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
@@ -15,13 +16,15 @@ namespace Arasan.Controllers.Store_Management
         ISubContractingDC SubContractingDCService;
         IConfiguration? _configuratio;
         private string? _connectionString;
-
+        private readonly IWebHostEnvironment _WebHostEnvironment;
         DataTransactions datatrans;
-        public SubContractingDCController(ISubContractingDC _SubContractingDCService, IConfiguration _configuratio)
+        public SubContractingDCController(ISubContractingDC _SubContractingDCService, IConfiguration _configuratio,IWebHostEnvironment WebHostEnvironment)
         {
             SubContractingDCService = _SubContractingDCService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
+            this._WebHostEnvironment = WebHostEnvironment;
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
         public IActionResult SubContractingDC(string id)
         {
@@ -182,6 +185,7 @@ namespace Arasan.Controllers.Store_Management
                 string View = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
+                string recept = string.Empty;
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
 
@@ -189,6 +193,7 @@ namespace Arasan.Controllers.Store_Management
                     {
                         approve = "";
                         View = "<a href=ViewSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                        recept = "<a href=SubConDcRec?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
 
                         EditRow = "";
                     }
@@ -197,6 +202,7 @@ namespace Arasan.Controllers.Store_Management
                         approve = "<a href=ApproveSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " ><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
                         pack = "<a href=PackingMatSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " ><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                         View = "<a href=ViewSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                        recept = "<a href=SubConDcRec?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
 
                         EditRow = "<a href=SubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
 
@@ -215,6 +221,7 @@ namespace Arasan.Controllers.Store_Management
                     approve = approve,
                     pack = pack,
                     view = View,
+                    recept = recept,
                     editrow = EditRow,
                     delrow = DeleteRow,
 
@@ -903,6 +910,30 @@ namespace Arasan.Controllers.Store_Management
             }
 
             return View(ss);
+        }
+
+        public async Task<IActionResult> SubConDcRec(string id)
+        {
+
+            string mimtype = "";
+            int extension = 1;
+            
+
+            System.Data.DataSet ds = new System.Data.DataSet();
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\SubConDc.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+            //  Parameters.Add("rp1", " Hi Everyone");
+            var subcondc = await SubContractingDCService.GetSubcondc(id);
+            var subcondcDet = await SubContractingDCService.GetSubcondcdet(id);
+
+            AspNetCore.Reporting.LocalReport localReport = new AspNetCore.Reporting.LocalReport(path);
+            localReport.AddDataSource("SubConDc", subcondc);
+            localReport.AddDataSource("SubConDet", subcondcDet);
+            //localReport.AddDataSource("DataSet1_DataTable1", po);
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+
+            return File(result.MainStream, "application/Pdf");
+            
         }
     }
 }

@@ -118,6 +118,16 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SQ.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="SubConDc.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SubConDc.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="SubConDet.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SubConDet.xsd</DependentUpon>
     </Compile> 
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +189,14 @@
      <None Update="SQ.xsd">
        <Generator>MSDataSetGenerator</Generator>
        <LastGenOutput>SQ.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="SubConDc.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>SubConDc.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="SubConDet.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>SubConDet.Designer.cs</LastGenOutput>
      </None>
    </ItemGroup>
 
