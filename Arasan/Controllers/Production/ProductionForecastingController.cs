@@ -880,7 +880,8 @@ namespace Arasan.Controllers.Production
             try
             {
                 string tar = datatrans.GetDataString("Select Sum(tar) Tar from (SELECT SUM(WD.PRATE*22) TAR FROM WCBASIC W,WCPRODDETAIL WD,ITEMMASTER I WHERE W.WCBASICID=WD.WCBASICID AND W.WCBASICID='" + wcid + "' AND I.ITEMMASTERID=WD.ITEMID AND WD.ITEMTYPE='Primary' AND I.ITEMMASTERID='" + itemid + "' )");
-                var result = new { tar = tar };
+                string powe = datatrans.GetDataString("Select EBCONSPERHR from wcbasic where wcbasicid='" + wcid + "'");
+                var result = new { tar = tar , powe = powe };
                 return Json(result);
             }
             catch (Exception ex)

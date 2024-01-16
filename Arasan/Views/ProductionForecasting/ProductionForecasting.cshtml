@@ -1385,32 +1385,33 @@
 
                     var index = $("#tbBooks3").children("tr").length;
 
-                    var Work = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlWorkId" + index + "' name='PFCPOLILst[" + index + "].workid'  ><option value=''>-- Please select -- </option>" + poopt + "</select></td>";
+                    var Work = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlpolishWorkId" + index + "' name='PFCPOLILst[" + index + "].workid' onchange='polishwcchange(" + index + ",this.value)' ><option value=''>-- Please select -- </option>" + poopt + "</select></td>";
 
-                    var WCDays = "<td><input class='form-control' id='txtwcdays" + index + "' name='PFCPOLILst[" + index + "].wcdays'  style='width: 100px;' type='text'    /></td>";
+                    var WCDays = "<td><input class='form-control' id='txtpolishwcdays" + index + "' name='PFCPOLILst[" + index + "].wcdays'  style='width: 100px;' type='text'    /></td>";
 
-                    var ItemId = "<td><label style='width: 120px;'>" + item.itemid + "</label><input id='txtItemId" + index + "' name='PFCPOLILst[" + index + "].saveitemid' type='hidden'  value=" + item.saveitemid + "></td>";
+                    var ItemId = "<td><label style='width: 120px;'>" + item.itemid + "</label><input id='txtpolishItemId" + index + "' name='PFCPOLILst[" + index + "].saveitemid' type='hidden'  value=" + item.saveitemid + "></td>";
 
-                    var Target = "<td><input class='form-control' id='txttarget" + index + "' name='PFCPOLILst[" + index + "].target'  style='width: 100px;' type='text'  readonly='True'  value=" + item.target + " /><input type='hidden' value=" + item.target + " id='txtTarget" + index + "' name='PFCPOLILst[" + index + "].target'></td>";
+                    var Target = "<td><input class='form-control' id='txtpolishtarget" + index + "' name='PFCPOLILst[" + index + "].target'  style='width: 100px;' type='text'  readonly='True'  value=" + item.target + " /><input type='hidden' value=" + item.target + " id='hdpolishtarget" + index + "' name='PFCPOLILst[" + index + "].target'></td>";
 
-                    var Capacity = "<td><input class='form-control' id='txtcapacity" + index + "' name='PFCPOLILst[" + index + "].capacity'  style='width: 100px;' type='text' readonly='True'    /><input class='form-control' id='txtMinStock" + index + "' name='PFCPOLILst[" + index + "].minstock'  style='width: 80px;' type='hidden' readonly='True' value=" + item.minstock + "  /></td>";
-                    var Stock = "<td><input class='form-control' id='txtStock" + index + "' name='PFCPOLILst[" + index + "].stock'  style='width: 100px;' type='text' readonly='True'  value=" + item.stock + " /><input class='form-control' id='txtStock" + index + "' name='PFCPOLILst[" + index + "].stock'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.stock + " /></td>";
+                    var Capacity = "<td><input class='form-control' id='txtpolishcapacity" + index + "' name='PFCPOLILst[" + index + "].capacity'  style='width: 100px;' type='text' readonly='True'    /><input class='form-control' id='hdpolishcapacity" + index + "' name='PFCPOLILst[" + index + "].capacity'  type='hidden' readonly='True'  /></td>";
+                    var Stock = "<td><input class='form-control' id='txtpolishstock" + index + "' name='PFCPOLILst[" + index + "].stock'  style='width: 100px;' type='text' readonly='True'  value=" + item.stock + " /><input class='form-control' id='hdpolishstock" + index + "' name='PFCPOLILst[" + index + "].stock'  type='hidden' value=" + item.stock + " /></td>";
 
-                    var Min = "<td><input class='form-control' id='txtminstock" + index + "' name='PFCPOLILst[" + index + "].minstock'  style='width: 100px;' type='text' readonly='True' value=" + item.minstock + "   /><input class='form-control' id='txtMinStock" + index + "' name='PFCPOLILst[" + index + "].minstock'  style='width: 80px;' type='hidden' readonly='True' value=" + item.minstock + "  /></td>";
+                    var Min = "<td><input class='form-control' id='txtpolishminstock" + index + "' name='PFCPOLILst[" + index + "].minstock'  style='width: 100px;' type='text' readonly='True' value=" + item.minstock + "   /><input class='form-control' id='hdpolishminstock" + index + "' name='PFCPOLILst[" + index + "].minstock' type='hidden' value=" + item.minstock + "  /></td>";
 
 
-                    var Required = "<td><input class='form-control' id='txtrequired" + index + "' name='PFCPOLILst[" + index + "].required'  style='width: 100px;' type='text' readonly='True'  value=" + item.required + " /><input class='form-control' id='txtRequired" + index + "' name='PFCPOLILst[" + index + "].required'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.required + " /></td>";
-                    var Days = "<td><input class='form-control' id='txtdays" + index + "' name='PFCPOLILst[" + index + "].days'  style='width: 120px;' type='text' /></td>";
-                    var Additive = "<td><label style='width: 120px;'>" + item.additive + "</label><input class='form-control' id='txtadditive" + index + "' name='PFCPOLILst[" + index + "].additiveid'  style='width: 120px;' type='hidden' value=" + item.additiveid + " /></td>";
-                    var AllocAdditive = "<td><input class='form-control' id='txtadd" + index + "' name='PFCPOLILst[" + index + "].add'  style='width: 60px;' type='text' value=" + item.add + " readonly='True' /></td>";
+                    var Required = "<td><input class='form-control' id='txtpolishrequired" + index + "' name='PFCPOLILst[" + index + "].required'  style='width: 100px;' type='text' readonly='True'  value=" + item.required + " /><input class='form-control' id='hdpolishrequired" + index + "' name='PFCPOLILst[" + index + "].required'  type='hidden'  value=" + item.required + " /></td>";
+                    var Days = "<td><input class='form-control' id='txtpolishdays" + index + "' name='PFCPOLILst[" + index + "].days'  style='width: 120px;' type='text' /><input class='form-control' id='hdpolishdays" + index + "' name='PFCPOLILst[" + index + "].days'  type='hidden'  /></td>";
+                    var Additive = "<td><label style='width: 120px;'>" + item.additive + "</label><input class='form-control' id='hdpolishadditive" + index + "' name='PFCPOLILst[" + index + "].additiveid'  style='width: 120px;' type='hidden' value=" + item.additiveid + " /></td>";
+                    var AllocAdditive = "<td><input class='form-control' id='txtpolishadd" + index + "' name='PFCPOLILst[" + index + "].add'  style='width: 60px;' type='text' value=" + item.add + " readonly='True' /><input class='form-control' id='hdpolishadd" + index + "' name='PFCPOLILst[" + index + "].add'   type='hidden' value=" + item.add + " /></td>";
 
-                    var RawMat = "<td><label style='width: 120px;'>" + item.rawmat + "</label><input class='form-control' id='txtrawmat" + index + "' name='PFCPOLILst[" + index + "].rawmatid'  style='width: 120px;' type='hidden' value=" + item.rawmatid + " /></td>";
+                    var RawMat = "<td><label style='width: 120px;'>" + item.rawmat + "</label><input class='form-control' id='txtpolishrawmat" + index + "' name='PFCPOLILst[" + index + "].rawmatid'  style='width: 120px;' type='hidden' value=" + item.rawmatid + " /></td>";
 
-                        var ReqPer = "<td><input class='form-control' id='txtreqper" + index + "' name='PFCPOLILst[" + index + "].reqper'  style='width: 120px;' type='text' /></td>";
-        var RvdQty = "<td><input class='form-control' id='txtrvdqty" + index + "' name='PFCPOLILst[" + index + "].rvdqty'  style='width: 120px;' type='text' /></td>";
-        var PyroPowder = "<td><input class='form-control' id='txtpyropowder" + index + "' name='PFCPOLILst[" + index + "].pyropowder'  style='width: 120px;' type='text' /></td>";
-        var PyroQty = "<td><input class='form-control' id='txtpyroqty" + index + "' name='PFCPOLILst[" + index + "].pyroqty'  style='width: 120px;' type='text' /></td>";
-      var PowderRequired = "<td><input class='form-control' id='txtpowderrequired" + index + "' name='PFCPOLILst[" + index + "].PowderRequired'  style='width: 120px;' type='text' /></td>";
+                    var ReqPer = "<td><input class='form-control' id='txtpolishreqper" + index + "' name='PFCPOLILst[" + index + "].reqper'  style='width: 120px;' type='text' readonly='True' value=" + item.reqper + " /><input class='form-control' id='hdpolishreqper" + index + "' name='PFCPOLILst[" + index + "].reqper'   type='hidden' value=" + item.reqper + " /></td>";
+                    var RvdQty = "<td><input class='form-control' id='txtpolishrvdqty" + index + "' name='PFCPOLILst[" + index + "].rvdqty'  style='width: 120px;' type='text' readonly='True' value=" + item.rvdqty + "  /></td>";
+                    var PyroPowder = "<td><input class='form-control' id='txtpolishpowder" + index + "' name='PFCPOLILst[" + index + "].polishpowder'  style='width: 120px;' type='text' readonly='True' /></td>";
+                    var PyroQty = "<td><input class='form-control' id='txtpolishqty" + index + "' name='PFCPOLILst[" + index + "].pyroqty'  style='width: 120px;' type='text'  readonly='True' value=" + item.pyroqty + " /></td>";
+                    var PowderRequired = "<td><input class='form-control' id='txtpolishpowerreq" + index + "' name='PFCPOLILst[" + index + "].PowderRequired'  style='width: 120px;' type='text' readonly='True' /><input class='form-control' id='hdpolishpowerreq" + index + "' name='PFCPOLILst[" + index + "].PowderRequired'   type='hidden'  /></td>";
+
 
 
                     var newRow = "<tr class='chkitemlst3'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook3" + index + "'>" + Work + WCDays + ItemId + Target + Capacity + Stock + Min + Required + Days + Additive + AllocAdditive + RawMat + ReqPer + RvdQty + PyroPowder + PyroQty + PowderRequired + "</tr>";
@@ -1418,12 +1419,53 @@
 
 
                     $("#tbBooks3").append(newRow);
+
+
+                    ////////////rvd
+
+                    if(eval(item.required) > 0)
+                    {
+
+                    var rindex = $("#tbBooks4").children("tr").length;
+
+                    var rWork = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlPWorkId" + rindex + "' name='PFCRVDLst[" + rindex + "].workid'  onchange='rvdwcchange(" + rindex + ",this.value)' ><option value=''>-- Please select -- </option>" + rvdopt + "</select></td>";
+
+                    var rWCDays = "<td><input class='form-control' id='txtwcdays" + rindex + "' name='PFCRVDLst[" + rindex + "].wcdays'  style='width: 80px;' type='text'    /></td>";
+
+                            var rItemId = "<td><label style='width: 120px;'>" + item.rawmat + "</label><input id='txtrvdItemId" + index + "' name='PFCRVDLst[" + index + "].saveitemid' type='hidden'  value=" + item.rawmatid + "></td>";
+
+                    var Prodqty = "<td><input class='form-control' id='txtrvdprodqty" + rindex + "' name='PFCRVDLst[" + rindex + "].prodqty'  style='width: 100px;' type='text' readonly='True'  value=" + item.required + " /><input type='hidden' value=" + item.required + " id='hdrvdprodqty" + rindex + "' name='PFCRVDLst[" + rindex + "].prodqty'></td>";
+
+                       var Days = "<td><input class='form-control' id='txtrvddays" + rindex + "' name='PFCRVDLst[" + rindex + "].days'  style='width: 120px;' type='text' /><input type='hidden'  id='hdrvdcapacity" + rindex + "' name='PFCRVDLst[" + rindex + "].capacity'></td>";
+
+                   var Cons = "<td><label style='width: 120px;'>" + item.consmat + "</label><input id='txtrvdconsmatid" + index + "' name='PFCRVDLst[" + index + "].consmatid' type='hidden'  value=" + item.consmatid + "></td>";
+                    
+                    var consqty = "<td><input class='form-control' id='txtconsqty" + rindex + "' name='PFCRVDLst[" + rindex + "].consqty'  style='width: 80px;' type='text' type='hidden' value=" + item.consqty + " readonly='True' /><input type='hidden' value=" + item.consqty + " id='hdconsqty" + rindex + "' name='PFCRVDLst[" + rindex + "].consqty'></td>";
+
+                        var RawMat = "<td><label style='width: 120px;'>" + item.rvdrawmat + "</label><input id='txtrvdrawid" + index + "' name='PFCRVDLst[" + index + "].rawmat' type='hidden'  value=" + item.rvdrawmatid + "></td>";
+
+                            var Qty = "<td><input class='form-control' id='txtrvdrawqty" + rindex + "' name='PFCRVDLst[" + rindex + "].qty'  style='width: 80px;' type='text' type='hidden' value=" + item.rvdrawmatqty + " readonly='True' /><input type='hidden' value=" + item.rvdrawmatqty + " id='hdrvdrawqty" + rindex + "' name='PFCRVDLst[" + rindex + "].qty'></td>";
+
+
+        var Mto = "<td><input class='form-control' id='txtmto" + rindex + "' name='PFCRVDLst[" + rindex + "].mto'  style='width: 100px;' type='text' readonly='True' value=" + item.rvdmtorec + " /></td>";
+            var MtoLoss = "<td><input class='form-control' id='txtmtoloss" + rindex + "' name='PFCRVDLst[" + rindex + "].mtoloss'  style='width: 100px;' type='text' readonly='True' value=" + item.rvdmtoloss + " /></td>";
+       var PowderRequired = "<td><input class='form-control' id='txtrvdpowerreq" + rindex + "' name='PFCRVDLst[" + rindex + "].PowderRequired'  style='width: 100px;' type='text' readonly='True'  /><input type='hidden'  id='hdrvdpowerreq" + rindex + "' name='PFCRVDLst[" + rindex + "].PowderRequired'></td>";
+
+        var newRow = "<tr class='chkitemlst4'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook4" + rindex + "'>" + rWork + rWCDays + rItemId + Prodqty + Days + Cons + consqty + RawMat + Qty + Mto + MtoLoss  + PowderRequired + "</tr>";
+
+
+
+                    $("#tbBooks4").append(newRow);
+
+                         $('._select').select2();
+                        }
+
                 });
             },
 
         });
 
-         $.ajax({
+        @* $.ajax({
             url: 'GetRVDForecast',
             type: "post",
             data: { "mnth": mnth, "type": type },
@@ -1462,7 +1504,7 @@
                 });
             },
 
-        });
+        });*@
           $.ajax({
             url: 'GetPasteForecast',
             type: "post",
@@ -1696,6 +1738,9 @@
 
             document.getElementById("txtstargethrs"+i).value = result.tar;
              document.getElementById("txttargethrs"+i).value = result.tar;
+
+               document.getElementById("txtspyropowerreq" + i).value = result.powe;
+                document.getElementById("txtpyropowerreq" + i).value = result.powe;
             
            // document.getElementById("txtAdd2").value = result.add2;
             },
@@ -1704,14 +1749,23 @@
             }
             });
 
+
+
+            }
+    function polishwcchange(i, wcid) {
+        var itemid = document.getElementById("txtpolishItemId" + i).value;
+       // var capacity =0;
         $.ajax({
-            url: 'GetWcPower',
-            data: {  "wcid": wcid },
+            url: 'GetpyrowcDetail',
+            data: { "itemid": itemid, "wcid": wcid },
             type: "GET",
             success: function (result) {
 
-                document.getElementById("txtspyropowerreq" + i).value = result.powe;
-                document.getElementById("txtpyropowerreq" + i).value = result.powe;
+                document.getElementById("txtpolishcapacity" + i).value = result.tar;
+                document.getElementById("hdpolishcapacity" + i).value = result.tar;
+                document.getElementById("txtpolishpowerreq" + i).value = result.powe;
+                document.getElementById("hdpolishpowerreq" + i).value = result.powe;
+                changepolishdays('', i);
 
             },
             error: function () {
@@ -1719,8 +1773,30 @@
             }
         });
 
+                  }
+                  function rvdwcchange(i, wcid){
 
+                       var itemid = document.getElementById("txtrvdItemId" + i).value;
+        $.ajax({
+            url: 'GetpyrowcDetail',
+            data: { "itemid": itemid, "wcid": wcid },
+            type: "GET",
+            success: function (result) {
+
+              
+                document.getElementById("hdrvdcapacity" + i).value = result.tar;
+                document.getElementById("txtrvdpowerreq" + i).value = result.powe;
+                document.getElementById("hdrvdpowerreq" + i).value = result.powe;
+                changervddays('', i);
+
+            },
+            error: function () {
+                alert("Data Not Found");
             }
+        });
+                     
+                  }
+      
             function removepyrorow(tabindex,index){
                 var table = document.getElementById("pyrosub_"+tabindex);
         var rowCount = table.rows.length;
@@ -1771,4 +1847,46 @@ if (targethrs == "")
         document.getElementById("txtsreqpowder" + i).value = Math.ceil(reqpower);
         document.getElementById("txtreqpowder" + i).value = Math.ceil(reqpower);
             }
+
+                          function changepolishdays(_this, i){
+        var target = document.getElementById("hdpolishrequired" + i).value;
+        var capacity = document.getElementById("hdpolishcapacity" + i).value;
+        var power= document.getElementById("hdpolishpowerreq" + i).value;
+
+        if (target == "")
+            target = 0;
+
+        if (capacity == "")
+            capacity = 0;
+
+        var days = eval(target) / eval(capacity);
+
+        var kwhr = eval(target) * 22 * eval(power);
+            document.getElementById("txtpolishdays" + i).value = Math.ceil(days);
+        document.getElementById("hdpolishdays" + i).value = Math.ceil(days);
+        document.getElementById("txtpolishrvdqty" + i).value = target;
+        document.getElementById("txtpolishqty" + i).value = target;
+        document.getElementById("hdpolishpowerreq" + i).value = Math.round(kwhr,2);
+        document.getElementById("txtpolishpowerreq" + i).value = Math.round(kwhr,2);
+    }
+     function changervddays(_this, i){
+        var target = document.getElementById("hdpolishrequired" + i).value;
+        var capacity = document.getElementById("hdrvdcapacity" + i).value;
+        var power= document.getElementById("hdrvdpowerreq" + i).value;
+
+        if (target == "")
+            target = 0;
+
+        if (capacity == "")
+            capacity = 0;
+
+        var days = eval(target) / eval(capacity);
+
+        var kwhr = eval(target) * 22 * eval(power);
+            document.getElementById("txtrvddays" + i).value = Math.ceil(days);
+      //  document.getElementById("hdrvddays" + i).value = Math.ceil(days);
+       
+        document.getElementById("txtrvdpowerreq" + i).value = Math.round(kwhr,2);
+        document.getElementById("hdrvdpowerreq" + i).value = Math.round(kwhr,2);
+    }
 </script>
