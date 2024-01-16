@@ -156,6 +156,15 @@ namespace Arasan.Models
         public string rawmatid { get; set; }
         public string powderrequired { get; set; }
 
+        public string consmat { get; set; }
+        public string consmatid { get; set; }
+        public string consqty { get; set; }
+        public string rvdrawmat { get; set; }
+        public string rvdrawmatid { get; set; }
+
+        public string rvdrawmatqty { get; set; }
+        public string rvdmtorec { get; set; }
+        public string rvdmtoloss { get; set; }
     }
     public class PFCRVDItem
     {
@@ -167,8 +176,8 @@ namespace Arasan.Models
         public List<SelectListItem> POWorklst { get; set; }
         public string Isvalid { get; set; }
         public string wcdays { get; set; }
-        
-       
+
+        public string capacity { get; set; }
         public string days { get; set; }
         public string mto { get; set; }
         public string mtoloss { get; set; }
