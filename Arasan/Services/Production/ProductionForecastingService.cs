@@ -447,16 +447,49 @@ ORDER BY ord desc";
                             additiveid = datatrans.GetDataString("SELECT   I1.ITEMMASTERID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID = I.ADD1"),
                             rawmat = datatrans.GetDataString("SELECT I1.ItemID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID=I.ITEMFROM"),
                             rawmatid = datatrans.GetDataString("SELECT I1.ITEMMASTERID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID=I.ITEMFROM"),
-                        // itemid = rdr["ITEMID"].ToString(),
-                        //Branch = rdr["BRANCHID"].ToString(),
+                            reqper="100",
+                            rvdqty= rdr["Tar"].ToString(),
+                            pyroqty = rdr["Tar"].ToString(),
+                            // itemid = rdr["ITEMID"].ToString(),
+                            //Branch = rdr["BRANCHID"].ToString(),
 
-                        //InvNo = rdr["DOCID"].ToString(),
+                            //InvNo = rdr["DOCID"].ToString(),
 
-                        //InvDate = rdr["DOCDATE"].ToString(),
-                        //Party = rdr["PARTYNAME"].ToString(),
-                        //Net = Convert.ToDouble(rdr["NET"].ToString()),
+                            //InvDate = rdr["DOCDATE"].ToString(),
+                            //Party = rdr["PARTYNAME"].ToString(),
+                            //Net = Convert.ToDouble(rdr["NET"].ToString()),
 
-                    };
+                        };
+                        if (cmp.required != "0")
+                        {
+                            DataTable consdt = new DataTable();
+                            consdt = datatrans.GetData("SELECT I.ADD1,I2.ITEMID FROM ITEMMASTER I, ITEMMASTER I2 WHERE I.ADD1 = I2.ITEMMASTERID AND I.ITEMMASTERID = '" + cmp.rawmatid + "'");
+                           
+                            if (consdt.Rows.Count > 0)
+                            {
+                                cmp.consmat = consdt.Rows[0]["ITEMID"].ToString();
+                                cmp.consmatid= consdt.Rows[0]["ADD1"].ToString();
+                                string per = datatrans.GetDataString("SELECT ADD1PER FROM ITEMMASTER WHERE  ITEMMASTERID= '" + consdt.Rows[0]["ADD1"].ToString() + "'");
+                                double consqty = Math.Round(Convert.ToDouble(cmp.required) * Convert.ToDouble(per), 0);
+                                cmp.consqty = consqty.ToString();
+                            }
+                           DataTable rawdt = datatrans.GetData("SELECT I.ITEMFROM,I2.ITEMID FROM ITEMMASTER I,ITEMMASTER I2 WHERE  I.ITEMMASTERID='" + cmp.rawmatid + "' AND I2.ITEMMASTERID=I.ITEMFROM");
+                            if(rawdt.Rows.Count > 0)
+                            {
+                                cmp.rvdrawmatid = rawdt.Rows[0]["ITEMFROM"].ToString();
+                                cmp.rvdrawmat = rawdt.Rows[0]["ITEMID"].ToString();
+                                string rawper = datatrans.GetDataString("SELECT RAWMATPER FROM ITEMMASTER WHERE  ITEMMASTERID= '" + cmp.rawmatid + "'");
+                                double rawqty = Math.Round(Convert.ToDouble(cmp.required) * Convert.ToDouble(rawper), 0);
+                                cmp.rvdrawmatqty = rawqty.ToString();
+                                double rvdmtor = Math.Round((rawqty * 20) / 100, 0);
+                                cmp.rvdmtorec = rvdmtor.ToString();
+                                double rvdmtol = Math.Round(rawqty - rvdmtor - Convert.ToDouble(cmp.required), 0);
+                                cmp.rvdmtoloss = rvdmtol.ToString();
+                            }
+
+                        }
+
+
                         cmpList.Add(cmp);
                     }
                 }
