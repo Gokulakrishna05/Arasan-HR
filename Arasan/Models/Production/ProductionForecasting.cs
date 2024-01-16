@@ -52,7 +52,7 @@ namespace Arasan.Models
         public string coarse { get; set; }
         public string power { get; set; }
          
-
+        public string pyrocunt { get; set; }
         public List<SelectListItem> mnthlst { get; set; }
     }
     public class PFCItem
@@ -112,6 +112,7 @@ namespace Arasan.Models
         public string rejqty { get; set; }
         public string required { get; set; }
         public string target { get; set; }
+        public string targethrs { get; set; }
         public string proddays { get; set; }
         public string prodqty { get; set; }
         public string rejmat { get; set; }
