@@ -64,6 +64,7 @@ namespace Arasan.Models
 
 
         public string rate { get; set; }
+        public string Iitemid { get; set; }
         public string amount { get; set; }
         public string supid { get; set; }
 
