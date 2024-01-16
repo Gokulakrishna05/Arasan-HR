@@ -181,7 +181,7 @@ namespace Arasan.Controllers.Store_Management
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
                 string pack = string.Empty;
-                string approve = string.Empty;
+                //string approve = string.Empty;
                 string View = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
@@ -191,7 +191,7 @@ namespace Arasan.Controllers.Store_Management
 
                     if (dtUsers.Rows[i]["STATUS"].ToString() == "Approve")
                     {
-                        approve = "";
+                        //approve = "";
                         View = "<a href=ViewSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                         recept = "<a href=SubConDcRec?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
 
@@ -199,7 +199,7 @@ namespace Arasan.Controllers.Store_Management
                     }
                     else
                     {
-                        approve = "<a href=ApproveSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " ><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                        //approve = "<a href=ApproveSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " ><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
                         pack = "<a href=PackingMatSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " ><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                         View = "<a href=ViewSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                         recept = "<a href=SubConDcRec?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
@@ -218,7 +218,7 @@ namespace Arasan.Controllers.Store_Management
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     loc = dtUsers.Rows[i]["LOCID"].ToString(),
                     tot = dtUsers.Rows[i]["TOTQTY"].ToString(),
-                    approve = approve,
+                    //approve = approve,
                     pack = pack,
                     view = View,
                     recept = recept,
@@ -648,10 +648,34 @@ namespace Arasan.Controllers.Store_Management
                     TData1.Add(tda1);
                 }
             }
+            List<PackMatItem> TData2 = new List<PackMatItem>();
+            PackMatItem tda2 = new PackMatItem();
+            DataTable dt4 = new DataTable();
+            string baid = datatrans.GetDataString("Select RDELBASICID from RDELBASIC where DCREFID='" + id + "'");
+            dt4 = SubContractingDCService.GetPackMatViewDetail(baid);
+            if (dt4.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt4.Rows.Count; i++)
+                {
+                    tda2 = new PackMatItem();
 
+                   
+                    //tda1.saveItemId = dt3.Rows[i]["ITEMID"].ToString();
+                    tda2.ItemId = dt4.Rows[i]["ITEMID"].ToString();
+                    tda2.Unit = dt4.Rows[i]["UNIT"].ToString();
+                    tda2.Quantity = dt4.Rows[i]["QTY"].ToString();
+                    tda2.rate = dt4.Rows[i]["RATE"].ToString();
+                    tda2.Amount = dt4.Rows[i]["AMOUNT"].ToString();
+                    tda2.stock = dt4.Rows[i]["CLSTOCK"].ToString();
+
+                    tda2.Isvalid = "Y";
+                    TData2.Add(tda2);
+                }
+            }
 
             st.SCDIlst = TData;
             st.RECDlst = TData1;
+            st.packlst = TData2;
             return View(st);
         }
         public IActionResult ApproveSubContractingDC(string id)

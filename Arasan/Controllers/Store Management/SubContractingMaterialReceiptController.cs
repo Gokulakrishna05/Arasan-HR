@@ -401,21 +401,22 @@ namespace Arasan.Controllers.Store_Management
             DataTable dt2 = new DataTable();
 
 
-            dt2 = SubContractingMaterialReceiptService.GetDrumItemDetails(id);
-            if (dt2.Rows.Count > 0)
-            {
+            string rate = datatrans.GetDataString("select ERATE from SUBCONTEDET where RITEM='" + id + "'ORDER BY SUBCONTEDETID DESC ");
+            //if (dt2.Rows.Count > 0)
+            //{
 
-                ca.item = dt2.Rows[0]["ITEMID"].ToString();
-                ca.itemid = dt2.Rows[0]["item"].ToString();
-                ca.qty = dt2.Rows[0]["QTY"].ToString();
-                ca.rate = dt2.Rows[0]["RATE"].ToString();
-            }
+            //    ca.item = dt2.Rows[0]["ITEMID"].ToString();
+            //    ca.itemid = dt2.Rows[0]["item"].ToString();
+            //    ca.qty = dt2.Rows[0]["QTY"].ToString();
+            //    ca.rate = dt2.Rows[0]["RATE"].ToString();
+            //}
 
             for (int i = 0; i < 1; i++)
             {
                 tda = new DrumItemDeatil();
                 tda.drulist = BindDrum();
                 tda.ID = id;
+                tda.rate = rate;
                 tda.Isvalid = "Y";
                 tda.uniqueid = "pre-" + i;
                 TData.Add(tda);
