@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using Arasan.Interface.Store_Management;
 using Nest;
+using Dapper;
 
 namespace Arasan.Services.Store_Management
 {
@@ -541,6 +542,29 @@ namespace Arasan.Services.Store_Management
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+        public async Task<IEnumerable<SubMrdc>> GetSubMrdc(string id)
+        {
+            using (OracleConnection db = new OracleConnection(_connectionString))
+            {
+                return await db.QueryAsync<SubMrdc>(" SELECT SUBMRBASICID   ,to_char(DOCDATE,'dd-MM-yy')DOCDATE, DOCID, PARTYMAST.PARTYID, FROMLOCATION, ENTEREDBY, NARRATION, REFNO, REFDATE, TOTRCQTY, TOTRQTY, TOLOCATION, RLOCID, TOWCID, TOWCBASICID, TOPROCESSID,PARTYMAST.ADD1 ||','||PARTYMAST.ADD2 ||','||PARTYMAST.CITY ||'-'||PARTYMAST.PINCODE as ADDRESS,PARTYMAST.GSTNO,LOCDETAILS.CPNAME  FROM TAAIERP.SUBMRBASIC INNER JOIN  PARTYMAST ON PARTYMAST.PARTYMASTID =  SUBMRBASIC.PARTYID INNER JOIN  LOCDETAILS ON LOCDETAILS.LOCDETAILSID =  SUBMRBASIC.TOLOCATION  where SUBMRBASIC.SUBMRBASICID='" + id + "'", commandType: CommandType.Text);
+            }
+        }
+
+        public async Task<IEnumerable<SubMrdcdet>> GetSubMrdcdet(string id)
+        {
+            using (OracleConnection db = new OracleConnection(_connectionString))
+            {
+                return await db.QueryAsync<SubMrdcdet>(" SELECT SUBMRDETAILID, SUBMRBASICID, SUBMRDETAILROW, ITEMMASTER.ITEMID,ITEMMASTER.HSN, FGITEMDESC, UNIT, RECQTY, COSTRATE, AMOUNT, SUBMRDETAIL.LOTYN, DCQTY, PENDQTY, SUBCONTEDETID, SUBQTY, MELTLOSS, TRECQTY FROM  SUBMRDETAIL INNER JOIN  ITEMMASTER ON ITEMMASTER.ITEMMASTERID =  SUBMRDETAIL.FGITEMID where SUBMRDETAIL.SUBMRBASICID ='" + id + "'", commandType: CommandType.Text);
+            }
+        }
+        public async Task<IEnumerable<SubActMrdcdet>> GetSubActMrdcdet(string id)
+        {
+            using (OracleConnection db = new OracleConnection(_connectionString))
+            {
+                return await db.QueryAsync<SubActMrdcdet>(" SELECT SUBACTMRDETID, SUBMRBASICID, SUBACTMRDETROW, MITEMID, MITEMMASTERID, MITEMACC, MVALMETHOD, MLOTYN, ITEMMASTER.ITEMID,ITEMMASTER.HSN,MUNIT, MRQTY, MRRATE, MRAMOUNT, MSUBQTY, BRATE FROM TAAIERP.SUBACTMRDET INNER JOIN  ITEMMASTER ON ITEMMASTER.ITEMMASTERID =  SUBACTMRDET.MITEMID where SUBACTMRDET.SUBMRBASICID ='" + id + "'", commandType: CommandType.Text);
+            }
         }
     }
 }

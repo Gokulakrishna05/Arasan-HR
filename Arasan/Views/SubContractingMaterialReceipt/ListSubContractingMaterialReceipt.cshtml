@@ -44,6 +44,7 @@
                 { name: 'docDate', type: 'string' },
                 { name: 'loc', type: 'string' },
                 //{ name: 'viewpen', type: 'string' },
+                { name: 'recept', type: 'string' },
                 { name: 'view', type: 'string' },
                 { name: 'delrow', type: 'string' },
 
@@ -81,6 +82,7 @@
                     { text: 'Doc Date', datafield: 'docDate', width: 150, align: 'center' },
                     { text: 'Location', datafield: 'loc', width: 150, align: 'center' },
                     //{ text: 'View Pending', datafield: 'viewpen', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Print', datafield: 'recept', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                 ]
@@ -113,7 +115,7 @@
                             </div>
                             <div class="col-md-9 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("SubMatReceipt", "SubContractingMaterialReceipt")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Sub Contracting MaterialReceipt</a>
+                                    <a href="@Url.Action("SubContractingMaterialReceipt", "SubContractingMaterialReceipt")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Sub Contracting MaterialReceipt</a>
                                     <br>
                                 </div>
 
