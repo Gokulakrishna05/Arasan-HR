@@ -1,3 +1,7 @@
 ﻿namespace Arasan
 {
 }
+
+namespace Arasan
+{
+}
