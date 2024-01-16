@@ -31,6 +31,7 @@ namespace Arasan.Models
         public string RefNo { get; set; }
         public string RefDate { get; set; }
         public string WorkCenter { get; set; }
+        public string itemrate { get; set; }
         public string Narration { get; set; }
 
         public string item { get; set; }
@@ -87,6 +88,8 @@ namespace Arasan.Models
         public string End { get; set; }
         public string drumqty { get; set; }
         public string itemid { get; set; }
+        public string drumamount { get; set; }
+        public string drumrate { get; set; }
         public List<SelectListItem> drulist { get; set; }
         public string drumno { get; set; }
         public string prefix { get; set; }
@@ -119,6 +122,7 @@ namespace Arasan.Models
         public string rate { get; set; }
        
         public string amount { get; set; }
+        public string billrate { get; set; }
         public string supid { get; set; }
         public string detid { get; set; }
 
@@ -138,6 +142,7 @@ namespace Arasan.Models
         public string delrow { get; set; }
         public string move { get; set; }
         public string view { get; set; }
+        public string recept { get; set; }
         public string viewpen { get; set; }
 
     }
@@ -154,6 +159,56 @@ namespace Arasan.Models
         public string recqty { get; set; }
         public string baid { get; set; }
          
+
+    }
+
+    public class SubMrdc
+    {
+        public string DOCDATE { get; set; }
+        public string DOCID { get; set; }
+
+
+        public string ITEMID { get; set; }
+        public string PARTYID { get; set; }
+        public string CPNAME { get; set; }
+        public string ENTEREDBY { get; set; }
+
+        public string ADD1 { get; set; }
+        public string ADD2 { get; set; }
+        public string CITY { get; set; }
+        public string THROUGH { get; set; }
+        public string ADDRESS { get; set; }
+
+ 
+        public string GSTNO { get; set; }
+   
+    }
+    public class SubMrdcdet
+    {
+
+        public string ITEMID { get; set; }
+        public string HSN { get; set; }
+        public string UNIT { get; set; }
+
+
+
+        public double RECQTY { get; set; }
+        public double AMOUNT { get; set; }
+        public double COSTRATE { get; set; }
+
+    }
+    public class SubActMrdcdet
+    {
+
+        public string ITEMID { get; set; }
+        public string HSN { get; set; }
+        public string UNIT { get; set; }
+
+
+
+        public double MRQTY { get; set; }
+        public double MRAMOUNT { get; set; }
+        public double MRRATE { get; set; }
 
     }
 }

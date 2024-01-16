@@ -22,5 +22,9 @@ namespace Arasan.Interface.Store_Management
         DataTable GetMaterialReceipt(string id);
         DataTable GetReceiptItem(string id);
         DataTable GetDrumdetails(string id);
+
+        Task<IEnumerable<SubMrdc>> GetSubMrdc(string id);
+        Task<IEnumerable<SubMrdcdet>> GetSubMrdcdet(string id);
+        Task<IEnumerable<SubActMrdcdet>> GetSubActMrdcdet(string id);
     }
 }

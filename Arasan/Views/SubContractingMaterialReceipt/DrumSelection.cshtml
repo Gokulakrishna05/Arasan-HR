@@ -110,6 +110,8 @@
 
                                                     <th>  Last No </th>
                                                     <th>  Qty </th>
+                                                    <th>  Rate </th>
+                                                    <th>  Amount </th>
 
 
                                                 </tr>
@@ -132,6 +134,12 @@
                                                             <td>  @Html.TextBoxFor(C => C.drumlist[i].End, new { @id = "txtEnd" +i, @class = "form-control", @TabIndex = 3 ,style = "width: 200px;" , onkeydown = "return isNumeric2(event.keyCode,this.value)" })  </td>
                                                             <td>
                                                                 @Html.TextBoxFor(C => C.drumlist[i].drumqty, new { @id = "txtdrumqty"+i, @class = "form-control", @TabIndex = 4 ,style = "width: 200px;", onkeydown = "return isNumeric2(event.keyCode,this.value)" /*,@onkeyup = "changeTot(this,"+ i+ ")"*/ })
+                                                           </td>
+                                                             <td>
+                                                                @Html.TextBoxFor(C => C.drumlist[i].drumrate, new { @id = "txtdrumrate"+i, @class = "form-control", @TabIndex = 4 ,style = "width: 200px;", onkeydown = "return isNumeric2(event.keyCode,this.value)" /*,@onkeyup = "changeTot(this,"+ i+ ")"*/ })
+                                                           </td>
+                                                             <td>
+                                                                @Html.TextBoxFor(C => C.drumlist[i].drumamount, new { @id = "txtdrumamount"+i, @class = "form-control", @TabIndex = 4 ,style = "width: 200px;", onkeydown = "return isNumeric2(event.keyCode,this.value)" /*,@onkeyup = "changeTot(this,"+ i+ ")"*/ })
                                                            </td>
                                                             <td>
                                                                 @Html.HiddenFor(o => o.drumlist[i].Isvalid, new { @id = "Isvalid" + i })
@@ -236,6 +244,8 @@
                 var Start = document.getElementById("txtStart" + e).value;
                 var End = document.getElementById("txtEnd" + e).value;
                 var drumqty = document.getElementById("txtdrumqty" + e).value;
+                var drumrate = document.getElementById("txtdrumrate" + e).value;
+                var drumamount = document.getElementById("txtdrumamount" + e).value;
                var unid=document.getElementById("hduni" + e).value;
                      var count = eval(End) - eval(Start);
                  for (let j = eval(Start); j < eval(End) + 1; j++) 
@@ -245,8 +255,8 @@
                     var index = $("#tbBooks").children("tr").length;
                       var Drum = "<td><input class='form-control' id='ddldrumno" + index + "' name='drumlist[" + index + "].drumno'  style='width: 250px;' type='text'  readonly='True'  value=" + drumno + "  /></td>";
                         var qty = "<td><input class='form-control' id='txtqty" + index + "' name='drumlist[" + index + "].qty'  style='width: 100px;' type='text'   value=" + drumqty + " /></td>";
-                      var rate = "<td><input class='form-control' id='txtrate" + index + "' name='drumlist[" + index + "].rate'  style='width: 100px;' type='text'   /></td>";
-                        var amount = "<td><input class='form-control' id='txtamount" + index + "' name='drumlist[" + index + "].amount'  style='width: 120px;' type='text' /><input id='txtprefix" + index + "' name='drumlist[" + index + "].'prefix type='hidden' value=" + unid + " ></td>";
+                      var rate = "<td><input class='form-control' id='txtrate" + index + "' name='drumlist[" + index + "].rate'  style='width: 100px;' type='text'  value=" + drumrate + " /></td>";
+                        var amount = "<td><input class='form-control' id='txtamount" + index + "' name='drumlist[" + index + "].amount'  style='width: 120px;' type='text' value=" + drumamount + " /><input id='txtprefix" + index + "' name='drumlist[" + index + "].'prefix type='hidden' value=" + unid + " ></td>";
                       var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + qty + rate + amount + "</tr>";
                       $("#tbBooks").append(newRow);
                   }
@@ -260,6 +270,42 @@
 
      
 
+    }
+      function changedrumQty(_this, a) {
+        try {
+  var j = 0;
+           
+            
+    
+
+                            var totamt = 0;
+             var qty = document.getElementById("txtdrumqty" + a).value;
+            var up = document.getElementById("txtdrumrate" + a).value;
+           
+
+
+            if (qty == "")
+                qty = 0;
+
+
+
+            if (up == "")
+                up = 0;
+ 
+
+
+            var tot = eval(qty) * eval(up)  ;
+            document.getElementById("txtdrumamount" + a).value = tot.toFixed(2);
+
+
+
+
+           
+
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
     }
     @*function changeDrum( ) {
         var e = 0;
@@ -426,11 +472,13 @@
         var end = "<td><input class='form-control' id='txtEnd" + index + "' name='drumlist[" + index + "].End'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 200px;' type='text'     /></td>";
 
         var qty = "<td><input class='form-control' id='txtdrumqty" + index + "' name='drumlist[" + index + "].drumqty'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 200px; type='text'  /></td>";
+        var rate = "<td><input class='form-control' id='txtdrumrate" + index + "' name='drumlist[" + index + "].drumrate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 200px; type='text'  /></td>";
+        var amount = "<td><input class='form-control' id='txtdrumamount" + index + "' name='drumlist[" + index + "].drumamount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 200px; type='text'  /></td>";
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='drumlist[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='drumlist.Index' type='hidden' value='" + index + "'  /></td>";
 
 
-        var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + pri + start + end + qty + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + pri + start + end + qty + rate + amount + removeCell + "</tr>";
 
         $("#tbBooks1").append(newRow);
 

@@ -4,6 +4,7 @@ using Arasan.Models;
 using Arasan.Services;
 using Arasan.Services.Qualitycontrol;
 using Arasan.Services.Store_Management;
+using AspNetCore.Reporting;
 //using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,13 +19,15 @@ namespace Arasan.Controllers.Store_Management
         ISubContractingMaterialReceipt  SubContractingMaterialReceiptService;
         IConfiguration? _configuratio;
         private string? _connectionString;
-
+        private readonly IWebHostEnvironment _WebHostEnvironment;
         DataTransactions datatrans;
-        public SubContractingMaterialReceiptController(ISubContractingMaterialReceipt _SubContractingMaterialReceiptService, IConfiguration _configuratio)
+        public SubContractingMaterialReceiptController(ISubContractingMaterialReceipt _SubContractingMaterialReceiptService, IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
         {
             SubContractingMaterialReceiptService = _SubContractingMaterialReceiptService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
+            this._WebHostEnvironment = WebHostEnvironment;
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
         public IActionResult SubContractingMaterialReceipt(string id)
         {
@@ -154,7 +157,9 @@ namespace Arasan.Controllers.Store_Management
                 string DeleteRow = string.Empty;
                 string ViewPen = string.Empty;
                 string View = string.Empty;
+                string recept = string.Empty;
 
+                recept = "<a href=SubConMatDcRec?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
 
                 ViewPen = "<a href=ViewPendingSub?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Edit' /></a>";
                 View = "<a href=ViewSub?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='Edit' /></a>";
@@ -172,6 +177,7 @@ namespace Arasan.Controllers.Store_Management
                     loc = dtUsers.Rows[i]["LOCID"].ToString(),
                     viewpen = ViewPen,
                     view = View,
+                    recept = recept,
 
                     delrow = DeleteRow,
 
@@ -392,7 +398,7 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public ActionResult DrumSelection(string id,string rowid)
+        public ActionResult DrumSelection(long id,string rowid)
         {
             SubContractingMaterialReceipt ca = new SubContractingMaterialReceipt();
             List<DrumItemDeatil> TData = new List<DrumItemDeatil>();
@@ -401,7 +407,9 @@ namespace Arasan.Controllers.Store_Management
             DataTable dt2 = new DataTable();
 
 
-            string rate = datatrans.GetDataString("select ERATE from SUBCONTEDET where RITEM='" + id + "'ORDER BY SUBCONTEDETID DESC ");
+            string item = datatrans.GetDataString("select WIPITEMID from WCBASIC where PARTYID='" + id + "'");
+           
+            string rate = datatrans.GetDataString("select ERATE from SUBCONTEDET where RITEM='" + item + "'ORDER BY SUBCONTEDETID DESC ");
             //if (dt2.Rows.Count > 0)
             //{
 
@@ -415,8 +423,8 @@ namespace Arasan.Controllers.Store_Management
             {
                 tda = new DrumItemDeatil();
                 tda.drulist = BindDrum();
-                tda.ID = id;
-                tda.rate = rate;
+                //tda.ID = id;
+                tda.drumrate = rate;
                 tda.Isvalid = "Y";
                 tda.uniqueid = "pre-" + i;
                 TData.Add(tda);
@@ -780,6 +788,31 @@ namespace Arasan.Controllers.Store_Management
             ca.SubMatlilst = TData;
 
             return View(ca);
+        }
+        public async Task<IActionResult> SubConMatDcRec(string id)
+        {
+
+            string mimtype = "";
+            int extension = 1;
+
+
+            System.Data.DataSet ds = new System.Data.DataSet();
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\SubConMatDc.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+            //  Parameters.Add("rp1", " Hi Everyone");
+            var subcondc = await SubContractingMaterialReceiptService.GetSubMrdc(id);
+            var subcondcDet = await SubContractingMaterialReceiptService.GetSubMrdcdet(id);
+            var subActcondcDet = await SubContractingMaterialReceiptService.GetSubActMrdcdet(id);
+
+            AspNetCore.Reporting.LocalReport localReport = new AspNetCore.Reporting.LocalReport(path);
+            localReport.AddDataSource("SubMat", subcondc);
+            localReport.AddDataSource("SubMatDet", subcondcDet);
+            localReport.AddDataSource("SubActMr", subActcondcDet);
+           
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+
+            return File(result.MainStream, "application/Pdf");
+
         }
     }
 }

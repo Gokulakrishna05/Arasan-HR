@@ -653,6 +653,12 @@ namespace Arasan.Controllers.Store_Management
             DataTable dt4 = new DataTable();
             string baid = datatrans.GetDataString("Select RDELBASICID from RDELBASIC where DCREFID='" + id + "'");
             dt4 = SubContractingDCService.GetPackMatViewDetail(baid);
+            DataTable dcno = datatrans.GetData("Select DOCID,to_char(DOCDATE,'dd-MM-yy')DOCDATE from RDELBASIC where RDELBASICID='" + baid + "'");
+            if (dcno.Rows.Count > 0)
+            {
+                st.NDcNo =dcno.Rows[0]["DOCID"].ToString();
+                st.dcDate =dcno.Rows[0]["DOCDATE"].ToString();
+            }
             if (dt4.Rows.Count > 0)
             {
                 for (int i = 0; i < dt4.Rows.Count; i++)
@@ -805,10 +811,11 @@ namespace Arasan.Controllers.Store_Management
         {
             SubContractingDC st = new SubContractingDC();
             DataTable dt = new DataTable();
+            st.Loc = BindLocation();
             dt = SubContractingDCService.GetSubViewDeatils(id);
             if (dt.Rows.Count > 0)
             {
-                st.ID = id;
+                st.pakid = id;
                 st.Branch = dt.Rows[0]["BRANCHID"].ToString();
                 st.Branchid = dt.Rows[0]["BRANCH"].ToString();
                 st.DocId = dt.Rows[0]["DOCID"].ToString();
