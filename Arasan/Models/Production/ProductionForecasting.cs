@@ -227,6 +227,9 @@ namespace Arasan.Models
         public string coarse { get; set; }
         public string stock { get; set; }
         public string powerrequired { get; set; }
+
+        public string paaddpurpri { get; set; }
+        public string mtopurpri { get; set; }
     }
     public class PFCAPPRODItem
     {
