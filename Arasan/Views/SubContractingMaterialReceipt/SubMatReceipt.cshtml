@@ -182,6 +182,7 @@
                                                                     <th>RecQty</th>
                                                                     <th>Rate</th>
                                                                     <th>Amount</th>
+                                                                    <th>Bill Rate</th>
 
                                                                 </tr>
                                                             </thead>
@@ -219,7 +220,9 @@
 
                                                                                     @Html.TextBoxFor(o => o.Contlilst[a].amount, new { @id = "txtamount" + a, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly", @onkeyup = "changeReciptQty(this," + a + ")" })
                                                                                 </td>
-
+                                                                                 <td>
+                                                                                    @Html.TextBoxFor(o => o.Contlilst[a].billrate, new { @id = "txtbillrate" + a, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeReciptQty(this," + a + ")" })
+                                                                                </td>
 
                                                                                 <td>
                                                                                     @Html.HiddenFor(o => o.Contlilst[a].Isvalid, new { @id = "Isvalid" + a })
@@ -278,8 +281,9 @@
                                                                                 @Html.HiddenFor(o => o.SubMatlilst[i].dqty, new { @id = "txtdqty" + i })
                                                                                 @Html.HiddenFor(o => o.SubMatlilst[i].drate, new { @id = "txtdrate" + i })
                                                                                 @Html.HiddenFor(o => o.SubMatlilst[i].damount, new { @id = "txtdamount" + i })
+                                                                                @Html.HiddenFor(o => o.SubMatlilst[i].Iitemid, new { @id = "txtiitemid" + i })
                                                                                 </td>
-                                                                            <td><div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("DrumSelection", "SubContractingMaterialReceipt",new{id= item.id ,rowid=i})' class='fancybox' data-fancybox-type="iframe"><img src='../Images/view_icon.png' id="im" hidden/></a></div> </td>
+                                                                            <td><div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("DrumSelection", "SubContractingMaterialReceipt",new{@id=item.Iitemid ,rowid=i})' class='fancybox' data-fancybox-type="iframe"><img src='../Images/view_icon.png' id="im" hidden/></a></div> </td>
                                                                             <td>@Html.TextBoxFor(o => o.SubMatlilst[i].unit, new { @id = "txtunit" + i, @class = "form-control", style = "width: 100px;",@readonly="readonly" })  </td>
                                                                             <td>@Html.TextBoxFor(o => o.SubMatlilst[i].qty, new { @id = "txtqty" + i, @class = "form-control", style = "width: 100px;" })  </td>
                                                                             <td>@Html.TextBoxFor(o => o.SubMatlilst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 100px;" })  </td>
@@ -586,7 +590,9 @@
     }
    
     function ItemChange(ItemId, i) {
-    @* var locid = document.getElementById("ddlLoc").value;*@
+    var itemidd = document.getElementById("ddlSupplier").value;
+      document.getElementById("txtiitemid" + i).value = itemidd;
+     
             $.ajax({
                 url: 'GetItemDetail',
                 data: { "ItemId": ItemId },
@@ -596,6 +602,7 @@
                     document.getElementById("txtunit" + i).value = result.unit;
                     document.getElementById("txtrate" + i).value = result.price;
                     document.getElementById("txtlot" + i).value = result.lot;
+                   
                      if (result.lot == "NO" || result.lot=="") {
 
             document.getElementById("im").style.display = "none";
@@ -621,6 +628,7 @@
     }
     function Item_Deatils(ItemId, j) {
     @* var locid = document.getElementById("ddlLoc").value;*@
+   
             $.ajax({
                 url: 'GetItem',
                 data: { "ItemId": ItemId },

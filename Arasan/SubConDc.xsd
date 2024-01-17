@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="SubConDc" targetNamespace="http://tempuri.org/SubConDc.xsd" xmlns:mstns="http://tempuri.org/SubConDc.xsd" xmlns="http://tempuri.org/SubConDc.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection ConnectionStringObject="DATA SOURCE=192.168.0.13:1521/orcl;TNS_ADMIN=C:\Users\ace\Oracle\network\admin;PASSWORD=Master_1234;PERSIST SECURITY INFO=True;USER ID=TAAIERP" IsAppSettingsProperty="false" Modifier="Assembly" Name="TAAIERP.orcl1" ParameterPrefix=":" Provider="Oracle.ManagedDataAccess.Client" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="DataTable1TableAdapter" GeneratorDataComponentClassName="DataTable1TableAdapter" Name="DataTable1" UserDataComponentName="DataTable1TableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="TAAIERP.orcl1" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT       TAAIERP.SUBCONTDCBASIC.SUBCONTDCBASICID, TAAIERP.SUBCONTDCBASIC.BRANCH, TAAIERP.SUBCONTDCBASIC.DOCDATE, TAAIERP.SUBCONTDCBASIC.DOCID, TAAIERP.SUBCONTDCBASIC.REFNO, 
+                         TAAIERP.SUBCONTDCBASIC.WCID, TAAIERP.SUBCONTDCBASIC.FROMLOCATION, TAAIERP.SUBCONTDCBASIC.ENTEREDBY, TAAIERP.SUBCONTDCBASIC.NARRATION, TAAIERP.SUBCONTDCBASIC.LOCID, 
+                         TAAIERP.SUBCONTDCBASIC.TOTQTY, TAAIERP.SUBCONTDCBASIC.TOTRECQTY, TAAIERP.SUBCONTDCBASIC.EBY, TAAIERP.SUBCONTDCBASIC.USERID, TAAIERP.SUBCONTDCBASIC.PARTYID, 
+                         TAAIERP.SUBCONTDCBASIC.PARTYMASTID, TAAIERP.SUBCONTDCBASIC.TOLOCATION, TAAIERP.SUBCONTDCBASIC.LOCDETAILSID, TAAIERP.SUBCONTDCBASIC.ADD1, TAAIERP.SUBCONTDCBASIC.ADD2, 
+                         TAAIERP.SUBCONTDCBASIC.CITY, TAAIERP.SUBCONTDCBASIC.THROUGH, TAAIERP.SUBCONTDCBATCH.SUBCONTDCBATCHID, TAAIERP.SUBCONTDCBATCH.SUBCONTDCBASICID AS EXPR1, 
+                         TAAIERP.SUBCONTDCBATCH.BITEMID, TAAIERP.SUBCONTDCBATCH.BITEMMASTERID, TAAIERP.SUBCONTDCBATCH.DRUMNO, TAAIERP.SUBCONTDCBATCH.BQTY, TAAIERP.SUBCONTDCBATCH.BRATE, 
+                         TAAIERP.SUBCONTDCBATCH.BAMOUNT, TAAIERP.SUBCONTDCDETAIL.SUBCONTDCDETAILID, TAAIERP.SUBCONTDCDETAIL.SUBCONTDCBASICID AS EXPR2, TAAIERP.SUBCONTDCDETAIL.ITEMID, 
+                         TAAIERP.SUBCONTDCDETAIL.UNIT, TAAIERP.SUBCONTDCDETAIL.QTY, TAAIERP.SUBCONTDCDETAIL.RATE, TAAIERP.SUBCONTDCDETAIL.AMOUNT, TAAIERP.SUBCONTEDET.SUBCONTEDETID, 
+                         TAAIERP.SUBCONTEDET.SUBCONTDCBASICID AS EXPR3, TAAIERP.SUBCONTEDET.RITEM, TAAIERP.SUBCONTEDET.RITEMMASTERID, TAAIERP.SUBCONTEDET.RUNIT, TAAIERP.SUBCONTEDET.ERATE, 
+                         TAAIERP.SUBCONTEDET.EAMOUNT, TAAIERP.SUBCONTEDET.ERQTY, TAAIERP.SUBCONTEDET.APPRATE, TAAIERP.SUBCONTEDET.EFRATE, TAAIERP.SUBCONTEDET.RSUBQTY, TAAIERP.SUBCONTEDET.RECQTY
+FROM            TAAIERP.SUBCONTDCBASIC INNER JOIN
+                         TAAIERP.SUBCONTDCBATCH ON TAAIERP.SUBCONTDCBASIC.SUBCONTDCBASICID = TAAIERP.SUBCONTDCBATCH.SUBCONTDCBASICID INNER JOIN
+                         TAAIERP.SUBCONTDCDETAIL ON TAAIERP.SUBCONTDCBASIC.SUBCONTDCBASICID = TAAIERP.SUBCONTDCDETAIL.SUBCONTDCBASICID INNER JOIN
+                         TAAIERP.SUBCONTEDET ON TAAIERP.SUBCONTDCBASIC.SUBCONTDCBASICID = TAAIERP.SUBCONTEDET.SUBCONTDCBASICID</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="SUBCONTDCBASICID" DataSetColumn="SUBCONTDCBASICID" />
+              <Mapping SourceColumn="BRANCH" DataSetColumn="BRANCH" />
+              <Mapping SourceColumn="DOCDATE" DataSetColumn="DOCDATE" />
+              <Mapping SourceColumn="DOCID" DataSetColumn="DOCID" />
+              <Mapping SourceColumn="REFNO" DataSetColumn="REFNO" />
+              <Mapping SourceColumn="WCID" DataSetColumn="WCID" />
+              <Mapping SourceColumn="FROMLOCATION" DataSetColumn="FROMLOCATION" />
+              <Mapping SourceColumn="ENTEREDBY" DataSetColumn="ENTEREDBY" />
+              <Mapping SourceColumn="NARRATION" DataSetColumn="NARRATION" />
+              <Mapping SourceColumn="LOCID" DataSetColumn="LOCID" />
+              <Mapping SourceColumn="TOTQTY" DataSetColumn="TOTQTY" />
+              <Mapping SourceColumn="TOTRECQTY" DataSetColumn="TOTRECQTY" />
+              <Mapping SourceColumn="EBY" DataSetColumn="EBY" />
+              <Mapping SourceColumn="USERID" DataSetColumn="USERID" />
+              <Mapping SourceColumn="PARTYID" DataSetColumn="PARTYID" />
+              <Mapping SourceColumn="PARTYMASTID" DataSetColumn="PARTYMASTID" />
+              <Mapping SourceColumn="TOLOCATION" DataSetColumn="TOLOCATION" />
+              <Mapping SourceColumn="LOCDETAILSID" DataSetColumn="LOCDETAILSID" />
+              <Mapping SourceColumn="ADD1" DataSetColumn="ADD1" />
+              <Mapping SourceColumn="ADD2" DataSetColumn="ADD2" />
+              <Mapping SourceColumn="CITY" DataSetColumn="CITY" />
+              <Mapping SourceColumn="THROUGH" DataSetColumn="THROUGH" />
+              <Mapping SourceColumn="SUBCONTDCBATCHID" DataSetColumn="SUBCONTDCBATCHID" />
+              <Mapping SourceColumn="EXPR1" DataSetColumn="EXPR1" />
+              <Mapping SourceColumn="BITEMID" DataSetColumn="BITEMID" />
+              <Mapping SourceColumn="BITEMMASTERID" DataSetColumn="BITEMMASTERID" />
+              <Mapping SourceColumn="DRUMNO" DataSetColumn="DRUMNO" />
+              <Mapping SourceColumn="BQTY" DataSetColumn="BQTY" />
+              <Mapping SourceColumn="BRATE" DataSetColumn="BRATE" />
+              <Mapping SourceColumn="BAMOUNT" DataSetColumn="BAMOUNT" />
+              <Mapping SourceColumn="SUBCONTDCDETAILID" DataSetColumn="SUBCONTDCDETAILID" />
+              <Mapping SourceColumn="EXPR2" DataSetColumn="EXPR2" />
+              <Mapping SourceColumn="ITEMID" DataSetColumn="ITEMID" />
+              <Mapping SourceColumn="UNIT" DataSetColumn="UNIT" />
+              <Mapping SourceColumn="QTY" DataSetColumn="QTY" />
+              <Mapping SourceColumn="RATE" DataSetColumn="RATE" />
+              <Mapping SourceColumn="AMOUNT" DataSetColumn="AMOUNT" />
+              <Mapping SourceColumn="SUBCONTEDETID" DataSetColumn="SUBCONTEDETID" />
+              <Mapping SourceColumn="EXPR3" DataSetColumn="EXPR3" />
+              <Mapping SourceColumn="RITEM" DataSetColumn="RITEM" />
+              <Mapping SourceColumn="RITEMMASTERID" DataSetColumn="RITEMMASTERID" />
+              <Mapping SourceColumn="RUNIT" DataSetColumn="RUNIT" />
+              <Mapping SourceColumn="ERATE" DataSetColumn="ERATE" />
+              <Mapping SourceColumn="EAMOUNT" DataSetColumn="EAMOUNT" />
+              <Mapping SourceColumn="ERQTY" DataSetColumn="ERQTY" />
+              <Mapping SourceColumn="APPRATE" DataSetColumn="APPRATE" />
+              <Mapping SourceColumn="EFRATE" DataSetColumn="EFRATE" />
+              <Mapping SourceColumn="RSUBQTY" DataSetColumn="RSUBQTY" />
+              <Mapping SourceColumn="RECQTY" DataSetColumn="RECQTY" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="SubConDc" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="SubConDc" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="SubConDc">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataTable1" msprop:Generator_RowClassName="DataTable1Row" msprop:Generator_RowEvHandlerName="DataTable1RowChangeEventHandler" msprop:Generator_RowDeletedName="DataTable1RowDeleted" msprop:Generator_RowDeletingName="DataTable1RowDeleting" msprop:Generator_RowEvArgName="DataTable1RowChangeEvent" msprop:Generator_TablePropName="DataTable1" msprop:Generator_RowChangedName="DataTable1RowChanged" msprop:Generator_UserTableName="DataTable1" msprop:Generator_RowChangingName="DataTable1RowChanging" msprop:Generator_TableClassName="DataTable1DataTable" msprop:Generator_TableVarName="tableDataTable1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SUBCONTDCBASICID" msprop:Generator_UserColumnName="SUBCONTDCBASICID" msprop:Generator_ColumnPropNameInTable="SUBCONTDCBASICIDColumn" msprop:Generator_ColumnPropNameInRow="SUBCONTDCBASICID" msprop:Generator_ColumnVarNameInTable="columnSUBCONTDCBASICID" type="xs:decimal" />
+              <xs:element name="BRANCH" msprop:Generator_UserColumnName="BRANCH" msprop:Generator_ColumnPropNameInTable="BRANCHColumn" msprop:Generator_ColumnPropNameInRow="BRANCH" msprop:Generator_ColumnVarNameInTable="columnBRANCH" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DOCDATE" msprop:Generator_UserColumnName="DOCDATE" msprop:Generator_ColumnPropNameInTable="DOCDATEColumn" msprop:Generator_ColumnPropNameInRow="DOCDATE" msprop:Generator_ColumnVarNameInTable="columnDOCDATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="DOCID" msprop:Generator_UserColumnName="DOCID" msprop:Generator_ColumnPropNameInTable="DOCIDColumn" msprop:Generator_ColumnPropNameInRow="DOCID" msprop:Generator_ColumnVarNameInTable="columnDOCID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="REFNO" msprop:Generator_UserColumnName="REFNO" msprop:Generator_ColumnPropNameInTable="REFNOColumn" msprop:Generator_ColumnPropNameInRow="REFNO" msprop:Generator_ColumnVarNameInTable="columnREFNO" type="xs:decimal" minOccurs="0" />
+              <xs:element name="WCID" msprop:Generator_UserColumnName="WCID" msprop:Generator_ColumnPropNameInTable="WCIDColumn" msprop:Generator_ColumnPropNameInRow="WCID" msprop:Generator_ColumnVarNameInTable="columnWCID" type="xs:decimal" minOccurs="0" />
+              <xs:element name="FROMLOCATION" msprop:Generator_UserColumnName="FROMLOCATION" msprop:Generator_ColumnPropNameInTable="FROMLOCATIONColumn" msprop:Generator_ColumnPropNameInRow="FROMLOCATION" msprop:Generator_ColumnVarNameInTable="columnFROMLOCATION" type="xs:long" minOccurs="0" />
+              <xs:element name="ENTEREDBY" msprop:Generator_UserColumnName="ENTEREDBY" msprop:Generator_ColumnPropNameInTable="ENTEREDBYColumn" msprop:Generator_ColumnPropNameInRow="ENTEREDBY" msprop:Generator_ColumnVarNameInTable="columnENTEREDBY" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NARRATION" msprop:Generator_UserColumnName="NARRATION" msprop:Generator_ColumnPropNameInTable="NARRATIONColumn" msprop:Generator_ColumnPropNameInRow="NARRATION" msprop:Generator_ColumnVarNameInTable="columnNARRATION" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="LOCID" msprop:Generator_UserColumnName="LOCID" msprop:Generator_ColumnPropNameInTable="LOCIDColumn" msprop:Generator_ColumnPropNameInRow="LOCID" msprop:Generator_ColumnVarNameInTable="columnLOCID" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TOTQTY" msprop:Generator_UserColumnName="TOTQTY" msprop:Generator_ColumnPropNameInTable="TOTQTYColumn" msprop:Generator_ColumnPropNameInRow="TOTQTY" msprop:Generator_ColumnVarNameInTable="columnTOTQTY" type="xs:double" minOccurs="0" />
+              <xs:element name="TOTRECQTY" msprop:Generator_UserColumnName="TOTRECQTY" msprop:Generator_ColumnPropNameInTable="TOTRECQTYColumn" msprop:Generator_ColumnPropNameInRow="TOTRECQTY" msprop:Generator_ColumnVarNameInTable="columnTOTRECQTY" type="xs:double" minOccurs="0" />
+              <xs:element name="EBY" msprop:Generator_UserColumnName="EBY" msprop:Generator_ColumnPropNameInTable="EBYColumn" msprop:Generator_ColumnPropNameInRow="EBY" msprop:Generator_ColumnVarNameInTable="columnEBY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="USERID" msprop:Generator_UserColumnName="USERID" msprop:Generator_ColumnPropNameInTable="USERIDColumn" msprop:Generator_ColumnPropNameInRow="USERID" msprop:Generator_ColumnVarNameInTable="columnUSERID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PARTYID" msprop:Generator_UserColumnName="PARTYID" msprop:Generator_ColumnPropNameInTable="PARTYIDColumn" msprop:Generator_ColumnPropNameInRow="PARTYID" msprop:Generator_ColumnVarNameInTable="columnPARTYID" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PARTYMASTID" msprop:Generator_UserColumnName="PARTYMASTID" msprop:Generator_ColumnPropNameInTable="PARTYMASTIDColumn" msprop:Generator_ColumnPropNameInRow="PARTYMASTID" msprop:Generator_ColumnVarNameInTable="columnPARTYMASTID" type="xs:long" minOccurs="0" />
+              <xs:element name="TOLOCATION" msprop:Generator_UserColumnName="TOLOCATION" msprop:Generator_ColumnPropNameInTable="TOLOCATIONColumn" msprop:Generator_ColumnPropNameInRow="TOLOCATION" msprop:Generator_ColumnVarNameInTable="columnTOLOCATION" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="LOCDETAILSID" msprop:Generator_UserColumnName="LOCDETAILSID" msprop:Generator_ColumnPropNameInTable="LOCDETAILSIDColumn" msprop:Generator_ColumnPropNameInRow="LOCDETAILSID" msprop:Generator_ColumnVarNameInTable="columnLOCDETAILSID" type="xs:long" minOccurs="0" />
+              <xs:element name="ADD1" msprop:Generator_UserColumnName="ADD1" msprop:Generator_ColumnPropNameInTable="ADD1Column" msprop:Generator_ColumnPropNameInRow="ADD1" msprop:Generator_ColumnVarNameInTable="columnADD1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ADD2" msprop:Generator_UserColumnName="ADD2" msprop:Generator_ColumnPropNameInTable="ADD2Column" msprop:Generator_ColumnPropNameInRow="ADD2" msprop:Generator_ColumnVarNameInTable="columnADD2" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="40" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CITY" msprop:Generator_UserColumnName="CITY" msprop:Generator_ColumnPropNameInTable="CITYColumn" msprop:Generator_ColumnPropNameInRow="CITY" msprop:Generator_ColumnVarNameInTable="columnCITY" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="THROUGH" msprop:Generator_UserColumnName="THROUGH" msprop:Generator_ColumnPropNameInTable="THROUGHColumn" msprop:Generator_ColumnPropNameInRow="THROUGH" msprop:Generator_ColumnVarNameInTable="columnTHROUGH" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SUBCONTDCBATCHID" msprop:Generator_UserColumnName="SUBCONTDCBATCHID" msprop:Generator_ColumnPropNameInTable="SUBCONTDCBATCHIDColumn" msprop:Generator_ColumnPropNameInRow="SUBCONTDCBATCHID" msprop:Generator_ColumnVarNameInTable="columnSUBCONTDCBATCHID" type="xs:decimal" />
+              <xs:element name="EXPR1" msprop:Generator_UserColumnName="EXPR1" msprop:Generator_ColumnPropNameInTable="EXPR1Column" msprop:Generator_ColumnPropNameInRow="EXPR1" msprop:Generator_ColumnVarNameInTable="columnEXPR1" type="xs:decimal" minOccurs="0" />
+              <xs:element name="BITEMID" msprop:Generator_UserColumnName="BITEMID" msprop:Generator_ColumnPropNameInTable="BITEMIDColumn" msprop:Generator_ColumnPropNameInRow="BITEMID" msprop:Generator_ColumnVarNameInTable="columnBITEMID" type="xs:decimal" minOccurs="0" />
+              <xs:element name="BITEMMASTERID" msprop:Generator_UserColumnName="BITEMMASTERID" msprop:Generator_ColumnPropNameInTable="BITEMMASTERIDColumn" msprop:Generator_ColumnPropNameInRow="BITEMMASTERID" msprop:Generator_ColumnVarNameInTable="columnBITEMMASTERID" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DRUMNO" msprop:Generator_UserColumnName="DRUMNO" msprop:Generator_ColumnPropNameInTable="DRUMNOColumn" msprop:Generator_ColumnPropNameInRow="DRUMNO" msprop:Generator_ColumnVarNameInTable="columnDRUMNO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BQTY" msprop:Generator_UserColumnName="BQTY" msprop:Generator_ColumnPropNameInTable="BQTYColumn" msprop:Generator_ColumnPropNameInRow="BQTY" msprop:Generator_ColumnVarNameInTable="columnBQTY" type="xs:double" minOccurs="0" />
+              <xs:element name="BRATE" msprop:Generator_UserColumnName="BRATE" msprop:Generator_ColumnPropNameInTable="BRATEColumn" msprop:Generator_ColumnPropNameInRow="BRATE" msprop:Generator_ColumnVarNameInTable="columnBRATE" type="xs:double" minOccurs="0" />
+              <xs:element name="BAMOUNT" msprop:Generator_UserColumnName="BAMOUNT" msprop:Generator_ColumnPropNameInTable="BAMOUNTColumn" msprop:Generator_ColumnPropNameInRow="BAMOUNT" msprop:Generator_ColumnVarNameInTable="columnBAMOUNT" type="xs:double" minOccurs="0" />
+              <xs:element name="SUBCONTDCDETAILID" msprop:Generator_UserColumnName="SUBCONTDCDETAILID" msprop:Generator_ColumnPropNameInTable="SUBCONTDCDETAILIDColumn" msprop:Generator_ColumnPropNameInRow="SUBCONTDCDETAILID" msprop:Generator_ColumnVarNameInTable="columnSUBCONTDCDETAILID" type="xs:decimal" />
+              <xs:element name="EXPR2" msprop:Generator_UserColumnName="EXPR2" msprop:Generator_ColumnPropNameInTable="EXPR2Column" msprop:Generator_ColumnPropNameInRow="EXPR2" msprop:Generator_ColumnVarNameInTable="columnEXPR2" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ITEMID" msprop:Generator_UserColumnName="ITEMID" msprop:Generator_ColumnPropNameInTable="ITEMIDColumn" msprop:Generator_ColumnPropNameInRow="ITEMID" msprop:Generator_ColumnVarNameInTable="columnITEMID" type="xs:decimal" minOccurs="0" />
+              <xs:element name="UNIT" msprop:Generator_UserColumnName="UNIT" msprop:Generator_ColumnPropNameInTable="UNITColumn" msprop:Generator_ColumnPropNameInRow="UNIT" msprop:Generator_ColumnVarNameInTable="columnUNIT" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="QTY" msprop:Generator_UserColumnName="QTY" msprop:Generator_ColumnPropNameInTable="QTYColumn" msprop:Generator_ColumnPropNameInRow="QTY" msprop:Generator_ColumnVarNameInTable="columnQTY" type="xs:double" minOccurs="0" />
+              <xs:element name="RATE" msprop:Generator_UserColumnName="RATE" msprop:Generator_ColumnPropNameInTable="RATEColumn" msprop:Generator_ColumnPropNameInRow="RATE" msprop:Generator_ColumnVarNameInTable="columnRATE" type="xs:double" minOccurs="0" />
+              <xs:element name="AMOUNT" msprop:Generator_UserColumnName="AMOUNT" msprop:Generator_ColumnPropNameInTable="AMOUNTColumn" msprop:Generator_ColumnPropNameInRow="AMOUNT" msprop:Generator_ColumnVarNameInTable="columnAMOUNT" type="xs:double" minOccurs="0" />
+              <xs:element name="SUBCONTEDETID" msprop:Generator_UserColumnName="SUBCONTEDETID" msprop:Generator_ColumnPropNameInTable="SUBCONTEDETIDColumn" msprop:Generator_ColumnPropNameInRow="SUBCONTEDETID" msprop:Generator_ColumnVarNameInTable="columnSUBCONTEDETID" type="xs:decimal" />
+              <xs:element name="EXPR3" msprop:Generator_UserColumnName="EXPR3" msprop:Generator_ColumnPropNameInTable="EXPR3Column" msprop:Generator_ColumnPropNameInRow="EXPR3" msprop:Generator_ColumnVarNameInTable="columnEXPR3" type="xs:decimal" minOccurs="0" />
+              <xs:element name="RITEM" msprop:Generator_UserColumnName="RITEM" msprop:Generator_ColumnPropNameInTable="RITEMColumn" msprop:Generator_ColumnPropNameInRow="RITEM" msprop:Generator_ColumnVarNameInTable="columnRITEM" type="xs:decimal" minOccurs="0" />
+              <xs:element name="RITEMMASTERID" msprop:Generator_UserColumnName="RITEMMASTERID" msprop:Generator_ColumnPropNameInTable="RITEMMASTERIDColumn" msprop:Generator_ColumnPropNameInRow="RITEMMASTERID" msprop:Generator_ColumnVarNameInTable="columnRITEMMASTERID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="16" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="RUNIT" msprop:Generator_UserColumnName="RUNIT" msprop:Generator_ColumnPropNameInTable="RUNITColumn" msprop:Generator_ColumnPropNameInRow="RUNIT" msprop:Generator_ColumnVarNameInTable="columnRUNIT" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ERATE" msprop:Generator_UserColumnName="ERATE" msprop:Generator_ColumnPropNameInTable="ERATEColumn" msprop:Generator_ColumnPropNameInRow="ERATE" msprop:Generator_ColumnVarNameInTable="columnERATE" type="xs:double" minOccurs="0" />
+              <xs:element name="EAMOUNT" msprop:Generator_UserColumnName="EAMOUNT" msprop:Generator_ColumnPropNameInTable="EAMOUNTColumn" msprop:Generator_ColumnPropNameInRow="EAMOUNT" msprop:Generator_ColumnVarNameInTable="columnEAMOUNT" type="xs:double" minOccurs="0" />
+              <xs:element name="ERQTY" msprop:Generator_UserColumnName="ERQTY" msprop:Generator_ColumnPropNameInTable="ERQTYColumn" msprop:Generator_ColumnPropNameInRow="ERQTY" msprop:Generator_ColumnVarNameInTable="columnERQTY" type="xs:double" minOccurs="0" />
+              <xs:element name="APPRATE" msprop:Generator_UserColumnName="APPRATE" msprop:Generator_ColumnPropNameInTable="APPRATEColumn" msprop:Generator_ColumnPropNameInRow="APPRATE" msprop:Generator_ColumnVarNameInTable="columnAPPRATE" type="xs:double" minOccurs="0" />
+              <xs:element name="EFRATE" msprop:Generator_UserColumnName="EFRATE" msprop:Generator_ColumnPropNameInTable="EFRATEColumn" msprop:Generator_ColumnPropNameInRow="EFRATE" msprop:Generator_ColumnVarNameInTable="columnEFRATE" type="xs:double" minOccurs="0" />
+              <xs:element name="RSUBQTY" msprop:Generator_UserColumnName="RSUBQTY" msprop:Generator_ColumnPropNameInTable="RSUBQTYColumn" msprop:Generator_ColumnPropNameInRow="RSUBQTY" msprop:Generator_ColumnVarNameInTable="columnRSUBQTY" type="xs:double" minOccurs="0" />
+              <xs:element name="RECQTY" msprop:Generator_UserColumnName="RECQTY" msprop:Generator_ColumnPropNameInTable="RECQTYColumn" msprop:Generator_ColumnPropNameInRow="RECQTY" msprop:Generator_ColumnVarNameInTable="columnRECQTY" type="xs:double" minOccurs="0" />
+              <xs:element name="HSN" msprop:Generator_ColumnPropNameInRow="HSN" msprop:Generator_ColumnPropNameInTable="HSNColumn" msprop:Generator_ColumnVarNameInTable="columnHSN" msprop:Generator_UserColumnName="HSN" type="xs:string" minOccurs="0" />
+              <xs:element name="ADDRESS" msprop:Generator_ColumnPropNameInRow="ADDRESS" msprop:Generator_ColumnPropNameInTable="ADDRESSColumn" msprop:Generator_ColumnVarNameInTable="columnADDRESS" msprop:Generator_UserColumnName="ADDRESS" type="xs:string" minOccurs="0" />
+              <xs:element name="NOOFBAGS" msprop:Generator_ColumnPropNameInRow="NOOFBAGS" msprop:Generator_ColumnPropNameInTable="NOOFBAGSColumn" msprop:Generator_ColumnVarNameInTable="columnNOOFBAGS" msprop:Generator_UserColumnName="NOOFBAGS" type="xs:string" minOccurs="0" />
+              <xs:element name="GSTNO" msprop:Generator_ColumnPropNameInRow="GSTNO" msprop:Generator_ColumnPropNameInTable="GSTNOColumn" msprop:Generator_ColumnVarNameInTable="columnGSTNO" msprop:Generator_UserColumnName="GSTNO" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

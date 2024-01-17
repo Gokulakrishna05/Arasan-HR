@@ -208,6 +208,7 @@ internal class Program
         builder.Services.TryAddSingleton<IRateService, RateService>();
 
         builder.Services.TryAddSingleton<IGRNReportService, GRNReportService>();
+        builder.Services.TryAddSingleton<IReceiptReport, ReceiptReportService>();
 
 
 

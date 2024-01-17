@@ -4,6 +4,7 @@ using Arasan.Interface.Store_Management;
 using Arasan.Models;
 using Arasan.Services;
 using Arasan.Services.Store_Management;
+using AspNetCore.Reporting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
@@ -15,13 +16,15 @@ namespace Arasan.Controllers.Store_Management
         ISubContractingDC SubContractingDCService;
         IConfiguration? _configuratio;
         private string? _connectionString;
-
+        private readonly IWebHostEnvironment _WebHostEnvironment;
         DataTransactions datatrans;
-        public SubContractingDCController(ISubContractingDC _SubContractingDCService, IConfiguration _configuratio)
+        public SubContractingDCController(ISubContractingDC _SubContractingDCService, IConfiguration _configuratio,IWebHostEnvironment WebHostEnvironment)
         {
             SubContractingDCService = _SubContractingDCService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
+            this._WebHostEnvironment = WebHostEnvironment;
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
         public IActionResult SubContractingDC(string id)
         {
@@ -178,25 +181,28 @@ namespace Arasan.Controllers.Store_Management
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
                 string pack = string.Empty;
-                string approve = string.Empty;
+                //string approve = string.Empty;
                 string View = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
+                string recept = string.Empty;
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
 
                     if (dtUsers.Rows[i]["STATUS"].ToString() == "Approve")
                     {
-                        approve = "";
+                        //approve = "";
                         View = "<a href=ViewSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                        recept = "<a href=SubConDcRec?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
 
                         EditRow = "";
                     }
                     else
                     {
-                        approve = "<a href=ApproveSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " ><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                        //approve = "<a href=ApproveSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " ><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
                         pack = "<a href=PackingMatSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " ><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                         View = "<a href=ViewSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                        recept = "<a href=SubConDcRec?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
 
                         EditRow = "<a href=SubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
 
@@ -212,9 +218,10 @@ namespace Arasan.Controllers.Store_Management
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     loc = dtUsers.Rows[i]["LOCID"].ToString(),
                     tot = dtUsers.Rows[i]["TOTQTY"].ToString(),
-                    approve = approve,
+                    //approve = approve,
                     pack = pack,
                     view = View,
+                    recept = recept,
                     editrow = EditRow,
                     delrow = DeleteRow,
 
@@ -561,6 +568,7 @@ namespace Arasan.Controllers.Store_Management
                         tda.invid = dtEnq.Rows[i]["INVENTORY_ITEM_ID"].ToString();
                         tda.lotno = dtEnq.Rows[i]["LOT_NO"].ToString();
                         tda.qty = dtEnq.Rows[i]["BALANCE_QTY"].ToString();
+                        tda.reqqty = dtEnq.Rows[i]["BALANCE_QTY"].ToString();
                         tda.rate = dtEnq.Rows[i]["RATE"].ToString();
 
 
@@ -641,10 +649,40 @@ namespace Arasan.Controllers.Store_Management
                     TData1.Add(tda1);
                 }
             }
+            List<PackMatItem> TData2 = new List<PackMatItem>();
+            PackMatItem tda2 = new PackMatItem();
+            DataTable dt4 = new DataTable();
+            string baid = datatrans.GetDataString("Select RDELBASICID from RDELBASIC where DCREFID='" + id + "'");
+            dt4 = SubContractingDCService.GetPackMatViewDetail(baid);
+            DataTable dcno = datatrans.GetData("Select DOCID,to_char(DOCDATE,'dd-MM-yy')DOCDATE from RDELBASIC where RDELBASICID='" + baid + "'");
+            if (dcno.Rows.Count > 0)
+            {
+                st.NDcNo =dcno.Rows[0]["DOCID"].ToString();
+                st.dcDate =dcno.Rows[0]["DOCDATE"].ToString();
+            }
+            if (dt4.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt4.Rows.Count; i++)
+                {
+                    tda2 = new PackMatItem();
 
+                   
+                    //tda1.saveItemId = dt3.Rows[i]["ITEMID"].ToString();
+                    tda2.ItemId = dt4.Rows[i]["ITEMID"].ToString();
+                    tda2.Unit = dt4.Rows[i]["UNIT"].ToString();
+                    tda2.Quantity = dt4.Rows[i]["QTY"].ToString();
+                    tda2.rate = dt4.Rows[i]["RATE"].ToString();
+                    tda2.Amount = dt4.Rows[i]["AMOUNT"].ToString();
+                    tda2.stock = dt4.Rows[i]["CLSTOCK"].ToString();
+
+                    tda2.Isvalid = "Y";
+                    TData2.Add(tda2);
+                }
+            }
 
             st.SCDIlst = TData;
             st.RECDlst = TData1;
+            st.packlst = TData2;
             return View(st);
         }
         public IActionResult ApproveSubContractingDC(string id)
@@ -774,10 +812,11 @@ namespace Arasan.Controllers.Store_Management
         {
             SubContractingDC st = new SubContractingDC();
             DataTable dt = new DataTable();
+            st.Loc = BindLocation();
             dt = SubContractingDCService.GetSubViewDeatils(id);
             if (dt.Rows.Count > 0)
             {
-                st.ID = id;
+                st.pakid = id;
                 st.Branch = dt.Rows[0]["BRANCHID"].ToString();
                 st.Branchid = dt.Rows[0]["BRANCH"].ToString();
                 st.DocId = dt.Rows[0]["DOCID"].ToString();
@@ -903,6 +942,30 @@ namespace Arasan.Controllers.Store_Management
             }
 
             return View(ss);
+        }
+
+        public async Task<IActionResult> SubConDcRec(string id)
+        {
+
+            string mimtype = "";
+            int extension = 1;
+            
+
+            System.Data.DataSet ds = new System.Data.DataSet();
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\SubConDc.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+            //  Parameters.Add("rp1", " Hi Everyone");
+            var subcondc = await SubContractingDCService.GetSubcondc(id);
+            var subcondcDet = await SubContractingDCService.GetSubcondcdet(id);
+
+            AspNetCore.Reporting.LocalReport localReport = new AspNetCore.Reporting.LocalReport(path);
+            localReport.AddDataSource("SubConDc", subcondc);
+            localReport.AddDataSource("SubConDet", subcondcDet);
+            //localReport.AddDataSource("DataSet1_DataTable1", po);
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+
+            return File(result.MainStream, "application/Pdf");
+            
         }
     }
 }
