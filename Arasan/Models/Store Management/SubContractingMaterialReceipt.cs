@@ -21,6 +21,7 @@ namespace Arasan.Models
 
         public string Branch { get; set; }
         public string Supplier { get; set; }
+        public string Subid { get; set; }
         public string Location { get; set; }
         public string ddlStatus { get; set; }
 
@@ -45,7 +46,21 @@ namespace Arasan.Models
         public string DQty { get; set; }
         public string qtyrec { get; set; }
         public string TotRecqty { get; set; }
+        public string Amtinwords { get; set; }
+        public string Vmemo { get; set; }
+        public string ADCOMPHID { get; set; }
+        public string mid { get; set; }
+        public double TotalCRAmt { get; set; }
+        public double TotalDRAmt { get; set; }
+        public double Gross { get; set; }
+        public double Net { get; set; }
+        public double CGST { get; set; }
+        public double SGST { get; set; }
+        public double IGST { get; set; }
+       
+        public List<SubMatAccount> Acclst { get; set; }
 
+        public List<SelectListItem> Accconfiglst;
         public List<SubMaterialItem> SubMatlilst { get; set; }
         public List<SubContractItem> Contlilst { get; set; }
 
@@ -143,6 +158,7 @@ namespace Arasan.Models
         public string move { get; set; }
         public string view { get; set; }
         public string recept { get; set; }
+        public string account { get; set; }
         public string viewpen { get; set; }
 
     }
@@ -209,6 +225,19 @@ namespace Arasan.Models
         public double MRQTY { get; set; }
         public double MRAMOUNT { get; set; }
         public double MRRATE { get; set; }
+
+    }
+    public class SubMatAccount
+    {
+        public string Ledgername { get; set; }
+        public List<SelectListItem> Ledgerlist { get; set; }
+        public string TypeName { get; set; }
+        public string CRDR { get; set; }
+        public List<SelectListItem> CRDRLst { get; set; }
+        public double CRAmount { get; set; }
+        public double DRAmount { get; set; }
+        public string Isvalid { get; set; }
+        public string symbol { get; set; }
 
     }
 }

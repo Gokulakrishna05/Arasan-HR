@@ -158,8 +158,10 @@ namespace Arasan.Controllers.Store_Management
                 string ViewPen = string.Empty;
                 string View = string.Empty;
                 string recept = string.Empty;
+                string Account = string.Empty;
 
                 recept = "<a href=SubConMatDcRec?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
+                Account = "<a href=SubMatAccount?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
 
                 ViewPen = "<a href=ViewPendingSub?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Edit' /></a>";
                 View = "<a href=ViewSub?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='Edit' /></a>";
@@ -178,6 +180,7 @@ namespace Arasan.Controllers.Store_Management
                     viewpen = ViewPen,
                     view = View,
                     recept = recept,
+                    account = Account,
 
                     delrow = DeleteRow,
 
@@ -695,6 +698,8 @@ namespace Arasan.Controllers.Store_Management
             {
                 tda = new DrumItemDeatil();
                 tda.drumno = dt.Rows[i]["ACTUALDRUM"].ToString();
+                tda.item = dt.Rows[i]["ITEMID"].ToString();
+               
                 tda.qty = dt.Rows[i]["MLQTY"].ToString();
                 tda.rate = dt.Rows[i]["MLRATE"].ToString();
                 tda.amount = dt.Rows[i]["MLAMOUNT"].ToString();
@@ -813,6 +818,240 @@ namespace Arasan.Controllers.Store_Management
 
             return File(result.MainStream, "application/Pdf");
 
+        }
+        public IActionResult SubMatAccount(string id)
+        {
+            SubContractingMaterialReceipt grn = new SubContractingMaterialReceipt();
+            DataTable dt = new DataTable();
+            dt = SubContractingMaterialReceiptService.FetchAccountRec(id);
+            grn.Subid = id;
+            grn.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            grn.Enterd = Request.Cookies["UserId"];
+            DataTable dtnat = datatrans.GetData("select I.ITEMID,BL.QTY,U.UNITID from GRNBLDETAIL BL,ITEMMASTER I,UNITMAST U where I.ITEMMASTERID=BL.ITEMID AND U.UNITMASTID=I.PRIUNIT AND GRNBLBASICID='" + id + "'");
+            //grn.Vmemo = "BEING " + dtnat.Rows[0]["ITEMID"].ToString() + "-" + dtnat.Rows[0]["QTY"].ToString() + dtnat.Rows[0]["UNITID"].ToString() + "PURCHASED.";
+            List<SubMatAccount> TData = new List<SubMatAccount>();
+            SubMatAccount tda = new SubMatAccount();
+            double totalcredit = 0;
+            double totaldebit = 0;
+            DataTable dtdet = datatrans.GetData("select I.ITEMACC,(BRATE*MRQTY)  as GROSS,G.MITEMID from SUBACTMRDET G,ITEMMASTER I  where G.MITEMID=I.ITEMMASTERID AND G.SUBMRBASICID='" + id + "' ");
+            DataTable dtacc = new DataTable();
+            dtacc = datatrans.GetGRNconfig();
+            string frieghtledger = "";
+            string discledger = "";
+            string roundoffledger = "";
+            string cgstledger = "";
+            string sgstledger = "";
+            string igstledger = "";
+            string packingledger = "";
+            if (dtacc.Rows.Count > 0)
+            {
+                grn.ADCOMPHID = dtacc.Rows[0]["ADCOMPHID"].ToString();
+                for (int i = 0; i < dtacc.Rows.Count; i++)
+                {
+                    
+                    if (dtacc.Rows[i]["ADTYPE"].ToString().Contains("CGST"))
+                    {
+                        cgstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADTYPE"].ToString().Contains("SGST"))
+                    {
+                        sgstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADTYPE"].ToString().Contains("IGST"))
+                    {
+                        igstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                }
+            }
+            if (dt.Rows.Count > 0)
+            {
+
+               
+                   
+
+                     
+                    grn.Gross = Convert.ToDouble(dt.Rows[0]["amount"].ToString() == "" ? "0" : dt.Rows[0]["amount"].ToString());
+                grn.Net = Convert.ToDouble(dt.Rows[0]["amount"].ToString() == "" ? "0" : dt.Rows[0]["amount"].ToString());
+
+
+                    //grn.CGST = Convert.ToDouble(dt.Rows[0]["CGST"].ToString() == "" ? "0" : dt.Rows[0]["CGST"].ToString());
+                    //grn.SGST = Convert.ToDouble(dt.Rows[0]["SGST"].ToString() == "" ? "0" : dt.Rows[0]["SGST"].ToString());
+                    //grn.IGST = Convert.ToDouble(dt.Rows[0]["IGST"].ToString() == "" ? "0" : dt.Rows[0]["IGST"].ToString());
+                    //grn.TotalAmt= Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+                    DataTable dtParty = datatrans.GetData("select P.ACCOUNTNAME from SUBMRBASIC S,PARTYMAST P where S.PARTYID=P.PARTYMASTID AND S.SUBMRBASICID='" + id + "'");
+                    string mid = dtParty.Rows[0]["ACCOUNTNAME"].ToString();
+                    grn.mid = mid;
+
+                if (grn.Net > 0)
+                {
+                    tda = new SubMatAccount();
+                    // tda.CRDRLst = BindCRDRLst();
+                    tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = mid;
+                    tda.CRAmount = grn.Net;
+                    tda.DRAmount = 0;
+                    tda.TypeName = "NET";
+                    tda.Isvalid = "Y";
+                    tda.CRDR = "Cr";
+                    totalcredit += tda.CRAmount;
+                    totaldebit += tda.DRAmount;
+                    tda.symbol = "+";
+                    TData.Add(tda);
+                }
+                if (grn.Gross > 0)
+                {
+                    for (int i = 0; i < dtdet.Rows.Count; i++)
+                    {
+                        tda = new SubMatAccount();
+                        tda.Ledgerlist = BindLedgerLst();
+                        tda.Ledgername = dtdet.Rows[i]["ITEMACC"].ToString();
+                        tda.CRAmount = 0;
+                        tda.DRAmount = Convert.ToDouble(dtdet.Rows[i]["GROSS"].ToString() == "" ? "0" : dtdet.Rows[i]["GROSS"].ToString());
+                        tda.TypeName = "GROSS";
+                        tda.Isvalid = "Y";
+                        tda.CRDR = "Dr";
+                        tda.symbol = "-";
+                        totalcredit += tda.CRAmount;
+                        totaldebit += tda.DRAmount;
+                        TData.Add(tda);
+                        string hsn = datatrans.GetDataString("select HSN from ITEMMASTER  where  ITEMMASTERID='" + dtdet.Rows[i]["MITEMID"].ToString() + "' ");
+
+                        string hsnid = datatrans.GetDataString("select HSNCODEID from HSNCODE WHERE HSNCODE= '" + hsn + "' ");
+
+                        DataTable trff = new DataTable();
+                        trff = datatrans.GetData("select TARIFFMASTER.TARIFFID,HSNROW.TARIFFID as tariff from HSNROW left outer join TARIFFMASTER on TARIFFMASTERID=HSNROW.TARIFFID where  HSNCODEID= '" + hsnid + "' ");
+                        double per = '0';
+                        if (trff.Rows.Count > 0)
+                        {
+                            for (int j = 0; j < trff.Rows.Count; j++)
+                            {
+
+                                string gst = trff.Rows[j]["tariff"].ToString();
+
+                                DataTable pere = datatrans.GetData("Select PERCENTAGE from TARIFFMASTER where TARIFFMASTERID='" + gst + "'  ");
+                                if (pere.Rows.Count > 0)
+                                {
+                                    per = Convert.ToDouble(pere.Rows[0]["PERCENTAGE"].ToString());
+                                }
+                            }
+                        }
+
+
+
+                        if (trff.Rows.Count == 1)
+                        {
+
+                            double cgst = per / 2;
+                            double sgst = per / 2;
+
+
+                            double cgstperc = tda.DRAmount / 100 * sgst;
+                            double sgstperc = tda.DRAmount / 100 * cgst;
+                            grn.CGST = cgstperc + sgstperc;
+                            grn.SGST = cgstperc + sgstperc;
+                            grn.Net = grn.CGST + grn.SGST + tda.DRAmount;
+                            //po.Net = tda.TotalAmount;
+                        }
+
+
+                    }
+
+                }
+                
+                if (grn.CGST > 0)
+                    {
+                        tda = new SubMatAccount();
+                        //tda.CRDRLst = BindCRDRLst();
+                        tda.Ledgerlist = BindLedgerLst();
+                        tda.Ledgername = cgstledger;
+                        tda.CRAmount = grn.CGST;
+                        tda.DRAmount = 0;
+                        tda.TypeName = "CGST";
+                        tda.Isvalid = "Y";
+                        tda.CRDR = "Dr";
+                        tda.symbol = "-";
+                        totalcredit += tda.CRAmount;
+                        totaldebit += tda.DRAmount;
+                        TData.Add(tda);
+                    }
+                    if (grn.SGST > 0)
+                    {
+                        tda = new SubMatAccount();
+                        // tda.CRDRLst = BindCRDRLst();
+                        tda.Ledgerlist = BindLedgerLst();
+                        tda.Ledgername = sgstledger;
+                        tda.CRAmount = grn.SGST;
+                        tda.DRAmount = 0;
+                        tda.TypeName = "SGST";
+                        tda.Isvalid = "Y";
+                        tda.CRDR = "Dr";
+                        tda.symbol = "-";
+                        totalcredit += tda.CRAmount;
+                        totaldebit += tda.DRAmount;
+                        TData.Add(tda);
+                    }
+                    if (grn.IGST > 0)
+                    {
+                        tda = new SubMatAccount();
+                        // tda.CRDRLst = BindCRDRLst();
+                        tda.Ledgerlist = BindLedgerLst();
+                        tda.Ledgername = cgstledger;
+                        tda.CRAmount = grn.IGST;
+                        tda.DRAmount = 0;
+                        tda.TypeName = "IGST";
+                        tda.Isvalid = "Y";
+                        tda.CRDR = "Dr";
+                        tda.symbol = "-";
+                        totalcredit += tda.CRAmount;
+                        totaldebit += tda.DRAmount;
+                        TData.Add(tda);
+                    }
+                
+
+            }
+            grn.TotalCRAmt = totalcredit;
+            grn.TotalDRAmt = totaldebit;
+            grn.Acclst = TData;
+            grn.Accconfiglst = BindAccconfig();
+            return View(grn);
+        }
+        public List<SelectListItem> BindLedgerLst()
+        {
+            try
+            {
+                DataTable dtDesg = SubContractingMaterialReceiptService.LedgerList();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LEDNAME"].ToString(), Value = dtDesg.Rows[i]["LEDGERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindAccconfig()
+        {
+            try
+            {
+                DataTable dtDesg = SubContractingMaterialReceiptService.AccconfigLst();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ADSCHEME"].ToString(), Value = dtDesg.Rows[i]["ADCOMPHID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public JsonResult GetItemGrpJSON()
+        {
+            return Json(BindLedgerLst());
         }
     }
 }

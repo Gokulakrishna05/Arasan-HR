@@ -9,6 +9,8 @@ namespace Arasan.Interface.Store_Management
         DataTable GetAllSubContractingMaterialItem(string strStatus);
         DataTable GetSubDelivItemDetails(string itemId);
         DataTable GetDrum();
+        DataTable LedgerList();
+        DataTable AccconfigLst();
         DataTable GetDrumItemDetails(string id);
         DataTable GetPartyItem(string id);
         DataTable GetItemDetails(string itemId);
@@ -19,6 +21,7 @@ namespace Arasan.Interface.Store_Management
         DataTable GetDC();
         DataTable GetSupplier( );
         DataTable GetSubContract(string id);
+        DataTable FetchAccountRec(string id);
         DataTable GetMaterialReceipt(string id);
         DataTable GetReceiptItem(string id);
         DataTable GetDrumdetails(string id);
