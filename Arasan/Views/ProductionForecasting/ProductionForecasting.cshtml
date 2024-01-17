@@ -1268,7 +1268,6 @@
                     pasteopt += "<option value=" + this.value + ">" + this.text + "</option>";
 
                 });
-
             }
         })
 
@@ -1538,14 +1537,17 @@
                     var Additive = "<td> <label style='width: 120px;'>" + item.additive + "</label><input class='form-control' id='txtAdditive" + index + "' name='PFCPASTELst[" + index + "].additiveid'  style='width: 120px;' type='hidden' value=" + item.additiveid + " /></td>";
                     var AllocAdditive = "<td><input class='form-control' id='txtAllocAdditive" + index + "' name='PFCPASTELst[" + index + "].AllocAdditive'  style='width: 120px;' type='text' readonly='True' value=" + item.allocadditive + " /><input class='form-control' id='hdAllocAdditive" + index + "' name='PFCPASTELst[" + index + "].allocadditive'  type='hidden' value=" + item.allocadditive + " /></td>";
 
-                        var Toprod = "<td><input class='form-control' id='txttoprod" + index + "' name='PFCPASTELst[" + index + "].toprod'  style='width: 120px;' type='text' /></td>";
-        var RvdLoss = "<td><input class='form-control' id='txtrvdloss" + index + "' name='PFCPASTELst[" + index + "].rvdloss'  style='width: 120px;' type='text' /></td>";
-        var ToLoss = "<td><input class='form-control' id='txtRejMatReq" + index + "' name='PFCPASTELst[" + index + "].toloss'  style='width: 120px;' type='text' /></td>";
-                    var coarse = "<td><input class='form-control' id='txtcoarse" + index + "' name='PFCPASTELst[" + index + "].coarse'  style='width: 120px;' type='text' /></td>";
-                    var Mixing = "<td><input class='form-control' id='txtmissmto" + index + "' name='PFCPASTELst[" + index + "].missmto'  style='width: 120px;' type='text' /></td>";
-        var toreq = "<td><input class='form-control' id='txttoreq" + index + "' name='PFCPASTELst[" + index + "].toreq'  style='width: 120px;' type='text' /></td>";
-        var AddCost = "<td><input class='form-control' id='txtaddcost" + index + "' name='PFCPASTELst[" + index + "].addcost'  style='width: 120px;' type='text' /></td>";
-                    var mtocost = "<td><input class='form-control' id='txtmtocost" + index + "' name='PFCPASTELst[" + index + "].mtocost'  style='width: 120px;' type='text' /></td>";
+                    var Toprod = "<td><input class='form-control' id='txttoprod" + index + "' name='PFCPASTELst[" + index + "].toprod'  style='width: 120px;' type='text' readonly='True' /><input class='form-control' id='hdtoprod" + index + "' name='PFCPASTELst[" + index + "].toprod'  type='hidden'  /></td>";
+        var RvdLoss = "<td><input class='form-control' id='txtrvdloss" + index + "' name='PFCPASTELst[" + index + "].rvdloss'  style='width: 120px;' type='text' readonly='True' /><input class='form-control' id='hdrvdloss" + index + "' name='PFCPASTELst[" + index + "].rvdloss'  type='hidden'  /><input class='form-control' id='hdrvdlossqty" + index + "'  type='hidden'  /></td>";
+         var ToLoss = "<td><input class='form-control' id='txtpmtoloss" + index + "' name='PFCPASTELst[" + index + "].toloss'  style='width: 120px;' type='text' readonly='True' /><input class='form-control' id='hdpmtoloss" + index + "' name='PFCPASTELst[" + index + "].toloss'  type='hidden'  /><input class='form-control' id='hdmtolossqty" + index + "'  type='hidden'  /></td>";
+                    var coarse = "<td><input class='form-control' id='txtcoarse" + index + "' name='PFCPASTELst[" + index + "].coarse'  style='width: 120px;' type='text' readonly='True' /><input class='form-control' id='hdcoarse" + index + "' name='PFCPASTELst[" + index + "].coarse'  type='hidden'  /></td>";
+                    var Mixing = "<td><input class='form-control' id='txtmissmto" + index + "' name='PFCPASTELst[" + index + "].missmto'  style='width: 120px;' type='text' readonly='True' /><input class='form-control' id='hdmissmto" + index + "' name='PFCPASTELst[" + index + "].missmto'  type='hidden'  /></td>";
+       
+                    var toreq = "<td><input class='form-control' id='txtpastetoreq" + index + "' name='PFCPASTELst[" + index + "].toreq'  style='width: 120px;' type='text' readonly='True' /><input class='form-control' id='hdpastetoreq" + index + "' name='PFCPASTELst[" + index + "].toreq'  type='hidden'  /></td>";
+                    var AddCost = "<td><input class='form-control' id='txtpasteaddcost" + index + "' name='PFCPASTELst[" + index + "].addcost'  style='width: 120px;' type='text' readonly='True' /><input class='form-control' id='hdpasteaddcost" + index + "' name='PFCPASTELst[" + index + "].addcost'  type='hidden'  /><input class='form-control' id='hdpaaddpurpri" + index + "' name='PFCPASTELst[" + index + "].paaddpurpri'  type='hidden'  value=" + item.paaddpurpri + " /></td>";
+                    var mtocost = "<td><input class='form-control' id='txtpastemtocost" + index + "' name='PFCPASTELst[" + index + "].mtocost'  style='width: 120px;' type='text' readonly='True' /><input class='form-control' id='hdpastemtocost" + index + "' name='PFCPASTELst[" + index + "].mtocost'  type='hidden'  /><input class='form-control' id='hdmtopurpri" + index + "' name='PFCPASTELst[" + index + "].mtopurpri'  type='hidden' value=" + item.mtopurpri + " /></td>";
+                    
+                    
                     var PowderRequired = "<td><input class='form-control' id='txtpastepowerreq" + index + "' name='PFCPASTELst[" + index + "].powderrequired'  style='width: 100px;' type='text' readonly='True'  /><input type='hidden'  id='hdpastepowerreq" + index + "' name='PFCPASTELst[" + index + "].powderrequired'></td>";
 
 
@@ -1900,9 +1902,10 @@ if (targethrs == "")
     }
     function pastewcchange(i, wcid){
           var itemid = document.getElementById("txtpasteItemId" + i).value;
+          var mnth=document.getElementById("ddlmnth").value;
         $.ajax({
             url: 'GetpastewcDetail',
-            data: { "itemid": itemid, "wcid": wcid },
+            data: { "itemid": itemid, "wcid": wcid ,"mnth" : mnth },
             type: "GET",
             success: function (result) {
 
@@ -1914,7 +1917,8 @@ if (targethrs == "")
                 document.getElementById("txtappowder" + i).value = result.appowe;
                 document.getElementById("hdappowder" + i).value = result.appowe;
 
-                
+                  document.getElementById("hdmtolossqty" + i).value = result.pamtoloss;
+                document.getElementById("hdrvdlossqty" + i).value = result.rvdloss;
 
                 changepastedays('', i);
 
@@ -1930,10 +1934,16 @@ if (targethrs == "")
         var power= document.getElementById("hdpastepowerreq" + i).value;
         var PaapPow =document.getElementById("hdappowder" + i).value;
         var paaddper =document.getElementById("hdAllocAdditive" + i).value;
+         var  PaMtoLoss=document.getElementById("hdmtolossqty" + i).value;
+           var RvdLost =document.getElementById("hdrvdlossqty" + i).value ;
+          var mtopurpri =document.getElementById("hdmtopurpri" + i).value ; 
+          var paaddpurpri =document.getElementById("hdpaaddpurpri" + i).value ;
+
          var days =0;
          var panoofchg =0;
          var PaProd=0;
          var PaAllAddit =0;
+         var RvdLostQty =0;
         if (target == "")
             target = 0;
 
@@ -1946,6 +1956,18 @@ if (targethrs == "")
             if (PaapPow == "")
             PaapPow = 0;
 
+            if (RvdLost == "")
+            RvdLost = 0;
+
+            if (PaMtoLoss == "")
+            PaMtoLoss = 0;
+
+             if (mtopurpri == "")
+            mtopurpri = 0;
+
+             if (paaddpurpri == "")
+            paaddpurpri = 0;
+
         if(eval(PaCapperChg) > 0){
             days = eval(target) / eval(PaCapperChg);
             panoofchg=eval(PaCapperChg) /210;
@@ -1957,7 +1979,28 @@ if (targethrs == "")
             
         var kwhr = eval(target) * 22 * eval(power);
 
+        var PaMtoLosst =(eval(PaMtoLoss) * eval(PaProd))/100; 
+
         PaAllAddit= eval(paaddper) * eval(pallappow) /100;
+
+        var Rvdmtoloss=(eval(PaProd) * 5) /100;
+
+        if( eval(Rvdmtoloss) > eval(RvdLost)){
+            RvdLostQty=Rvdmtoloss;
+        }else{
+            RvdLostQty=RvdLost;
+        }
+        var PaCoaCons=(eval(panoofchg)*20*eval(days)*0.05) /0.765; 
+        
+        var MixingMto=(eval(PaProd) * 11.11)/100; 
+
+        var PaMtoProd= eval(PaProd) -eval(pallappow);
+       var  PaMtoProdt = (eval(PaMtoProd) /0.765);
+       var PaAllMto=(eval(PaMtoProdt) + eval(PaMtoLosst) +eval(PaCoaCons) +eval(MixingMto) +eval(RvdLostQty) )/0.765;
+
+       var PaAddC=(eval(paaddpurpri) * eval(PaAllAddit)) / eval(PaProd);
+       var PaMtoC=(eval(mtopurpri) *eval(PaAllMto)) / eval(PaProd);
+
             document.getElementById("txtpasteproddays" + i).value = Math.ceil(days);
       document.getElementById("txtpastecharge" + i).value = panoofchg.toFixed(2); 
        document.getElementById("hdpastecharge" + i).value = panoofchg.toFixed(2);
@@ -1976,5 +2019,28 @@ if (targethrs == "")
              document.getElementById("hdAllocAdditive" + i).value =Math.round(PaAllAddit);
             document.getElementById("txtAllocAdditive" + i).value = Math.round(PaAllAddit);
 
+             document.getElementById("txtpmtoloss" + i).value =PaMtoLosst.toFixed(2); 
+        document.getElementById("hdpmtoloss" + i).value = PaMtoLosst.toFixed(2); 
+
+          document.getElementById("txtrvdloss" + i).value =RvdLostQty.toFixed(2); 
+        document.getElementById("hdrvdloss" + i).value = RvdLostQty.toFixed(2); 
+
+        document.getElementById("txtcoarse" + i).value =PaCoaCons.toFixed(2); 
+        document.getElementById("hdcoarse" + i).value = PaCoaCons.toFixed(2); 
+
+        document.getElementById("txtmissmto" + i).value =MixingMto.toFixed(2); 
+        document.getElementById("hdmissmto" + i).value = MixingMto.toFixed(2);
+
+         document.getElementById("txttoprod" + i).value =PaMtoProd.toFixed(2); 
+        document.getElementById("hdtoprod" + i).value = PaMtoProd.toFixed(2);
+
+          document.getElementById("txtpastetoreq" + i).value =Math.round(PaAllMto); 
+        document.getElementById("hdpastetoreq" + i).value = Math.round(PaAllMto);
+
+        document.getElementById("txtpasteaddcost" + i).value =PaAddC.toFixed(2); 
+        document.getElementById("hdpasteaddcost" + i).value = PaAddC.toFixed(2);
+
+        document.getElementById("txtpastemtocost" + i).value =PaMtoC.toFixed(2);
+            document.getElementById("hdpastemtocost" + i).value = PaMtoC.toFixed(2);
         }
 </script>
