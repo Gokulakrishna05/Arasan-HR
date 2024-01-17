@@ -5,6 +5,7 @@ using Arasan.Interface;
 using Arasan.Models;
 using Arasan.Services;
 using Arasan.Services.Master;
+using Arasan.Services.Store_Management;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -27,13 +28,31 @@ namespace Arasan.Controllers
         {
             Location ca = new Location();
             ca.Brlst = BindBranch();
+            ca.Suplst = BindSupplier();
             ca.Branch = Request.Cookies["BranchId"];
-
+            //ca.Loclst = GetLoc();
             ca.createby = Request.Cookies["UserId"];
+            List<LocationItem> TData = new List<LocationItem>();
+            LocationItem tda = new LocationItem();
+            List<LocItem> TData1 = new List<LocItem>();
+            LocItem tda1 = new LocItem();
 
             if (id == null)
             {
-
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new LocationItem();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda1 = new LocItem();
+                    tda1.Isslst = BindIssuseType();
+                    tda1.Loclst = GetLoc();
+                    tda1.Isvalid1 = "Y";
+                    TData1.Add(tda1);
+                }
             }
             else
             {
@@ -45,16 +64,57 @@ namespace Arasan.Controllers
                 {
                     ca.LocationId = dt.Rows[0]["LOCID"].ToString();
                     ca.LocType = dt.Rows[0]["LOCATIONTYPE"].ToString();
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.Trader = dt.Rows[0]["TRADEYN"].ToString();
+                    ca.Suplst = BindSupplier();
+                    ca.Party = dt.Rows[0]["PARTYID"].ToString();
+                    ca.Requried = dt.Rows[0]["BINYN"].ToString();
                     ca.ContactPer = dt.Rows[0]["CPNAME"].ToString();
                     ca.PhoneNo = dt.Rows[0]["PHNO"].ToString();
-                    ca.EmailId = dt.Rows[0]["EMAIL"].ToString();
                     ca.Address = dt.Rows[0]["ADD1"].ToString();
-                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.Fax = dt.Rows[0]["FAXNO"].ToString();
+                    ca.Add2 = dt.Rows[0]["ADD2"].ToString();
+                    ca.Mail = dt.Rows[0]["EMAIL"].ToString();
+                    ca.Add3 = dt.Rows[0]["ADD3"].ToString();
+                    ca.FlowOrd = dt.Rows[0]["FLWORD"].ToString();
+                    ca.City = dt.Rows[0]["CITY"].ToString();
+                    ca.State = dt.Rows[0]["STATE"].ToString();
+                    ca.PinCode = dt.Rows[0]["PINCODE"].ToString();
                     ca.ID = id;
 
                 }
+                DataTable dt2 = new DataTable();
+                dt2 = LocationService.GetEditBinDeatils(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new LocationItem();
+                       
+                        tda.BinId = dt2.Rows[i]["BINID"].ToString();
+                        tda.BinDesc = dt2.Rows[i]["BINDESC"].ToString();
+                        tda.Capacity = dt2.Rows[i]["CAPACITY"].ToString();
+                        TData.Add(tda);
+                    }
+                }
+                DataTable dt3 = new DataTable();
+                dt3 = LocationService.GetEditLocDeatils(id);
+                if (dt3.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt3.Rows.Count; i++)
+                    {
+                        tda1 = new LocItem();
+                        tda1.Isslst = BindIssuseType();
+                        tda1.Issuse = dt3.Rows[i]["ISSUETYPE"].ToString();
+                        tda1.Loclst = GetLoc();
+                        tda1.Location = dt3.Rows[i]["TOLOCID"].ToString();
+                        TData1.Add(tda1);
+                    }
+                }
 
             }
+            ca.Locationlst = TData;
+            ca.Loclst = TData1;
             return View(ca);
         }
         [HttpPost]
@@ -98,6 +158,97 @@ namespace Arasan.Controllers
         {
             return View();
         }
+        public ActionResult GetPartyDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string add1 = "";
+                string add2 = "";
+                string add3 = "";
+                string city = "";
+                string state = "";
+                string pincode = "";
+                string email = "";
+                string mobile = "";
+                string fax = "";
+                string phone = "";
+
+                dt = LocationService.GetPartyDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+                    add1 = dt.Rows[0]["ADD1"].ToString();
+                    add2 = dt.Rows[0]["ADD2"].ToString();
+                    add3 = dt.Rows[0]["ADD3"].ToString();
+                    city = dt.Rows[0]["CITY"].ToString();
+                    state = dt.Rows[0]["STATE"].ToString();
+                    pincode = dt.Rows[0]["PINCODE"].ToString();
+                    email = dt.Rows[0]["EMAIL"].ToString();
+                    mobile = dt.Rows[0]["MOBILE"].ToString();
+                    fax = dt.Rows[0]["FAX"].ToString();
+                    phone = dt.Rows[0]["PHONENO"].ToString();
+                }
+
+                var result = new { add1 = add1, add2 = add2, add3= add3, city = city, state= state, pincode= pincode, email= email, mobile = mobile, fax = fax , phone = phone };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindSupplier()
+        {
+            try
+            {
+                DataTable dtDesg = LocationService.GetSupplier();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindIssuseType()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "DRUM ISSUE", Value = "DRUM ISSUE" });
+                lstdesg.Add(new SelectListItem() { Text = "PACK ISSUE", Value = "PACK ISSUE" });
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> GetLoc()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetLocation();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
+                }
+                return lstdesg;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<SelectListItem> BindBranch()
         {
             try
@@ -115,7 +266,27 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public JsonResult GetItemJSON()
+        {
+            Location model = new Location();
+            //model.Itemlst = BindItemlst(itemid);
+            return Json(model);
 
+        }
+        public JsonResult GetIssuseJSON()
+        {
+            LocItem model = new LocItem();
+            model.Isslst = BindIssuseType();
+            return Json(BindIssuseType());
+
+        }
+        public JsonResult GetLocationJSON()
+        {
+            LocItem model = new LocItem();
+            model.Loclst = GetLoc();
+            return Json(GetLoc());
+
+        }
         public ActionResult DeleteMR(string tag, int id)
         {
 
@@ -130,7 +301,8 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListLocation");
             }
-        } 
+        }
+      
         public ActionResult Remove(string tag, int id)
         {
 

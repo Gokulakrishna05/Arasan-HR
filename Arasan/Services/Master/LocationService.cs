@@ -22,6 +22,25 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "select BRANCHMASTID,BRANCHID from BRANCHMAST order by BRANCHMASTID asc";
+            DataTable dtt = new DataTable(); 
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetSupplier()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select PARTYMAST.PARTYMASTID,PARTYMAST.PARTYNAME from PARTYMAST  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND PARTYMAST.PARTYNAME IS NOT NULL";
+            DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPartyDetails(string ItemId)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ADD1,ADD2,ADD3,CITY,STATE,PINCODE,EMAIL,MOBILE,FAX,PHONENO from PARTYMAST WHERE partymast.partymastid=" + ItemId + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -51,7 +70,7 @@ namespace Arasan.Services
         //                    EmailId = rdr["EMAIL"].ToString(),
         //                    Address = rdr["ADD1"].ToString(),
         //                    Branch = rdr["BRANCHID"].ToString()
-                          
+
         //                };
         //                cmpList.Add(cmp);
         //            }
@@ -131,15 +150,21 @@ namespace Arasan.Services
 
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.LocationId;
                     objCmd.Parameters.Add("LOCATIONTYPE", OracleDbType.NVarchar2).Value = cy.LocType;
+                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
+                    objCmd.Parameters.Add("TRADEYN", OracleDbType.NVarchar2).Value = cy.Trader;
+                    objCmd.Parameters.Add("BINYN", OracleDbType.NVarchar2).Value = cy.Requried;
+                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Party;
                     objCmd.Parameters.Add("CPNAME", OracleDbType.NVarchar2).Value = cy.ContactPer;
                     objCmd.Parameters.Add("PHNO", OracleDbType.NVarchar2).Value = cy.PhoneNo;
-                  //  objCmd.Parameters.Add("FaxNo", OracleDbType.NVarchar2).Value = cy.FaxNo;
-                    objCmd.Parameters.Add("EMAIL", OracleDbType.NVarchar2).Value = cy.EmailId;
                     objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = cy.Address;
-                    objCmd.Parameters.Add("BRANCHID", OracleDbType.Int64).Value = cy.Branch;
-                    // objCmd.Parameters.Add("Bin", OracleDbType.NVarchar2).Value = cy.Bin;
-                    // objCmd.Parameters.Add("Trade", OracleDbType.NVarchar2).Value = cy.Trade;
-                    // objCmd.Parameters.Add("FlowOrd", OracleDbType.Int64).Value = cy.FlowOrd;
+                    objCmd.Parameters.Add("FAXNO", OracleDbType.NVarchar2).Value = cy.Fax;
+                    objCmd.Parameters.Add("ADD2", OracleDbType.NVarchar2).Value = cy.Add2;
+                    objCmd.Parameters.Add("EMAIL", OracleDbType.NVarchar2).Value = cy.Mail;
+                    objCmd.Parameters.Add("ADD3", OracleDbType.NVarchar2).Value = cy.Add3;
+                    objCmd.Parameters.Add("FLWORD", OracleDbType.NVarchar2).Value = cy.FlowOrd;
+                    objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.City;
+                    objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = cy.State;
+                    objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = cy.PinCode;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
 
                     if (cy.ID == null)
@@ -154,11 +179,87 @@ namespace Arasan.Services
                     }
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (cy.ID != null)
+                        {
+                            Pid = cy.ID;
+                        }
+                        if (cy.Locationlst != null)
+                        {
+                            if (cy.ID == null)
+                            {
+                                foreach (LocationItem cp in cy.Locationlst)
+                                {
+                                    if (cp.Isvalid == "Y")
+                                    {
+
+                                        svSQL = "Insert into BINBASIC (LOCDETAILSID,BINID,BINDESC,CAPACITY) VALUES ('" + Pid + "','" + cp.BinId + "','" + cp.BinDesc + "','" + cp.Capacity + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                svSQL = "Delete BINBASIC WHERE LOCDETAILSID='" + cy.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+                                foreach (LocationItem cp in cy.Locationlst)
+                                {
+                                    if (cp.Isvalid == "Y")
+                                    {
+                                        svSQL = "Insert into BINBASIC (LOCDETAILSID,BINID,BINDESC,CAPACITY) VALUES ('" + Pid + "','" + cp.BinId + "','" + cp.BinDesc + "','" + cp.Capacity + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                    }
+                                }
+                            }
+                        }
+                        if (cy.Loclst != null)
+                        {
+                            if (cy.ID == null)
+                            {
+                                foreach (LocItem cp in cy.Loclst)
+                                {
+                                    if (cp.Isvalid1 == "Y" && cp.Issuse != "0")
+                                    {
+                                        svSQL = "Insert into LOCDESTDETAIL (LOCDETAILSID,ISSUETYPE,TOLOCID) VALUES ('" + Pid + "','" + cp.Issuse + "','" + cp.Location + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                    }
+
+
+                                }
+                            }
+                            else
+                            {
+                                svSQL = "Delete LOCDESTDETAIL WHERE LOCDETAILSID='" + cy.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+                                foreach (LocItem cp in cy.Loclst)
+                                {
+                                    if (cp.Isvalid1 == "Y" && cp.Issuse != "0")
+                                    {
+                                        svSQL = "Insert into LOCDESTDETAIL (LOCDETAILSID,ISSUETYPE,TOLOCID) VALUES ('" + Pid + "','" + cp.Issuse + "','" + cp.Location + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                    }
+
+
+                                }
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -295,14 +396,33 @@ namespace Arasan.Services
         public DataTable GetEditLocation(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select LOCID,LOCATIONTYPE,CPNAME,PHNO,EMAIL,ADD1,BRANCHID,LOCDETAILSID from LOCDETAILS where LOCDETAILSID= '" + id + "'";
+            SvSql = "SELECT LOCID,LOCATIONTYPE,BRANCHID,TRADEYN,BINYN,PARTYID,CPNAME,PHNO,ADD1,FAXNO,ADD2,EMAIL,ADD3,FLWORD,CITY,STATE,PINCODE FROM LOCDETAILS where LOCDETAILSID= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetEditBinDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT BINID,BINDESC,CAPACITY FROM BINBASIC where LOCDETAILSID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetEditLocDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT ISSUETYPE,TOLOCID FROM LOCDESTDETAIL where LOCDETAILSID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetAllLocation(string strStatus)
         {
             string SvSql = string.Empty;
