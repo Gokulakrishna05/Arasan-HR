@@ -1449,7 +1449,7 @@
 
         var Mto = "<td><input class='form-control' id='txtmto" + rindex + "' name='PFCRVDLst[" + rindex + "].mto'  style='width: 100px;' type='text' readonly='True' value=" + item.rvdmtorec + " /></td>";
             var MtoLoss = "<td><input class='form-control' id='txtmtoloss" + rindex + "' name='PFCRVDLst[" + rindex + "].mtoloss'  style='width: 100px;' type='text' readonly='True' value=" + item.rvdmtoloss + " /></td>";
-       var PowderRequired = "<td><input class='form-control' id='txtrvdpowerreq" + rindex + "' name='PFCRVDLst[" + rindex + "].PowderRequired'  style='width: 100px;' type='text' readonly='True'  /><input type='hidden'  id='hdrvdpowerreq" + rindex + "' name='PFCRVDLst[" + rindex + "].PowderRequired'></td>";
+       var PowderRequired = "<td><input class='form-control' id='txtrvdpowerreq" + rindex + "' name='PFCRVDLst[" + rindex + "].powderrequired'  style='width: 100px;' type='text' readonly='True'  /><input type='hidden'  id='hdrvdpowerreq" + rindex + "' name='PFCRVDLst[" + rindex + "].powderrequired'></td>";
 
         var newRow = "<tr class='chkitemlst4'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook4" + rindex + "'>" + rWork + rWCDays + rItemId + Prodqty + Days + Cons + consqty + RawMat + Qty + Mto + MtoLoss  + PowderRequired + "</tr>";
 
@@ -1516,27 +1516,27 @@
 
                     var index = $("#tbBooks5").children("tr").length;
 
-                    var WC = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlWorkId" + index + "' name='PFCPASTELst[" + index + "].WorkId'  ><option value=''>-- Please select -- </option>" + pasteopt + "</select></td>";
+                    var WC = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlWorkId" + index + "' name='PFCPASTELst[" + index + "].WorkId' onchange='pastewcchange(" + index + ",this.value)'  ><option value=''>-- Please select -- </option>" + pasteopt + "</select></td>";
 
-                    var cday = "<td><input class='form-control' id='txtCDays" + index + "' name='PFCPASTELst[" + index + "].CDays'  style='width: 100px;' type='text'    /></td>";
+                    var cday = "<td><input class='form-control' id='txtCpasteDays" + index + "' name='PFCPASTELst[" + index + "].CDays'  style='width: 100px;' type='text'    /></td>";
 
-                    var ItemId = "<td><label style='width: 120px;'>" + item.itemid + "</label><input id='txtItemId" + index + "' name='PFCPASTELst[" + index + "].saveitemid' type='hidden'  value=" + item.saveitemid + "></td>";
+                    var ItemId = "<td><label style='width: 120px;'>" + item.itemid + "</label><input id='txtpasteItemId" + index + "' name='PFCPASTELst[" + index + "].saveitemid' type='hidden'  value=" + item.saveitemid + "></td>";
 
-                    var Charge = "<td><input class='form-control' id='txtcharge" + index + "' name='PFCPASTELst[" + index + "].charge'  style='width: 100px;' type='text'  readonly='True'    /><input type='hidden' value=" + item.target + " id='txtTarget" + index + "' name='PFCPASTELst[" + index + "].target'></td>";
-                    var Target = "<td><input class='form-control' id='txtTarget" + index + "' name='PFCPASTELst[" + index + "].target'  style='width: 100px;' type='text'  readonly='True'  value=" + item.target + " /><input type='hidden' value=" + item.target + " id='txtTarget" + index + "' name='PFCPASTELst[" + index + "].target'></td>";
-                    var Stock = "<td><input class='form-control' id='txtStock" + index + "' name='PFCPASTELst[" + index + "].stock'  style='width: 100px;' type='text' readonly='True'  value=" + item.stock + " /><input class='form-control' id='txtStock" + index + "' name='PFCPASTELst[" + index + "].stock'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.stock + " /></td>";
+                    var Charge = "<td><input class='form-control' id='txtpastecharge" + index + "' name='PFCPASTELst[" + index + "].charge'  style='width: 100px;' type='text'  readonly='True'    /><input type='hidden' value=" + item.target + " id='hdpastecharge" + index + "' name='PFCPASTELst[" + index + "].charge'></td>";
+                    var Target = "<td><input class='form-control' id='txtpasteTarget" + index + "' name='PFCPASTELst[" + index + "].target'  style='width: 100px;' type='text'  readonly='True'  value=" + item.target + " /><input type='hidden' value=" + item.target + " id='hdpasteTarget" + index + "' name='PFCPASTELst[" + index + "].target'></td>";
+                    var Stock = "<td><input class='form-control' id='txtpasteStock" + index + "' name='PFCPASTELst[" + index + "].stock'  style='width: 100px;' type='text' readonly='True'  value=" + item.stock + " /><input class='form-control' id='hdpasteStock" + index + "' name='PFCPASTELst[" + index + "].stock'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.stock + " /></td>";
 
-                    var Min = "<td><input class='form-control' id='txtMinStock" + index + "' name='PFCPASTELst[" + index + "].minstock'  style='width: 100px;' type='text' readonly='True' value=" + item.minstock + "   /><input class='form-control' id='txtMinStock" + index + "' name='PFCPASTELst[" + index + "].minstock'  style='width: 80px;' type='hidden' readonly='True' value=" + item.minstock + "  /></td>";
+                    var Min = "<td><input class='form-control' id='txtpasteMinStock" + index + "' name='PFCPASTELst[" + index + "].minstock'  style='width: 100px;' type='text' readonly='True' value=" + item.minstock + "   /><input class='form-control' id='hdpasteMinStock" + index + "' name='PFCPASTELst[" + index + "].minstock'   type='hidden' readonly='True' value=" + item.minstock + "  /></td>";
 
 
-                    var Required = "<td><input class='form-control' id='txtRequired" + index + "' name='PFCPASTELst[" + index + "].required'  style='width: 100px;' type='text' readonly='True'  value=" + item.required + " /><input class='form-control' id='txtRequired" + index + "' name='PFCPASTELst[" + index + "].required'  style='width: 60px;' type='hidden' readonly='True'  value=" + item.required + " /></td>";
-                    var prodday = "<td><input class='form-control' id='txtproddays" + index + "' name='PFCPASTELst[" + index + "].proddays'  style='width: 120px;' type='text' /></td>";
-                    var Production = "<td><input class='form-control' id='txtproduction" + index + "' name='PFCPASTELst[" + index + "].production'  style='width: 120px;' type='text' /></td>";
+                    var Required = "<td><input class='form-control' id='txtpasteRequired" + index + "' name='PFCPASTELst[" + index + "].required'  style='width: 100px;' type='text' readonly='True'  value=" + item.required + " /><input class='form-control' id='hdpasteRequired" + index + "' name='PFCPASTELst[" + index + "].required'  type='hidden' value=" + item.required + " /></td>";
+                    var prodday = "<td><input class='form-control' id='txtpasteproddays" + index + "' name='PFCPASTELst[" + index + "].proddays'  style='width: 100px;' type='text' /><input class='form-control' id='hdpastecapacity" + index + "'  type='hidden'  /></td>";
+                    var Production = "<td><input class='form-control' id='txtpprod" + index + "' name='PFCPASTELst[" + index + "].production'  style='width: 100px;' type='text' readonly='True' /><input class='form-control' id='hdpprod" + index + "' name='PFCPASTELst[" + index + "].production'  type='hidden'  /></td>";
 
-                        var ApPowder = "<td><input class='form-control' id='txtappowder" + index + "' name='PFCPASTELst[" + index + "].appowder'  style='width: 120px;' type='text' /></td>";
-                    var Balance = "<td><input class='form-control' id='txtbalance" + index + "' name='PFCPASTELst[" + index + "].balance'  style='width: 120px;' type='text' /></td>";
+                        var ApPowder = "<td><input class='form-control' id='txtappowder" + index + "' name='PFCPASTELst[" + index + "].appowder'  style='width: 120px;' type='text' readonly='True' /><input class='form-control' id='hdappowder" + index + "' name='PFCPASTELst[" + index + "].appowder'  type='hidden'  /></td>";
+                    var Balance = "<td><input class='form-control' id='txtpbal" + index + "' name='PFCPASTELst[" + index + "].balance'  style='width: 100px;' type='text'  readonly='True' /><input class='form-control' id='hdpbal" + index + "' name='PFCPASTELst[" + index + "].balance'  type='hidden'  /></td>";
                     var Additive = "<td> <label style='width: 120px;'>" + item.additive + "</label><input class='form-control' id='txtAdditive" + index + "' name='PFCPASTELst[" + index + "].additiveid'  style='width: 120px;' type='hidden' value=" + item.additiveid + " /></td>";
-                                    var AllocAdditive = "<td><input class='form-control' id='txtAllocAdditive" + index + "' name='PFCPASTELst[" + index + "].AllocAdditive'  style='width: 120px;' type='text' /></td>";
+                    var AllocAdditive = "<td><input class='form-control' id='txtAllocAdditive" + index + "' name='PFCPASTELst[" + index + "].AllocAdditive'  style='width: 120px;' type='text' readonly='True' value=" + item.allocadditive + " /><input class='form-control' id='hdAllocAdditive" + index + "' name='PFCPASTELst[" + index + "].allocadditive'  type='hidden' value=" + item.allocadditive + " /></td>";
 
                         var Toprod = "<td><input class='form-control' id='txttoprod" + index + "' name='PFCPASTELst[" + index + "].toprod'  style='width: 120px;' type='text' /></td>";
         var RvdLoss = "<td><input class='form-control' id='txtrvdloss" + index + "' name='PFCPASTELst[" + index + "].rvdloss'  style='width: 120px;' type='text' /></td>";
@@ -1546,7 +1546,7 @@
         var toreq = "<td><input class='form-control' id='txttoreq" + index + "' name='PFCPASTELst[" + index + "].toreq'  style='width: 120px;' type='text' /></td>";
         var AddCost = "<td><input class='form-control' id='txtaddcost" + index + "' name='PFCPASTELst[" + index + "].addcost'  style='width: 120px;' type='text' /></td>";
                     var mtocost = "<td><input class='form-control' id='txtmtocost" + index + "' name='PFCPASTELst[" + index + "].mtocost'  style='width: 120px;' type='text' /></td>";
-                    var PowderRequired = "<td><input class='form-control' id='txtpowderrequired" + index + "' name='PFCPASTELst[" + index + "].powderrequired'  style='width: 120px;' type='text' /></td>";
+                    var PowderRequired = "<td><input class='form-control' id='txtpastepowerreq" + index + "' name='PFCPASTELst[" + index + "].powderrequired'  style='width: 100px;' type='text' readonly='True'  /><input type='hidden'  id='hdpastepowerreq" + index + "' name='PFCPASTELst[" + index + "].powderrequired'></td>";
 
 
                     var newRow = "<tr class='chkitemlst5'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook5" + index + "'>" + WC + cday + ItemId +Charge+ Target +Stock+ Min  + Required + prodday + Production + ApPowder + Balance + Additive + AllocAdditive + Toprod + RvdLoss + ToLoss + coarse + Mixing + toreq + AddCost + mtocost + PowderRequired + "</tr>";
@@ -1852,15 +1852,18 @@ if (targethrs == "")
         var target = document.getElementById("hdpolishrequired" + i).value;
         var capacity = document.getElementById("hdpolishcapacity" + i).value;
         var power= document.getElementById("hdpolishpowerreq" + i).value;
-
+        var days =0
         if (target == "")
             target = 0;
 
         if (capacity == "")
             capacity = 0;
 
-        var days = eval(target) / eval(capacity);
-
+             if (power == "")
+            power = 0;
+ if(eval(capacity) > 0){
+        days = eval(target) / eval(capacity);
+ }
         var kwhr = eval(target) * 22 * eval(power);
             document.getElementById("txtpolishdays" + i).value = Math.ceil(days);
         document.getElementById("hdpolishdays" + i).value = Math.ceil(days);
@@ -1873,15 +1876,21 @@ if (targethrs == "")
         var target = document.getElementById("hdpolishrequired" + i).value;
         var capacity = document.getElementById("hdrvdcapacity" + i).value;
         var power= document.getElementById("hdrvdpowerreq" + i).value;
-
+         var days =0;
         if (target == "")
             target = 0;
 
         if (capacity == "")
             capacity = 0;
 
-        var days = eval(target) / eval(capacity);
+             if (power == "")
+            power = 0;
 
+        if(eval(capacity) > 0){
+            days = eval(target) / eval(capacity);
+        }
+
+        
         var kwhr = eval(target) * 22 * eval(power);
             document.getElementById("txtrvddays" + i).value = Math.ceil(days);
       //  document.getElementById("hdrvddays" + i).value = Math.ceil(days);
@@ -1889,4 +1898,83 @@ if (targethrs == "")
         document.getElementById("txtrvdpowerreq" + i).value = Math.round(kwhr,2);
         document.getElementById("hdrvdpowerreq" + i).value = Math.round(kwhr,2);
     }
+    function pastewcchange(i, wcid){
+          var itemid = document.getElementById("txtpasteItemId" + i).value;
+        $.ajax({
+            url: 'GetpastewcDetail',
+            data: { "itemid": itemid, "wcid": wcid },
+            type: "GET",
+            success: function (result) {
+
+              
+                document.getElementById("hdpastecapacity" + i).value = result.tar;
+                document.getElementById("txtpastepowerreq" + i).value = result.powe;
+                document.getElementById("hdpastepowerreq" + i).value = result.powe;
+
+                document.getElementById("txtappowder" + i).value = result.appowe;
+                document.getElementById("hdappowder" + i).value = result.appowe;
+
+                
+
+                changepastedays('', i);
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+    function changepastedays(_this, i){
+        var target = document.getElementById("hdpasteRequired" + i).value;
+        var PaCapperChg = document.getElementById("hdpastecapacity" + i).value;
+        var power= document.getElementById("hdpastepowerreq" + i).value;
+        var PaapPow =document.getElementById("hdappowder" + i).value;
+        var paaddper =document.getElementById("hdAllocAdditive" + i).value;
+         var days =0;
+         var panoofchg =0;
+         var PaProd=0;
+         var PaAllAddit =0;
+        if (target == "")
+            target = 0;
+
+        if (PaCapperChg == "")
+            PaCapperChg = 0;
+
+     if (power == "")
+            power = 0;
+
+            if (PaapPow == "")
+            PaapPow = 0;
+
+        if(eval(PaCapperChg) > 0){
+            days = eval(target) / eval(PaCapperChg);
+            panoofchg=eval(PaCapperChg) /210;
+        }
+        PaProd=eval(days)*eval(target);
+        var pallappow =eval(panoofchg) * eval(PaapPow) *eval(days);
+
+        var balqty=eval(target)-eval(PaProd);
+            
+        var kwhr = eval(target) * 22 * eval(power);
+
+        PaAllAddit= eval(paaddper) * eval(pallappow) /100;
+            document.getElementById("txtpasteproddays" + i).value = Math.ceil(days);
+      document.getElementById("txtpastecharge" + i).value = panoofchg.toFixed(2); 
+       document.getElementById("hdpastecharge" + i).value = panoofchg.toFixed(2);
+        document.getElementById("txtpastepowerreq" + i).value =kwhr.toFixed(2); 
+        document.getElementById("hdpastepowerreq" + i).value = kwhr.toFixed(2); 
+
+         document.getElementById("txtpprod" + i).value =Math.round(PaProd);
+            document.getElementById("hdpprod" + i).value = Math.round(PaProd);
+
+            document.getElementById("txtpbal" + i).value =Math.round(balqty);
+                document.getElementById("hdpbal" + i).value = Math.round(balqty);
+
+                 document.getElementById("hdappowder" + i).value =Math.round(pallappow);
+            document.getElementById("txtappowder" + i).value = Math.round(pallappow);
+
+             document.getElementById("hdAllocAdditive" + i).value =Math.round(PaAllAddit);
+            document.getElementById("txtAllocAdditive" + i).value = Math.round(PaAllAddit);
+
+        }
 </script>

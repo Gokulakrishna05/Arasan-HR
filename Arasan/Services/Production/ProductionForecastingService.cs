@@ -553,7 +553,7 @@ Order by 2 Desc";
                             target = rdr["qty"].ToString(),
                             additive = datatrans.GetDataString("SELECT   I1.ItemID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID = I.ADD1"),
                             additiveid = datatrans.GetDataString("SELECT   I1.ITEMMASTERID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID = I.ADD1"),
-
+                            allocadditive= datatrans.GetDataString("SELECT ADD1PER FROM ITEMMASTER WHERE  ITEMID='" + rdr["ITEMID"].ToString() + "'"),
                             // itemid = rdr["ITEMID"].ToString(),
                             //Branch = rdr["BRANCHID"].ToString(),
 
