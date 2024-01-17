@@ -181,6 +181,17 @@ namespace Arasan.Services.Production
             return dtt;
         }
 
+        public DataTable GetAPWC()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT W.WCBASICID, W.WCID FROM WCBASIC W,LOCDETAILS LD WHERE W.ILOCATION=LD.LOCDETAILSID AND LD.LOCATIONTYPE='AP MILL' order by 2";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
         public DataTable GetPolishWC()
         {
             string SvSql = string.Empty;
@@ -553,7 +564,8 @@ Order by 2 Desc";
                             target = rdr["qty"].ToString(),
                             additive = datatrans.GetDataString("SELECT   I1.ItemID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID = I.ADD1"),
                             additiveid = datatrans.GetDataString("SELECT   I1.ITEMMASTERID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID = I.ADD1"),
-
+                            allocadditive= datatrans.GetDataString("SELECT ADD1PER FROM ITEMMASTER WHERE  ITEMID='" + rdr["ITEMID"].ToString() + "'"),
+                          
                             // itemid = rdr["ITEMID"].ToString(),
                             //Branch = rdr["BRANCHID"].ToString(),
 
@@ -564,6 +576,8 @@ Order by 2 Desc";
                             //Net = Convert.ToDouble(rdr["NET"].ToString()),
 
                         };
+                        cmp.paaddpurpri = datatrans.GetDataString("SELECT LATPURPRICE FROM ITEMMASTER WHERE ITEMMASTERID='" + cmp.additiveid + "'");
+                        cmp.mtopurpri = datatrans.GetDataString("SELECT LATPURPRICE FROM ITEMMASTER WHERE ITEMID='DISTILLED MINERAL TURPENTINE'");
                         cmpList.Add(cmp);
                     }
                 }

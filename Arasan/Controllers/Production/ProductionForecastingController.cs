@@ -589,6 +589,12 @@ namespace Arasan.Controllers.Production
 
         }
 
+        public JsonResult GetAPWCJSON()
+        {
+            return Json(BindPYROWC());
+
+        }
+
         public JsonResult GetPolishJSON()
         {
             return Json(BindPolishWC());
@@ -615,6 +621,24 @@ namespace Arasan.Controllers.Production
             try
             {
                 DataTable dtDesg = _ProdForecastServ.GetPYROWC();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SelectListItem> BindAPWC()
+        {
+            try
+            {
+                DataTable dtDesg = _ProdForecastServ.GetAPWC();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -882,6 +906,23 @@ namespace Arasan.Controllers.Production
                 string tar = datatrans.GetDataString("Select Sum(tar) Tar from (SELECT SUM(WD.PRATE*22) TAR FROM WCBASIC W,WCPRODDETAIL WD,ITEMMASTER I WHERE W.WCBASICID=WD.WCBASICID AND W.WCBASICID='" + wcid + "' AND I.ITEMMASTERID=WD.ITEMID AND WD.ITEMTYPE='Primary' AND I.ITEMMASTERID='" + itemid + "' )");
                 string powe = datatrans.GetDataString("Select EBCONSPERHR from wcbasic where wcbasicid='" + wcid + "'");
                 var result = new { tar = tar , powe = powe };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetpastewcDetail(string itemid, string wcid,string mnth)
+        {
+            try
+            {
+                string tar = datatrans.GetDataString("Select Sum(tar) Tar from (SELECT SUM(WD.PRATE*22) TAR FROM WCBASIC W,WCPRODDETAIL WD,ITEMMASTER I WHERE W.WCBASICID=WD.WCBASICID AND W.WCBASICID='" + wcid + "' AND I.ITEMMASTERID=WD.ITEMID AND WD.ITEMTYPE='Primary' AND I.ITEMMASTERID='" + itemid + "' )");
+                string powe = datatrans.GetDataString("Select EBCONSPERHR from wcbasic where wcbasicid='" + wcid + "'");
+                string appowe = datatrans.GetDataString("SELECT SUM(P.APPOWKG) ap FROM PARUNDET P WHERE  P.WCBASICID='" + wcid + "' AND P.RUNITEM='" + itemid + "'");
+                string pamtoloss= datatrans.GetDataString("SELECT P.MTOLOSSPER LOSS FROM PARUNDET P where P.WCBASICID='" + wcid + "' AND P.RUNITEM='" + itemid + "'");
+                string rvdloss= datatrans.GetDataString("Select Sum(D.RVDMTOLOS) Qty from ProdFcBasic B,ProdFcRvd D Where B.PRODFCBASICID=D.PRODFCBASICID And B.IS_ACTIVE='Y' AND B.PLANTYPE='MONTHLY' AND B.MONTH='" + mnth  + "'  And D.RVDRAWMAT='" + itemid + "' Group by D.RVDRAWMAT");
+                var result = new { tar = tar, powe = powe , appowe = appowe , pamtoloss= pamtoloss , rvdloss = rvdloss };
                 return Json(result);
             }
             catch (Exception ex)
