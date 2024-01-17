@@ -377,7 +377,7 @@
 
                             <div style="height:30px;"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
-                            <button class="btn btn-danger" type="submit">Cancel</button>
+                            <button class="btn btn-danger" type="button" onclick="location.href='@Url.Action("ListSubContractingDC", "SubContractingDC")'">Cancel</button>
                         </form>
                     }
                 </div>
@@ -493,7 +493,7 @@
                 //alert(JSON.stringify(response));
                 newlist = response.Ilst;
                 var i = 0;
-                $('tr.chkitemlst1').each(function () {
+                $('tr.chkitemlst').each(function () {
                     if ($(this).css('display') !== 'none') {
                         PopulateDropDownn("#ddlItem" + i, response);
                         i += 1;
@@ -726,9 +726,11 @@
 
     function AddRow() {
         var opt = "";
+         var id = document.getElementById("ddlLocation" ).value;
         $.ajax({
             type: "POST",
             url: 'GetItemGrpJSON',
+              data: { 'id': id },
             success: function (data) {
 
                 $.each(data, function () {
@@ -746,9 +748,9 @@
 
                var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='SCDIlst[" + index + "].ItemId' onchange = 'changeItemDeatils(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var drum = "<td><div class='fa-hover col-md-2 col-sm-4'> <a href='/SubContractingDC/SubContractDrumSelection' class='fancybox' data-fancybox-type='iframe' id='hdrumselection" + index + "'><img src='../Images/view_icon.png' id='im' hidden></a></div> <input  id='hddrumid" + index + "' name='SCDIlst[" + index + "].DrumIds' type='hidden'> </td>";
+        var drum = "<td><div class='fa-hover col-md-2 col-sm-4'> <a href='/SubContractingDC/SubContractDrumSelection' class='fancybox' data-fancybox-type='iframe' id='hdrumselection" + index + "'><img src='../Images/view_icon.png' id='im' ></a></div> <input  id='hddrumid" + index + "' name='SCDIlst[" + index + "].DrumIds' type='hidden'> </td>";
 
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='SCDIlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /><input class='form-control' id='txtgroup" + index + "' name='SCDIlst[" + index + "].group' type='hidden' /><input class='form-control' id='dqty" + index + "' name='SCDIlst[" + index + "].dqty' type='hidden' /><input class='form-control' id='lot" + index + "' name='SCDIlst[" + index + "].Lotno' type='hidden' /><input class='form-control' id='drate" + index + "' name='SCDIlst[" + index + "].drate' type='hidden' /></td>";
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='SCDIlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /><input class='form-control' id='txtgroup" + index + "' name='SCDIlst[" + index + "].group' type='hidden' /><input class='form-control' id='dqty" + index + "' name='SCDIlst[" + index + "].dqty' type='hidden' /><input class='form-control' id='lotno" + index + "' name='SCDIlst[" + index + "].Lotno' type='hidden' /><input class='form-control' id='drate" + index + "' name='SCDIlst[" + index + "].drate' type='hidden' /></td>";
 
         var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='SCDIlst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True'  /></td>";
 
@@ -841,22 +843,7 @@
   $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
-            if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
-                isValid = false;
-                $(ddlBranch).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Branch");
-                return false;
-            }
-            else {
-                $(ddlBranch).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+            
              if (document.getElementById("ddlLocation").value == "" || document.getElementById("ddlLocation").value == 0) {
                 isValid = false;
                 $(ddlLocation).css({

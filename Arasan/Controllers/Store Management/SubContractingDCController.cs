@@ -568,6 +568,7 @@ namespace Arasan.Controllers.Store_Management
                         tda.invid = dtEnq.Rows[i]["INVENTORY_ITEM_ID"].ToString();
                         tda.lotno = dtEnq.Rows[i]["LOT_NO"].ToString();
                         tda.qty = dtEnq.Rows[i]["BALANCE_QTY"].ToString();
+                        tda.reqqty = dtEnq.Rows[i]["BALANCE_QTY"].ToString();
                         tda.rate = dtEnq.Rows[i]["RATE"].ToString();
 
 

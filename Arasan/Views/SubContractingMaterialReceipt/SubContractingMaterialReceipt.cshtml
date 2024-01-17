@@ -92,7 +92,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Rec.Work.Center<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Rec.Work.Center<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.WorkCenter, new { @id = "txtWorkCenter", @class = "form-control", @TabIndex = 4 ,@readonly="readonly"})
                                             @Html.HiddenFor(C => C.ID)
@@ -700,7 +700,7 @@
 
         var ItemId = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='SubMatlilst[" + index + "].item' style='width:150px;' onchange = 'ItemChange(this.value," + index + ")'> <option value=''>Please select</option>" + opt + " < /select><input type='hidden' id='txtitemid" + index + "' name='SubMatlilst[" + index + "].itemid'><input type='hidden'  id='txtdrumno" + index + "' name='SubMatlilst[" + index + "].drumno'><input type='hidden'  id='txtdqty" + index + "' name='SubMatlilst[" + index + "].dqty'><input type='hidden'  id='txtdrate" + index + "' name='SubMatlilst[" + index + "].drate'><input type='hidden'  id='txtdamount" + index + "' name='SubMatlilst[" + index + "].damount'><input type='hidden'  id='txtsupid" + index + "' name='SubMatlilst[" + index + "].supid'></td>";
 
-        var Drum = "<td><div class='fa-hover col-md-2 col-sm-4''> <a href='@Url.Action("DrumSelection", "SubContractingMaterialReceipt")?rowid=0&id='item' class='fancybox' data-fancybox-type='iframe' ><img src='../Images/view_icon.png' id='im' hidden /></a></div> </td>";
+        var Drum = "<td><div class='fa-hover col-md-2 col-sm-4''> <a href='@Url.Action("DrumSelection", "SubContractingMaterialReceipt")?rowid="+index+"&id='item' class='fancybox' data-fancybox-type='iframe' ><img src='../Images/view_icon.png' id='im' /></a></div> </td>";
 
         var Unit = "<td><input class='form-control' id='txtunit" + index + "' name='SubMatlilst[" + index + "].unit'  style='width: 100px;' type='text'    /></td>";
 
@@ -820,6 +820,67 @@
             alert(ex.message);
         }
     }*@
+     $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            
+             if (document.getElementById("ddlLocation").value == "" || document.getElementById("ddlLocation").value == 0) {
+                isValid = false;
+                $(ddlLocation).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Location ");
+                return false;Center
+            }
+            else {
+                $(ddlLocation).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+         
+            if (document.getElementById("Docdate").value == "") {
+                isValid = false;
+                $(Docdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Date");
+                return false;
+            }
+            else {
+                $(Docdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("ddlSupplier").value == "" || document.getElementById("ddlSupplier").value == 0) {
+                isValid = false;
+                $(ddlSupplier).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Party");
+                return false;
+            }
+            else {
+                $(ddlSupplier).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+           
+          
+    
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
 </script>
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>

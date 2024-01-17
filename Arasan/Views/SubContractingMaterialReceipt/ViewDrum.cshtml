@@ -19,7 +19,7 @@
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
                     <form>
-                        <div class="row">
+                        @*<div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Item<label class="Mandatory"></label></label>
@@ -43,7 +43,7 @@
 
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                         @*<div class="row">
                         <div class="col-md-6">
                         <div class="form-group">
@@ -81,6 +81,7 @@
                                         <thead>
                                             <tr>
 
+                                                <th>Item</th>
                                                 <th>Drum No</th>
                                                 <th>Qty</th>
 
@@ -99,7 +100,9 @@
                                                 {
 
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-
+                                                        <td>
+                                                            @Html.DisplayFor(o => o.drumlist[i].item)
+                                                        </td>
                                                         <td>
                                                             @Html.DisplayFor(o => o.drumlist[i].drumno)
                                                         </td>
