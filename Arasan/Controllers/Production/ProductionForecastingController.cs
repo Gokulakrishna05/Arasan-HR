@@ -56,6 +56,9 @@ namespace Arasan.Controllers.Production
             PFCAPPRODItem tda6 = new PFCAPPRODItem();
             List<PFCPACKItem> TData7 = new List<PFCPACKItem>();
             PFCPACKItem tda7 = new PFCPACKItem();
+
+            List<ProdApItem> TData8 = new List<ProdApItem>();
+            ProdApItem tda8 = new ProdApItem();
             if (id == null)
             {
                 ca.plantype = "MONTHLY";
@@ -120,6 +123,13 @@ namespace Arasan.Controllers.Production
                     //tda3.POItemlst = BindItemlst("");
                     tda7.Isvalid = "Y";
                     TData7.Add(tda7);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda8 = new ProdApItem();
+8                    //tda3.POItemlst = BindItemlst("");
+                    tda8.Isvalid = "Y";
+                    TData8.Add(tda8);
                 }
             }
             else
@@ -269,6 +279,7 @@ namespace Arasan.Controllers.Production
             ca.PFCPASTELst = TData5;
             ca.PFCAPPRODLst = TData6;
             ca.PFCPACKLst = TData7;
+            ca.Aplst=TData8;
             return View(ca);
         }
         public IActionResult ProdForecasting(string id)

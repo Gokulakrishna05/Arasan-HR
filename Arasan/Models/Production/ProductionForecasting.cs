@@ -36,6 +36,7 @@ namespace Arasan.Models
         public List<PFCPASTEItem> PFCPASTELst { get; set; }
         public List<PFCAPPRODItem> PFCAPPRODLst { get; set; }
         public List<PFCPACKItem> PFCPACKLst { get; set; }
+        public List<ProdApItem> Aplst { get; set; }
 
         public string plantype { get; set; }
         public string apspowder { get; set; }
@@ -295,6 +296,21 @@ namespace Arasan.Models
         public string viewrow { get; set; }
         public string delrow { get; set; }
 
+
+    }
+
+    public class ProdApItem
+    {
+        public string itemid { get; set; }
+        public string saveitemid { get; set; }
+        public string reqqty { get; set; }
+        public string avlstk { get; set; }
+        public string ministk { get; set; }
+        public string reqappowder { get; set; }
+
+        public string startvalue { get; set; }
+        public string endvalue { get; set; }
+        public string Isvalid { get; set; }
 
     }
 }
