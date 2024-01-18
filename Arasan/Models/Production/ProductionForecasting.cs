@@ -186,6 +186,7 @@ namespace Arasan.Models
         public string consqty { get; set; }
        
         public string prodqty { get; set; }
+        public string consmatid { get; set; }
         public string rawmat { get; set; }
         public string powderrequired { get; set; }
 
@@ -293,6 +294,7 @@ namespace Arasan.Models
         public string plan { get; set; }
        
         public string viewrow { get; set; }
+        public string generate { get; set; }
         public string delrow { get; set; }
 
 
