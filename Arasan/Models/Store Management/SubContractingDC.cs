@@ -16,6 +16,7 @@ namespace Arasan.Models
         public string Docdate { get; set; }
        
         public string Branch { get; set; }
+        public string pakid { get; set; }
         public string Branchid { get; set; }
 
         public List<SelectListItem> Brlst;
@@ -34,6 +35,8 @@ namespace Arasan.Models
         public string Recived { get; set; }
         public string TotalQty { get; set; }
         public string ddlStatus { get; set; }
+        public string NDcNo { get; set; }
+        public string dcDate { get; set; }
         public string Narration { get; set; }
         public string Enterd { get; set; }
         public List<SelectListItem> assignList;
@@ -93,6 +96,7 @@ namespace Arasan.Models
 
         public List<SelectListItem> Itemlst { get; set; }
         public string ItemId { get; set; }
+       
         public string item { get; set; }
         public string Unit { get; set; }
         public string detid { get; set; }

@@ -2,6 +2,7 @@
 using Arasan.Models;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
+using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -180,6 +181,17 @@ namespace Arasan.Services.Production
             return dtt;
         }
 
+        public DataTable GetAPWC()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT W.WCBASICID, W.WCID FROM WCBASIC W,LOCDETAILS LD WHERE W.ILOCATION=LD.LOCDETAILSID AND LD.LOCATIONTYPE='AP MILL' order by 2";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
         public DataTable GetPolishWC()
         {
             string SvSql = string.Empty;
@@ -349,7 +361,7 @@ ORDER BY ORD DESC";
                             saveitemid = datatrans.GetDataString("SELECT   ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["ITEMID"].ToString() + "'"),
                             
                             required = rdr["REQ"].ToString(),
-                            balanceqty= rdr["REQ"].ToString(),
+                           // balanceqty= rdr["REQ"].ToString(),
                             minstock = rdr["MINSTK"].ToString(),
                             stock = rdr["stk"].ToString(),
                             rejqty = rdr["REJ"].ToString(),
@@ -359,10 +371,16 @@ ORDER BY ORD DESC";
                             per = Per,
                             wstatus="Pending"
                         };
-                        cmp.pasterej = datatrans.GetDataString("Select Decode(sign(3-round(sum(rc/(oq+1)*100),2)),1,round(sum(rc/(oq+1)*100),2),3) rcper from (Select nvl(sum(oq),1) oq,nvl(sum(rc),1) rc from (Select 0 oq,Sum(B.OQTY) rc from FQTVEBAsic B,Itemmaster I Where B.DOCDATE between '"+ startDate + "' and '" + endDate + "' And B.Finalresult='NOT OK' and I.ITEMID='" + cmp.saveitemid + "' and B.RESULTTYPE='RECHARGE' And I.ITEMMASTERID=B.ITEMID Union All Select Sum(D.OQTY) Oq,0 From Nprodbasic B,Nprodoutdet D,Itemmaster I where I.ITEMMASTERID=D.OITEMID and B.NPRODBASICID=D.NPRODBASICID and B.DOCDATE between '" + startDate + "' and '"+ endDate + "' and I.ITEMID='" + cmp.saveitemid + "'))");
+                        //cmp.pasterej = datatrans.GetDataString("Select Decode(sign(3-round(sum(rc/(oq+1)*100),2)),1,round(sum(rc/(oq+1)*100),2),3) rcper from (Select nvl(sum(oq),1) oq,nvl(sum(rc),1) rc from (Select 0 oq,Sum(B.OQTY) rc from FQTVEBAsic B,Itemmaster I Where B.DOCDATE between '"+ startDate + "' and '" + endDate + "' And B.Finalresult='NOT OK' and I.ITEMID='" + cmp.saveitemid + "' and B.RESULTTYPE='RECHARGE' And I.ITEMMASTERID=B.ITEMID Union All Select Sum(D.OQTY) Oq,0 From Nprodbasic B,Nprodoutdet D,Itemmaster I where I.ITEMMASTERID=D.OITEMID and B.NPRODBASICID=D.NPRODBASICID and B.DOCDATE between '" + startDate + "' and '"+ endDate + "' and I.ITEMID='" + cmp.saveitemid + "'))");
+                        cmp.pasterej = "0.16";
                         double rem = Convert.ToDouble(cmp.target) + Convert.ToDouble(cmp.minstock) - Convert.ToDouble(cmp.stock);
                         double regqty= Math.Floor(rem * (Convert.ToDouble(cmp.pasterej) / 100));
                         cmp.rejqty= regqty.ToString();
+                        double required=Math.Round(rem - regqty);
+                        cmp.required = required.ToString();
+                        cmp.balanceqty= required.ToString();
+                        cmp.rejmat = "2";
+                        //cmp.targethrs = datatrans.GetDataString("Select Sum(tar) Tar from (SELECT SUM(WD.PRATE*22) TAR FROM WCBASIC W,WCPRODDETAIL WD,ITEMMASTER I WHERE W.WCBASICID=WD.WCBASICID AND W.WCID=:PYWCID AND I.ITEMMASTERID=WD.ITEMID \r\nAND WD.ITEMTYPE='Primary' AND I.ITEMID=:PYITEMID\r\nUnion All\r\nSELECT SUM(WD.PRATE*22) TAR FROM NMPC.WCBASIC W,NMPC.WCPRODDETAIL WD,ITEMMASTER I WHERE W.WCBASICID=WD.WCBASICID AND W.WCID=:PYWCID AND I.ITEMMASTERID=WD.ITEMID \r\nAND WD.ITEMTYPE='Primary' AND I.ITEMID=:PYITEMID\r\n)");
                         cmpList.Add(cmp);
                     }
                 }
@@ -440,16 +458,49 @@ ORDER BY ord desc";
                             additiveid = datatrans.GetDataString("SELECT   I1.ITEMMASTERID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID = I.ADD1"),
                             rawmat = datatrans.GetDataString("SELECT I1.ItemID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID=I.ITEMFROM"),
                             rawmatid = datatrans.GetDataString("SELECT I1.ITEMMASTERID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID=I.ITEMFROM"),
-                        // itemid = rdr["ITEMID"].ToString(),
-                        //Branch = rdr["BRANCHID"].ToString(),
+                            reqper="100",
+                            rvdqty= rdr["Tar"].ToString(),
+                            pyroqty = rdr["Tar"].ToString(),
+                            // itemid = rdr["ITEMID"].ToString(),
+                            //Branch = rdr["BRANCHID"].ToString(),
 
-                        //InvNo = rdr["DOCID"].ToString(),
+                            //InvNo = rdr["DOCID"].ToString(),
 
-                        //InvDate = rdr["DOCDATE"].ToString(),
-                        //Party = rdr["PARTYNAME"].ToString(),
-                        //Net = Convert.ToDouble(rdr["NET"].ToString()),
+                            //InvDate = rdr["DOCDATE"].ToString(),
+                            //Party = rdr["PARTYNAME"].ToString(),
+                            //Net = Convert.ToDouble(rdr["NET"].ToString()),
 
-                    };
+                        };
+                        if (cmp.required != "0")
+                        {
+                            DataTable consdt = new DataTable();
+                            consdt = datatrans.GetData("SELECT I.ADD1,I2.ITEMID FROM ITEMMASTER I, ITEMMASTER I2 WHERE I.ADD1 = I2.ITEMMASTERID AND I.ITEMMASTERID = '" + cmp.rawmatid + "'");
+                           
+                            if (consdt.Rows.Count > 0)
+                            {
+                                cmp.consmat = consdt.Rows[0]["ITEMID"].ToString();
+                                cmp.consmatid= consdt.Rows[0]["ADD1"].ToString();
+                                string per = datatrans.GetDataString("SELECT ADD1PER FROM ITEMMASTER WHERE  ITEMMASTERID= '" + consdt.Rows[0]["ADD1"].ToString() + "'");
+                                double consqty = Math.Round(Convert.ToDouble(cmp.required) * Convert.ToDouble(per), 0);
+                                cmp.consqty = consqty.ToString();
+                            }
+                           DataTable rawdt = datatrans.GetData("SELECT I.ITEMFROM,I2.ITEMID FROM ITEMMASTER I,ITEMMASTER I2 WHERE  I.ITEMMASTERID='" + cmp.rawmatid + "' AND I2.ITEMMASTERID=I.ITEMFROM");
+                            if(rawdt.Rows.Count > 0)
+                            {
+                                cmp.rvdrawmatid = rawdt.Rows[0]["ITEMFROM"].ToString();
+                                cmp.rvdrawmat = rawdt.Rows[0]["ITEMID"].ToString();
+                                string rawper = datatrans.GetDataString("SELECT RAWMATPER FROM ITEMMASTER WHERE  ITEMMASTERID= '" + cmp.rawmatid + "'");
+                                double rawqty = Math.Round(Convert.ToDouble(cmp.required) * Convert.ToDouble(rawper), 0);
+                                cmp.rvdrawmatqty = rawqty.ToString();
+                                double rvdmtor = Math.Round((rawqty * 20) / 100, 0);
+                                cmp.rvdmtorec = rvdmtor.ToString();
+                                double rvdmtol = Math.Round(rawqty - rvdmtor - Convert.ToDouble(cmp.required), 0);
+                                cmp.rvdmtoloss = rvdmtol.ToString();
+                            }
+
+                        }
+
+
                         cmpList.Add(cmp);
                     }
                 }
@@ -513,7 +564,8 @@ Order by 2 Desc";
                             target = rdr["qty"].ToString(),
                             additive = datatrans.GetDataString("SELECT   I1.ItemID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID = I.ADD1"),
                             additiveid = datatrans.GetDataString("SELECT   I1.ITEMMASTERID FROM ITEMMASTER I, ITEMMASTER I1 WHERE I.ITEMID ='" + rdr["ITEMID"].ToString() + "' AND I1.ITEMMASTERID = I.ADD1"),
-
+                            allocadditive= datatrans.GetDataString("SELECT ADD1PER FROM ITEMMASTER WHERE  ITEMID='" + rdr["ITEMID"].ToString() + "'"),
+                          
                             // itemid = rdr["ITEMID"].ToString(),
                             //Branch = rdr["BRANCHID"].ToString(),
 
@@ -524,6 +576,8 @@ Order by 2 Desc";
                             //Net = Convert.ToDouble(rdr["NET"].ToString()),
 
                         };
+                        cmp.paaddpurpri = datatrans.GetDataString("SELECT LATPURPRICE FROM ITEMMASTER WHERE ITEMMASTERID='" + cmp.additiveid + "'");
+                        cmp.mtopurpri = datatrans.GetDataString("SELECT LATPURPRICE FROM ITEMMASTER WHERE ITEMID='DISTILLED MINERAL TURPENTINE'");
                         cmpList.Add(cmp);
                     }
                 }

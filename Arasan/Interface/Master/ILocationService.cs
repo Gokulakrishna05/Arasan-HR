@@ -16,5 +16,10 @@ namespace Arasan.Interface
         DataTable GetEditLocation(string id);
 
         DataTable GetAllLocation(string strStatus);
+        //DataTable GetSupplier();
+        DataTable GetPartyDetails(string ItemId);
+        DataTable GetSupplier();
+        DataTable GetEditBinDeatils(string id);
+        DataTable GetEditLocDeatils(string id);
     }
 }

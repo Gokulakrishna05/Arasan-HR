@@ -52,7 +52,7 @@ namespace Arasan.Models
         public string coarse { get; set; }
         public string power { get; set; }
          
-
+        public string pyrocunt { get; set; }
         public List<SelectListItem> mnthlst { get; set; }
     }
     public class PFCItem
@@ -112,6 +112,7 @@ namespace Arasan.Models
         public string rejqty { get; set; }
         public string required { get; set; }
         public string target { get; set; }
+        public string targethrs { get; set; }
         public string proddays { get; set; }
         public string prodqty { get; set; }
         public string rejmat { get; set; }
@@ -155,6 +156,15 @@ namespace Arasan.Models
         public string rawmatid { get; set; }
         public string powderrequired { get; set; }
 
+        public string consmat { get; set; }
+        public string consmatid { get; set; }
+        public string consqty { get; set; }
+        public string rvdrawmat { get; set; }
+        public string rvdrawmatid { get; set; }
+
+        public string rvdrawmatqty { get; set; }
+        public string rvdmtorec { get; set; }
+        public string rvdmtoloss { get; set; }
     }
     public class PFCRVDItem
     {
@@ -166,8 +176,8 @@ namespace Arasan.Models
         public List<SelectListItem> POWorklst { get; set; }
         public string Isvalid { get; set; }
         public string wcdays { get; set; }
-        
-       
+
+        public string capacity { get; set; }
         public string days { get; set; }
         public string mto { get; set; }
         public string mtoloss { get; set; }
@@ -217,6 +227,9 @@ namespace Arasan.Models
         public string coarse { get; set; }
         public string stock { get; set; }
         public string powerrequired { get; set; }
+
+        public string paaddpurpri { get; set; }
+        public string mtopurpri { get; set; }
     }
     public class PFCAPPRODItem
     {

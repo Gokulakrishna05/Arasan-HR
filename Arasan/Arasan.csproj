@@ -15,6 +15,7 @@
     <Content Remove="wwwroot\Reports\SEqubasic.rdlc" />
     <Content Remove="wwwroot\Reports\SQbasic.rdlc" />
     <Content Remove="wwwroot\Reports\SubConDc.rdlc" />
+    <Content Remove="wwwroot\Reports\SubConMatDc.rdlc" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +43,9 @@
     <None Include="wwwroot\Reports\SEqubasic.rdlc" />
     <None Include="wwwroot\Reports\SQbasic.rdlc" />
     <None Include="wwwroot\Reports\SubConDc.rdlc" />
+    <None Include="wwwroot\Reports\SubConMatDc.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -119,6 +123,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SQ.xsd</DependentUpon>
     </Compile>
+    <Compile Update="SubActMr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SubActMr.xsd</DependentUpon>
+    </Compile>
     <Compile Update="SubConDc.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -128,6 +137,16 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SubConDet.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="SubMat.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SubMat.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="SubMatDet.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SubMatDet.xsd</DependentUpon>
     </Compile> 
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +209,10 @@
        <Generator>MSDataSetGenerator</Generator>
        <LastGenOutput>SQ.Designer.cs</LastGenOutput>
      </None>
+     <None Update="SubActMr.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>SubActMr.Designer.cs</LastGenOutput>
+     </None>
      <None Update="SubConDc.xsd">
        <Generator>MSDataSetGenerator</Generator>
        <LastGenOutput>SubConDc.Designer.cs</LastGenOutput>
@@ -197,6 +220,14 @@
      <None Update="SubConDet.xsd">
        <Generator>MSDataSetGenerator</Generator>
        <LastGenOutput>SubConDet.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="SubMat.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>SubMat.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="SubMatDet.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>SubMatDet.Designer.cs</LastGenOutput>
      </None>
    </ItemGroup>
 
