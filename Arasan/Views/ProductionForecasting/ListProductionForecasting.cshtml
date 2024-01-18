@@ -53,7 +53,7 @@
                 { name: 'month', type: 'string' },
                 { name: 'plan', type: 'string' },
                
-                { name: 'prefix', type: 'string' },
+                { name: 'generate', type: 'string' },
                 { name: 'viewrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
             ],
@@ -82,14 +82,15 @@
                 theme: 'darkblue',
                 enablebrowserselection: true,
                 columns: [
-                    { text: 'Doc ID', filtertype: 'input', datafield: 'docid', width: 150 },
-                    { text: 'Doc Date', filtertype: 'input', datafield: 'docdate', width: 150 },
-                    { text: 'Month', filtertype: 'checkedlist', datafield: 'month', width: 150 },
-                    { text: 'Plan Type', filtertype: 'checkedlist', datafield: 'plan', width: 300, align: 'center' },
+                    { text: 'Doc ID', filtertype: 'input', datafield: 'docid', width: 100 },
+                    { text: 'Doc Date', filtertype: 'input', datafield: 'docdate', width: 100 },
+                    { text: 'Month', filtertype: 'checkedlist', datafield: 'month', width: 100 },
+                    { text: 'Plan Type', filtertype: 'checkedlist', datafield: 'plan', width: 100, align: 'center' },
                  
                    
 
                     { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Generate Shedule', datafield: 'generate', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                 ]
             });
