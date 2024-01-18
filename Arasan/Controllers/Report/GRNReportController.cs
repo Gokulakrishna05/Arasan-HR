@@ -143,10 +143,6 @@ namespace Arasan.Controllers.Report
                     party = dtUsers.Rows[i]["PARTYID"].ToString(),
                     item = dtUsers.Rows[i]["ITEMID"].ToString(),
 
-
-
-
-
                 });
             }
 

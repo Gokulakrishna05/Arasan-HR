@@ -32,7 +32,15 @@
     }
 
 </style>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+@*<script src="js/jquery-1.10.2.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>*@
+
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -121,18 +129,51 @@
 
                     ]
                 });
-            $("#ddlStatus").change(function () {
-                var value = "Y";
-                if ($(this).val() != "") {
-                    value = $(this).val();
-                }
-                source.data = {
-                    strstatus: value
-                };
-                $("#grid").jqxGrid({ source: source });
-            });
+            
+            //$("#pdfExport").click(function () {
+            //  exportToPDF();
+            //  //$("#grid").jqxGrid('exportdata', 'json');
+            //});
+
+            // function exportToPDF() {
+            //  var pdf = new jsPDF();
+      
+            //  // Extract grid data
+            //  var gridData = $("#grid").jqxGrid('exportdata', 'json');
+
+            //  // Customize PDF content based on your data structure
+            //  pdf.text('List of Data', 10, 10);
+            //  for (var i = 0; i < gridData.length; i++) {
+            //    pdf.text((i + 1) + '. ' + gridData[i].columnName1 + ': ' + gridData[i].columnName2, 10, 20 + i * 10);
+            //  }
+
+            //  // Save or open the PDF
+            //  pdf.save('dataList.pdf');
+            //}
+      
+
+            // var doc = new jsPDF();
+            //$('#pdfExport').click(function () {
+
+            //        html2canvas($('#divprint')).then(function (canvas){
+            //            document.appendChild(canvas);
+            //            doc.addImage(canvas.toDataURL("image/png"),'PNG',0,0,210,297);
+            //        });
+            //        doc.save('sample-file.pdf');
+
+
+                    $("#ddlStatus").change(function () {
+                        var value = "Y";
+                        if ($(this).val() != "") {
+                            value = $(this).val();
+                        }
+                        source.data = {
+                            strstatus: value
+                        };
+                        $("#grid").jqxGrid({ source: source });
+                    });
+                });
         });
-    });
 
 </script>
 <div class="wrapper-content ">
@@ -200,7 +241,7 @@
                                 <div class="col-md-9"></div>
                                 <div class="col-md-3">
                                     <button type="button" class="btn btn-success  marginright" id="btnSave" value="Run">Run</button>
-                                    <button type="button" class="btn btn-primary marginright" onclick="exportToExcel()">Pdf</button>
+                                   <button type="button" class="btn btn-primary marginright" value="Export to Excel" id="pdfExport">Pdf</button>
                                     <button type="button" class="btn btn-danger marginright" onclick="location.href='@Url.Action("ReceiptReport", "ReceiptReport")'" value="Reset" causesvalidation="false">Reset</button>
 
 
