@@ -127,7 +127,7 @@ namespace Arasan.Controllers.Production
                 for (int i = 0; i < 1; i++)
                 {
                     tda8 = new ProdApItem();
-               //tda3.POItemlst = BindItemlst("");
+ 
                     tda8.Isvalid = "Y";
                     TData8.Add(tda8);
                 }
@@ -913,6 +913,15 @@ namespace Arasan.Controllers.Production
             return Json(model.PFCPACKLst);
 
         }
+        public ActionResult GetAPSForecast(string mnth, string type)
+        {
+            ProductionForecasting model = new ProductionForecasting();
+            model.Aplst = _ProdForecastServ.GetAPSForecast(mnth, type);
+            return Json(model.Aplst);
+
+        }
+
+
         public ActionResult GetpyrowcDetail(string itemid,string wcid)
         {
             try
