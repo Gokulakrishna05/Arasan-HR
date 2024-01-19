@@ -986,8 +986,10 @@ namespace Arasan.Controllers.Production
             PFCAPPRODItem tda6 = new PFCAPPRODItem();
             List<PFCPACKItem> TData7 = new List<PFCPACKItem>();
             PFCPACKItem tda7 = new PFCPACKItem();
-     
-                DataTable dt = new DataTable();
+            List<ProdApItem> TData8 = new List<ProdApItem>();
+            ProdApItem tda8 = new ProdApItem();
+
+            DataTable dt = new DataTable();
 
                 dt = _ProdForecastServ.GetPFDeatils(id);
                 if (dt.Rows.Count > 0)
@@ -1187,14 +1189,19 @@ namespace Arasan.Controllers.Production
             dt8 = _ProdForecastServ.GetAPSDeatils(id);
             if (dt8.Rows.Count > 0)
             {
-
-                ca.apspowder = dt8.Rows[0]["APPOWREQ"].ToString();
-                ca.reqqty = dt8.Rows[0]["APREQ"].ToString();
-                ca.avlstk = dt8.Rows[0]["APAVAILSTK"].ToString();
-                ca.ministk = dt8.Rows[0]["APMINSTK"].ToString();
-                ca.reqappowder = dt8.Rows[0]["APREQPOW"].ToString();
-               
-                 
+                for (int i = 0; i < dt8.Rows.Count; i++)
+                {
+                    tda8 = new ProdApItem();
+                    tda8.reqappowder = dt8.Rows[i]["APPOWREQ"].ToString();
+                    tda8.reqqty = dt8.Rows[i]["APREQ"].ToString();
+                    tda8.avlstk = dt8.Rows[i]["APAVAILSTK"].ToString();
+                    tda8.ministk = dt8.Rows[i]["APMINSTK"].ToString();
+                    tda8.ordqty = dt8.Rows[i]["APREQQTY"].ToString();
+                    tda8.itemid = dt8.Rows[i]["ITEMID"].ToString();
+                    tda8.startvalue = dt8.Rows[i]["STARTVALUE"].ToString();
+                    tda8.endvalue = dt8.Rows[i]["ENDVALUE"].ToString();
+                    TData8.Add(tda8);
+                }
                 
 
             }
@@ -1278,6 +1285,7 @@ namespace Arasan.Controllers.Production
             ca.PFCPASTELst = TData5;
             ca.PFCAPPRODLst = TData6;
             ca.PFCPACKLst = TData7;
+            ca.Aplst = TData8;
             return View(ca);
         }
         public IActionResult GenProdShe(string id)
@@ -1377,6 +1385,7 @@ namespace Arasan.Controllers.Production
 
                     tda2.Worklst = BindWorkCenter();
                     tda2.WorkId = dt4.Rows[i]["WCID"].ToString();
+                    tda2.detid = dt4.Rows[i]["PRODFCPYID"].ToString();
 
                     tda2.CDays = dt4.Rows[i]["WCDAYS"].ToString();
                     tda2.minstock = dt4.Rows[i]["PYMINSTK"].ToString();
@@ -1416,6 +1425,7 @@ namespace Arasan.Controllers.Production
                     tda3.workid = dt5.Rows[i]["WCID"].ToString();
 
                     tda3.wcdays = dt5.Rows[i]["PIGWCDAYS"].ToString();
+                    tda3.detid = dt5.Rows[i]["PRODFCPIGID"].ToString();
 
                     tda3.capacity = dt5.Rows[i]["PIGCAP"].ToString();
                     tda3.stock = dt5.Rows[i]["PIGAVAILQTY"].ToString();
@@ -1445,6 +1455,7 @@ namespace Arasan.Controllers.Production
                     tda4 = new PFCRVDItem();
 
                     tda4.workid = dt6.Rows[i]["WCID"].ToString();
+                    tda4.detid = dt6.Rows[i]["PRODFCRVDID"].ToString();
                     tda4.itemid = dt6.Rows[i]["ITEMID"].ToString();
                     tda4.rawmat = dt6.Rows[i]["item"].ToString();
                     tda4.prodqty = dt6.Rows[i]["RVDPRODQTY"].ToString();
@@ -1474,6 +1485,7 @@ namespace Arasan.Controllers.Production
 
                     tda5.WorkId = dt7.Rows[i]["WCID"].ToString();
                     tda5.itemid = dt7.Rows[i]["ITEMID"].ToString();
+                    tda5.detid = dt7.Rows[i]["PRODFCPAID"].ToString();
                     tda5.charge = dt7.Rows[i]["PANOOFCHG"].ToString();
                     tda5.allocadditive = dt7.Rows[i]["PAALLADDIT"].ToString();
                     tda5.target = dt7.Rows[i]["PATARGQTY"].ToString();
@@ -1496,22 +1508,22 @@ namespace Arasan.Controllers.Production
                 }
 
             }
-            DataTable dt8 = new DataTable();
+            //DataTable dt8 = new DataTable();
 
-            dt8 = _ProdForecastServ.GetAPSDeatils(id);
-            if (dt8.Rows.Count > 0)
-            {
+            //dt8 = _ProdForecastServ.GetAPSDeatils(id);
+            //if (dt8.Rows.Count > 0)
+            //{
 
-                ca.apspowder = dt8.Rows[0]["APPOWREQ"].ToString();
-                ca.reqqty = dt8.Rows[0]["APREQ"].ToString();
-                ca.avlstk = dt8.Rows[0]["APAVAILSTK"].ToString();
-                ca.ministk = dt8.Rows[0]["APMINSTK"].ToString();
-                ca.reqappowder = dt8.Rows[0]["APREQPOW"].ToString();
-
-
+            //    ca.apspowder = dt8.Rows[0]["APPOWREQ"].ToString();
+            //    ca.reqqty = dt8.Rows[0]["APREQ"].ToString();
+            //    ca.avlstk = dt8.Rows[0]["APAVAILSTK"].ToString();
+            //    ca.ministk = dt8.Rows[0]["APMINSTK"].ToString();
+            //    ca.reqappowder = dt8.Rows[0]["APREQPOW"].ToString();
 
 
-            }
+
+
+            //}
             DataTable dt9 = new DataTable();
 
             dt9 = _ProdForecastServ.GetAPReqDeatils(id);
@@ -1543,6 +1555,7 @@ namespace Arasan.Controllers.Production
                     tda6.WorkId = dt10.Rows[i]["WCID"].ToString();
                     tda6.wdays = dt10.Rows[i]["APWCDAYS"].ToString();
                     tda6.capacity = dt10.Rows[i]["APPRODCAP"].ToString();
+                    tda6.detid = dt10.Rows[i]["PRODFCAPPID"].ToString();
                     tda6.proddays = dt10.Rows[i]["APPRODD"].ToString();
                     tda6.production = dt10.Rows[i]["APPRODQTY"].ToString();
                     tda6.fuelreq = dt10.Rows[i]["FUELREQ"].ToString();

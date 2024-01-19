@@ -77,7 +77,7 @@
 
                                     <br />  <label for="inputName3" class="col-sm-4 control-label">Plan Type<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.plantype)   <br>
+                                        @Html.DisplayFor(C => C.PType)   <br>
 
                                     </div>
                                 </div>
@@ -151,8 +151,8 @@
                                 <div class="tabs-container">
                                     <ul class="nav nav-tabs">
                                          
-                                        <li class="active"><a href="#tab-2" data-toggle="tab">Prod Forecast DG Paste </a></li>
-                                        <li><a href="#tab-3" data-toggle="tab">Prod Forecast Pyro</a></li>
+                                      @*  <li class="active"><a href="#tab-2" data-toggle="tab">Prod Forecast DG Paste </a></li>*@
+                                        <li class="active"><a href="#tab-3" data-toggle="tab">Prod Forecast Pyro</a></li>
                                         <li><a href="#tab-4" data-toggle="tab">Prod Forecast Polish</a></li>
                                         <li><a href="#tab-5" data-toggle="tab">Prod Forecast Rvd</a></li>
                                         <li><a href="#tab-6" data-toggle="tab">Paste Prod Forecast</a></li>
@@ -240,7 +240,7 @@
                                             </div>
                                             <!-- 1st tab  -->
                                         </div>*@
-                                        <div class="tab-pane active" id="tab-2">
+                                       @* <div class="tab-pane active" id="tab-2">
                                             <!-- 2nd tab  -->
                                             <div class="row">
 
@@ -318,7 +318,7 @@
                                                                                         </td>
                                                                                         @* <td>
                                                                                 @Html.TextBoxFor(o => o.PFCDGILst[j].ReqPyro, new { @id = "txtReqPyro" + j, @class = "form-control", style = "width: 120px;" })
-                                                                                </td>*@
+                                                                                </td>
 
 
                                                                                     </tr>
@@ -339,8 +339,8 @@
                                                 </div>
                                             </div>
                                             <!-- 2nd tab  -->
-                                        </div>
-                                        <div class="tab-pane" id="tab-3">
+                                        </div>*@
+                                        <div class="tab-pane active" id="tab-3">
                                             <!-- 3rd tab  -->
                                             <div class="row">
 
@@ -358,25 +358,18 @@
                                                                                 <tr>
 
                                                                                     <th>Work Center</th>
-                                                                                    <th>Cum Days</th>
+                                                                                   
                                                                                     <th> Prod Item </th>
-                                                                                    <th>Sales Tar </th>
-                                                                                    <th> Min Stock </th>
-                                                                                    <th> Stock </th>
-                                                                                    <th>Required </th>
-                                                                                    <th> Paste Rej %</th>
-                                                                                    <th>Rej Qty </th>
+                                                                                    
                                                                                     <th>Prod Days </th>
                                                                                     <th>Prod Qty </th>
-                                                                                    <th>Rej Mat % </th>
-                                                                                    <th>Rej Mat Req </th>
+                                                                                   
                                                                                     <th>Balance Qty </th>
                                                                                     <th>Additive 1 </th>
-                                                                                    <th>Per </th>
-                                                                                    <th>Alloc Additive </th>
+                                                                                     
                                                                                     <th>Req Ap Powder </th>
-                                                                                    <th>W Status </th>
-                                                                                    <th>Powder Required </th>
+                                                                                    
+                                                                                    <th>  </th>
 
                                                                                 </tr>
                                                                             </thead>
@@ -396,34 +389,12 @@
 
                                                                                                 @Html.DisplayFor(o => o.PFCPYROILst[k].WorkId)
                                                                                             </td>
-                                                                                            <td>
-
-                                                                                                @Html.DisplayFor(o => o.PFCPYROILst[k].CDays)
-                                                                                            </td>
+                                                                                            
                                                                                             <td>
 
                                                                                                 @Html.DisplayFor(o => o.PFCPYROILst[k].itemid)
                                                                                             </td>
-                                                                                            <td>
-                                                                                                @Html.DisplayFor(o => o.PFCPYROILst[k].target)
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                @Html.DisplayFor(o => o.PFCPYROILst[k].minstock)
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                @Html.DisplayFor(o => o.PFCPYROILst[k].stock)
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                @Html.DisplayFor(o => o.PFCPYROILst[k].required)
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                @Html.DisplayFor(o => o.PFCPYROILst[k].pasterej)
-                                                                                            </td>
-
-                                                                                            <td>
-                                                                                                @Html.DisplayFor(o => o.PFCPYROILst[k].rejqty)
-                                                                                            </td>
-
+                                                                                           
 
                                                                                             <td>
                                                                                                 @Html.DisplayFor(o => o.PFCPYROILst[k].proddays)
@@ -431,33 +402,19 @@
                                                                                             <td>
                                                                                                 @Html.DisplayFor(o => o.PFCPYROILst[k].prodqty)
                                                                                             </td>
-                                                                                            <td>
-                                                                                                @Html.DisplayFor(o => o.PFCPYROILst[k].rejmat)
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                @Html.DisplayFor(o => o.PFCPYROILst[k].rejmatreq)
-                                                                                            </td>
+                                                                                          
                                                                                             <td>
                                                                                                 @Html.DisplayFor(o => o.PFCPYROILst[k].balanceqty)
                                                                                             </td>
                                                                                             <td>
                                                                                                 @Html.DisplayFor(o => o.PFCPYROILst[k].additive)
                                                                                             </td>
-                                                                                            <td>
-                                                                                                @Html.DisplayFor(o => o.PFCPYROILst[k].per)
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                @Html.DisplayFor(o => o.PFCPYROILst[k].allocadditive)
-                                                                                            </td>
+                                                                                           
                                                                                             <td>
                                                                                                 @Html.DisplayFor(o => o.PFCPYROILst[k].reqpowder)
                                                                                             </td>
-                                                                                            <td>
-                                                                                                @Html.DisplayFor(o => o.PFCPYROILst[k].wstatus)
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                @Html.DisplayFor(o => o.PFCPYROILst[k].powderrequired)
-                                                                                            </td>
+                                                                                            
+                                                                                           <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid})'" >Generate </button></td>
 
                                                                                         </tr>
                                                                                         k = k + 1;
