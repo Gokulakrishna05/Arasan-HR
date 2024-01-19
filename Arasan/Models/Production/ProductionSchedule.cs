@@ -36,6 +36,8 @@ namespace Arasan.Models
         public string Type { get; set; }
         public string DocId { get; set; }
         public string Docdate { get; set; }
+        public string startdate { get; set; }
+        public string enddate { get; set; }
         public string Schdate { get; set; }
         public string Formula { get; set; }
         public string Proddt { get; set; }

@@ -103,6 +103,7 @@ namespace Arasan.Models
         public List<SelectListItem> PYItemlst { get; set; }
 
         public string WorkId { get; set; }
+        public string detid { get; set; }
         public List<SelectListItem> Worklst { get; set; }
         public string Isvalid { get; set; }
 
@@ -139,6 +140,7 @@ namespace Arasan.Models
         public List<SelectListItem> POWorklst { get; set; }
         public string Isvalid { get; set; }
         public string wcdays { get; set; }
+        public string detid { get; set; }
         public string target { get; set; }
         public string capacity { get; set; }
         public string stock { get; set; }
@@ -173,6 +175,7 @@ namespace Arasan.Models
         public string itemid { get; set; }
         public List<SelectListItem> POItemlst { get; set; }
         public string workid { get; set; }
+        public string detid { get; set; }
         public string saveitemid { get; set; }
         public List<SelectListItem> POWorklst { get; set; }
         public string Isvalid { get; set; }
@@ -197,6 +200,7 @@ namespace Arasan.Models
 
         public string ID { get; set; }
         public string itemid { get; set; }
+        public string detid { get; set; }
       
         public string saveitemid { get; set; }
         public List<SelectListItem> PYItemlst { get; set; }
@@ -254,6 +258,7 @@ namespace Arasan.Models
         public string fuelreq { get; set; }
         public string ingotreq { get; set; }
         public string capacity { get; set; }
+        public string detid { get; set; }
       
         public string powerrequired { get; set; }
     }
