@@ -671,6 +671,60 @@ ORDER BY 1,2";
             }
             return cmpList;
         }
+        public List<ProdApItem> GetAPSForecast(string mnth, string type)
+        {
+            List<ProdApItem> cmpList = new List<ProdApItem>();
+            string Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = @"SELECT ITEMID,SUM(stk) stk,SUM(QTY) REQ,SUM(MINSTK) MINSTK,Decode(Sign(SUM(QTY+MINSTK-STK)),1,SUM(QTY+MINSTK-STK),0) ORD,STARTVALUE,ENDVALUE FROM (
+SELECT ITEMID,SUM(QTY) QTY,SUM(STK) STK,SUM(MINSTK) MINSTK,STARTVALUE,ENDVALUE FROM (
+SELECT I.ITEMID,0 qty, SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) stk,0 MINSTK,D.STARTVALUE,D.ENDVALUE
+FROM StockValue S , ItemMaster I , LocDetails L,TestTBasic B,TestTDetail D 
+WHERE S.ItemID = I.ItemMasterID AND S.DocDate <=:Docdate AND S.LocID = L.LocdetailsID 
+and I.TEMPLATEID=B.TESTTBASICID and B.TESTTBASICID=D.TESTTBASICID and D.TESTDESC='PAN'
+AND I.ISUBGROUP IN ('FG-AP')  AND i.QCCOMPFLAG='YES' AND L.LocationType IN ('FG GODOWN') 
+HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 
+GROUP BY I.ITEMID,D.STARTVALUE,D.ENDVALUE
+UNION ALL
+SELECT  I.ITEMID,SUM(SD.QTY) QTY,0 stk,I.MINSTK,D.STARTVALUE,D.ENDVALUE
+FROM SALFCBASIC SB,SALFCDETAIL SD,ITEMMASTER I,TestTBasic B,TestTDetail D
+WHERE SB.SALFCBASICID=SD.SALFCBASICID
+AND SD.ITEMID=I.ITEMMASTERID and D.TESTDESC='PAN'
+AND I.ISUBGROUP IN ('FG-AP') and I.TEMPLATEID=B.TESTTBASICID and B.TESTTBASICID=D.TESTTBASICID
+AND ((sb.MONTH=:MONTH And  SB.FCTYPE=:PlanType) Or (Sb.FCTYPE='YEARLY' And 'YEARLY'=:PlanType))
+GROUP BY I.ITEMID,I.MINSTK,I.ITEMID,D.STARTVALUE,D.ENDVALUE
+)GROUP BY ITEMID,STARTVALUE,ENDVALUE)GROUP BY ITEMID,STARTVALUE,ENDVALUE
+ORDER BY ORD DESC";
+                    cmd.Parameters.Add("Docdate", Docdate);
+                    cmd.Parameters.Add("PlanType", type);
+                    cmd.Parameters.Add("MONTH", mnth);
+                    cmd.BindByName = true;
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        ProdApItem cmp = new ProdApItem
+                        {
+                            itemid = rdr["ITEMID"].ToString(),
+                            saveitemid = datatrans.GetDataString("SELECT ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["ITEMID"].ToString() + "'"),
+                            avlstk = rdr["stk"].ToString(),
+                            ministk = rdr["MINSTK"].ToString(),
+                            reqqty = rdr["REQ"].ToString(),
+                            ordqty = rdr["ORD"].ToString(),
+                            startvalue = rdr["STARTVALUE"].ToString(),
+                            endvalue = rdr["ENDVALUE"].ToString(),
+                            reqappowder= rdr["REQ"].ToString(),
+
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
         public string ProductionForecastingCRUD(ProductionForecasting cy)
         {
             string msg = "";

@@ -309,7 +309,7 @@ namespace Arasan.Models
         public string avlstk { get; set; }
         public string ministk { get; set; }
         public string reqappowder { get; set; }
-
+        public string ordqty { get; set; }
         public string startvalue { get; set; }
         public string endvalue { get; set; }
         public string Isvalid { get; set; }
