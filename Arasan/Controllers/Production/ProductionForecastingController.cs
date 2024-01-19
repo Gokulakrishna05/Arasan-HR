@@ -127,7 +127,7 @@ namespace Arasan.Controllers.Production
                 for (int i = 0; i < 1; i++)
                 {
                     tda8 = new ProdApItem();
-                    //tda3.POItemlst = BindItemlst("");
+ 
                     tda8.Isvalid = "Y";
                     TData8.Add(tda8);
                 }
