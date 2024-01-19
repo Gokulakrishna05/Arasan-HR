@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.ReceiptReport
+﻿@model Arasan.Models.PurchasePend
 
 @{
     ViewData["Title"] = "Index";
@@ -37,16 +37,16 @@
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>*@
 
- <script type="text/javascript" src="../../jqwidgets/jqxdata.export.js"></script> 
-    <script type="text/javascript" src="../../jqwidgets/jqxgrid.export.js"></script> 
+<script type="text/javascript" src="../../jqwidgets/jqxdata.export.js"></script>
+<script type="text/javascript" src="../../jqwidgets/jqxgrid.export.js"></script> 
 
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
-        <ol class="breadcrumb"> 
+        <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Reports</a> </li>
-            <li class="active"> <strong>Receipt Report</strong> </li> 
+            <li class="active"> <strong>Purchase Report</strong> </li> 
         </ol>
     </div>
 </div>
@@ -60,7 +60,7 @@
 
             var source =
             {
-                url: "/ReceiptReport/MyListReceiptReportGrid",
+                url: "/PurchasePend/MyListPurchasePendGrid",
                 //url: "/ItemName/ItemName",
                 data: {
                     strstatus: "",
@@ -75,17 +75,13 @@
                     // synchronize with the server - send update command
                 },
                 datafields: [
-                    { name: 'loc', type: 'string' },
+                    { name: 'did', type: 'string' },
                     { name: 'dcdate', type: 'string' },
-                    { name: 'docNo', type: 'string' },
-                    { name: 'des', type: 'string' },
-                    { name: 'unit', type: 'string' },
-                    { name: 'dcqty', type: 'string' },
-                    { name: 'recdate', type: 'string' },
-                    { name: 'recno', type: 'string' },
-                    { name: 'rejqty', type: 'string' },
-                    { name: 'accqty', type: 'string' },
-                    { name: 'pend', type: 'string' },
+                    { name: 'loc', type: 'string' },
+                    { name: 'item', type: 'string' },
+                    { name: 'Pend', type: 'string' },
+                    { name: 'pur', type: 'string' },
+                    { name: 'due', type: 'string' },
                 ],
                 id: 'id',
             };
@@ -114,85 +110,48 @@
                     theme: 'darkblue',
                     enablebrowserselection: true,
                     columns: [
-                        { text: 'Loc ID', filtertype: 'input', datafield: 'loc', width: 200 },
-                        { text: 'Dc Date', filtertype: 'input', datafield: 'dcdate', width: 150 },
-                        { text: 'Dc No', filtertype: 'input', datafield: 'docNo', width: 150 },
-                        // groups: ['productname'],
-				         //groupable: true, 
-                        { text: 'Item Desc', filtertype: 'input', datafield: 'des', width: 300 },
-                        { text: 'Unit', filtertype: 'input', datafield: 'unit', width: 100 },
-                        { text: 'Dc Qty', filtertype: 'input', datafield: 'dcqty', width: 100 },
-                        { text: 'Rec Date', filtertype: 'input', datafield: 'recdate', width: 150 },
-                        { text: 'Rec No', filtertype: 'input', datafield: 'recno', width: 120 },
-                        { text: 'Rej Qty', filtertype: 'input', datafield: 'rejqty', width: 100 },
-                        { text: 'Acc Qty', filtertype: 'input', datafield: 'accqty', width: 100 },
-                        { text: 'Pending', filtertype: 'input', datafield: 'pend', width: 100 },
+                        { text: 'Doc ID', filtertype: 'input', datafield: 'did', width: 150 },
+                        { text: 'Dc Date', filtertype: 'input', datafield: 'dcdate', width: 130 },
+                        { text: 'Loc ID', filtertype: 'input', datafield: 'loc', width: 130 },
+                        { text: 'Item', filtertype: 'input', datafield: 'item', width: 250 },
+                        { text: 'Pend Qty', filtertype: 'input', datafield: 'Pend', width: 100 },
+                        { text: 'Purchase Qty', filtertype: 'input', datafield: 'pur', width: 100 },
+                        { text: 'DueDate', filtertype: 'input', datafield: 'due', width: 120 },
 
                     ]
                 });
-            
-            //$("#pdfExport").click(function () {
-            //  exportToPDF();
-            //  //$("#grid").jqxGrid('exportdata', 'json');
-            //});
 
-            // function exportToPDF() {
-            //  var pdf = new jsPDF();
-      
-            //  // Extract grid data
-            //  var gridData = $("#grid").jqxGrid('exportdata', 'json');
-
-            //  // Customize PDF content based on your data structure
-            //  pdf.text('List of Data', 10, 10);
-            //  for (var i = 0; i < gridData.length; i++) {
-            //    pdf.text((i + 1) + '. ' + gridData[i].columnName1 + ': ' + gridData[i].columnName2, 10, 20 + i * 10);
-            //  }
-
-            //  // Save or open the PDF
-            //  pdf.save('dataList.pdf');
-            //}
-      
-
-            // var doc = new jsPDF();
-            //$('#pdfExport').click(function () {
-
-            //        html2canvas($('#divprint')).then(function (canvas){
-            //            document.appendChild(canvas);
-            //            doc.addImage(canvas.toDataURL("image/png"),'PNG',0,0,210,297);
-            //        });
-            //        doc.save('sample-file.pdf');
-
-             $("#pdfExport").click(function () {
+            $("#pdfExport").click(function () {
                 $("#grid").jqxGrid('exportdata', 'pdf', 'jqxGrid');
             });
 
 
-                    $("#ddlStatus").change(function () {
-                        var value = "Y";
-                        if ($(this).val() != "") {
-                            value = $(this).val();
-                        }
-                        source.data = {
-                            strstatus: value
-                        };
-                        $("#grid").jqxGrid({ source: source }); 
-                    });
-                });
-           });
+            $("#ddlStatus").change(function () {
+                var value = "Y";
+                if ($(this).val() != "") {
+                    value = $(this).val();
+                }
+                source.data = {
+                    strstatus: value
+                };
+                $("#grid").jqxGrid({ source: source });
+            });
+        });
+    });
 </script>
-<div class="wrapper-content "> 
+<div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
                     <hr>
-                    @using (Html.BeginForm("ReceiptReport", "ReceiptReport", FormMethod.Post)) 
+                    @using (Html.BeginForm("PurchasePend", "PurchasePend", FormMethod.Post))
                     {
-                        @Html.AntiForgeryToken() 
+                        @Html.AntiForgeryToken()
                         <form>
 
                             <div class="row">
-                                <div class="col-lg-3"></div> 
+                                <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -245,16 +204,15 @@
                                 <div class="col-md-9"></div>
                                 <div class="col-md-3">
                                     <button type="button" class="btn btn-success  marginright" id="btnSave" value="Run">Run</button>
-                                   <button type="button" class="btn btn-primary marginright" value="Export to Excel" id="pdfExport">Pdf</button>
-                                    <button type="button" class="btn btn-danger marginright" onclick="location.href='@Url.Action("ReceiptReport", "ReceiptReport")'" value="Reset" causesvalidation="false">Reset</button>
+                                    <button type="button" class="btn btn-primary marginright" value="Export to Excel" id="pdfExport">Pdf</button>
+                                    <button type="button" class="btn btn-danger marginright" onclick="location.href='@Url.Action("PurchasePend", "PurchasePend")'" value="Reset" causesvalidation="false">Reset</button>
 
-                                </div> 
+                                </div>
                             </div>
                             <br>
-                            <div class="row"> 
-                                
+                            <div class="row">
+
                                 <div id="grid">
-                                   
                                 </div>
 
                             </div>
@@ -269,16 +227,16 @@
 @*<link href="@Url.Content("~/assets/js/bootstrap-multiselect.css")" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap.multiselect.js")"></script>*@
 <script>
-//function exportToExcel() {
-//    /* Get the HTML table element */
-//    var table = document.getElementById("ddlBranch");
+    //function exportToExcel() {
+    //    /* Get the HTML table element */
+    //    var table = document.getElementById("ddlBranch");
 
-//    /* Convert table to workbook */
-//    var workbook = XLSX.utils.table_to_book(table);
+    //    /* Convert table to workbook */
+    //    var workbook = XLSX.utils.table_to_book(table);
 
-//    /* Create Excel file and trigger download */
-//    XLSX.writeFile(workbook, "exported_data.xlsx");
-//}
+    //    /* Create Excel file and trigger download */
+    //    XLSX.writeFile(workbook, "exported_data.xlsx");
+    //}
     $('.to_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -346,5 +304,5 @@
         $(dropDownId).trigger("liszt:updated");
     }
 
-   
+
 </script>

@@ -209,6 +209,7 @@ internal class Program
 
         builder.Services.TryAddSingleton<IGRNReportService, GRNReportService>();
         builder.Services.TryAddSingleton<IReceiptReport, ReceiptReportService>();
+        builder.Services.TryAddSingleton<IPurchasePend, PurchasePendService>();
 
 
 
@@ -217,7 +218,7 @@ internal class Program
         //builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();
 
 
- 
+
 
 
 
