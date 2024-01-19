@@ -38,7 +38,7 @@
 
 
                             <div class="row">
-                                <div class="col-md-6">
+                              @*  <div class="col-md-6">
                                     <div class="form-gro2up">
 
                                         <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
@@ -47,7 +47,7 @@
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
 
 
                                 <div class="col-md-6">
@@ -55,7 +55,10 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Plan Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Type, Model.Planlst," -- Please Select -- ", new { @id = "ddlType", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                            @Html.TextBoxFor(C => C.Type, new { @id = "txtType", @class = "form-control", @TabIndex = 1,@readonly="readonly" })<br />
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Branch)
+                                            @Html.HiddenFor(C => C.Enterd)
                                         </div>
                                     </div>
                                 </div>
@@ -64,16 +67,16 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Prod.Schedule.No<label class="Mandatory"></label></label>
+                                           <label for="inputName3" class="col-sm-4 control-label">Prod.Schedule.No<label class="Mandatory"></label></label>
 
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2 })<br />
+                                            @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2,@readonly="readonly" })<br />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Date<label class="mandatory">*</label></label>
+                                     <label for="inputName3" class="col-sm-4 control-label">Date<label class="mandatory">*</label></label>
 
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
@@ -93,7 +96,7 @@
                                     <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.WorkCenter, Model.Worklst," -- Please Select -- ", new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.TextBoxFor(C => C.WorkCenter, new { @id = "txtWorkCenter", @class = "form-control", @TabIndex = 1,@readonly="readonly" })<br />
                                         </div>
 
                                     </div>
@@ -104,7 +107,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Process<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Process, Model.Processlst," -- Please Select -- ", new { @id = "ddlProcess", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.TextBoxFor(C => C.Process, new { @id = "txtProcess", @class = "form-control", @TabIndex = 1,@readonly="readonly" })<br />
 
                                         </div>
                                     </div>
@@ -124,7 +127,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Sch.Date<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Sch.Date<label class="mandatory">*</label></label>
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.Schdate, new { @id = "Schdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -137,7 +140,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Formula<label class="Mandatory"></label></label>
+                                       <label for="inputName3" class="col-sm-4 control-label">Formula<label class="Mandatory"></label></label>
 
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Formula, new { @id = "txtFormula", @class = "form-control", @TabIndex = 2 })<br />
@@ -166,7 +169,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Output Item<label class="mandatory">*</label></label>
 
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Itemid, Model.Itemlst," -- Please Select -- ", new { @id = "ddlItemid", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeItemd(value)" })<br />
+                                            @Html.TextBoxFor(C => C.Itemid, new { @id = "txtItemid", @class = "form-control", @TabIndex = 2,@readonly="readonly"})<br />
                                             <br />
                                         </div>
                                     </div>
@@ -192,6 +195,32 @@
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Qty, new { @id = "txtQty", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">From Date<label class="mandatory">*</label></label>
+
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.startdate, new { @id = "startdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                        <input type="hidden" id="dtp_input2" value="" />
+                                        <br />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">To Date<label class="mandatory">*</label></label>
+
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.enddate, new { @id = "enddate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                        <input type="hidden" id="dtp_input2" value="" />
+                                        <br />
                                     </div>
                                 </div>
                             </div>
@@ -670,7 +699,7 @@
                             </div>
 
 
-
+@*
                             <div style="height:30px;"></div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -693,8 +722,8 @@
                             </div>
 
                             </div>
+                            </div> 
                             </div>*@
-                            </div>
 
 
                             <div style="height:30px;"></div>
