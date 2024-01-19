@@ -24,7 +24,7 @@ namespace Arasan.Controllers
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult ReceiptReport(string strfrom, string strTo)
+        public IActionResult ReceiptReport(string strfrom, string strTo) 
         {
             try
             {

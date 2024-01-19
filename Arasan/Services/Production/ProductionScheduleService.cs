@@ -87,6 +87,16 @@ namespace Arasan.Services.Production
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetProdSche(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PRODFCPYID,PYWCID,ITEMMASTER.ITEMID,PYITEMID,PYREQQTY,PYTARQTY,UNITMAST.UNITID, PYPRODCAPD,PYPRODQTY,PREBALQTY,PYREQAP,PROCESSMAST.PROCESSID from PRODFCPY INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCPY.PYITEMID  INNER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPY.PYWCID LEFT OUTER JOIN PROCESSMAST  on PROCESSMAST.PROCESSMASTID=WCBASIC.PROCESSID LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCPYID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
         //public DataTable GetData(string sql)
         //{

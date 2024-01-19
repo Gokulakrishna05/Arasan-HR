@@ -147,10 +147,6 @@ namespace Arasan.Controllers.Report
                     rate = dtUsers.Rows[i]["RATE"].ToString(),
                     amount = dtUsers.Rows[i]["AMOUNT"].ToString(),
 
-
-
-
-
                 });
             }
 
