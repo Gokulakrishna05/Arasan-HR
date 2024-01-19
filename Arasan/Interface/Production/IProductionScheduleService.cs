@@ -17,6 +17,7 @@ namespace Arasan.Interface.Production
         DataTable GetItemSubGroup(string id);
         DataTable GetItemSubGrp();
         IEnumerable<ProductionSchedule> GetProductionSchedule();
+        DataTable GetProdSche(string id);
         DataTable GetProductionScheduleDetail(string id);
         DataTable GetProductionScheduleOutputDetail(string id);
         DataTable GetProductionScheduleParametersDetail(string id);

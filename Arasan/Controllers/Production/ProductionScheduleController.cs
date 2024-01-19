@@ -804,27 +804,30 @@ namespace Arasan.Controllers.Production
                 //ca = QCResultService.GetQCResultById(id);
 
                 DataTable dt = new DataTable();
-                dt = ProductionScheduleService.GetProductionSchedule(id);
+                dt = ProductionScheduleService.GetProdSche(id);
                 if (dt.Rows.Count > 0)
                 {
-                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
-                    ca.Type = dt.Rows[0]["SCHPLANTYPE"].ToString();
-                    ca.DocId = dt.Rows[0]["DOCID"].ToString();
-                    ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+
+                    ca.Branch = Request.Cookies["BranchId"];
+                    ca.Type = "MONTHLY";
+                    DataTable dtv = datatrans.GetSequence("ProdS");
+                    if (dtv.Rows.Count > 0)
+                    {
+                        ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+                    }
+                    ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
                     ca.WorkCenter = dt.Rows[0]["WCID"].ToString();
                     ca.Process = dt.Rows[0]["PROCESSID"].ToString();
                     ca.ID = id;
-                    ca.Schdate = dt.Rows[0]["SCHDATE"].ToString();
-                    ca.Formula = dt.Rows[0]["FORMULA"].ToString();
-                    ca.Proddt = dt.Rows[0]["PDUEDATE"].ToString();
-                    ca.Itemid = dt.Rows[0]["OPITEMID"].ToString();
-                    ca.Unit = dt.Rows[0]["OPUNIT"].ToString();
-                    ca.Exprunhrs = dt.Rows[0]["EXPRUNHRS"].ToString();
-                    ca.Refno = dt.Rows[0]["REFSCHNO"].ToString();
-                    ca.Amdno = dt.Rows[0]["AMDSCHNO"].ToString();
-                    ca.Entered = dt.Rows[0]["ENTEREDBY"].ToString();
-                    ca.Qty = Convert.ToDouble(dt.Rows[0]["OPQTY"].ToString() == "" ? "0" : dt.Rows[0]["OPQTY"].ToString());
-                    ca.ProdQty = Convert.ToDouble(dt.Rows[0]["PRODQTY"].ToString() == "" ? "0" : dt.Rows[0]["PRODQTY"].ToString());
+                    ca.Schdate = DateTime.Now.ToString("dd-MMM-yyyy");
+                    
+                    ca.Itemid = dt.Rows[0]["ITEMID"].ToString();
+                    ca.Unit = dt.Rows[0]["UNITID"].ToString();
+                    
+                     
+                    ca.Enterd = Request.Cookies["UserName"];
+                    ca.Qty = Convert.ToDouble(dt.Rows[0]["PYPRODQTY"].ToString() == "" ? "0" : dt.Rows[0]["PYPRODQTY"].ToString());
+                    ca.ProdQty = Convert.ToDouble(dt.Rows[0]["PYPRODQTY"].ToString() == "" ? "0" : dt.Rows[0]["PYPRODQTY"].ToString());
 
                 }
                 DataTable dt2 = new DataTable();
