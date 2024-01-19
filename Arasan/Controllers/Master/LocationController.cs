@@ -24,7 +24,7 @@ namespace Arasan.Controllers
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult Location(string id) 
+        public IActionResult Location(string id)
         {
             Location ca = new Location();
             ca.Brlst = BindBranch();
@@ -90,7 +90,7 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new LocationItem();
-                       
+
                         tda.BinId = dt2.Rows[i]["BINID"].ToString();
                         tda.BinDesc = dt2.Rows[i]["BINDESC"].ToString();
                         tda.Capacity = dt2.Rows[i]["CAPACITY"].ToString();
@@ -158,6 +158,75 @@ namespace Arasan.Controllers
         {
             return View();
         }
+        public IActionResult ViewLocation(string id)
+        {
+            Location ca = new Location();
+            DataTable dt = new DataTable();
+
+            dt = LocationService.GetViewLocationDeatils(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.LocationId = dt.Rows[0]["LOCID"].ToString();
+                ca.LocType = dt.Rows[0]["LOCATIONTYPE"].ToString();
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.Trader = dt.Rows[0]["TRADEYN"].ToString();
+                ca.Suplst = BindSupplier();
+                ca.Party = dt.Rows[0]["PARTYNAME"].ToString();
+                ca.Requried = dt.Rows[0]["BINYN"].ToString();
+                ca.ContactPer = dt.Rows[0]["CPNAME"].ToString();
+                ca.PhoneNo = dt.Rows[0]["PHNO"].ToString();
+                ca.Address = dt.Rows[0]["ADD1"].ToString();
+                ca.Fax = dt.Rows[0]["FAXNO"].ToString();
+                ca.Add2 = dt.Rows[0]["ADD2"].ToString();
+                ca.Mail = dt.Rows[0]["EMAIL"].ToString();
+                ca.Add3 = dt.Rows[0]["ADD3"].ToString();
+                ca.FlowOrd = dt.Rows[0]["FLWORD"].ToString();
+                ca.City = dt.Rows[0]["CITY"].ToString();
+                ca.State = dt.Rows[0]["STATE"].ToString();
+                ca.PinCode = dt.Rows[0]["PINCODE"].ToString();
+                ca.ID = id;
+
+            }
+
+            DataTable dt2 = new DataTable();
+            List<LocationItem> TData = new List<LocationItem>();
+            LocationItem tda = new LocationItem();
+
+            dt2 = LocationService.GetEditBinDeatils(id);
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new LocationItem();
+
+                    tda.BinId = dt2.Rows[i]["BINID"].ToString();
+                    tda.BinDesc = dt2.Rows[i]["BINDESC"].ToString();
+                    tda.Capacity = dt2.Rows[i]["CAPACITY"].ToString();
+                    TData.Add(tda);
+                }
+            }
+
+            DataTable dt3 = new DataTable();
+            List<LocItem> TData1 = new List<LocItem>();
+            LocItem tda1 = new LocItem();
+
+            dt3 = LocationService.GetViewEditLocDeatils(id);
+            if (dt3.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt3.Rows.Count; i++)
+                {
+                    tda1 = new LocItem();
+                    tda1.Isslst = BindIssuseType();
+                    tda1.Issuse = dt3.Rows[i]["ISSUETYPE"].ToString();
+                    tda1.Loclst = GetLoc();
+                    tda1.Location = dt3.Rows[i]["LOCID"].ToString();
+                    TData1.Add(tda1);
+                }
+            }
+            ca.Locationlst = TData;
+            ca.Loclst = TData1;
+            return View(ca);
+        }
         public ActionResult GetPartyDetail(string ItemId)
         {
             try
@@ -191,7 +260,7 @@ namespace Arasan.Controllers
                     phone = dt.Rows[0]["PHONENO"].ToString();
                 }
 
-                var result = new { add1 = add1, add2 = add2, add3= add3, city = city, state= state, pincode= pincode, email= email, mobile = mobile, fax = fax , phone = phone };
+                var result = new { add1 = add1, add2 = add2, add3 = add3, city = city, state = state, pincode = pincode, email = email, mobile = mobile, fax = fax, phone = phone };
                 return Json(result);
             }
             catch (Exception ex)
@@ -302,7 +371,7 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListLocation");
             }
         }
-      
+
         public ActionResult Remove(string tag, int id)
         {
 
@@ -326,10 +395,11 @@ namespace Arasan.Controllers
             dtUsers = LocationService.GetAllLocation(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
-
+                string View = string.Empty;
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
+                View = "<a href=ViewLocation?id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "><img src='../Images/view_icon.png' alt='Edit' /></a>";
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
 
@@ -344,7 +414,7 @@ namespace Arasan.Controllers
 
                 }
 
-              
+
                 Reg.Add(new Locationgrid
                 {
                     id = dtUsers.Rows[i]["LOCDETAILSID"].ToString(),
@@ -355,6 +425,7 @@ namespace Arasan.Controllers
                     emailid = dtUsers.Rows[i]["EMAIL"].ToString(),
                     editrow = EditRow,
                     delrow = DeleteRow,
+                    view = View,
 
                 });
             }

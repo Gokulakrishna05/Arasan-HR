@@ -22,7 +22,7 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "select BRANCHMASTID,BRANCHID from BRANCHMAST order by BRANCHMASTID asc";
-            DataTable dtt = new DataTable(); 
+            DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
@@ -99,18 +99,18 @@ namespace Arasan.Services
                             LocType = rdr["LOCATIONTYPE"].ToString(),
                             ContactPer = rdr["CPNAME"].ToString(),
                             PhoneNo = rdr["PHNO"].ToString(),
-                           
+
                             EmailId = rdr["EMAIL"].ToString(),
                             Address = rdr["ADD1"].ToString(),
                             Branch = rdr["BRANCHID"].ToString()
-                           
+
                         };
-                    
+
                         location = cmp;
                     }
                 }
             }
-            return location ;
+            return location;
         }
 
         public string LocationsCRUD(Location cy)
@@ -129,14 +129,14 @@ namespace Arasan.Services
                         return msg;
                     }
                 }
-                
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("LOCATIONPROC", objConn);
-                /*objCmd.Connection = objConn;
-                objCmd.CommandText = "LOCATIONPROC";*/
+                    /*objCmd.Connection = objConn;
+                    objCmd.CommandText = "LOCATIONPROC";*/
 
-                objCmd.CommandType = CommandType.StoredProcedure;
+                    objCmd.CommandType = CommandType.StoredProcedure;
                     if (cy.ID == null)
                     {
                         StatementType = "Insert";
@@ -317,7 +317,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("PHNO", OracleDbType.NVarchar2).Value = cy.PhoneNo;
                     //  objCmd.Parameters.Add("FaxNo", OracleDbType.NVarchar2).Value = cy.FaxNo;
                     objCmd.Parameters.Add("EMAIL", OracleDbType.NVarchar2).Value = cy.EmailId;
-                  
+
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.Int64).Value = cy.Branch;
                     // objCmd.Parameters.Add("Bin", OracleDbType.NVarchar2).Value = cy.Bin;
                     // objCmd.Parameters.Add("Trade", OracleDbType.NVarchar2).Value = cy.Trade;
@@ -368,7 +368,7 @@ namespace Arasan.Services
             }
             return "";
 
-        } 
+        }
         public string RemoveChange(string tag, int id)
         {
 
@@ -435,6 +435,27 @@ namespace Arasan.Services
                 SvSql = "select LOCDETAILS.IS_ACTIVE,LOCID,LOCATIONTYPE,CPNAME,PHNO,EMAIL,LOCDETAILSID from LOCDETAILS  WHERE LOCDETAILS.IS_ACTIVE = 'N' ORDER BY LOCDETAILSID DESC";
 
             }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetViewLocationDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT LOCID,LOCATIONTYPE,BRANCHMAST.BRANCHID,LOCDETAILS.TRADEYN,LOCDETAILS.BINYN,PARTYMAST.PARTYNAME,LOCDETAILS.CPNAME,LOCDETAILS.PHNO,LOCDETAILS.ADD1,LOCDETAILS.FAXNO,LOCDETAILS.ADD2,LOCDETAILS.EMAIL,LOCDETAILS.ADD3,LOCDETAILS.FLWORD,LOCDETAILS.CITY,LOCDETAILS.STATE,LOCDETAILS.PINCODE FROM LOCDETAILS  LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=LOCDETAILS.BRANCHID LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=LOCDETAILS.PARTYID where LOCDETAILSID = '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetViewEditLocDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT LOCDESTDETAIL.ISSUETYPE,LOCDETAILS.LOCID FROM LOCDESTDETAIL LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=LOCDESTDETAIL.TOLOCID where LOCDESTDETAIL.LOCDETAILSID= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

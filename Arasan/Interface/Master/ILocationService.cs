@@ -21,5 +21,7 @@ namespace Arasan.Interface
         DataTable GetSupplier();
         DataTable GetEditBinDeatils(string id);
         DataTable GetEditLocDeatils(string id);
+        DataTable GetViewLocationDeatils(string id);
+        DataTable GetViewEditLocDeatils(string id);
     }
 }
