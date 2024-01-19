@@ -979,7 +979,7 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
 
                 View = "<a href=ViewAPProductionentry?id=" + dtUsers.Rows[i]["APPRODUCTIONBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                Print = "<a href=Print?id=" + dtUsers.Rows[i]["APPRODUCTIONBASICID"].ToString() + "><img src='../Images/pdf.png' alt='Generate PO' width='20' /></a>";
+                Print = "<a href=Print?id=" + dtUsers.Rows[i]["DOCID"].ToString() + " target='_blank'><img src='../Images/pdf.png' alt='Generate PO' width='20' /></a>";
                 if (dtUsers.Rows[i]["IS_APPROVE"].ToString() == "N")
                 {
                     if (dtUsers.Rows[i]["IS_CURRENT"].ToString() == "Yes")
@@ -2115,7 +2115,11 @@ namespace Arasan.Controllers
             DataTable ap = datatrans.GetData("Select SHIFT from APPRODUCTIONBASIC where DOCID='" + id + "' ");
             string a = ap.Rows[0]["SHIFT"].ToString();
             string b = ap.Rows[1]["SHIFT"].ToString();
-            string c = ap.Rows[2]["SHIFT"].ToString();
+            string c = "";
+            if (ap.Rows.Count > 2)
+            {
+                c = ap.Rows[2]["SHIFT"].ToString();
+            }
 
             string aid = datatrans.GetDataString("Select APPRODUCTIONBASICID from APPRODUCTIONBASIC where SHIFT='" + a + "' and DOCID='" + id + "' ");
             string bid = datatrans.GetDataString("Select APPRODUCTIONBASICID from APPRODUCTIONBASIC where SHIFT='" + b + "'  and DOCID='" + id + "' ");

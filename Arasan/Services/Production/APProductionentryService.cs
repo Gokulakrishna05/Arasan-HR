@@ -181,7 +181,7 @@ namespace Arasan.Services
 
 
                 int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'AP-Pro' AND ACTIVESEQUENCE = 'T'");
-                string docid = string.Format("{0} {1}", "AP-Pro", (idc + 1).ToString());
+                string docid = string.Format("{0}{1}", "AP-Pro", (idc + 1).ToString());
 
                 string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='AP-Pro' AND ACTIVESEQUENCE ='T'";
                 try
