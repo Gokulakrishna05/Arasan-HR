@@ -734,5 +734,240 @@ namespace Arasan.Controllers.Production
                 return RedirectToAction("ListProductionSchedule");
             }
         }
+
+        public IActionResult ProdSchedule(string id)
+        {
+            ProductionSchedule ca = new ProductionSchedule();
+            ca.Brlst = BindBranch();
+            ca.Branch = Request.Cookies["BranchId"];
+            ca.Worklst = BindWorkCenter();
+            ca.Enterd = Request.Cookies["UserName"];
+            ca.RecList = BindEmp();
+            ca.Planlst = BindPType();
+            ca.Itemlst = BindItemlst();
+            ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            ca.Schdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            ca.Processlst = BindProcess("");
+            List<ProductionScheduleItem> TData = new List<ProductionScheduleItem>();
+            ProductionScheduleItem tda = new ProductionScheduleItem();
+            List<ProductionItem> TData1 = new List<ProductionItem>();
+            ProductionItem tda1 = new ProductionItem();
+            List<ProItem> TData2 = new List<ProItem>();
+            ProItem tda2 = new ProItem();
+            List<ProScItem> TData3 = new List<ProScItem>();
+            ProScItem tda3 = new ProScItem();
+            List<ProSchItem> TData4 = new List<ProSchItem>();
+            ProSchItem tda4 = new ProSchItem();
+            if (id == null)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    tda = new ProductionScheduleItem();
+                    tda.ItemGrouplst = BindItemGrplst();
+                    tda.Itemlst = BindItemlst("");
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda1 = new ProductionItem();
+
+                    tda1.PItemGrouplst = BindItemGrplst();
+                    tda1.PItemlst = BindItemlst("");
+                    tda1.Isvalid = "Y";
+                    TData1.Add(tda1);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda2 = new ProItem();
+                    tda2.Isvalid = "Y";
+                    TData2.Add(tda2);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda3 = new ProScItem();
+                    tda3.SchDate = DateTime.Now.ToString("dd-MMM-yyyy");
+                    tda3.SItemGrouplst = BindItemGrplst();
+                    tda3.SItemlst = BindItemlst("");
+                    tda3.Isvalid = "Y";
+                    TData3.Add(tda3);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda4 = new ProSchItem();
+                    tda4.Isvalid = "Y";
+                    TData4.Add(tda4);
+                }
+            }
+            else
+            {
+                //ca = QCResultService.GetQCResultById(id);
+
+                DataTable dt = new DataTable();
+                dt = ProductionScheduleService.GetProdSche(id);
+                if (dt.Rows.Count > 0)
+                {
+
+                    ca.Branch = Request.Cookies["BranchId"];
+                    ca.Type = "MONTHLY";
+                    DataTable dtv = datatrans.GetSequence("ProdS");
+                    if (dtv.Rows.Count > 0)
+                    {
+                        ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+                    }
+                    ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+                    ca.WorkCenter = dt.Rows[0]["WCID"].ToString();
+                    ca.Process = dt.Rows[0]["PROCESSID"].ToString();
+                    ca.ID = id;
+                    ca.Schdate = DateTime.Now.ToString("dd-MMM-yyyy");
+                    
+                    ca.Itemid = dt.Rows[0]["ITEMID"].ToString();
+                    ca.Unit = dt.Rows[0]["UNITID"].ToString();
+                    
+                     
+                    ca.Enterd = Request.Cookies["UserName"];
+                    ca.Qty = Convert.ToDouble(dt.Rows[0]["PYPRODQTY"].ToString() == "" ? "0" : dt.Rows[0]["PYPRODQTY"].ToString());
+                    ca.ProdQty = Convert.ToDouble(dt.Rows[0]["PYPRODQTY"].ToString() == "" ? "0" : dt.Rows[0]["PYPRODQTY"].ToString());
+
+                }
+                DataTable dt2 = new DataTable();
+                dt2 = ProductionScheduleService.GetProductionScheduleDetail(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new ProductionScheduleItem();
+                        tda.ItemGrouplst = BindItemGrplst();
+                        DataTable dtt1 = new DataTable();
+                        dtt1 = datatrans.GetItemSubGroup(dt2.Rows[i]["RITEMID"].ToString());
+                        if (dtt1.Rows.Count > 0)
+                        {
+                            for (int j = 0; j < dtt1.Rows.Count; j++)
+                            {
+                                tda.ItemGroupId = dtt1.Rows[j]["SUBGROUPCODE"].ToString();
+                            }
+                        }
+                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
+                        tda.ItemId = dt2.Rows[i]["RITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["RITEMID"].ToString();
+                        tda.Desc = dt2.Rows[i]["RITEMDESC"].ToString();
+
+                        tda.Unit = dt2.Rows[i]["RUNIT"].ToString();
+                        tda.Isvalid = "Y";
+                        tda.Input = dt2.Rows[i]["IPER"].ToString();
+                        tda.Qty = dt2.Rows[i]["RQTY"].ToString();
+                        tda.ID = id;
+                        TData.Add(tda);
+                    }
+                }
+                DataTable dt3 = new DataTable();
+                dt3 = ProductionScheduleService.GetProductionScheduleOutputDetail(id);
+                if (dt3.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt3.Rows.Count; i++)
+                    {
+                        tda1 = new ProductionItem();
+                        tda1.PItemGrouplst = BindItemGrplst();
+
+                        DataTable dtt2 = new DataTable();
+                        dtt2 = datatrans.GetItemSubGroup(dt3.Rows[i]["OITEMID"].ToString());
+                        if (dtt2.Rows.Count > 0)
+                        {
+                            for (int j = 0; j < dtt2.Rows.Count; j++)
+                            {
+                                tda1.ItemGroup = dtt2.Rows[j]["SUBGROUPCODE"].ToString();
+                            }
+                        }
+                        tda1.PItemlst = BindItemlst(tda1.ItemGroup);
+                        tda1.Item = dt3.Rows[i]["OITEMID"].ToString();
+
+
+
+                        tda1.Item = dt3.Rows[i]["OITEMID"].ToString();
+                        tda1.Unit = dt3.Rows[i]["OUNIT"].ToString();
+                        tda1.Des = dt3.Rows[i]["OITEMDESC"].ToString();
+                        tda1.Output = dt3.Rows[i]["OPER"].ToString();
+                        tda1.Alam = dt3.Rows[i]["ALPER"].ToString();
+                        tda1.OutputType = dt3.Rows[i]["OTYPE"].ToString();
+                        tda1.Sch = dt3.Rows[i]["SCHQTY"].ToString();
+                        tda1.Produced = dt3.Rows[i]["PQTY"].ToString();
+                        tda1.Isvalid = "Y";
+
+                        tda1.ID = id;
+                        TData1.Add(tda1);
+                    }
+
+                }
+                DataTable dt4 = new DataTable();
+                dt4 = ProductionScheduleService.GetProductionScheduleParametersDetail(id);
+                if (dt4.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt4.Rows.Count; i++)
+                    {
+                        tda2 = new ProItem();
+
+                        tda2.Parameters = dt4.Rows[i]["PARAMETERS"].ToString();
+                        tda2.Unit = dt4.Rows[i]["UNIT"].ToString();
+                        tda2.Initial = dt4.Rows[i]["IPARAMVALUE"].ToString();
+                        tda2.Final = dt4.Rows[i]["FPARAMVALUE"].ToString();
+                        tda2.Remarks = dt4.Rows[i]["REMARKS"].ToString();
+                        tda2.Isvalid = "Y";
+                        tda2.ID = id;
+                        TData2.Add(tda2);
+                    }
+
+                }
+                DataTable dt5 = new DataTable();
+                dt5 = ProductionScheduleService.GetOutputDetailsDayWiseDetail(id);
+                if (dt5.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt5.Rows.Count; i++)
+                    {
+                        tda3 = new ProScItem();
+                        tda3.SItemGrouplst = BindItemGrplst();
+                        DataTable dtt3 = new DataTable();
+                        dtt3 = datatrans.GetItemSubGroup(dt5.Rows[i]["ODITEMID"].ToString());
+                        if (dtt3.Rows.Count > 0)
+                        {
+                            tda3.ItemGrp = dtt3.Rows[i]["SUBGROUPCODE"].ToString();
+                        }
+                        tda3.SItemlst = BindItemlst(tda3.ItemGrp);
+                        tda3.Itemd = dt5.Rows[i]["ODITEMID"].ToString();
+                        tda3.Isvalid = "Y";
+                        tda3.SchDate = dt5.Rows[i]["ODDATE"].ToString();
+                        tda3.Hrs = dt5.Rows[i]["ODRUNHRS"].ToString();
+                        tda3.Qty = dt5.Rows[i]["ODQTY"].ToString();
+                        tda3.Change = dt5.Rows[i]["NOOFCHARGE"].ToString();
+                        tda3.ID = id;
+                        TData3.Add(tda3);
+                    }
+
+                }
+                DataTable dt6 = new DataTable();
+                dt6 = ProductionScheduleService.GetPackDetail(id);
+                if (dt6.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt6.Rows.Count; i++)
+                    {
+                        tda4 = new ProSchItem();
+
+                        tda4.Pack = dt6.Rows[i]["PKITEMID"].ToString();
+                        tda4.Qty = dt6.Rows[i]["PKQTY"].ToString();
+                        tda4.Isvalid = "Y";
+                        tda4.ID = id;
+                        TData4.Add(tda4);
+                    }
+
+                }
+
+            }
+
+            ca.PrsLst = TData;
+            ca.ProLst = TData1;
+            ca.Prlst = TData2;
+            ca.ProscLst = TData3;
+            ca.ProschedLst = TData4;
+            return View(ca);
+        }
     }
 }

@@ -36,6 +36,7 @@ namespace Arasan.Models
         public List<PFCPASTEItem> PFCPASTELst { get; set; }
         public List<PFCAPPRODItem> PFCAPPRODLst { get; set; }
         public List<PFCPACKItem> PFCPACKLst { get; set; }
+        public List<ProdApItem> Aplst { get; set; }
 
         public string plantype { get; set; }
         public string apspowder { get; set; }
@@ -102,6 +103,7 @@ namespace Arasan.Models
         public List<SelectListItem> PYItemlst { get; set; }
 
         public string WorkId { get; set; }
+        public string detid { get; set; }
         public List<SelectListItem> Worklst { get; set; }
         public string Isvalid { get; set; }
 
@@ -138,6 +140,7 @@ namespace Arasan.Models
         public List<SelectListItem> POWorklst { get; set; }
         public string Isvalid { get; set; }
         public string wcdays { get; set; }
+        public string detid { get; set; }
         public string target { get; set; }
         public string capacity { get; set; }
         public string stock { get; set; }
@@ -172,6 +175,7 @@ namespace Arasan.Models
         public string itemid { get; set; }
         public List<SelectListItem> POItemlst { get; set; }
         public string workid { get; set; }
+        public string detid { get; set; }
         public string saveitemid { get; set; }
         public List<SelectListItem> POWorklst { get; set; }
         public string Isvalid { get; set; }
@@ -186,6 +190,7 @@ namespace Arasan.Models
         public string consqty { get; set; }
        
         public string prodqty { get; set; }
+        public string consmatid { get; set; }
         public string rawmat { get; set; }
         public string powderrequired { get; set; }
 
@@ -195,6 +200,7 @@ namespace Arasan.Models
 
         public string ID { get; set; }
         public string itemid { get; set; }
+        public string detid { get; set; }
       
         public string saveitemid { get; set; }
         public List<SelectListItem> PYItemlst { get; set; }
@@ -252,6 +258,7 @@ namespace Arasan.Models
         public string fuelreq { get; set; }
         public string ingotreq { get; set; }
         public string capacity { get; set; }
+        public string detid { get; set; }
       
         public string powerrequired { get; set; }
     }
@@ -293,8 +300,24 @@ namespace Arasan.Models
         public string plan { get; set; }
        
         public string viewrow { get; set; }
+        public string generate { get; set; }
         public string delrow { get; set; }
 
+
+    }
+
+    public class ProdApItem
+    {
+        public string itemid { get; set; }
+        public string saveitemid { get; set; }
+        public string reqqty { get; set; }
+        public string avlstk { get; set; }
+        public string ministk { get; set; }
+        public string reqappowder { get; set; }
+        public string ordqty { get; set; }
+        public string startvalue { get; set; }
+        public string endvalue { get; set; }
+        public string Isvalid { get; set; }
 
     }
 }
