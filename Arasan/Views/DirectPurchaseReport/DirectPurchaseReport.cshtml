@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.GRNReport
+﻿@model Arasan.Models.DirectPurchaseReport
 
 @{
     ViewData["Title"] = "Index";
@@ -41,7 +41,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Reports</a> </li>
-            <li class="active"> <strong>GRN Report</strong> </li>
+            <li class="active"> <strong>DirectPurchase Report</strong> </li>
         </ol>
     </div>
 </div>
@@ -54,12 +54,13 @@
             var Branch = document.getElementById("ddlBranch").value;
             var Item = document.getElementById("ddlItem").value;
             var Customer = document.getElementById("ddlCustomer").value;
+           
 
 
 
             var source =
             {
-                url: "/GRNReport/MyListGRNReportGrid",
+                url: "/DirectPurchaseReport/MyListDirectPurchaseReportGrid",
                 //url: "/ItemName/ItemName",
                 data: {
                     strstatus: "",
@@ -69,7 +70,6 @@
                     Item: Item,
                     Customer: Customer,
 
-
                 },
                 datatype: "json",
                 updaterow: function (rowid, rowdata) {
@@ -78,7 +78,6 @@
                 datafields: [
                     { name: 'branch', type: 'string' },
                     { name: 'docNo', type: 'string' },
-                    { name: 'po', type: 'string' },
                     { name: 'docDate', type: 'string' },
                     { name: 'party', type: 'string' },
                     { name: 'item', type: 'string' },
@@ -118,10 +117,11 @@
                     theme: 'darkblue',
                     enablebrowserselection: true,
                     columns: [
+                        //{ text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
                         { text: 'Branch', filtertype: 'input', datafield: 'branch', width: 150 },
                         { text: 'Doc No', filtertype: 'input', datafield: 'docNo', width: 150 },
-                        { text: 'Po No', filtertype: 'input', datafield: 'po', width: 150 },
                         { text: 'Doc Date', filtertype: 'input', datafield: 'docDate', width: 150 },
+                        //{ text: 'Currency', filtertype: 'input', datafield: 'currency', width: 100 },
                         { text: 'Party Name', filtertype: 'input', datafield: 'party', width: 300 },
                         { text: 'Item Name', filtertype: 'input', datafield: 'item', width: 300 },
                         { text: 'Location', filtertype: 'input', datafield: 'loc', width: 300 },
@@ -129,7 +129,6 @@
                         { text: 'Qty', filtertype: 'input', datafield: 'qty', width: 150 },
                         { text: 'Rate', filtertype: 'input', datafield: 'rate', width: 150 },
                         { text: 'Amount', filtertype: 'input', datafield: 'amount', width: 150 },
-
                     ]
                 });
 
@@ -156,7 +155,7 @@
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
                     <hr>
-                    @using (Html.BeginForm("GRNReport", "GRNReport", FormMethod.Post))
+                    @using (Html.BeginForm("DirectPurchaseReport", "DirectPurchaseReport", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         <form>
@@ -256,16 +255,6 @@
 @*<link href="@Url.Content("~/assets/js/bootstrap-multiselect.css")" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap.multiselect.js")"></script>*@
 <script>
-    //function exportToExcel() {
-    //    /* Get the HTML table element */
-    //    var table = document.getElementById("ddlBranch");
-
-    //    /* Convert table to workbook */
-    //    var workbook = XLSX.utils.table_to_book(table);
-
-    //    /* Create Excel file and trigger download */
-    //    XLSX.writeFile(workbook, "exported_data.xlsx");
-    //}
     $('.to_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -277,11 +266,6 @@
         endDate: new Date(),
         forceParse: 0
     });
-    //$(function () {
-    //    $('.listbox').multiselect({
-    //        includeSelectAllOption: true
-    //    });
-    //});
     $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -455,4 +439,3 @@
 
     });
 </script>
-

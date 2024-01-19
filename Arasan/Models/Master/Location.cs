@@ -77,6 +77,7 @@ namespace Arasan.Models
         public string emailid { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
+        public string view { get; set; }
     }
 
-    }
+}

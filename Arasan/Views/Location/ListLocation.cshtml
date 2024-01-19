@@ -46,8 +46,10 @@
                 { name: 'contactper', type: 'string' },
                 { name: 'phoneno', type: 'string' },
                 { name: 'emailid', type: 'string' },
+                { name: 'view', type: 'string' },
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
+
 
 
             ],
@@ -86,8 +88,9 @@
                     { text: 'Contact Person', filtertype: 'input', datafield: 'contactper', width: 150 },
                     { text: 'Phone No', datafield: 'phoneno', width: 300 },
                     { text: 'E-mail', datafield: 'emailid', width: 250 },
+                    { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                 ]
             });
         $("#ddlStatus").change(function () {
@@ -229,5 +232,5 @@
         //window.location.reload();
 
     }
-    
+
 </script>

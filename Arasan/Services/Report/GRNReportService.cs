@@ -25,38 +25,12 @@ namespace Arasan.Services.Report
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public DataTable GetAllReport(string Branch, string Customer,string Item,string dtFrom, string dtTo)
+        public DataTable GetAllReport(string dtFrom, string dtTo, string Branch, string Item, string Customer)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT  GRNBLDETAIL.GRNBLDETAILID,GRNBLBASIC.GRNBLBASICID,BRANCHMAST.BRANCHID,ITEMMASTER.ITEMID,GRNBLBASIC.DOCID,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,CURRENCY.MAINCURR,PARTYMAST.PARTYID,POBASIC.DOCID AS doc  FROM GRNBLBASIC INNER JOIN  GRNBLDETAIL ON GRNBLBASIC.GRNBLBASICID=GRNBLDETAIL.GRNBLDETAILID LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=GRNBLDETAIL.ITEMID LEFT OUTER JOIN POBASIC ON POBASIC.POBASICID=GRNBLBASIC.POBASICID LEFT OUTER JOIN BRANCHMAST  ON BRANCHMAST.BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=GRNBLBASIC.PARTYID Where GRNBLBASIC.BRANCHID='" + Branch + "' AND GRNBLBASIC.PARTYID ='" + Customer + "' AND GRNBLDETAIL.ITEMID='" + Item + "' AND GRNBLBASIC.DOCDATE BETWEEN '" + dtFrom + "' AND '" + dtTo + "'";
+            SvSql = "SELECT 'GRN Cum Bill',2 Ord,A.GRNBLBASICID,A.DOCID,to_char(A.DOCDATE,'dd-MON-yyyy')DOCDATE,D.DOCID AS doc,C.BRANCHID,L.LOCID,P.PARTYID,I.ITEMID,U.UNITID,B.QTY,B.PRIQTY,B.RATE,B.AMOUNT,B.BRATE,B.BAMOUNT,IFREIGHTCH FREIGHT,IPKNFDCH PKNFD,IDELCH DELCH,ICSTCH ,ILRCH LORRY,0,IOTHERCH OTHER,B.COSTRATE , A.RefNo , A.RefDt,To_char(A.Docdate,'MON') Mon FROM GRNBLBASIC A,GRNBLDETAIL B,BRANCHMAST C,LOCDETAILS L,PARTYMAST P,POBASIC D,ITEMMASTER I,UNITMAST U ,ITEMGROUP P,ITEMSUBGROUP B WHERE A.CANCEL <> 'T'AND A.GRNBLBASICID=B.GRNBLBASICID AND C.BRANCHMASTID=A.BRANCHID AND L.LOCDETAILSID =A.LOCID AND P.PARTYMASTID=A.PARTYID AND I.ITEMMASTERID=B.ITEMID AND P.ITEMGROUPID=B.ITEMGROUPID AND I.SUBGROUPCODE=B.ITEMSUBGROUPID AND U.UNITMASTID=B.UNIT AND A.DOCDATE BETWEEN '" + dtFrom + "' AND '" + dtTo + "' AND (C.BRANCHID ='" + Branch + "' OR 'ALL' ='" + Branch + "') AND (I.ITEMID = '" + Item + "' OR 'ALL' = '" + Item + "') AND (P.PARTYID = '" + Customer + "' OR 'ALL' = '" + Customer + "')";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            //using (DataTable dt = new DataTable())
-            //{
-            //    adapter.Fill(dt);
-
-            //    DataView dv1 = dt.DefaultView;
-            //    // dv1.RowFilter = " TotalOutstandingAmount > 0 AND  OutstandingPrinciple > 0  ";
-
-            //    dtt = dv1.ToTable();
-            //    using (GRNReport wb = new GRNReport())
-            //    {
-            //        wb.Worksheets.Add(dtt, "GRNReport");
-
-
-            //        using (MemoryStream MyMemoryStream = new MemoryStream())
-            //        {
-            //            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            //            Response.AddHeader("content-disposition", "attachment;  filename=CallsTenderReport.xlsx");
-            //            wb.SaveAs(MyMemoryStream);
-            //            MyMemoryStream.WriteTo(Response.OutputStream);
-            //            Response.Flush();
-            //            Response.End();
-            //            //wb.SaveAs(MyMemoryStream);
-            //            return File(MyMemoryStream.ToArray(), "application/ms-excel", "GRNReport.xlsx");
-            //        }
-            //    }
-            //}
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;     

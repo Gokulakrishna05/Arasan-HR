@@ -10,24 +10,24 @@ using System.Data;
 
 namespace Arasan.Controllers.Report
 {
-    public class GRNReportController : Controller
+    public class DirectPurchaseReportController : Controller
     {
-        IGRNReportService GRNReportService;
+        IDirectPurchaseReportService DirectPurchaseReportService;
         IConfiguration? _configuratio;
         private string? _connectionString;
 
         DataTransactions datatrans;
-        public GRNReportController(IGRNReportService _GRNReportService, IConfiguration _configuratio)
+        public DirectPurchaseReportController(IDirectPurchaseReportService _DirectPurchaseReportService, IConfiguration _configuratio)
         {
-            GRNReportService = _GRNReportService;
+            DirectPurchaseReportService = _DirectPurchaseReportService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult GRNReport(string strfrom, string strTo)
+        public IActionResult DirectPurchaseReport(string strfrom, string strTo)
         {
             try
             {
-                GRNReport objR = new GRNReport();
+                DirectPurchaseReport objR = new DirectPurchaseReport();
                 objR.Brlst = BindBranch();
                 objR.Suplst = BindSupplier();
                 objR.ItemGrouplst = BindItemGrplst();
@@ -42,7 +42,7 @@ namespace Arasan.Controllers.Report
             }
         }
         [HttpPost]
-        public IActionResult ListGRNReport()
+        public IActionResult ListDirectPurchaseReport()
         {
             return View();
         }
@@ -50,7 +50,7 @@ namespace Arasan.Controllers.Report
         {
             try
             {
-                DataTable dtDesg = GRNReportService.GetItem(id);
+                DataTable dtDesg = DirectPurchaseReportService.GetItem(id);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -102,7 +102,7 @@ namespace Arasan.Controllers.Report
         {
             try
             {
-                DataTable dtDesg = GRNReportService.GetBranch();
+                DataTable dtDesg = datatrans.GetBranch();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -117,27 +117,26 @@ namespace Arasan.Controllers.Report
         }
         public JsonResult GetItemJSON(string itemid)
         {
-            GRNReport model = new GRNReport();
+            DirectPurchaseReport model = new DirectPurchaseReport();
             model.Itemlst = BindItemlst(itemid);
             return Json(BindItemlst(itemid));
 
         }
-        public ActionResult MyListGRNReportGrid(string dtFrom, string dtTo, string Branch, string Item, string Customer)
+        public ActionResult MyListDirectPurchaseReportGrid(string dtFrom, string dtTo, string Branch, string Item, string Customer)
         {
-            List<GRNReportItems> Reg = new List<GRNReportItems>();
+            List<DirectPurchaseReportItems> Reg = new List<DirectPurchaseReportItems>();
             DataTable dtUsers = new DataTable();
 
-            dtUsers = (DataTable)GRNReportService.GetAllReport(dtFrom, dtTo, Branch, Item, Customer);
+            dtUsers = (DataTable)DirectPurchaseReportService.GetAllDPReport(dtFrom, dtTo, Branch, Item, Customer);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 
 
-                Reg.Add(new GRNReportItems
+                Reg.Add(new DirectPurchaseReportItems
                 {
-                    id = Convert.ToInt64(dtUsers.Rows[i]["GRNBLBASICID"].ToString()),
+                    id = Convert.ToInt64(dtUsers.Rows[i]["DPBASICID"].ToString()),
                     branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     docNo = dtUsers.Rows[i]["DOCID"].ToString(),
-                    po = dtUsers.Rows[i]["doc"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     party = dtUsers.Rows[i]["PARTYID"].ToString(),
                     item = dtUsers.Rows[i]["ITEMID"].ToString(),
@@ -146,6 +145,10 @@ namespace Arasan.Controllers.Report
                     qty = dtUsers.Rows[i]["QTY"].ToString(),
                     rate = dtUsers.Rows[i]["RATE"].ToString(),
                     amount = dtUsers.Rows[i]["AMOUNT"].ToString(),
+
+
+
+
 
                 });
             }
@@ -156,39 +159,5 @@ namespace Arasan.Controllers.Report
             });
 
         }
-        //public ActionResult GRNReports(string Branch, string dtFrom, string dtTo, string Customer)
-        //{
-        //    List<GRNReportItems> Reg = new List<GRNReportItems>();
-        //    DataTable dtUsers = new DataTable();
-
-        //    dtUsers = (DataTable)GRNReportService.GetAllReport(Branch, dtFrom, dtTo, Customer);
-        //    for (int i = 0; i < dtUsers.Rows.Count; i++)
-        //    {
-
-
-        //        Reg.Add(new GRNReportItems
-        //        {
-        //            id = Convert.ToInt64(dtUsers.Rows[i]["GRNBLBASICID"].ToString()),
-        //            branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
-        //            docNo = dtUsers.Rows[i]["DOCID"].ToString(),
-        //            po = dtUsers.Rows[i]["POBASICID"].ToString(),
-        //            docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
-        //            currency = dtUsers.Rows[i]["MAINCURR"].ToString(),
-        //            party = dtUsers.Rows[i]["PARTYNAME"].ToString(),
-        //            item = dtUsers.Rows[i]["ITEMID"].ToString(),
-
-
-
-
-
-        //        });
-        //    }
-
-        //    return Json(new
-        //    {
-        //        Reg
-        //    });
-
-        //}
     }
 }

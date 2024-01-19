@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-
 namespace Arasan.Models
 {
-    public class GRNReport
+    public class DirectPurchaseReport
     {
-        public GRNReport()
+        public DirectPurchaseReport()
         {
             this.Brlst = new List<SelectListItem>();
             this.Suplst = new List<SelectListItem>();
@@ -25,14 +24,13 @@ namespace Arasan.Models
         public string dtFrom { get; set; }
         public string dtTo { get; set; }
     }
-    public class GRNReportItems
+    public class DirectPurchaseReportItems
     {
         public long id { get; set; }
         public string branch { get; set; }
         public string docNo { get; set; }
-        public string po { get; set; }
         public string docDate { get; set; }
-        public string currency { get; set; }
+        //public string currency { get; set; }
         public string party { get; set; }
         public string item { get; set; }
         public string loc { get; set; }
