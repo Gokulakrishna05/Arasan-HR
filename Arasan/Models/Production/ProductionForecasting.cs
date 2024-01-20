@@ -346,4 +346,8 @@ namespace Arasan.Models
     
 
     }
+    public class PyroItemArray
+    {
+        public string itemid { get; set;}
+    }
 }
