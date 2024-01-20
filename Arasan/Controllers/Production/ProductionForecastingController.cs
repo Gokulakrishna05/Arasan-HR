@@ -863,6 +863,7 @@ namespace Arasan.Controllers.Production
             return Json(model.PFCPOLILst);
 
         }
+       
         //public ActionResult GetRVDForecast(string mnth, string type)
         //{
         //    ProductionForecasting model = new ProductionForecasting();
@@ -926,11 +927,42 @@ namespace Arasan.Controllers.Production
             return Json(model.Aplst);
 
         }
-        public ActionResult GetAPReqForecast(string mnth, string type)
+        public ActionResult GetAPReqForecast([FromBody] PyroItemArray[] model)
         {
-            ProductionForecasting model = new ProductionForecasting();
-            model.PFAPREFlst = _ProdForecastServ.GetAPReqForecast(mnth, type);
-            return Json(model.Aplst);
+            ProductionForecasting m = new ProductionForecasting();
+            List<ProdApReqItem> cmpList = new List<ProdApReqItem>();
+            ProdApReqItem tda = new ProdApReqItem();
+            DataTable dt =new DataTable();
+            string itm = "";
+            string Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            List<string> itemlist = new List<string>();
+            foreach (PyroItemArray input in model)
+            {
+                //itemlist.Add(input.itemid);
+                itm += input.itemid + ",";
+            }
+            itm = itm.Remove(itm.Length - 1);
+
+            dt = datatrans.GetData("select ITEMMASTERID,ITEMID from  ITEMMASTER Where ITEMMASTERID IN(" + itm + ") GROUP BY ITEMMASTERID,ITEMID");
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    tda = new ProdApReqItem();
+                    tda.itemid = dt.Rows[i]["ITEMID"].ToString();
+                    tda.saveitemid = dt.Rows[i]["ITEMMASTERID"].ToString();
+                    string sql = @"SELECT Round(SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)),0) stk
+FROM StockValue S , ItemMaster I , LocDetails L 
+WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='"+ Docdate + "' AND S.LocID = L.LocdetailsID ";
+                    sql += @"AND i.SNCATEGORY IN ('AP POWDER - SFG') 
+AND L.LocationType IN ('AP MILL','SIEVE & BLEND')
+AND I.SUBCATEGORY <>'AP POWDER-W' AND I.ItemMasterID='" + tda.saveitemid + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0";
+                    tda.avlstk = datatrans.GetDataString(sql);
+                    cmpList.Add(tda);
+                }
+            }
+                m.PFAPREFlst = cmpList;
+            return Json(m.PFAPREFlst);
 
         }
 
