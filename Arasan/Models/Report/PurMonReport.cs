@@ -27,7 +27,7 @@ namespace Arasan.Models
         public string part { get; set; }
         public string item { get; set; }
         public string unit { get; set; }
-        public string ja { get; set; }
+        public string jan { get; set; }
         public string feb { get; set; }
         public string mar { get; set; }
         public string april { get; set; }
