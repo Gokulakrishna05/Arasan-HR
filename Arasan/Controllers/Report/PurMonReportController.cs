@@ -57,34 +57,42 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        //public ActionResult MyListPurMonReportGrid(string Branch, string Sdate, string Edate)
-        //{
-        //    List<PurMonReportItem> Reg = new List<PurMonReportItem>();
-        //    DataTable dtUsers = new DataTable();
+        public ActionResult MyListPurMonReportGrid(string Branch, string Sdate, string Edate)
+        {
+            List<PurMonReportItem> Reg = new List<PurMonReportItem>();
+            DataTable dtUsers = new DataTable();
 
-        //    dtUsers = (DataTable)PurMonReportService.GetAllReport(Branch, Sdate, Edate);
-        //    for (int i = 0; i < dtUsers.Rows.Count; i++)
-        //    {
-        //        Reg.Add(new PurMonReportItem
-        //        {
-        //            id = Convert.ToInt64(dtUsers.Rows[i]["PINDBASICID"].ToString()),
-        //            did = dtUsers.Rows[i]["DOCID"].ToString(),
-        //            dcdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
-        //            loc = dtUsers.Rows[i]["LOCID"].ToString(),
-        //            item = dtUsers.Rows[i]["ITEMID"].ToString(),
-        //            pend = dtUsers.Rows[i]["QTY"].ToString(),
-        //            pur = dtUsers.Rows[i]["GRNQTY"].ToString(),
-        //            due = dtUsers.Rows[i]["DUEDATE"].ToString(),
+            dtUsers = (DataTable)PurMonReportService.GetAllReport(Branch, Sdate, Edate);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                Reg.Add(new PurMonReportItem 
+                {
+                    //id = Convert.ToInt64(dtUsers.Rows[i]["SFINYR"].ToString()),
+                    part = dtUsers.Rows[i]["PARTYID"].ToString(),
+                    item = dtUsers.Rows[i]["ITEMID"].ToString(),
+                    unit = dtUsers.Rows[i]["UNITID"].ToString(),
+                    jan = dtUsers.Rows[i]["Jan"].ToString(),
+                    //feb = dtUsers.Rows[i]["QTY"].ToString(),
+                    //mar = dtUsers.Rows[i]["GRNQTY"].ToString(),
+                    //april = dtUsers.Rows[i]["DUEDATE"].ToString(),
+                    //may = dtUsers.Rows[i]["DUEDATE"].ToString(),
+                    //june = dtUsers.Rows[i]["DUEDATE"].ToString(),
+                    //july = dtUsers.Rows[i]["DUEDATE"].ToString(),
+                    //aug = dtUsers.Rows[i]["DUEDATE"].ToString(),
+                    //sep = dtUsers.Rows[i]["DUEDATE"].ToString(),
+                    //act = dtUsers.Rows[i]["DUEDATE"].ToString(),
+                    //nov = dtUsers.Rows[i]["DUEDATE"].ToString(),
+                    //dec = dtUsers.Rows[i]["DUEDATE"].ToString(),
 
-        //        });
-        //    }
+                });
+            }
 
-        //    return Json(new
-        //    {
-        //        Reg
-        //    });
+            return Json(new
+            {
+                Reg
+            });
 
-        //}
+        }
 
 
     }

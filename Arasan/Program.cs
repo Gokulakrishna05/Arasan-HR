@@ -213,6 +213,7 @@ internal class Program
         builder.Services.TryAddSingleton<IDirectPurchaseReportService, DirectPurchaseReportService>();
 
         builder.Services.TryAddSingleton<IPurchasePend, PurchasePendService>();
+        builder.Services.TryAddSingleton<IPurMonReport, PurMonReportService>();
 
 
 

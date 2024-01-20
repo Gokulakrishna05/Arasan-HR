@@ -75,13 +75,10 @@
                     // synchronize with the server - send update command
                 },
                 datafields: [
-                    { name: 'did', type: 'string' },
-                    { name: 'dcdate', type: 'string' },
-                    { name: 'loc', type: 'string' },
+                    { name: 'part', type: 'string' },
                     { name: 'item', type: 'string' },
-                    { name: 'Pend', type: 'string' },
-                    { name: 'pur', type: 'string' },
-                    { name: 'due', type: 'string' },
+                    { name: 'unit', type: 'string' },
+                    { name: 'item', type: 'string' },
                 ],
                 id: 'id',
             };
@@ -110,13 +107,10 @@
                     theme: 'darkblue',
                     enablebrowserselection: true,
                     columns: [
-                        { text: 'Doc ID', filtertype: 'input', datafield: 'did', width: 150 },
-                        { text: 'Dc Date', filtertype: 'input', datafield: 'dcdate', width: 130 },
-                        { text: 'Loc ID', filtertype: 'input', datafield: 'loc', width: 130 },
-                        { text: 'Item', filtertype: 'input', datafield: 'item', width: 250 },
-                        { text: 'Pend Qty', filtertype: 'input', datafield: 'Pend', width: 100 },
-                        { text: 'Purchase Qty', filtertype: 'input', datafield: 'pur', width: 100 },
-                        { text: 'DueDate', filtertype: 'input', datafield: 'due', width: 120 },
+                        { text: 'Party Name', filtertype: 'input', datafield: 'part', width: 150 },
+                        { text: 'Item ', filtertype: 'input', datafield: 'item', width: 130 },
+                        { text: 'Unit', filtertype: 'input', datafield: 'unit', width: 130 },
+                        { text: 'January', filtertype: 'input', datafield: 'jan', width: 250 },
 
                     ]
                 });
@@ -189,7 +183,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory"></label></label>
                                         <div class="col-sm-8">
 
                                             @Html.DropDownListFor(C => C.Branch, Model.Brlst,"Please Select", new { @id = "ddlbranch", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
