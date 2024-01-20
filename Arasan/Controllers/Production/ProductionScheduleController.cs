@@ -75,7 +75,7 @@ namespace Arasan.Controllers.Production
                 for (int i = 0; i < 3; i++)
                 {
                     tda3 = new ProScItem();
-                    tda3.SchDate= DateTime.Now.ToString("dd-MMM-yyyy");
+                    tda3.schdate = DateTime.Now.ToString("dd-MMM-yyyy");
                     tda3.SItemGrouplst = BindItemGrplst();
                     tda3.SItemlst = BindItemlst("");
                     tda3.Isvalid = "Y";
@@ -218,11 +218,11 @@ namespace Arasan.Controllers.Production
                             tda3.ItemGrp = dtt3.Rows[i]["SUBGROUPCODE"].ToString();
                         }
                         tda3.SItemlst = BindItemlst(tda3.ItemGrp);
-                        tda3.Itemd = dt5.Rows[i]["ODITEMID"].ToString();
+                        tda3.itemd = dt5.Rows[i]["ODITEMID"].ToString();
                         tda3.Isvalid = "Y";
-                        tda3.SchDate = dt5.Rows[i]["ODDATE"].ToString();
-                        tda3.Hrs = dt5.Rows[i]["ODRUNHRS"].ToString();
-                        tda3.Qty = dt5.Rows[i]["ODQTY"].ToString();
+                        tda3.schdate = dt5.Rows[i]["ODDATE"].ToString();
+                        tda3.hrs = dt5.Rows[i]["ODRUNHRS"].ToString();
+                       // tda3.qty = dt5.Rows[i]["ODQTY"].ToString();
                         tda3.Change = dt5.Rows[i]["NOOFCHARGE"].ToString();
                         tda3.ID = id;
                         TData3.Add(tda3);
@@ -493,7 +493,7 @@ namespace Arasan.Controllers.Production
         {
            // ProductionItem model = new ProductionItem();
             //model.ItemGrouplst = BindItemGrplst(value);
-            return Json(BindItemGrplst());
+            return Json(BindItemlst());
         }
         public JsonResult GetItem1JSON(string itemid)
         {
@@ -668,11 +668,11 @@ namespace Arasan.Controllers.Production
                     //    tda3.ItemGrp = dtt3.Rows[0]["SUBGROUPCODE"].ToString();
                     //}
                     //tda3.SItemlst = BindItemlst(tda3.ItemGrp);
-                    tda3.Itemd = dtproDay.Rows[i]["ITEMID"].ToString();
+                    tda3.itemd = dtproDay.Rows[i]["ITEMID"].ToString();
 
-                    tda3.SchDate = dtproDay.Rows[i]["ODDATE"].ToString();
-                    tda3.Hrs = dtproDay.Rows[i]["ODRUNHRS"].ToString();
-                    tda3.Qty = dtproDay.Rows[i]["ODQTY"].ToString();
+                    tda3.schdate = dtproDay.Rows[i]["ODDATE"].ToString();
+                    tda3.hrs = dtproDay.Rows[i]["ODRUNHRS"].ToString();
+                   // tda3.qty = dtproDay.Rows[i]["ODQTY"].ToString();
                     tda3.Change = dtproDay.Rows[i]["NOOFCHARGE"].ToString();
                    
                     TData3.Add(tda3);
@@ -763,8 +763,8 @@ namespace Arasan.Controllers.Production
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new ProductionScheduleItem();
-                    tda.ItemGrouplst = BindItemGrplst();
-                    tda.Itemlst = BindItemlst("");
+                    
+                    tda.Itemlst = BindItemlst();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -772,8 +772,8 @@ namespace Arasan.Controllers.Production
                 {
                     tda1 = new ProductionItem();
 
-                    tda1.PItemGrouplst = BindItemGrplst();
-                    tda1.PItemlst = BindItemlst("");
+                   
+                    tda1.PItemlst = BindItemlst();
                     tda1.Isvalid = "Y";
                     TData1.Add(tda1);
                 }
@@ -786,9 +786,9 @@ namespace Arasan.Controllers.Production
                 for (int i = 0; i < 3; i++)
                 {
                     tda3 = new ProScItem();
-                    tda3.SchDate = DateTime.Now.ToString("dd-MMM-yyyy");
-                    tda3.SItemGrouplst = BindItemGrplst();
-                    tda3.SItemlst = BindItemlst("");
+                    tda3.schdate = DateTime.Now.ToString("dd-MMM-yyyy");
+                    
+                    tda3.SItemlst = BindItemlst();
                     tda3.Isvalid = "Y";
                     TData3.Add(tda3);
                 }
@@ -817,11 +817,14 @@ namespace Arasan.Controllers.Production
                     }
                     ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
                     ca.WorkCenter = dt.Rows[0]["WCID"].ToString();
+                    ca.WorkCenterid = dt.Rows[0]["PYWCID"].ToString();
                     ca.Process = dt.Rows[0]["PROCESSID"].ToString();
-                    ca.ID = id;
+                    ca.Processid = dt.Rows[0]["process"].ToString();
+                    ca.detid = id;
                     ca.Schdate = DateTime.Now.ToString("dd-MMM-yyyy");
                     
                     ca.Itemid = dt.Rows[0]["ITEMID"].ToString();
+                    ca.saveitemid = dt.Rows[0]["PYITEMID"].ToString();
                     ca.Unit = dt.Rows[0]["UNITID"].ToString();
                     
                      
@@ -831,66 +834,52 @@ namespace Arasan.Controllers.Production
 
                 }
                 DataTable dt2 = new DataTable();
-                dt2 = ProductionScheduleService.GetProductionScheduleDetail(id);
+                dt2 = ProductionScheduleService.GetProdScheInputDetail(id);
                 if (dt2.Rows.Count > 0)
                 {
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new ProductionScheduleItem();
-                        tda.ItemGrouplst = BindItemGrplst();
-                        DataTable dtt1 = new DataTable();
-                        dtt1 = datatrans.GetItemSubGroup(dt2.Rows[i]["RITEMID"].ToString());
-                        if (dtt1.Rows.Count > 0)
-                        {
-                            for (int j = 0; j < dtt1.Rows.Count; j++)
-                            {
-                                tda.ItemGroupId = dtt1.Rows[j]["SUBGROUPCODE"].ToString();
-                            }
-                        }
-                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
-                        tda.ItemId = dt2.Rows[i]["RITEMID"].ToString();
-                        tda.saveItemId = dt2.Rows[i]["RITEMID"].ToString();
-                        tda.Desc = dt2.Rows[i]["RITEMDESC"].ToString();
 
-                        tda.Unit = dt2.Rows[i]["RUNIT"].ToString();
+
+                        DataTable rawdt = new DataTable();
+                        rawdt = datatrans.GetData("SELECT I.ITEMFROM,I2.ITEMID FROM ITEMMASTER I, ITEMMASTER I2 WHERE I.ITEMFROM = I2.ITEMMASTERID AND I.ITEMMASTERID = '" + dt2.Rows[i]["PYITEMID"].ToString() + "'");
+
+                        tda.ItemId = rawdt.Rows[0]["ITEMID"].ToString();
+                        tda.saveItemId = rawdt.Rows[0]["ITEMFROM"].ToString();
+                        tda.Desc = dt2.Rows[i]["ITEMDESC"].ToString();
+
+                        tda.Unit = dt2.Rows[i]["UNITID"].ToString();
                         tda.Isvalid = "Y";
-                        tda.Input = dt2.Rows[i]["IPER"].ToString();
-                        tda.Qty = dt2.Rows[i]["RQTY"].ToString();
+                        tda.Addict = dt2.Rows[i]["item"].ToString();
+                        tda.AddictPer = dt2.Rows[i]["PYADDPER"].ToString();
+                        tda.Qty = dt2.Rows[i]["PYREQAP"].ToString();
                         tda.ID = id;
                         TData.Add(tda);
                     }
                 }
                 DataTable dt3 = new DataTable();
-                dt3 = ProductionScheduleService.GetProductionScheduleOutputDetail(id);
+                dt3 = ProductionScheduleService.GetProdScheOutputDetail(id);
                 if (dt3.Rows.Count > 0)
                 {
                     for (int i = 0; i < dt3.Rows.Count; i++)
                     {
                         tda1 = new ProductionItem();
-                        tda1.PItemGrouplst = BindItemGrplst();
-
-                        DataTable dtt2 = new DataTable();
-                        dtt2 = datatrans.GetItemSubGroup(dt3.Rows[i]["OITEMID"].ToString());
-                        if (dtt2.Rows.Count > 0)
-                        {
-                            for (int j = 0; j < dtt2.Rows.Count; j++)
-                            {
-                                tda1.ItemGroup = dtt2.Rows[j]["SUBGROUPCODE"].ToString();
-                            }
-                        }
-                        tda1.PItemlst = BindItemlst(tda1.ItemGroup);
-                        tda1.Item = dt3.Rows[i]["OITEMID"].ToString();
+                         
+                        tda1.Item = dt3.Rows[i]["ITEMID"].ToString();
 
 
-
-                        tda1.Item = dt3.Rows[i]["OITEMID"].ToString();
-                        tda1.Unit = dt3.Rows[i]["OUNIT"].ToString();
-                        tda1.Des = dt3.Rows[i]["OITEMDESC"].ToString();
-                        tda1.Output = dt3.Rows[i]["OPER"].ToString();
-                        tda1.Alam = dt3.Rows[i]["ALPER"].ToString();
-                        tda1.OutputType = dt3.Rows[i]["OTYPE"].ToString();
-                        tda1.Sch = dt3.Rows[i]["SCHQTY"].ToString();
-                        tda1.Produced = dt3.Rows[i]["PQTY"].ToString();
+                        tda1.Output = "100";
+                        tda1.OutputType = "C";
+                        tda1.Alam = "100";
+                        tda1.saveItemId = dt3.Rows[i]["PYITEMID"].ToString();
+                        tda1.Unit = dt3.Rows[i]["UNITID"].ToString();
+                        tda1.Des = dt3.Rows[i]["ITEMDESC"].ToString();
+                        //tda1.Output = dt3.Rows[i]["OPER"].ToString();
+                        //tda1.Alam = dt3.Rows[i]["ALPER"].ToString();
+                        //tda1.OutputType = dt3.Rows[i]["OTYPE"].ToString();
+                        tda1.Sch = dt3.Rows[i]["PYREQAP"].ToString();
+                        tda1.Produced = dt3.Rows[i]["PYREQAP"].ToString();
                         tda1.Isvalid = "Y";
 
                         tda1.ID = id;
@@ -932,11 +921,11 @@ namespace Arasan.Controllers.Production
                             tda3.ItemGrp = dtt3.Rows[i]["SUBGROUPCODE"].ToString();
                         }
                         tda3.SItemlst = BindItemlst(tda3.ItemGrp);
-                        tda3.Itemd = dt5.Rows[i]["ODITEMID"].ToString();
+                        tda3.itemd = dt5.Rows[i]["ODITEMID"].ToString();
                         tda3.Isvalid = "Y";
-                        tda3.SchDate = dt5.Rows[i]["ODDATE"].ToString();
-                        tda3.Hrs = dt5.Rows[i]["ODRUNHRS"].ToString();
-                        tda3.Qty = dt5.Rows[i]["ODQTY"].ToString();
+                        tda3.schdate = dt5.Rows[i]["ODDATE"].ToString();
+                        tda3.hrs = dt5.Rows[i]["ODRUNHRS"].ToString();
+                        //tda3.qty = dt5.Rows[i]["ODQTY"].ToString();
                         tda3.Change = dt5.Rows[i]["NOOFCHARGE"].ToString();
                         tda3.ID = id;
                         TData3.Add(tda3);
@@ -968,6 +957,42 @@ namespace Arasan.Controllers.Production
             ca.ProscLst = TData3;
             ca.ProschedLst = TData4;
             return View(ca);
+        }
+        public ActionResult GetDaywice(string stdate, string enddate, string outitem,double outqty)
+        {
+            ProductionSchedule ca = new ProductionSchedule();
+            List<ProScItem> TData = new List<ProScItem>();
+            ProScItem tda = new ProScItem();
+
+            DateTime start = DateTime.Parse(stdate);
+            DateTime end = DateTime.Parse(enddate);
+
+            TimeSpan difference = end-start;
+            int daysAgo = (int)difference.TotalDays;
+            for (int i = 0; i <= daysAgo; i++)
+            {
+                tda = new ProScItem();
+
+                tda.schdate = start.ToString("dd-MM-yy");
+                tda.hrs = "22";
+                double h = Convert.ToDouble(tda.hrs);
+                
+                tda.qty = outqty/h;
+                tda.itemd = outitem;
+                 
+                tda.Isvalid = "Y";
+
+                TData.Add(tda);
+                start = start.AddDays(1);
+
+            }
+
+
+            ca.ProscLst = TData;
+            return Json(ca.ProscLst);
+
+
+
         }
     }
 }

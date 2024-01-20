@@ -59,6 +59,9 @@
                                             @Html.HiddenFor(C => C.ID)
                                             @Html.HiddenFor(C => C.Branch)
                                             @Html.HiddenFor(C => C.Enterd)
+                                            @Html.HiddenFor(C => C.WorkCenterid)
+                                            @Html.HiddenFor(C => C.Processid)
+                                            @Html.HiddenFor(C => C.saveitemid)
                                         </div>
                                     </div>
                                 </div>
@@ -216,7 +219,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">To Date<label class="mandatory">*</label></label>
 
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @Html.TextBoxFor(C => C.enddate, new { @id = "enddate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            @Html.TextBoxFor(C => C.enddate, new { @id = "enddate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true,@onchange = "changeDaywiseoutput(this.value)" })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
                                         <input type="hidden" id="dtp_input2" value="" />
@@ -290,7 +293,7 @@
                                         <ul class="nav nav-tabs">
                                             <li class="active"><a href="#tab-1" data-toggle="tab">Input Items</a></li>
                                             <li><a href="#tab-2" data-toggle="tab">Output Items </a></li>
-                                            <li><a href="#tab-3" data-toggle="tab">Process Parameters </a></li>
+                                         @*   <li><a href="#tab-3" data-toggle="tab">Process Parameters </a></li>*@
                                             <li><a href="#tab-4" data-toggle="tab">Output Details Day Wise </a></li>
                                             <li><a href="#tab-5" data-toggle="tab">Pack Materials </a></li>
                                         </ul>
@@ -298,14 +301,14 @@
                                             <div class="tab-pane active" id="tab-1">
                                                 <!-- 1st tab  -->
                                                 <div style="height:30px;"></div>
-                                                <div class="row">
+                                              @*  <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="btn-group">
                                                             <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
                                                         </div>
                                                     </div>
                                                 </div>
-
+*@
                                                 <div class="row">
                                                     <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
 
@@ -313,12 +316,13 @@
                                                             <thead>
                                                                 <tr>
 
-
-                                                                    <th>Item Group</th>
+ 
                                                                     <th> Input Item </th>
                                                                     <th> Item Description </th>
                                                                     <th> Unit </th>
-                                                                    <th> Input %</th>
+                                                                    <th>Addictive</th>
+
+                                                                    <th> Per% </th>
                                                                     <th>Required Qty </th>
 
                                                                 </tr>
@@ -332,31 +336,33 @@
                                                                     foreach (var item in Model.PrsLst.ToList())
                                                                     {
                                                                         <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                             
                                                                             <td>
-                                                                                @Html.DropDownListFor(o => o.PrsLst[i].ItemGroupId, Model.PrsLst[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Change(this.value," + i + ")"})
-                                                                            </td>
-                                                                            <td>
-
-                                                                                @Html.DropDownListFor(o => o.PrsLst[i].ItemId, Model.PrsLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
+                                                                              @Html.DisplayFor(o => o.PrsLst[i].ItemId)
                                                                                 @Html.HiddenFor(o => o.PrsLst[i].saveItemId)
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.PrsLst[i].Desc, new { @id = "txtDes" + i, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
+                                                                                @Html.DisplayFor(o => o.PrsLst[i].Desc)
+                                                                                @Html.HiddenFor(o => o.PrsLst[i].Desc, new { @id = "txtDes" + i, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.PrsLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;" , @readonly = "readonly"})
+                                                                                @Html.DisplayFor(o => o.PrsLst[i].Unit)
+                                                                                @Html.HiddenFor(o => o.PrsLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;" , @readonly = "readonly"})
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.PrsLst[i].Input, new { @id = "txtInput" + i, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                                            @Html.DisplayFor(o => o.PrsLst[i].Addict)
+                                                                                @Html.HiddenFor(o => o.PrsLst[i].Addict, new { @id = "txtAddict" + i, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                                            </td>
+                                                                             <td>
+                                                                             @Html.DisplayFor(o => o.PrsLst[i].AddictPer)
+                                                                                @Html.HiddenFor(o => o.PrsLst[i].AddictPer, new { @id = "txtAddictPer" + i, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.PrsLst[i].Qty, new { @id = "txtQty" + i, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                                            @Html.DisplayFor(o => o.PrsLst[i].Qty)
+                                                                                @Html.HiddenFor(o => o.PrsLst[i].Qty, new { @id = "txtQty" + i, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                             </td>
 
-                                                                            <td>
-                                                                                @Html.HiddenFor(o => o.PrsLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
-                                                                            </td>
+                                                                            
 
                                                                         </tr>
 
@@ -379,7 +385,7 @@
                                             <div class="tab-pane" id="tab-2">
                                                 <!-- 2nd tab  -->
                                                 <div style="height:30px;"></div>
-                                                <div class="row">
+                                               <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="btn-group">
                                                             <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow1()" class="btn sbold green" /></p>
@@ -394,11 +400,11 @@
                                                             <thead>
                                                                 <tr>
 
-                                                                    <th>Item Group</th>
+                                                                   
                                                                     <th>Output Item</th>
                                                                     <th> Item Description </th>
                                                                     <th> Unit </th>
-                                                                    <th> Output % </th>
+                                                                   <th> Output % </th>
                                                                     <th>Alam %</th>
                                                                     <th> Output Type </th>
                                                                     <th> Sch Qty </th>
@@ -417,19 +423,18 @@
                                                                     foreach (var item in Model.ProLst.ToList())
                                                                     {
                                                                         <tr id="trBookOut@(j)" class="chkOutitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                            
                                                                             <td>
-                                                                                @Html.DropDownListFor(o => o.ProLst[j].ItemGroup, Model.ProLst[j].PItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGroup" + j, style = "width: 170px;", onchange = "Grup_Change1(this.value," + j + ")"})
-                                                                            </td>
-                                                                            <td>
-
-                                                                                @Html.DropDownListFor(o => o.ProLst[j].Item, Model.ProLst[j].PItemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemid" + j, style = "width: 170px;", onchange = "changeItem1(this.value," + j + ")" })
+                                                                             @Html.DisplayFor(o => o.ProLst[j].Item)
                                                                                 @Html.HiddenFor(o => o.ProLst[j].saveItemId)
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.ProLst[j].Des, new { @id = "txtDesc" + j, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
+                                                                             @Html.DisplayFor(o => o.ProLst[j].Des)
+                                                                                @Html.HiddenFor(o => o.ProLst[j].Des, new { @id = "txtDesc" + j, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.ProLst[j].Unit, new { @id = "txtUnitId" + j, @class = "form-control", style = "width: 100px;" , @readonly = "readonly"})
+                                                                             @Html.DisplayFor(o => o.ProLst[j].Unit)
+                                                                                @Html.HiddenFor(o => o.ProLst[j].Unit, new { @id = "txtUnitId" + j, @class = "form-control", style = "width: 100px;" , @readonly = "readonly"})
                                                                             </td>
                                                                             <td>
                                                                                 @Html.TextBoxFor(o => o.ProLst[j].Output, new { @id = "txtOutput" + j, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
@@ -441,16 +446,15 @@
                                                                                 @Html.TextBoxFor(o => o.ProLst[j].OutputType, new { @id = "txtOutputType" + j, @class = "form-control", style = "width: 120px;" })
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.ProLst[j].Sch, new { @id = "txtSch" + j, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                                                @Html.DisplayFor(o => o.ProLst[j].Sch)
+                                                                                @Html.HiddenFor(o => o.ProLst[j].Sch, new { @id = "txtSch" + j, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.ProLst[j].Produced, new { @id = "txtProduced" + j, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                                             @Html.DisplayFor(o => o.ProLst[j].Produced)
+                                                                                @Html.HiddenFor(o => o.ProLst[j].Produced, new { @id = "txtProduced" + j, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                             </td>
 
-                                                                            <td>
-                                                                                @Html.HiddenFor(o => o.ProLst[j].Isvalid, new { @id = "IsOutvalid" + j })
-                                                                                <img onclick="removeRowOut(@(j));" src="../Images/delete.png" style="cursor:pointer" />
-                                                                            </td>
+                                                                         
 
                                                                         </tr>
 
@@ -468,7 +472,7 @@
                                                 </div>
                                                 <!-- 2nd tab  -->
                                             </div>
-                                            <div class="tab-pane" id="tab-3">
+                                           @* <div class="tab-pane" id="tab-3">
                                                 <!-- 3rd tab  -->
                                                 <div style="height:30px;"></div>
                                                 <div class="row">
@@ -543,7 +547,7 @@
 
                                                 </div>
                                                 <!-- 3rd tab  -->
-                                            </div>
+                                            </div>*@
                                             <div class="tab-pane" id="tab-4">
                                                 <!-- 4th tab  -->
                                                 <div style="height:30px;"></div>
@@ -562,10 +566,9 @@
 
                                                                     <th>Sch.Date </th>
                                                                     <th>Run Hrs </th>
-                                                                    <th>Item Group</th>
-                                                                    <th>Item ID </th>
+                                                                     <th>Item </th>
                                                                     <th>Sch.Qty </th>
-                                                                    <th>No.Of Change </th>
+                                                                   
 
                                                                 </tr>
                                                             </thead>
@@ -583,32 +586,22 @@
                                                                             <td>
                                                                                 <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
 
-                                                                                    @Html.TextBoxFor(o => o.ProscLst[a].SchDate, new { @id = "txtSchDate" + a, @class = "form-control", style = "width: 120px;",@readonly="readonly"  })
+                                                                                    @Html.TextBoxFor(o => o.ProscLst[a].schdate, new { @id = "txtSchDate" + a, @class = "form-control", style = "width: 120px;",@readonly="readonly"  })
                                                                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                                                 </div>
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.ProscLst[a].Hrs, new { @id = "txtHrs" + a, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                                                @Html.TextBoxFor(o => o.ProscLst[a].hrs, new { @id = "txtHrs" + a, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                             </td>
+                                                                            
                                                                             <td>
-                                                                                @Html.DropDownListFor(o => o.ProscLst[a].ItemGrp, Model.ProscLst[a].SItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGp" + a, style = "width: 170px;", onchange = "Grup_Change2(this.value," + a + ")"})
-                                                                            </td>
-                                                                            <td>
-
-                                                                                @Html.DropDownListFor(o => o.ProscLst[a].Itemd, Model.ProscLst[a].SItemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem1" + a, style = "width: 170px;" })
+                                                                                 @Html.TextBoxFor(o => o.ProscLst[a].itemd,new { @class = "form-control _select newcss", @id = "ddlItem1" + a, style = "width: 170px;" })
                                                                                 @Html.HiddenFor(o => o.ProscLst[a].saveItemId)
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.ProscLst[a].Qty, new { @id = "txtQty" + a, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                                                @Html.TextBoxFor(o => o.ProscLst[a].qty, new { @id = "txtQty" + a, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                             </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.ProscLst[a].Change, new { @id = "txtChange" + a, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
-                                                                            </td>
-
-                                                                            <td>
-                                                                                @Html.HiddenFor(o => o.ProscLst[a].Isvalid, new { @id = "IsOutputvalid" + a })
-                                                                                <img onclick="removeRowOutput(@(a));" src="../Images/delete.png" style="cursor:pointer" />
-                                                                            </td>
+                                                                           
 
                                                                         </tr>
 
@@ -1083,9 +1076,8 @@
          function AppendRow1(opt) {
              var index = $("#tbBooks1").children("tr").length;
 
-             var ItemGrp = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItemGroup" + index + "' name='ProLst[" + index + "].ItemGroup' onchange = 'Grup_Change1(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-             var Item = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItemid" + index + "' name='ProLst[" + index + "].Item' onchange = 'changeItem1(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+                     var Item = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItemid" + index + "' name='ProLst[" + index + "].Item' onchange = 'changeItem1(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
              var Des = "<td><input class='form-control' id='txtDesc" + index + "' name='ProLst[" + index + "].Des'  style='width: 200px;' type='text' readonly='True'  /></td>";
 
@@ -1104,7 +1096,7 @@
              var removeCell = "<td><input id='IsOutvalid" + index + "' name='ProLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRowOut(" + index + ");'  style='cursor:pointer' /><input name='EnqLst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
-             var newRow = "<tr class='chkOutitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookOut" + index + "'>" + ItemGrp + Item + Des + Unit + Output + Alam + OutputType + Sch + Produced + removeCell + "</tr>";
+             var newRow = "<tr class='chkOutitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookOut" + index + "'>" + Item + Des + Unit + Output + Alam + OutputType + Sch + Produced + removeCell + "</tr>";
              //alert(Packing);
              $("#tbBooks1").append(newRow);
             $(function()
@@ -1734,6 +1726,42 @@
              });
 
          });
+function changeDaywiseoutput() {
+        var e = 0;
+                  document.getElementById("tbBooks3").innerHTML = "";
 
+        
+                var stdate = document.getElementById("startdate" ).value;
+                var enddate = document.getElementById("enddate" ).value;
+                var outitem = document.getElementById("txtItemid" ).value;
+                var outqty = document.getElementById("txtQty" ).value;
+                var runhrs=22;
+               $.ajax({
+            url: 'GetDaywice',
+            type: "post",
+            data: { "stdate": stdate, "enddate": enddate,"outitem":outitem,"outqty":outqty },
+            cache: false,
 
+            success: function (list) {
+                list.forEach((item) => {
+                     var index = $("#tbBooks3").children("tr").length;
+                              var shdate = "<td><input class='form-control' id='txtSchDate" + index + "' name='ProscLst[" + index + "].Schdate'  style='width: 250px;' type='text'  readonly='True'  value=" + item.schdate + "  /></td>";
+                        var hrs = "<td><input class='form-control' id='txtHrs" + index + "' name='ProscLst[" + index + "].hrs'  style='width: 100px;' type='text'   value=" + item.hrs + " /></td>";
+                              var oitem = "<td><input class='form-control' id='ddlItem1" + index + "' name='ProscLst[" + index + "].itemd'  style='width: 100px;' type='text'  value=" + item.itemd + " /></td>";
+                     var oqty = "<td><input class='form-control' id='txtqty" + index + "' name='ProscLst[" + index + "].qty'  style='width: 100px;' type='text'  value=" + item.qty + " /></td>";
+                      var newRow = "<tr class='chkOutputitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookOutput" + index + "'>" + shdate + hrs + oitem + oqty + "</tr>";
+                      $("#tbBooks3").append(newRow);
+                  
+                   });
+    },
+  
+            });
+               
+               
+           
+
+     
+
+    }
+     
     </script>

@@ -18,6 +18,7 @@ namespace Arasan.Models
         public List<SelectListItem> Itemlst;
 
         public string Itemid { get; set; }
+        public string saveitemid { get; set; }
         public string ID { get; set; }
 
         public List<SelectListItem> Brlst;
@@ -25,9 +26,12 @@ namespace Arasan.Models
 
         public List<SelectListItem> Worklst;
         public string WorkCenter { get; set; }
+        public string detid { get; set; }
+        public string WorkCenterid { get; set; }
 
         public List<SelectListItem> Processlst;
         public string Process { get; set; }
+        public string Processid { get; set; }
 
         public List<SelectListItem> RecList;
         public string Enterd { get; set; }
@@ -67,6 +71,8 @@ namespace Arasan.Models
         public string ItemGroupId { get; set; }
 
         public string ID { get; set; }
+        public string Addict { get; set; }
+        public string AddictPer { get; set; }
         public string Desc { get; set; }
         public string Unit { get; set; }
 
@@ -110,17 +116,17 @@ namespace Arasan.Models
     public class ProScItem
     {
         public string ID { get; set; }
-        public string Itemd { get; set; }
+        public string itemd { get; set; }
         public string saveItemId { get; set; }
         public List<SelectListItem> SItemlst { get; set; }
 
         public List<SelectListItem> SItemGrouplst { get; set; }
 
         public string ItemGrp { get; set; }
-        public string SchDate { get; set; }
-        public string Hrs { get; set; }
+        public string schdate { get; set; }
+        public string hrs { get; set; }
 
-        public string Qty { get; set; }
+        public double qty { get; set; }
         public string Change { get; set; }
         public string Isvalid { get; set; }
 

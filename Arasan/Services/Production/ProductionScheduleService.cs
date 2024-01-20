@@ -90,14 +90,33 @@ namespace Arasan.Services.Production
         public DataTable GetProdSche(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PRODFCPYID,PYWCID,ITEMMASTER.ITEMID,PYITEMID,PYREQQTY,PYTARQTY,UNITMAST.UNITID, PYPRODCAPD,PYPRODQTY,PREBALQTY,PYREQAP,PROCESSMAST.PROCESSID from PRODFCPY INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCPY.PYITEMID  INNER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPY.PYWCID LEFT OUTER JOIN PROCESSMAST  on PROCESSMAST.PROCESSMASTID=WCBASIC.PROCESSID LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCPYID='" + id + "' ";
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PRODFCPYID,PYWCID,ITEMMASTER.ITEMID,PYITEMID,PYREQQTY,PYTARQTY,UNITMAST.UNITID, PYPRODCAPD,PYPRODQTY,PREBALQTY,PYREQAP,PROCESSMAST.PROCESSID,WCBASIC.PROCESSID as process from PRODFCPY INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCPY.PYITEMID  INNER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPY.PYWCID LEFT OUTER JOIN PROCESSMAST  on PROCESSMAST.PROCESSMASTID=WCBASIC.PROCESSID LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCPYID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetProdScheInputDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMMASTER.ITEMID,PYITEMID,UNITMAST.UNITID, PYPRODCAPD,PYPRODQTY,PREBALQTY,it.ITEMID as item,PYADD1,PYADDPER,PYREQAP,ITEMMASTER.ITEMDESC from PRODFCPY INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCPY.PYITEMID LEFT OUTER JOIN ITEMMASTER it ON it.ITEMMASTERID=PRODFCPY.PYADD1 LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCPYID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetProdScheOutputDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMMASTER.ITEMID,PYITEMID,UNITMAST.UNITID, PYPRODCAPD,PYPRODQTY,PREBALQTY,it.ITEMID as item,PYADD1,PYADDPER,PYREQAP,ITEMMASTER.ITEMDESC from PRODFCPY INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCPY.PYITEMID LEFT OUTER JOIN ITEMMASTER it ON it.ITEMMASTERID=PRODFCPY.PYADD1 LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCPYID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         //public DataTable GetData(string sql)
         //{
         //    DataTable _Dt = new DataTable();
@@ -156,47 +175,27 @@ namespace Arasan.Services.Production
             string msg = "";
             try
             {
+                if(cy.ID!=null)
+                {
+                    cy.ID = null;
+                }
                 string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
 
-                //if (cy.ID == null)
-                //{
-                //    DateTime theDate = DateTime.Now;
-                //    DateTime todate; DateTime fromdate;
-                //    string t; string f;
-                //    if (DateTime.Now.Month >= 4)
-                //    {
-                //        todate = theDate.AddYears(1);
-                //    }
-                //    else
-                //    {
-                //        todate = theDate;
-                //    }
-                //    if (DateTime.Now.Month >= 4)
-                //    {
-                //        fromdate = theDate;
-                //    }
-                //    else
-                //    {
-                //        fromdate = theDate.AddYears(-1);
-                //    }
-                //    t = todate.ToString("yy");
-                //    f = fromdate.ToString("yy");
-                //    string disp = string.Format("{0}-{1}", f, t);
 
-                //    int idc = GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'PSch' AND IS_ACTIVE = 'Y'");
-                //    cy.DocId = string.Format("{0}/{3}/{1} - {2} ", "TAAI", "PSch", (idc + 1).ToString(), disp);
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'PSch' AND ACTIVESEQUENCE = 'T'");
+                string docid = string.Format("{0}{1}", "PSch", (idc + 1).ToString());
 
-                //    string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='PSch' AND IS_ACTIVE ='Y'";
-                //    try
-                //    {
-                //        UpdateStatus(updateCMd);
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        throw ex;
-                //    }
-                //}
-
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='PSch' AND ACTIVESEQUENCE ='T'";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                cy.DocId = docid;
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("PSBASICPROC", objConn);
@@ -220,18 +219,18 @@ namespace Arasan.Services.Production
                     objCmd.Parameters.Add("SCHPLANTYPE", OracleDbType.NVarchar2).Value = cy.Type;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
-                    objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkCenter;
-                    objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
+                    objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkCenterid;
+                    objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Processid;
                     objCmd.Parameters.Add("SCHDATE", OracleDbType.NVarchar2).Value = cy.Schdate;
                     objCmd.Parameters.Add("FORMULA", OracleDbType.NVarchar2).Value = cy.Formula;
                     objCmd.Parameters.Add("PDUEDATE", OracleDbType.NVarchar2).Value = cy.Proddt;
-                    objCmd.Parameters.Add("OPITEMID", OracleDbType.NVarchar2).Value = cy.Itemid;
+                    objCmd.Parameters.Add("OPITEMID", OracleDbType.NVarchar2).Value = cy.saveitemid;
                     objCmd.Parameters.Add("OPUNIT", OracleDbType.NVarchar2).Value = cy.Unit;
                     objCmd.Parameters.Add("OPQTY", OracleDbType.NVarchar2).Value = cy.Qty;
                     objCmd.Parameters.Add("EXPRUNHRS", OracleDbType.NVarchar2).Value = cy.Exprunhrs;
                     objCmd.Parameters.Add("REFSCHNO", OracleDbType.NVarchar2).Value = cy.Refno;
                     objCmd.Parameters.Add("AMDSCHNO", OracleDbType.NVarchar2).Value = cy.Amdno;
-                    objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Entered;
+                    objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
                     objCmd.Parameters.Add("PRODQTY", OracleDbType.NVarchar2).Value = cy.ProdQty;
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -254,7 +253,7 @@ namespace Arasan.Services.Production
                                 {
                                     if (cp.Isvalid == "Y" && cp.ItemId != "0")
                                     {
-                                        svSQL = "Insert into PSINPDETAIL (PSBASICID,RITEMID,RITEMDESC,RUNIT,IPER,RQTY) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.Desc + "','" + cp.Unit + "','" + cp.Input + "','" + cp.Qty + "')";
+                                        svSQL = "Insert into PSINPDETAIL (PSBASICID,RITEMID,RITEMDESC,RUNIT,IPER,RQTY) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + cp.Desc + "','" + cp.Unit + "','" + cp.Input + "','" + cp.Qty + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                     }
@@ -269,7 +268,7 @@ namespace Arasan.Services.Production
                                 {
                                     if (cp.Isvalid == "Y" && cp.ItemId != "0")
                                     {
-                                        svSQL = "Insert into PSINPDETAIL (PSBASICID,RITEMID,RITEMDESC,RUNIT,IPER,RQTY) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.Desc + "','" + cp.Unit + "','" + cp.Input + "','" + cp.Qty + "')";
+                                        svSQL = "Insert into PSINPDETAIL (PSBASICID,RITEMID,RITEMDESC,RUNIT,IPER,RQTY) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + cp.Desc + "','" + cp.Unit + "','" + cp.Input + "','" + cp.Qty + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                     }
@@ -288,7 +287,7 @@ namespace Arasan.Services.Production
                                 {
                                     if (cp.Isvalid == "Y" && cp.Item != "0")
                                     {
-                                        svSQL = "Insert into PSOUTDETAIL (PSBASICID,OITEMID,OITEMDESC,OUNIT,OPER,ALPER,OTYPE,SCHQTY,PQTY) VALUES ('" + Pid + "','" + cp.Item + "','" + cp.Des + "','" + cp.Unit + "','" + cp.Output + "','" + cp.Alam + "','" + cp.OutputType + "','" + cp.Sch + "','" + cp.Produced + "')";
+                                        svSQL = "Insert into PSOUTDETAIL (PSBASICID,OITEMID,OITEMDESC,OUNIT,OPER,ALPER,OTYPE,SCHQTY,PQTY) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + cp.Des + "','" + cp.Unit + "','" + cp.Output + "','" + cp.Alam + "','" + cp.OutputType + "','" + cp.Sch + "','" + cp.Produced + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                     }
@@ -303,7 +302,7 @@ namespace Arasan.Services.Production
                                 {
                                     if (cp.Isvalid == "Y" && cp.Item != "0")
                                     {
-                                        svSQL = "Insert into PSOUTDETAIL (PSBASICID,OITEMID,OITEMDESC,OUNIT,OPER,ALPER,OTYPE,SCHQTY,PQTY) VALUES ('" + Pid + "','" + cp.Item + "','" + cp.Des + "','" + cp.Unit + "','" + cp.Output + "','" + cp.Alam + "','" + cp.OutputType + "','" + cp.Sch + "','" + cp.Produced + "')";
+                                        svSQL = "Insert into PSOUTDETAIL (PSBASICID,OITEMID,OITEMDESC,OUNIT,OPER,ALPER,OTYPE,SCHQTY,PQTY) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + cp.Des + "','" + cp.Unit + "','" + cp.Output + "','" + cp.Alam + "','" + cp.OutputType + "','" + cp.Sch + "','" + cp.Produced + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -314,70 +313,62 @@ namespace Arasan.Services.Production
                                 }
                             }
                         }
-                        if (cy.Prlst != null)
-                        {
-                            if (cy.ID == null)
-                            {
-                                foreach (ProItem cp in cy.Prlst)
-                                {
-                                    if (cp.Isvalid == "Y" && cp.Parameters != "0")
-                                    {
-                                        svSQL = "Insert into PSPARAMDETAIL (PSBASICID,PARAMETERS,UNIT,IPARAMVALUE,FPARAMVALUE,REMARKS) VALUES ('" + Pid + "','" + cp.Parameters + "','" + cp.Unit + "','" + cp.Initial + "','" + cp.Final + "','" + cp.Remarks + "')";
-                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                        objCmds.ExecuteNonQuery();
+                        //if (cy.Prlst != null)
+                        //{
+                        //    if (cy.ID == null)
+                        //    {
+                        //        foreach (ProItem cp in cy.Prlst)
+                        //        {
+                        //            if (cp.Isvalid == "Y" && cp.Parameters != "0")
+                        //            {
+                        //                svSQL = "Insert into PSPARAMDETAIL (PSBASICID,PARAMETERS,UNIT,IPARAMVALUE,FPARAMVALUE,REMARKS) VALUES ('" + Pid + "','" + cp.Parameters + "','" + cp.Unit + "','" + cp.Initial + "','" + cp.Final + "','" + cp.Remarks + "')";
+                        //                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        //                objCmds.ExecuteNonQuery();
 
-                                    }
-                                }
+                        //            }
+                        //        }
 
 
-                            }
-                            else
-                            {
-                                svSQL = "Delete PSPARAMDETAIL WHERE PSBASICID='" + cy.ID + "'";
-                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
-                                objCmdd.ExecuteNonQuery();
-                                foreach (ProItem cp in cy.Prlst)
-                                {
-                                    if (cp.Isvalid == "Y" && cp.Parameters != "0")
-                                    {
-                                        svSQL = "Insert into PSPARAMDETAIL (PSBASICID,PARAMETERS,UNIT,IPARAMVALUE,FPARAMVALUE,REMARKS) VALUES ('" + Pid + "','" + cp.Parameters + "','" + cp.Unit + "','" + cp.Initial + "','" + cp.Final + "','" + cp.Remarks + "')";
-                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                        objCmds.ExecuteNonQuery();
+                        //    }
+                        //    else
+                        //    {
+                        //        svSQL = "Delete PSPARAMDETAIL WHERE PSBASICID='" + cy.ID + "'";
+                        //        OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        //        objCmdd.ExecuteNonQuery();
+                        //        foreach (ProItem cp in cy.Prlst)
+                        //        {
+                        //            if (cp.Isvalid == "Y" && cp.Parameters != "0")
+                        //            {
+                        //                svSQL = "Insert into PSPARAMDETAIL (PSBASICID,PARAMETERS,UNIT,IPARAMVALUE,FPARAMVALUE,REMARKS) VALUES ('" + Pid + "','" + cp.Parameters + "','" + cp.Unit + "','" + cp.Initial + "','" + cp.Final + "','" + cp.Remarks + "')";
+                        //                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        //                objCmds.ExecuteNonQuery();
 
-                                    }
-                                }
-                            }
-                        }
+                        //            }
+                        //        }
+                        //    }
+                        //}
                         if (cy.ProscLst != null)
                         {
                             if (cy.ID == null)
                             {
+                                int ro = 1;
                                 foreach (ProScItem cp in cy.ProscLst)
                                 {
-                                    if (cp.Isvalid == "Y" && cp.Itemd != null)
+                                    if (cp.Isvalid == "Y" && cp.schdate != null)
                                     {
-                                        svSQL = "Insert into PSOUTDAYDETAIL (PSBASICID,ODDATE,ODRUNHRS,ODITEMID,ODQTY,NOOFCHARGE) VALUES ('" + Pid + "','" + cp.SchDate + "','" + cp.Hrs + "','" + cp.Itemd + "','" + cp.Qty + "','" + cp.Change + "')";
+                                        string item = cp.itemd;
+                                        DateTime da =DateTime.Parse(cp.schdate);
+                                      
+                                        string uniq = string.Format("{0}----{1}", item, da.ToString("dd/MM/yy"));
+                                        svSQL = "Insert into PSOUTDAYDETAIL (PSBASICID,ODDATE,ODRUNHRS,ODITEMID,ODQTY,UNIQUEDO,PSOUTDAYDETAILROW) VALUES ('" + Pid + "','" + cp.schdate + "','" + cp.hrs + "','" + cy.saveitemid + "','" + cp.qty + "','"+ uniq+"','"+ ro +"')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                     }
+                                    ro++;
                                 }
 
                             }
-                            else
-                            {
-                                svSQL = "Delete PSOUTDAYDETAIL WHERE PSBASICID='" + cy.ID + "'";
-                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
-                                objCmdd.ExecuteNonQuery();
-                                foreach (ProScItem cp in cy.ProscLst)
-                                {
-                                    if (cp.Isvalid == "Y" && cp.Itemd != null)
-                                    {
-                                        svSQL = "Insert into PSOUTDAYDETAIL (PSBASICID,ODDATE,ODRUNHRS,ODITEMID,ODQTY,NOOFCHARGE) VALUES ('" + Pid + "','" + cp.SchDate + "','" + cp.Hrs + "','" + cp.Itemd + "','" + cp.Qty + "','" + cp.Change + "')";
-                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                        objCmds.ExecuteNonQuery();
-                                    }
-                                }
-                            }
+                            
                         }
                         if (cy.ProschedLst != null)
                         {
@@ -410,6 +401,9 @@ namespace Arasan.Services.Production
                                     }
                                 }
                             }
+                            svSQL = "UPDATE PRODFCPY SET SCHEDULE='Y' WHERE PRODFCPYID='"+cy.detid+"'";
+                            OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                            objCmdss.ExecuteNonQuery();
                         }
                     }
                     
@@ -421,6 +415,7 @@ namespace Arasan.Services.Production
                     }
                     objConn.Close(); 
                 }
+
             }
             catch (Exception ex)
             {
