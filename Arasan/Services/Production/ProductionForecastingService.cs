@@ -380,6 +380,15 @@ ORDER BY ORD DESC";
                         cmp.required = required.ToString();
                         cmp.balanceqty= required.ToString();
                         cmp.rejmat = "2";
+                        DataTable rawdt = new DataTable();
+                        rawdt = datatrans.GetData("SELECT I.ITEMFROM,I2.ITEMID FROM ITEMMASTER I, ITEMMASTER I2 WHERE I.ITEMFROM = I2.ITEMMASTERID AND I.ITEMMASTERID = '" + cmp.saveitemid + "'");
+
+                        if (rawdt.Rows.Count > 0)
+                        {
+                            cmp.rawmat = rawdt.Rows[0]["ITEMID"].ToString();
+                            cmp.rawmatid = rawdt.Rows[0]["ITEMFROM"].ToString();
+                           
+                        }
                         //cmp.targethrs = datatrans.GetDataString("Select Sum(tar) Tar from (SELECT SUM(WD.PRATE*22) TAR FROM WCBASIC W,WCPRODDETAIL WD,ITEMMASTER I WHERE W.WCBASICID=WD.WCBASICID AND W.WCID=:PYWCID AND I.ITEMMASTERID=WD.ITEMID \r\nAND WD.ITEMTYPE='Primary' AND I.ITEMID=:PYITEMID\r\nUnion All\r\nSELECT SUM(WD.PRATE*22) TAR FROM NMPC.WCBASIC W,NMPC.WCPRODDETAIL WD,ITEMMASTER I WHERE W.WCBASICID=WD.WCBASICID AND W.WCID=:PYWCID AND I.ITEMMASTERID=WD.ITEMID \r\nAND WD.ITEMTYPE='Primary' AND I.ITEMID=:PYITEMID\r\n)");
                         cmpList.Add(cmp);
                     }
@@ -578,6 +587,15 @@ Order by 2 Desc";
                         };
                         cmp.paaddpurpri = datatrans.GetDataString("SELECT LATPURPRICE FROM ITEMMASTER WHERE ITEMMASTERID='" + cmp.additiveid + "'");
                         cmp.mtopurpri = datatrans.GetDataString("SELECT LATPURPRICE FROM ITEMMASTER WHERE ITEMID='DISTILLED MINERAL TURPENTINE'");
+                        DataTable rawdt = new DataTable();
+                        rawdt = datatrans.GetData("SELECT I.ITEMFROM,I2.ITEMID FROM ITEMMASTER I, ITEMMASTER I2 WHERE I.ITEMFROM = I2.ITEMMASTERID AND I.ITEMMASTERID = '" + cmp.saveitemid + "'");
+
+                        if (rawdt.Rows.Count > 0)
+                        {
+                            cmp.rawmat = rawdt.Rows[0]["ITEMID"].ToString();
+                            cmp.rawmatid = rawdt.Rows[0]["ITEMFROM"].ToString();
+
+                        }
                         cmpList.Add(cmp);
                     }
                 }
@@ -719,12 +737,29 @@ ORDER BY ORD DESC";
                             reqappowder= rdr["REQ"].ToString(),
 
                         };
+                        DataTable rawdt = new DataTable();
+                        rawdt = datatrans.GetData("SELECT I.ITEMFROM,I2.ITEMID FROM ITEMMASTER I, ITEMMASTER I2 WHERE I.ITEMFROM = I2.ITEMMASTERID AND I.ITEMMASTERID = '" + cmp.saveitemid + "'");
+
+                        if (rawdt.Rows.Count > 0)
+                        {
+                            cmp.rawmat = rawdt.Rows[0]["ITEMID"].ToString();
+                            cmp.rawmatid = rawdt.Rows[0]["ITEMFROM"].ToString();
+
+                        }
                         cmpList.Add(cmp);
                     }
                 }
             }
             return cmpList;
         }
+        public List<ProdApReqItem> GetAPReqForecast(string mnth, string type)
+        {
+            List<ProdApReqItem> cmpList = new List<ProdApReqItem>();
+            string Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            
+            return cmpList;
+        }
+
         public string ProductionForecastingCRUD(ProductionForecasting cy)
         {
             string msg = "";

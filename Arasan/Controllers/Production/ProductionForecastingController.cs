@@ -59,6 +59,11 @@ namespace Arasan.Controllers.Production
 
             List<ProdApItem> TData8 = new List<ProdApItem>();
             ProdApItem tda8 = new ProdApItem();
+
+            List<ProdApReqItem> TData9 = new List<ProdApReqItem>();
+            ProdApReqItem tda9 = new ProdApReqItem();
+            
+
             if (id == null)
             {
                 ca.plantype = "MONTHLY";
@@ -280,6 +285,7 @@ namespace Arasan.Controllers.Production
             ca.PFCAPPRODLst = TData6;
             ca.PFCPACKLst = TData7;
             ca.Aplst=TData8;
+            ca.PFAPREFlst= TData9;
             return View(ca);
         }
         public IActionResult ProdForecasting(string id)
@@ -857,27 +863,27 @@ namespace Arasan.Controllers.Production
             return Json(model.PFCPOLILst);
 
         }
-        public ActionResult GetRVDForecast(string mnth, string type)
-        {
-            ProductionForecasting model = new ProductionForecasting();
-            //model.PFCPYROILst = _ProdForecastServ.GetPyroForecast(mnth, type);
-            if (model.PFCPYROILst == null)
-            {
-                List<PFCRVDItem> TData4 = new List<PFCRVDItem>();
-                PFCRVDItem tda4 = new PFCRVDItem();
-                for (int i = 0; i < 1; i++)
-                {
-                    tda4 = new PFCRVDItem();
-                    tda4.POWorklst = BindWorkCenter();
-                    //tda3.POItemlst = BindItemlst("");
-                    tda4.Isvalid = "Y";
-                    TData4.Add(tda4);
-                }
-                model.PFCRVDLst = TData4;
-            }
-            return Json(model.PFCRVDLst);
+        //public ActionResult GetRVDForecast(string mnth, string type)
+        //{
+        //    ProductionForecasting model = new ProductionForecasting();
+        //    //model.PFCPYROILst = _ProdForecastServ.GetPyroForecast(mnth, type);
+        //    if (model.PFCPYROILst == null)
+        //    {
+        //        List<PFCRVDItem> TData4 = new List<PFCRVDItem>();
+        //        PFCRVDItem tda4 = new PFCRVDItem();
+        //        for (int i = 0; i < 1; i++)
+        //        {
+        //            tda4 = new PFCRVDItem();
+        //            tda4.POWorklst = BindWorkCenter();
+        //            //tda3.POItemlst = BindItemlst("");
+        //            tda4.Isvalid = "Y";
+        //            TData4.Add(tda4);
+        //        }
+        //        model.PFCRVDLst = TData4;
+        //    }
+        //    return Json(model.PFCRVDLst);
 
-        }
+        //}
         public ActionResult GetPasteForecast(string mnth, string type)
         {
             ProductionForecasting model = new ProductionForecasting();
@@ -920,7 +926,13 @@ namespace Arasan.Controllers.Production
             return Json(model.Aplst);
 
         }
+        public ActionResult GetAPReqForecast(string mnth, string type)
+        {
+            ProductionForecasting model = new ProductionForecasting();
+            model.PFAPREFlst = _ProdForecastServ.GetAPReqForecast(mnth, type);
+            return Json(model.Aplst);
 
+        }
 
         public ActionResult GetpyrowcDetail(string itemid,string wcid)
         {
