@@ -38,6 +38,8 @@ namespace Arasan.Models
         public List<PFCPACKItem> PFCPACKLst { get; set; }
         public List<ProdApItem> Aplst { get; set; }
 
+        public List<ProdApReqItem> PFAPREFlst { get; set; }
+        
         public string plantype { get; set; }
         public string apspowder { get; set; }
         public string reqqty { get; set; }
@@ -129,6 +131,9 @@ namespace Arasan.Models
         public string powderrequired { get; set; }
         public string stock { get; set; }
 
+        public string rawmat { get; set; }
+        public string rawmatid { get; set; }
+
     }
     public class PFCPOLIItem
     {
@@ -218,6 +223,8 @@ namespace Arasan.Models
         public string target { get; set; }
         public string proddays { get; set; }
         public string production { get; set; }
+        public string rawmat { get; set; }
+        public string rawmatid { get; set; }
         public string appowder { get; set; }
         public string balance { get; set; }
         public string charge { get; set; }
@@ -318,6 +325,25 @@ namespace Arasan.Models
         public string startvalue { get; set; }
         public string endvalue { get; set; }
         public string Isvalid { get; set; }
+        public string rawmat { get; set; }
+        public string rawmatid { get; set; }
+
+    }
+
+    public class ProdApReqItem
+    {
+        public string itemid { get; set; }
+        public string saveitemid { get; set; }
+        public string coarsemelting { get; set; }
+        public string avlstk { get; set; }
+        public string ministk { get; set; }
+        public string reqappowder { get; set; }
+        public string powderrequired { get; set; }
+        public string appyrovalue { get; set; }
+        public string appastevalue { get; set; }
+        public string apfgapsvalue { get; set; }
+        public string Isvalid { get; set; }
+    
 
     }
 }

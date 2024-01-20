@@ -30,7 +30,8 @@ namespace Arasan.Interface.Production
         List<PFCPOLIItem> GetPolishForecast(string mnth, string type); 
         List<PFCPASTEItem> GetPasteForecast(string mnth, string type); 
         List<PFCPACKItem> GetPackForecast(string mnth, string type);
-        List<ProdApItem> GetAPSForecast(string mnth, string type);  
+        List<ProdApItem> GetAPSForecast(string mnth, string type);
+        List<ProdApReqItem> GetAPReqForecast(string mnth, string type); 
         string ProductionForecastingCRUD(ProductionForecasting cy);
     }
 }
