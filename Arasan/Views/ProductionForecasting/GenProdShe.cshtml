@@ -382,6 +382,7 @@
 
                                                                                     foreach (var item in Model.PFCPYROILst.ToList())
                                                                                     {
+                                                                                
                                                                                         <tr id="trBook2@(k)" class="chkitemlst2" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
 
@@ -413,8 +414,16 @@
                                                                                             <td>
                                                                                                 @Html.DisplayFor(o => o.PFCPYROILst[k].reqpowder)
                                                                                             </td>
-                                                                                            
-                                                                                           <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid})'" >Generate </button></td>
+                                                                                            @if(item.SchYN=="Y")
+                                                                                            {
+                                                                                            <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="Pyro"})'" disabled >Generate </button></td>
+
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                             <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="Pyro"})'" >Generate </button></td>
+  
+                                                                                            }
 
                                                                                         </tr>
                                                                                         k = k + 1;
@@ -453,22 +462,18 @@
                                                                             <tr>
 
                                                                                 <th>Work Center</th>
-                                                                                <th>Wc Days</th>
+                                                                                
                                                                                 <th>Item Name </th>
-                                                                                <th> Target</th>
-                                                                                <th> Capacity </th>
-                                                                                <th>  Stock </th>
-                                                                                <th> Min Stock</th>
+                                                                                
                                                                                 <th>Required </th>
                                                                                 <th>Days </th>
                                                                                 <th>Additive </th>
                                                                                 <th>Alloc Add </th>
                                                                                 <th>Raw Material</th>
-                                                                                <th>Req Per</th>
-                                                                                <th>Rvd Qty </th>
-                                                                                <th>Pyro Powder</th>
+                                                                              
                                                                                 <th>Pyro Qty</th>
-                                                                                <th> Powder Required</th>
+                                                                                
+                                                                                <th>  </th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody id="tbBooks3">
@@ -489,27 +494,12 @@
 
                                                                                             @Html.DisplayFor(o => o.PFCPOLILst[p].workid)
                                                                                         </td>
-                                                                                        <td>
-
-                                                                                            @Html.DisplayFor(o => o.PFCPOLILst[p].wcdays)
-                                                                                        </td>
+                                                                                        
                                                                                         <td>
 
                                                                                             @Html.DisplayFor(o => o.PFCPOLILst[p].itemid)
                                                                                         </td>
-                                                                                        <td>
-
-                                                                                            @Html.DisplayFor(o => o.PFCPOLILst[p].target)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPOLILst[p].capacity)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPOLILst[p].stock)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPOLILst[p].minstock)
-                                                                                        </td>
+                                                                                        
                                                                                         <td>
                                                                                             @Html.DisplayFor(o => o.PFCPOLILst[p].required)
                                                                                         </td>
@@ -526,23 +516,14 @@
                                                                                             @Html.DisplayFor(o => o.PFCPOLILst[p].add)
                                                                                         </td>
                                                                                         <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPOLILst[p].rawmat)
+                                                                                            @Html.DisplayFor(o => o.PFCPOLILst[p].rejmat)
                                                                                         </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPOLILst[p].reqper)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPOLILst[p].rvdqty)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPOLILst[p].pyropowder)
-                                                                                        </td>
+                                                                                         
                                                                                         <td>
                                                                                             @Html.DisplayFor(o => o.PFCPOLILst[p].pyroqty)
                                                                                         </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPOLILst[p].powderrequired)
-                                                                                        </td>
+                                                                                       
+                                                                                        <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="Polish"})'" >Generate </button></td>
 
 
 
@@ -581,7 +562,7 @@
                                                                             <tr>
 
                                                                                 <th>Work Center</th>
-                                                                                <th>Wc Days</th>
+                                                                               
                                                                                 <th>Item Name </th>
                                                                                 <th> Prod Qty</th>
                                                                                 <th> Days </th>
@@ -589,9 +570,7 @@
                                                                                 <th> Cons Qty</th>
                                                                                 <th>Raw Mat </th>
                                                                                 <th>Qty </th>
-                                                                                <th>Mto Recovred </th>
-                                                                                <th>Mto Loss </th>
-                                                                                <th>Power Required</th>
+                                                                                
 
                                                                         </thead>
                                                                         <tbody id="tbBooks4">
@@ -612,9 +591,7 @@
 
                                                                                             @Html.DisplayFor(o => o.PFCRVDLst[r].workid)
                                                                                         </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCRVDLst[r].wcdays)
-                                                                                        </td>
+                                                                                        
                                                                                         <td>
                                                                                             @Html.DisplayFor(o => o.PFCRVDLst[r].itemid)
                                                                                         </td>
@@ -639,16 +616,8 @@
                                                                                         <td>
                                                                                             @Html.DisplayFor(o => o.PFCRVDLst[r].qty)
                                                                                         </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCRVDLst[r].mto)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCRVDLst[r].mtoloss)
-                                                                                        </td>
+                                                                                           <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="RVD"})'" >Generate </button></td>
 
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCRVDLst[r].powderrequired)
-                                                                                        </td>
 
 
                                                                                     </tr>
@@ -686,12 +655,10 @@
                                                                             <tr>
 
                                                                                 <th>WCID</th>
-                                                                                <th>Cum Days </th>
+                                                                                 
                                                                                 <th> Item ID</th>
-                                                                                <th> Charges/Days </th>
-                                                                                <th>Target  </th>
-                                                                                <th> Stock </th>
-                                                                                <th>Min Stk  </th>
+                                                                                
+                                                                               
                                                                                 <th> Required </th>
                                                                                 <th> Prod.Days </th>
                                                                                 <th> Production </th>
@@ -699,15 +666,7 @@
                                                                                 <th> Balance </th>
                                                                                 <th> Additive </th>
                                                                                 <th> Alloc Addit </th>
-                                                                                <th> TO Prod(kg) </th>
-                                                                                <th> Rvd Loss </th>
-                                                                                <th> TO Loss(kg) </th>
-                                                                                <th> to In Coarse(kg) </th>
-                                                                                <th> Mixing MTO </th>
-                                                                                <th> TO Req(Ltd) </th>
-                                                                                <th> Additive Cost </th>
-                                                                                <th> Mto Cost </th>
-                                                                                <th> Power Required </th>
+                                                                                
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody id="tbBooks5">
@@ -726,27 +685,12 @@
 
                                                                                             @Html.DisplayFor(o => o.PFCPASTELst[t].WorkId)
                                                                                         </td>
-                                                                                        <td>
-
-                                                                                            @Html.DisplayFor(o => o.PFCPASTELst[t].CDays)
-                                                                                        </td>
+                                                                                        
                                                                                         <td>
 
                                                                                             @Html.DisplayFor(o => o.PFCPASTELst[t].itemid)
                                                                                         </td>
-                                                                                        <td>
-
-                                                                                            @Html.DisplayFor(o => o.PFCPASTELst[t].charge)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPASTELst[t].target)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPASTELst[t].stock)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPASTELst[t].minstock)
-                                                                                        </td>
+                                                                                        
                                                                                         <td>
                                                                                             @Html.DisplayFor(o => o.PFCPASTELst[t].required)
                                                                                         </td>
@@ -772,33 +716,8 @@
                                                                                         <td>
                                                                                             @Html.DisplayFor(o => o.PFCPASTELst[t].allocadditive)
                                                                                         </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPASTELst[t].toprod)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPASTELst[t].rvdloss)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPASTELst[t].toloss)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPASTELst[t].coarse)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPASTELst[t].missmto)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPASTELst[t].toreq)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPASTELst[t].addcost)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPASTELst[t].mtocost)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCPASTELst[t].powerrequired)
-                                                                                        </td>
+                                                                                        <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="Paste"})'" >Generate </button></td>
+
 
 
 
