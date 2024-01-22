@@ -25,6 +25,7 @@ namespace Arasan.Interface.Production
         DataTable GetPolishWC();
         DataTable GetRVDWC();
         DataTable GetPasteWC();
+        DataTable GetAPWC();
         DataTable GetDGPaste(string mnth, string type);
         List<PFCPYROItem> GetPyroForecast(string mnth, string type); 
         List<PFCPOLIItem> GetPolishForecast(string mnth, string type); 
