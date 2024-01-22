@@ -611,7 +611,7 @@ namespace Arasan.Controllers.Production
 
         public JsonResult GetAPWCJSON()
         {
-            return Json(BindPYROWC());
+            return Json(BindAPWC());
 
         }
 
@@ -654,23 +654,23 @@ namespace Arasan.Controllers.Production
             }
         }
 
-        //public List<SelectListItem> BindAPWC()
-        //{
-        //    try
-        //    {
-        //        DataTable dtDesg = _ProdForecastServ.GetAPWC();
-        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
-        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
-        //        {
-        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
-        //        }
-        //        return lstdesg;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+        public List<SelectListItem> BindAPWC()
+        {
+            try
+            {
+                DataTable dtDesg = _ProdForecastServ.GetAPWC();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindPolishWC()
         {
             try
@@ -939,10 +939,19 @@ namespace Arasan.Controllers.Production
             foreach (PyroItemArray input in model)
             {
                 //itemlist.Add(input.itemid);
-                itm += input.itemid + ",";
+                if (!string.IsNullOrEmpty(input.itemid))
+                {
+                    itm += input.itemid + ",";
+                }
+                
             }
             itm = itm.Remove(itm.Length - 1);
-
+            string ingotssql = @"SELECT SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) stk
+FROM StockValue S , ItemMaster I , LocDetails L 
+WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='" + Docdate + "' AND S.LocID = L.LocdetailsID ";
+            ingotssql += @"AND i.SNCATEGORY IN ('ALUMINIUM INGOTS','REMELTED ALUMINIUM INGOTS','MOLTED INGOTS') AND i.QCCOMPFLAG='YES' AND L.LocationType IN ('AP MILL','STORES','REMELTING','QUALITY') 
+HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 ORDER BY 1";
+            string ingosstk = datatrans.GetDataString(ingotssql);
             dt = datatrans.GetData("select ITEMMASTERID,ITEMID from  ITEMMASTER Where ITEMMASTERID IN(" + itm + ") GROUP BY ITEMMASTERID,ITEMID");
             if (dt.Rows.Count > 0)
             {
@@ -954,10 +963,13 @@ namespace Arasan.Controllers.Production
                     string sql = @"SELECT Round(SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)),0) stk
 FROM StockValue S , ItemMaster I , LocDetails L 
 WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='"+ Docdate + "' AND S.LocID = L.LocdetailsID ";
-                    sql += @"AND i.SNCATEGORY IN ('AP POWDER - SFG') 
-AND L.LocationType IN ('AP MILL','SIEVE & BLEND')
-AND I.SUBCATEGORY <>'AP POWDER-W' AND I.ItemMasterID='" + tda.saveitemid + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0";
-                    tda.avlstk = datatrans.GetDataString(sql);
+                    sql += @" AND L.LocationType IN ('AP MILL','SIEVE & BLEND')
+  AND I.ItemMasterID='" + tda.saveitemid + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0";
+                   string avlstk= datatrans.GetDataString(sql);
+                    tda.avlstk = avlstk =="" ? "0" : avlstk;
+                    string ministk= datatrans.GetDataString("SELECT sum(MINSTK) FROM ITEMMASTER WHERE ITEMMASTERID ='" + tda.saveitemid + "'");
+                    tda.ministk = ministk == "" ? "0" : ministk;
+                    tda.ingotstock = ingosstk;
                     cmpList.Add(tda);
                 }
             }

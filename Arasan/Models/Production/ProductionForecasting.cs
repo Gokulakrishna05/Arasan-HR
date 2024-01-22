@@ -343,8 +343,8 @@ namespace Arasan.Models
         public string appastevalue { get; set; }
         public string apfgapsvalue { get; set; }
         public string Isvalid { get; set; }
-    
 
+        public string ingotstock { get; set; }
     }
     public class PyroItemArray
     {
