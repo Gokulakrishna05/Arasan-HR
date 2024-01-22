@@ -8,6 +8,8 @@ namespace Arasan.Interface.Report
     public interface IPurMonReport
     {
 
-        DataTable GetAllReport(string Branch, string Sdate, string Edate);
+        DataTable GetAllReport(string SFINYR ,string Sdate, string Edate);
+
+        DataTable GetFinyr();
     }
 }

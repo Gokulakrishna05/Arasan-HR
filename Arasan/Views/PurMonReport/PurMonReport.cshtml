@@ -54,7 +54,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
-            var Branch = document.getElementById("ddlbranch").value;
+            var SFINYR = document.getElementById("ddlSFINYR").value;
             var Sdate = document.getElementById("Sdate").value;
             var Edate = document.getElementById("Edate").value;
 
@@ -64,7 +64,7 @@
                 //url: "/ItemName/ItemName",
                 data: {
                     strstatus: "",
-                    Branch: Branch,
+                    SFINYR: SFINYR,
                     Sdate: Sdate,
                     Edate: Edate,
                     //Item: Item,
@@ -78,7 +78,18 @@
                     { name: 'part', type: 'string' },
                     { name: 'item', type: 'string' },
                     { name: 'unit', type: 'string' },
-                    { name: 'item', type: 'string' },
+                    { name: 'jan', type: 'string' },
+                    { name: 'feb', type: 'string' },
+                    { name: 'mar', type: 'string' },
+                    { name: 'april', type: 'string' },
+                    { name: 'may', type: 'string' },
+                    { name: 'june', type: 'string' },
+                    { name: 'july', type: 'string' },
+                    { name: 'aug', type: 'string' },
+                    { name: 'sep', type: 'string' },
+                    { name: 'oct', type: 'string' },
+                    { name: 'nov', type: 'string' },
+                    { name: 'dec', type: 'string' },
                 ],
                 id: 'id',
             };
@@ -110,7 +121,18 @@
                         { text: 'Party Name', filtertype: 'input', datafield: 'part', width: 150 },
                         { text: 'Item ', filtertype: 'input', datafield: 'item', width: 130 },
                         { text: 'Unit', filtertype: 'input', datafield: 'unit', width: 130 },
-                        { text: 'January', filtertype: 'input', datafield: 'jan', width: 250 },
+                        { text: 'Jan', filtertype: 'input', datafield: 'jan', width: 100 },
+                        { text: 'Feb', filtertype: 'input', datafield: 'feb', width: 100 },
+                        { text: 'Mar', filtertype: 'input', datafield: 'mar', width: 100 },
+                        { text: 'April', filtertype: 'input', datafield: 'april', width: 100 },
+                        { text: 'May', filtertype: 'input', datafield: 'may', width: 100 },
+                        { text: 'June', filtertype: 'input', datafield: 'june', width: 100 },
+                        { text: 'July', filtertype: 'input', datafield: 'july', width: 100 },
+                        { text: 'Aug', filtertype: 'input', datafield: 'aug', width: 100 },
+                        { text: 'Sep', filtertype: 'input', datafield: 'sep', width: 100 },
+                        { text: 'Act', filtertype: 'input', datafield: 'oct', width: 100 },
+                        { text: 'Nov', filtertype: 'input', datafield: 'nov', width: 100 },
+                        { text: 'Dec', filtertype: 'input', datafield: 'dec', width: 100 },
 
                     ]
                 });
@@ -178,7 +200,7 @@
 
 
 
-                            <div class="row">
+                            @*<div class="row">
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -191,7 +213,23 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>*@
+                            
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Year <label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.DropDownListFor(C => C.SFINYR, Model.Finyrlst,"Please Select", new { @id = "ddlSFINYR", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
 
                             <div style="height:30px;"></div>
                             <div class="row">

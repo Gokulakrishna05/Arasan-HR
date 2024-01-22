@@ -130,8 +130,6 @@ namespace Arasan.Controllers.Report
             dtUsers = (DataTable)GRNReportService.GetAllReport(dtFrom, dtTo, Branch, Item, Customer);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
-
-
                 Reg.Add(new GRNReportItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["GRNBLBASICID"].ToString()),
