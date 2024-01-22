@@ -97,6 +97,36 @@ namespace Arasan.Services.Production
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetProdSchePolish(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PRODFCPIGID,PIGWCID,ITEMMASTER.ITEMID,PIGITEMID,PIGRAWREQPY,UNITMAST.UNITID,PROCESSMAST.PROCESSID,WCBASIC.PROCESSID as process from PRODFCPIG INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCPIG.PIGITEMID  INNER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPIG.PIGWCID LEFT OUTER JOIN PROCESSMAST  on PROCESSMAST.PROCESSMASTID=WCBASIC.PROCESSID LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCPIGID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPolishInputDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PRODFCBASICID,PRODFCPIGID,ITEMMASTER.ITEMID,PIGADDIT,PIGRAWMAT,it.ITEMID as item,PIGRAWREQPY,UNITMAST.UNITID,PIGADDPER,ITEMMASTER.ITEMDESC from PRODFCPIG INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCPIG.PIGRAWMAT LEFT OUTER JOIN ITEMMASTER it ON it.ITEMMASTERID=PRODFCPIG.PIGADDIT LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCPIGID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPolishOutputDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PRODFCBASICID,PRODFCPIGID,ITEMMASTER.ITEMID,PIGITEMID,PIGRAWREQPY,UNITMAST.UNITID,PIGADDPER,ITEMMASTER.ITEMDESC from PRODFCPIG INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCPIG.PIGITEMID LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCPIGID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetProdScheInputDetail(string id)
         {
             string SvSql = string.Empty;
@@ -111,6 +141,66 @@ namespace Arasan.Services.Production
         {
             string SvSql = string.Empty;
             SvSql = "select ITEMMASTER.ITEMID,PYITEMID,UNITMAST.UNITID, PYPRODCAPD,PYPRODQTY,PREBALQTY,it.ITEMID as item,PYADD1,PYADDPER,PYREQAP,ITEMMASTER.ITEMDESC from PRODFCPY INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCPY.PYITEMID LEFT OUTER JOIN ITEMMASTER it ON it.ITEMMASTERID=PRODFCPY.PYADD1 LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCPYID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetProdScheRVD(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PRODFCRVDID,RVDWCID,ITEMMASTER.ITEMID,RVDITEMID,RVDRAWQTY,UNITMAST.UNITID,PROCESSMAST.PROCESSID,WCBASIC.PROCESSID as process from PRODFCRVD INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCRVD.RVDITEMID  INNER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCRVD.RVDWCID LEFT OUTER JOIN PROCESSMAST  on PROCESSMAST.PROCESSMASTID=WCBASIC.PROCESSID LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCRVDID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetRVDInputDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PRODFCBASICID,ITEMMASTER.ITEMID,RVDRAWMATit.ITEMID as item,RVDITEMID,RVDRAWQTY,UNITMAST.UNITID,ITEMMASTER.ITEMDESC from PRODFCRVD INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCRVD.RVDRAWMAT LEFT OUTER JOIN ITEMMASTER it ON it.ITEMMASTERID=PRODFCRVD.RVDCONS LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCRVDID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetRVDOutputDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PRODFCBASICID,ITEMMASTER.ITEMID,RVDITEMID,RVDRAWQTY,UNITMAST.UNITID,ITEMMASTER.ITEMDESC from PRODFCRVD INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCRVD.RVDITEMID LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCRVDID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetProdSchePaste(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PAWCID,ITEMMASTER.ITEMID,PAITEMID,PAAPPOW,UNITMAST.UNITID,PROCESSMAST.PROCESSID,WCBASIC.PROCESSID as process from PRODFCPA INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCPA.PAITEMID  INNER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPA.PAWCID LEFT OUTER JOIN PROCESSMAST  on PROCESSMAST.PROCESSMASTID=WCBASIC.PROCESSID LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCPAID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPasteInputDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PRODFCBASICID,ITEMMASTER.ITEMID,PAADD1,PAITEMID,PAALLADDIT,PAAPPOW,UNITMAST.UNITID,ITEMMASTER.ITEMDESC from PRODFCPA INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCPA.PAADD1 LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCPAID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPasteOutputDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PRODFCBASICID,ITEMMASTER.ITEMID,PAITEMID,PAALLADDIT,PAAPPOW,UNITMAST.UNITID,ITEMMASTER.ITEMDESC from PRODFCPA INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCPA.PAITEMID LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCPAID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -228,11 +318,10 @@ namespace Arasan.Services.Production
                     objCmd.Parameters.Add("OPUNIT", OracleDbType.NVarchar2).Value = cy.Unit;
                     objCmd.Parameters.Add("OPQTY", OracleDbType.NVarchar2).Value = cy.Qty;
                     objCmd.Parameters.Add("EXPRUNHRS", OracleDbType.NVarchar2).Value = cy.Exprunhrs;
-                    objCmd.Parameters.Add("REFSCHNO", OracleDbType.NVarchar2).Value = cy.Refno;
-                    objCmd.Parameters.Add("AMDSCHNO", OracleDbType.NVarchar2).Value = cy.Amdno;
+                     
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
                     objCmd.Parameters.Add("PRODQTY", OracleDbType.NVarchar2).Value = cy.ProdQty;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                  
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -251,7 +340,7 @@ namespace Arasan.Services.Production
                             {
                                 foreach (ProductionScheduleItem cp in cy.PrsLst)
                                 {
-                                    if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                                    if (cp.Isvalid == "Y" && cp.saveItemId != null)
                                     {
                                         svSQL = "Insert into PSINPDETAIL (PSBASICID,RITEMID,RITEMDESC,RUNIT,IPER,RQTY) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + cp.Desc + "','" + cp.Unit + "','" + cp.Input + "','" + cp.Qty + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
@@ -266,7 +355,7 @@ namespace Arasan.Services.Production
                                 objCmdd.ExecuteNonQuery();
                                 foreach (ProductionScheduleItem cp in cy.PrsLst)
                                 {
-                                    if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                                    if (cp.Isvalid == "Y" && cp.saveItemId != null)
                                     {
                                         svSQL = "Insert into PSINPDETAIL (PSBASICID,RITEMID,RITEMDESC,RUNIT,IPER,RQTY) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + cp.Desc + "','" + cp.Unit + "','" + cp.Input + "','" + cp.Qty + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
@@ -285,7 +374,7 @@ namespace Arasan.Services.Production
                             {
                                 foreach (ProductionItem cp in cy.ProLst)
                                 {
-                                    if (cp.Isvalid == "Y" && cp.Item != "0")
+                                    if (cp.Isvalid == "Y" && cp.saveItemId != null)
                                     {
                                         svSQL = "Insert into PSOUTDETAIL (PSBASICID,OITEMID,OITEMDESC,OUNIT,OPER,ALPER,OTYPE,SCHQTY,PQTY) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + cp.Des + "','" + cp.Unit + "','" + cp.Output + "','" + cp.Alam + "','" + cp.OutputType + "','" + cp.Sch + "','" + cp.Produced + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
@@ -300,7 +389,7 @@ namespace Arasan.Services.Production
                                 objCmdd.ExecuteNonQuery();
                                 foreach (ProductionItem cp in cy.ProLst)
                                 {
-                                    if (cp.Isvalid == "Y" && cp.Item != "0")
+                                    if (cp.Isvalid == "Y" && cp.saveItemId != null)
                                     {
                                         svSQL = "Insert into PSOUTDETAIL (PSBASICID,OITEMID,OITEMDESC,OUNIT,OPER,ALPER,OTYPE,SCHQTY,PQTY) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + cp.Des + "','" + cp.Unit + "','" + cp.Output + "','" + cp.Alam + "','" + cp.OutputType + "','" + cp.Sch + "','" + cp.Produced + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
@@ -354,7 +443,7 @@ namespace Arasan.Services.Production
                                 int ro = 1;
                                 foreach (ProScItem cp in cy.ProscLst)
                                 {
-                                    if (cp.Isvalid == "Y" && cp.schdate != null)
+                                    if (cp.isvalid == "Y" && cp.schdate != null)
                                     {
                                         string item = cp.itemd;
                                         DateTime da =DateTime.Parse(cp.schdate);
@@ -376,9 +465,9 @@ namespace Arasan.Services.Production
                             {
                                 foreach (ProSchItem cp in cy.ProschedLst)
                                 {
-                                    if (cp.Isvalid == "Y" && cp.Pack != null)
+                                    if (cp.Isvalid == "Y" && cp.item != null)
                                     {
-                                        svSQL = "Insert into ProPackDetail (PSBASICID,PKITEMID,PKQTY) VALUES ('" + Pid + "','" + cp.Pack + "','" + cp.Qty + "')";
+                                        svSQL = "Insert into PSPACKDETAIL (PSBASICID,PKITEMID,PKQTY) VALUES ('" + Pid + "','" + cp.item + "','" + cp.Qty + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -387,23 +476,44 @@ namespace Arasan.Services.Production
                             }
                             else
                             {
-                                svSQL = "Delete ProPackDetail WHERE PSBASICID='" + cy.ID + "'";
+                                svSQL = "Delete PSPACKDETAIL WHERE PSBASICID='" + cy.ID + "'";
                                 OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
                                 objCmdd.ExecuteNonQuery();
                                 foreach (ProSchItem cp in cy.ProschedLst)
                                 {
                                     if (cp.Isvalid == "Y" && cp.Pack != null)
                                     {
-                                        svSQL = "Insert into ProPackDetail (PSBASICID,PKITEMID,PKQTY) VALUES ('" + Pid + "','" + cp.Pack + "','" + cp.Qty + "')";
+                                        svSQL = "Insert into PSPACKDETAIL (PSBASICID,PKITEMID,PKQTY) VALUES ('" + Pid + "','" + cp.Pack + "','" + cp.Qty + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
                                     }
                                 }
                             }
-                            svSQL = "UPDATE PRODFCPY SET SCHEDULE='Y' WHERE PRODFCPYID='"+cy.detid+"'";
-                            OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
-                            objCmdss.ExecuteNonQuery();
+                            if (cy.ttype == "Pyro")
+                            {
+                                svSQL = "UPDATE PRODFCPY SET SCHEDULE='Y' WHERE PRODFCPYID='" + cy.detid + "'";
+                                OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                objCmdss.ExecuteNonQuery();
+                            }
+                            if (cy.ttype == "Polish")
+                            {
+                                svSQL = "UPDATE PRODFCPIG SET SCHEDULE='Y' WHERE PRODFCPIGID='" + cy.detid + "'";
+                                OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                objCmdss.ExecuteNonQuery();
+                            }
+                            if (cy.ttype == "RVD")
+                            {
+                                svSQL = "UPDATE PRODFCRVD SET SCHEDULE='Y' WHERE PRODFCRVDID='" + cy.detid + "'";
+                                OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                objCmdss.ExecuteNonQuery();
+                            }
+                            if (cy.ttype == "Paste")
+                            {
+                                svSQL = "UPDATE PRODFCPA SET SCHEDULE='Y' WHERE PRODFCPAID='" + cy.detid + "'";
+                                OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                objCmdss.ExecuteNonQuery();
+                            }
                         }
                     }
                     
@@ -479,6 +589,23 @@ namespace Arasan.Services.Production
         {
             string SvSql = string.Empty;
             SvSql = "select UNITMAST.UNITID,ITEMID,ITEMDESC,UNITMAST.UNITMASTID,LATPURPRICE,ITEMMASTERPUNIT.CF,ITEMMASTER.LATPURPRICE from ITEMMASTER LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID LEFT OUTER JOIN ITEMMASTERPUNIT ON  ITEMMASTER.ITEMMASTERID=ITEMMASTERPUNIT.ITEMMASTERID Where ITEMMASTER.ITEMMASTERID='" + ItemId + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAllProdSch(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select BRANCHMAST.BRANCHID,ITEMMASTER.ITEMID,DOCID,to_char(PSBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PROCESSMAST.PROCESSID,WCBASIC.WCID,PSBASICID,PSBASIC.STATUS from PSBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PSBASIC.BRANCHID LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=PSBASIC.OPITEMID  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=PSBASIC.PROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=PSBASIC.WCID WHERE PSBASIC.IS_ACTIVE='Y' ORDER BY PSBASICID DESC ";
+            }
+            else
+            {
+                SvSql = "Select BRANCHMAST.BRANCHID,DOCID,to_char(PSBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PROCESSMAST.PROCESSID,WCBASIC.WCID,PSBASICID,PSBASIC.STATUS from PSBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PSBASIC.BRANCHID  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=PSBASIC.PROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=PSBASIC.WCID WHERE PSBASIC.IS_ACTIVE='N' ORDER BY PSBASICID DESC ";
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -561,6 +688,16 @@ namespace Arasan.Services.Production
         {
             string SvSql = string.Empty;
             SvSql = "select PSBASICID,ITEMMASTER.ITEMID ,OITEMDESC,OUNIT,OPER,ALPER,OTYPE,SCHQTY,PQTY from PSOUTDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=PSOUTDETAIL.OITEMID where PSBASICID='" + PROID + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPackItem(string value)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT distinct I.ITEMID,pb.OITEMID PACKMAT FROM itemmaster im,wcbasic wc, packconsdetail pc,packbasic pb,ITEMMASTER I WHERE pb.WCID=wc.WCBASICID AND pb.OITEMID=im.ITEMMASTERID AND PC.CITEMID=I.ITEMMASTERID AND im.ITEMID='" + value +"' AND pb.PACKBASICID=pc.PACKBASICID   ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

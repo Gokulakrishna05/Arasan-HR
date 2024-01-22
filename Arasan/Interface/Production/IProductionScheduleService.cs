@@ -18,6 +18,8 @@ namespace Arasan.Interface.Production
         DataTable GetItemSubGrp();
         IEnumerable<ProductionSchedule> GetProductionSchedule();
         DataTable GetProdSche(string id);
+        DataTable GetAllProdSch(string id);
+        DataTable GetPackItem(string id);
         DataTable GetProdScheInputDetail(string id);
         DataTable GetProdScheOutputDetail(string id);
         DataTable GetProductionScheduleDetail(string id);
@@ -25,6 +27,15 @@ namespace Arasan.Interface.Production
         DataTable GetProductionScheduleParametersDetail(string id);
         DataTable GetOutputDetailsDayWiseDetail(string id);
         DataTable GetPackDetail(string id);
+        DataTable GetProdSchePolish(string id);
+        DataTable GetPolishInputDetail(string id);
+        DataTable GetPolishOutputDetail(string id);
+        DataTable GetProdScheRVD(string id);
+        DataTable GetRVDInputDetail(string id);
+        DataTable GetRVDOutputDetail(string id);
+        DataTable GetProdSchePaste(string id);
+        DataTable GetPasteInputDetail(string id);
+        DataTable GetPasteOutputDetail(string id);
         DataTable GetProcess();
         DataTable EditProSche(string id);
         DataTable ProIndetail(string id);

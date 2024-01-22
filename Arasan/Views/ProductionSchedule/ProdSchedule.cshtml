@@ -62,6 +62,8 @@
                                             @Html.HiddenFor(C => C.WorkCenterid)
                                             @Html.HiddenFor(C => C.Processid)
                                             @Html.HiddenFor(C => C.saveitemid)
+                                            @Html.HiddenFor(C => C.detid)
+                                            @Html.HiddenFor(C => C.ttype)
                                         </div>
                                     </div>
                                 </div>
@@ -359,6 +361,7 @@
                                                                             </td>
                                                                             <td>
                                                                             @Html.DisplayFor(o => o.PrsLst[i].Qty)
+                                                                            @Html.HiddenFor(o => o.PrsLst[i].Isvalid)
                                                                                 @Html.HiddenFor(o => o.PrsLst[i].Qty, new { @id = "txtQty" + i, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                             </td>
 
@@ -451,6 +454,7 @@
                                                                             </td>
                                                                             <td>
                                                                              @Html.DisplayFor(o => o.ProLst[j].Produced)
+                                                                             @Html.HiddenFor(o => o.ProLst[j].Isvalid)
                                                                                 @Html.HiddenFor(o => o.ProLst[j].Produced, new { @id = "txtProduced" + j, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                             </td>
 
@@ -597,6 +601,7 @@
                                                                             <td>
                                                                                  @Html.TextBoxFor(o => o.ProscLst[a].itemd,new { @class = "form-control _select newcss", @id = "ddlItem1" + a, style = "width: 170px;" })
                                                                                 @Html.HiddenFor(o => o.ProscLst[a].saveItemId)
+                                                                                @Html.HiddenFor(o => o.ProscLst[a].isvalid)
                                                                             </td>
                                                                             <td>
                                                                                 @Html.TextBoxFor(o => o.ProscLst[a].qty, new { @id = "txtQty" + a, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
@@ -657,7 +662,7 @@
 
 
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.ProschedLst[k].Pack, new { @id = "txtPack" + k, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                                                @Html.DropDownListFor(o => o.ProschedLst[k].item,Model.ProschedLst[k].Itemlst, new { @id = "txtPack" + k, @class = "form-control _select", style = "width: 220px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                             </td>
                                                                             <td>
                                                                                 @Html.TextBoxFor(o => o.ProschedLst[k].Qty, new { @id = "txtQty" + k, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
@@ -892,7 +897,9 @@
              })
          }
         function AddRow1() {
+            var i=0;
              var opt = "";
+             document.getElementById("txtOutput"+i).value =0;
              $.ajax({
                  type: "POST",
                  url: 'GetItemGrp1JSON',
@@ -1747,8 +1754,8 @@ function changeDaywiseoutput() {
                      var index = $("#tbBooks3").children("tr").length;
                               var shdate = "<td><input class='form-control' id='txtSchDate" + index + "' name='ProscLst[" + index + "].Schdate'  style='width: 250px;' type='text'  readonly='True'  value=" + item.schdate + "  /></td>";
                         var hrs = "<td><input class='form-control' id='txtHrs" + index + "' name='ProscLst[" + index + "].hrs'  style='width: 100px;' type='text'   value=" + item.hrs + " /></td>";
-                              var oitem = "<td><input class='form-control' id='ddlItem1" + index + "' name='ProscLst[" + index + "].itemd'  style='width: 100px;' type='text'  value=" + item.itemd + " /></td>";
-                     var oqty = "<td><input class='form-control' id='txtqty" + index + "' name='ProscLst[" + index + "].qty'  style='width: 100px;' type='text'  value=" + item.qty + " /></td>";
+                              var oitem = "<td><lable>" + item.itemd + "</lable><input class='form-control' id='ddlItem1" + index + "' name='ProscLst[" + index + "].itemd'  style='width: 100px;' type='hidden'  value=" + item.itemd + " /></td>";
+                     var oqty = "<td><input class='form-control' id='txtqty" + index + "' name='ProscLst[" + index + "].qty'  style='width: 100px;' type='text'  value=" + item.qty + " /> <input class='form-control' id='txtisvalid" + index + "' name='ProscLst[" + index + "].isvalid'  style='width: 100px;' type='hidden'  value=" + item.isvalid + " /></td>";
                       var newRow = "<tr class='chkOutputitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookOutput" + index + "'>" + shdate + hrs + oitem + oqty + "</tr>";
                       $("#tbBooks3").append(newRow);
                   
