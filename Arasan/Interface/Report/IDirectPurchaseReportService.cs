@@ -7,7 +7,7 @@ namespace Arasan.Interface.Report
 {
     public interface IDirectPurchaseReportService
     {
-        DataTable GetAllDPReport(string dtFrom, string dtTo, string Branch, string Item, string Customer);
+        DataTable GetAllDPReport(string dtFrom, string dtTo, string Branch,string Customer, string Item);
         DataTable GetItem(string id);
     }
 }

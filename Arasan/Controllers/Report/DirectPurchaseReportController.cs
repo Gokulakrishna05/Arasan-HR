@@ -7,6 +7,8 @@ using Arasan.Services.Report;
 //using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
+using ClosedXML.Excel;
+using Oracle.ManagedDataAccess.Client;
 
 namespace Arasan.Controllers.Report
 {
@@ -122,19 +124,19 @@ namespace Arasan.Controllers.Report
             return Json(BindItemlst(itemid));
 
         }
-        public ActionResult MyListDirectPurchaseReportGrid(string dtFrom, string dtTo, string Branch, string Item, string Customer)
+        public ActionResult MyListDirectPurchaseReportGrid(string dtFrom, string dtTo, string Branch, string Customer, string Item)
         {
             List<DirectPurchaseReportItems> Reg = new List<DirectPurchaseReportItems>();
             DataTable dtUsers = new DataTable();
 
-            dtUsers = (DataTable)DirectPurchaseReportService.GetAllDPReport(dtFrom, dtTo, Branch, Item, Customer);
+            dtUsers = (DataTable)DirectPurchaseReportService.GetAllDPReport(dtFrom, dtTo, Branch, Customer, Item);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 
 
                 Reg.Add(new DirectPurchaseReportItems
                 {
-                    id = Convert.ToInt64(dtUsers.Rows[i]["DPBASICID"].ToString()),
+                   
                     branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     docNo = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
@@ -158,6 +160,82 @@ namespace Arasan.Controllers.Report
                 Reg
             });
 
+        }
+        public IActionResult ExportToExcel(string dtFrom, string dtTo, string Branch, string Customer, string Item)
+        {
+            DataTransactions _datatransactions;
+            DataTable dtNew = new DataTable();
+
+            string SvSql = "SELECT A.DOCID,to_char(A.DOCDATE,'dd-MON-yyyy')DOCDATE,C.BRANCHID,L.LOCID,P.PARTYID,I.ITEMID,U.UNITID,B.QTY,B.PRIQTY,B.RATE,B.AMOUNT,B.BRATE,B.BAMOUNT,IFREIGHTCH FREIGHT,IPKNFDCH PKNFD,IDELCH DELCH,ICSTCH ,ILRCH LORRY,-ISPLDISCF IsplD,IOTHERCH OTHER,B.COSTRATE , A.RefNo , A.RefDt,To_char(A.Docdate,'MON') Mon FROM DPBASIC A,DPDETAIL B,BRANCHMAST C,LOCDETAILS L,PARTYMAST P,ITEMMASTER I,UNITMAST U,ITEMGROUP P,ITEMSUBGROUP B WHERE A.CANCEL <> 'T'AND A.DPBASICID=B.DPBASICID AND C.BRANCHMASTID=A.BRANCHID AND  L.LOCDETAILSID =A.LOCID AND P.PARTYMASTID=A.PARTYID AND I.ITEMMASTERID=B.ITEMID  AND P.ITEMGROUPID=B.ITEMGROUPID AND I.SUBGROUPCODE=B.ITEMSUBGROUPID AND U.UNITMASTID=B.UNIT";
+            if (dtFrom != null && dtTo != null)
+            {
+                SvSql += " and A.DOCDATE BETWEEN '" + dtFrom + "' AND '" + dtTo + "'";
+            }
+            else
+            {
+                SvSql += "";
+            }
+            if (Branch != null)
+            {
+                SvSql += " and C.BRANCHID='" + Branch + "'";
+            }
+            else
+            {
+                SvSql += "";
+            }
+            if (Customer != null)
+            {
+                SvSql += " and P.PARTYID='" + Customer + "'";
+            }
+            else
+            {
+                SvSql += "";
+            }
+            if (Item != null)
+            {
+                SvSql += " and I.ITEMID='" + Item + "'";
+            }
+            else
+            {
+                SvSql += "";
+            }
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            using (DataTable dtReport = new DataTable())
+            {
+                adapter.Fill(dtReport);
+
+                DataView dv1 = dtReport.DefaultView;
+                // dv1.RowFilter = " TotalOutstandingAmount > 0 AND  OutstandingPrinciple > 0  ";
+
+                dtNew = dv1.ToTable();
+                using (XLWorkbook wb = new XLWorkbook())
+                {
+                    wb.Worksheets.Add(dtNew, "LandedCostDetails");
+
+
+                    using (MemoryStream MyMemoryStream = new MemoryStream())
+                    {
+                        Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                        Response.Headers.Add("content-disposition", "attachment;  filename=LandedCostDetails.xlsx");
+                        wb.SaveAs(MyMemoryStream);
+                        //MyMemoryStream.WriteTo(Response.OutputStream);
+                        //Response.Flush();
+                        //Response.End();
+                        //wb.SaveAs(MyMemoryStream);
+                        return File(MyMemoryStream.ToArray(), "application/ms-excel", "LandedCostDetails.xlsx");
+                    }
+                }
+
+                //OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+                //DataTable dtReport = new DataTable();
+                //adapter.Fill(dtReport);
+                //return dtReport;}
+            }
+
+        }
+        private IActionResult File(object excelData, string v)
+        {
+            throw new NotImplementedException();
         }
     }
 }
