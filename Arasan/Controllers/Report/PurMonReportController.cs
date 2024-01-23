@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Arasan.Interface;
 using Arasan.Interface.Report;
 using Arasan.Models;
@@ -7,7 +8,9 @@ using Arasan.Services.Report;
 //using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
-
+using System.Data.SqlClient;
+using ClosedXML.Excel;
+using Oracle.ManagedDataAccess.Client;
 
 namespace Arasan.Controllers
 {
@@ -76,12 +79,12 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public ActionResult MyListPurMonReportGrid(string SFINYR ,string Sdate, string Edate)
+        public ActionResult MyListPurMonReportGrid(string SFINYR /*,string Sdate, string Edate*/)
         {
             List<PurMonReportItem> Reg = new List<PurMonReportItem>();
             DataTable dtUsers = new DataTable();
 
-            dtUsers = (DataTable)PurMonReportService.GetAllReport(SFINYR,Sdate, Edate);
+            dtUsers = (DataTable)PurMonReportService.GetAllReport(SFINYR/*,Sdate, Edate*/);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
                 Reg.Add(new PurMonReportItem 
@@ -114,7 +117,56 @@ namespace Arasan.Controllers
         }
 
 
+        public ActionResult ExportLeadProReport(string SFINYR)
+        {
+            //_connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+
+
+            DataTransactions datatrans;
+
+            DataTable dtNew = new DataTable();
+
+
+            string SvSql = " Select P.PartyID , I.ItemID , U.UnitID , Sum(Decode(To_Char(Db.DocDate,'MON'),'APR',Dd.PriQty)) Apr, Sum(Decode(To_Char(Db.DocDate,'MON'),'MAY',Dd.PriQty)) May , Sum(Decode(To_Char(Db.DocDate,'MON'),'JUN',Dd.PriQty)) Jun , Sum(Decode(To_Char(Db.DocDate,'MON'),'JUL',Dd.PriQty)) Jul , Sum(Decode(To_Char(Db.DocDate,'MON'),'AUG',Dd.PriQty)) Aug , Sum(Decode(To_Char(Db.DocDate,'MON'),'SEP',Dd.PriQty)) Sep , Sum(Decode(To_Char(Db.DocDate,'MON'),'OCT',Dd.PriQty)) Oct , Sum(Decode(To_Char(Db.DocDate,'MON'),'NOV',Dd.PriQty)) Nov , Sum(Decode(To_Char(Db.DocDate,'MON'),'DEC',Dd.PriQty)) Dec, Sum(Decode(To_Char(Db.DocDate,'MON'),'JAN',Dd.PriQty)) Jan , Sum(Decode(To_Char(Db.DocDate,'MON'),'FEB',Dd.PriQty)) Feb , Sum(Decode(To_Char(Db.DocDate,'MON'),'MAR',Dd.PriQty)) Mar From DPBasic Db , DPDetail Dd , PartyMast P , ItemMaster I , UnitMast U , finyrsplit f Where Db.DPBasicID = Dd.DPBasicID And Db.PartyID = P.PartyMastID And Dd.ItemID = I.ItemMasterID And  Dd.Unit = U.UnitMastID And f.sfinyr = '" + SFINYR + "'  And Db.DocDate Between f.SFinyrst And f.SFinyred Group By  P.PartyID , I.ItemID , U.UnitID Union Select P.PartyID , I.ItemID , U.UnitID , Sum(Decode(To_Char(Db.DocDate,'MON'),'APR',Dd.PriQty)) Apr, Sum(Decode(To_Char(Db.DocDate,'MON'),'MAY',Dd.PriQty)) May , Sum(Decode(To_Char(Db.DocDate,'MON'),'JUN',Dd.PriQty)) Jun , Sum(Decode(To_Char(Db.DocDate,'MON'),'JUL',Dd.PriQty)) Jul , Sum(Decode(To_Char(Db.DocDate,'MON'),'AUG',Dd.PriQty)) Aug , Sum(Decode(To_Char(Db.DocDate,'MON'),'SEP',Dd.PriQty)) Sep, Sum(Decode(To_Char(Db.DocDate,'MON'),'OCT',Dd.PriQty)) Oct , Sum(Decode(To_Char(Db.DocDate,'MON'),'NOV',Dd.PriQty)) Nov , Sum(Decode(To_Char(Db.DocDate,'MON'),'DEC',Dd.PriQty)) Dec , Sum(Decode(To_Char(Db.DocDate,'MON'),'JAN',Dd.PriQty)) Jan, Sum(Decode(To_Char(Db.DocDate,'MON'),'FEB',Dd.PriQty)) Feb  , Sum(Decode(To_Char(Db.DocDate,'MON'),'MAR',Dd.PriQty)) Mar From grnBLbasic Db , grnBLdetail Dd , PartyMast P , ItemMaster I , UnitMast U , finyrsplit f Where Db.grnBLbasicID = Dd.grnBLbasicID And Db.PartyID = P.PartyMastID And Dd.ItemID = I.ItemMasterID And U.UnitMastID = I.PriUnit And f.sfinyr = '" + SFINYR + "'  And Db.DocDate Between f.SFinyrst And f.SFinyred Group By   P.PartyID , I.ItemID , U.UnitID Union Select P.PartyID , I.ItemID , U.UnitID , Sum(Decode(To_Char(Db.DocDate,'MON'),'APR',Dd.PriQty)) Apr , Sum(Decode(To_Char(Db.DocDate,'MON'),'MAY',Dd.PriQty)) May, Sum(Decode(To_Char(Db.DocDate,'MON'),'JUN',Dd.PriQty)) Jun , Sum(Decode(To_Char(Db.DocDate,'MON'),'JUL',Dd.PriQty)) Jul , Sum(Decode(To_Char(Db.DocDate,'MON'),'AUG',Dd.PriQty)) Aug , Sum(Decode(To_Char(Db.DocDate,'MON'),'SEP',Dd.PriQty)) Sep , Sum(Decode(To_Char(Db.DocDate,'MON'),'OCT',Dd.PriQty)) Oct , Sum(Decode(To_Char(Db.DocDate,'MON'),'NOV',Dd.PriQty)) Nov , Sum(Decode(To_Char(Db.DocDate,'MON'),'DEC',Dd.PriQty)) Dec , Sum(Decode(To_Char(Db.DocDate,'MON'),'JAN',Dd.PriQty)) Jan , Sum(Decode(To_Char(Db.DocDate,'MON'),'FEB',Dd.PriQty)) Feb , Sum(Decode(To_Char(Db.DocDate,'MON'),'MAR',Dd.PriQty)) Mar From igrnbasic Db , igrndetail Dd , PartyMast P , ItemMaster I , UnitMast U   , finyrsplit f Where Db.igrnbasicID = Dd.igrnbasicID And Db.PartyID = P.PartyMastID And Dd.ItemmasterID = I.ItemMasterID And U.UnitMastID = I.PriUnit And f.sfinyr = '" + SFINYR + "' And Db.DocDate Between f.SFinyrst And f.SFinyred Group By  P.PartyID , I.ItemID , U.UnitID Order By 2 , 1";
+
+
+            OracleDataAdapter dat = new OracleDataAdapter(SvSql, _connectionString);
+
+            using (DataTable dt = new DataTable()) 
+            {
+                dat.Fill(dt);
+
+                DataView dv1 = dt.DefaultView;
+                // dv1.RowFilter = " TotalOutstandingAmount > 0 AND  OutstandingPrinciple > 0  ";
+
+                dtNew = dv1.ToTable();
+                using (XLWorkbook wb = new XLWorkbook()) 
+                {
+                    wb.Worksheets.Add(dtNew, "MonthwiseReport");
+
+                    using (MemoryStream MyMemoryStream = new MemoryStream())
+                    {
+                        Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                        Response.Headers.Add("content-disposition", "attachment;  filename=CallsProReport.xlsx");
+                        wb.SaveAs(MyMemoryStream);
+                        //MyMemoryStream.WriteTo(Response.OutputStream);
+                        //Response.Flush();
+                        //Response.End();
+                        //wb.SaveAs(MyMemoryStream);
+                        return File(MyMemoryStream.ToArray(), "application/ms-excel", "MonthwiseReport.xlsx");
+                    }
+                }
+            }
+
+        }
+
+
+
+
+
+
     }
+
 }
 
 
