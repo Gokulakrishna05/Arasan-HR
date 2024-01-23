@@ -27,7 +27,9 @@ namespace Arasan.Models
         public List<SelectListItem> Worklst;
         public string WorkCenter { get; set; }
         public string detid { get; set; }
+        public string ttype { get; set; }
         public string WorkCenterid { get; set; }
+        public string Days { get; set; }
 
         public List<SelectListItem> Processlst;
         public string Process { get; set; }
@@ -40,6 +42,7 @@ namespace Arasan.Models
         public string Type { get; set; }
         public string DocId { get; set; }
         public string Docdate { get; set; }
+        public string ddlStatus { get; set; }
         public string startdate { get; set; }
         public string enddate { get; set; }
         public string Schdate { get; set; }
@@ -128,15 +131,34 @@ namespace Arasan.Models
 
         public double qty { get; set; }
         public string Change { get; set; }
-        public string Isvalid { get; set; }
+        public string isvalid { get; set; }
 
     }
     public class ProSchItem
     {
         public string ID { get; set; }
         public string Isvalid { get; set; }
+        public string item { get; set; }
         public string Pack { get; set; }
+
+        public List<SelectListItem> Itemlst { get; set; }
         public string Qty { get; set; }
 
+    }
+
+    public class ProdSchItem
+    {
+        public long id { get; set; }
+        public string doc { get; set; }
+        public string work { get; set; }
+        public string item { get; set; }
+        public string docDate { get; set; }
+       
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        public string move { get; set; }
+        public string Accrow { get; set; }
+        //public string Status { get; set; }
+        //public string Account { get; set; }
     }
 }

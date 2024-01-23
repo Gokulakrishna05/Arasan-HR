@@ -101,6 +101,7 @@ namespace Arasan.Models
 
         public string ID { get; set; }
         public string itemid { get; set; }
+        public string SchYN { get; set; }
         public string saveitemid { get; set; }
         public List<SelectListItem> PYItemlst { get; set; }
 
@@ -112,6 +113,7 @@ namespace Arasan.Models
         public string CDays { get; set; }
         public string minstock { get; set; }
         public string pasterej { get; set; }
+        public string status { get; set; }
         public string GradeChange { get; set; }
         public string rejqty { get; set; }
         public string required { get; set; }
@@ -140,6 +142,8 @@ namespace Arasan.Models
         public string ID { get; set; }
         public string itemid { get; set; }
         public string saveitemid { get; set; }
+        public string SchYN { get; set; }
+        public string status { get; set; }
         public List<SelectListItem> POItemlst { get; set; }
         public string workid { get; set; }
         public List<SelectListItem> POWorklst { get; set; }
@@ -181,6 +185,8 @@ namespace Arasan.Models
         public List<SelectListItem> POItemlst { get; set; }
         public string workid { get; set; }
         public string detid { get; set; }
+        public string SchYN { get; set; }
+        public string status { get; set; }
         public string saveitemid { get; set; }
         public List<SelectListItem> POWorklst { get; set; }
         public string Isvalid { get; set; }
@@ -208,6 +214,8 @@ namespace Arasan.Models
         public string detid { get; set; }
       
         public string saveitemid { get; set; }
+        public string status { get; set; }
+        public string SchYN { get; set; }
         public List<SelectListItem> PYItemlst { get; set; }
 
         public string WorkId { get; set; }
@@ -343,8 +351,8 @@ namespace Arasan.Models
         public string appastevalue { get; set; }
         public string apfgapsvalue { get; set; }
         public string Isvalid { get; set; }
-    
 
+        public string ingotstock { get; set; }
     }
     public class PyroItemArray
     {
