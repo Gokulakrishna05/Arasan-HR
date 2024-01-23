@@ -100,7 +100,7 @@ namespace Arasan.Services.Production
         public DataTable GetProdSchePolish(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PRODFCPIGID,PIGWCID,ITEMMASTER.ITEMID,PIGITEMID,PIGRAWREQPY,UNITMAST.UNITID,PROCESSMAST.PROCESSID,WCBASIC.PROCESSID as process from PRODFCPIG INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCPIG.PIGITEMID  INNER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPIG.PIGWCID LEFT OUTER JOIN PROCESSMAST  on PROCESSMAST.PROCESSMASTID=WCBASIC.PROCESSID LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCPIGID='" + id + "' ";
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PRODFCPIGID,PIGWCID,PIGPRODD,ITEMMASTER.ITEMID,PIGITEMID,PIGRAWREQPY,UNITMAST.UNITID,PROCESSMAST.PROCESSID,WCBASIC.PROCESSID as process from PRODFCPIG INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCPIG.PIGITEMID  INNER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPIG.PIGWCID LEFT OUTER JOIN PROCESSMAST  on PROCESSMAST.PROCESSMASTID=WCBASIC.PROCESSID LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCPIGID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -150,7 +150,7 @@ namespace Arasan.Services.Production
         public DataTable GetProdScheRVD(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PRODFCRVDID,RVDWCID,ITEMMASTER.ITEMID,RVDITEMID,RVDRAWQTY,UNITMAST.UNITID,PROCESSMAST.PROCESSID,WCBASIC.PROCESSID as process from PRODFCRVD INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCRVD.RVDITEMID  INNER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCRVD.RVDWCID LEFT OUTER JOIN PROCESSMAST  on PROCESSMAST.PROCESSMASTID=WCBASIC.PROCESSID LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCRVDID='" + id + "' ";
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PRODFCRVDID,RVDWCID,RVDPRODD,ITEMMASTER.ITEMID,RVDITEMID,RVDRAWQTY,UNITMAST.UNITID,PROCESSMAST.PROCESSID,WCBASIC.PROCESSID as process from PRODFCRVD INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCRVD.RVDITEMID  INNER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCRVD.RVDWCID LEFT OUTER JOIN PROCESSMAST  on PROCESSMAST.PROCESSMASTID=WCBASIC.PROCESSID LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCRVDID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -180,7 +180,7 @@ namespace Arasan.Services.Production
         public DataTable GetProdSchePaste(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PAWCID,ITEMMASTER.ITEMID,PAITEMID,PAAPPOW,UNITMAST.UNITID,PROCESSMAST.PROCESSID,WCBASIC.PROCESSID as process from PRODFCPA INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCPA.PAITEMID  INNER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPA.PAWCID LEFT OUTER JOIN PROCESSMAST  on PROCESSMAST.PROCESSMASTID=WCBASIC.PROCESSID LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCPAID='" + id + "' ";
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,PAWCID,ITEMMASTER.ITEMID,PAITEMID,PAPRODD,PAAPPOW,UNITMAST.UNITID,PROCESSMAST.PROCESSID,WCBASIC.PROCESSID as process from PRODFCPA INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCPA.PAITEMID  INNER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCPA.PAWCID LEFT OUTER JOIN PROCESSMAST  on PROCESSMAST.PROCESSMASTID=WCBASIC.PROCESSID LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCPAID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -321,6 +321,10 @@ namespace Arasan.Services.Production
                      
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
                     objCmd.Parameters.Add("PRODQTY", OracleDbType.NVarchar2).Value = cy.ProdQty;
+                    objCmd.Parameters.Add("FROMDATE", OracleDbType.NVarchar2).Value = cy.startdate;
+                    objCmd.Parameters.Add("TODATE", OracleDbType.NVarchar2).Value = cy.enddate;
+                    objCmd.Parameters.Add("FORDETID", OracleDbType.NVarchar2).Value = cy.detid;
+                    objCmd.Parameters.Add("FORTYPE", OracleDbType.NVarchar2).Value = cy.ttype;
                   
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -342,7 +346,7 @@ namespace Arasan.Services.Production
                                 {
                                     if (cp.Isvalid == "Y" && cp.saveItemId != null)
                                     {
-                                        svSQL = "Insert into PSINPDETAIL (PSBASICID,RITEMID,RITEMDESC,RUNIT,IPER,RQTY) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + cp.Desc + "','" + cp.Unit + "','" + cp.Input + "','" + cp.Qty + "')";
+                                        svSQL = "Insert into PSINPDETAIL (PSBASICID,RITEMID,RITEMDESC,RUNIT,IPER,RQTY,FORDETID) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + cp.Desc + "','" + cp.Unit + "','" + cp.Input + "','" + cp.Qty + "','"+cy.detid+"')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                     }
@@ -448,8 +452,8 @@ namespace Arasan.Services.Production
                                         string item = cp.itemd;
                                         DateTime da =DateTime.Parse(cp.schdate);
                                       
-                                        string uniq = string.Format("{0}----{1}", item, da.ToString("dd/MM/yy"));
-                                        svSQL = "Insert into PSOUTDAYDETAIL (PSBASICID,ODDATE,ODRUNHRS,ODITEMID,ODQTY,UNIQUEDO,PSOUTDAYDETAILROW) VALUES ('" + Pid + "','" + cp.schdate + "','" + cp.hrs + "','" + cy.saveitemid + "','" + cp.qty + "','"+ uniq+"','"+ ro +"')";
+                                        string uniq = string.Format("{0}----{1}",  da.ToString("dd/MM/yyyy"),item);
+                                        svSQL = "Insert into PSOUTDAYDETAIL (PSBASICID,ODDATE,ODRUNHRS,ODITEMID,ODQTY,UNIQUEDO,PSOUTDAYDETAILROW,SOFARRUNHRS,BALHRS,NOOFCHARGE) VALUES ('" + Pid + "','" + cp.schdate + "','" + cp.hrs + "','" + cy.saveitemid + "','" + cp.qty + "','"+ uniq+"','"+ ro +"','0','0','0')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                     }
@@ -492,27 +496,87 @@ namespace Arasan.Services.Production
                             }
                             if (cy.ttype == "Pyro")
                             {
-                                svSQL = "UPDATE PRODFCPY SET SCHEDULE='Y' WHERE PRODFCPYID='" + cy.detid + "'";
-                                OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
-                                objCmdss.ExecuteNonQuery();
+                                DateTime start = DateTime.Parse(cy.startdate);
+                                DateTime end = DateTime.Parse(cy.enddate);
+
+                                TimeSpan difference = end - start;
+                                int daysAgo = (int)difference.TotalDays;
+                                string ago = daysAgo.ToString();
+                                if (cy.Days == ago)
+                                {
+                                    svSQL = "UPDATE PRODFCPY SET SCHEDULE='Y',STATUS='Complete' WHERE PRODFCPYID='" + cy.detid + "'";
+                                    OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                    objCmdss.ExecuteNonQuery();
+                                }
+                                else
+                                {
+                                    svSQL = "UPDATE PRODFCPY SET  STATUS='Pending' WHERE PRODFCPYID='" + cy.detid + "'";
+                                    OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                    objCmdss.ExecuteNonQuery();
+                                }
                             }
                             if (cy.ttype == "Polish")
                             {
-                                svSQL = "UPDATE PRODFCPIG SET SCHEDULE='Y' WHERE PRODFCPIGID='" + cy.detid + "'";
-                                OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
-                                objCmdss.ExecuteNonQuery();
+                                DateTime start = DateTime.Parse(cy.startdate);
+                                DateTime end = DateTime.Parse(cy.enddate);
+
+                                TimeSpan difference = end - start;
+                                int daysAgo = (int)difference.TotalDays;
+                                string ago = daysAgo.ToString();
+                                if (cy.Days == ago)
+                                {
+                                    svSQL = "UPDATE PRODFCPIG SET SCHEDULE='Y',STATUS='Complete' WHERE PRODFCPIGID='" + cy.detid + "'";
+                                    OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                    objCmdss.ExecuteNonQuery();
+                                }
+                                else
+                                {
+                                    svSQL = "UPDATE PRODFCPIG SET  STATUS='Pending' WHERE PRODFCPIGID='" + cy.detid + "'";
+                                    OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                    objCmdss.ExecuteNonQuery();
+                                }
                             }
                             if (cy.ttype == "RVD")
                             {
-                                svSQL = "UPDATE PRODFCRVD SET SCHEDULE='Y' WHERE PRODFCRVDID='" + cy.detid + "'";
-                                OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
-                                objCmdss.ExecuteNonQuery();
+                                DateTime start = DateTime.Parse(cy.startdate);
+                                DateTime end = DateTime.Parse(cy.enddate);
+
+                                TimeSpan difference = end - start;
+                                int daysAgo = (int)difference.TotalDays;
+                                string ago = daysAgo.ToString();
+                                if (cy.Days == ago)
+                                {
+                                    svSQL = "UPDATE PRODFCRVD SET SCHEDULE='Y',STATUS='Complete' WHERE PRODFCRVDID='" + cy.detid + "'";
+                                    OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                    objCmdss.ExecuteNonQuery();
+                                }
+                                else
+                                {
+                                    svSQL = "UPDATE PRODFCRVD SET STATUS='Pending' WHERE PRODFCRVDID='" + cy.detid + "'";
+                                    OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                    objCmdss.ExecuteNonQuery();
+                                }
                             }
                             if (cy.ttype == "Paste")
                             {
-                                svSQL = "UPDATE PRODFCPA SET SCHEDULE='Y' WHERE PRODFCPAID='" + cy.detid + "'";
-                                OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
-                                objCmdss.ExecuteNonQuery();
+                                DateTime start = DateTime.Parse(cy.startdate);
+                                DateTime end = DateTime.Parse(cy.enddate);
+
+                                TimeSpan difference = end - start;
+                                int daysAgo = (int)difference.TotalDays;
+                                string ago = daysAgo.ToString();
+                                if (cy.Days == ago)
+                                {
+                                    svSQL = "UPDATE PRODFCPA SET SCHEDULE='Y',STATUS='Complete' WHERE PRODFCPAID='" + cy.detid + "'";
+                                    OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                    objCmdss.ExecuteNonQuery();
+                                }
+                                else
+                                {
+                                    svSQL = "UPDATE PRODFCPA SET  STATUS='Pending' WHERE PRODFCPAID='" + cy.detid + "'";
+                                    OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                    objCmdss.ExecuteNonQuery();
+                                }
                             }
                         }
                     }

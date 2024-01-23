@@ -368,7 +368,7 @@
                                                                                     <th>Additive 1 </th>
                                                                                      
                                                                                     <th>Req Ap Powder </th>
-                                                                                    
+                                                                                    <th>Status  </th>
                                                                                     <th>  </th>
 
                                                                                 </tr>
@@ -414,9 +414,12 @@
                                                                                             <td>
                                                                                                 @Html.DisplayFor(o => o.PFCPYROILst[k].reqpowder)
                                                                                             </td>
+                                                                                             <td>
+                                                                                                @Html.DisplayFor(o => o.PFCPYROILst[k].status)
+                                                                                            </td>
                                                                                             @if(item.SchYN=="Y")
                                                                                             {
-                                                                                            <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="Pyro"})'" disabled >Generate </button></td>
+                                                                                            <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="Pyro"})'" displed >Generate </button></td>
 
                                                                                             }
                                                                                             else
@@ -473,6 +476,7 @@
                                                                               
                                                                                 <th>Pyro Qty</th>
                                                                                 
+                                                                                <th>Status  </th>
                                                                                 <th>  </th>
                                                                             </tr>
                                                                         </thead>
@@ -522,9 +526,18 @@
                                                                                         <td>
                                                                                             @Html.DisplayFor(o => o.PFCPOLILst[p].pyroqty)
                                                                                         </td>
-                                                                                       
-                                                                                        <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="Polish"})'" >Generate </button></td>
+                                                                                        <td>
+                                                                                            @Html.DisplayFor(o => o.PFCPOLILst[p].status)
+                                                                                        </td>
+                                                                                        @if(item.SchYN=="Y")
+                                                                                            {
+                                                                                            <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="Polish"})'" hidden >Generate </button></td>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="Polish"})'">Generate </button></td>
 
+                                                                                        }
 
 
                                                                                     </tr>
@@ -570,7 +583,8 @@
                                                                                 <th> Cons Qty</th>
                                                                                 <th>Raw Mat </th>
                                                                                 <th>Qty </th>
-                                                                                
+                                                                                 <th>Status  </th>
+                                                                                 <th>  </th>
 
                                                                         </thead>
                                                                         <tbody id="tbBooks4">
@@ -616,8 +630,18 @@
                                                                                         <td>
                                                                                             @Html.DisplayFor(o => o.PFCRVDLst[r].qty)
                                                                                         </td>
-                                                                                           <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="RVD"})'" >Generate </button></td>
+                                                                                         <td>
+                                                                                            @Html.DisplayFor(o => o.PFCRVDLst[r].status)
+                                                                                        </td>
+                                                                                        @if (item.SchYN == "Y")
+                                                                                        {
+                                                                                            <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="RVD"})'" hidden >Generate </button></td>
+                                                                                        }
+                                                                                        else
+                                                                                        {
 
+                                                                                            <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="RVD"})'">Generate </button></td>
+                                                                                        }
 
 
                                                                                     </tr>
@@ -666,6 +690,8 @@
                                                                                 <th> Balance </th>
                                                                                 <th> Additive </th>
                                                                                 <th> Alloc Addit </th>
+                                                                                <th> Status </th>
+                                                                                <th>  </th>
                                                                                 
                                                                             </tr>
                                                                         </thead>
@@ -716,9 +742,19 @@
                                                                                         <td>
                                                                                             @Html.DisplayFor(o => o.PFCPASTELst[t].allocadditive)
                                                                                         </td>
-                                                                                        <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="Paste"})'" >Generate </button></td>
+                                                                                        <td>
+                                                                                            @Html.DisplayFor(o => o.PFCPASTELst[t].status)
+                                                                                        </td>
+                                                                                         @if (item.SchYN == "Y")
+                                                                                        {
+                                                                                            <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="Paste"})'" hidden>Generate </button></td>
 
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="Paste"})'">Generate </button></td>
 
+                                                                                        }
 
 
                                                                                     </tr>
