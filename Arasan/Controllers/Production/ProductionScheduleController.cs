@@ -534,7 +534,7 @@ namespace Arasan.Controllers.Production
         {
            // ProductionScheduleItem model = new ProductionScheduleItem();
             //  model.ItemGrouplst = BindItemGrplst(value);
-            return Json(BindItemGrplst());
+            return Json(BindItemlst());
         }
         public JsonResult GetItemGrp1JSON()
         {
@@ -868,6 +868,7 @@ namespace Arasan.Controllers.Production
                         ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
                         ca.WorkCenter = dt.Rows[0]["WCID"].ToString();
                         ca.WorkCenterid = dt.Rows[0]["PYWCID"].ToString();
+                        ca.Days = dt.Rows[0]["PYPRODCAPD"].ToString();
                         ca.Process = dt.Rows[0]["PROCESSID"].ToString();
                         ca.Processid = dt.Rows[0]["process"].ToString();
                         ca.detid = id;
@@ -882,6 +883,15 @@ namespace Arasan.Controllers.Production
                         ca.Enterd = Request.Cookies["UserName"];
                         ca.Qty = Convert.ToDouble(dt.Rows[0]["PYPRODQTY"].ToString() == "" ? "0" : dt.Rows[0]["PYPRODQTY"].ToString());
                         ca.ProdQty = Convert.ToDouble(dt.Rows[0]["PYPRODQTY"].ToString() == "" ? "0" : dt.Rows[0]["PYPRODQTY"].ToString());
+
+                        DataTable forcasid = datatrans.GetData("SELECT FORDETID,to_char(FROMDATE,'dd-MM-yy')FROMDATE,to_char(TODATE,'dd-MM-yy')TODATE FROM PSBASIC WHERE FORDETID ='" + id + "' and FORTYPE='Pyro'");
+                        if(forcasid.Rows.Count>0)
+                        {
+                            string end= forcasid.Rows[0]["TODATE"].ToString();
+                            DateTime start = DateTime.Parse(end);
+                            start = start.AddDays(1);
+                            ca.startdate = start.ToString("dd-MMM-yyyy");
+                        }
 
                     }
                     DataTable dt2 = new DataTable();
@@ -1031,7 +1041,7 @@ namespace Arasan.Controllers.Production
                         ca.detid = id;
                         ca.ttype = Ptype;
                         ca.Schdate = DateTime.Now.ToString("dd-MMM-yyyy");
-
+                        ca.Days = dt.Rows[0]["PIGPRODD"].ToString();
                         ca.Itemid = dt.Rows[0]["ITEMID"].ToString();
                         ca.saveitemid = dt.Rows[0]["PIGITEMID"].ToString();
                         ca.Unit = dt.Rows[0]["UNITID"].ToString();
@@ -1040,6 +1050,14 @@ namespace Arasan.Controllers.Production
                         ca.Enterd = Request.Cookies["UserName"];
                         ca.Qty = Convert.ToDouble(dt.Rows[0]["PIGRAWREQPY"].ToString() == "" ? "0" : dt.Rows[0]["PIGRAWREQPY"].ToString());
                         ca.ProdQty = Convert.ToDouble(dt.Rows[0]["PIGRAWREQPY"].ToString() == "" ? "0" : dt.Rows[0]["PIGRAWREQPY"].ToString());
+                        DataTable forcasid = datatrans.GetData("SELECT FORDETID,to_char(FROMDATE,'dd-MM-yy')FROMDATE,to_char(TODATE,'dd-MM-yy')TODATE FROM PSBASIC WHERE FORDETID ='" + id + "' and FORTYPE='Polish'");
+                        if (forcasid.Rows.Count > 0)
+                        {
+                            string end = forcasid.Rows[0]["TODATE"].ToString();
+                            DateTime start = DateTime.Parse(end);
+                            start = start.AddDays(1);
+                            ca.startdate = start.ToString("dd-MMM-yyyy");
+                        }
 
                     }
                     DataTable dt2 = new DataTable();
@@ -1184,6 +1202,7 @@ namespace Arasan.Controllers.Production
                         ca.WorkCenterid = dt.Rows[0]["RVDWCID"].ToString();
                         ca.Process = dt.Rows[0]["PROCESSID"].ToString();
                         ca.Processid = dt.Rows[0]["process"].ToString();
+                        ca.Days = dt.Rows[0]["RVDPRODD"].ToString();
                         ca.detid = id;
                         ca.ttype = Ptype;
                         ca.Schdate = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -1196,6 +1215,14 @@ namespace Arasan.Controllers.Production
                         ca.Enterd = Request.Cookies["UserName"];
                         ca.Qty = Convert.ToDouble(dt.Rows[0]["RVDRAWQTY"].ToString() == "" ? "0" : dt.Rows[0]["RVDRAWQTY"].ToString());
                         ca.ProdQty = Convert.ToDouble(dt.Rows[0]["RVDRAWQTY"].ToString() == "" ? "0" : dt.Rows[0]["RVDRAWQTY"].ToString());
+                        DataTable forcasid = datatrans.GetData("SELECT FORDETID,to_char(FROMDATE,'dd-MM-yy')FROMDATE,to_char(TODATE,'dd-MM-yy')TODATE FROM PSBASIC WHERE FORDETID ='" + id + "' and FORTYPE='RVD'");
+                        if (forcasid.Rows.Count > 0)
+                        {
+                            string end = forcasid.Rows[0]["TODATE"].ToString();
+                            DateTime start = DateTime.Parse(end);
+                            start = start.AddDays(1);
+                            ca.startdate = start.ToString("dd-MMM-yyyy");
+                        }
 
                     }
                     DataTable dt2 = new DataTable();
@@ -1342,6 +1369,7 @@ namespace Arasan.Controllers.Production
                         ca.WorkCenterid = dt.Rows[0]["PAWCID"].ToString();
                         ca.Process = dt.Rows[0]["PROCESSID"].ToString();
                         ca.Processid = dt.Rows[0]["process"].ToString();
+                        ca.Days = dt.Rows[0]["PAPRODD"].ToString();
                         ca.detid = id;
                         ca.ttype = Ptype;
                         ca.Schdate = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -1354,6 +1382,14 @@ namespace Arasan.Controllers.Production
                         ca.Enterd = Request.Cookies["UserName"];
                         ca.Qty = Convert.ToDouble(dt.Rows[0]["PAAPPOW"].ToString() == "" ? "0" : dt.Rows[0]["PAAPPOW"].ToString());
                         ca.ProdQty = Convert.ToDouble(dt.Rows[0]["PAAPPOW"].ToString() == "" ? "0" : dt.Rows[0]["PAAPPOW"].ToString());
+                        DataTable forcasid = datatrans.GetData("SELECT FORDETID,to_char(FROMDATE,'dd-MM-yy')FROMDATE,to_char(TODATE,'dd-MM-yy')TODATE FROM PSBASIC WHERE FORDETID ='" + id + "'and FORTYPE='Paste'");
+                        if (forcasid.Rows.Count > 0)
+                        {
+                            string end = forcasid.Rows[0]["TODATE"].ToString();
+                            DateTime start = DateTime.Parse(end);
+                            start = start.AddDays(1);
+                            ca.startdate = start.ToString("dd-MMM-yyyy");
+                        }
 
                     }
                     DataTable dt2 = new DataTable();
@@ -1505,7 +1541,7 @@ namespace Arasan.Controllers.Production
             {
                 tda = new ProScItem();
 
-                tda.schdate = start.ToString("dd-MM-yy");
+                tda.schdate = start.ToString("dd-MMM-yy");
                 tda.hrs = "22";
                 double h = Convert.ToDouble(tda.hrs);
                 

@@ -29,6 +29,7 @@ namespace Arasan.Models
         public string detid { get; set; }
         public string ttype { get; set; }
         public string WorkCenterid { get; set; }
+        public string Days { get; set; }
 
         public List<SelectListItem> Processlst;
         public string Process { get; set; }
