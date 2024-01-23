@@ -8,28 +8,31 @@ using Arasan.Services.Report;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
 using ClosedXML.Excel;
+using System.Data.SqlClient;
 using Oracle.ManagedDataAccess.Client;
 
 namespace Arasan.Controllers.Report
 {
-    public class GRNReportController : Controller
+    public class PurchaseRepItemReportController : Controller
     {
-        IGRNReportService GRNReportService;
+        IPurchaseRepItemReportService PurchaseRepItemReportService;
         IConfiguration? _configuratio;
         private string? _connectionString;
 
         DataTransactions datatrans;
-        public GRNReportController(IGRNReportService _GRNReportService, IConfiguration _configuratio)
+        private object excelData;
+
+        public PurchaseRepItemReportController(IPurchaseRepItemReportService _PurchaseRepItemReportService, IConfiguration _configuratio)
         {
-            GRNReportService = _GRNReportService;
+            PurchaseRepItemReportService = _PurchaseRepItemReportService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult GRNReport(string strfrom, string strTo)
+        public IActionResult PurchaseRepItemReport(string strfrom, string strTo)
         {
             try
             {
-                GRNReport objR = new GRNReport();
+                PurchaseRepItemReport objR = new PurchaseRepItemReport();
                 objR.Brlst = BindBranch();
                 objR.Suplst = BindSupplier();
                 objR.ItemGrouplst = BindItemGrplst();
@@ -44,7 +47,7 @@ namespace Arasan.Controllers.Report
             }
         }
         [HttpPost]
-        public IActionResult ListGRNReport()
+        public IActionResult ListPurchaseRepItemReport()
         {
             return View();
         }
@@ -52,7 +55,7 @@ namespace Arasan.Controllers.Report
         {
             try
             {
-                DataTable dtDesg = GRNReportService.GetItem(id);
+                DataTable dtDesg = PurchaseRepItemReportService.GetItem(id);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -119,34 +122,37 @@ namespace Arasan.Controllers.Report
         }
         public JsonResult GetItemJSON(string itemid)
         {
-            GRNReport model = new GRNReport();
+            PurchaseRepItemReport model = new PurchaseRepItemReport();
             model.Itemlst = BindItemlst(itemid);
             return Json(BindItemlst(itemid));
 
         }
-        public ActionResult MyListGRNReportGrid(string dtFrom, string dtTo, string Branch, string Customer, string Item)
+        public ActionResult MyListPurchaseRepItemReportGrid(string dtFrom, string dtTo, string Branch, string Customer, string Item)
         {
-            List<GRNReportItems> Reg = new List<GRNReportItems>();
+            List<PurchaseRepItemReportItems> Reg = new List<PurchaseRepItemReportItems>();
             DataTable dtUsers = new DataTable();
 
-            dtUsers = (DataTable)GRNReportService.GetAllReport(dtFrom, dtTo, Branch, Customer,Item);
+            dtUsers = (DataTable)PurchaseRepItemReportService.GetAllPurchaseItemReport(dtFrom, dtTo, Branch, Customer, Item);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 
 
-                Reg.Add(new GRNReportItems
+                Reg.Add(new PurchaseRepItemReportItems
                 {
                     branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     docNo = dtUsers.Rows[i]["DOCID"].ToString(),
-                    po = dtUsers.Rows[i]["doc"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     party = dtUsers.Rows[i]["PARTYID"].ToString(),
                     item = dtUsers.Rows[i]["ITEMID"].ToString(),
-                    loc = dtUsers.Rows[i]["LOCID"].ToString(),
-                    unit = dtUsers.Rows[i]["UNITID"].ToString(),
+                    unit = dtUsers.Rows[i]["UNIT"].ToString(),
                     qty = dtUsers.Rows[i]["QTY"].ToString(),
                     rate = dtUsers.Rows[i]["RATE"].ToString(),
                     amount = dtUsers.Rows[i]["AMOUNT"].ToString(),
+                    cost = dtUsers.Rows[i]["COSTRATE"].ToString(),
+
+
+
+
 
                 });
             }
@@ -160,30 +166,72 @@ namespace Arasan.Controllers.Report
         public IActionResult ExportToExcel(string dtFrom, string dtTo, string Branch, string Customer, string Item)
         {
             DataTransactions _datatransactions;
-            DataTable dtNew1 = new DataTable();
 
-            string SvSql = "SELECT A.DOCID,to_char(A.DOCDATE,'dd-MON-yyyy')DOCDATE,D.DOCID AS doc,C.BRANCHID,L.LOCID,P.PARTYID,I.ITEMID,U.UNITID,B.QTY,B.RATE,B.AMOUNT FROM GRNBLBASIC A,GRNBLDETAIL B,BRANCHMAST C,LOCDETAILS L,PARTYMAST P,POBASIC D,ITEMMASTER I,UNITMAST U ,ITEMGROUP P,ITEMSUBGROUP B WHERE A.CANCEL <> 'T' AND A.GRNBLBASICID=B.GRNBLBASICID AND C.BRANCHMASTID=A.BRANCHID AND L.LOCDETAILSID =A.LOCID AND P.PARTYMASTID=A.PARTYID AND I.ITEMMASTERID=B.ITEMID AND P.ITEMGROUPID=B.ITEMGROUPID AND I.SUBGROUPCODE=B.ITEMSUBGROUPID AND U.UNITMASTID=B.UNIT\r\n";
+            DataTable dtNew = new DataTable();
+
+            string SvSql = "Select Br.BranchID , P.PartyID , Db.DocID ,to_char(Db.DocDate,'dd-MON-yyyy')DocDate , I.ItemID , U.UnitID Unit , Dd.Qty,DD.PriQty , Dd.Rate , Dd.Amount,to_char(Db.Refno) Refno,DD.Costrate From DPBasic Db , DPDetail Dd , ItemMaster I , PartyMast P , BranchMast Br , UnitMast U  Where Db.DPBasicID = Dd.DPBasicID And Db.PartyID = P.PartyMastID And Dd.ItemID = I.ItemMasterID And Dd.Unit = U.UnitMastID And Db.BranchID = Br.BranchMastID";
             if (dtFrom != null && dtTo != null)
             {
-                SvSql += " and A.DOCDATE BETWEEN '" + dtFrom + "' AND '" + dtTo + "'";
+                SvSql += " and Db.DocDate BETWEEN '" + dtFrom + "' AND '" + dtTo + "'";
             }
-
-
+          
             if (Branch != null)
             {
-                SvSql += " and C.BRANCHID='" + Branch + "'";
+                SvSql += " and Br.BranchID='" + Branch + "'";
             }
-
-
+            
             if (Customer != null)
             {
-                SvSql += " and P.PARTYID='" + Customer + "'";
+                SvSql += " and P.PartyID='" + Customer + "'";
             }
-
+           
             if (Item != null)
             {
-                SvSql += " and I.ITEMID='" + Item + "'";
+                SvSql += " and I.ItemID='" + Item + "'";
             }
+           
+            SvSql += "Union Select Br.BranchID , P.PartyID , Db.DocID , to_char(Db.DocDate,'dd-MON-yyyy')DocDate , I.ItemID , U.UnitID Unit , Dd.Qty,DD.PriQty , Dd.Rate , Dd.Amount,to_char(Db.Refno),DD.Costrate From grnBLbasic Db , grnBLdetail Dd , ItemMaster I , PartyMast P , BranchMast Br , UnitMast U Where Db.grnBLbasicID = Dd.grnBLbasicID And Db.PartyID = P.PartyMastID And Dd.ItemID = I.ItemMasterID And Dd.Unit = U.UnitMastID And Db.BranchID = Br.BranchMastID\r\n";
+            if (dtFrom != null && dtTo != null)
+            {
+                SvSql += " and Db.DocDate BETWEEN '" + dtFrom + "' AND '" + dtTo + "'";
+            }
+           
+            if (Branch != null)
+            {
+                SvSql += " and Br.BranchID='" + Branch + "'";
+            }
+           
+            if (Customer != null)
+            {
+                SvSql += " and P.PartyID='" + Customer + "'";
+            }
+           
+            if (Item != null)
+            {
+                SvSql += " and I.ItemID='" + Item + "'";
+            }
+           
+            SvSql += "Union Select Br.BranchID , P.PartyID , Db.DocID , to_char(Db.DocDate,'dd-MON-yyyy')DocDate , I.ItemID , U.UnitID Unit, Dd.Qty,DD.PriQty , Dd.Rate , Dd.Amount,Db.Refno,DD.Costrate From igrnbasic Db, igrndetail Dd , ItemMaster I, PartyMast P , BranchMast Br, UnitMast U Where Db.igrnbasicID = Dd.igrnbasicID And Db.PartyID = P.PartyMastID And Dd.ItemmasterID = I.ItemMasterID And Dd.Unit = U.UnitMastID And Db.BranchID = Br.BranchMastID";
+            if (dtFrom != null && dtTo != null)
+            {
+                SvSql += " and Db.DocDate BETWEEN '" + dtFrom + "' AND '" + dtTo + "'";
+            }
+           
+            if (Branch != null)
+            {
+                SvSql += " and Br.BranchID='" + Branch + "'";
+            }
+            
+            if (Customer != null)
+            {
+                SvSql += " and P.PartyID='" + Customer + "'";
+            }
+           
+            if (Item != null)
+            {
+                SvSql += " and I.ItemID='" + Item + "'";
+            }
+            
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             using (DataTable dtReport = new DataTable())
             {
@@ -192,25 +240,29 @@ namespace Arasan.Controllers.Report
                 DataView dv1 = dtReport.DefaultView;
                 // dv1.RowFilter = " TotalOutstandingAmount > 0 AND  OutstandingPrinciple > 0  ";
 
-                dtNew1 = dv1.ToTable();
+                dtNew = dv1.ToTable();
                 using (XLWorkbook wb = new XLWorkbook())
                 {
-                    wb.Worksheets.Add(dtNew1, "GRNCumBill");
+                    wb.Worksheets.Add(dtNew, "PurchaseRepItemwise");
 
 
                     using (MemoryStream MyMemoryStream = new MemoryStream())
                     {
                         Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                        Response.Headers.Add("content-disposition", "attachment;  filename=GRNCumBill.xlsx");
+                        Response.Headers.Add("content-disposition", "attachment;  filename=PurchaseRepItemwise.xlsx");
                         wb.SaveAs(MyMemoryStream);
                         //MyMemoryStream.WriteTo(Response.OutputStream);
                         //Response.Flush();
                         //Response.End();
                         //wb.SaveAs(MyMemoryStream);
-                        return File(MyMemoryStream.ToArray(), "application/ms-excel", "GRNCumBill.xlsx");
+                        return File(MyMemoryStream.ToArray(), "application/ms-excel", "PurchaseRepItemwise.xlsx");
                     }
                 }
 
+                //OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+                //DataTable dtReport = new DataTable();
+                //adapter.Fill(dtReport);
+                //return dtReport;}
             }
 
         }

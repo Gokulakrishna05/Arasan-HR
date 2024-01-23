@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.GRNReport
+﻿@model Arasan.Models.PurchaseRepItemReport
 
 @{
     ViewData["Title"] = "Index";
@@ -41,7 +41,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Reports</a> </li>
-            <li class="active"> <strong>GRN Cum Bill</strong> </li>
+            <li class="active"> <strong>Purchase Rep.Itemwise Report</strong> </li>
         </ol>
     </div>
 </div>
@@ -55,9 +55,12 @@
             var Customer = document.getElementById("ddlCustomer").value;
             var Item = document.getElementById("ddlItem").value;
 
+
+
+
             var source =
             {
-                url: "/GRNReport/MyListGRNReportGrid",
+                url: "/PurchaseRepItemReport/MyListPurchaseRepItemReportGrid",
                 //url: "/ItemName/ItemName",
                 data: {
                     strstatus: "",
@@ -67,7 +70,6 @@
                     Customer: Customer,
                     Item: Item,
 
-
                 },
                 datatype: "json",
                 updaterow: function (rowid, rowdata) {
@@ -76,15 +78,14 @@
                 datafields: [
                     { name: 'branch', type: 'string' },
                     { name: 'docNo', type: 'string' },
-                    { name: 'po', type: 'string' },
                     { name: 'docDate', type: 'string' },
                     { name: 'party', type: 'string' },
                     { name: 'item', type: 'string' },
-                    { name: 'loc', type: 'string' },
                     { name: 'unit', type: 'string' },
                     { name: 'qty', type: 'string' },
                     { name: 'rate', type: 'string' },
                     { name: 'amount', type: 'string' },
+                    { name: 'cost', type: 'string' },
 
 
 
@@ -118,16 +119,14 @@
                     columns: [
                         { text: 'Branch', filtertype: 'input', datafield: 'branch', width: 150 },
                         { text: 'Doc No', filtertype: 'input', datafield: 'docNo', width: 150 },
-                        { text: 'Po No', filtertype: 'input', datafield: 'po', width: 150 },
                         { text: 'Doc Date', filtertype: 'input', datafield: 'docDate', width: 150 },
                         { text: 'Party Name', filtertype: 'input', datafield: 'party', width: 300 },
                         { text: 'Item Name', filtertype: 'input', datafield: 'item', width: 300 },
-                        { text: 'Location', filtertype: 'input', datafield: 'loc', width: 300 },
                         { text: 'Unit', filtertype: 'input', datafield: 'unit', width: 150 },
                         { text: 'Qty', filtertype: 'input', datafield: 'qty', width: 150 },
                         { text: 'Rate', filtertype: 'input', datafield: 'rate', width: 150 },
                         { text: 'Amount', filtertype: 'input', datafield: 'amount', width: 150 },
-
+                        { text: 'Cost Rate', filtertype: 'input', datafield: 'cost', width: 150 },
                     ]
                 });
 
@@ -156,11 +155,11 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-12 ">
-                            <center><h4><b>GRN Cum Bill</b></h4></center>
+                            <center><h4><b>Purchase Rep.Itemwise</b></h4></center>
                         </div>
                     </div>
                     <div style="height:10px;"></div>
-                    @using (Html.BeginForm("GRNReport", "GRNReport", FormMethod.Post))
+                    @using (Html.BeginForm("PurchaseRepItemReport", "PurchaseRepItemReport", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         <form>
@@ -225,13 +224,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="height:30px;"></div> 
+                            <div style="height:30px;"></div>
                             <div class="row">
                                 <div class="col-md-9"></div>
                                 <div class="col-md-3">
                                     <button type="button" class="btn btn-success  marginright" id="btnSave" value="Run">Run</button>
                                     <button type="button" class="btn btn-primary marginright" onclick="trChange()" value="Reset" causesvalidation="false">Export</button>
-                                    <button type="button" class="btn btn-danger marginright" onclick="location.href='@Url.Action("GRNReport", "GRNReport")'" value="Reset" causesvalidation="false">Reset</button>
+                                    <button type="button" class="btn btn-danger marginright" onclick="location.href='@Url.Action("PurchaseRepItemReport", "PurchaseRepItemReport")'" value="Reset" causesvalidation="false">Reset</button>
 
 
                                 </div>
@@ -258,35 +257,25 @@
     </div>
 </div>
 <script>
-    function trChange() {
+ function trChange() {
         var dtFrom = document.getElementById("dtFrom").value;
         var dtTo = document.getElementById("dtTo").value;
         var Branch = document.getElementById("ddlBranch").value;
         var Customer = document.getElementById("ddlCustomer").value;
         var Item = document.getElementById("ddlItem").value;
 
-        var url = '@Url.Action("ExportToExcel", "GRNReport")?dtFrom=' + dtFrom + '&dtTo=' + dtTo + '&Branch=' + Branch + '&Customer=' + Customer + '&Item=' + Item;
+        var url = '@Url.Action("ExportToExcel", "PurchaseRepItemReport")?dtFrom=' + dtFrom + '&dtTo=' + dtTo + '&Branch=' + Branch + '&Customer=' + Customer + '&Item=' + Item ;
 
         var $form = $('<form method="post"/>').attr('action', url).appendTo('body');
 
         $form.append($('#allPages').clone());
         $form.submit();
         $form.remove();
-    }
-</script>
+            }
+    </script>
 @*<link href="@Url.Content("~/assets/js/bootstrap-multiselect.css")" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap.multiselect.js")"></script>*@
 <script>
-    //function exportToExcel() {
-    //    /* Get the HTML table element */
-    //    var table = document.getElementById("ddlBranch");
-
-    //    /* Convert table to workbook */
-    //    var workbook = XLSX.utils.table_to_book(table);
-
-    //    /* Create Excel file and trigger download */
-    //    XLSX.writeFile(workbook, "exported_data.xlsx");
-    //}
     $('.to_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -298,11 +287,6 @@
         endDate: new Date(),
         forceParse: 0
     });
-    //$(function () {
-    //    $('.listbox').multiselect({
-    //        includeSelectAllOption: true
-    //    });
-    //});
     $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -365,5 +349,3 @@
         forceParse: 0
     });
 </script>
-
-
