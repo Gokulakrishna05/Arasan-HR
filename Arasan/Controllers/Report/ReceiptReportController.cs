@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Arasan.Interface;
 using Arasan.Interface.Report;
 using Arasan.Models;
@@ -7,7 +8,9 @@ using Arasan.Services.Report;
 //using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
-
+using System.Data.SqlClient;
+using ClosedXML.Excel;
+using Oracle.ManagedDataAccess.Client;
 
 namespace Arasan.Controllers
 {
@@ -59,20 +62,20 @@ namespace Arasan.Controllers
         }
 
 
-        //public JsonResult GetItemJSON(string itemid)
-        //{
-        //    GRNReport model = new GRNReport();
-        //    model.Itemlst = BindItemlst(itemid);
-        //    return Json(BindItemlst(itemid));
+        public JsonResult GetItemJSON(string itemid)
+        {
+            ReceiptReport model = new ReceiptReport();
+            model.Brlst = BindBranch();
+            return Json(BindBranch());
 
-        //}
+        }
 
         public ActionResult MyListReceiptReportGrid(string Branch, string Sdate, string Edate)
         {
             List<ReceiptReportItem> Reg = new List<ReceiptReportItem>();
             DataTable dtUsers = new DataTable();
 
-            dtUsers = (DataTable)ReceiptReportService.GetAllReport(Branch, Sdate, Edate);
+            dtUsers = (DataTable)ReceiptReportService.GetAllReport(Branch, Sdate, Edate); 
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
                 Reg.Add(new ReceiptReportItem
@@ -103,39 +106,65 @@ namespace Arasan.Controllers
         }
 
 
-        //public ActionResult GRNReports(string Branch, string dtFrom, string dtTo, string Customer)
-        //{
-        //    List<GRNReportItems> Reg = new List<GRNReportItems>();
-        //    DataTable dtUsers = new DataTable();
-
-        //    dtUsers = (DataTable)GRNReportService.GetAllReport(Branch, dtFrom, dtTo, Customer);
-        //    for (int i = 0; i < dtUsers.Rows.Count; i++)
-        //    {
+        public ActionResult ExportLeadProReport(string Branch, string Sdate, string Edate)
+        {
+            //_connectionString = _configuratio.GetConnectionString("OracleDBConnection");
 
 
-        //        Reg.Add(new GRNReportItems
-        //        {
-        //            id = Convert.ToInt64(dtUsers.Rows[i]["GRNBLBASICID"].ToString()),
-        //            branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
-        //            docNo = dtUsers.Rows[i]["DOCID"].ToString(),
-        //            po = dtUsers.Rows[i]["POBASICID"].ToString(),
-        //            docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
-        //            currency = dtUsers.Rows[i]["MAINCURR"].ToString(),
-        //            party = dtUsers.Rows[i]["PARTYNAME"].ToString(),
-        //            item = dtUsers.Rows[i]["ITEMID"].ToString(),
+            DataTransactions datatrans;
+
+            DataTable dtNew = new DataTable();
+
+
+            string SvSql = "select RECDCBASIC.RECDCBASICID,LOCDETAILS.LOCID,to_char(RECDCBASIC.DCDATE,'dd-MON-yyyy')DCDATE,BRANCHMAST.BRANCHID,RDELBASIC.DOCID,RECDCDETAIL.ITEMID,UNITMAST.UNITID,RECDCDETAIL.QTY,to_char(RECDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RECDCBASIC.DOCID,RECDCDETAIL.REJQTY,RECDCDETAIL.ACCQTY,RECDCDETAIL.PENDQTY from RECDCBASIC INNER JOIN RECDCDETAIL ON RECDCDETAIL.RECDCDETAILID = RECDCBASIC.RECDCBASICID LEFT OUTER JOIN BRANCHMAST  ON BRANCHMAST.BRANCHMASTID=RECDCBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID = RECDCBASIC.LOCID LEFT OUTER JOIN RDELBASIC ON RDELBASIC.RDELBASICID = RECDCBASIC.DCNO LEFT OUTER JOIN UNITMAST on UNITMAST.UNITMASTID = RECDCDETAIL.UNIT LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RECDCBASIC.PARTYID ";
+            if (Sdate != null && Edate != null)
+            {
+                SvSql += " and RECDCBASIC.DOCDATE BETWEEN '" + Sdate + "' AND '" + Edate + "'";
+            }
+            else
+            {
+                SvSql += "";
+            }
+            if (Branch != null)
+            {
+                SvSql += " and BRANCHMAST.BRANCHID='" + Branch + "'";
+            }
+            else
+            {
+                SvSql += "";
+            }
+
+            OracleDataAdapter dat = new OracleDataAdapter(SvSql, _connectionString);
+
+            using (DataTable dt = new DataTable())
+            {
+                dat.Fill(dt);
+
+                DataView dv1 = dt.DefaultView;
+                // dv1.RowFilter = " TotalOutstandingAmount > 0 AND  OutstandingPrinciple > 0  ";
+
+                dtNew = dv1.ToTable();
+                using (XLWorkbook wb = new XLWorkbook())
+                {
+                    wb.Worksheets.Add(dtNew, "ReturnableDCReport");
+
+                    using (MemoryStream MyMemoryStream = new MemoryStream())
+                    {
+                        Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                        Response.Headers.Add("content-disposition", "attachment;  filename=CallsProReport.xlsx");
+                        wb.SaveAs(MyMemoryStream);
+                        //MyMemoryStream.WriteTo(Response.OutputStream);
+                        //Response.Flush();
+                        //Response.End();
+                        //wb.SaveAs(MyMemoryStream);
+                        return File(MyMemoryStream.ToArray(), "application/ms-excel", "ReturnableDCReport.xlsx");
+                    }
+                }
+            }
+
+        }
 
 
 
-
-
-        //        });
-        //    }
-
-        //    return Json(new
-        //    {
-        //        Reg
-        //    });
-
-        //}
     }
 }

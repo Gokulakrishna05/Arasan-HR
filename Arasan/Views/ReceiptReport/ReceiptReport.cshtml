@@ -38,8 +38,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>*@
 
  <script type="text/javascript" src="../../jqwidgets/jqxdata.export.js"></script> 
-    <script type="text/javascript" src="../../jqwidgets/jqxgrid.export.js"></script> 
-
+    <script type="text/javascript" src="../../jqwidgets/jqxgrid.export.js"></script>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -130,42 +129,15 @@
 
                     ]
                 });
-            
-            //$("#pdfExport").click(function () {
-            //  exportToPDF();
-            //  //$("#grid").jqxGrid('exportdata', 'json');
-            //});
-
-            // function exportToPDF() {
-            //  var pdf = new jsPDF();
-      
-            //  // Extract grid data
-            //  var gridData = $("#grid").jqxGrid('exportdata', 'json');
-
-            //  // Customize PDF content based on your data structure
-            //  pdf.text('List of Data', 10, 10);
-            //  for (var i = 0; i < gridData.length; i++) {
-            //    pdf.text((i + 1) + '. ' + gridData[i].columnName1 + ': ' + gridData[i].columnName2, 10, 20 + i * 10);
-            //  }
-
-            //  // Save or open the PDF
-            //  pdf.save('dataList.pdf');
-            //}
-      
-
-            // var doc = new jsPDF();
-            //$('#pdfExport').click(function () {
-
-            //        html2canvas($('#divprint')).then(function (canvas){
-            //            document.appendChild(canvas);
-            //            doc.addImage(canvas.toDataURL("image/png"),'PNG',0,0,210,297);
-            //        });
-            //        doc.save('sample-file.pdf');
 
              $("#pdfExport").click(function () {
                 $("#grid").jqxGrid('exportdata', 'pdf', 'jqxGrid');
             });
 
+
+            // $("#excelExport").click(function () {
+            //    $("#grid").jqxGrid('exportdata', 'xls', 'jqxGrid');
+            //});
 
                     $("#ddlStatus").change(function () {
                         var value = "Y";
@@ -180,6 +152,9 @@
                 });
            });
 </script>
+
+
+
 <div class="wrapper-content "> 
     <div class="row">
         <div class="col-lg-12">
@@ -246,6 +221,8 @@
                                 <div class="col-md-3">
                                     <button type="button" class="btn btn-success  marginright" id="btnSave" value="Run">Run</button>
                                    <button type="button" class="btn btn-primary marginright" value="Export to Excel" id="pdfExport">Pdf</button>
+                                    <button type="button" class="btn btn-primary marginright" onclick="trChange()" value="Export" causesvalidation="false">Export</button>
+
                                     <button type="button" class="btn btn-danger marginright" onclick="location.href='@Url.Action("ReceiptReport", "ReceiptReport")'" value="Reset" causesvalidation="false">Reset</button>
 
                                 </div> 
@@ -269,16 +246,21 @@
 @*<link href="@Url.Content("~/assets/js/bootstrap-multiselect.css")" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap.multiselect.js")"></script>*@
 <script>
-//function exportToExcel() {
-//    /* Get the HTML table element */
-//    var table = document.getElementById("ddlBranch");
 
-//    /* Convert table to workbook */
-//    var workbook = XLSX.utils.table_to_book(table);
+    function trChange() {
+        var Branch = document.getElementById("ddlbranch").value;
+            var Sdate = document.getElementById("Sdate").value;
+            var Edate = document.getElementById("Edate").value;
 
-//    /* Create Excel file and trigger download */
-//    XLSX.writeFile(workbook, "exported_data.xlsx");
-//}
+        var url = '@Url.Action("ExportLeadProReport", "ReceiptReport")?Branch=' + Branch + '&Sdate=' + Sdate + '&Edate=' + Edate;
+        var $form = $('<form method="post"/>').attr('action', url).appendTo('body');
+
+        $form.append($('#allPages').clone());
+        $form.submit();
+        $form.remove();
+    }
+
+
     $('.to_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -309,26 +291,27 @@
         var minDate = new Date(selected.date.valueOf());
         $('.to_date').datetimepicker('setStartDate', minDate);
     });
-    //function Grup_Change(itemid) {
-    //    //alert(itemid);
-    //    //debugger;
-    //    $.ajax({
-    //        url: "GetItemJSON",
-    //        type: "post",
-    //        data: { 'itemid': itemid },
-    //        cache: false,
-    //        success: function (response) {
-    //            var newlist;
-    //            //alert(JSON.stringify(response));
-    //            newlist = response.Ilst;
-    //            PopulateDropDown("#ddlItem", response);
-    //        },
-    //        error: function () {
-    //            debugger;
-    //            alert("Please Select Item Group");
-    //        }
-    //    });
-    //}
+
+    function Grup_Change(itemid) {
+        //alert(itemid);
+        //debugger;
+        $.ajax({
+            url: "GetItemJSON",
+            type: "post",
+            data: { 'itemid': itemid },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                PopulateDropDown("#ddlbranch", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Item Group");
+            }
+        });
+    }
 </script>
 <script>
     $(function () {

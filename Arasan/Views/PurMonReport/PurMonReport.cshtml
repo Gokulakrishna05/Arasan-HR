@@ -55,8 +55,8 @@
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var SFINYR = document.getElementById("ddlSFINYR").value;
-            var Sdate = document.getElementById("Sdate").value;
-            var Edate = document.getElementById("Edate").value;
+            //var Sdate = document.getElementById("Sdate").value;
+            //var Edate = document.getElementById("Edate").value;
 
             var source =
             {
@@ -65,8 +65,9 @@
                 data: {
                     strstatus: "",
                     SFINYR: SFINYR,
-                    Sdate: Sdate,
-                    Edate: Edate,
+                    //Sdate: Sdate,
+                    //Edate: Edate,
+
                     //Item: Item,
 
                 },
@@ -91,7 +92,7 @@
                     { name: 'nov', type: 'string' },
                     { name: 'dec', type: 'string' },
                 ],
-                id: 'id',
+                
             };
             var dataAdapter = new $.jqx.dataAdapter(source,
                 { contentType: 'application/json; charset=utf-8' }, {
@@ -118,21 +119,21 @@
                     theme: 'darkblue',
                     enablebrowserselection: true,
                     columns: [
-                        { text: 'Party Name', filtertype: 'input', datafield: 'part', width: 150 },
-                        { text: 'Item ', filtertype: 'input', datafield: 'item', width: 130 },
-                        { text: 'Unit', filtertype: 'input', datafield: 'unit', width: 130 },
-                        { text: 'Jan', filtertype: 'input', datafield: 'jan', width: 100 },
-                        { text: 'Feb', filtertype: 'input', datafield: 'feb', width: 100 },
-                        { text: 'Mar', filtertype: 'input', datafield: 'mar', width: 100 },
-                        { text: 'April', filtertype: 'input', datafield: 'april', width: 100 },
-                        { text: 'May', filtertype: 'input', datafield: 'may', width: 100 },
-                        { text: 'June', filtertype: 'input', datafield: 'june', width: 100 },
-                        { text: 'July', filtertype: 'input', datafield: 'july', width: 100 },
-                        { text: 'Aug', filtertype: 'input', datafield: 'aug', width: 100 },
-                        { text: 'Sep', filtertype: 'input', datafield: 'sep', width: 100 },
-                        { text: 'Act', filtertype: 'input', datafield: 'oct', width: 100 },
-                        { text: 'Nov', filtertype: 'input', datafield: 'nov', width: 100 },
-                        { text: 'Dec', filtertype: 'input', datafield: 'dec', width: 100 },
+                        { text: 'Party Name', filtertype: 'input', datafield: 'part', width: 300 },
+                        { text: 'Item ', filtertype: 'input', datafield: 'item', width: 200 },
+                        { text: 'Unit', filtertype: 'input', datafield: 'unit', width: 100 },
+                        { text: 'Jan', filtertype: 'input', datafield: 'jan', width: 80 },
+                        { text: 'Feb', filtertype: 'input', datafield: 'feb', width: 80 },
+                        { text: 'Mar', filtertype: 'input', datafield: 'mar', width: 80 },
+                        { text: 'April', filtertype: 'input', datafield: 'april', width: 80 },
+                        { text: 'May', filtertype: 'input', datafield: 'may', width: 80 },
+                        { text: 'June', filtertype: 'input', datafield: 'june', width: 80 },
+                        { text: 'July', filtertype: 'input', datafield: 'july', width: 80 },
+                        { text: 'Aug', filtertype: 'input', datafield: 'aug', width: 80 },
+                        { text: 'Sep', filtertype: 'input', datafield: 'sep', width: 80 },
+                        { text: 'Act', filtertype: 'input', datafield: 'oct', width: 80 },
+                        { text: 'Nov', filtertype: 'input', datafield: 'nov', width: 80 },
+                        { text: 'Dec', filtertype: 'input', datafield: 'dec', width: 80 },
 
                     ]
                 });
@@ -141,6 +142,9 @@
                 $("#grid").jqxGrid('exportdata', 'pdf', 'jqxGrid');
             });
 
+            //$("#excelExport").click(function () {
+            //    $("#grid").jqxGrid('exportdata', 'xls', 'jqxGrid');
+            //});
 
             $("#ddlStatus").change(function () {
                 var value = "Y";
@@ -166,12 +170,12 @@
                         @Html.AntiForgeryToken()
                         <form>
 
-                            <div class="row">
+                            @* <div class="row">
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Start Date<label class="mandatory"></label></label>
+                                       <label for="inputName3" class="col-sm-4 control-label">Start Date<label class="mandatory"></label></label>
 
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.Sdate, new { @id = "Sdate", @class = "form-control", @TabIndex = 2,@size="30",@readonly=true })
@@ -196,7 +200,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
 
 
 
@@ -220,31 +224,33 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Year <label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Year <label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
 
-                                            @Html.DropDownListFor(C => C.SFINYR, Model.Finyrlst,"Please Select", new { @id = "ddlSFINYR", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
+                                            @Html.DropDownListFor(C => C.SFINYR, Model.Finyrlst,"Please Select", new { @id = "ddlSFINYR", @Class = "form-control _select", @TabIndex = 1 })
 
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-
                             <div style="height:30px;"></div>
                             <div class="row">
-                                <div class="col-md-9"></div>
+                                <div class="col-md-9"></div>      
                                 <div class="col-md-3">
                                     <button type="button" class="btn btn-success  marginright" id="btnSave" value="Run">Run</button>
                                     <button type="button" class="btn btn-primary marginright" value="Export to Excel" id="pdfExport">Pdf</button>
-                                    <button type="button" class="btn btn-danger marginright" onclick="location.href='@Url.Action("PurMonReport", "PurMonReport")'" value="Reset" causesvalidation="false">Reset</button>
+                                    <button type="button" class="btn btn-primary marginright" onclick="trChange()" value="Export" causesvalidation="false">Export</button>
+@*                                  <button type="button" class="btn btn-success marginright" value="Export to Excel" id="excelExport">Excel</button>
+*@
+                                     <button type="button" class="btn btn-danger marginright" onclick="location.href='@Url.Action("PurMonReport", "PurMonReport")'" value="Reset" causesvalidation="false">Reset</button>
 
-                                </div>
+                                </div> 
                             </div>
                             <br>
                             <div class="row">
 
-                                <div id="grid">
+                                <div id="grid"> 
                                 </div>
 
                             </div>
@@ -299,27 +305,22 @@
         var minDate = new Date(selected.date.valueOf());
         $('.to_date').datetimepicker('setStartDate', minDate);
     });
-    //function Grup_Change(itemid) {
-    //    //alert(itemid);
-    //    //debugger;
-    //    $.ajax({
-    //        url: "GetItemJSON",
-    //        type: "post",
-    //        data: { 'itemid': itemid },
-    //        cache: false,
-    //        success: function (response) {
-    //            var newlist;
-    //            //alert(JSON.stringify(response));
-    //            newlist = response.Ilst;
-    //            PopulateDropDown("#ddlItem", response);
-    //        },
-    //        error: function () {
-    //            debugger;
-    //            alert("Please Select Item Group");
-    //        }
-    //    });
-    //}
+   
+
+
+    function trChange() {
+            var SFINYR = document.getElementById("ddlSFINYR").value;
+
+            var url = '@Url.Action("ExportLeadProReport", "PurMonReport")?SFINYR=' + SFINYR;
+            var $form = $('<form method="post"/>').attr('action', url).appendTo('body');
+
+                $form.append($('#allPages').clone()); 
+                $form.submit();
+                $form.remove();
+    }
+
 </script>
+
 <script>
     $(function () {
         $('._select').select2();

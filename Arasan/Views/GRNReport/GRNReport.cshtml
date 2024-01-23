@@ -136,6 +136,7 @@
             $("#excelExport").click(function () {
                 $("#grid").jqxGrid('exportdata', 'xls', 'jqxGrid');
             });
+
             $("#ddlStatus").change(function () {
                 var value = "Y";
                 if ($(this).val() != "") {

@@ -26,7 +26,7 @@ namespace Arasan.Models
     }
 
     public class PurMonReportItem
-    {
+    { 
         public long id { get; set; }
         public string part { get; set; }
         public string item { get; set; }
@@ -43,6 +43,9 @@ namespace Arasan.Models
         public string oct { get; set; }
         public string nov { get; set; }
         public string dec { get; set; }
+        
     }
 
-}
+  
+
+    }
