@@ -64,6 +64,7 @@
                                             @Html.HiddenFor(C => C.saveitemid)
                                             @Html.HiddenFor(C => C.detid)
                                             @Html.HiddenFor(C => C.ttype)
+                                            @Html.HiddenFor(C => C.Days)
                                         </div>
                                     </div>
                                 </div>
@@ -207,13 +208,21 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">From Date<label class="mandatory">*</label></label>
-
+                                        @if(Model.startdate!=null)
+                                        {
+                                          <div class="col-sm-8">
+                                                @Html.TextBoxFor(C => C.startdate, new { @id = "startdate", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly=true })<br />
+                                        </div>
+                                        }
+                                        else
+                                        {
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.startdate, new { @id = "startdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
                                         <input type="hidden" id="dtp_input2" value="" />
                                         <br />
+                                        }
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -303,14 +312,14 @@
                                             <div class="tab-pane active" id="tab-1">
                                                 <!-- 1st tab  -->
                                                 <div style="height:30px;"></div>
-                                              @*  <div class="row">
+                                               <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="btn-group">
                                                             <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
                                                         </div>
                                                     </div>
                                                 </div>
-*@
+
                                                 <div class="row">
                                                     <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
 
@@ -1058,9 +1067,8 @@
          function AppendRow(opt) {
              var index = $("#tbBooks").children("tr").length;
 
-             var ItemGrp = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='PrsLst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-             var Item = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='PrsLst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+            var Item = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='PrsLst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
              var Desc = "<td><input class='form-control' id='txtDes" + index + "' name='PrsLst[" + index + "].Desc'  style='width: 200px;' type='text' readonly='True' /></td>";
 
