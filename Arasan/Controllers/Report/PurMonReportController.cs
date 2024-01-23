@@ -24,14 +24,16 @@ namespace Arasan.Controllers
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult PurMonReport(string strfrom, string strTo)
+        public IActionResult PurMonReport(string stryr, string strfrom, string strTo)
         {
             try
             {
                 PurMonReport objR = new PurMonReport();
                 objR.Brlst = BindBranch();
+                objR.Finyrlst = BindFinyr();
                 objR.Sdate = strfrom;
                 objR.Edate = strTo;
+                objR.SFINYR = stryr;
                 return View(objR);
             }
             catch (Exception ex)
@@ -57,34 +59,59 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        //public ActionResult MyListPurMonReportGrid(string Branch, string Sdate, string Edate)
-        //{
-        //    List<PurMonReportItem> Reg = new List<PurMonReportItem>();
-        //    DataTable dtUsers = new DataTable();
+        public List<SelectListItem> BindFinyr()
+        {
+            try
+            {
+                DataTable dtDesg = PurMonReportService.GetFinyr();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SFINYR"].ToString(), Value = dtDesg.Rows[i]["SFINYR"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult MyListPurMonReportGrid(string SFINYR ,string Sdate, string Edate)
+        {
+            List<PurMonReportItem> Reg = new List<PurMonReportItem>();
+            DataTable dtUsers = new DataTable();
 
-        //    dtUsers = (DataTable)PurMonReportService.GetAllReport(Branch, Sdate, Edate);
-        //    for (int i = 0; i < dtUsers.Rows.Count; i++)
-        //    {
-        //        Reg.Add(new PurMonReportItem
-        //        {
-        //            id = Convert.ToInt64(dtUsers.Rows[i]["PINDBASICID"].ToString()),
-        //            did = dtUsers.Rows[i]["DOCID"].ToString(),
-        //            dcdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
-        //            loc = dtUsers.Rows[i]["LOCID"].ToString(),
-        //            item = dtUsers.Rows[i]["ITEMID"].ToString(),
-        //            pend = dtUsers.Rows[i]["QTY"].ToString(),
-        //            pur = dtUsers.Rows[i]["GRNQTY"].ToString(),
-        //            due = dtUsers.Rows[i]["DUEDATE"].ToString(),
+            dtUsers = (DataTable)PurMonReportService.GetAllReport(SFINYR,Sdate, Edate);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                Reg.Add(new PurMonReportItem 
+                {
+                    //id = Convert.ToInt64(dtUsers.Rows[i]["SFINYR"].ToString()),
+                    part = dtUsers.Rows[i]["PARTYID"].ToString(),
+                    item = dtUsers.Rows[i]["ITEMID"].ToString(),
+                    unit = dtUsers.Rows[i]["UNITID"].ToString(),
+                    jan = dtUsers.Rows[i]["Jan"].ToString(),
+                    feb = dtUsers.Rows[i]["Feb"].ToString(),
+                    mar = dtUsers.Rows[i]["Mar"].ToString(),
+                    april = dtUsers.Rows[i]["Apr"].ToString(),
+                    may = dtUsers.Rows[i]["May"].ToString(),
+                    june = dtUsers.Rows[i]["Jun"].ToString(),
+                    july = dtUsers.Rows[i]["Jul"].ToString(),
+                    aug = dtUsers.Rows[i]["Aug"].ToString(),
+                    sep = dtUsers.Rows[i]["Sep"].ToString(),
+                    oct = dtUsers.Rows[i]["Oct"].ToString(),
+                    nov = dtUsers.Rows[i]["Nov"].ToString(),
+                    dec = dtUsers.Rows[i]["Dec"].ToString(),
 
-        //        });
-        //    }
+                });
+            }
 
-        //    return Json(new
-        //    {
-        //        Reg
-        //    });
+            return Json(new
+            {
+                Reg
+            });
 
-        //}
+        }
 
 
     }

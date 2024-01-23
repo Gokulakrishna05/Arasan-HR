@@ -79,7 +79,7 @@
                     { name: 'dcdate', type: 'string' },
                     { name: 'loc', type: 'string' },
                     { name: 'item', type: 'string' },
-                    { name: 'Pend', type: 'string' },
+                    { name: 'pend', type: 'string' },
                     { name: 'pur', type: 'string' },
                     { name: 'due', type: 'string' },
                 ],
@@ -114,7 +114,7 @@
                         { text: 'Dc Date', filtertype: 'input', datafield: 'dcdate', width: 130 },
                         { text: 'Loc ID', filtertype: 'input', datafield: 'loc', width: 130 },
                         { text: 'Item', filtertype: 'input', datafield: 'item', width: 250 },
-                        { text: 'Pend Qty', filtertype: 'input', datafield: 'Pend', width: 100 },
+                        { text: 'Pend Qty', filtertype: 'input', datafield: 'pend', width: 100 },
                         { text: 'Purchase Qty', filtertype: 'input', datafield: 'pur', width: 100 },
                         { text: 'DueDate', filtertype: 'input', datafield: 'due', width: 120 },
 
@@ -189,7 +189,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory"></label></label>
                                         <div class="col-sm-8">
 
                                             @Html.DropDownListFor(C => C.Branch, Model.Brlst,"Please Select", new { @id = "ddlbranch", @Class = "form-control _select", @TabIndex = 1 })<br /><br>

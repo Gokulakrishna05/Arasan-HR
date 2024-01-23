@@ -25,12 +25,14 @@ namespace Arasan.Interface.Production
         DataTable GetPolishWC();
         DataTable GetRVDWC();
         DataTable GetPasteWC();
+        DataTable GetAPWC();
         DataTable GetDGPaste(string mnth, string type);
         List<PFCPYROItem> GetPyroForecast(string mnth, string type); 
         List<PFCPOLIItem> GetPolishForecast(string mnth, string type); 
         List<PFCPASTEItem> GetPasteForecast(string mnth, string type); 
         List<PFCPACKItem> GetPackForecast(string mnth, string type);
-        List<ProdApItem> GetAPSForecast(string mnth, string type);  
+        List<ProdApItem> GetAPSForecast(string mnth, string type);
+        List<ProdApReqItem> GetAPReqForecast(string mnth, string type); 
         string ProductionForecastingCRUD(ProductionForecasting cy);
     }
 }

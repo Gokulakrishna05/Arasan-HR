@@ -54,7 +54,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
-            var Branch = document.getElementById("ddlbranch").value;
+            var SFINYR = document.getElementById("ddlSFINYR").value;
             var Sdate = document.getElementById("Sdate").value;
             var Edate = document.getElementById("Edate").value;
 
@@ -64,7 +64,7 @@
                 //url: "/ItemName/ItemName",
                 data: {
                     strstatus: "",
-                    Branch: Branch,
+                    SFINYR: SFINYR,
                     Sdate: Sdate,
                     Edate: Edate,
                     //Item: Item,
@@ -75,13 +75,21 @@
                     // synchronize with the server - send update command
                 },
                 datafields: [
-                    { name: 'did', type: 'string' },
-                    { name: 'dcdate', type: 'string' },
-                    { name: 'loc', type: 'string' },
+                    { name: 'part', type: 'string' },
                     { name: 'item', type: 'string' },
-                    { name: 'Pend', type: 'string' },
-                    { name: 'pur', type: 'string' },
-                    { name: 'due', type: 'string' },
+                    { name: 'unit', type: 'string' },
+                    { name: 'jan', type: 'string' },
+                    { name: 'feb', type: 'string' },
+                    { name: 'mar', type: 'string' },
+                    { name: 'april', type: 'string' },
+                    { name: 'may', type: 'string' },
+                    { name: 'june', type: 'string' },
+                    { name: 'july', type: 'string' },
+                    { name: 'aug', type: 'string' },
+                    { name: 'sep', type: 'string' },
+                    { name: 'oct', type: 'string' },
+                    { name: 'nov', type: 'string' },
+                    { name: 'dec', type: 'string' },
                 ],
                 id: 'id',
             };
@@ -110,13 +118,21 @@
                     theme: 'darkblue',
                     enablebrowserselection: true,
                     columns: [
-                        { text: 'Doc ID', filtertype: 'input', datafield: 'did', width: 150 },
-                        { text: 'Dc Date', filtertype: 'input', datafield: 'dcdate', width: 130 },
-                        { text: 'Loc ID', filtertype: 'input', datafield: 'loc', width: 130 },
-                        { text: 'Item', filtertype: 'input', datafield: 'item', width: 250 },
-                        { text: 'Pend Qty', filtertype: 'input', datafield: 'Pend', width: 100 },
-                        { text: 'Purchase Qty', filtertype: 'input', datafield: 'pur', width: 100 },
-                        { text: 'DueDate', filtertype: 'input', datafield: 'due', width: 120 },
+                        { text: 'Party Name', filtertype: 'input', datafield: 'part', width: 150 },
+                        { text: 'Item ', filtertype: 'input', datafield: 'item', width: 130 },
+                        { text: 'Unit', filtertype: 'input', datafield: 'unit', width: 130 },
+                        { text: 'Jan', filtertype: 'input', datafield: 'jan', width: 100 },
+                        { text: 'Feb', filtertype: 'input', datafield: 'feb', width: 100 },
+                        { text: 'Mar', filtertype: 'input', datafield: 'mar', width: 100 },
+                        { text: 'April', filtertype: 'input', datafield: 'april', width: 100 },
+                        { text: 'May', filtertype: 'input', datafield: 'may', width: 100 },
+                        { text: 'June', filtertype: 'input', datafield: 'june', width: 100 },
+                        { text: 'July', filtertype: 'input', datafield: 'july', width: 100 },
+                        { text: 'Aug', filtertype: 'input', datafield: 'aug', width: 100 },
+                        { text: 'Sep', filtertype: 'input', datafield: 'sep', width: 100 },
+                        { text: 'Act', filtertype: 'input', datafield: 'oct', width: 100 },
+                        { text: 'Nov', filtertype: 'input', datafield: 'nov', width: 100 },
+                        { text: 'Dec', filtertype: 'input', datafield: 'dec', width: 100 },
 
                     ]
                 });
@@ -184,12 +200,12 @@
 
 
 
-                            <div class="row">
+                            @*<div class="row">
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory"></label></label>
                                         <div class="col-sm-8">
 
                                             @Html.DropDownListFor(C => C.Branch, Model.Brlst,"Please Select", new { @id = "ddlbranch", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
@@ -197,7 +213,23 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>*@
+                            
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Year <label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.DropDownListFor(C => C.SFINYR, Model.Finyrlst,"Please Select", new { @id = "ddlSFINYR", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
 
                             <div style="height:30px;"></div>
                             <div class="row">

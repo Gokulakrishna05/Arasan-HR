@@ -132,8 +132,6 @@ namespace Arasan.Controllers.Report
             dtUsers = (DataTable)GRNReportService.GetAllReport(dtFrom, dtTo, Branch, Customer,Item);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
-
-
                 Reg.Add(new GRNReportItems
                 {
                     branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
