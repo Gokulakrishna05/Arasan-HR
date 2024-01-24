@@ -24,6 +24,7 @@ namespace Arasan.Interface.Production
         DataTable GetPYROWC();
         DataTable GetPolishWC();
         DataTable GetRVDWC();
+        DataTable GetAPWC();
         DataTable GetPasteWC();
         DataTable GetAPWC();
         DataTable GetDGPaste(string mnth, string type);

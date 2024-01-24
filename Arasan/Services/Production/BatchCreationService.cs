@@ -167,9 +167,9 @@ namespace Arasan.Services
                             {
                                 foreach (BatchInItem cp in cy.BatchInLst)
                                 {
-                                    if (cp.Isvalid == "Y" && cp.Item != "0")
+                                    if (cp.Isvalid == "Y" && cp.saveitemid != "0")
                                     {
-                                        svSQL = "Insert into BCINPUTDETAIL (BCPRODBASICID,IPROCESSID,IITEMID,IUNIT,IQTY) VALUES ('" + Pid + "','" + cp.Process + "','" + cp.Item + "','" + cp.Unit + "','" + cp.Qty + "')";
+                                        svSQL = "Insert into BCINPUTDETAIL (BCPRODBASICID,IPROCESSID,IITEMID,IUNIT,IQTY) VALUES ('" + Pid + "','" + cp.Process + "','" + cp.saveitemid + "','" + cp.unit + "','" + cp.qty + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -185,9 +185,9 @@ namespace Arasan.Services
                                 objCmdd.ExecuteNonQuery();
                                 foreach (BatchInItem cp in cy.BatchInLst)
                                 {
-                                    if (cp.Isvalid == "Y" && cp.Item != "0")
+                                    if (cp.Isvalid == "Y" && cp.saveitemid != "0")
                                     {
-                                        svSQL = "Insert into BCINPUTDETAIL (BCPRODBASICID,IPROCESSID,IITEMID,IUNIT,IQTY) VALUES ('" + Pid + "','" + cp.Process + "','" + cp.Item + "','" + cp.Unit + "','" + cp.Qty + "')";
+                                        svSQL = "Insert into BCINPUTDETAIL (BCPRODBASICID,IPROCESSID,IITEMID,IUNIT,IQTY) VALUES ('" + Pid + "','" + cp.Process + "','" + cp.saveitemid + "','" + cp.unit + "','" + cp.qty + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -204,10 +204,10 @@ namespace Arasan.Services
                             {
                                 foreach (BatchOutItem cp in cy.BatchOutLst)
                                 {
-                                    if (cp.Isvalid == "Y" && cp.OItem != "0")
+                                    if (cp.Isvalid == "Y" && cp.saveitemid != "0")
                                     {
 
-                                        svSQL = "Insert into BCOUTPUTDETAIL (BCPRODBASICID,OPROCESSID,OITEMID,OUNIT,OQTY,OTYPE,GPER,VMPER,OWPER) VALUES ('" + Pid + "','" + cp.OProcess + "','" + cp.OItem + "','" + cp.OUnit + "','" + cp.OQty + "','" + cp.OutType + "','" + cp.Vmper + "','" + cp.Greas + "','" + cp.Waste + "')";
+                                        svSQL = "Insert into BCOUTPUTDETAIL (BCPRODBASICID,OPROCESSID,OITEMID,OUNIT,OQTY,OTYPE,GPER,VMPER,OWPER) VALUES ('" + Pid + "','" + cp.OProcess + "','" + cp.saveitemid + "','" + cp.ounit + "','" + cp.oqty + "','" + cp.outtype + "','" + cp.Vmper + "','" + cp.Greas + "','" + cp.Waste + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -222,10 +222,10 @@ namespace Arasan.Services
                                 objCmdd.ExecuteNonQuery();
                                 foreach (BatchOutItem cp in cy.BatchOutLst)
                                 {
-                                    if (cp.Isvalid == "Y" && cp.OItem != "0")
+                                    if (cp.Isvalid == "Y" && cp.saveitemid != "0")
                                     {
 
-                                        svSQL = "Insert into BCOUTPUTDETAIL (BCPRODBASICID,OPROCESSID,OITEMID,OUNIT,OQTY,OTYPE,GPER,VMPER,OWPER) VALUES ('" + Pid + "','" + cp.OProcess + "','" + cp.OItem + "','" + cp.OUnit + "','" + cp.OQty + "','" + cp.OutType + "','" + cp.Vmper + "','" + cp.Greas + "','" + cp.Waste + "')";
+                                        svSQL = "Insert into BCOUTPUTDETAIL (BCPRODBASICID,OPROCESSID,OITEMID,OUNIT,OQTY,OTYPE,GPER,VMPER,OWPER) VALUES ('" + Pid + "','" + cp.OProcess + "','" + cp.saveitemid + "','" + cp.ounit + "','" + cp.oqty + "','" + cp.outtype + "','" + cp.Vmper + "','" + cp.Greas + "','" + cp.Waste + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -424,6 +424,59 @@ namespace Arasan.Services
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+        public List<BatchInItem> GetBatchInItems(string schid)
+        {
+           List<BatchInItem> lst = new List<BatchInItem>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "SELECT PSBASICID,ITEMMASTER.ITEMID,RITEMID,RITEMDESC,RUNIT,RQTY FROM PSINPDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PSINPDETAIL.RITEMID WHERE PSBASICID='"+schid+"'";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        BatchInItem cmp = new BatchInItem
+                        {
+                            itemid = rdr["ITEMID"].ToString(),
+                            unit = rdr["RUNIT"].ToString(),
+                            qty = rdr["RQTY"].ToString(),
+                            saveitemid = rdr["RITEMID"].ToString(),
+                            Isvalid = "Y",
+
+                        };
+                        lst.Add(cmp);
+                    }
+                }
+            }
+            return lst; 
+        }
+        public List<BatchOutItem> GetBatchOutItems(string schid)
+        {
+            List<BatchOutItem> lst = new List<BatchOutItem>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "SELECT PSBASICID,ITEMMASTER.ITEMID,OITEMID,OITEMDESC,OUNIT,OPER,ALPER,OTYPE,SCHQTY,PQTY FROM PSOUTDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PSOUTDETAIL.OITEMID WHERE PSBASICID='" + schid+"'";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        BatchOutItem cmp = new BatchOutItem
+                        {
+                            oitem = rdr["ITEMID"].ToString(),
+                            ounit = rdr["OUNIT"].ToString(),
+                            oqty = rdr["SCHQTY"].ToString(),
+                            outtype = rdr["OTYPE"].ToString(),
+                            Isvalid = "Y",
+                        };
+                        lst.Add(cmp);
+                    }
+                }
+            }
+            return lst;
         }
         public DataTable GetBatchCreationOtherDetail(string id)
         {

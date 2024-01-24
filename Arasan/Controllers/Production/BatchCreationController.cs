@@ -7,6 +7,7 @@ using Arasan.Models;
 using Arasan.Services.Production;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Nest;
 
 
 namespace Arasan.Controllers
@@ -147,9 +148,9 @@ namespace Arasan.Controllers
                         tda1.IProcesslst = BindProcessid();
                         tda1.Process = dt3.Rows[0]["IPROCESSID"].ToString();
                         tda1.Itemlst = BindItemlst();
-                        tda1.Item = dt3.Rows[i]["IITEMID"].ToString();
-                        tda1.Unit = dt3.Rows[i]["IUNIT"].ToString();
-                        tda1.Qty = dt3.Rows[i]["IQTY"].ToString();
+                        tda1.itemid = dt3.Rows[i]["IITEMID"].ToString();
+                        tda1.unit = dt3.Rows[i]["IUNIT"].ToString();
+                        tda1.qty = dt3.Rows[i]["IQTY"].ToString();
                         tda1.ID = id;
                         tda1.Isvalid = "Y";
                         TData1.Add(tda1);
@@ -167,10 +168,10 @@ namespace Arasan.Controllers
                     tda2.OProcesslst = BindProcessid();
                     tda2.OProcess = dt4.Rows[i]["OPROCESSID"].ToString();
                     tda2.OItemlst = BindItemlst();
-                    tda2.OItem = dt4.Rows[i]["OITEMID"].ToString();
-                    tda2.OUnit = dt4.Rows[i]["OUNIT"].ToString();
-                    tda2.OutType = dt4.Rows[i]["OTYPE"].ToString();
-                    tda2.OQty = dt4.Rows[i]["OQTY"].ToString();
+                    tda2.oitem = dt4.Rows[i]["OITEMID"].ToString();
+                    tda2.ounit = dt4.Rows[i]["OUNIT"].ToString();
+                    tda2.outtype = dt4.Rows[i]["OTYPE"].ToString();
+                    tda2.oqty = dt4.Rows[i]["OQTY"].ToString();
                     tda2.Waste = dt4.Rows[i]["OWPER"].ToString();
                     tda2.Vmper = dt4.Rows[i]["VMPER"].ToString();
                     tda2.Greas = dt4.Rows[i]["GPER"].ToString();
@@ -277,6 +278,27 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
+        public ActionResult GetSchedule(string schid)
+        {
+            try
+            {
+                DataTable dt=new DataTable();
+                dt = datatrans.GetData("select P.PROCESSID,W.WCID from PSBASIC S,PROCESSMAST P,WCBASIC W where P.PROCESSMASTID=S.PROCESSID AND W.WCBASICID=S.WCID AND S.PSBASICID='"+ schid + "'");
+                string work = "";
+                string process = "";
+                if(dt.Rows.Count > 0)
+                {
+                    process = dt.Rows[0]["PROCESSID"].ToString();
+                    work= dt.Rows[0]["WCID"].ToString();
+                }
+                var result = new { work = work, process = process };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public IActionResult ViewBatch(string id)
         {
             BatchCreation ca = new BatchCreation();
@@ -328,9 +350,9 @@ namespace Arasan.Controllers
                     tda1.IProcesslst = BindProcessid();
                     tda1.Process = dt3.Rows[i]["PROCESSID"].ToString();
                     tda1.Itemlst = BindItemlst();
-                    tda1.Item = dt3.Rows[i]["ITEMID"].ToString();
-                    tda1.Unit = dt3.Rows[i]["IUNIT"].ToString();
-                    tda1.Qty = dt3.Rows[i]["IQTY"].ToString();
+                    tda1.itemid = dt3.Rows[i]["ITEMID"].ToString();
+                    tda1.unit = dt3.Rows[i]["IUNIT"].ToString();
+                    tda1.qty = dt3.Rows[i]["IQTY"].ToString();
                     tda1.ID = id;
                     TData1.Add(tda1);
                 }
@@ -343,10 +365,10 @@ namespace Arasan.Controllers
                     tda2.OProcesslst = BindProcessid();
                     tda2.OProcess = dt4.Rows[i]["PROCESSID"].ToString();
                     tda2.OItemlst = BindItemlst();
-                    tda2.OItem = dt4.Rows[i]["ITEMID"].ToString();
-                    tda2.OUnit = dt4.Rows[i]["OUNIT"].ToString();
-                    tda2.OutType = dt4.Rows[i]["OTYPE"].ToString();
-                    tda2.OQty = dt4.Rows[i]["OQTY"].ToString();
+                    tda2.oitem = dt4.Rows[i]["OITEMID"].ToString();
+                    tda2.ounit = dt4.Rows[i]["OUNIT"].ToString();
+                    tda2.outtype = dt4.Rows[i]["OTYPE"].ToString();
+                    tda2.oqty = dt4.Rows[i]["OQTY"].ToString();
                     tda2.Waste = dt4.Rows[i]["OWPER"].ToString();
                     tda2.Vmper = dt4.Rows[i]["VMPER"].ToString();
                     tda2.Greas = dt4.Rows[i]["GPER"].ToString();
@@ -638,6 +660,21 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListBatchCreation");
             }
+        }
+
+        public ActionResult GetSchinpdetail(string schid)
+        {
+            BatchCreation ca = new BatchCreation();
+            ca.BatchInLst = Batch.GetBatchInItems(schid);
+            return Json(ca.BatchInLst);
+
+        }
+        public ActionResult GetSchoutdetail(string schid)
+        {
+            BatchCreation ca = new BatchCreation();
+            ca.BatchOutLst = Batch.GetBatchOutItems(schid);
+            return Json(ca.BatchOutLst);
+
         }
     }
 }
