@@ -444,7 +444,7 @@ namespace Arasan.Controllers.Master
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
 
-                    Multi = "<a href=Employee?id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/plus.png' alt='Edit' /></a>";
+                    Multi = "<a href=MultipleLocationSelect?id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/plus.png' alt='Edit' /></a>";
                     EditRow = "<a href=Employee?id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 }

@@ -216,6 +216,7 @@ internal class Program
 
         builder.Services.TryAddSingleton<IPurchaseRepItemReportService, PurchaseRepItemReportService>();
         builder.Services.TryAddSingleton<IPurchaseRepPartyReportService, PurchaseRepPartyReportService>();
+        builder.Services.TryAddSingleton<IWorkCenterReportService, WorkCenterReportService>();
 
         builder.Services.TryAddSingleton<IPurMonReport, PurMonReportService>();
 
