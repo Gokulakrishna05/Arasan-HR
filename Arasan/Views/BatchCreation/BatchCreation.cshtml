@@ -48,10 +48,13 @@
                              <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Prod.Sch.No<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Prod.Sch.No<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                  @Html.DropDownListFor(C => C.Prod, Model.Prodlst," -- Please Select -- ", new { @id = "ddlProd", @Class = "form-control _select", @TabIndex = 1,@onchange="changesch(this.value)" })
-<br />
+                                            <br />  @Html.HiddenFor(C => C.Enterd)
+                                              @Html.HiddenFor(C => C.Branch)
+                                            @Html.HiddenFor(C => C.WorkCenterid,new{@id="WorkCenterid"})
+                                            @Html.HiddenFor(C => C.Processid,new{@id="Processid"})
 
                                     </div>
                                 </div>
@@ -177,7 +180,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">In/Out Radio From<label class="mandatory">*</label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">In/Out Radio From<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.IOFrom, new { @id = "txtIOFrom", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
 <br />
@@ -192,7 +195,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label"> To<label class="mandatory">*</label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label"> To<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
 
                                                                                 @Html.TextBoxFor(C => C.IOTo, new { @id = "txtIOTo", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
@@ -207,7 +210,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">MTO Circulation No.<label class="mandatory">*</label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">MTO Circulation No.<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.MTO, new { @id = "txtMTO", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
 <br />
@@ -1030,25 +1033,25 @@
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
-              if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
+            if (document.getElementById("ddlProd").value == "" || document.getElementById("ddlProd").value == 0) {
                 isValid = false;
-                $(ddlBranch ).css({
+                $(ddlProd).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Customer Type");
+                alert("Please Select Schedule No");
                 return false;
             }
             else {
-                $(ddlBranch ).css({
+                $(ddlProd).css({
                     "border": "",
                     "background": ""
                 });
             }
-            if (document.getElementById("ddlWorkCenter").value == "" || document.getElementById("ddlWorkCenter").value == 0) {
+            if (document.getElementById("txtWorkCenter").value == "") {
                 isValid = false;
-                $(ddlWorkCenter ).css({
+                $(txtWorkCenter ).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
@@ -1057,7 +1060,7 @@
                 return false;
             }
             else {
-                $(ddlWorkCenter ).css({
+                $(txtWorkCenter).css({
                     "border": "",
                     "background": ""
                 });
@@ -1094,54 +1097,7 @@
                     "background": ""
                 });
             }
-             if (document.getElementById("txtIOFrom").value == "") {
-                isValid = false;
-                $(txtIOFrom).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter  IOFrom");
-                return false;
-            }
-            else {
-                $(txtIOFrom).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtIOTo").value == "") {
-                isValid = false;
-                $(txtIOTo).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter IOTo");
-                return false;
-            }
-            else {
-                $(txtIOTo).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtMTO").value == "") {
-                isValid = false;
-                $(txtMTO).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter MTO");
-                return false;
-            }
-            else {
-                $(txtMTO).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+             
             var j = 0;
             $('tr.chkitemlst').each(function () {
                 if ($(this).css('display') !== 'none') {
@@ -1639,6 +1595,8 @@
 
                 document.getElementById("txtWorkCenter").value = result.work;
             document.getElementById("txtProcess").value = result.process;
+                document.getElementById("Processid").value = result.processid;
+                document.getElementById("WorkCenterid").value = result.workid;
 
            
             },
@@ -1661,9 +1619,9 @@
                     var index = $("#tbBooks1").children("tr").length;
 
                      
-                    var ItemId = "<td><input class='form-control' id='txtItem" + index + "' name='BatchInLst[" + index + "].itemid'  style='width: 100px;' type='text'  readonly='True'  value=" + item.itemid + " /></td>";
+                    var ItemId = "<td><label>" + item.itemid + "</label><input class='form-control' id='txtsaveitemid" + index + "' name='BatchInLst[" + index + "].saveitemid'  style='width: 100px;' type='hidden'  readonly='True'  value=" + item.saveitemid + " /></td>";
 
-                    var Unit = "<td><label>" + item.unit + "</label><input type='hidden' value=" + item.unit + " id='txtunit" + index + "' name='BatchInLst[" + index + "].unit'><input type='hidden' value=" + item.saveitemid + " id='txtunit" + index + "' name='BatchInLst[" + index + "].saveitemid'></td>";
+                    var Unit = "<td> <input type='text' class='form-control' value=" + item.unit + " id='txtunit" + index + "' style='width: 80px;' name='BatchInLst[" + index + "].unit'/></td>";
 
                     var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='BatchInLst[" + index + "].qty'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " , onkeyup = 'changeQty(this, " + index + ")'  /></td>";
 
@@ -1679,7 +1637,7 @@
                 }
             });
 
-             $.ajax({
+      $.ajax({
                 type: "POST",
                 url: "GetSchoutdetail",
             data: { "schid": schid },
@@ -1689,10 +1647,9 @@
                      list.forEach((item) => {
 
                     var index = $("#tbBooksout").children("tr").length;
-                    var ItemId = "<td><input class='form-control' id='txtOItem" + index + "' name='BatchOutLst[" + index + "].oitem'  style='width: 100px;' type='text'  readonly='True'  value=" + item.oitem + " /></td>";
+                    var ItemId = "<td><label>"+ item.oitem +"</label><input class='form-control' id='txtOItem" + index + "' name='BatchOutLst[" + index + "].saveitemid'  style='width: 100px;' type='hidden'  readonly='True'  value=" + item.saveitemid + " /></td>";
 
-                    var Unit = "<td><label>" + item.ounit + "</label><input type='hidden' value=" + item.unit + " id='txtOUnit" + index + "' name='BatchOutLst[" + index + "].ounit'><input type='hidden' value=" + item.saveitemid + " id='txtunit" + index + "' name='BatchOutLst[" + index + "].saveitemid'></td><input type='hidden' value=" + item.Isvalid + " id='txtunit" + index + "' name='BatchOutLst[" + index + "].Isvalid'></td>";
-
+                    var Unit = "<td><input type='text' class='form-control' value=" + item.ounit + " style='width: 80px;' id='txtOUnit" + index + "' name='BatchOutLst[" + index + "].ounit'/></td>";
                     var Type = "<td><input class='form-control' id='txtOutType" + index + "' name='BatchOutLst[" + index + "].outtype'  style='width: 80px;' type='text' readonly='True' value=" + item.outtype + " , onkeyup = 'changeQty(this, " + index + ")'  /></td>";
                     var Qty = "<td><input class='form-control' id='txtOQty" + index + "' name='BatchOutLst[" + index + "].oqty'  style='width: 80px;' type='text' readonly='True' value=" + item.oqty + " , onkeyup = 'changeQty(this, " + index + ")'  /></td>";
                     var Waste = "<td><input class='form-control' id='txtWaste" + index + "' name='BatchOutLst[" + index + "].Waste'  style='width: 80px;' type='text'  /></td>";

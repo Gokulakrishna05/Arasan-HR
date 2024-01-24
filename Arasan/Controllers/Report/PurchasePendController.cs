@@ -109,7 +109,7 @@ namespace Arasan.Controllers
             DataTable dtNew = new DataTable();
 
 
-            string SvSql = "SELECT Br.BranchID,PB.DOCID,PB.DOCDATE,IM.ITEMID,UM.UNITID,QTY ORD_QTY,PD.GRNQTY PUR_QTY,((QTY+RETQTY)-(nvl(GRNQTY,0)+SHCLQTY+PD.POQTY)) PEND_QTY,PD.DUEDATE,L.Locid,PD.Narration  , Pd.App2Dt ,Decode(sign(pd.qty-pd.POQTY),1,'DIRECT PURCHASE','PURCHASE ORDER') TransType,  Pb.EntryDate EntDt,Round((Sysdate-PD.DueDate),0) Pdays FROM PINDBASIC PB,PINDDETAIL PD,ITEMMASTER IM,UNITMAST UM,Locdetails L ,BranchMast Br WHERE PB.PINDBASICID = PD.PINDBASICID AND IM.PRIUNIT = UM.UNITMASTID AND IM.ITEMMASTERID = PD.ITEMID AND PB.BranchID = Br.BranchMastID AND PD.APPROVED2='YES' And L.Locdetailsid(+) = PD.Department AND (PD.POQTY=0 or PD.POQTY is null or (Pd.qty-Pd.POQTY)>0) ";
+            string SvSql = "SELECT Br.BranchID,PB.DOCID,to_char(PB.DOCDATE,'dd-MON-yyyy')DOCDATE,IM.ITEMID,UM.UNITID,QTY ORD_QTY,PD.GRNQTY PUR_QTY,((QTY+RETQTY)-(nvl(GRNQTY,0)+SHCLQTY+PD.POQTY)) PEND_QTY,to_char(PD.DUEDATE,'dd-MON-yyyy')DUEDATE,L.Locid,PD.Narration  , Pd.App2Dt ,Decode(sign(pd.qty-pd.POQTY),1,'DIRECT PURCHASE','PURCHASE ORDER') TransType,  Pb.EntryDate EntDt,Round((Sysdate-PD.DueDate),0) Pdays FROM PINDBASIC PB,PINDDETAIL PD,ITEMMASTER IM,UNITMAST UM,Locdetails L ,BranchMast Br WHERE PB.PINDBASICID = PD.PINDBASICID AND IM.PRIUNIT = UM.UNITMASTID AND IM.ITEMMASTERID = PD.ITEMID AND PB.BranchID = Br.BranchMastID AND PD.APPROVED2='YES' And L.Locdetailsid(+) = PD.Department AND (PD.POQTY=0 or PD.POQTY is null or (Pd.qty-Pd.POQTY)>0) ";
             if (Sdate != null && Edate != null)
             {
                 SvSql += " and PB.DOCDATE BETWEEN '" + Sdate + "' AND '" + Edate + "'";
@@ -127,7 +127,7 @@ namespace Arasan.Controllers
                 SvSql += "";
             }
 
-            SvSql += "Union All SELECT Br.BranchID,(B.DOCID||'--'||pb.DOCID) docid,B.DOCDATE,IM.ITEMID,UM.UNITID,Po.QTY ORD_QTY,Po.GRNQTY PUR_QTY,((Po.QTY+Po.REJQTY)-(nvl(Po.GRNQTY,0)+Po.SHCLQTY)) PEND_QTY,PD.DUEDATE,L.Locid,PD.Narration ,  Pd.App2Dt ,Decode((pd.POQTY),0,'DIRECT PURCHASE','PURCHASE ORDER') T,  Pb.EntryDate EntDt,Round((Sysdate-PD.DueDate),0) Pdays FROM PINDBASIC PB,PINDDETAIL PD,ITEMMASTER IM,UNITMAST UM,Locdetails L,PoDetail PO,PoBasic B,BranchMast Br WHERE PB.PINDBASICID = PD.PINDBASICID AND IM.PRIUNIT = UM.UNITMASTID AND IM.ITEMMASTERID = PD.ITEMID AND PO.PINDDETAILID=PD.PINDDETAILID And B.POBASICID=Po.POBASICID ANd B.Active=0 AND PD.APPROVED2='YES' And L.Locdetailsid(+) = PD.Department AND PB.BranchID = Br.BranchMastID AND (PD.POQTY)>0  ";
+            SvSql += "Union All SELECT Br.BranchID,(B.DOCID||'--'||pb.DOCID) docid,to_char(B.DOCDATE,'dd-MON-yyyy')DOCDATE ,IM.ITEMID,UM.UNITID,Po.QTY ORD_QTY,Po.GRNQTY PUR_QTY,((Po.QTY+Po.REJQTY)-(nvl(Po.GRNQTY,0)+Po.SHCLQTY)) PEND_QTY,to_char(PD.DUEDATE,'dd-MON-yyyy')DUEDATE,L.Locid,PD.Narration ,  Pd.App2Dt ,Decode((pd.POQTY),0,'DIRECT PURCHASE','PURCHASE ORDER') T,  Pb.EntryDate EntDt,Round((Sysdate-PD.DueDate),0) Pdays FROM PINDBASIC PB,PINDDETAIL PD,ITEMMASTER IM,UNITMAST UM,Locdetails L,PoDetail PO,PoBasic B,BranchMast Br WHERE PB.PINDBASICID = PD.PINDBASICID AND IM.PRIUNIT = UM.UNITMASTID AND IM.ITEMMASTERID = PD.ITEMID AND PO.PINDDETAILID=PD.PINDDETAILID And B.POBASICID=Po.POBASICID ANd B.Active=0 AND PD.APPROVED2='YES' And L.Locdetailsid(+) = PD.Department AND PB.BranchID = Br.BranchMastID AND (PD.POQTY)>0  ";
             if (Sdate != null && Edate != null)
             {
                 SvSql += " and PB.DOCDATE BETWEEN '" + Sdate + "' AND '" + Edate + "'";

@@ -26,6 +26,7 @@ namespace Arasan.Interface
         DataTable BatchOutDetail(string name);
         DataTable BatchOtherDetail(string name);
         DataTable BatchParemItemDetail(string name);
+        DataTable GetAllBatch(string name);
         DataTable GetProd();
         List<BatchInItem> GetBatchInItems(string name);
         List<BatchOutItem> GetBatchOutItems(string name);
