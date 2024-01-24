@@ -64,23 +64,23 @@ namespace Arasan.Models
     {
         public string ID { get; set; }
         public string Process { get; set; }
-        public string saveItemId { get; set; }
-        
+       
         public List<SelectListItem> IProcesslst { get; set; }
 
         public List<SelectListItem> Itemlst { get; set; }
 
-        public string Item { get; set; }
+        public string itemid { get; set; }
         
-        public string Unit { get; set; }
-        public string Qty { get; set; }
+        public string unit { get; set; }
+        public string qty { get; set; }
+        public string saveitemid { get; set; }
         public string Isvalid { get; set; }
     }
     public class BatchOutItem
     {
         public string ID { get; set; }
         public string OProcess { get; set; }
-        public string saveItemId { get; set; }
+        public string saveitemid { get; set; }
         public List<SelectListItem> OItemGrouplst { get; set; }
 
         public string ItemGroupId { get; set; }
@@ -88,12 +88,12 @@ namespace Arasan.Models
 
         public List<SelectListItem> OItemlst { get; set; }
 
-        public string OItem { get; set; }
+        public string oitem { get; set; }
 
-        public string OUnit { get; set; }
-        public string OQty { get; set; }
+        public string ounit { get; set; }
+        public string oqty { get; set; }
         public string Isvalid { get; set; }
-        public string OutType { get; set; }
+        public string outtype { get; set; }
 
         public string Waste { get; set; }
         public string Vmper { get; set; }
