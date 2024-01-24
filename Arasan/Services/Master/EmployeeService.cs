@@ -297,7 +297,7 @@ namespace Arasan.Services.Master
         public DataTable GetCurrentUser(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select EMPNAME  from EMPMAST where  EMPMASTID=" + id + "";
+            SvSql = "Select EMPNAME  from EMPMAST where  EMPMASTID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -363,14 +363,22 @@ namespace Arasan.Services.Master
                                 objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                 objCmd.Parameters.Add("EMPID", OracleDbType.NVarchar2).Value = EmpID;
                                 objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = mp.Location[i];
-                                //objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                                //objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = mp.CreadtedBy;
-                               
+                            
+                            if (mp.ID == null)
+                            {
+                                objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = mp.CreadtedBy;
+                                objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                            }
+                            else
+                            {
+                                objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = mp.CreadtedBy;
+                                objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                            }
 
-                                objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                            objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
 
-                                try
+                            try
                                 {
                                     objConn.Open();
                                     objCmd.ExecuteNonQuery();
