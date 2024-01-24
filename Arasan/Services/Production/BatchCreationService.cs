@@ -102,10 +102,10 @@ namespace Arasan.Services
 
                     }
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
-                    objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkCenter;
+                    objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkCenterid;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.BatchNo;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDate;
-                    objCmd.Parameters.Add("WPROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
+                    objCmd.Parameters.Add("WPROCESSID", OracleDbType.NVarchar2).Value = cy.Processid;
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
                     objCmd.Parameters.Add("SEQYN", OracleDbType.NVarchar2).Value = cy.Seq;
                     objCmd.Parameters.Add("IORATIOFROM", OracleDbType.NVarchar2).Value = cy.IOFrom;
@@ -128,48 +128,48 @@ namespace Arasan.Services
                         {
                             Pid = cy.ID;
                         }
-                        if (cy.BatchLst != null)
-                        {
-                            if (cy.ID == null)
-                            {
-                                foreach (BatchItem cp in cy.BatchLst)
-                                {
-                                    if (cp.Isvalid == "Y" && cp.WorkId != "0")
-                                    {
+                        //if (cy.BatchLst != null)
+                        //{
+                        //    if (cy.ID == null)
+                        //    {
+                        //        foreach (BatchItem cp in cy.BatchLst)
+                        //        {
+                        //            if (cp.Isvalid == "Y" && cp.WorkId != "0")
+                        //            {
 
-                                        svSQL = "Insert into BCPRODDETAIL (BCPRODBASICID,BWCID,PROCESSID,PSEQ,INSREQ) VALUES ('" + Pid + "','" + cp.WorkId + "','" + cp.ProcessId + "','" + cp.Seq + "','" + cp.Req + "')";
-                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                        objCmds.ExecuteNonQuery();
-                                    }
-                                }
+                        //                svSQL = "Insert into BCPRODDETAIL (BCPRODBASICID,BWCID,PROCESSID,PSEQ,INSREQ) VALUES ('" + Pid + "','" + cp.WorkId + "','" + cp.ProcessId + "','" + cp.Seq + "','" + cp.Req + "')";
+                        //                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        //                objCmds.ExecuteNonQuery();
+                        //            }
+                        //        }
 
-                            }
-                            else
-                            {
-                                svSQL = "Delete BCPRODDETAIL WHERE BCPRODBASICID='" + cy.ID + "'";
-                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
-                                objCmdd.ExecuteNonQuery();
-                                foreach (BatchItem cp in cy.BatchLst)
-                                {
-                                    if (cp.Isvalid == "Y" && cp.WorkId != "0")
-                                    {
-                                        svSQL = "Insert into BCPRODDETAIL (BCPRODBASICID,BWCID,PROCESSID,PSEQ,INSREQ) VALUES ('" + Pid + "','" + cp.WorkId + "','" + cp.ProcessId + "','" + cp.Seq + "','" + cp.Req + "')";
-                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                        objCmds.ExecuteNonQuery();
+                        //    }
+                        //    else
+                        //    {
+                        //        svSQL = "Delete BCPRODDETAIL WHERE BCPRODBASICID='" + cy.ID + "'";
+                        //        OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        //        objCmdd.ExecuteNonQuery();
+                        //        foreach (BatchItem cp in cy.BatchLst)
+                        //        {
+                        //            if (cp.Isvalid == "Y" && cp.WorkId != "0")
+                        //            {
+                        //                svSQL = "Insert into BCPRODDETAIL (BCPRODBASICID,BWCID,PROCESSID,PSEQ,INSREQ) VALUES ('" + Pid + "','" + cp.WorkId + "','" + cp.ProcessId + "','" + cp.Seq + "','" + cp.Req + "')";
+                        //                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        //                objCmds.ExecuteNonQuery();
 
-                                    }
-                                }
-                            }
-                        }
+                        //            }
+                        //        }
+                        //    }
+                        //}
                         if (cy.BatchInLst != null)
                         {
                             if (cy.ID == null)
                             {
                                 foreach (BatchInItem cp in cy.BatchInLst)
                                 {
-                                    if (cp.Isvalid == "Y" && cp.saveitemid != "0")
+                                    if ( cp.saveitemid != "0")
                                     {
-                                        svSQL = "Insert into BCINPUTDETAIL (BCPRODBASICID,IPROCESSID,IITEMID,IUNIT,IQTY) VALUES ('" + Pid + "','" + cp.Process + "','" + cp.saveitemid + "','" + cp.unit + "','" + cp.qty + "')";
+                                        svSQL = "Insert into BCINPUTDETAIL (BCPRODBASICID,IPROCESSID,IITEMID,IUNIT,IQTY) VALUES ('" + Pid + "','" + cy.Processid + "','" + cp.saveitemid + "','" + cp.unit + "','" + cp.qty + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -204,10 +204,10 @@ namespace Arasan.Services
                             {
                                 foreach (BatchOutItem cp in cy.BatchOutLst)
                                 {
-                                    if (cp.Isvalid == "Y" && cp.saveitemid != "0")
+                                    if ( cp.saveitemid != "0")
                                     {
 
-                                        svSQL = "Insert into BCOUTPUTDETAIL (BCPRODBASICID,OPROCESSID,OITEMID,OUNIT,OQTY,OTYPE,GPER,VMPER,OWPER) VALUES ('" + Pid + "','" + cp.OProcess + "','" + cp.saveitemid + "','" + cp.ounit + "','" + cp.oqty + "','" + cp.outtype + "','" + cp.Vmper + "','" + cp.Greas + "','" + cp.Waste + "')";
+                                        svSQL = "Insert into BCOUTPUTDETAIL (BCPRODBASICID,OPROCESSID,OITEMID,OUNIT,OQTY,OTYPE,GPER,VMPER,OWPER) VALUES ('" + Pid + "','" + cy.Processid + "','" + cp.saveitemid + "','" + cp.ounit + "','" + cp.oqty + "','" + cp.outtype + "','" + cp.Vmper + "','" + cp.Greas + "','" + cp.Waste + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -235,78 +235,78 @@ namespace Arasan.Services
                                 }
                             }
                         }
-                        if (cy.BatchOtherLst != null)
-                        {
-                            if (cy.ID == null)
-                            {
-                                foreach (BatchOtherItem cp in cy.BatchOtherLst)
-                                {
-                                    if (cp.Isvalid == "Y" && cp.OtProcessId != "0")
-                                    {
-                                        svSQL = "Insert into BCOTHERDETAIL (BCPRODBASICID,EPROCESSID,ESDT,EEDT,EST,EET,EPSEQ,ETOTHRS,EBRHRS,ERUNHRS,ENARR) VALUES ('" + Pid + "','" + cp.OtProcessId + "','" + cp.Start + "','" + cp.End + "','" + cp.StartT + "','" + cp.EndT + "','" + cp.Seqe + "','" + cp.Total + "','" + cp.Break + "','" + cp.RunHrs + "','" + cp.Remark + "')";
-                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                        objCmds.ExecuteNonQuery();
+                        //if (cy.BatchOtherLst != null)
+                        //{
+                        //    if (cy.ID == null)
+                        //    {
+                        //        foreach (BatchOtherItem cp in cy.BatchOtherLst)
+                        //        {
+                        //            if (cp.Isvalid == "Y" && cp.OtProcessId != "0")
+                        //            {
+                        //                svSQL = "Insert into BCOTHERDETAIL (BCPRODBASICID,EPROCESSID,ESDT,EEDT,EST,EET,EPSEQ,ETOTHRS,EBRHRS,ERUNHRS,ENARR) VALUES ('" + Pid + "','" + cp.OtProcessId + "','" + cp.Start + "','" + cp.End + "','" + cp.StartT + "','" + cp.EndT + "','" + cp.Seqe + "','" + cp.Total + "','" + cp.Break + "','" + cp.RunHrs + "','" + cp.Remark + "')";
+                        //                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        //                objCmds.ExecuteNonQuery();
 
 
-                                    }
-                                }
+                        //            }
+                        //        }
 
 
-                            }
-                            else
-                            {
-                                svSQL = "Delete BCOTHERDETAIL WHERE BCPRODBASICID='" + cy.ID + "'";
-                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
-                                objCmdd.ExecuteNonQuery();
-                                foreach (BatchOtherItem cp in cy.BatchOtherLst)
-                                {
-                                    if (cp.Isvalid == "Y" && cp.OtProcessId != "0")
-                                    {
-                                        svSQL = "Insert into BCOTHERDETAIL (BCPRODBASICID,EPROCESSID,ESDT,EEDT,EST,EET,EPSEQ,ETOTHRS,EBRHRS,ERUNHRS,ENARR) VALUES ('" + Pid + "','" + cp.OtProcessId + "','" + cp.Start + "','" + cp.End + "','" + cp.StartT + "','" + cp.EndT + "','" + cp.Seqe + "','" + cp.Total + "','" + cp.Break + "','" + cp.RunHrs + "','" + cp.Remark + "')";
-                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                        objCmds.ExecuteNonQuery();
+                        //    }
+                        //    else
+                        //    {
+                        //        svSQL = "Delete BCOTHERDETAIL WHERE BCPRODBASICID='" + cy.ID + "'";
+                        //        OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        //        objCmdd.ExecuteNonQuery();
+                        //        foreach (BatchOtherItem cp in cy.BatchOtherLst)
+                        //        {
+                        //            if (cp.Isvalid == "Y" && cp.OtProcessId != "0")
+                        //            {
+                        //                svSQL = "Insert into BCOTHERDETAIL (BCPRODBASICID,EPROCESSID,ESDT,EEDT,EST,EET,EPSEQ,ETOTHRS,EBRHRS,ERUNHRS,ENARR) VALUES ('" + Pid + "','" + cp.OtProcessId + "','" + cp.Start + "','" + cp.End + "','" + cp.StartT + "','" + cp.EndT + "','" + cp.Seqe + "','" + cp.Total + "','" + cp.Break + "','" + cp.RunHrs + "','" + cp.Remark + "')";
+                        //                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        //                objCmds.ExecuteNonQuery();
 
 
-                                    }
-                                }
-                            }
-                        }
+                        //            }
+                        //        }
+                        //    }
+                        //}
 
-                        if (cy.BatchParemLst != null)
-                        {
-                            if (cy.ID == null)
-                            {
-                                foreach (BatchParemItem cp in cy.BatchParemLst)
-                                {
-                                    if (cp.Isvalid == "Y" && cp.Param != "0")
-                                    {
-                                        svSQL = "Insert into BCPARAMDETAIL (BCPRODBASICID,PROCPARAM,PSDT,PEDT,PSTIME,PETIME,PARAMUNIT,PARAMVALUE) VALUES ('" + Pid + "','" + cp.Param + "','" + cp.StartDate + "','" + cp.EndDate + "','" + cp.StartTime + "','" + cp.EndTime + "','" + cp.PUnit + "','" + cp.Value + "')";
-                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                        objCmds.ExecuteNonQuery();
+                        //if (cy.BatchParemLst != null)
+                        //{
+                        //    if (cy.ID == null)
+                        //    {
+                        //        foreach (BatchParemItem cp in cy.BatchParemLst)
+                        //        {
+                        //            if (cp.Isvalid == "Y" && cp.Param != "0")
+                        //            {
+                        //                svSQL = "Insert into BCPARAMDETAIL (BCPRODBASICID,PROCPARAM,PSDT,PEDT,PSTIME,PETIME,PARAMUNIT,PARAMVALUE) VALUES ('" + Pid + "','" + cp.Param + "','" + cp.StartDate + "','" + cp.EndDate + "','" + cp.StartTime + "','" + cp.EndTime + "','" + cp.PUnit + "','" + cp.Value + "')";
+                        //                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        //                objCmds.ExecuteNonQuery();
 
-                                    }
+                        //            }
 
-                                }
-                            }
-                            else
-                            {
+                        //        }
+                        //    }
+                        //    else
+                        //    {
 
-                                svSQL = "Delete BCPARAMDETAIL WHERE BCPRODBASICID='" + cy.ID + "'";
-                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
-                                objCmdd.ExecuteNonQuery();
-                                foreach (BatchParemItem cp in cy.BatchParemLst)
-                                {
-                                    if (cp.Isvalid == "Y" && cp.Param != "0")
-                                    {
-                                        svSQL = "Insert into BCPARAMDETAIL (BCPRODBASICID,PROCPARAM,PSDT,PEDT,PSTIME,PETIME,PARAMUNIT,PARAMVALUE) VALUES ('" + Pid + "','" + cp.Param + "','" + cp.StartDate + "','" + cp.EndDate + "','" + cp.StartTime + "','" + cp.EndTime + "','" + cp.PUnit + "','" + cp.Value + "')";
-                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                        objCmds.ExecuteNonQuery();
+                        //        svSQL = "Delete BCPARAMDETAIL WHERE BCPRODBASICID='" + cy.ID + "'";
+                        //        OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        //        objCmdd.ExecuteNonQuery();
+                        //        foreach (BatchParemItem cp in cy.BatchParemLst)
+                        //        {
+                        //            if (cp.Isvalid == "Y" && cp.Param != "0")
+                        //            {
+                        //                svSQL = "Insert into BCPARAMDETAIL (BCPRODBASICID,PROCPARAM,PSDT,PEDT,PSTIME,PETIME,PARAMUNIT,PARAMVALUE) VALUES ('" + Pid + "','" + cp.Param + "','" + cp.StartDate + "','" + cp.EndDate + "','" + cp.StartTime + "','" + cp.EndTime + "','" + cp.PUnit + "','" + cp.Value + "')";
+                        //                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        //                objCmds.ExecuteNonQuery();
 
-                                    }
+                        //            }
 
-                                }
-                            }
-                        }
+                        //        }
+                        //    }
+                        //}
                     }
                     catch (Exception ex)
                     {
@@ -327,7 +327,7 @@ namespace Arasan.Services
         public  DataTable GetBatchCreationByName(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHMAST.BRANCHID,PSBASIC.DOCID,to_char(BCPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,REFDOCID,BCPRODBASIC.ENTEREDBY,BCPRODBASIC.NARR,SEQYN,PTYPE,BTYPE,IORATIOFROM,IORATIOTO,MTONO,PROCESSMAST.PROCESSID,WCBASIC.WCID,BCPRODBASICID from BCPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=BCPRODBASIC.BRANCHID  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BCPRODBASIC.WPROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=BCPRODBASIC.WCID LEFT OUTER JOIN PSBASIC ON PSBASIC.PSBASICID=BCPRODBASIC.PSCHNO Where  BCPRODBASIC.BCPRODBASICID='" + name + "'";
+            SvSql = "Select BRANCHMAST.BRANCHID,PSBASIC.DOCID as scno,BCPRODBASIC.DOCID,to_char(BCPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,REFDOCID,BCPRODBASIC.ENTEREDBY,BCPRODBASIC.NARR,SEQYN,PTYPE,BTYPE,IORATIOFROM,IORATIOTO,MTONO,PROCESSMAST.PROCESSID,WCBASIC.WCID,BCPRODBASICID from BCPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=BCPRODBASIC.BRANCHID  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BCPRODBASIC.WPROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=BCPRODBASIC.WCID LEFT OUTER JOIN PSBASIC ON PSBASIC.PSBASICID=BCPRODBASIC.PSCHNO Where  BCPRODBASIC.BCPRODBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -470,6 +470,7 @@ namespace Arasan.Services
                             ounit = rdr["OUNIT"].ToString(),
                             oqty = rdr["SCHQTY"].ToString(),
                             outtype = rdr["OTYPE"].ToString(),
+                            saveitemid = rdr["OITEMID"].ToString(),
                             Isvalid = "Y",
                         };
                         lst.Add(cmp);
@@ -576,6 +577,23 @@ namespace Arasan.Services
             }
             return "";
 
+        }
+        public DataTable GetAllBatch(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select WCBASIC.WCID,BCPRODBASICID,BCPRODBASIC.DOCID,to_char(BCPRODBASIC.DOCDATE,'dd-MM-yy')DOCDATE,PROCESSMAST.PROCESSID,WPROCESSID,SEQYN,IORATIOFROM,IORATIOTO,MTONO,PSBASIC.DOCID as psno,PSCHNO,PTYPE,BTYPE,REFDOCID from BCPRODBASIC  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BCPRODBASIC.WPROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=BCPRODBASIC.WCID LEFT OUTER JOIN PSBASIC ON PSBASIC.PSBASICID=BCPRODBASIC.PSCHNO WHERE BCPRODBASIC.IS_ACTIVE='Y' ORDER BY BCPRODBASICID DESC ";
+            }
+            else
+            {
+                SvSql = "Select WCBASIC.WCID,BCPRODBASICID,BCPRODBASIC.DOCID,to_char(BCPRODBASIC.DOCDATE,'dd-MM-yy')DOCDATE,PROCESSMAST.PROCESSID,WPROCESSID,SEQYN,IORATIOFROM,IORATIOTO,MTONO,PSBASIC.DOCID as psno,PSCHNO,PTYPE,BTYPE,REFDOCID from BCPRODBASIC  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BCPRODBASIC.WPROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=BCPRODBASIC.WCID LEFT OUTER JOIN PSBASIC ON PSBASIC.PSBASICID=BCPRODBASIC.PSCHNO WHERE BCPRODBASIC.IS_ACTIVE='N' ORDER BY BCPRODBASICID DESC ";
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }

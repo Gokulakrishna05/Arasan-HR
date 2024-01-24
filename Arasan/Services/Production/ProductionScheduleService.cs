@@ -160,7 +160,7 @@ namespace Arasan.Services.Production
         public DataTable GetRVDInputDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PRODFCBASICID,ITEMMASTER.ITEMID,RVDRAWMATit.ITEMID as item,RVDITEMID,RVDRAWQTY,UNITMAST.UNITID,ITEMMASTER.ITEMDESC from PRODFCRVD INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCRVD.RVDRAWMAT LEFT OUTER JOIN ITEMMASTER it ON it.ITEMMASTERID=PRODFCRVD.RVDCONS LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCRVDID='" + id + "' ";
+            SvSql = "select PRODFCBASICID,ITEMMASTER.ITEMID,RVDRAWMAT,it.ITEMID as item,RVDITEMID,RVDRAWQTY,UNITMAST.UNITID,ITEMMASTER.ITEMDESC from PRODFCRVD INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRODFCRVD.RVDRAWMAT LEFT OUTER JOIN ITEMMASTER it ON it.ITEMMASTERID=PRODFCRVD.RVDCONS LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PRODFCRVDID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -318,6 +318,7 @@ namespace Arasan.Services.Production
                     objCmd.Parameters.Add("OPUNIT", OracleDbType.NVarchar2).Value = cy.Unit;
                     objCmd.Parameters.Add("OPQTY", OracleDbType.NVarchar2).Value = cy.Qty;
                     objCmd.Parameters.Add("EXPRUNHRS", OracleDbType.NVarchar2).Value = cy.Exprunhrs;
+                    objCmd.Parameters.Add("REFSCHNO", OracleDbType.NVarchar2).Value = cy.Refno;
                      
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
                     objCmd.Parameters.Add("PRODQTY", OracleDbType.NVarchar2).Value = cy.ProdQty;
@@ -346,7 +347,7 @@ namespace Arasan.Services.Production
                                 {
                                     if (cp.Isvalid == "Y" && cp.saveItemId != null)
                                     {
-                                        svSQL = "Insert into PSINPDETAIL (PSBASICID,RITEMID,RITEMDESC,RUNIT,IPER,RQTY,FORDETID) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + cp.Desc + "','" + cp.Unit + "','" + cp.Input + "','" + cp.Qty + "','"+cy.detid+"')";
+                                        svSQL = "Insert into PSINPDETAIL (PSBASICID,RITEMID,RITEMDESC,RUNIT,IPER,RQTY) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + cp.Desc + "','" + cp.Unit + "','" + cp.AddictPer + "','" + cp.Qty + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                     }
@@ -361,7 +362,7 @@ namespace Arasan.Services.Production
                                 {
                                     if (cp.Isvalid == "Y" && cp.saveItemId != null)
                                     {
-                                        svSQL = "Insert into PSINPDETAIL (PSBASICID,RITEMID,RITEMDESC,RUNIT,IPER,RQTY) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + cp.Desc + "','" + cp.Unit + "','" + cp.Input + "','" + cp.Qty + "')";
+                                        svSQL = "Insert into PSINPDETAIL (PSBASICID,RITEMID,RITEMDESC,RUNIT,IPER,RQTY) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + cp.Desc + "','" + cp.Unit + "','" + cp.AddictPer + "','" + cp.Qty + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                     }

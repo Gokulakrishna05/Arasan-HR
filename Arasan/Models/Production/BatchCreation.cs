@@ -23,8 +23,10 @@ namespace Arasan.Models
         public string Branch { get; set; }
         public List<SelectListItem> Worklst;
         public string WorkCenter { get; set; }
+        public string WorkCenterid { get; set; }
         public List<SelectListItem> Processlst;
         public string Process { get; set; }
+        public string Processid { get; set; }
         public string DocDate { get; set; }
         public string Seq { get; set; }
         public List<SelectListItem> RecList;
@@ -37,6 +39,7 @@ namespace Arasan.Models
         public string Shall { get; set; }
         public string Narr { get; set; }
         public string RefBatch { get; set; }
+        public string ddlStatus { get; set; }
       
         public List<BatchItem> BatchLst { get; set; }
         public List<BatchInItem> BatchInLst { get; set; }
@@ -137,5 +140,22 @@ namespace Arasan.Models
         public string  Value { get; set; }
 
        
+    }
+
+    public class BatchlstItem
+    {
+        public long id { get; set; }
+        public string doc { get; set; }
+        public string work { get; set; }
+        public string process { get; set; }
+        public string schno { get; set; }
+        public string docDate { get; set; }
+
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        public string view { get; set; }
+        public string Accrow { get; set; }
+        //public string Status { get; set; }
+        //public string Account { get; set; }
     }
 }
