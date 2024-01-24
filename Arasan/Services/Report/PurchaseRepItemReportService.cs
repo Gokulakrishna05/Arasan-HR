@@ -40,69 +40,77 @@ namespace Arasan.Services.Report
             
             try
             {
-                string SvSql = "Select Br.BranchID , P.PartyID , Db.DocID ,to_char(Db.DocDate,'dd-MON-yyyy')DocDate , I.ItemID , U.UnitID Unit , Dd.Qty,DD.PriQty , Dd.Rate , Dd.Amount,to_char(Db.Refno) Refno,DD.Costrate From DPBasic Db , DPDetail Dd , ItemMaster I , PartyMast P , BranchMast Br , UnitMast U  Where Db.DPBasicID = Dd.DPBasicID And Db.PartyID = P.PartyMastID And Dd.ItemID = I.ItemMasterID And Dd.Unit = U.UnitMastID And Db.BranchID = Br.BranchMastID";
-                if (dtFrom != null && dtTo != null)
+                string SvSql = "";
+                if (dtFrom == null && Branch == null && Customer == null && Item == null)
                 {
-                    SvSql += " and Db.DocDate BETWEEN '" + dtFrom + "' AND '" + dtTo + "'";
+                    SvSql = "Select Br.BranchID , P.PartyID , Db.DocID ,to_char(Db.DocDate,'dd-MON-yyyy')DocDate , I.ItemID , U.UnitID Unit , Dd.Qty,DD.PriQty , Dd.Rate , Dd.Amount,to_char(Db.Refno) Refno,DD.Costrate From DPBasic Db , DPDetail Dd , ItemMaster I , PartyMast P , BranchMast Br , UnitMast U  Where Db.DPBasicID = Dd.DPBasicID And Db.PartyID = P.PartyMastID And Dd.ItemID = I.ItemMasterID And Dd.Unit = U.UnitMastID And Db.BranchID = Br.BranchMastID Union Select Br.BranchID , P.PartyID , Db.DocID , to_char(Db.DocDate,'dd-MON-yyyy')DocDate , I.ItemID , U.UnitID Unit , Dd.Qty,DD.PriQty , Dd.Rate , Dd.Amount,to_char(Db.Refno),DD.Costrate From grnBLbasic Db , grnBLdetail Dd , ItemMaster I , PartyMast P , BranchMast Br , UnitMast U Where Db.grnBLbasicID = Dd.grnBLbasicID And Db.PartyID = P.PartyMastID And Dd.ItemID = I.ItemMasterID And Dd.Unit = U.UnitMastID And Db.BranchID = Br.BranchMastID Union Select Br.BranchID , P.PartyID , Db.DocID , to_char(Db.DocDate,'dd-MON-yyyy')DocDate , I.ItemID , U.UnitID Unit, Dd.Qty,DD.PriQty , Dd.Rate , Dd.Amount,Db.Refno,DD.Costrate From igrnbasic Db, igrndetail Dd , ItemMaster I, PartyMast P , BranchMast Br, UnitMast U Where Db.igrnbasicID = Dd.igrnbasicID And Db.PartyID = P.PartyMastID And Dd.ItemmasterID = I.ItemMasterID And Dd.Unit = U.UnitMastID And Db.BranchID = Br.BranchMastID";
+
                 }
-               
-                if (Branch != null)
+                else
                 {
-                    SvSql += " and Br.BranchID='" + Branch + "'";
+                    SvSql = "Select Br.BranchID , P.PartyID , Db.DocID ,to_char(Db.DocDate,'dd-MON-yyyy')DocDate , I.ItemID , U.UnitID Unit , Dd.Qty,DD.PriQty , Dd.Rate , Dd.Amount,to_char(Db.Refno) Refno,DD.Costrate From DPBasic Db , DPDetail Dd , ItemMaster I , PartyMast P , BranchMast Br , UnitMast U  Where Db.DPBasicID = Dd.DPBasicID And Db.PartyID = P.PartyMastID And Dd.ItemID = I.ItemMasterID And Dd.Unit = U.UnitMastID And Db.BranchID = Br.BranchMastID";
+                    if (dtFrom != null && dtTo != null)
+                    {
+                        SvSql += " and Db.DocDate BETWEEN '" + dtFrom + "' AND '" + dtTo + "'";
+                    }
+
+                    if (Branch != null)
+                    {
+                        SvSql += " and Br.BranchID='" + Branch + "'";
+                    }
+
+                    if (Customer != null)
+                    {
+                        SvSql += " and P.PartyID='" + Customer + "'";
+                    }
+
+                    if (Item != null)
+                    {
+                        SvSql += " and I.ItemID='" + Item + "'";
+                    }
+
+                    SvSql += "Union Select Br.BranchID , P.PartyID , Db.DocID , to_char(Db.DocDate,'dd-MON-yyyy')DocDate , I.ItemID , U.UnitID Unit , Dd.Qty,DD.PriQty , Dd.Rate , Dd.Amount,to_char(Db.Refno),DD.Costrate From grnBLbasic Db , grnBLdetail Dd , ItemMaster I , PartyMast P , BranchMast Br , UnitMast U Where Db.grnBLbasicID = Dd.grnBLbasicID And Db.PartyID = P.PartyMastID And Dd.ItemID = I.ItemMasterID And Dd.Unit = U.UnitMastID And Db.BranchID = Br.BranchMastID";
+                    if (dtFrom != null && dtTo != null)
+                    {
+                        SvSql += " and Db.DocDate BETWEEN '" + dtFrom + "' AND '" + dtTo + "'";
+                    }
+
+                    if (Branch != null)
+                    {
+                        SvSql += " and Br.BranchID='" + Branch + "'";
+                    }
+
+                    if (Customer != null)
+                    {
+                        SvSql += " and P.PartyID='" + Customer + "'";
+                    }
+
+                    if (Item != null)
+                    {
+                        SvSql += " and I.ItemID='" + Item + "'";
+                    }
+
+                    SvSql += "Union Select Br.BranchID , P.PartyID , Db.DocID , to_char(Db.DocDate,'dd-MON-yyyy')DocDate , I.ItemID , U.UnitID Unit, Dd.Qty,DD.PriQty , Dd.Rate , Dd.Amount,Db.Refno,DD.Costrate From igrnbasic Db, igrndetail Dd , ItemMaster I, PartyMast P , BranchMast Br, UnitMast U Where Db.igrnbasicID = Dd.igrnbasicID And Db.PartyID = P.PartyMastID And Dd.ItemmasterID = I.ItemMasterID And Dd.Unit = U.UnitMastID And Db.BranchID = Br.BranchMastID";
+                    if (dtFrom != null && dtTo != null)
+                    {
+                        SvSql += " and Db.DocDate BETWEEN '" + dtFrom + "' AND '" + dtTo + "'";
+                    }
+
+                    if (Branch != null)
+                    {
+                        SvSql += " and Br.BranchID='" + Branch + "'";
+                    }
+
+                    if (Customer != null)
+                    {
+                        SvSql += " and P.PartyID='" + Customer + "'";
+                    }
+
+                    if (Item != null)
+                    {
+                        SvSql += " and I.ItemID='" + Item + "'";
+                    }
                 }
-               
-                if (Customer != null)
-                {
-                    SvSql += " and P.PartyID='" + Customer + "'";
-                }
-               
-                if (Item != null)
-                {
-                    SvSql += " and I.ItemID='" + Item + "'";
-                }
-               
-                SvSql += "Union Select Br.BranchID , P.PartyID , Db.DocID , to_char(Db.DocDate,'dd-MON-yyyy')DocDate , I.ItemID , U.UnitID Unit , Dd.Qty,DD.PriQty , Dd.Rate , Dd.Amount,to_char(Db.Refno),DD.Costrate From grnBLbasic Db , grnBLdetail Dd , ItemMaster I , PartyMast P , BranchMast Br , UnitMast U Where Db.grnBLbasicID = Dd.grnBLbasicID And Db.PartyID = P.PartyMastID And Dd.ItemID = I.ItemMasterID And Dd.Unit = U.UnitMastID And Db.BranchID = Br.BranchMastID\r\n";
-                if (dtFrom != null && dtTo != null)
-                {
-                    SvSql += " and Db.DocDate BETWEEN '" + dtFrom + "' AND '" + dtTo + "'";
-                }
-               
-                if (Branch != null)
-                {
-                    SvSql += " and Br.BranchID='" + Branch + "'";
-                }
-               
-                if (Customer != null)
-                {
-                    SvSql += " and P.PartyID='" + Customer + "'";
-                }
-               
-                if (Item != null)
-                {
-                    SvSql += " and I.ItemID='" + Item + "'";
-                }
-               
-                SvSql += "Union Select Br.BranchID , P.PartyID , Db.DocID , to_char(Db.DocDate,'dd-MON-yyyy')DocDate , I.ItemID , U.UnitID Unit, Dd.Qty,DD.PriQty , Dd.Rate , Dd.Amount,Db.Refno,DD.Costrate From igrnbasic Db, igrndetail Dd , ItemMaster I, PartyMast P , BranchMast Br, UnitMast U Where Db.igrnbasicID = Dd.igrnbasicID And Db.PartyID = P.PartyMastID And Dd.ItemmasterID = I.ItemMasterID And Dd.Unit = U.UnitMastID And Db.BranchID = Br.BranchMastID";
-                if (dtFrom != null && dtTo != null)
-                {
-                    SvSql += " and Db.DocDate BETWEEN '" + dtFrom + "' AND '" + dtTo + "'";
-                }
-               
-                if (Branch != null)
-                {
-                    SvSql += " and Br.BranchID='" + Branch + "'";
-                }
-               
-                if (Customer != null)
-                {
-                    SvSql += " and P.PartyID='" + Customer + "'";
-                }
-                
-                if (Item != null)
-                {
-                    SvSql += " and I.ItemID='" + Item + "'";
-                }
-               
                 OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
                 DataTable dtReport = new DataTable();
                 adapter.Fill(dtReport);
