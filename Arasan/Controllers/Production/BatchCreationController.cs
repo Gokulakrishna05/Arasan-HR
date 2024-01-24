@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using Arasan.Interface;
 using Arasan.Models;
 using Arasan.Services.Production;
+using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nest;
@@ -33,7 +34,7 @@ namespace Arasan.Controllers
             ca.Branch = Request.Cookies["BranchId"];
             ca.Worklst = BindWorkCenter();
             ca.Processlst = BindProcess("");
-            ca.Enterd = Request.Cookies["UserId"];
+            ca.Enterd = Request.Cookies["UserName"];
             ca.RecList = BindEmp();
             ca.Prodlst = BindProd();
             ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -283,15 +284,22 @@ namespace Arasan.Controllers
             try
             {
                 DataTable dt=new DataTable();
-                dt = datatrans.GetData("select P.PROCESSID,W.WCID from PSBASIC S,PROCESSMAST P,WCBASIC W where P.PROCESSMASTID=S.PROCESSID AND W.WCBASICID=S.WCID AND S.PSBASICID='"+ schid + "'");
+                dt = datatrans.GetData("select P.PROCESSID,W.WCID,S.WCID as work,S.PROCESSID as process from PSBASIC S,PROCESSMAST P,WCBASIC W where P.PROCESSMASTID=S.PROCESSID AND W.WCBASICID=S.WCID AND S.PSBASICID='" + schid + "'");
                 string work = "";
+                string workid = "";
                 string process = "";
+                string processid = "";
+                string doc = "";
                 if(dt.Rows.Count > 0)
                 {
                     process = dt.Rows[0]["PROCESSID"].ToString();
                     work= dt.Rows[0]["WCID"].ToString();
+                    workid= dt.Rows[0]["work"].ToString();
+                    processid = dt.Rows[0]["process"].ToString();
+
+                   
                 }
-                var result = new { work = work, process = process };
+                var result = new { work = work, process = process , doc = doc, workid= workid , processid = processid };
                 return Json(result);
             }
             catch (Exception ex)
@@ -313,7 +321,7 @@ namespace Arasan.Controllers
                 ca.Process = dt.Rows[0]["PROCESSID"].ToString();
                 ca.WorkCenter = dt.Rows[0]["WCID"].ToString();
                 ca.ID = id;
-                ca.Prod = dt.Rows[0]["DOCID"].ToString();
+                ca.Prod = dt.Rows[0]["scno"].ToString();
                 ca.RefBatch = dt.Rows[0]["REFDOCID"].ToString();
                 ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
                 ca.Narr = dt.Rows[0]["NARR"].ToString();
@@ -365,7 +373,7 @@ namespace Arasan.Controllers
                     tda2.OProcesslst = BindProcessid();
                     tda2.OProcess = dt4.Rows[i]["PROCESSID"].ToString();
                     tda2.OItemlst = BindItemlst();
-                    tda2.oitem = dt4.Rows[i]["OITEMID"].ToString();
+                    tda2.oitem = dt4.Rows[i]["ITEMID"].ToString();
                     tda2.ounit = dt4.Rows[i]["OUNIT"].ToString();
                     tda2.outtype = dt4.Rows[i]["OTYPE"].ToString();
                     tda2.oqty = dt4.Rows[i]["OQTY"].ToString();
@@ -640,12 +648,61 @@ namespace Arasan.Controllers
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(model.Param);
         }
-        public IActionResult ListBatchCreation(string st, string ed)
+        public IActionResult ListBatchCreation( )
         {
-            IEnumerable<BatchCreation> cmp = Batch.GetAllBatchCreation(st,ed);
-            return View(cmp);
+             
+            return View( );
         }
-      
+        public ActionResult MyListDirectPurchaseGrid(string strStatus)
+        {
+            List<BatchlstItem> Reg = new List<BatchlstItem>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)Batch.GetAllBatch(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+                string view = string.Empty;
+
+                view = "<a href=ViewBatch?id=" + dtUsers.Rows[i]["BCPRODBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='Edit' /></a>";
+                EditRow = "<a href=BatchCreation?id=" + dtUsers.Rows[i]["BCPRODBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["BCPRODBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                //if (Reg.Status == "GRN Generated")
+                //{
+                //    @Html.DisplayFor(Reg => Reg.Status);
+                //}
+                //else
+                //{
+                //MoveToGRN = "<a href=MoveToGRN?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+
+                //}
+                Reg.Add(new BatchlstItem
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["BCPRODBASICID"].ToString()),
+                    work = dtUsers.Rows[i]["WCID"].ToString(),
+                    process = dtUsers.Rows[i]["PROCESSID"].ToString(),
+                    doc = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    schno = dtUsers.Rows[i]["psno"].ToString(),
+
+                    view = view,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
         public ActionResult DeleteMR(string tag, int id)
         {
 
