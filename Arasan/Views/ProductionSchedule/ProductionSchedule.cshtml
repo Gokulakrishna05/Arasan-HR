@@ -553,30 +553,30 @@
                                                                 <td>
                                                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
 
-                                                                            @Html.TextBoxFor(o => o.ProscLst[a].SchDate, new { @id = "txtSchDate" + a, @class = "form-control", style = "width: 120px;",@readonly="readonly"  })
+                                                                            @Html.TextBoxFor(o => o.ProscLst[a].schdate, new { @id = "txtSchDate" + a, @class = "form-control", style = "width: 120px;",@readonly="readonly"  })
                                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                                     </div>
                                                                 </td>
                                                                  <td>
-                                                                        @Html.TextBoxFor(o => o.ProscLst[a].Hrs, new { @id = "txtHrs" + a, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                                        @Html.TextBoxFor(o => o.ProscLst[a].hrs, new { @id = "txtHrs" + a, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                 </td>
                                                                 <td>
                                                                         @Html.DropDownListFor(o => o.ProscLst[a].ItemGrp, Model.ProscLst[a].SItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGp" + a, style = "width: 170px;", onchange = "Grup_Change2(this.value," + a + ")"})
                                                                 </td>
                                                                 <td>
 
-                                                                       @Html.DropDownListFor(o => o.ProscLst[a].Itemd, Model.ProscLst[a].SItemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem1" + a, style = "width: 170px;" })
+                                                                       @Html.DropDownListFor(o => o.ProscLst[a].itemd, Model.ProscLst[a].SItemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem1" + a, style = "width: 170px;" })
                                                                         @Html.HiddenFor(o => o.ProscLst[a].saveItemId)
                                                                  </td>
                                                                  <td>
-                                                                                @Html.TextBoxFor(o => o.ProscLst[a].Qty, new { @id = "txtQty" + a, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                                                @Html.TextBoxFor(o => o.ProscLst[a].qty, new { @id = "txtQty" + a, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                 </td>
                                                                 <td>
                                                                                 @Html.TextBoxFor(o => o.ProscLst[a].Change, new { @id = "txtChange" + a, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                 </td>
 
                                                                 <td>
-                                                                        @Html.HiddenFor(o => o.ProscLst[a].Isvalid, new { @id = "IsOutputvalid" + a })
+                                                                        @Html.HiddenFor(o => o.ProscLst[a].isvalid, new { @id = "IsOutputvalid" + a })
                                                                     <img onclick="removeRowOutput(@(a));" src="../Images/delete.png" style="cursor:pointer" /> 
                                                                 </td>
 

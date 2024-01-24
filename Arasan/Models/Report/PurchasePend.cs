@@ -32,5 +32,13 @@ namespace Arasan.Models
         public string pend { get; set; }
         public string pur { get; set; }
         public string due { get; set; }
+        
+        public string ord { get; set; }
+        
+        public string narr { get; set; }
+        public string app2 { get; set; }
+        public string trans { get; set; }
+        public string entry { get; set; }
+        public string pdays { get; set; }
     }
 }

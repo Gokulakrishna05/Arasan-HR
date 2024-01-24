@@ -79,11 +79,18 @@
                     { name: 'dcdate', type: 'string' },
                     { name: 'loc', type: 'string' },
                     { name: 'item', type: 'string' },
-                    { name: 'Pend', type: 'string' },
+                    { name: 'pend', type: 'string' },
                     { name: 'pur', type: 'string' },
                     { name: 'due', type: 'string' },
+                    { name: 'unit', type: 'string' },
+                    { name: 'ord', type: 'string' },
+                    { name: 'narr', type: 'string' },
+                    { name: 'app2', type: 'string' },
+                    { name: 'trans', type: 'string' },
+                    { name: 'entry', type: 'string' },
+                    { name: 'pdays', type: 'string' },
                 ],
-                id: 'id',
+                //id: 'id',
             };
             var dataAdapter = new $.jqx.dataAdapter(source,
                 { contentType: 'application/json; charset=utf-8' }, {
@@ -114,9 +121,16 @@
                         { text: 'Dc Date', filtertype: 'input', datafield: 'dcdate', width: 130 },
                         { text: 'Loc ID', filtertype: 'input', datafield: 'loc', width: 130 },
                         { text: 'Item', filtertype: 'input', datafield: 'item', width: 250 },
-                        { text: 'Pend Qty', filtertype: 'input', datafield: 'Pend', width: 100 },
+                        { text: 'Pend Qty', filtertype: 'input', datafield: 'pend', width: 100 },
                         { text: 'Purchase Qty', filtertype: 'input', datafield: 'pur', width: 100 },
                         { text: 'DueDate', filtertype: 'input', datafield: 'due', width: 120 },
+                        { text: 'Unit', filtertype: 'input', datafield: 'unit', width: 120 },
+                        { text: 'Ord Qty', filtertype: 'input', datafield: 'ord', width: 120 },
+                        { text: 'Narration', filtertype: 'input', datafield: 'narr', width: 120 },
+                        { text: 'App2 Date', filtertype: 'input', datafield: 'app2', width: 120 },
+                        { text: 'TransType', filtertype: 'input', datafield: 'trans', width: 120 },
+                        { text: 'EntryDate', filtertype: 'input', datafield: 'entry', width: 120 },
+                        { text: 'Pdays', filtertype: 'input', datafield: 'pdays', width: 120 },
 
                     ]
                 });
@@ -125,6 +139,9 @@
                 $("#grid").jqxGrid('exportdata', 'pdf', 'jqxGrid');
             });
 
+            //$("#excelExport").click(function () {
+            //    $("#grid").jqxGrid('exportdata', 'xls', 'jqxGrid');
+            //});
 
             $("#ddlStatus").change(function () {
                 var value = "Y";
@@ -139,6 +156,8 @@
         });
     });
 </script>
+
+
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -205,6 +224,7 @@
                                 <div class="col-md-3">
                                     <button type="button" class="btn btn-success  marginright" id="btnSave" value="Run">Run</button>
                                     <button type="button" class="btn btn-primary marginright" value="Export to Excel" id="pdfExport">Pdf</button>
+                                    <button type="button" class="btn btn-primary marginright" onclick="trChange()" value="Export" causesvalidation="false">Export</button>
                                     <button type="button" class="btn btn-danger marginright" onclick="location.href='@Url.Action("PurchasePend", "PurchasePend")'" value="Reset" causesvalidation="false">Reset</button>
 
                                 </div>
@@ -227,16 +247,20 @@
 @*<link href="@Url.Content("~/assets/js/bootstrap-multiselect.css")" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap.multiselect.js")"></script>*@
 <script>
-    //function exportToExcel() {
-    //    /* Get the HTML table element */
-    //    var table = document.getElementById("ddlBranch");
 
-    //    /* Convert table to workbook */
-    //    var workbook = XLSX.utils.table_to_book(table);
+    function trChange() {
+        var Branch = document.getElementById("ddlbranch").value;
+        var Sdate = document.getElementById("Sdate").value;
+        var Edate = document.getElementById("Edate").value;
 
-    //    /* Create Excel file and trigger download */
-    //    XLSX.writeFile(workbook, "exported_data.xlsx");
-    //}
+        var url = '@Url.Action("ExportLeadProReport", "PurchasePend")?Branch=' + Branch + '&Sdate=' + Sdate + '&Edate=' + Edate;
+        var $form = $('<form method="post"/>').attr('action', url).appendTo('body');
+
+        $form.append($('#allPages').clone());
+        $form.submit();
+        $form.remove();
+    }
+
     $('.to_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,

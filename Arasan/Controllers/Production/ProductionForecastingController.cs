@@ -1440,6 +1440,10 @@ WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='"+ Docdate + "' AND S.LocID = L
                     tda2.itemid = dt4.Rows[i]["ITEMID"].ToString();
                     tda2.SchYN = dt4.Rows[i]["SCHEDULE"].ToString();
 
+
+                    tda2.status = dt4.Rows[i]["STATUS"].ToString();
+
+
                     tda2.Worklst = BindWorkCenter();
                     tda2.WorkId = dt4.Rows[i]["WCID"].ToString();
                     tda2.detid = dt4.Rows[i]["PRODFCPYID"].ToString();
@@ -1481,6 +1485,9 @@ WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='"+ Docdate + "' AND S.LocID = L
                     tda3.POWorklst = BindWorkCenter();
                     tda3.workid = dt5.Rows[i]["WCID"].ToString();
                     tda3.SchYN = dt5.Rows[i]["SCHEDULE"].ToString();
+
+                    tda3.status = dt5.Rows[i]["STATUS"].ToString();
+
 
                     tda3.wcdays = dt5.Rows[i]["PIGWCDAYS"].ToString();
                     tda3.detid = dt5.Rows[i]["PRODFCPIGID"].ToString();
@@ -1527,6 +1534,9 @@ WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='"+ Docdate + "' AND S.LocID = L
                     tda4.qty = dt6.Rows[i]["RVDRAWQTY"].ToString();
                     tda4.days = dt6.Rows[i]["RVDPRODD"].ToString();
 
+                    tda4.status = dt6.Rows[i]["STATUS"].ToString();
+
+
 
 
                     tda4.ID = id;
@@ -1562,6 +1572,10 @@ WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='"+ Docdate + "' AND S.LocID = L
                     tda5.additive = dt7.Rows[i]["item"].ToString();
                     tda5.powerrequired = dt7.Rows[i]["PAPOWREQ"].ToString();
                     tda5.proddays = dt7.Rows[i]["PAPRODD"].ToString();
+
+
+                    tda5.status = dt7.Rows[i]["STATUS"].ToString();
+
 
 
 

@@ -41,7 +41,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Reports</a> </li>
-            <li class="active"> <strong>GRN Report</strong> </li>
+            <li class="active"> <strong>GRN Cum Bill</strong> </li>
         </ol>
     </div>
 </div>
@@ -52,10 +52,8 @@
             var dtFrom = document.getElementById("dtFrom").value;
             var dtTo = document.getElementById("dtTo").value;
             var Branch = document.getElementById("ddlBranch").value;
-            var Item = document.getElementById("ddlItem").value;
             var Customer = document.getElementById("ddlCustomer").value;
-
-
+            var Item = document.getElementById("ddlItem").value;
 
             var source =
             {
@@ -66,8 +64,8 @@
                     dtFrom: dtFrom,
                     dtTo: dtTo,
                     Branch: Branch,
-                    Item: Item,
                     Customer: Customer,
+                    Item: Item,
 
 
                 },
@@ -91,7 +89,7 @@
 
 
                 ],
-                id: 'id',
+                
             };
             var dataAdapter = new $.jqx.dataAdapter(source,
                 { contentType: 'application/json; charset=utf-8' }, {
@@ -133,9 +131,16 @@
                     ]
                 });
 
+ 
             $("#excelExport").click(function () {
                 $("#grid").jqxGrid('exportdata', 'xls', 'jqxGrid');
             });
+
+
+            //$("#excelExport").click(function () {
+            //    $("#grid").jqxGrid('exportdata', 'xls', 'jqxGrid');
+            //});
+ 
             $("#ddlStatus").change(function () {
                 var value = "Y";
                 if ($(this).val() != "") {
@@ -156,6 +161,12 @@
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
                     <hr>
+                    <div class="row">
+                        <div class="col-md-12 ">
+                            <center><h4><b>GRN Cum Bill</b></h4></center>
+                        </div>
+                    </div>
+                    <div style="height:10px;"></div>
                     @using (Html.BeginForm("GRNReport", "GRNReport", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
@@ -163,7 +174,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">From Date<label class="mandatory">*</label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">From Date<label class="mandatory"></label></label>
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.dtFrom, new { @id = "dtFrom", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -173,7 +184,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">To Date<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">To Date<label class="mandatory"></label></label>
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.dtTo, new { @id = "dtTo", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -187,7 +198,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @class = "form-control _select", @Width = "200px" })
                                         </div>
@@ -195,7 +206,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Customer<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Customer<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Customer, Model.Suplst," -- Please Select -- ", new { @id = "ddlCustomer", @class = "form-control _select", @Width = "200px" })
                                         </div>
@@ -206,7 +217,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Item Group<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Item Group<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.ItemGroup, Model.ItemGrouplst," -- Please Select -- ", new { @id = "ddlItemGroup", @class = "form-control _select", @Width = "200px",@onchange="Grup_Change(this.value)" })
                                         </div>
@@ -214,7 +225,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Item<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Item<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Item, Model.Itemlst," -- Please Select -- ", new { @id = "ddlItem", @class = "form-control _select", @Width = "200px" })
                                         </div>
@@ -226,7 +237,7 @@
                                 <div class="col-md-9"></div>
                                 <div class="col-md-3">
                                     <button type="button" class="btn btn-success  marginright" id="btnSave" value="Run">Run</button>
-                                    <button type="button" class="btn btn-primary marginright" value="Export to Excel" id="excelExport">Export</button>
+                                    <button type="button" class="btn btn-primary marginright" onclick="trChange()" value="Reset" causesvalidation="false">Export</button>
                                     <button type="button" class="btn btn-danger marginright" onclick="location.href='@Url.Action("GRNReport", "GRNReport")'" value="Reset" causesvalidation="false">Reset</button>
 
 
@@ -253,6 +264,23 @@
         </div>
     </div>
 </div>
+<script>
+    function trChange() {
+        var dtFrom = document.getElementById("dtFrom").value;
+        var dtTo = document.getElementById("dtTo").value;
+        var Branch = document.getElementById("ddlBranch").value;
+        var Customer = document.getElementById("ddlCustomer").value;
+        var Item = document.getElementById("ddlItem").value;
+
+        var url = '@Url.Action("ExportToExcel", "GRNReport")?dtFrom=' + dtFrom + '&dtTo=' + dtTo + '&Branch=' + Branch + '&Customer=' + Customer + '&Item=' + Item;
+
+        var $form = $('<form method="post"/>').attr('action', url).appendTo('body');
+
+        $form.append($('#allPages').clone());
+        $form.submit();
+        $form.remove();
+    }
+</script>
 @*<link href="@Url.Content("~/assets/js/bootstrap-multiselect.css")" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap.multiselect.js")"></script>*@
 <script>
@@ -344,115 +372,5 @@
         forceParse: 0
     });
 </script>
-<script>
-    $(document).ready(function () {
-        $('#btnSave').click(function (e) {
-            var isValid = true;
 
-            if (document.getElementById("dtFrom").value == "") {
-                isValid = false;
-                $(dtFrom).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select From Date ");
-                return false; Center
-            }
-            else {
-                $(dtFrom).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-            if (document.getElementById("dtTo").value == "") {
-                isValid = false;
-                $(dtTo).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select  ToDate");
-                return false;
-            }
-            else {
-                $(dtTo).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddlBranch").value == "") {
-                isValid = false;
-                $(ddlBranch).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Branch");
-                return false;
-            }
-            else {
-                $(ddlBranch).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddlCustomer").value == "") {
-                isValid = false;
-                $(ddlCustomer).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Customer");
-                return false;
-            }
-            else {
-                $(ddlCustomer).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddlItemGroup").value == "") {
-                isValid = false;
-                $(ddlItemGroup).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select ItemGroup");
-                return false;
-            }
-            else {
-                $(ddlItemGroup).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddlItem").value == "") {
-                isValid = false;
-                $(ddlItem).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Item");
-                return false;
-            }
-            else {
-                $(ddlItem).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-
-
-            if (isValid == false)
-                e.preventDefault();
-        });
-
-    });
-</script>
 

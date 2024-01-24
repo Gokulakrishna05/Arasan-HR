@@ -5,10 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Arasan.Interface.Report
 {
-    public interface IGRNReportService
+    public interface IPurchaseRepItemReportService
     {
-        DataTable GetAllReport(string dtFrom, string dtTo, string Branch, string Customer, string Item);
+        DataTable GetAllPurchaseItemReport(string dtFrom, string dtTo, string Branch, string Customer, string Item);
         DataTable GetItem(string id);
-        //long GetMregion(string? v, string id);
     }
 }

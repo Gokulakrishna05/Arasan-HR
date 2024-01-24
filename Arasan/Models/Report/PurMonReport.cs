@@ -8,21 +8,25 @@ namespace Arasan.Models
         public PurMonReport()
         {
             this.Brlst = new List<SelectListItem>();
+            this.Finyrlst = new List<SelectListItem>();
         }
         public string ID { get; set; }
 
         public List<SelectListItem> Brlst;
+        public List<SelectListItem> Finyrlst;
 
         public string Branch { get; set; }
         public string Sdate { get; set; }
         public string Edate { get; set; }
         public string dtFrom { get; set; }
         public string dtTo { get; set; }
+        public string SFINYR { get; set; }
+        public string stryr { get; set; } 
 
     }
 
     public class PurMonReportItem
-    {
+    { 
         public long id { get; set; }
         public string part { get; set; }
         public string item { get; set; }
@@ -36,9 +40,12 @@ namespace Arasan.Models
         public string july { get; set; }
         public string aug { get; set; }
         public string sep { get; set; }
-        public string act { get; set; }
+        public string oct { get; set; }
         public string nov { get; set; }
         public string dec { get; set; }
+        
     }
 
-}
+  
+
+    }
