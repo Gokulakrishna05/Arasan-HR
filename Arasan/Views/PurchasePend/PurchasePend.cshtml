@@ -291,29 +291,7 @@
         var minDate = new Date(selected.date.valueOf());
         $('.to_date').datetimepicker('setStartDate', minDate);
     });
-    //function Grup_Change(itemid) {
-    //    //alert(itemid);
-    //    //debugger;
-    //    $.ajax({
-    //        url: "GetItemJSON",
-    //        type: "post",
-    //        data: { 'itemid': itemid },
-    //        cache: false,
-    //        success: function (response) {
-    //            var newlist;
-    //            //alert(JSON.stringify(response));
-    //            newlist = response.Ilst;
-    //            PopulateDropDown("#ddlItem", response);
-    //        },
-    //        error: function () {
-    //            debugger;
-    //            alert("Please Select Item Group");
-    //        }
-    //    });
-    //}
-</script>
-<script>
-    $(function () {
+     $(function () {
         $('._select').select2();
     });
     function PopulateDropDown(dropDownId, list) {
@@ -330,3 +308,6 @@
 
 
 </script>
+
+ 
+
