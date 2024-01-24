@@ -339,3 +339,39 @@
 
 
 </script>
+<script>
+
+    $(function () {
+        $('._select').select2();
+    });
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+
+            if (document.getElementById("ddlSFINYR").value == "" || document.getElementById("ddlSFINYR").value == 0) {
+                isValid = false;
+                $(ddlSFINYR).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Year");
+                return false;
+            }
+            else {
+                $(ddlSFINYR).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+
+</script>
