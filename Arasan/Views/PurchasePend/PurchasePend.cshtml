@@ -120,28 +120,26 @@
                         { text: 'Doc ID', filtertype: 'input', datafield: 'did', width: 150 },
                         { text: 'Dc Date', filtertype: 'input', datafield: 'dcdate', width: 130 },
                         { text: 'Loc ID', filtertype: 'input', datafield: 'loc', width: 130 },
-                        { text: 'Item', filtertype: 'input', datafield: 'item', width: 250 },
-                        { text: 'Pend Qty', filtertype: 'input', datafield: 'pend', width: 100 },
-                        { text: 'Purchase Qty', filtertype: 'input', datafield: 'pur', width: 100 },
+                        { text: 'Item', filtertype: 'input', datafield: 'item', width: 150 },
+                        { text: 'Pend Qty', filtertype: 'input', datafield: 'pend', width: 50 },
+                        { text: 'Purchase Qty', filtertype: 'input', datafield: 'pur', width: 50 },
                         { text: 'DueDate', filtertype: 'input', datafield: 'due', width: 120 },
                         { text: 'Unit', filtertype: 'input', datafield: 'unit', width: 120 },
-                        { text: 'Ord Qty', filtertype: 'input', datafield: 'ord', width: 120 },
+                        { text: 'Ord Qty', filtertype: 'input', datafield: 'ord', width: 50 },
                         { text: 'Narration', filtertype: 'input', datafield: 'narr', width: 120 },
                         { text: 'App2 Date', filtertype: 'input', datafield: 'app2', width: 120 },
-                        { text: 'TransType', filtertype: 'input', datafield: 'trans', width: 120 },
+                        { text: 'TransType', filtertype: 'input', datafield: 'trans', width: 200 },
                         { text: 'EntryDate', filtertype: 'input', datafield: 'entry', width: 120 },
-                        { text: 'Pdays', filtertype: 'input', datafield: 'pdays', width: 120 },
+                        { text: 'Pdays', filtertype: 'input', datafield: 'pdays', width: 100 },
 
                     ]
                 });
 
             $("#pdfExport").click(function () {
-                $("#grid").jqxGrid('exportdata', 'pdf', 'jqxGrid');
+                $("#grid").jqxGrid('exportdata', 'pdf', 'PurchasePending');
             });
 
-            //$("#excelExport").click(function () {
-            //    $("#grid").jqxGrid('exportdata', 'xls', 'jqxGrid');
-            //});
+           
 
             $("#ddlStatus").change(function () {
                 var value = "Y";

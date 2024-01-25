@@ -17,10 +17,11 @@ namespace Arasan.Controllers
         IPyroProduction Pyro;
         IConfiguration? _configuratio;
         private string? _connectionString;
-
+        private readonly IWebHostEnvironment _WebHostEnvironment;
         DataTransactions datatrans;
-        public PyroProductionController(IPyroProduction _Pyro, IConfiguration _configuratio)
+        public PyroProductionController(IPyroProduction _Pyro, IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
         {
+            this._WebHostEnvironment = WebHostEnvironment;
             Pyro = _Pyro;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
@@ -1814,5 +1815,26 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
+
+        //public Task<IActionResult> Print(string id)
+        //{
+        //    string mimtype = "";
+        //    int extension = 1;
+        //    DataSet ds = new DataSet();
+        //    var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\PyroReport.rdlc";
+        //   // Dictionary<string, string> Parameters = new Dictionary<string, string>();
+
+        //    //var Pyroitem = await Pyro.Getpyropdf(id);
+
+        //    //LocalReport localReport = new LocalReport(path);
+        //    //localReport.AddDataSource("DataSet1", Pyroitem);
+
+
+        //    //var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+        //    //return File(result.MainStream, "application/Pdf");
+        //}
+
+
     }
 }
