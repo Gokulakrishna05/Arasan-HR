@@ -246,6 +246,10 @@ namespace Arasan.Models
         public string Isvalid { get; set; }
     }
 
+    public class PyroDetail
+    {
+
+    }
 
 
 

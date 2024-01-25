@@ -75,12 +75,16 @@
 
                                                                     @if (item.Approve == "N")
                                                                     {
+                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Print", "PyroProduction" ,new { id=item.ID })"><img src='../Images/pdf.png' alt='Generate PyroProduction' width='20' /></a></div></td>
+
                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewPyroProduction", "PyroProduction",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View' /></a></div></td>
                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApprovePyroProduction", "PyroProduction",new { id=item.ID })" ><img src='../Images/checklist.png' alt='Approve' /></a></div></td>
 
                                                                     }
                                                                     else
                                                                     {
+                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Print", "PyroProduction" ,new { id=item.ID })"><img src='../Images/pdf.png' alt='Generate PyroProduction' width='20' /></a></div></td>
+
                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewPyroProduction", "PyroProduction",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View' /></a></div></td>
 
                                                                         <td></td>

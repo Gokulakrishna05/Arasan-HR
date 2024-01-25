@@ -112,7 +112,7 @@ namespace Arasan.Controllers
             string SvSql = "SELECT Br.BranchID,PB.DOCID,to_char(PB.DOCDATE,'dd-MON-yyyy')DOCDATE,IM.ITEMID,UM.UNITID,QTY ORD_QTY,PD.GRNQTY PUR_QTY,((QTY+RETQTY)-(nvl(GRNQTY,0)+SHCLQTY+PD.POQTY)) PEND_QTY,to_char(PD.DUEDATE,'dd-MON-yyyy')DUEDATE,L.Locid,PD.Narration  , Pd.App2Dt ,Decode(sign(pd.qty-pd.POQTY),1,'DIRECT PURCHASE','PURCHASE ORDER') TransType,  Pb.EntryDate EntDt,Round((Sysdate-PD.DueDate),0) Pdays FROM PINDBASIC PB,PINDDETAIL PD,ITEMMASTER IM,UNITMAST UM,Locdetails L ,BranchMast Br WHERE PB.PINDBASICID = PD.PINDBASICID AND IM.PRIUNIT = UM.UNITMASTID AND IM.ITEMMASTERID = PD.ITEMID AND PB.BranchID = Br.BranchMastID AND PD.APPROVED2='YES' And L.Locdetailsid(+) = PD.Department AND (PD.POQTY=0 or PD.POQTY is null or (Pd.qty-Pd.POQTY)>0) ";
             if (Sdate != null && Edate != null)
             {
-                SvSql += " and PB.DOCDATE BETWEEN '" + Sdate + "' AND '" + Edate + "'";
+                SvSql += " and PB.DOCDATE BETWEEN '" + Sdate + "' AND '" + Edate + "' ";
             }
             else
             {

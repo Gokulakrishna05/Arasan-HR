@@ -54,6 +54,8 @@ namespace Arasan.Interface
         DataTable GetBreakDeatils(string id);
         DataTable GetOutputDeatils(string id);
         DataTable CuringsetDetails(string id);
+        //Task<IEnumerable<PyroDetail>> Getpyropdf(string id);
+
         DataTable GetLogdetailDeatils(string id);
 
         DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch, string drum);
