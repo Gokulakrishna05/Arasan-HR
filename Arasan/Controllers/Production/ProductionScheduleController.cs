@@ -308,9 +308,10 @@ namespace Arasan.Controllers.Production
                
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
-                string MoveToGRN = string.Empty;
+                string view = string.Empty;
 
-                 EditRow = "<a href=DirectPurchase?id=" + dtUsers.Rows[i]["PSBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                 view = "<a href=ApproveProSch?id=" + dtUsers.Rows[i]["PSBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Edit' /></a>";
+                 EditRow = "<a href=ProductionSchedule?id=" + dtUsers.Rows[i]["PSBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PSBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
               
                 //if (Reg.Status == "GRN Generated")
@@ -329,7 +330,8 @@ namespace Arasan.Controllers.Production
                     item = dtUsers.Rows[i]["ITEMID"].ToString(),
                     doc = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
-                   
+
+                    view = view,
                     editrow = EditRow,
                     delrow = DeleteRow,
                  
@@ -602,10 +604,10 @@ namespace Arasan.Controllers.Production
             return Json(BindItemlst(itemid));
 
         }
-        public IActionResult ApproveProSch(string PROID)
+        public IActionResult ApproveProSch(string id)
         {
             ProductionSchedule ca = new ProductionSchedule();
-            DataTable dt = ProductionScheduleService.EditProSche(PROID);
+            DataTable dt = ProductionScheduleService.EditProSche(id);
             if (dt.Rows.Count > 0)
             {
                 ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
@@ -621,6 +623,8 @@ namespace Arasan.Controllers.Production
                 ca.Itemid = dt.Rows[0]["ITEMID"].ToString();
                 ca.Unit = dt.Rows[0]["OPUNIT"].ToString();
                 ca.Exprunhrs = dt.Rows[0]["EXPRUNHRS"].ToString();
+                ca.startdate = dt.Rows[0]["FROMDATE"].ToString();
+                ca.enddate = dt.Rows[0]["TODATE"].ToString();
                 ca.Refno = dt.Rows[0]["REFSCHNO"].ToString();
                 ca.Amdno = dt.Rows[0]["AMDSCHNO"].ToString();
                 ca.Entered = dt.Rows[0]["ENTEREDBY"].ToString();
@@ -629,7 +633,7 @@ namespace Arasan.Controllers.Production
                 //ViewBag.entrytype = ca.EntryType;
                 List<ProductionScheduleItem> TData = new List<ProductionScheduleItem>();
                 ProductionScheduleItem tda = new ProductionScheduleItem();
-                DataTable dtproin = ProductionScheduleService.ProIndetail(PROID);
+                DataTable dtproin = ProductionScheduleService.ProIndetail(id);
                 for (int i = 0; i < dtproin.Rows.Count; i++)
                 {
                     tda = new ProductionScheduleItem();
@@ -655,7 +659,7 @@ namespace Arasan.Controllers.Production
 
                 List<ProductionItem> TData1 = new List<ProductionItem>();
                 ProductionItem tda1 = new ProductionItem();
-                DataTable dtProInOut = ProductionScheduleService.ProOutDetail(PROID);
+                DataTable dtProInOut = ProductionScheduleService.ProOutDetail(id);
                 for (int i = 0; i < dtProInOut.Rows.Count; i++)
                 {
                     tda1 = new ProductionItem();
@@ -688,7 +692,7 @@ namespace Arasan.Controllers.Production
 
                 List<ProItem> TData2 = new List<ProItem>();
                 ProItem tda2 = new ProItem();
-                DataTable dtproParm = ProductionScheduleService.ProParmDetail(PROID);
+                DataTable dtproParm = ProductionScheduleService.ProParmDetail(id);
                 for (int i = 0; i < dtproParm.Rows.Count; i++)
                 {
                     tda2 = new ProItem();
@@ -703,7 +707,7 @@ namespace Arasan.Controllers.Production
                 }
                 List<ProScItem> TData3 = new List<ProScItem>();
                 ProScItem tda3 = new ProScItem();
-                DataTable dtproDay = ProductionScheduleService.ProDailyDatDetail(PROID);
+                DataTable dtproDay = ProductionScheduleService.ProDailyDatDetail(id);
                 for (int i = 0; i < dtproDay.Rows.Count; i++)
                 {
                     tda3 = new ProScItem();
@@ -719,19 +723,19 @@ namespace Arasan.Controllers.Production
 
                     tda3.schdate = dtproDay.Rows[i]["ODDATE"].ToString();
                     tda3.hrs = dtproDay.Rows[i]["ODRUNHRS"].ToString();
-                   // tda3.qty = dtproDay.Rows[i]["ODQTY"].ToString();
-                    tda3.Change = dtproDay.Rows[i]["NOOFCHARGE"].ToString();
+                   tda3.qty = Convert.ToDouble(dtproDay.Rows[i]["ODQTY"].ToString());
+                    //tda3.Change = dtproDay.Rows[i]["NOOFCHARGE"].ToString();
                    
                     TData3.Add(tda3);
                 }
                 List<ProSchItem> TData4 = new List<ProSchItem>();
                 ProSchItem tda4 = new ProSchItem();
-                DataTable dtproPack = ProductionScheduleService.ProPackDetail(PROID);
+                DataTable dtproPack = ProductionScheduleService.ProPackDetail(id);
                 for (int i = 0; i < dtproPack.Rows.Count; i++)
                 {
                     tda4 = new ProSchItem();
 
-                    tda4.Pack = dtproPack.Rows[i]["PKITEMID"].ToString();
+                    tda4.Pack = dtproPack.Rows[i]["ITEMID"].ToString();
                     tda4.Qty = dtproPack.Rows[i]["PKQTY"].ToString();
 
                   
