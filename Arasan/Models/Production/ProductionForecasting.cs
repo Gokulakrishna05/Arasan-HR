@@ -132,7 +132,8 @@ namespace Arasan.Models
         public string wstatus { get; set; }
         public string powderrequired { get; set; }
         public string stock { get; set; }
-
+        public string startval { get; set; }
+        public string endval { get; set; }
         public string rawmat { get; set; }
         public string rawmatid { get; set; }
 
@@ -256,7 +257,8 @@ namespace Arasan.Models
         public string coarse { get; set; }
         public string stock { get; set; }
         public string powerrequired { get; set; }
-
+        public string startval { get; set; }
+        public string endval { get; set; }
         public string paaddpurpri { get; set; }
         public string mtopurpri { get; set; }
     }
