@@ -156,7 +156,7 @@ namespace Arasan.Models
        
         public string editrow { get; set; }
         public string delrow { get; set; }
-        public string move { get; set; }
+        public string view { get; set; }
         public string Accrow { get; set; }
         //public string Status { get; set; }
         //public string Account { get; set; }
