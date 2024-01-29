@@ -9,6 +9,7 @@ using System.Collections.Specialized;
 using Arasan.Interface;
 using System.Xml.Linq;
 using Arasan.Services.Sales;
+using AspNetCore.Reporting;
 
 namespace Arasan.Controllers 
 {
@@ -1817,23 +1818,23 @@ namespace Arasan.Controllers
         }
 
 
-        //public Task<IActionResult> Print(string id)
-        //{
-        //    string mimtype = "";
-        //    int extension = 1;
-        //    DataSet ds = new DataSet();
-        //    var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\PyroReport.rdlc";
-        //   // Dictionary<string, string> Parameters = new Dictionary<string, string>();
+        public async Task<IActionResult> Print(string id)
+        {
+            string mimtype = "";
+            int extension = 1;
+            DataSet ds = new DataSet();
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\PyroReport.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
 
-        //    //var Pyroitem = await Pyro.Getpyropdf(id);
+            var Pyroitem = await Pyro.Getpyropdf(id);
 
-        //    //LocalReport localReport = new LocalReport(path);
-        //    //localReport.AddDataSource("DataSet1", Pyroitem);
+            LocalReport localReport = new LocalReport(path);
+            localReport.AddDataSource("DataSet1", Pyroitem);
 
 
-        //    //var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
-        //    //return File(result.MainStream, "application/Pdf");
-        //}
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+            return File(result.MainStream, "application/Pdf");
+        }
 
 
     }

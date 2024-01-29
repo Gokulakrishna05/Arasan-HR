@@ -248,6 +248,9 @@ namespace Arasan.Models
 
     public class PyroDetail
     {
+        public string DOCDATE { get; set; }
+        public string SHIFT { get; set; }
+        
 
     }
 
