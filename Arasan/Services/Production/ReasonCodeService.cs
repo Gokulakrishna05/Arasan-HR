@@ -56,11 +56,32 @@ namespace Arasan.Services.Production
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        } 
+        
+        public DataTable GetViewReasonCode(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PROCESSMAST.PROCESSID ,REASONBASICID from REASONBASIC  LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID = REASONBASIC.PROCESSID where REASONBASICID= '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
         public DataTable GetReasonItem(string id)
         {
             string SvSql = string.Empty;
             SvSql = "select REASON,RTYPE,DESCRIPTION,STOPID from REASONDETAIL where REASONBASICID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        } 
+        public DataTable GetViewReasonItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select REASON,RTYPE,DESCRIPTION,STOPMAST.STOPDESC from REASONDETAIL LEFT OUTER JOIN STOPMAST ON STOPMAST.STOPMASTID = REASONDETAIL.STOPID where REASONBASICID = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
