@@ -225,6 +225,7 @@ a{
                                         <label for="inputName3" class="col-sm-4 control-label">Batch<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
  @Html.DisplayFor(C => C.BatchNo)<br>                                        </div>
+ @Html.DisplayFor(C => C.batchid,new{@id="batch"})                                  
                                     </div>
                                 </div>
 
@@ -291,8 +292,9 @@ a{
                                                         <table class="table table-striped table-hover" id="dataTable">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Item ID</th>
-                                                                    <th>Bin ID</th>
+                                                                    <th>Item </th>
+                                                                    <th>Unit </th>
+                                                                    <th>Bin </th>
                                                                     
                                                                     <th> Batch No </th>
                                                                     <th> Charging Time </th>
@@ -311,10 +313,14 @@ a{
                                                                         <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                                             <td>
-                                                                                @Html.DropDownListFor(o => o.inplst[i].ItemId, Model.inplst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
-                                                                            
+                                                                               @Html.DropDownListFor(o => o.inplst[i].ItemId, Model.inplst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })  
+                                                                        
+                                                                             
                                                                                             @Html.HiddenFor(o => o.inplst[i].APID, new { @id = "txtAPID" + i, @class = "form-control", style = "width: 100px;"})
+                                                                                            @Html.HiddenFor(o => o.inplst[i].saveitemId, new { @id = "txtsaveitemId" + i, @class = "form-control", style = "width: 100px;"})
                                                                                 </td>
+                                                                                     <td>@Html.TextBoxFor(o => o.inplst[i].unit, new { @id = "txtunit" + i, @class = "form-control", style = "width: 100px;",@readonly=true})</td>
+
                                                                                         <td>@Html.TextBoxFor(o => o.inplst[i].BinId, new { @id = "txtBinId" + i, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.inplst[i].Bin, new { @id = "txtBin" + i, @class = "form-control", style = "width: 100px;"})</td>
                                                                              
                                                                             <td>@Html.TextBoxFor(o => o.inplst[i].batchno, new { @id = "txtbatchno" + i, @class = "form-control", style = "width: 200px;"})</td>
@@ -437,6 +443,7 @@ a{
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Item Id</th>
+                                                                        <th>Unit</th>
                                                                         <th> Drum  </th>
                                                                         <th> Bin Id </th>
                                                                         <th>From Time </th>
@@ -460,9 +467,12 @@ a{
 
                                                                                 <td>
                                                                                     @* @Html.DisplayFor(o => o.outlst[m].ItemId) *@
-                                                                                    @Html.DropDownListFor(o => o.outlst[m].ItemId, Model.outlst[m].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlOutItem" + m, style = "width: 170px;",onchange = "changeOutItem(this.value," + m + ")" })
+                                                                                     @Html.DropDownListFor(o => o.outlst[m].ItemId, Model.outlst[m].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlOutItem" + m, style = "width: 170px;",onchange = "changeOutItem(this.value," + m + ")" })
                                                                                     @Html.HiddenFor(o => o.outlst[m].APID, new { @id = "txtOutAPID" + m, @class = "form-control", style = "width: 100px;"})
+                                                                                
                                                                                 </td>
+                                                                               <td>@Html.TextBoxFor(o => o.outlst[m].unit, new { @id = "txtOunit" + m, @class = "form-control", style = "width: 100px;",@readonly=true}) </td>
+
                                                                                 <td>  @Html.DropDownListFor(o => o.outlst[m].drumno, Model.outlst[m].drumlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddldrumno" + m, style = "width: 170px;"})</td>
                                                                                 <td>@Html.TextBoxFor(o => o.outlst[m].BinId, new { @id = "txtOutBinId" + m, @class = "form-control", style = "width: 100px;",@readonly=true}) @Html.HiddenFor(o => o.outlst[m].outBin, new { @id = "txtOutBin" + m, @class = "form-control", style = "width: 100px;"})</td>
                                                                                 <td>@Html.TextBoxFor(o => o.outlst[m].FromTime, new { @id = "txtFromTime" + m, @class = "form-control", style = "width: 80px; " })</td>
@@ -877,6 +887,7 @@ a{
                 document.getElementById("txtStockAvailable" + i).value = result.stk;
                 document.getElementById("txtBinId" + i).value = result.bin;
                 document.getElementById("txtBin" + i).value = result.binid;
+                document.getElementById("txtunit" + i).value = result.unit;
                  
             },
             error: function () {
@@ -923,6 +934,7 @@ a{
 
                 document.getElementById("txtOutBinId" + i).value = result.bin;
                 document.getElementById("txtOutBin" + i).value = result.binid;
+                document.getElementById("txtOunit" + i).value = result.unit;
 
             },
             error: function () {
@@ -952,11 +964,12 @@ a{
     }
     function AddRow() {
         var opt = "";
-        
+        var batch= document.getElementById("batch").value;
 
         $.ajax({
             type: "POST",
             url: 'GetItemJSON',
+              data: { 'batch': batch  },
             success: function (data) {
                 $.each(data, function () {
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
@@ -991,10 +1004,11 @@ a{
      function AddOutRow() {
         var opt = "";
         var remopt = "";
-
+           var batch= document.getElementById("batch").value;
         $.ajax({
             type: "POST",
             url: 'GetOutItemJSON',
+               data: { 'batch': batch  },
             success: function (data) {
                 $.each(data, function () {
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
@@ -1029,6 +1043,8 @@ a{
         var index = $("#tbBooks").children("tr").length;
 
         var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='inputlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+                      var unit = "<td><input class='form-control'  id='txtunit" + index + "' name='inputlst[" + index + "].unit' style='width: 100px;' type='text' value='' readonly='true'><input type='hidden' id='txtOutBin" + index + "' name='outlst[" + index + "].OutBin'></td>";
+
         var binid = "<td><input class='form-control'  id='txtBinId" + index + "' name='inputlst[" + index + "].BinId' style='width: 100px;' type='text' value='' readonly='true'></td>";
         var batchno = "<td><input class='form-control'  id='txtbatchno" + index + "' name='inputlst[" + index + "].batchno' style='width: 200px;' type='text' value=''></td>";
         var time = "<td><input class='form-control'  id='txtITime" + index + "' name='inputlst[" + index + "].Time' style='width: 100px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
@@ -1036,7 +1052,7 @@ a{
         var stock = "<td><input class='form-control'  id='txtStockAvailable" + index + "' name='inputlst[" + index + "].StockAvailable' style='width: 80px; text-align:right' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)' readonly='true'></td>";
         var issueqty = "<td><input class='form-control'  id='txtIssueQty" + index + "' name='inputlst[" + index + "].IssueQty'  type='text' value='' style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' ></td>";
         var removeCell = "<td><input id='Isvalid" + index + "' name='inputlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemid + binid  + batchno  + time + stock + issueqty  + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemid + unit + binid  + batchno  + time + stock + issueqty  + removeCell + "</tr>";
         $("#tbBooks").append(newRow);
 
         $(function () {
@@ -1047,6 +1063,8 @@ a{
         var index = $("#tbBooksout").children("tr").length;
 
         var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlOutItem" + index + "' name='outlst[" + index + "].ItemId' onchange = 'changeOutItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
+               var unit = "<td><input class='form-control'  id='txtOunit" + index + "' name='outlst[" + index + "].unit' style='width: 100px;' type='text' value='' readonly='true'><input type='hidden' id='txtOutBin" + index + "' name='outlst[" + index + "].OutBin'></td>";
+
         var drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddldrumno" + index + "' name='outlst[" + index + "].drumno' ><option value=''>Please select</option>" + remopt + "</select></td>";
         var bin = "<td><input class='form-control'  id='txtOutBinId" + index + "' name='outlst[" + index + "].BinId' style='width: 100px;' type='text' value='' readonly='true'><input type='hidden' id='txtOutBin" + index + "' name='outlst[" + index + "].OutBin'></td>";
         var time = "<td><input class='form-control'  id='txtFromTime" + index + "' name='outlst[" + index + "].FromTime' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
@@ -1058,8 +1076,9 @@ a{
         var stat="<td><select class='form-control _select newcss' id='ddlstatus" + index + "' name='outlst[" + index + "].StID' style='width: 120px;'><option selected='selected' value='COMPLETED'>COMPLETED</option><option value='PENDING'>PENDING</option></select></td>";
         var qc = "<td> <button type='button' class='btn aqua m - t - xs bottom15 - xs' id='Save' onclick='outputsave(" + index + ")'>Save </button></td>";
         var test = "<td><input class='form-control'  id='txtResult" + index + "' name='outlst[" + index + "].Result'  type='text' value='' style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' readonly='true'></td>";
+        var ref = " <td> <img onclick='refreshrow" + index +";' src='../Images/refresh.gif' style='cursor:pointer;width:20px;height:20px;' /></td>";
         var removeCell = "<td><input id='Isoutvalid" + index + "' name='outlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOutRow(" + index + ");'  style='cursor:pointer' /><input name='outlst.Index' type='hidden' value='" + index + "'  /></td>";
-       var newRow = "<tr class='chkitemlstout'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookout" + index + "'>" + itemid + drum + bin + time + totime + qty + exqty + stock + stat + qc + test + removeCell + "</tr>";
+       var newRow = "<tr class='chkitemlstout'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookout" + index + "'>" + itemid + unit + drum + bin + time + totime + qty + exqty + stock + stat + qc + test +ref + removeCell + "</tr>";
         $("#tbBooksout").append(newRow);
 
         $(function () {

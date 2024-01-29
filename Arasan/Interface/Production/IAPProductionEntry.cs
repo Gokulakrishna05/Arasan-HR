@@ -30,10 +30,14 @@ namespace Arasan.Interface
         DataTable GetOutItem();
         DataTable GetEmp();
         DataTable GetAPProd(string id);
+        DataTable GetBatchInput(string id);
+        DataTable GetBatchOutput(string id);
 
         DataTable GetInput(string id);
         DataTable GetOutput(string id);
         DataTable GetLogdetail(string id);
+        DataTable GetBatchItem(string id);
+        DataTable GetBatchOutItem(string id);
 
         DataTable GetResult(string id);
         DataTable GetCons(string id);
@@ -67,7 +71,7 @@ namespace Arasan.Interface
         DataTable GetLogdetailDeatils(string id);
 
         DataTable GetStkDetails(string Lot, string brid, string loc,string item);
-        DataTable Getstkqty(string ItemId, string locid, string brid);
+        DataTable Getstkqty(string ItemId, string locid );
         DataTable GetConstkqty(string ItemId, string locid, string brid);
         DataTable GetLotNo(string item, string loc, string branch);
         DataTable GetAllAPProductionentryItems();

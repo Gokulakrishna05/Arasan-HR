@@ -1496,22 +1496,7 @@ namespace Arasan.Controllers.Production
                         }
 
                     }
-                    DataTable dt6 = new DataTable();
-                    dt6 = ProductionScheduleService.GetPackDetail(id);
-                    if (dt6.Rows.Count > 0)
-                    {
-                        for (int i = 0; i < dt6.Rows.Count; i++)
-                        {
-                            tda4 = new ProSchItem();
-
-                            tda4.Pack = dt6.Rows[i]["PKITEMID"].ToString();
-                            tda4.Qty = dt6.Rows[i]["PKQTY"].ToString();
-                            tda4.Isvalid = "Y";
-                            tda4.ID = id;
-                            TData4.Add(tda4);
-                        }
-
-                    }
+                    
                     for (int i = 0; i < 1; i++)
                     {
                         tda4 = new ProSchItem();
