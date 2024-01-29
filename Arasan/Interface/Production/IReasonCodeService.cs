@@ -9,6 +9,8 @@ namespace Arasan.Interface.Production
     {
         //IEnumerable<ReasonCode> GetAllReasonCode();
         DataTable GetReasonCode(string id);
+        DataTable GetViewReasonCode(string id);
+        DataTable GetViewReasonItem(string id);
         DataTable GetReasonItem(string id);
 
         DataTable Getstop();

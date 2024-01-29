@@ -245,6 +245,46 @@ namespace Arasan.Controllers.Production
             return Json(BindGroup());
         }
 
+
+        public IActionResult ViewReasoncode(string id)
+        {
+
+            ReasonCode st = new ReasonCode();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+
+            dt = ReasonCodeService.GetViewReasonCode(id);
+            if (dt.Rows.Count > 0)
+            {
+                
+                st.Process = dt.Rows[0]["PROCESSID"].ToString();
+                st.ID = id;
+
+                List<ReasonItem> Data = new List<ReasonItem>();
+                ReasonItem tda = new ReasonItem();
+                //double tot = 0;
+
+                dtt = ReasonCodeService.GetViewReasonItem(id);
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda.Categorylst = BindCategory();
+                        tda.Grouplst = BindGroup();
+                        tda.Reason = dtt.Rows[i]["REASON"].ToString();
+                        tda.Category = dtt.Rows[i]["RTYPE"].ToString();
+                        tda.Description = dtt.Rows[i]["DESCRIPTION"].ToString();
+                        tda.GroupId = dtt.Rows[i]["STOPDESC"].ToString();
+
+                        Data.Add(tda);
+                    }
+                }
+
+                st.ReLst = Data;
+
+            }
+            return View(st);
+        }
         public ActionResult MyListItemgrid(string strStatus)
         {
             List<Reasongrid> Reg = new List<Reasongrid>();
@@ -253,6 +293,7 @@ namespace Arasan.Controllers.Production
             dtUsers = ReasonCodeService.GetAllReason(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
+                string ViewRow = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
                 
@@ -261,14 +302,14 @@ namespace Arasan.Controllers.Production
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y") 
                 {
 
-                    //ViewRow = "<a href=viewStop?id=" + dtUsers.Rows[i]["STOPMASTID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
+                    ViewRow = "<a href=ViewReasoncode?id=" + dtUsers.Rows[i]["REASONBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
                     EditRow = "<a href=ReasonCode?id=" + dtUsers.Rows[i]["REASONBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["REASONBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 }
                 else
                 {
 
-                    //ViewRow = "";
+                    ViewRow = "";
                     EditRow = "";
                     DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["REASONBASICID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
 
@@ -278,7 +319,7 @@ namespace Arasan.Controllers.Production
                 {
                     id = dtUsers.Rows[i]["REASONBASICID"].ToString(),
                     process = dtUsers.Rows[i]["PROCESSID"].ToString(),
-                    //viewrow = ViewRow,
+                    viewrow = ViewRow,
                     editrow = EditRow,
                     delrow = DeleteRow,
 

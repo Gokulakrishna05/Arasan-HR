@@ -46,6 +46,7 @@ namespace Arasan.Models
     {
         public string id { get; set; }
         public string process { get; set; }
+        public string viewrow { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
     }

@@ -286,6 +286,7 @@ namespace Arasan.Models
         public string detid { get; set; }
       
         public string powerrequired { get; set; }
+        public string sieve { get; set; }   
     }
     public class PFCPACKItem
     {
@@ -361,11 +362,14 @@ namespace Arasan.Models
         public string appastevalue { get; set; }
         public string apfgapsvalue { get; set; }
         public string Isvalid { get; set; }
-
+        public string startvalue { get; set; }
+        public string endvalue { get; set; }
         public string ingotstock { get; set; }
     }
     public class PyroItemArray
     {
         public string itemid { get; set;}
+        public string StartValue { get; set; }
+        public string EndValue { get; set; }
     }
 }

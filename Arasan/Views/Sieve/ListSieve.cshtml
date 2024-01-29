@@ -1,7 +1,7 @@
-﻿@model Arasan.Models.ReasonCode
+﻿@model Arasan.Models.Sieve
 
 @{
-    ViewData["Title"] = "ListReasonCode";
+    ViewData["Title"] = "ListSieve";
 
 }
 <partial name="JqxGridPartial" />
@@ -18,7 +18,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong> ReasonCode </strong> </li>
+            <li class="active"> <strong> Sieve </strong> </li>
         </ol>
     </div>
 </div>
@@ -27,7 +27,7 @@
         $(document).ready(function () {
             var source =
             {
-                url: "/ReasonCode/MyListItemgrid",
+                url: "/Sieve/MyListItemgrid",
 
                 data: {
                     strstatus: ""
@@ -37,8 +37,11 @@
                     // synchronize with the server - send update command
                 },
                 datafields: [
-                    { name: 'process', type: 'string' },
-                    { name: 'viewrow', type: 'string' },
+                    { name: 'svalue', type: 'string' },
+                    { name: 'evalue', type: 'string' },
+                    { name: 'sid', type: 'string' },
+
+                   { name: 'viewrow', type: 'string' },
                     { name: 'editrow', type: 'string' },
                     { name: 'delrow', type: 'string' },
 
@@ -73,7 +76,9 @@
                     enablebrowserselection: true,
                     columns: [
 
-                        { text: 'Process ID', filtertype: 'checkedlist', datafield: 'process', width: 150 },
+                        { text: 'Start Value', filtertype: 'checkedlist', datafield: 'svalue', width: 150 },
+                        { text: 'End Value', filtertype: 'input', datafield: 'evalue', width: 200 },
+                        { text: 'Seive', filtertype: 'input', datafield: 'sid', width: 200 },
                         { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                         { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                         { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
@@ -113,7 +118,7 @@
 
                             <div class="col-md-8">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("ReasonCode","ReasonCode")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add ReasonCode</a>
+                                    <a href="@Url.Action("Sieve","Sieve")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Sieve</a>
                                     <br>
                                 </div>
 
@@ -205,9 +210,9 @@
         $(".fancybox1").eq(0).trigger('click');
     }
 
-    //function changeStatus(status) {
-    //    var url = "/ReasonCode/ListReasonCode?status=" + status;
-    //    window.location.href = url;
+    function changeStatus(status) {
+        var url = "/Stop/ListStop?status=" + status;
+        window.location.href = url;
         //$.ajax({
         //    url: 'AssignSession',
         //    data: { "status": status },

@@ -966,6 +966,8 @@
                                                                                 <thead>
                                                                                     <tr>
                                                                                         <th>Item Name </th>
+                                                                                        <th>Start Value </th>
+                                                                                        <th>End Value</th>
                                                                                         <th>Ap for Pyro </th>
                                                                                         <th>Ap for Paste </th>
                                                                                         <th>Ap for FG-APS </th>
@@ -1166,7 +1168,7 @@
                                                                             <table class="table table-striped table-hover">
                                                                                 <thead>
                                                                                     <tr>
-                                                                                        
+                                                                                        <th>Sieve</th>
                                                                                         <th>Work Center</th>
                                                                                         <th>Wc.Days</th>
                                                                                         <th>Capacity/Day </th>
@@ -1176,7 +1178,6 @@
                                                                                         <th>Fuel Req. </th>
                                                                                         <th>Ingots Required</th>
                                                                                         <th>Power Required</th>
-
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody id="tbBooks6">
@@ -1415,6 +1416,7 @@
         var rvdopt="";
         var pasteopt="";
         var par="";
+        var apopt="";
 
         $.ajax({
             type: "POST",
@@ -1427,6 +1429,19 @@
 
             }
         })
+
+         $.ajax({
+            type: "POST",
+            url: 'GetAPWCJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    apopt += "<option value=" + this.value + ">" + this.text + "</option>";
+
+                });
+
+            }
+        })
+
         $.ajax({
             type: "POST",
             url: 'GetPolishJSON',
@@ -1838,7 +1853,7 @@
 
 
          $.ajax({
-                url: 'GetAPReqForecast',
+                    url: 'GetAPForecast',
             type: "post",
             data: { "mnth": mnth, "type": type },
             cache: false,
@@ -1848,10 +1863,12 @@
 
                     var index = $("#tbBooks6").children("tr").length;
 
-                    var Work = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlPWorkId" + index + "' name='PFCAPPRODLst[" + index + "].WorkId'  ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
+                    var sievet="<td><label style='width: 120px;'>" + item.sieve + "</label><input class='form-control' id='txtsieve" + index + "' name='PFCAPPRODLst[" + index + "].sieve'  style='width: 100px;' type='hidden' value=" + item.sieve + "  /></td>";
+
+                    var Work = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlPWorkId" + index + "' name='PFCAPPRODLst[" + index + "].WorkId' onchange='apwcchange(" + index + ",this.value)'  ><option value=''>-- Please select -- </option>" + apopt + "</select></td>";
 
                     var WCDays = "<td><input class='form-control' id='txtwdays" + index + "' name='PFCAPPRODLst[" + index + "].wdays'  style='width: 100px;' type='text'    /></td>";
-
+                        
                     var Capacity = "<td> <input  class='form-control' id='txtcapacity" + index + "' name='PFCAPPRODLst[" + index + "].capacity' type='text'   ></td>";
 
                     var Prodtarget = "<td><input class='form-control' id='txttarget" + index + "' name='PFCAPPRODLst[" + index + "].target'  style='width: 100px;' type='text'    /></td>";
@@ -1863,9 +1880,9 @@
                     var Ingotreq = "<td><input class='form-control' id='txtingotreq" + index + "' name='PFCAPPRODLst[" + index + "].ingotreq'  style='width: 120px;' type='text' /></td>";
 
                     var PowerReq = "<td><input class='form-control' id='txtpowerrequired" + index + "' name='PFCAPPRODLst[" + index + "].powerrequired'  style='width: 120px;' type='text' /></td>";
-        
 
-                    var newRow = "<tr class='chkitemlst6'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook6" + index + "'>" + Work + WCDays + Capacity + Prodtarget + ProdDays + Production + FuelReq + Ingotreq + PowerReq + "</tr>";
+
+                        var newRow = "<tr class='chkitemlst6'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook6" + index + "'>" + sievet + Work + WCDays + Capacity + Prodtarget + ProdDays + Production + FuelReq + Ingotreq + PowerReq + "</tr>";
 
 
 
@@ -1997,6 +2014,9 @@ function callaps(PyroItemArray){
 
                     var ItemId = "<td><label style='width: 150px;'>" + item.itemid + "</label><input id='txtapreqitemid" + index + "' name='PFAPREFlst[" + index + "].saveitemid' type='hidden'  value=" + item.saveitemid + "></td>";
 
+                    var stval="<td><input class='form-control' id='txtsapstval" + index + "' name='PFAPREFlst[" + index + "].startvalue'  style='width: 60px;' type='text' value=" + item.startvalue + " readonly='True' ><input id='txtapstval" + index + "' name='PFAPREFlst[" + index + "].startvalue'   type='hidden'   value=" + item.startvalue + " /></td>";
+                    var endval="<td><input class='form-control' id='txtsapendval" + index + "' name='PFAPREFlst[" + index + "].endvalue'  style='width: 60px;' type='text' value=" + item.endvalue + " readonly='True' ><input id='txtapendval" + index + "' name='PFAPREFlst[" + index + "].endvalue'   type='hidden'   value=" + item.endvalue + " /></td>";
+
                     var appyro = "<td><input class='form-control' id='txtappyro" + index + "' name='PFAPREFlst[" + index + "].appyrovalue'  style='width: 100px;' type='text'  readonly='True'  /><input class='form-control' id='hdappyro" + index + "' name='PFAPREFlst[" + index + "].appyrovalue'   type='hidden'    /></td>";
 
                     var appaste = "<td> <input  class='form-control' id='txtappaste" + index + "' name='PFAPREFlst[" + index + "].appastevalue' type='text'  readonly='True' style='width: 100px;' ><input class='form-control' id='hdappaste" + index + "' name='PFAPREFlst[" + index + "].appastevalue'   type='hidden'    /></td>";
@@ -2013,7 +2033,7 @@ function callaps(PyroItemArray){
 
             var powderrequired = "<td><input class='form-control' id='txtapreqpowderrequired" + index + "' name='PFAPREFlst[" + index + "].powderrequired'  style='width: 100px;' type='text' readonly='True' /></td>";
 
-                    var newRow = "<tr class='chkitemlst9'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook9" + index + "'>" + ItemId + appyro + appaste + apfgapsvalue + reqappowder + Ingotreq + avlstk + ministk +  coarsemelting + powderrequired + "</tr>";
+                    var newRow = "<tr class='chkitemlst9'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook9" + index + "'>" + ItemId + stval + endval + appyro + appaste + apfgapsvalue + reqappowder + Ingotreq + avlstk + ministk +  coarsemelting + powderrequired + "</tr>";
 
 
 
@@ -2204,6 +2224,8 @@ function callaps(PyroItemArray){
 
             function changepyrodays(_this,i){
                 var itemid=document.getElementById("txtItemId"+i).value;
+                var sval=document.getElementById("txtpyrostval"+i).value;
+                var endval=document.getElementById("txtpyroendval"+i).value;
                
                 var prodday=document.getElementById("txtproddays"+i).value;
                 var targethrs=document.getElementById("txttargethrs"+i).value;
@@ -2252,8 +2274,10 @@ if (targethrs == "")
         $('tr.chkitemlst2sub').each(function () {
             if ($(this).css('display') !== 'none') {
                  var nitemid=document.getElementById("txtItemId"+j).value;
-                 if(itemid==nitemid){
-                     var reqpwd= document.getElementById("txtreqpowder" + i).value;
+                  var nsval=document.getElementById("txtpyrostval"+j).value;
+                var nendval=document.getElementById("txtpyroendval"+j).value;
+                 if(itemid==nitemid && nsval==sval && nendval==endval){
+                     var reqpwd= document.getElementById("txtreqpowder" + j).value;
                       if (reqpwd == "")
             reqpwd = 0;
 
@@ -2268,7 +2292,9 @@ if (targethrs == "")
         $('tr.chkitemlst9').each(function () {
             if ($(this).css('display') !== 'none') {
                  var nitemid=document.getElementById("txtapreqitemid"+k).value;
-                 if(itemid==nitemid){
+                   var nsval=document.getElementById("txtapstval"+k).value;
+                var nendval=document.getElementById("txtapendval"+k).value;
+                 if(itemid==nitemid && nsval==sval && nendval==endval){
                   document.getElementById("txtappyro" + k).value=totpwd;
                   document.getElementById("hdappyro" + k).value=totpwd;
                   var appaste=document.getElementById("hdappaste" + k).value;
@@ -2504,4 +2530,29 @@ if (targethrs == "")
         document.getElementById("txtpastemtocost" + i).value =PaMtoC.toFixed(2);
             document.getElementById("hdpastemtocost" + i).value = PaMtoC.toFixed(2);
         }
+
+         function apwcchange(i,wcid){
+                var itemid=document.getElementById("txtItemId"+i).value;
+                $.ajax({
+            url: 'GetpyrowcDetail',
+            data: { "itemid": itemid,"wcid": wcid },
+            type: "GET",
+            success: function (result) {
+
+          @*  document.getElementById("txtstargethrs"+i).value = result.tar;
+             document.getElementById("txttargethrs"+i).value = result.tar;
+
+               document.getElementById("txtspyropowerreq" + i).value = result.powe;
+                document.getElementById("txtpyropowerreq" + i).value = result.powe;*@
+            
+         
+            },
+            error: function () {
+            alert("Data Not Found");
+            }
+            });
+
+
+
+            }
 </script>
