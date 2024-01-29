@@ -142,7 +142,7 @@ namespace Arasan.Services
 		public DataTable GetItemDetails(string id)
 		{
 			string SvSql = string.Empty;
-			SvSql = "select BINBASIC.BINID,ITEMMASTER.BINNO as bin ,ITEMMASTERID from ITEMMASTER left outer join BINBASIC ON BINBASICID= ITEMMASTER.BINNO where ITEMMASTERID='" + id +"' ";
+			SvSql = "select BINBASIC.BINID,ITEMMASTER.BINNO as bin ,ITEMMASTERID ,UNITMAST.UNITID from ITEMMASTER left outer join BINBASIC ON BINBASICID= ITEMMASTER.BINNO left outer join UNITMAST ON UNITMASTID= ITEMMASTER.PRIUNIT where ITEMMASTERID='" + id +"' ";
 
 			DataTable dtt = new DataTable();
 			OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -153,7 +153,7 @@ namespace Arasan.Services
         public DataTable GetOutItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select BINBASIC.BINID,ITEMMASTER.BINNO as bin ,ITEMMASTERID from ITEMMASTER left outer join BINBASIC ON BINBASICID= ITEMMASTER.BINNO where ITEMMASTERID='" + id + "' ";
+            SvSql = "select BINBASIC.BINID,ITEMMASTER.BINNO as bin ,ITEMMASTERID,UNITMAST.UNITID from ITEMMASTER left outer join BINBASIC ON BINBASICID= ITEMMASTER.BINNO left outer join UNITMAST ON UNITMASTID= ITEMMASTER.PRIUNIT where ITEMMASTERID='" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -214,7 +214,7 @@ namespace Arasan.Services
 				 
 					objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
 					objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
-					objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.Location;
+					objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.workid;
 				 
 					objCmd.Parameters.Add("ASSIGNENG", OracleDbType.NVarchar2).Value = cy.Eng;
 					objCmd.Parameters.Add("SCHQTY", OracleDbType.NVarchar2).Value = cy.SchQty;
@@ -643,10 +643,10 @@ namespace Arasan.Services
                    
             return msg;
         }
-        public DataTable Getstkqty(string ItemId, string locid, string brid)
+        public DataTable Getstkqty(string ItemId, string locid )
         {
             string SvSql = string.Empty;
-            SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid + "' AND BRANCH_ID='" + brid + "' AND ITEM_ID='" + ItemId + "'";
+            SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid + "'  AND ITEM_ID='" + ItemId + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -850,7 +850,7 @@ namespace Arasan.Services
         public DataTable GetAPProd(string id)
 		{
 			string SvSql = string.Empty;
-			SvSql = "select APPRODUCTIONBASICID,APPRODUCTIONBASIC.DOCID,to_char(APPRODUCTIONBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,EMPMAST.EMPNAME,SCHQTY,PRODQTY,BATCH,SHIFT,BATCHYN,WCBASIC.ILOCATION,APPRODUCTIONBASIC.BRANCHID from APPRODUCTIONBASIC left outer join WCBASIC ON WCBASICID= APPRODUCTIONBASIC.WCID left outer join EMPMAST ON EMPMASTID= APPRODUCTIONBASIC.ASSIGNENG  where APPRODUCTIONBASICID='" + id + "' ";
+			SvSql = "select APPRODUCTIONBASICID,APPRODUCTIONBASIC.DOCID,to_char(APPRODUCTIONBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,EMPMAST.EMPNAME,SCHQTY,PRODQTY,BCPRODBASIC.DOCID as BATCH,APPRODUCTIONBASIC.BATCH as batchid,SHIFT,BATCHYN,WCBASIC.ILOCATION,APPRODUCTIONBASIC.BRANCHID from APPRODUCTIONBASIC left outer join BCPRODBASIC ON BCPRODBASICID= APPRODUCTIONBASIC.BATCH left outer join WCBASIC ON WCBASICID= APPRODUCTIONBASIC.WCID left outer join EMPMAST ON EMPMASTID= APPRODUCTIONBASIC.ASSIGNENG  where APPRODUCTIONBASICID='" + id + "' ";
 
 			DataTable dtt = new DataTable();
 			OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -1155,11 +1155,50 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetBatchInput(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select I.ITEMID,B.IITEMID,B.IQTY,B.IUNIT,BInBASIC.BINID from BCINPUTDETAIL B,ITEMMASTER I LEFT OUTER JOIN BINBASIC ON BINBASICID=I.BINNO   where B.IITEMID=I.ITEMMASTERID AND BCPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetBatchOutput(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select I.ITEMID,B.OITEMID,B.OQTY,B.OUNIT,BInBASIC.BINID from BCOUTPUTDETAIL B,ITEMMASTER I LEFT OUTER JOIN BINBASIC ON BINBASICID=I.BINNO   where B.OITEMID=I.ITEMMASTERID AND BCPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetAllAPProductionentryItems()
         {
             string SvSql = string.Empty;
             SvSql = "Select APPRODUCTIONBASIC.DOCID,to_char(APPRODUCTIONBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,EMPMAST.EMPNAME,APPRODUCTIONBASIC.SCHQTY,APPRODUCTIONBASIC.PRODQTY,APPRODUCTIONBASICID,BATCH,SHIFT,IS_APPROVE,IS_CURRENT from APPRODUCTIONBASIC LEFT OUTER JOIN WCBASIC ON WCBASICID=APPRODUCTIONBASIC.WCID  LEFT OUTER JOIN EMPMAST ON EMPMASTID=APPRODUCTIONBASIC.ASSIGNENG order by APPRODUCTIONBASICID desc";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetBatchItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select I.ITEMID,B.IITEMID  from BCINPUTDETAIL B,ITEMMASTER I    where B.IITEMID=I.ITEMMASTERID AND BCPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetBatchOutItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select I.ITEMID,B.OITEMID  from BCOUTPUTDETAIL B,ITEMMASTER I    where B.OITEMID=I.ITEMMASTERID AND BCPRODBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

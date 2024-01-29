@@ -33,9 +33,7 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">Batch Creation</h5>
                     <hr>
-                    @using (Html.BeginForm("BatchCreation", "BatchCreation", FormMethod.Post))
-                    {
-                        @Html.AntiForgeryToken()
+                   
                         <form>
                             <div class="row">
                              <div class="col-md-6">
@@ -636,11 +634,11 @@
 
 
                             <div style="height:30px;"></div>
-                            <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onclick="location.href='@Url.Action("ListBatchCreation", "BatchCreation")'">Submit</button>
+                        @*    <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onclick="location.href='@Url.Action("ListBatchCreation", "BatchCreation")'">Submit</button>
 
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListBatchCreation", "BatchCreation")'">Cancel</button>
-                        </form>
-                    }
+                       *@ </form>
+                 
                 </div>
             </div>
         </div>
