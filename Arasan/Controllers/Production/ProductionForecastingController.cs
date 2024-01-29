@@ -900,14 +900,27 @@ namespace Arasan.Controllers.Production
             {
                 List<PFCAPPRODItem> TData6 = new List<PFCAPPRODItem>();
                 PFCAPPRODItem tda6 = new PFCAPPRODItem();
-                for (int i = 0; i < 1; i++)
-                {
-                    tda6 = new PFCAPPRODItem();
-                    tda6.Worklst = BindWorkCenter();
-                    //tda3.POItemlst = BindItemlst("");
-                    tda6.Isvalid = "Y";
-                    TData6.Add(tda6);
-                }
+
+                tda6 = new PFCAPPRODItem();
+                tda6.sieve = "< 40";
+                TData6.Add(tda6);
+
+                tda6 = new PFCAPPRODItem();
+                tda6.sieve = "40 - 50";
+                TData6.Add(tda6);
+
+                tda6 = new PFCAPPRODItem();
+                tda6.sieve = "50 - 65";
+                TData6.Add(tda6);
+
+                tda6 = new PFCAPPRODItem();
+                tda6.sieve = "65 - 85";
+                TData6.Add(tda6);
+
+                tda6 = new PFCAPPRODItem();
+                tda6.sieve = "85 above";
+                TData6.Add(tda6);
+
                 model.PFCAPPRODLst = TData6;
             }
             return Json(model.PFCAPPRODLst);
@@ -927,76 +940,97 @@ namespace Arasan.Controllers.Production
             return Json(model.Aplst);
 
         }
-        public ActionResult GetAPForecast([FromBody] PyroItemArray[] model)
-        {
-            ProductionForecasting m = new ProductionForecasting();
-            List<ProdApItem> cmpList = new List<ProdApItem>();
-            ProdApItem tda = new ProdApItem();
-            DataTable dt =new DataTable();
-            string itm = "";
-            string Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
-            List<string> itemlist = new List<string>();
-            foreach (PyroItemArray input in model)
-            {
-                //itemlist.Add(input.itemid);
-                if (!string.IsNullOrEmpty(input.itemid))
-                {
-                    itm += input.itemid + ",";
-                }
+        //public ActionResult GetAPForecast([FromBody] PyroItemArray[] model)
+        //{
+        //    ProductionForecasting m = new ProductionForecasting();
+        //    List<ProdApItem> cmpList = new List<ProdApItem>();
+        //    ProdApItem tda = new ProdApItem();
+        //    DataTable dt =new DataTable();
+        //    string itm = "";
+        //    string Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+        //    List<string> itemlist = new List<string>();
+        //    foreach (PyroItemArray input in model)
+        //    {
+        //        //itemlist.Add(input.itemid);
+        //        if (!string.IsNullOrEmpty(input.itemid))
+        //        {
+        //            itm += input.itemid + ",";
+        //        }
                 
-            }
+        //    }
            
-                m.Aplst = cmpList;
-            return Json(m.PFAPREFlst);
+        //        m.Aplst = cmpList;
+        //    return Json(m.PFAPREFlst);
 
-        }
+        //}
 
         public ActionResult GetAPReqForecast([FromBody] PyroItemArray[] model)
         {
             ProductionForecasting m = new ProductionForecasting();
+            var uniqueItemsList = model.Distinct().ToList();
+
             List<ProdApReqItem> cmpList = new List<ProdApReqItem>();
             ProdApReqItem tda = new ProdApReqItem();
             DataTable dt = new DataTable();
             string itm = "";
             string Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             List<string> itemlist = new List<string>();
-            foreach (PyroItemArray input in model)
-            {
-                //itemlist.Add(input.itemid);
-                if (!string.IsNullOrEmpty(input.itemid))
-                {
-                    itm += input.itemid + ",";
-                }
-
-            }
-            itm = itm.Remove(itm.Length - 1);
             string ingotssql = @"SELECT SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) stk
 FROM StockValue S , ItemMaster I , LocDetails L 
 WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='" + Docdate + "' AND S.LocID = L.LocdetailsID ";
             ingotssql += @"AND i.SNCATEGORY IN ('ALUMINIUM INGOTS','REMELTED ALUMINIUM INGOTS','MOLTED INGOTS') AND i.QCCOMPFLAG='YES' AND L.LocationType IN ('AP MILL','STORES','REMELTING','QUALITY') 
 HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 ORDER BY 1";
             string ingosstk = datatrans.GetDataString(ingotssql);
-            dt = datatrans.GetData("select ITEMMASTERID,ITEMID from  ITEMMASTER Where ITEMMASTERID IN(" + itm + ") GROUP BY ITEMMASTERID,ITEMID");
-            if (dt.Rows.Count > 0)
+
+            foreach (PyroItemArray input in uniqueItemsList)
             {
-                for (int i = 0; i < dt.Rows.Count; i++)
+                if (!string.IsNullOrEmpty(input.itemid))
                 {
-                    tda = new ProdApReqItem();
-                    tda.itemid = dt.Rows[i]["ITEMID"].ToString();
-                    tda.saveitemid = dt.Rows[i]["ITEMMASTERID"].ToString();
-                    string sql = @"SELECT Round(SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)),0) stk
+                    //itm += input.itemid + ",";
+                   
+                            tda = new ProdApReqItem();
+                            tda.itemid = datatrans.GetDataString("select ITEMID from  ITEMMASTER Where ITEMMASTERID='" + input.itemid + "'");
+                            tda.saveitemid = input.itemid;
+                            tda.startvalue = input.StartValue;
+                            tda.endvalue = input.EndValue;
+                            string sql = @"SELECT Round(SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)),0) stk
 FROM StockValue S , ItemMaster I , LocDetails L 
 WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='" + Docdate + "' AND S.LocID = L.LocdetailsID ";
-                    sql += @" AND L.LocationType IN ('AP MILL','SIEVE & BLEND')
+                            sql += @" AND L.LocationType IN ('AP MILL','SIEVE & BLEND')
   AND I.ItemMasterID='" + tda.saveitemid + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0";
-                    string avlstk = datatrans.GetDataString(sql);
-                    tda.avlstk = avlstk == "" ? "0" : avlstk;
-                    string ministk = datatrans.GetDataString("SELECT sum(MINSTK) FROM ITEMMASTER WHERE ITEMMASTERID ='" + tda.saveitemid + "'");
-                    tda.ministk = ministk == "" ? "0" : ministk;
-                    tda.ingotstock = ingosstk;
-                    cmpList.Add(tda);
+                            string avlstk = datatrans.GetDataString(sql);
+                            tda.avlstk = avlstk == "" ? "0" : avlstk;
+                            string ministk = datatrans.GetDataString("SELECT sum(MINSTK) FROM ITEMMASTER WHERE ITEMMASTERID ='" + tda.saveitemid + "'");
+                            tda.ministk = ministk == "" ? "0" : ministk;
+                            tda.ingotstock = ingosstk;
+                            cmpList.Add(tda);
+                      
                 }
+
             }
+            //itm = itm.Remove(itm.Length - 1);
+        
+//            dt = datatrans.GetData("select ITEMMASTERID,ITEMID from  ITEMMASTER Where ITEMMASTERID IN(" + itm + ") GROUP BY ITEMMASTERID,ITEMID");
+//            if (dt.Rows.Count > 0)
+//            {
+//                for (int i = 0; i < dt.Rows.Count; i++)
+//                {
+//                    tda = new ProdApReqItem();
+//                    tda.itemid = dt.Rows[i]["ITEMID"].ToString();
+//                    tda.saveitemid = dt.Rows[i]["ITEMMASTERID"].ToString();
+//                    string sql = @"SELECT Round(SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)),0) stk
+//FROM StockValue S , ItemMaster I , LocDetails L 
+//WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='" + Docdate + "' AND S.LocID = L.LocdetailsID ";
+//                    sql += @" AND L.LocationType IN ('AP MILL','SIEVE & BLEND')
+//  AND I.ItemMasterID='" + tda.saveitemid + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0";
+//                    string avlstk = datatrans.GetDataString(sql);
+//                    tda.avlstk = avlstk == "" ? "0" : avlstk;
+//                    string ministk = datatrans.GetDataString("SELECT sum(MINSTK) FROM ITEMMASTER WHERE ITEMMASTERID ='" + tda.saveitemid + "'");
+//                    tda.ministk = ministk == "" ? "0" : ministk;
+//                    tda.ingotstock = ingosstk;
+//                    cmpList.Add(tda);
+//                }
+//            }
             m.PFAPREFlst = cmpList;
             return Json(m.PFAPREFlst);
 
