@@ -900,26 +900,41 @@ namespace Arasan.Controllers.Production
             {
                 List<PFCAPPRODItem> TData6 = new List<PFCAPPRODItem>();
                 PFCAPPRODItem tda6 = new PFCAPPRODItem();
+                DataTable dt = new DataTable();
+                dt = datatrans.GetData("select * from SIEVEMAST where IS_ACTIVE='Y'");
+                if(dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        tda6 = new PFCAPPRODItem();
+                        tda6.sieve = dt.Rows[i]["SIEVE"].ToString();
+                        tda6.sieveid = dt.Rows[i]["SIEVEMASTID"].ToString();
+                        tda6.svalue = dt.Rows[i]["STARTVALUE"].ToString();
+                        tda6.endvalue = dt.Rows[i]["ENDVALUE"].ToString();
+                        TData6.Add(tda6);
+                    }
+                }
 
-                tda6 = new PFCAPPRODItem();
-                tda6.sieve = "< 40";
-                TData6.Add(tda6);
 
-                tda6 = new PFCAPPRODItem();
-                tda6.sieve = "40 - 50";
-                TData6.Add(tda6);
+                //tda6 = new PFCAPPRODItem();
+                //tda6.sieve = "< 40";
+                //TData6.Add(tda6);
 
-                tda6 = new PFCAPPRODItem();
-                tda6.sieve = "50 - 65";
-                TData6.Add(tda6);
+                //tda6 = new PFCAPPRODItem();
+                //tda6.sieve = "40 - 50";
+                //TData6.Add(tda6);
 
-                tda6 = new PFCAPPRODItem();
-                tda6.sieve = "65 - 85";
-                TData6.Add(tda6);
+                //tda6 = new PFCAPPRODItem();
+                //tda6.sieve = "50 - 65";
+                //TData6.Add(tda6);
 
-                tda6 = new PFCAPPRODItem();
-                tda6.sieve = "85 above";
-                TData6.Add(tda6);
+                //tda6 = new PFCAPPRODItem();
+                //tda6.sieve = "65 - 85";
+                //TData6.Add(tda6);
+
+                //tda6 = new PFCAPPRODItem();
+                //tda6.sieve = "85 above";
+                //TData6.Add(tda6);
 
                 model.PFCAPPRODLst = TData6;
             }
@@ -1043,6 +1058,20 @@ WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='" + Docdate + "' AND S.LocID = 
                 string tar = datatrans.GetDataString("Select Sum(tar) Tar from (SELECT SUM(WD.PRATE*22) TAR FROM WCBASIC W,WCPRODDETAIL WD,ITEMMASTER I WHERE W.WCBASICID=WD.WCBASICID AND W.WCBASICID='" + wcid + "' AND I.ITEMMASTERID=WD.ITEMID AND WD.ITEMTYPE='Primary' AND I.ITEMMASTERID='" + itemid + "' )");
                 string powe = datatrans.GetDataString("Select EBCONSPERHR from wcbasic where wcbasicid='" + wcid + "'");
                 var result = new { tar = tar , powe = powe };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetapwcDetail(string sieveid, string wcid)
+        {
+            try
+            {
+                string tar = datatrans.GetDataString("Select Sum(tar) Tar from (SELECT SUM(WD.PRATE*22) TAR FROM WCSPRODDETAIL WD WHERE  WD.WCBASICID='" + wcid + "' AND WD.ITEMTYPE='Primary' AND WD.SIEVEID='" + sieveid + "' )");
+                string powe = datatrans.GetDataString("Select EBCONSPERHR from wcbasic where wcbasicid='" + wcid + "'");
+                var result = new { tar = tar, powe = powe };
                 return Json(result);
             }
             catch (Exception ex)

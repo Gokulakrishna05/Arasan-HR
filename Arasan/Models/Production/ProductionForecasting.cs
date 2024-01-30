@@ -56,6 +56,7 @@ namespace Arasan.Models
         public string power { get; set; }
          
         public string pyrocunt { get; set; }
+        public string apcunt { get; set; }
         public List<SelectListItem> mnthlst { get; set; }
     }
     public class PFCItem
@@ -286,7 +287,10 @@ namespace Arasan.Models
         public string detid { get; set; }
       
         public string powerrequired { get; set; }
-        public string sieve { get; set; }   
+        public string sieve { get; set; }
+        public string sieveid { get; set; }
+        public string svalue { get; set; }
+        public string endvalue { get; set; }
     }
     public class PFCPACKItem
     {
