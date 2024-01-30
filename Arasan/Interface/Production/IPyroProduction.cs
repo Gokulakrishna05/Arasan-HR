@@ -7,6 +7,10 @@ namespace Arasan.Interface
 {
     public interface IPyroProduction
     {
+
+        //string StatusChange(string tag, string id);
+        //string RemoveChange(string tag, string id);
+        DataTable GetAllPyro(string strStatus);
         DataTable GetWork(string id);
         DataTable ShiftDeatils();
         DataTable GetWorkedit(string id);
@@ -45,7 +49,7 @@ namespace Arasan.Interface
         DataTable GetBreak(string id);
         
 
-        IEnumerable<PyroProduction> GetAllPyro();
+        //IEnumerable<PyroProduction> GetAllPyro();
 
         DataTable GetPyroProductionName(string id);
         DataTable GetInputDeatils(string id);

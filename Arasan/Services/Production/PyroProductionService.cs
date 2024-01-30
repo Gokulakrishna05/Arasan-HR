@@ -20,37 +20,37 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<PyroProduction> GetAllPyro( )
-        {
+        //public IEnumerable<PyroProduction> GetAllPyro( )
+        //{
             
-            List<PyroProduction> cmpList = new List<PyroProduction>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //    List<PyroProduction> cmpList = new List<PyroProduction>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select  DOCID,to_char(PYROPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SHIFT,EMPMAST.EMPNAME,LOCDETAILS.LOCID,PYROPRODBASICID,PYROPRODBASIC.IS_APPROVED from PYROPRODBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=PYROPRODBASIC.SUPERVISOR  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PYROPRODBASIC.LOCID ORDER BY PYROPRODBASICID desc";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        PyroProduction cmp = new PyroProduction
-                        {
-                            ID = rdr["PYROPRODBASICID"].ToString(),
-                            super = rdr["EMPNAME"].ToString(),
-                            DocId = rdr["DOCID"].ToString(),
-                            Docdate = rdr["DOCDATE"].ToString(),
-                            Location = rdr["LOCID"].ToString(),
-                            Approve = rdr["IS_APPROVED"].ToString(),
-                            Shift = rdr["SHIFT"].ToString()
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select  DOCID,to_char(PYROPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SHIFT,EMPMAST.EMPNAME,LOCDETAILS.LOCID,PYROPRODBASICID,PYROPRODBASIC.IS_APPROVED from PYROPRODBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=PYROPRODBASIC.SUPERVISOR  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PYROPRODBASIC.LOCID ORDER BY PYROPRODBASICID desc";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                PyroProduction cmp = new PyroProduction
+        //                {
+        //                    ID = rdr["PYROPRODBASICID"].ToString(),
+        //                    super = rdr["EMPNAME"].ToString(),
+        //                    DocId = rdr["DOCID"].ToString(),
+        //                    Docdate = rdr["DOCDATE"].ToString(),
+        //                    Location = rdr["LOCID"].ToString(),
+        //                    Approve = rdr["IS_APPROVED"].ToString(),
+        //                    Shift = rdr["SHIFT"].ToString()
 
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
         public DataTable GetMachineDetails(string id)
         {
             string SvSql = string.Empty;
@@ -1160,6 +1160,73 @@ namespace Arasan.Services
 
             }
 
+        }
+        //public string StatusChange(string tag, string id)
+        //{
+
+        //    try
+        //    {
+        //        string svSQL = string.Empty;
+        //        using (OracleConnection objConnT = new OracleConnection(_connectionString))
+        //        {
+        //            svSQL = "UPDATE PYROPRODBASIC SET IS_APPROVED ='N' WHERE PYROPRODBASICID='" + id + "'";
+        //            OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+        //            objConnT.Open();
+        //            objCmds.ExecuteNonQuery();
+        //            objConnT.Close();
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return "";
+
+        //}
+
+        //public string RemoveChange(string tag, string id)
+        //{
+
+        //    try
+        //    {
+        //        string svSQL = string.Empty;
+        //        using (OracleConnection objConnT = new OracleConnection(_connectionString))
+        //        {
+        //            svSQL = "UPDATE PYROPRODBASIC SET IS_APPROVED ='Y' WHERE PYROPRODBASICID='" + id + "'";
+        //            OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+        //            objConnT.Open();
+        //            objCmds.ExecuteNonQuery();
+        //            objConnT.Close();
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return "";
+
+        //}
+        public DataTable GetAllPyro(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select  DOCID,to_char(PYROPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SHIFT,EMPMAST.EMPNAME,LOCDETAILS.LOCID,PYROPRODBASICID,PYROPRODBASIC.IS_APPROVED from PYROPRODBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=PYROPRODBASIC.SUPERVISOR  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PYROPRODBASIC.LOCID  ORDER BY PYROPRODBASICID desc ";
+
+            }
+            else
+            {
+                SvSql = "Select  DOCID,to_char(PYROPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SHIFT,EMPMAST.EMPNAME,LOCDETAILS.LOCID,PYROPRODBASICID,PYROPRODBASIC.IS_APPROVED from PYROPRODBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=PYROPRODBASIC.SUPERVISOR  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PYROPRODBASIC.LOCID  ORDER BY PYROPRODBASICID desc ";
+
+            }
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
 
     }

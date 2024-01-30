@@ -15,7 +15,7 @@ namespace Arasan.Models
     public class Stopgrid
     {
 
-        public string id { get; set; }
+        public long id { get; set; }
         public string sid { get; set; }
         public string sdesc { get; set; }
         public string createby { get; set; }
