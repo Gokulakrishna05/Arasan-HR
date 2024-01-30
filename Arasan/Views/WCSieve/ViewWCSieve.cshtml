@@ -1,0 +1,96 @@
+﻿@model Arasan.Models.WCSieve
+
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "WorkCenter Sieve";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+</style>
+
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    @using (Html.BeginForm("ViewWCSieve", "WCSieve", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div style="height:30px;"></div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.WorkCenter)
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="ibox float-e-margins">
+
+                                        <div class="ibox-content collapse in">
+                                            <div class="widgets-container">
+                                                <div>
+                                                    <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Sieve</th>
+                                                                <th>Rate</th>
+                                                                <th>Type</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            @{
+                                                                int i = 0;
+
+                                                                foreach (var item in Model.WCSLst.ToList())
+                                                                {
+
+                                                                    <tr>
+                                                                        <td>@Html.DisplayFor(o => o.WCSLst[i].Sieve)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WCSLst[i].Rate)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WCSLst[i].Type)</td>
+                                                                        
+
+                                                                    </tr>
+                                                                    i++;
+                                                                }
+                                                            }
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $(document).on('click', '.closeFancybox', function () {
+            $.fancybox.close();
+        })
+    })
+</script>
+
+
