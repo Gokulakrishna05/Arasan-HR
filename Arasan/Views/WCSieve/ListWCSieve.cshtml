@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.APProductionentry
+﻿@model Arasan.Models.WCSieve
 
 @{
     ViewData["Title"] = "Index";
@@ -12,14 +12,13 @@
         @:alert('@TempData["notice"]');
     }
 </script>
-
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Production</a> </li>
-            <li class="active"> <strong>AP Production Entry</strong> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong>WorkCenter Sieve</strong> </li>
         </ol>
     </div>
 </div>
@@ -28,26 +27,22 @@
     $(document).ready(function () {
         var source =
         {
-            url: "/APProductionentry/MyListAPProductionentryGrid",
+            url: "/WCSieve/MyListWCSieveGrid",
             //url: "/ItemName/ItemName",
-            //data: {
-            //    strstatus: ""
-            //},
+            data: {
+                strstatus: ""
+            },
             datatype: "json",
             updaterow: function (rowid, rowdata) {
                 // synchronize with the server - send update command
             },
             datafields: [
                 //{ name: 'branch', type: 'string' },
-                { name: 'docNo', type: 'string' },
-                { name: 'docDate', type: 'string' },
-                { name: 'workcenter', type: 'string' },
-                { name: 'empname', type: 'string' },
-                { name: 'shi', type: 'string' },
+                { name: 'work', type: 'string' },
+                { name: 'sieve', type: 'string' },
+                { name: 'rate', type: 'string' },
+                { name: 'type', type: 'string' },
                 { name: 'view', type: 'string' },
-                { name: 'print', type: 'string' },
-                { name: 'apprint', type: 'string' },
-                { name: 'approve', type: 'string' },
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
 
@@ -66,44 +61,37 @@
             {
                 width: '100%',
                 source: dataAdapter,
-                autorowheight: true,
-                autoheight: true,
+                height: 450,
                 source: source,
+                autoheight: true,
                 sortable: true,
                 filterable: true,
                 groupable: false,
                 pageable: true,
                 showfilterbar: true,
-                filterbarmode: 'simple',
                 //showfilterrow: true,
                 theme: 'darkblue',
                 enablebrowserselection: true,
                 columns: [
-                    //{ text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
-                    { text: 'Doc No', filtertype: 'input', datafield: 'docNo', width: 150 },
-                    { text: 'Doc Date', datafield: 'docDate', width: 100, align: 'center' },
-                    { text: 'Work Center', filtertype: 'input', datafield: 'workcenter', width: 150 },
-                    { text: 'Emp Name', filtertype: 'checkedlist', datafield: 'empname', width: 250 },
-                    { text: 'Shift', filtertype: 'checkedlist', datafield: 'shi', width: 250 },
+                    { text: 'Work Center', filtertype: 'checkedlist', datafield: 'work', width: 150 },
+                    { text: 'Sieve', filtertype: 'input', datafield: 'sieve', width: 120 },
+                    { text: 'Rate', datafield: 'rate', width: 150, align: 'center' },
+                    { text: 'Type', filtertype: 'checkedlist', datafield: 'type', width: 200 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Print', datafield: 'print', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'AP Print', datafield: 'apprint', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Approve', datafield: 'approve', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
                 ]
             });
-        //$("#ddlStatus").change(function () {
-        //    var value = "Y";
-        //    if ($(this).val() != "") {
-        //        value = $(this).val();
-        //    }
-        //    source.data = {
-        //        strstatus: value
-        //    };
-        //    $("#grid").jqxGrid({ source: source });
-        //});
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
     });
 </script>
 <div class="wrapper-content ">
@@ -114,18 +102,18 @@
 
                     <form>
                         <div class="row">
-                            @*<div class="col-md-2 ">
+                            <div class="col-md-2 ">
                                 @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
                                 { new SelectListItem() {Text = "Enabled", Value="Y"},
                                 new SelectListItem() {Text = "Disabled", Value="N"}},
                                 new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
                                 <br>
-                            </div>*@
-                              <div class="col-md-9 ">
-                            <div class=" textalignright">
-                                    <a href="@Url.Action("APProductionentry", "APProductionentry")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add AP Production Entry</a>
-                            <br>
                             </div>
+                            <div class="col-md-9 ">
+                                <div class=" textalignright">
+                                    <a href="@Url.Action("WCSieve", "WCSieve")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add WorkCenter Sieve</a>
+                                    <br>
+                                </div>
 
 
                             </div>
@@ -184,19 +172,19 @@
     }
 
 
-            //function changeStatus(status) {
-            //    var url = "/PurchaseQuo/ListPurchaseQuo?status=" + status;
-            //    window.location.href = url;
-            //    //$.ajax({
-            //    //    url: 'AssignSession',
-            //    //    data: { "status": status },
-            //    //    type: "GET",
-            //    //    success: function (result) {
-            //    //        document.getElementById("hdstatus").value = result;
-            //    //    },
-            //    //    error: function () {
-            //    //        alert("Data Not Found");
-            //    //    }
-            //    //});
-            //    //window.location.reload();
+                    //function changeStatus(status) {
+                    //    var url = "/PurchaseQuo/ListPurchaseQuo?status=" + status;
+                    //    window.location.href = url;
+                    //    //$.ajax({
+                    //    //    url: 'AssignSession',
+                    //    //    data: { "status": status },
+                    //    //    type: "GET",
+                    //    //    success: function (result) {
+                    //    //        document.getElementById("hdstatus").value = result;
+                    //    //    },
+                    //    //    error: function () {
+                    //    //        alert("Data Not Found");
+                    //    //    }
+                    //    //});
+                    //    //window.location.reload();
 </script>

@@ -1,5 +1,6 @@
 using Arasan.Interface;
 using Arasan.Models;
+using Arasan.Services;
 using Arasan.Services.Master;
 using AspNetCore.Reporting;
 using Microsoft.AspNetCore.Http;
@@ -1007,12 +1008,14 @@ namespace Arasan.Controllers
             {
                 string View = string.Empty;
                 string Print = string.Empty;
+                string APPrint1 = string.Empty;
                 string Approve = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
 
                 View = "<a href=ViewAPProductionentry?id=" + dtUsers.Rows[i]["APPRODUCTIONBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 Print = "<a href=Print?id=" + dtUsers.Rows[i]["DOCID"].ToString() + " target='_blank'><img src='../Images/pdf.png' alt='Generate PO' width='20' /></a>";
+                APPrint1 = "<a href=APPrint1?id=" + dtUsers.Rows[i]["APPRODUCTIONBASICID"].ToString() + " target='_blank'><img src='../Images/pdf.png' alt='Generate PO' width='20' /></a>";
                 if (dtUsers.Rows[i]["IS_APPROVE"].ToString() == "N")
                 {
                     if (dtUsers.Rows[i]["IS_CURRENT"].ToString() == "Yes")
@@ -1044,6 +1047,7 @@ namespace Arasan.Controllers
                     shi = dtUsers.Rows[i]["SHIFT"].ToString(),
                     view = View,
                     print = Print,
+                    apprint = APPrint1,
                     approve = Approve,
                     editrow = EditRow,
                     delrow = DeleteRow,
@@ -2174,7 +2178,48 @@ namespace Arasan.Controllers
 				throw ex;
 			}
 		}
-      
+        public async Task<IActionResult> APPrint1(string id)
+        {
+
+            string mimtype = "";
+            int extension = 1;
+            //string DrumID = datatrans.GetDataString("Select PARTYID from POBASIC where POBASICID='" + id + "' ");
+
+            System.Data.DataSet ds = new System.Data.DataSet();
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\APProductionDailyReport.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+            //  Parameters.Add("rp1", " Hi Everyone");
+            //var Poitem = await PoService.GetPOItem(id, DrumID);
+
+            AspNetCore.Reporting.LocalReport localReport = new AspNetCore.Reporting.LocalReport(path);
+            //localReport.AddDataSource("DataSet1", Poitem);
+            //localReport.AddDataSource("DataSet1_DataTable1", po);
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+
+            return File(result.MainStream, "application/Pdf");
+            //responce.redirect();
+            //            FunctionExecutor.Run((string[] args) =>
+            //            {
+
+            //                using (var fs = new FileStream(args[1], FileMode.Create, FileAccess.Write))
+            //            {
+            //                fs.Write(result.MainStream);
+            //            }
+            //        }, new string[] {jsonDataFilePath, generatedFilePath, rdlcFilePath, DataSetName
+            //    });
+
+            //            var memory = new MemoryStream();
+            //            using (var stream = new FileStream(Path.Combine("", generatedFilePath), FileMode.Open))
+            //            {
+            //                stream.CopyTo(memory);
+            //            }
+
+            //File.Delete(generatedFilePath);
+            //File.Delete(jsonDataFilePath);
+            //memory.Position = 0;
+            //return memory.ToArray();
+        }
+
         public async Task<IActionResult> Print(string id)
 
         {
