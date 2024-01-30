@@ -126,22 +126,22 @@ namespace Arasan.Controllers
 
         public IActionResult ViewStop(string id)
         {
-            Stop ca = new Stop();
+            Stop Dp = new Stop();
             DataTable dt = new DataTable();
             DataTable dtt = new DataTable();
             dt = StopService.GetviewStop(id);
             if (dt.Rows.Count > 0)
             {
-                ca.SID = dt.Rows[0]["STOPID"].ToString();
-                ca.SDESC = dt.Rows[0]["STOPDESC"].ToString();
-               
-                ca.ID = id;
+                Dp.SID = dt.Rows[0]["STOPID"].ToString();
+                Dp.SDESC = dt.Rows[0]["STOPDESC"].ToString();
+
+                Dp.ID = id;
 
 
             }
            
            // ca.QuoLst = Data;
-            return View(ca);
+            return View(Dp);
         }
         public ActionResult MyListItemgrid(string strStatus)
         {
@@ -165,16 +165,15 @@ namespace Arasan.Controllers
                 }
                 else
                 {
-
                     ViewRow = "";
                     EditRow = "";
                     DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["STOPMASTID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
 
                 }
-
                 Reg.Add(new Stopgrid
                 {
-                    id = dtUsers.Rows[i]["STOPMASTID"].ToString(),
+                    id = Convert.ToInt64(dtUsers.Rows[i]["STOPMASTID"].ToString()),
+                    //id = dtUsers.Rows[i]["STOPMASTID"].ToString(),
                     sid = dtUsers.Rows[i]["STOPID"].ToString(),
                     sdesc = dtUsers.Rows[i]["STOPDESC"].ToString(),
                     //description = dtUsers.Rows[i]["DESCRIPTION"].ToString(),

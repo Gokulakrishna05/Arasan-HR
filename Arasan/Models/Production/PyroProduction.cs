@@ -31,6 +31,7 @@ namespace Arasan.Models
     
 
         public string ID { get; set; }
+        public string ddlStatus { get; set; }
         public string change { get; set; }
         public object APID { get; set; }
         public string Location { get; set; }
@@ -321,5 +322,21 @@ namespace Arasan.Models
     //    public double CONSQTY { get; set; }
 
     //}
+
+
+    public class Pyrogrid
+    {
+        public string id { get; set; }
+        public string docid { get; set; }
+        public string docdate { get; set; }
+        public string super { get; set; }
+        public string shift { get; set; }
+        public string location { get; set; }
+
+        public string viewrow { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+
+    }
 }
 

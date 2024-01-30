@@ -893,8 +893,8 @@ namespace Arasan.Controllers
         {
 
             //HttpContext.Session.SetString("SalesStatus", "Y");
-            IEnumerable<PyroProduction> cmp = Pyro.GetAllPyro();
-            return View(cmp);
+            //IEnumerable<PyroProduction> cmp = Pyro.GetAllPyro();
+            return View();
         }
         public IActionResult ViewPyroProduction(string id)
         {
@@ -1836,6 +1836,59 @@ namespace Arasan.Controllers
             return File(result.MainStream, "application/Pdf");
         }
 
+       
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<Pyrogrid> Reg = new List<Pyrogrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = Pyro.GetAllPyro(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string Generate = string.Empty;
+                string ViewRow = string.Empty;
+                string Approve = string.Empty;
+
+                if (dtUsers.Rows[i]["IS_APPROVED"].ToString() == "Y")  
+                {
+
+                    Generate = "<a href=Print?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
+                    ViewRow = "<a href=ViewPyroProduction?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    Approve = "";
+                }
+
+                else
+                {
+                    Generate = "<a href=Print?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
+                    ViewRow = "<a href=ViewPyroProduction?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+                    Approve = "<a href=PyroProdApprove?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                }
+
+                Reg.Add(new Pyrogrid
+                {
+                    id = dtUsers.Rows[i]["PYROPRODBASICID"].ToString(),
+                    docid = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    super = dtUsers.Rows[i]["EMPNAME"].ToString(),
+                    shift = dtUsers.Rows[i]["SHIFT"].ToString(),
+                    location = dtUsers.Rows[i]["LOCID"].ToString(),
+
+                    editrow = Generate,
+                    viewrow = ViewRow,
+                    delrow = Approve,
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
 
     }
 }

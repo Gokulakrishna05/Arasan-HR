@@ -164,7 +164,7 @@ namespace Arasan.Services
 
         }
 
-        public DataTable GetAllStop(string strStatus)
+        public DataTable GetAllStop(string strStatus)    
         {
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
