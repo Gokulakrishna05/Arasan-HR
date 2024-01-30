@@ -219,7 +219,11 @@ internal class Program
         builder.Services.TryAddSingleton<IWorkCenterReportService, WorkCenterReportService>();
 
         builder.Services.TryAddSingleton<IPurMonReport, PurMonReportService>();
+
         builder.Services.TryAddSingleton<IWCSieveService, WCSieveService>();
+
+        builder.Services.TryAddSingleton<ISieve, SieveService>();
+
 
 
 

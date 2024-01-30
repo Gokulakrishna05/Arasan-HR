@@ -37,16 +37,8 @@
                         @Html.AntiForgeryToken()*@
                         <form>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.Branch)<br>
-                                            @Html.HiddenFor(C => C.ID)
-                                        </div>
-                                    </div>
-                                </div>
+                                
+                              
 
 
                                 <div class="col-md-6">
@@ -106,15 +98,7 @@
 
                             <div class="row">
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Amd.Sch.No<label class="Mandatory"></label></label>
-
-                                        <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.Amdno)<br>
-                                        </div>
-                                    </div>
-                                </div>
+                               
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -125,9 +109,7 @@
                                         </div>
                                 </div>
                             </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
+                            <div class="col-md-6">
                                     <div class="form-group">
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Formula<label class="Mandatory"></label></label>
 
@@ -136,6 +118,18 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Ref.Sch.No<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                                    @Html.DisplayFor(C => C.Refno)<br>
+                                        </div>
+                                    </div>
+                                </div>
+
 
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -172,6 +166,28 @@
                                 </div>
 
                             </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                            <br /> <label for="inputName3" class="col-sm-4 control-label">From Date<label class="mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                                    @Html.DisplayFor(C => C.startdate)<br>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                            <br /> <label for="inputName3" class="col-sm-4 control-label">To Date<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                              @Html.DisplayFor(C => C.enddate)<br>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -195,16 +211,7 @@
 
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Ref.Sch.No<label class="Mandatory"></label></label>
-
-                                        <div class="col-sm-8">
-                                                    @Html.DisplayFor(C => C.Refno)<br>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Prod Qty<label class="mandatory"></label></label>
@@ -225,7 +232,7 @@
                                         <ul class="nav nav-tabs">
                                             <li class="active"><a href="#tab-1" data-toggle="tab">Input Items</a></li>
                                             <li><a href="#tab-2" data-toggle="tab">Output Items </a></li>
-                                            <li><a href="#tab-3" data-toggle="tab">Process Parameters </a></li>
+                                           
                                             <li><a href="#tab-4" data-toggle="tab">Output Details Day Wise </a></li>
                                             <li><a href="#tab-5" data-toggle="tab">Pack Materials </a></li>
                                         </ul>
@@ -395,7 +402,7 @@
 
                                                 <!-- 2nd tab  -->
                                             </div>
-                                            <div class="tab-pane" id="tab-3">
+                                           @* <div class="tab-pane" id="tab-3">
                                                 <!-- 3rd tab  -->
                                                 
 
@@ -460,7 +467,7 @@
 
                                                 </div>
                                                 <!-- 3rd tab  -->
-                                            </div>
+                                            </div>*@
                                             <div class="tab-pane" id="tab-4">
                                                 <!-- 4th tab  -->
                                                
@@ -475,8 +482,8 @@
                                                                     
                                                                     <th>Item  </th>
                                                                     <th>Sch.Qty </th>
-                                                                    <th>No.Of Change </th>
-
+                                                                  @*  <th>No.Of Change </th>
+*@
                                                                 </tr>
                                                             </thead>
                                                             <tbody id="tbBooks3">
@@ -504,9 +511,7 @@
                                                                             <td>
                                                                                         @Html.DisplayFor(o => o.ProscLst[a].qty)
                                                                             </td>
-                                                                            <td>
-                                                                                        @Html.DisplayFor(o => o.ProscLst[a].Change)
-                                                                            </td>
+                                                                        
 
                                                                             
 

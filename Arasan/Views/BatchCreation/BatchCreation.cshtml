@@ -737,12 +737,29 @@
         }
     }
     function changeshall(typeid) {
-        if (typeid == "YES") {
+       @* if (typeid == "YES") {
            
         }
         else {
             
-        }
+        }*@
+
+          var shall= document.getElementById("WorkCenterid").value ;
+           $.ajax({
+            url: 'Getdociddetails',
+            data: { "typeid": typeid,"shall":shall },
+            type: "GET",
+            success: function (result) {
+
+                
+                document.getElementById("txtBatchNo").value = result.doc;
+
+           
+            },
+            error: function () {
+            alert("Data Not Found");
+            }
+            });
     } 
     @*  function changeProcess(ItemId) {
        
@@ -1099,7 +1116,7 @@
             }
              
             var j = 0;
-            $('tr.chkitemlst').each(function () {
+           @* $('tr.chkitemlst').each(function () {
                 if ($(this).css('display') !== 'none') {
 
                    
@@ -1178,7 +1195,7 @@
                     }
                      }
                 j += 1;
-            });
+            });*@
             var k=0;
                     $('tr.chkitemlst1').each(function () {
                         if ($(this).css('display') !== 'none') {
@@ -1337,7 +1354,7 @@
                 }
                 a += 1;
             });
-            var q=0;
+          @*  var q=0;
                     $('tr.chkitemlstOther').each(function () {
                         if ($(this).css('display') !== 'none') {
                     if ($(this).find('#ddlOtProcessId' + q.toString()).val() == "" || $(this).find('#ddlOtProcessId' + q.toString()).val() == "0") {
@@ -1454,7 +1471,7 @@
                                                              
                 }
                 q += 1;
-            });
+            });*@
           
           
             if (isValid == false)
@@ -1597,6 +1614,7 @@
             document.getElementById("txtProcess").value = result.process;
                 document.getElementById("Processid").value = result.processid;
                 document.getElementById("WorkCenterid").value = result.workid;
+                document.getElementById("txtBatchNo").value = result.doc;
 
            
             },

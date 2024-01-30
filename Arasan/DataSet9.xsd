@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet9" targetNamespace="http://tempuri.org/DataSet9.xsd" xmlns:mstns="http://tempuri.org/DataSet9.xsd" xmlns="http://tempuri.org/DataSet9.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection ConnectionStringObject="DATA SOURCE=192.168.0.8:1521/orcl;TNS_ADMIN=C:\Users\ac1\Oracle\network\admin;PASSWORD=Icand_1234;PERSIST SECURITY INFO=True;USER ID=TAAIERP" IsAppSettingsProperty="false" Modifier="Assembly" Name=".orcl" ParameterPrefix=":" Provider="Oracle.ManagedDataAccess.Client" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="PYROPRODBASICTableAdapter" GeneratorDataComponentClassName="PYROPRODBASICTableAdapter" Name="PYROPRODBASIC" UserDataComponentName="PYROPRODBASICTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef=".orcl" DbObjectName="TAAIERP.PYROPRODBASIC" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT SUPERVISOR, DOCID, DOCDATE, SHIFT FROM TAAIERP.PYROPRODBASIC</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="SUPERVISOR" DataSetColumn="SUPERVISOR" />
+              <Mapping SourceColumn="DOCID" DataSetColumn="DOCID" />
+              <Mapping SourceColumn="DOCDATE" DataSetColumn="DOCDATE" />
+              <Mapping SourceColumn="SHIFT" DataSetColumn="SHIFT" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="PYROPRODINPDETTableAdapter" GeneratorDataComponentClassName="PYROPRODINPDETTableAdapter" Name="PYROPRODINPDET" UserDataComponentName="PYROPRODINPDETTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef=".orcl" DbObjectName="TAAIERP.PYROPRODINPDET" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT ITEMID, BINID, STOCK, QTY, "TIME", DRUMNO FROM TAAIERP.PYROPRODINPDET</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="ITEMID" DataSetColumn="ITEMID" />
+              <Mapping SourceColumn="BINID" DataSetColumn="BINID" />
+              <Mapping SourceColumn="STOCK" DataSetColumn="STOCK" />
+              <Mapping SourceColumn="QTY" DataSetColumn="QTY" />
+              <Mapping SourceColumn="TIME" DataSetColumn="TIME" />
+              <Mapping SourceColumn="DRUMNO" DataSetColumn="DRUMNO" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="PyroProdTableAdapter" GeneratorDataComponentClassName="PyroProdTableAdapter" Name="PyroProd" UserDataComponentName="PyroProdTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef=".orcl" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        TAAIERP.PYROPRODBASIC.SUPERVISOR, TAAIERP.PYROPRODBASIC.DOCID, TAAIERP.PYROPRODBASIC.DOCDATE, TAAIERP.PYROPRODBASIC.SHIFT, TAAIERP.PYROPRODINPDET.ITEMID, 
+                         TAAIERP.PYROPRODINPDET.BINID, TAAIERP.PYROPRODINPDET.STOCK, TAAIERP.PYROPRODINPDET.QTY, TAAIERP.PYROPRODINPDET."TIME", TAAIERP.PYROPRODINPDET.DRUMNO
+FROM            TAAIERP.PYROPRODBASIC INNER JOIN
+                         TAAIERP.PYROPRODINPDET ON TAAIERP.PYROPRODBASIC.PYROPRODBASICID = TAAIERP.PYROPRODINPDET.PYROPRODBASICID</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="SUPERVISOR" DataSetColumn="SUPERVISOR" />
+              <Mapping SourceColumn="DOCID" DataSetColumn="DOCID" />
+              <Mapping SourceColumn="DOCDATE" DataSetColumn="DOCDATE" />
+              <Mapping SourceColumn="SHIFT" DataSetColumn="SHIFT" />
+              <Mapping SourceColumn="ITEMID" DataSetColumn="ITEMID" />
+              <Mapping SourceColumn="BINID" DataSetColumn="BINID" />
+              <Mapping SourceColumn="STOCK" DataSetColumn="STOCK" />
+              <Mapping SourceColumn="QTY" DataSetColumn="QTY" />
+              <Mapping SourceColumn="TIME" DataSetColumn="TIME" />
+              <Mapping SourceColumn="DRUMNO" DataSetColumn="DRUMNO" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet9" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DataSet9" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="DataSet9">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="PYROPRODBASIC" msprop:Generator_RowClassName="PYROPRODBASICRow" msprop:Generator_RowEvHandlerName="PYROPRODBASICRowChangeEventHandler" msprop:Generator_RowDeletedName="PYROPRODBASICRowDeleted" msprop:Generator_RowDeletingName="PYROPRODBASICRowDeleting" msprop:Generator_RowEvArgName="PYROPRODBASICRowChangeEvent" msprop:Generator_TablePropName="PYROPRODBASIC" msprop:Generator_RowChangedName="PYROPRODBASICRowChanged" msprop:Generator_UserTableName="PYROPRODBASIC" msprop:Generator_RowChangingName="PYROPRODBASICRowChanging" msprop:Generator_TableClassName="PYROPRODBASICDataTable" msprop:Generator_TableVarName="tablePYROPRODBASIC">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SUPERVISOR" msprop:Generator_UserColumnName="SUPERVISOR" msprop:Generator_ColumnPropNameInTable="SUPERVISORColumn" msprop:Generator_ColumnPropNameInRow="SUPERVISOR" msprop:Generator_ColumnVarNameInTable="columnSUPERVISOR" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DOCID" msprop:Generator_UserColumnName="DOCID" msprop:Generator_ColumnPropNameInTable="DOCIDColumn" msprop:Generator_ColumnPropNameInRow="DOCID" msprop:Generator_ColumnVarNameInTable="columnDOCID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DOCDATE" msprop:Generator_UserColumnName="DOCDATE" msprop:Generator_ColumnPropNameInTable="DOCDATEColumn" msprop:Generator_ColumnPropNameInRow="DOCDATE" msprop:Generator_ColumnVarNameInTable="columnDOCDATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="SHIFT" msprop:Generator_UserColumnName="SHIFT" msprop:Generator_ColumnPropNameInTable="SHIFTColumn" msprop:Generator_ColumnPropNameInRow="SHIFT" msprop:Generator_ColumnVarNameInTable="columnSHIFT" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="PYROPRODINPDET" msprop:Generator_RowClassName="PYROPRODINPDETRow" msprop:Generator_RowEvHandlerName="PYROPRODINPDETRowChangeEventHandler" msprop:Generator_RowDeletedName="PYROPRODINPDETRowDeleted" msprop:Generator_RowDeletingName="PYROPRODINPDETRowDeleting" msprop:Generator_RowEvArgName="PYROPRODINPDETRowChangeEvent" msprop:Generator_TablePropName="PYROPRODINPDET" msprop:Generator_RowChangedName="PYROPRODINPDETRowChanged" msprop:Generator_UserTableName="PYROPRODINPDET" msprop:Generator_RowChangingName="PYROPRODINPDETRowChanging" msprop:Generator_TableClassName="PYROPRODINPDETDataTable" msprop:Generator_TableVarName="tablePYROPRODINPDET">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ITEMID" msprop:Generator_UserColumnName="ITEMID" msprop:Generator_ColumnPropNameInTable="ITEMIDColumn" msprop:Generator_ColumnPropNameInRow="ITEMID" msprop:Generator_ColumnVarNameInTable="columnITEMID" type="xs:decimal" minOccurs="0" />
+              <xs:element name="BINID" msprop:Generator_UserColumnName="BINID" msprop:Generator_ColumnPropNameInTable="BINIDColumn" msprop:Generator_ColumnPropNameInRow="BINID" msprop:Generator_ColumnVarNameInTable="columnBINID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="STOCK" msprop:Generator_UserColumnName="STOCK" msprop:Generator_ColumnPropNameInTable="STOCKColumn" msprop:Generator_ColumnPropNameInRow="STOCK" msprop:Generator_ColumnVarNameInTable="columnSTOCK" type="xs:decimal" minOccurs="0" />
+              <xs:element name="QTY" msprop:Generator_UserColumnName="QTY" msprop:Generator_ColumnPropNameInTable="QTYColumn" msprop:Generator_ColumnPropNameInRow="QTY" msprop:Generator_ColumnVarNameInTable="columnQTY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TIME" msprop:Generator_UserColumnName="TIME" msprop:Generator_ColumnPropNameInTable="TIMEColumn" msprop:Generator_ColumnPropNameInRow="TIME" msprop:Generator_ColumnVarNameInTable="columnTIME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DRUMNO" msprop:Generator_UserColumnName="DRUMNO" msprop:Generator_ColumnPropNameInTable="DRUMNOColumn" msprop:Generator_ColumnPropNameInRow="DRUMNO" msprop:Generator_ColumnVarNameInTable="columnDRUMNO" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="PyroProd" msprop:Generator_RowEvHandlerName="PyroProdRowChangeEventHandler" msprop:Generator_RowDeletedName="PyroProdRowDeleted" msprop:Generator_RowDeletingName="PyroProdRowDeleting" msprop:Generator_RowEvArgName="PyroProdRowChangeEvent" msprop:Generator_TablePropName="PyroProd" msprop:Generator_RowChangedName="PyroProdRowChanged" msprop:Generator_RowChangingName="PyroProdRowChanging" msprop:Generator_TableClassName="PyroProdDataTable" msprop:Generator_RowClassName="PyroProdRow" msprop:Generator_TableVarName="tablePyroProd" msprop:Generator_UserTableName="PyroProd">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SUPERVISOR" msprop:Generator_ColumnPropNameInRow="SUPERVISOR" msprop:Generator_ColumnPropNameInTable="SUPERVISORColumn" msprop:Generator_ColumnVarNameInTable="columnSUPERVISOR" msprop:Generator_UserColumnName="SUPERVISOR" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DOCID" msprop:Generator_ColumnPropNameInRow="DOCID" msprop:Generator_ColumnPropNameInTable="DOCIDColumn" msprop:Generator_ColumnVarNameInTable="columnDOCID" msprop:Generator_UserColumnName="DOCID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DOCDATE" msprop:Generator_ColumnPropNameInRow="DOCDATE" msprop:Generator_ColumnPropNameInTable="DOCDATEColumn" msprop:Generator_ColumnVarNameInTable="columnDOCDATE" msprop:Generator_UserColumnName="DOCDATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="SHIFT" msprop:Generator_ColumnPropNameInRow="SHIFT" msprop:Generator_ColumnPropNameInTable="SHIFTColumn" msprop:Generator_ColumnVarNameInTable="columnSHIFT" msprop:Generator_UserColumnName="SHIFT" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ITEMID" msprop:Generator_ColumnPropNameInRow="ITEMID" msprop:Generator_ColumnPropNameInTable="ITEMIDColumn" msprop:Generator_ColumnVarNameInTable="columnITEMID" msprop:Generator_UserColumnName="ITEMID" type="xs:decimal" minOccurs="0" />
+              <xs:element name="BINID" msprop:Generator_ColumnPropNameInRow="BINID" msprop:Generator_ColumnPropNameInTable="BINIDColumn" msprop:Generator_ColumnVarNameInTable="columnBINID" msprop:Generator_UserColumnName="BINID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="STOCK" msprop:Generator_ColumnPropNameInRow="STOCK" msprop:Generator_ColumnPropNameInTable="STOCKColumn" msprop:Generator_ColumnVarNameInTable="columnSTOCK" msprop:Generator_UserColumnName="STOCK" type="xs:decimal" minOccurs="0" />
+              <xs:element name="QTY" msprop:Generator_ColumnPropNameInRow="QTY" msprop:Generator_ColumnPropNameInTable="QTYColumn" msprop:Generator_ColumnVarNameInTable="columnQTY" msprop:Generator_UserColumnName="QTY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TIME" msprop:Generator_ColumnPropNameInRow="TIME" msprop:Generator_ColumnPropNameInTable="TIMEColumn" msprop:Generator_ColumnVarNameInTable="columnTIME" msprop:Generator_UserColumnName="TIME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DRUMNO" msprop:Generator_ColumnPropNameInRow="DRUMNO" msprop:Generator_ColumnPropNameInTable="DRUMNOColumn" msprop:Generator_ColumnVarNameInTable="columnDRUMNO" msprop:Generator_UserColumnName="DRUMNO" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -297,9 +297,32 @@ namespace Arasan.Controllers
                     workid= dt.Rows[0]["work"].ToString();
                     processid = dt.Rows[0]["process"].ToString();
 
-                   
+                    doc = datatrans.GetDataString("SELECT PREFIX||''||LASTNO FROM SEQUENCE WHERE LOCID='" + workid + "'");
                 }
                 var result = new { work = work, process = process , doc = doc, workid= workid , processid = processid };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult Getdociddetails(string typeid,string shall)
+        {
+            try
+            {
+                string doc = "";
+                 if(typeid=="YES")
+                {
+                    doc = datatrans.GetDataString("SELECT PREFIX||''||LASTNO FROM SEQUENCE WHERE LOCID='" + shall + "'");
+                }
+                 else
+                {
+                    doc = datatrans.GetDataString("SELECT PREFIX||''||LASTNO FROM SEQUENCE WHERE LOCID='" + shall + "' and PREFIX=''");
+                }
+                    
+                
+                var result = new { doc = doc };
                 return Json(result);
             }
             catch (Exception ex)
@@ -666,7 +689,7 @@ namespace Arasan.Controllers
                 string EditRow = string.Empty;
                 string view = string.Empty;
 
-                view = "<a href=ViewBatch?id=" + dtUsers.Rows[i]["BCPRODBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='Edit' /></a>";
+                view = "<a href=ViewBatch?id=" + dtUsers.Rows[i]["BCPRODBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Edit' /></a>";
                 EditRow = "<a href=BatchCreation?id=" + dtUsers.Rows[i]["BCPRODBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["BCPRODBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 

@@ -15,6 +15,7 @@ namespace Arasan.Models
         public string Branch { get; set; }
         public List<SelectListItem> Loclst { get; set; }
         public string DocId { get; set; }
+        public string workid { get; set; }
         public string Docdate { get; set; }
         public string Eng { get; set; } 
         public List<SelectListItem> Englst { get; set; }
@@ -45,6 +46,7 @@ namespace Arasan.Models
         public string Eng { get; set; }
         public bool Complete { get; set; }
         public string BatchNo { get; set; }
+        public string batchid { get; set; }
         public string batchcomplete { get; set; }
         public string SchQty { get; set; }
         public string ProdQty { get; set; }
@@ -70,6 +72,7 @@ namespace Arasan.Models
         public string Item { get; set; }
         public string APID { get; set; }
         public string inpid { get; set; }
+        public string unit { get; set; }
         public string saveitemId { get; set; }
 
         public List<SelectListItem> Itemlst { get; set; }
@@ -100,6 +103,7 @@ namespace Arasan.Models
     {
         public string ItemId { get; set; }
         public string APID { get; set; }
+        public string unit { get; set; }
         public string outid { get; set; }
         public string saveitemId { get; set; }
 

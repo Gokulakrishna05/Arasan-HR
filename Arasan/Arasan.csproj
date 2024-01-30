@@ -10,7 +10,11 @@
     <Content Remove="wwwroot\Reports\APProductionDailyReport.rdlc" />
     <Content Remove="wwwroot\Reports\Basic.rdlc" />
     <Content Remove="wwwroot\Reports\EnqReport.rdlc" />
+
     <Content Remove="wwwroot\Reports\Example.rdlc" />
+
+    <Content Remove="wwwroot\Reports\PyroReport.rdlc" />
+
     <Content Remove="wwwroot\Reports\QuotationImportReport.rdlc" />
     <Content Remove="wwwroot\Reports\QuotationReport.rdlc" />
     <Content Remove="wwwroot\Reports\ReturnReport.rdlc" />
@@ -42,9 +46,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="wwwroot\Reports\EnqReport.rdlc" />
+
     <None Include="wwwroot\Reports\Example.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+
+    <None Include="wwwroot\Reports\PyroReport.rdlc" />
+
     <None Include="wwwroot\Reports\QuotationImportReport.rdlc" />
     <None Include="wwwroot\Reports\QuotationReport.rdlc" />
     <None Include="wwwroot\Reports\ReturnReport.rdlc" />
@@ -121,6 +129,16 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DataSet8.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="DataSet9.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DataSet9.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="Pyro.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Pyro.xsd</DependentUpon>
     </Compile>
     <Compile Update="Return.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -209,6 +227,14 @@
      <None Update="DataSet8.xsd">
        <Generator>MSDataSetGenerator</Generator>
        <LastGenOutput>DataSet8.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="DataSet9.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>DataSet9.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="Pyro.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>Pyro.Designer.cs</LastGenOutput>
      </None>
      <None Update="Return.xsd">
        <Generator>MSDataSetGenerator</Generator>

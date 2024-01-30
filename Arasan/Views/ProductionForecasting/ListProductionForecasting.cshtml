@@ -71,13 +71,16 @@
             {
                 width: '100%',
                 source: dataAdapter,
-                height: 450,
+                //height: 450,
+                autorowheight: true,
+                autoheight: true,
                 source: source,
                 sortable: true,
                 filterable: true,
                 groupable: false,
                 pageable: true,
                 showfilterbar: true,
+                filterbarmode: 'simple',
                 //showfilterrow: true,
                 theme: 'darkblue',
                 enablebrowserselection: true,
@@ -236,7 +239,7 @@
     jQuery(document).ready(function ($) {
         $(".fancybox").fancybox({
             width: '80%',
-            height: '10%',
+            height: '50%',
             arrows: false,
             afterClose: function () {
                 location.reload();

@@ -6,6 +6,7 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Dapper;
 
 namespace Arasan.Services
 {
@@ -1148,5 +1149,18 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public async Task<IEnumerable<PyroDetail>> Getpyropdf(string id) 
+        {
+            using (OracleConnection db = new OracleConnection(_connectionString)) 
+            {
+
+                return await db.QueryAsync<PyroDetail>(" SELECT to_char(PYROPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PYROPRODBASIC.SHIFT FROM PYROPRODBASIC LEFT OUTER JOIN PYROPRODINPDET ON PYROPRODBASIC.PYROPRODBASICID = PYROPRODINPDET.PYROPRODINPDETID WHERE PYROPRODBASIC.PYROPRODBASICID ='" + id + "' and PYROPRODINPDET.PYROPRODBASICID  ='" + id + "' ", commandType: CommandType.Text);
+
+
+            }
+
+        }
+
     }
 }

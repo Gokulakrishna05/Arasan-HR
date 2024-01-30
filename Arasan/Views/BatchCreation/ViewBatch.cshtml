@@ -1,7 +1,7 @@
 ﻿@model Arasan.Models.BatchCreation
 
 @{
-    
+      Layout = "_PopupLayout";
     ViewData["Title"] = "Batch Creation";
 }
 <style>
@@ -31,20 +31,17 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    <h5 style="font-size:14px">Batch - Creation</h5>
+                    <h5 style="font-size:14px">Batch Creation</h5>
                     <hr>
-                    @using (Html.BeginForm("BatchCreation", "BatchCreation", FormMethod.Post))
-                    {
-                        @Html.AntiForgeryToken()
+                   
                         <form>
                             <div class="row">
-                                <div class="col-md-6">
+                             <div class="col-md-6">
                                     <div class="form-group">
 
-                                       <br> <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory"></label></label>
+                                        <br><label for="inputName3" class="col-sm-4 control-label">Prod.Sch.No<label class="mandatory"> </label></label>
                                         <div class="col-sm-8">
-                                            @Html.HiddenFor(C => C.ID)
-                                            @Html.DisplayFor(C => C.Branch)
+                                            @Html.DisplayFor(C => C.Prod)
                                         </div>
                                     </div>
                                 </div>
@@ -84,6 +81,15 @@
                                 </div>
                             </div>
                             <div class="row">
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br><label for="inputName3" class="col-sm-4 control-label">Batch No.<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.BatchNo)
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                       <br>  <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="Mandatory"></label></label>
@@ -93,7 +99,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                               
+                            </div>
+
+
+                            <div style="height:15px;"></div>
+                            <div class="row">
+                                 <div class="col-md-6">
                                     <div class="form-group">
 
                                         <br><label for="inputName3" class="col-sm-4 control-label">Ref.Batch.No<label class="mandatory"></label></label>
@@ -103,12 +115,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-
-                            <div style="height:15px;"></div>
-                            <div class="row">
-
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <br><label for="inputName3" class="col-sm-4 control-label">Shell Cleaning?<label class="mandatory"> </label></label>
@@ -118,15 +124,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <br><label for="inputName3" class="col-sm-4 control-label">Batch No.<label class="Mandatory"></label></label>
-
-                                        <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.BatchNo)
-                                        </div>
-                                    </div>
-                                </div>
+                               
                             </div>
                             <div style="height:15px;"></div>
                             <div class="row">
@@ -139,12 +137,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                    <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br><label for="inputName3" class="col-sm-4 control-label">Prod.Sch.No<label class="mandatory"> </label></label>
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">MTO Circulation No.<label class="mandatory"> </label></label>
                                         <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.Prod)
+                                            @Html.DisplayFor(C => C.MTO)
                                         </div>
                                     </div>
                                 </div>
@@ -171,18 +169,7 @@
                                 </div>
 
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <br> <label for="inputName3" class="col-sm-4 control-label">MTO Circulation No.<label class="mandatory"> </label></label>
-                                        <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.MTO)
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                            </div>
+                            
 
                             <div style="height:30px;"></div>
                             <div class="row">
@@ -190,14 +177,14 @@
 
                                     <div class="tabs-container">
                                         <ul class="nav nav-tabs">
-                                            <li class="active"><a href="#tab-1" data-toggle="tab">Production Details</a></li>
-                                            <li><a href="#tab-2" data-toggle="tab">Input Details </a></li>
+                                          @*  <li class="active"><a href="#tab-1" data-toggle="tab">Production Details</a></li>*@
+                                            <li class="active"><a href="#tab-2" data-toggle="tab">Input Details </a></li>
                                             <li><a href="#tab-3" data-toggle="tab">Output Details </a></li>
-                                            <li><a href="#tab-4" data-toggle="tab">Other Process Details </a></li>
-                                            <li><a href="#tab-5" data-toggle="tab"> Process Parameters </a></li>
+                                         @*   <li><a href="#tab-4" data-toggle="tab">Other Process Details </a></li>
+                                            <li><a href="#tab-5" data-toggle="tab"> Process Parameters </a></li>*@
                                         </ul>
                                         <div class="tab-content">
-                                            <div class="tab-pane active" id="tab-1">
+                                         @*   <div class="tab-pane active" id="tab-1">
                                                 <!-- 1st tab  -->
                                                 <div style="height:30px;"></div>
                                                 
@@ -255,8 +242,8 @@
 
                                                 </div>
                                                 <!-- 1st tab  -->
-                                            </div>
-                                            <div class="tab-pane" id="tab-2">
+                                            </div>*@
+                                            <div class="tab-pane active" id="tab-2">
                                                 <!-- 2nd tab  -->
                                                 <div style="height:30px;"></div>
                                                 
@@ -394,7 +381,7 @@
 
                                                 <!-- 3rd tab  -->
                                             </div>
-                                            <div class="tab-pane" id="tab-4">
+                                            @*<div class="tab-pane" id="tab-4">
                                                 <!-- 4th tab  -->
                                                 <div style="height:30px;"></div>
                                                 
@@ -542,7 +529,7 @@
 
                                                 </div>
                                                 <!-- 5th tab  -->
-                                            </div>
+                                            </div>*@
                                         </div>
                                     </div>
 
@@ -647,11 +634,11 @@
 
 
                             <div style="height:30px;"></div>
-                            <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onclick="location.href='@Url.Action("ListBatchCreation", "BatchCreation")'">Submit</button>
+                        @*    <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onclick="location.href='@Url.Action("ListBatchCreation", "BatchCreation")'">Submit</button>
 
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListBatchCreation", "BatchCreation")'">Cancel</button>
-                        </form>
-                    }
+                       *@ </form>
+                 
                 </div>
             </div>
         </div>
