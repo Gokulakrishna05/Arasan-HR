@@ -291,6 +291,7 @@ namespace Arasan.Models
         public string shi { get; set; }
         public string view { get; set; }
         public string print { get; set; }
+        public string apprint { get; set; }
         public string approve { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }

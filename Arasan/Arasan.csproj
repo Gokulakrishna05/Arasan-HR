@@ -7,8 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Reports\APProductionDailyReport.rdlc" />
     <Content Remove="wwwroot\Reports\Basic.rdlc" />
     <Content Remove="wwwroot\Reports\EnqReport.rdlc" />
+    <Content Remove="wwwroot\Reports\Example.rdlc" />
     <Content Remove="wwwroot\Reports\QuotationImportReport.rdlc" />
     <Content Remove="wwwroot\Reports\QuotationReport.rdlc" />
     <Content Remove="wwwroot\Reports\ReturnReport.rdlc" />
@@ -36,7 +38,13 @@
     <None Include="..\.editorconfig" Link=".editorconfig" />
     <None Include="Views\ProFormaInvoice\ListProFormaInvoice.cshtml" />
     <None Include="Views\ProFormaInvoice\ProFormaInvoice.cshtml" />
+    <None Include="wwwroot\Reports\APProductionDailyReport.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="wwwroot\Reports\EnqReport.rdlc" />
+    <None Include="wwwroot\Reports\Example.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="wwwroot\Reports\QuotationImportReport.rdlc" />
     <None Include="wwwroot\Reports\QuotationReport.rdlc" />
     <None Include="wwwroot\Reports\ReturnReport.rdlc" />
