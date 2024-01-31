@@ -128,21 +128,21 @@ namespace Arasan.Controllers
 
         public IActionResult ViewSieve(string id)
         {
-            Sieve ca = new Sieve();
+            Sieve Dp = new Sieve();
             DataTable dt = new DataTable();
             DataTable dtt = new DataTable();
             dt = SieveService.GetviewSieve(id);
             if (dt.Rows.Count > 0)
             {
-                ca.Svalue = dt.Rows[0]["STARTVALUE"].ToString();
-                ca.Evalue = dt.Rows[0]["ENDVALUE"].ToString();
-                ca.SID = dt.Rows[0]["SIEVE"].ToString();
+                Dp.Svalue = dt.Rows[0]["STARTVALUE"].ToString();
+                Dp.Evalue = dt.Rows[0]["ENDVALUE"].ToString();
+                Dp.SID = dt.Rows[0]["SIEVE"].ToString();
 
-                ca.ID = id;
+                Dp.ID = id;
             }
 
             // ca.QuoLst = Data;
-            return View(ca);
+            return View(Dp);
         }
 
 
