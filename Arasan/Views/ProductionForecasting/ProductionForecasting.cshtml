@@ -58,6 +58,7 @@
                                                 @Html.HiddenFor(C => C.ID)
                                                 @Html.HiddenFor(C => C.Branch)
                                                 @Html.HiddenFor(C => C.Enterd)
+                                                @Html.HiddenFor(C => C.totaldays,new {@id="hdtotaldays"})
                                             </div>
                                         </div>
                                     </div>
@@ -122,7 +123,7 @@
 
                                             <br /><label for="inputName3" class="col-sm-4 control-label">Holidays<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
-                                                @Html.TextBoxFor(C => C.Hd, new { @id = "Hd", @class = "form-control", @TabIndex = 2 })
+                                                @Html.TextBoxFor(C => C.Hd, new { @id = "Hd", @class = "form-control", @TabIndex = 2 ,@onkeyup="changedays(this.value)" })
 
                                             </div>
                                         </div>
@@ -136,7 +137,7 @@
 
                                             <br />  <label for="inputName3" class="col-sm-4 control-label">Prod Start Date<label class="Mandatory"></label></label>
                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                @Html.TextBoxFor(C => C.Fordate, new { @id = "Fordate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
+                                                @Html.TextBoxFor(C => C.Fordate, new { @id = "Fordate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true ,@onchange="changedays(this.value)"})
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                             </div>
                                         </div>
@@ -145,7 +146,7 @@
                                         <div class="form-group">
                                             <br /> <label for="inputName3" class="col-sm-4 control-label">End Date<label class="Mandatory"></label></label>
                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                @Html.TextBoxFor(C => C.Enddate, new { @id = "Enddate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
+                                                @Html.TextBoxFor(C => C.Enddate, new { @id = "Enddate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true,@onchange="changedays(this.value)" })
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                             </div>
                                         </div>
@@ -1243,7 +1244,7 @@
                                                                                 </tbody>
                                                                             </table>*@
                                                                             <div id="apnewtable"></div>
-                                                                            @Html.HiddenFor(o => o.apcunt, new { @id = "hdapcunt" } )
+                                                                            @Html.HiddenFor(o => o.apcunt, new { @id = "hdapcunt" })
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1379,6 +1380,28 @@
 
 </div>
 <script>
+    function changedays(){
+        var hd=document.getElementById("Hd").value;
+        var frdate=document.getElementById("Fordate").value;
+        var todate=document.getElementById("Enddate").value;
+        var date1 = "";
+var date2 = ""; 
+ var diffDays =0;
+        if(frdate != ""){
+            date1=new Date(frdate);
+        }
+        if(todate !=""){
+             date2=new Date(todate);
+        }
+        if(date1 !="" && date2 !=""){
+            diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24), 10); 
+        }
+        if(hd == "")
+         hd=0;
+
+         var totdays=eval(diffDays) + 1-eval(hd);
+        document.getElementById("hdtotaldays").value=totdays;
+    }
     $(function () {
         $('._select').select2();
     });
@@ -1853,7 +1876,7 @@
 
         });*@
 
-        var index=0;
+        var aindex=0;
          $.ajax({
                     url: 'GetAPForecast',
             type: "post",
@@ -1863,45 +1886,47 @@
             success: function (list) {
                 list.forEach((item) => {
 
-                    //var index = $("#tbBooks6").children("tr").length;
-                        var addrow = "<td><a href='#' class='icon fa fa-plus-circle' aria-hidden='true' onclick='addaprow(" + index + "," + item.sieveid + ")' ></a></td>";
+                    //var aindex = $("#tbBooks6").children("tr").length;
+                        var addrow = "<td><a href='#' class='icon fa fa-plus-circle' aria-hidden='true' onclick='addaprow(" + aindex + "," + item.sieveid + ")' ></a></td>";
 
-                        var sievet="<td><label style='width: 120px;'>" + item.sieve + "</label><input class='form-control' id='txtsieve" + index + "' name='PFCAPPRODLst[" + index + "].sieveid'  style='width: 100px;' type='hidden' value=" + item.sieveid + "  /><input id='hdapsval" + index + "' name='PFCAPPRODLst[" + index + "].svalue' type='hidden' value=" + item.svalue + "  /><input id='hdapeval" + index + "' name='PFCAPPRODLst[" + index + "].endvalue' type='hidden' value=" + item.endvalue + "  /></td>";
+                        var sievet="<td><label style='width: 120px;' id='lblsieve" + aindex + "'>" + item.sieve + "</label><input class='form-control' id='txtsieve" + aindex + "' name='PFCAPPRODLst[" + aindex + "].sieveid'  style='width: 100px;' type='hidden' value=" + item.sieveid + "  /><input id='hdapsval" + aindex + "' name='PFCAPPRODLst[" + aindex + "].svalue' type='hidden' value=" + item.svalue + "  /><input id='hdapeval" + aindex + "' name='PFCAPPRODLst[" + aindex + "].endvalue' type='hidden' value=" + item.endvalue + "  /></td>";
 
-                    var Work = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlPWorkId" + index + "' name='PFCAPPRODLst[" + index + "].WorkId' onchange='apwcchange(" + index + ",this.value)'  ><option value=''>-- Please select -- </option>" + apopt + "</select></td>";
+                    var Work = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlPWorkId" + aindex + "' name='PFCAPPRODLst[" + aindex + "].WorkId' onchange='apwcchange(" + aindex + ",this.value)'  ><option value=''>-- Please select -- </option>" + apopt + "</select></td>";
 
-                    var WCDays = "<td><input class='form-control' id='txtwdays" + index + "' name='PFCAPPRODLst[" + index + "].wdays'  style='width: 100px;' type='text'    /></td>";
+                    var WCDays = "<td><input class='form-control' id='txtwdays" + aindex + "' name='PFCAPPRODLst[" + aindex + "].wdays'  style='width: 100px;' type='text'    /></td>";
                         
-                    var Capacity = "<td> <input  class='form-control' id='txtcapacity" + index + "' name='PFCAPPRODLst[" + index + "].capacity' style='width: 100px;' type='text'  readonly='True' ><input id='hdcapacity" + index + "' name='PFCAPPRODLst[" + index + "].capacity' type='hidden' /></td>";
+                    var Capacity = "<td> <input  class='form-control' id='txtcapacity" + aindex + "' name='PFCAPPRODLst[" + aindex + "].capacity' style='width: 100px;' type='text'  readonly='True' ><input id='hdcapacity" + aindex + "' name='PFCAPPRODLst[" + aindex + "].capacity' type='hidden' /></td>";
 
-                    var Prodtarget = "<td><input class='form-control' id='txtaptarget" + index + "' name='PFCAPPRODLst[" + index + "].target'  style='width: 100px;' type='text' readonly='True' /><input id='hdaptarget" + index + "' name='PFCAPPRODLst[" + index + "].target' type='hidden' /></td>";
+                    var Prodtarget = "<td><input class='form-control' id='txtaptarget" + aindex + "' name='PFCAPPRODLst[" + aindex + "].target'  style='width: 100px;' type='text' readonly='True' /><input id='hdaptarget" + aindex + "' name='PFCAPPRODLst[" + aindex + "].target' type='hidden' /></td>";
 
-                   var ProdDays = "<td><input class='form-control' id='txtproddays" + index + "' name='PFCAPPRODLst[" + index + "].proddays'  style='width: 120px;' type='text' /></td>";
-                    var Production = "<td><input class='form-control' id='txtproduction" + index + "' name='PFCAPPRODLst[" + index + "].production'  style='width: 120px;' type='text' /></td>";
-                    var FuelReq = "<td><input class='form-control' id='txtfuelreq" + index + "' name='PFCAPPRODLst[" + index + "].fuelreq'  style='width: 120px;' type='text' /></td>";
+                   var ProdDays = "<td><input class='form-control' id='txtapproddays" + aindex + "' name='PFCAPPRODLst[" + aindex + "].proddays'  style='width: 100px;' type='text' onkeyup = 'changeapdays(this," + aindex + ")' /></td>";
+                    var Production = "<td><input class='form-control' id='txtproduction" + aindex + "' name='PFCAPPRODLst[" + aindex + "].production'  style='width: 100px;' type='text' readonly='True'/><input id='hdproduction" + aindex + "' name='PFCAPPRODLst[" + aindex + "].production' type='hidden' /></td>";
+                     var balance = "<td><input class='form-control' id='txtapbalanceqty" + aindex + "' name='PFCAPPRODLst[" + aindex + "].balanceqty'  style='width: 100px;' type='text' readonly='True'/><input id='hdapbalanceqty" + aindex + "' name='PFCAPPRODLst[" + aindex + "].balanceqty' type='hidden' /></td>";
+                    var FuelReq = "<td><input class='form-control' id='txtfuelreq" + aindex + "' name='PFCAPPRODLst[" + aindex + "].fuelreq'  style='width: 100px;' type='text' readonly='True'/><input id='hdfuelreq" + aindex + "' name='PFCAPPRODLst[" + aindex + "].fuelreq' type='hidden' /></td>";
 
-                    var Ingotreq = "<td><input class='form-control' id='txtingotreq" + index + "' name='PFCAPPRODLst[" + index + "].ingotreq'  style='width: 120px;' type='text' /></td>";
+                    var Ingotreq = "<td><input class='form-control' id='txtingotreq" + aindex + "' name='PFCAPPRODLst[" + aindex + "].ingotreq'  style='width: 100px;' type='text' readonly='True'/><input id='hdingotreq" + aindex + "' name='PFCAPPRODLst[" + aindex + "].ingotreq' type='hidden' /></td>";
 
-                    var PowerReq = "<td><input class='form-control' id='txtpowerreqap" + index + "' name='PFCAPPRODLst[" + index + "].powerrequired'  style='width: 120px;' type='text' readonly='True' /><input id='hdpowerreqap" + index + "' name='PFCAPPRODLst[" + index + "].powerrequired' type='hidden' /><input id='hdapindex" + index + "'  type='hidden' value='"+ index +"'   /></td>";
+                    var PowerReq = "<td><input class='form-control' id='txtpowerreqap" + aindex + "' name='PFCAPPRODLst[" + aindex + "].powerrequired'  style='width: 100px;' type='text' readonly='True' /><input id='hdpowerreqap" + aindex + "' name='PFCAPPRODLst[" + aindex + "].powerrequired' type='hidden' /><input id='hdapindex" + aindex + "'  type='hidden' value='"+ aindex +"'   /><input id='hdappowerperhr" + aindex + "'  type='hidden' /></td>";
 
-                     if(index==0){
-                        headg=" <thead><tr><th></th><th>Sieve</th><th>Work Center</th><th>Wc.Days</th> <th>Capacity/Day </th><th> Production Target </th> <th>Prod.Days </th><th>Production </th><th>Fuel Req. </th> <th>Ingots Required</th><th>Power Required</th></tr></thead>";
+                     if(aindex==0){
+                        headg=" <thead><tr><th></th><th>Sieve</th><th>Work Center</th><th>Wc.Days</th> <th>Capacity/Day </th><th> Production Target </th> <th>Prod.Days </th><th>Production </th><th>Balance Qty. </th><th>Fuel Req. </th> <th>Ingots Required</th><th>Power Required</th></tr></thead>";
                                                                                         
                     }
                     else{
                         headg="";
                     }
-                        var newRow = "<table class='table table-striped table-hover' id='apsub_"+ index +"'>"+ headg +"<tbody id='tbBooks6sub_"+ index +"'><tr class='chkitemlst6sub'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookap" + index + "'>" + addrow  + sievet + Work + WCDays + Capacity + Prodtarget + ProdDays + Production + FuelReq + Ingotreq + PowerReq + "</tr>";
+                        var newRow = "<table class='table table-striped table-hover' id='apsub_"+ aindex +"'>"+ headg +"<tbody id='tbBooks6sub_"+ aindex +"'><tr class='chkitemlst6sub'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookap" + aindex + "'>" + addrow  + sievet + Work + WCDays + Capacity + Prodtarget + ProdDays + Production + balance + FuelReq + Ingotreq + PowerReq + "</tr>";
 
-                        index=eval(index) + 1;
+                        aindex=eval(aindex) + 1;
 
                     $("#apnewtable").append(newRow);
                 });
                 
- document.getElementById("hdapcunt").value = index;
+ document.getElementById("hdapcunt").value = aindex;
             },
 
         });
+
 
        
 
@@ -2088,9 +2113,47 @@ function callaps(PyroItemArray){
 function AppendapRow(index,sieveid,opt){
       var ind=document.getElementById("hdapindex"+index).value;
                var newindex=document.getElementById("hdapcunt").value;
+                var sievename = document.getElementById("lblsieve" + index).innerHTML;
+                var stvalue=document.getElementById("hdapsval" + index).value;
+                var endvalue=document.getElementById("hdapeval" + index).value;
+                var perhr=document.getElementById("hdappowerperhr" + index).value; 
+                var capacity=document.getElementById("hdcapacity" + index).value; 
 
+                var j = 0;
+              let min = Number.POSITIVE_INFINITY;
+              const myArray = ind.split(",");
+              for (var j = 0; j < myArray.length; j++) {
+                var t=myArray[j];
+                if($('#trBookap'+t).css('display') !== 'none')
+                    {
+                           var bqty=document.getElementById("txtapbalanceqty" + t).value;
+                         min = Math.min(eval(min), eval(bqty));
+                    }
+                }
+                var required=min;
+               var addrow = "<td><a href='#' aria-hidden='true' onclick='removeaprow(" + index + "," + newindex + ")' ><img src='../Images/delete.png' alt='View Details' width='15' /></a></td>";
+                 var sievet="<td><label style='width: 120px;' id='lblsieve" + index + "'>" + sievename + "</label><input class='form-control' id='txtsieve" + newindex + "' name='PFCAPPRODLst[" + newindex + "].sieveid'  style='width: 100px;' type='hidden' value=" + sieveid + "  /><input id='hdapsval" + newindex + "' name='PFCAPPRODLst[" + newindex + "].svalue' type='hidden' value=" + stvalue + "  /><input id='hdapeval" + newindex + "' name='PFCAPPRODLst[" + newindex + "].endvalue' type='hidden' value=" + endvalue + "  /></td>";
 
-$("#tbBooks2sub_"+index).append(newRow);
+                    var Work = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlPWorkId" + newindex + "' name='PFCAPPRODLst[" + newindex + "].WorkId' onchange='apwcchange(" + newindex + ",this.value)'  ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
+
+                        var WCDays = "<td><input class='form-control' id='txtwdays" + newindex + "' name='PFCAPPRODLst[" + newindex + "].wdays'  style='width: 100px;' type='text'    /></td>";
+                        
+                    var Capacity = "<td> <input  class='form-control' id='txtcapacity" + newindex + "' name='PFCAPPRODLst[" + newindex + "].capacity' style='width: 100px;' type='text'  readonly='True'value=" + capacity + " ><input id='hdcapacity" + newindex + "' name='PFCAPPRODLst[" + newindex + "].capacity' type='hidden' value=" + capacity + " /></td>";
+
+                    var Prodtarget = "<td><input class='form-control' id='txtaptarget" + newindex + "' name='PFCAPPRODLst[" + newindex + "].target'  style='width: 100px;' type='text' readonly='True' value=" + required + " /><input id='hdaptarget" + newindex + "' name='PFCAPPRODLst[" + newindex + "].target' type='hidden' value=" + required + " /></td>";
+
+                  var ProdDays = "<td><input class='form-control' id='txtapproddays" + newindex + "' name='PFCAPPRODLst[" + newindex + "].proddays'  style='width: 100px;' type='text' onkeyup = 'changeapdays(this," + newindex + ")' /></td>";
+                    var Production = "<td><input class='form-control' id='txtproduction" + newindex + "' name='PFCAPPRODLst[" + newindex + "].production'  style='width: 100px;' type='text' readonly='True'  /><input id='hdproduction" + newindex + "' name='PFCAPPRODLst[" + newindex + "].production' type='hidden'  /></td>";
+                     var balance = "<td><input class='form-control' id='txtapbalanceqty" + newindex + "' name='PFCAPPRODLst[" + newindex + "].balanceqty'  style='width: 100px;' type='text' readonly='True' value=" + required + " /><input id='hdapbalanceqty" + newindex + "' name='PFCAPPRODLst[" + newindex + "].balanceqty' type='hidden' value=" + required + " /></td>";
+                    var FuelReq = "<td><input class='form-control' id='txtfuelreq" + newindex + "' name='PFCAPPRODLst[" + newindex + "].fuelreq'  style='width: 100px;' type='text' readonly='True'/><input id='hdfuelreq" + newindex + "' name='PFCAPPRODLst[" + newindex + "].fuelreq' type='hidden' /></td>";
+
+                    var Ingotreq = "<td><input class='form-control' id='txtingotreq" + newindex + "' name='PFCAPPRODLst[" + newindex + "].ingotreq'  style='width: 100px;' type='text' readonly='True'/><input id='hdingotreq" + newindex + "' name='PFCAPPRODLst[" + newindex + "].ingotreq' type='hidden' /></td>";
+
+                    var PowerReq = "<td><input class='form-control' id='txtpowerreqap" + newindex + "' name='PFCAPPRODLst[" + newindex + "].powerrequired'  style='width: 100px;' type='text' readonly='True' /><input id='hdpowerreqap" + newindex + "' name='PFCAPPRODLst[" + newindex + "].powerrequired' type='hidden' /><input id='hdapnewindex" + newindex + "'  type='hidden' value='"+ newindex +"'   /><input id='hdappowerperhr" + newindex + "'  type='hidden' value=" + perhr + " /></td>";
+
+var newRow = "<tr class='chkitemlst6sub'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookap" + newindex + "'>" + addrow  + sievet + Work + WCDays + Capacity + Prodtarget + ProdDays + Production + balance + FuelReq + Ingotreq + PowerReq + "</tr>";
+
+    $("#tbBooks6sub_"+index).append(newRow);
 
         $('._select').select2();
         document.getElementById("hdapcunt").value =eval(newindex) + 1;
@@ -2263,7 +2326,48 @@ $("#tbBooks2sub_"+index).append(newRow);
             document.getElementById('IsPyrovalid' + index).value = "N";
             }
 
+            function changeapdays(_this,i){
+                var prodday=document.getElementById("txtapproddays"+i).value;
+                var targethrs=document.getElementById("txtcapacity"+i).value;
+                 var prodtar = document.getElementById("hdaptarget" + i).value;
+                 var power = document.getElementById("hdappowerperhr" + i).value;
+                 var prodqty=0;
+                 var balqty=0;
+                 var per=6;
+                 var tonc=0;
+                 var ltrperton=95;
+                 var ingotsqty=0;
+                 if (prodday == "")
+                        prodday = 0;
 
+if (targethrs == "")
+                        targethrs = 0;
+
+                    
+                prodqty = eval(targethrs) * eval(prodday);
+             balqty=eval(prodtar) - eval(prodqty);
+             var inqty=eval(prodqty) * (per / 100);
+             var ingotsqty=eval(prodqty) + eval(inqty);
+             var kwhr = eval(prodday) * 22 * eval(power);
+             tonc=eval(prodqty) /1000;
+             var fuel=eval(tonc) * eval(ltrperton);
+                     document.getElementById("txtproduction"+i).value=prodqty;
+                            document.getElementById("hdproduction"+i).value=prodqty;
+
+                        document.getElementById("txtapbalanceqty"+i).value=balqty;
+                            document.getElementById("hdapbalanceqty"+i).value=balqty;
+
+                    document.getElementById("txtingotreq"+i).value=Math.round(ingotsqty,2);
+                            document.getElementById("hdingotreq"+i).value=Math.round(ingotsqty,2);
+
+                                 document.getElementById("txtpowerreqap" + i).value = Math.round(kwhr,2);
+            document.getElementById("hdpowerreqap" + i).value = Math.round(kwhr,2);
+
+            
+                                 document.getElementById("txtfuelreq" + i).value = Math.round(fuel,2);
+            document.getElementById("hdfuelreq" + i).value = Math.round(fuel,2);
+
+            }
             function changepyrodays(_this,i){
                 var itemid=document.getElementById("txtItemId"+i).value;
                 var sval=document.getElementById("txtpyrostval"+i).value;
@@ -2381,12 +2485,12 @@ if (targethrs == "")
 
 
                            var n = 0;
-            $('tr.chkitemlst6').each(function () {
+            $('tr.chkitemlst6sub').each(function () {
                 if ($(this).css('display') !== 'none') {
                       var asval=document.getElementById("hdapsval"+n).value;
                     var aendval=document.getElementById("hdapeval"+n).value;
                     var tot=0;
-                   
+                  
                     /////////////
                  var t = 0;var totpwd=0;
         $('tr.chkitemlst9').each(function () {
@@ -2408,11 +2512,12 @@ if (targethrs == "")
 
 
                     if(eval(endval) < eval(aendval) && eval(endval) > eval(asval)){
-    @*alert(nendval);
-                            alert(aendval);*@
-                            
+  
                         document.getElementById("txtaptarget" + n).value=Math.round(totpwd);
                         document.getElementById("hdaptarget" + n).value=Math.round(totpwd);
+
+                         document.getElementById("txtapbalanceqty" + n).value=Math.round(totpwd);
+                        document.getElementById("hdapbalanceqty" + n).value=Math.round(totpwd);
 
                     }
 
@@ -2632,7 +2737,7 @@ if (targethrs == "")
 
                document.getElementById("txtpowerreqap" + i).value = result.powe;
                 document.getElementById("hdpowerreqap" + i).value = result.powe;
-            
+            document.getElementById("hdappowerperhr" + i).value = result.powe; 
          
             },
             error: function () {
