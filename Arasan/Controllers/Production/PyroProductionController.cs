@@ -1836,7 +1836,6 @@ namespace Arasan.Controllers
             return File(result.MainStream, "application/Pdf");
         }
 
-       
         public ActionResult MyListItemgrid(string strStatus)
         {
             List<Pyrogrid> Reg = new List<Pyrogrid>();
@@ -1849,30 +1848,30 @@ namespace Arasan.Controllers
                 string ViewRow = string.Empty;
                 string Approve = string.Empty;
 
-                if (dtUsers.Rows[i]["IS_APPROVED"].ToString() == "Y")  
+                if (dtUsers.Rows[i]["IS_APPROVED"].ToString() == "Y")   
                 {
 
-                    Generate = "<a href=Print?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
-                    ViewRow = "<a href=ViewPyroProduction?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    //Generate = "<a href=Print?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
+                    Generate = "<a href=Print?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + " target='_blank'><img src='../Images/pdf.png' alt='Generate Pyro' width='20' /></a>";
+                    ViewRow = "<a href=ViewPyroProduction?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
                     Approve = "";
                 }
 
-                else
+                else 
                 {
-                    Generate = "<a href=Print?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
-                    ViewRow = "<a href=ViewPyroProduction?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-
-                    Approve = "<a href=PyroProdApprove?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    Generate = "<a href=Print?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + " target='_blank'><img src='../Images/pdf.png' alt='Generate Pyro' width='20' /></a>";
+                    ViewRow = "<a href=ViewPyroProduction?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
+                    Approve = "<a href=ApprovePyroProduction?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Approve' /></a>";
 
                 }
 
-                Reg.Add(new Pyrogrid
+                Reg.Add(new Pyrogrid 
                 {
                     id = dtUsers.Rows[i]["PYROPRODBASICID"].ToString(),
                     docid = dtUsers.Rows[i]["DOCID"].ToString(),
                     docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     super = dtUsers.Rows[i]["EMPNAME"].ToString(),
-                    shift = dtUsers.Rows[i]["SHIFT"].ToString(),
+                    shi = dtUsers.Rows[i]["SHIFT"].ToString(),
                     location = dtUsers.Rows[i]["LOCID"].ToString(),
 
                     editrow = Generate,
