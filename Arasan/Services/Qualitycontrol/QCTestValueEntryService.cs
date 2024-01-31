@@ -290,7 +290,7 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetAPOutItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,APPRODOUTDET.ITEMID as item,DRUMMAST.DRUMNO from APPRODOUTDET  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=APPRODOUTDET.ITEMID  LEFT OUTER JOIN DRUMMAST ON DRUMMASTID=APPRODOUTDET.DRUMNO WHERE APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select ITEMMASTER.ITEMID,APPRODOUTDET.ITEMID as item,DRUMMAST.DRUMNO,APPRODUCTIONBASICID from APPRODOUTDET  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=APPRODOUTDET.ITEMID  LEFT OUTER JOIN DRUMMAST ON DRUMMASTID=APPRODOUTDET.DRUMNO WHERE APPRODOUTDETID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

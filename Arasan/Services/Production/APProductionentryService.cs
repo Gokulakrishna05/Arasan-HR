@@ -216,7 +216,7 @@ namespace Arasan.Services
 					objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
 					objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.workid;
 				 
-					objCmd.Parameters.Add("ASSIGNENG", OracleDbType.NVarchar2).Value = cy.Eng;
+					objCmd.Parameters.Add("ASSIGNENG", OracleDbType.NVarchar2).Value = cy.Super;
 					objCmd.Parameters.Add("SCHQTY", OracleDbType.NVarchar2).Value = cy.SchQty;
 					objCmd.Parameters.Add("PRODQTY", OracleDbType.NVarchar2).Value = cy.ProdQty;
 					objCmd.Parameters.Add("BATCH", OracleDbType.NVarchar2).Value = cy.BatchNo;
@@ -798,12 +798,25 @@ namespace Arasan.Services
                             svSQL = "Update APPRODUCTIONBASIC SET IS_CURRENT='No' WHERE APPRODUCTIONBASICID='"+ cy.ID +"'";
                             OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
                             objCmdd.ExecuteNonQuery();
-                        }
+
+                         string totout = datatrans.GetDataString("SELECT SUM(OUTQTY) as qty FROM APPRODOUTDET WHERE APPRODUCTIONBASICID='" + cy.ID + "'");
+                        
+                        
+                        svSQL = "Update APPRODUCTIONBASIC SET PRODQTY='"+ totout + "' WHERE APPRODUCTIONBASICID='" + cy.ID + "'";
+                         objCmdd = new OracleCommand(svSQL, objConn);
+                        objCmdd.ExecuteNonQuery();
+                    }
                         else 
                     { 
                         DataTable ap = datatrans.GetData("select APPRODUCTIONBASICID,DOCID,WCID,to_char(APPRODUCTIONBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SHIFT,ASSIGNENG,SCHQTY,PRODQTY,BATCH,BATCHYN,BRANCHID from APPRODUCTIONBASIC WHERE IS_CURRENT='Yes'");
                         svSQL = "Update APPRODUCTIONBASIC SET IS_CURRENT='No' WHERE APPRODUCTIONBASICID='"+ cy.ID + "'";
                         OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        objCmdd.ExecuteNonQuery();
+
+                         string totout = datatrans.GetDataString("SELECT SUM(OUTQTY) as qty FROM APPRODOUTDET WHERE APPRODUCTIONBASICID='" + cy.ID + "'");
+                       
+                        svSQL = "Update APPRODUCTIONBASIC SET PRODQTY='" + totout + "' WHERE APPRODUCTIONBASICID='" + cy.ID + "'";
+                        objCmdd = new OracleCommand(svSQL, objConn);
                         objCmdd.ExecuteNonQuery();
 
                         OracleCommand objCmd = new OracleCommand("APPRODUCTIONPROC", objConn);
@@ -933,7 +946,7 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable SaveOutDetails(string id, string item, string drum, string time, string qty,string totime, string exqty, string stat, string stock)
+        public DataTable SaveOutDetails(string id, string item, string drum, string time, string qty,string totime, string exqty, string stat, string stock,string unit)
         {
             string SvSql = string.Empty;
             string is_account=string.Empty;
@@ -941,7 +954,7 @@ namespace Arasan.Services
             {
                 is_account = "N";
             }
-            SvSql = "Insert into APPRODOUTDET (APPRODUCTIONBASICID,ITEMID,DRUMNO,FROMTIME,OUTQTY,TOTIME,EXQTY,STATUS,IS_ACCOUNTED,STKQTY) VALUES ('" + id + "','" + item + "','" + drum + "','" + time + "','" + qty + "','" + totime + "','" + exqty + "','" + stat + "','"+ is_account + "','"+stock+"')";
+            SvSql = "Insert into APPRODOUTDET (APPRODUCTIONBASICID,ITEMID,DRUMNO,FROMTIME,OUTQTY,TOTIME,EXQTY,STATUS,IS_ACCOUNTED,STKQTY,OUNIT) VALUES ('" + id + "','" + item + "','" + drum + "','" + time + "','" + qty + "','" + totime + "','" + exqty + "','" + stat + "','"+ is_account + "','"+stock+"','"+unit+"')";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -949,7 +962,7 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch)
+        public DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch,string unit)
         {
             string SvSql = string.Empty;
             using (OracleConnection objConnT = new OracleConnection(_connectionString))
@@ -959,7 +972,7 @@ namespace Arasan.Services
                  OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
                  objCmdd.ExecuteNonQuery();
             }
-            SvSql = "Insert into APPRODINPDET (APPRODUCTIONBASICID,ITEMID,BINID,CHARGINGTIME,QTY,STOCK,BATCHNO) VALUES ('" + id + "','" + item + "','" + bin + "','" + time + "','" + qty + "','" + stock + "','" + batch + "')";
+            SvSql = "Insert into APPRODINPDET (APPRODUCTIONBASICID,ITEMID,BINID,CHARGINGTIME,QTY,STOCK,BATCHNO,UNIT) VALUES ('" + id + "','" + item + "','" + bin + "','" + time + "','" + qty + "','" + stock + "','" + batch + "','"+ unit+"')";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1068,21 +1081,30 @@ namespace Arasan.Services
             }
         }
 
-        public DataTable GetEmp()
+        public DataTable GetEmp( )
         {
             string SvSql = string.Empty;
-            SvSql = "Select EMPID,EMPNAME,EMPMASTID from EMPMAST UNION  Select NULL, 'Contract Employee', NULL FROM dual";
+            SvSql = "Select EMPID,EMPNAME,EMPMASTID from EMPMAST   UNION  Select NULL, 'Contract Employee', NULL FROM dual";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetSupEmp(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select EMPID,EMPNAME,EMPMASTID from EMPMAST where EMPMASTID='" + id + "' UNION  Select NULL, 'Contract Employee', NULL FROM dual";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetAPProductionentryName(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select APPRODUCTIONBASICID,APPRODUCTIONBASIC.DOCID,to_char(APPRODUCTIONBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,EMPMAST.EMPNAME,SCHQTY,PRODQTY,BATCH,SHIFT,BATCHYN,WCBASICID from APPRODUCTIONBASIC left outer join WCBASIC ON WCBASICID= APPRODUCTIONBASIC.WCID left outer join EMPMAST ON EMPMASTID= APPRODUCTIONBASIC.ASSIGNENG  where APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select APPRODUCTIONBASICID,APPRODUCTIONBASIC.DOCID,to_char(APPRODUCTIONBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,EMPMAST.EMPNAME,SCHQTY,PRODQTY,BCPRODBASIC.DOCID as BATCH,APPRODUCTIONBASIC.BATCH as batchid,SHIFT,BATCHYN,WCBASICID from APPRODUCTIONBASIC left outer join WCBASIC ON WCBASICID= APPRODUCTIONBASIC.WCID left outer join EMPMAST ON EMPMASTID= APPRODUCTIONBASIC.ASSIGNENG left outer join BCPRODBASIC ON BCPRODBASICID= APPRODUCTIONBASIC.BATCH  where APPRODUCTIONBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

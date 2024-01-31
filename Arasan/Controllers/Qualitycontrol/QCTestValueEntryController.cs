@@ -109,9 +109,19 @@ namespace Arasan.Controllers.Qualitycontrol
                 }
                 else
                 {
-
+                    DataTable dtt1 = new DataTable();
+                    dtt1 = QCTestValueEntryService.GetAPOutItemDetails(id);
+                    if (dtt1.Rows.Count > 0)
+                    {
+                        ca.Drum = dtt1.Rows[0]["DRUMNO"].ToString();
+                        //ca.Sampletime = dtt1.Rows[0]["FROMTIME"].ToString();
+                        ca.Item = dtt1.Rows[0]["ITEMID"].ToString();
+                        ca.ItemId = dtt1.Rows[0]["item"].ToString();
+                        ca.APID = dtt1.Rows[0]["APPRODUCTIONBASICID"].ToString();
+                        ViewBag.Item = dtt1.Rows[0]["ITEMID"].ToString();
+                    }
                     DataTable dt1 = new DataTable();
-                    dt1 = QCTestValueEntryService.GetAPOutDetails(id);
+                    dt1 = QCTestValueEntryService.GetAPOutDetails(ca.APID);
                     if (dt1.Rows.Count > 0)
                     {
 
@@ -120,17 +130,8 @@ namespace Arasan.Controllers.Qualitycontrol
                         ca.Work = dt1.Rows[0]["WCID"].ToString();
                         ca.Shift = dt1.Rows[0]["SHIFT"].ToString();
                         ca.Prodate = dt1.Rows[0]["DOCDATE"].ToString();
-                        ca.APID = id;
-                        DataTable dtt1 = new DataTable();
-                        dtt1 = QCTestValueEntryService.GetAPOutItemDetails(id);
-                        if (dtt1.Rows.Count > 0)
-                        {
-                            ca.Drum = dtt1.Rows[0]["DRUMNO"].ToString();
-                            //ca.Sampletime = dtt1.Rows[0]["FROMTIME"].ToString();
-                            ca.Item = dtt1.Rows[0]["ITEMID"].ToString();
-                            ca.ItemId = dtt1.Rows[0]["item"].ToString();
-                            ViewBag.Item = dtt1.Rows[0]["ITEMID"].ToString();
-                        }
+                        
+                        
 
                     }
                     DataTable dtt = new DataTable();

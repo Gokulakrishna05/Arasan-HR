@@ -48,6 +48,7 @@ namespace Arasan.Models
     public class APOut
     {
         public string id { get; set; }
+        public string apoutid { get; set; }
         public string Drum { get; set; }
         public string ItemName { get; set; }
         public string TotalQty { get; set; }

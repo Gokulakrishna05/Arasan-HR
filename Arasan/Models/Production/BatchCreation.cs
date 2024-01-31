@@ -39,6 +39,7 @@ namespace Arasan.Models
         public string Shall { get; set; }
         public string Narr { get; set; }
         public string RefBatch { get; set; }
+        public string Enterdid { get; set; }
         public string ddlStatus { get; set; }
       
         public List<BatchItem> BatchLst { get; set; }

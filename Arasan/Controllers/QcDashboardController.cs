@@ -94,6 +94,7 @@ namespace Arasan.Controllers
                 {
                     tdao1 = new APOut();
                     tdao1.id = Outdt.Rows[i]["APPRODUCTIONBASICID"].ToString();
+                    tdao1.apoutid = Outdt.Rows[i]["APPRODOUTDETID"].ToString();
                     tdao1.ItemName = Outdt.Rows[i]["ITEMID"].ToString();
                     tdao1.Drum = Outdt.Rows[i]["DRUMNO"].ToString();
                     tdao1.Time = Outdt.Rows[i]["FROMTIME"].ToString();

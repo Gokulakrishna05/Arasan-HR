@@ -116,6 +116,9 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("BTYPE", OracleDbType.NVarchar2).Value = cy.Leaf;
                     objCmd.Parameters.Add("REFDOCID", OracleDbType.NVarchar2).Value = cy.RefBatch;
                     objCmd.Parameters.Add("NARR", OracleDbType.NVarchar2).Value = cy.Narr;
+                    objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.Enterdid;
+                    objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    objCmd.Parameters.Add("TEMPDOCID", OracleDbType.NVarchar2).Value = cy.BatchNo;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -165,17 +168,18 @@ namespace Arasan.Services
                         {
                             if (cy.ID == null)
                             {
+                                int r = 1;
                                 foreach (BatchInItem cp in cy.BatchInLst)
                                 {
                                     if ( cp.saveitemid != "0")
                                     {
-                                        svSQL = "Insert into BCINPUTDETAIL (BCPRODBASICID,IPROCESSID,IITEMID,IUNIT,IQTY) VALUES ('" + Pid + "','" + cy.Processid + "','" + cp.saveitemid + "','" + cp.unit + "','" + cp.qty + "')";
+                                        svSQL = "Insert into BCINPUTDETAIL (BCPRODBASICID,IPROCESSID,IITEMID,IUNIT,IQTY,BCINPUTDETAILROW) VALUES ('" + Pid + "','" + cy.Processid + "','" + cp.saveitemid + "','" + cp.unit + "','" + cp.qty + "','"+r+"')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
                                     }
 
-
+                                    r++;
                                 }
                             }
                             else
@@ -204,15 +208,16 @@ namespace Arasan.Services
                             {
                                 foreach (BatchOutItem cp in cy.BatchOutLst)
                                 {
-                                    if ( cp.saveitemid != "0")
+                                    int r = 1;
+                                    if (cp.saveitemid != "0")
                                     {
 
-                                        svSQL = "Insert into BCOUTPUTDETAIL (BCPRODBASICID,OPROCESSID,OITEMID,OUNIT,OQTY,OTYPE,GPER,VMPER,OWPER) VALUES ('" + Pid + "','" + cy.Processid + "','" + cp.saveitemid + "','" + cp.ounit + "','" + cp.oqty + "','" + cp.outtype + "','" + cp.Vmper + "','" + cp.Greas + "','" + cp.Waste + "')";
+                                        svSQL = "Insert into BCOUTPUTDETAIL (BCPRODBASICID,OPROCESSID,OITEMID,OUNIT,OQTY,OTYPE,GPER,VMPER,OWPER,BCOUTPUTDETAILROW) VALUES ('" + Pid + "','" + cy.Processid + "','" + cp.saveitemid + "','" + cp.ounit + "','" + cp.oqty + "','" + cp.outtype + "','" + cp.Vmper + "','" + cp.Greas + "','" + cp.Waste + "','" + r+"')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
                                     }
-
+                                    r++;
                                 }
                             }
                             else

@@ -38,7 +38,9 @@
     <None Include="Views\ProFormaInvoice\ListProFormaInvoice.cshtml" />
     <None Include="Views\ProFormaInvoice\ProFormaInvoice.cshtml" />
     <None Include="wwwroot\Reports\EnqReport.rdlc" />
-    <None Include="wwwroot\Reports\PyroReport.rdlc" />
+    <None Include="wwwroot\Reports\PyroReport.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="wwwroot\Reports\QuotationImportReport.rdlc" />
     <None Include="wwwroot\Reports\QuotationReport.rdlc" />
     <None Include="wwwroot\Reports\ReturnReport.rdlc" />

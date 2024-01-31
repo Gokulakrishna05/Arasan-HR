@@ -20,7 +20,7 @@ namespace Arasan.Interface
         IEnumerable<APProductionentry>  GetAllAPProductionentry();
 		DataTable GetItemDetails(string id);
 
-        DataTable SaveOutDetails(string id, string item,string drum, string time, string qty, string totime, string exqty, string stat, string stock);
+        DataTable SaveOutDetails(string id, string item,string drum, string time, string qty, string totime, string exqty, string stat, string stock,string unit);
 
         DataTable GetOutItemDetails(string id);
         DataTable GetConItemDetails(string id);
@@ -29,6 +29,7 @@ namespace Arasan.Interface
 
         DataTable GetOutItem();
         DataTable GetEmp();
+        DataTable GetSupEmp(string id);
         DataTable GetAPProd(string id);
         DataTable GetBatchInput(string id);
         DataTable GetBatchOutput(string id);
@@ -54,7 +55,7 @@ namespace Arasan.Interface
         DataTable GetEmployeeDetails(string id);
 
 
-        DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch);
+        DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch,string unit);
         DataTable SaveConsDetails(string id, string item, string bin, string unit, string usedqty, string qty, string stock);
         DataTable SaveEmpDetails(string id, string empname, string code, string depat, string sdate, string stime, string edate, string etime, string ot, string et, string normal, string now);
         DataTable SaveBreakDetails(string id, string machine, string des, string dtype, string mtype, string stime, string etime, string pb,string all, string reason);
