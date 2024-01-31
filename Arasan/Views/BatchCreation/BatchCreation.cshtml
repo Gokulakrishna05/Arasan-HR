@@ -53,6 +53,7 @@
                                  @Html.DropDownListFor(C => C.Prod, Model.Prodlst," -- Please Select -- ", new { @id = "ddlProd", @Class = "form-control _select", @TabIndex = 1,@onchange="changesch(this.value)" })
                                             <br />  @Html.HiddenFor(C => C.Enterd)
                                               @Html.HiddenFor(C => C.Branch)
+                                              @Html.HiddenFor(C => C.Enterdid)
                                             @Html.HiddenFor(C => C.WorkCenterid,new{@id="WorkCenterid"})
                                             @Html.HiddenFor(C => C.Processid,new{@id="Processid"})
 
@@ -744,15 +745,16 @@
             
         }*@
 
-          var shall= document.getElementById("WorkCenterid").value ;
+          var work= document.getElementById("txtWorkCenter").value ;
+          var doc= document.getElementById("txtBatchNo").value ;
            $.ajax({
             url: 'Getdociddetails',
-            data: { "typeid": typeid,"shall":shall },
+            data: { "typeid": typeid,"work":work ,"doc":doc},
             type: "GET",
             success: function (result) {
 
                 
-                document.getElementById("txtBatchNo").value = result.doc;
+                document.getElementById("txtBatchNo").value = result.docid;
 
            
             },
@@ -1643,9 +1645,10 @@
 
                     var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='BatchInLst[" + index + "].qty'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " , onkeyup = 'changeQty(this, " + index + ")'  /></td>";
 
+         var removeCell = "<td><input id='IsInvalid" + index + "' name='BatchInLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
+
  
- 
-                    var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + ItemId  + Unit + Qty+"</tr>";
+                    var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + ItemId  + Unit + Qty+ removeCell +"</tr>";
 
 
 
@@ -1673,11 +1676,12 @@
                     var Waste = "<td><input class='form-control' id='txtWaste" + index + "' name='BatchOutLst[" + index + "].Waste'  style='width: 80px;' type='text'  /></td>";
                     var vmper = "<td><input class='form-control' id='txtVmper" + index + "' name='BatchOutLst[" + index + "].Vmper'  style='width: 80px;' type='text' /></td>";
                     var grase = "<td><input class='form-control' id='txtGreas" + index + "' name='BatchOutLst[" + index + "].Greas'  style='width: 80px;' type='text'   /></td>";
+                            var removeCell = "<td><input id='IsOutvalid" + index + "' name='BatchOutLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOutRow(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
 
 
-                    var newRow = "<tr class='chkitemlstout'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookout" + index + "'>" + ItemId + Unit + Type + Qty + Waste+vmper+grase+ "</tr>";
+                    var newRow = "<tr class='chkitemlstout'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookout" + index + "'>" + ItemId + Unit + Type + Qty + Waste+vmper+grase+ removeCell +"</tr>";
 
 
 

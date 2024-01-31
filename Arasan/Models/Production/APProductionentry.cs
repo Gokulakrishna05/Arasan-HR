@@ -19,8 +19,10 @@ namespace Arasan.Models
         public string Docdate { get; set; }
         public string Eng { get; set; } 
         public List<SelectListItem> Englst { get; set; }
+        public List<SelectListItem> suplst { get; set; }
         public List<SelectListItem> Batchlst { get; set; }
         public string BatchNo { get;set; }
+        public string Super { get;set; }
        
         public string batchcomplete { get; set; }
         public string SchQty { get; set; }

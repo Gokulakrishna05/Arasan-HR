@@ -35,6 +35,7 @@ namespace Arasan.Controllers
             ca.Worklst = BindWorkCenter();
             ca.Processlst = BindProcess("");
             ca.Enterd = Request.Cookies["UserName"];
+            ca.Enterdid = Request.Cookies["UserId"];
             ca.RecList = BindEmp();
             ca.Prodlst = BindProd();
             ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -297,7 +298,16 @@ namespace Arasan.Controllers
                     workid= dt.Rows[0]["work"].ToString();
                     processid = dt.Rows[0]["process"].ToString();
 
-                    doc = datatrans.GetDataString("SELECT PREFIX||''||LASTNO FROM SEQUENCE WHERE LOCID='" + workid + "'");
+                   DataTable docid = datatrans.GetData("SELECT PREFIX,LASTNO +1 as last FROM SEQUENCE WHERE LOCID='" + workid + "' and transtype='BC'");
+                    if (docid.Rows.Count > 0)
+                    {
+                        doc = docid.Rows[0]["PREFIX"].ToString() + "" + docid.Rows[0]["last"].ToString();
+                    }
+                    if (process== "ATOMIZATION")
+                    {
+                         docid = datatrans.GetData("SELECT PREFIX,LASTNO +1 as last FROM SEQUENCE WHERE PREFIX='AP##' and transtype='BC'");
+                        doc = docid.Rows[0]["PREFIX"].ToString() + "" + docid.Rows[0]["last"].ToString();
+                    }
                 }
                 var result = new { work = work, process = process , doc = doc, workid= workid , processid = processid };
                 return Json(result);
@@ -307,22 +317,70 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public ActionResult Getdociddetails(string typeid,string shall)
+        public ActionResult Getdociddetails(string typeid,string work,string doc)
         {
             try
             {
-                string doc = "";
-                 if(typeid=="YES")
+                string docid = "";
+                DataTable did = new DataTable();
+                if (work == "PASTE I" || work == "PASTE II" || work == "PASTE III" || work == "PASTE IV" )
                 {
-                    doc = datatrans.GetDataString("SELECT PREFIX||''||LASTNO FROM SEQUENCE WHERE LOCID='" + shall + "'");
-                }
-                 else
-                {
-                    doc = datatrans.GetDataString("SELECT PREFIX||''||LASTNO FROM SEQUENCE WHERE LOCID='" + shall + "' and PREFIX=''");
-                }
+                    if (typeid == "YES")
+                    {
+                        if(work == "PASTE I")
+                        {
+                            did = datatrans.GetData("SELECT PREFIX,LASTNO+1 as last FROM SEQUENCE WHERE PREFIX='SCPE' and transtype='BC'");
+                            docid = did.Rows[0]["PREFIX"].ToString() + "" + did.Rows[0]["last"].ToString();
+                        }
+                        if (work == "PASTE II")
+                        {
+                            did = datatrans.GetData("SELECT PREFIX,LASTNO+1 as last FROM SEQUENCE WHERE PREFIX='SCPS' and transtype='BC'");
+                            docid = did.Rows[0]["PREFIX"].ToString() + "" + did.Rows[0]["last"].ToString();
+                        }
+
+
+                        if (work == "PASTE III")
+                        {
+                            did = datatrans.GetData("SELECT PREFIX,LASTNO+1 as last FROM SEQUENCE WHERE PREFIX='SCPT' and transtype='BC'");
+                            docid = did.Rows[0]["PREFIX"].ToString() + "" + did.Rows[0]["last"].ToString();
+                        }
+                        if (work == "PASTE IV")
+                        {
+                            did = datatrans.GetData("SELECT PREFIX,LASTNO+1 as last FROM SEQUENCE WHERE PREFIX='SCPF' and transtype='BC'");
+                            docid = did.Rows[0]["PREFIX"].ToString() + "" + did.Rows[0]["last"].ToString();
+                        }
                     
-                
-                var result = new { doc = doc };
+                    }
+                    else
+                    {
+                        if (work == "PASTE I")
+                        {
+                            did = datatrans.GetData("SELECT PREFIX,LASTNO+1 as last FROM SEQUENCE WHERE PREFIX='PE##' and transtype='BC'");
+                            docid = did.Rows[0]["PREFIX"].ToString() + "" + did.Rows[0]["last"].ToString();
+                        }
+                        if (work == "PASTE II")
+                        {
+                            did = datatrans.GetData("SELECT PREFIX,LASTNO+1 as last FROM SEQUENCE WHERE PREFIX='PS##' and transtype='BC'");
+                            docid = did.Rows[0]["PREFIX"].ToString() + "" + did.Rows[0]["last"].ToString();
+                        }
+                        if (work == "PASTE III")
+                        {
+                            did = datatrans.GetData("SELECT PREFIX,LASTNO+1 as last FROM SEQUENCE WHERE PREFIX='PT##' and transtype='BC'");
+                            docid = did.Rows[0]["PREFIX"].ToString() + "" + did.Rows[0]["last"].ToString();
+                        }
+                        if (work == "PASTE IV")
+                        {
+                            did = datatrans.GetData("SELECT PREFIX,LASTNO+1 as last FROM SEQUENCE WHERE PREFIX='PF##' and transtype='BC'");
+                            docid = did.Rows[0]["PREFIX"].ToString() + "" + did.Rows[0]["last"].ToString();
+                        }
+                    }
+                }
+                else
+                {
+                    docid = doc;
+                }
+               
+                var result = new { docid = docid };
                 return Json(result);
             }
             catch (Exception ex)

@@ -72,7 +72,7 @@ namespace Arasan.Services
         public DataTable GetAPout()
         {
             string SvSql = string.Empty;
-            SvSql = "Select APPRODUCTIONBASICID,ITEMMASTER.ITEMID,DRUMMAST.DRUMNO,FROMTIME,OUTQTY from APPRODOUTDET LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=APPRODOUTDET.ITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMASTID=APPRODOUTDET.DRUMNO where TESTRESULT is null ";
+            SvSql = "Select APPRODUCTIONBASICID,ITEMMASTER.ITEMID,DRUMMAST.DRUMNO,FROMTIME,OUTQTY,APPRODOUTDETID from APPRODOUTDET LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=APPRODOUTDET.ITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMASTID=APPRODOUTDET.DRUMNO where TESTRESULT is null ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
