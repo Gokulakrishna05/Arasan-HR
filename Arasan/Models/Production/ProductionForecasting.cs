@@ -16,6 +16,7 @@ namespace Arasan.Models
 
         public List<SelectListItem> RecList;
         public string Enterd { get; set; }
+        public string totaldays { get; set; }
         public string DocId { get; set; }
         public string Docdate { get; set; }
         public string PType { get; set; }
@@ -285,7 +286,7 @@ namespace Arasan.Models
         public string ingotreq { get; set; }
         public string capacity { get; set; }
         public string detid { get; set; }
-      
+        public string balanceqty { get; set; }
         public string powerrequired { get; set; }
         public string sieve { get; set; }
         public string sieveid { get; set; }
