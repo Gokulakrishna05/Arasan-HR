@@ -40,7 +40,7 @@
                     { name: 'docid', type: 'string' },
                     { name: 'docdate', type: 'string' },
                     { name: 'super', type: 'string' },
-                    { name: 'shift', type: 'string' },
+                    { name: 'shi', type: 'string' },
                     { name: 'location', type: 'string' },
                     { name: 'editrow', type: 'string' },
                     { name: 'viewrow', type: 'string' },
@@ -80,23 +80,26 @@
                         { text: 'Doc ID', filtertype: 'checkedlist', datafield: 'docid', width: 150 },
                         { text: 'Doc Date', filtertype: 'checkedlist', datafield: 'docdate', width: 150 },
                         { text: 'Supervisor', filtertype: 'checkedlist', datafield: 'super', width: 150 },
-                        { text: 'Shift', filtertype: 'checkedlist', datafield: 'shift', width: 150 },
+                       { text: 'Shift', filtertype: 'checkedlist', datafield: 'shi', width: 50 },
                         { text: 'Location', filtertype: 'checkedlist', datafield: 'location', width: 150 },
-                        { text: 'Generate Pyro', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'Generate ', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 80 },
                         { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        { text: 'Approve', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
-                    ]
+                        //{ text: 'Approve', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
+                        { text: 'Approve', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
+
+                     ]
                 });
-            $("#ddlStatus").change(function () {
-                var value = "Y";
-                if ($(this).val() != "") {
-                    value = $(this).val();
-                }
-                source.data = {
-                    strstatus: value
-                };
-                $("#grid").jqxGrid({ source: source });
-            });
+
+            //$("#ddlStatus").change(function () {
+            //    var value = "Y";
+            //    if ($(this).val() != "") {
+            //        value = $(this).val();
+            //    }
+            //    source.data = {
+            //        strstatus: value
+            //    };
+            //    $("#grid").jqxGrid({ source: source });
+            //});
         });
 
     function returnMyLink(cellValue, options, rowdata, action) {
@@ -112,14 +115,14 @@
 
                     <form>
                         <div class="row">
-                            <div class="col-md-2 ">
+                            @*<div class="col-md-2 ">
                                 @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
                                 { new SelectListItem() {Text = "Enabled", Value="Y"},
                                 new SelectListItem() {Text = "Disabled", Value="N"}},
                                 new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
-                            </div>
+                            </div>*@
 
-                            <div class="col-md-8">
+                            <div class="col-md-10">
                                 <div class=" textalignright"> 
                                     <a href="@Url.Action("PyroProduction","PyroProduction")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add PyroProduction</a>
                                     <br>

@@ -1142,7 +1142,7 @@ namespace Arasan.Services
         public DataTable CuringsetDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SHEDNUMBER,CAPACITY from CURINGMASTER WHERE SHEDNUMBER='"+ id +"' ";
+            SvSql = "Select SHEDNUMBER,CAPACITY from CURINGMASTER WHERE SHEDNUMBER= '"+ id +"' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

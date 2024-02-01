@@ -330,7 +330,7 @@ namespace Arasan.Models
         public string docid { get; set; }
         public string docdate { get; set; }
         public string super { get; set; }
-        public string shift { get; set; }
+        public string shi { get; set; }
         public string location { get; set; }
 
         public string viewrow { get; set; }
