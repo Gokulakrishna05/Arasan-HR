@@ -295,6 +295,7 @@ a{
                                                                     <th>Item </th>
                                                                     <th>Unit </th>
                                                                     <th>Bin </th>
+                                                                    <th>Drum No </th>
                                                                     
                                                                     <th> Batch No </th>
                                                                     <th> Charging Time </th>
@@ -319,10 +320,15 @@ a{
                                                                                                 @Html.HiddenFor(o => o.inplst[i].APID, new { @id = "txtAPID" + i, @class = "form-control", style = "width: 100px;"})
                                                                                                 @Html.HiddenFor(o => o.inplst[i].saveitemId, new { @id = "txtsaveitemId" + i, @class = "form-control", style = "width: 100px;"})
                                                                                     </td>
+                                                                                     
                                                                                          <td>@Html.TextBoxFor(o => o.inplst[i].unit, new { @id = "txtunit" + i, @class = "form-control", style = "width: 100px;",@readonly=true})</td>
 
                                                                                             <td>@Html.TextBoxFor(o => o.inplst[i].BinId, new { @id = "txtBinId" + i, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.inplst[i].Bin, new { @id = "txtBin" + i, @class = "form-control", style = "width: 100px;"})</td>
-                                                                                 
+                                                                                 <td>
+                                                                                   @Html.DropDownListFor(o => o.inplst[i].drumno, Model.inplst[i].drumlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlIdrumno" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })  
+                                                                            
+                                                                                  
+                                                                                    </td>
                                                                                 <td>@Html.TextBoxFor(o => o.inplst[i].batchno, new { @id = "txtbatchno" + i, @class = "form-control", style = "width: 200px;"})</td>
                                                                                             <td>@Html.TextBoxFor(o => o.inplst[i].Time, new { @id = "txtITime" + i, @class = "form-control", style = "width: 100px;"})</td>
 
@@ -677,7 +683,7 @@ a{
                                                                     <td>@Html.TextBoxFor(o => o.BreakLst[a].PB, new { @id = "txtPB" + a, @class = "form-control" , style = "width: 80px;" })</td>
                                                                    <td>@Html.DropDownListFor(o => o.BreakLst[a].Alloted, Model.BreakLst[a].Emplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlAlloted" + a, style = "width: 140px;" })
                                                                           </td>
-                                                                         <td>@Html.TextBoxFor(o => o.BreakLst[a].Reason, new { @id = "txtReason" +a, @class = "form-control" , style = "width: 120px; "  })</td>
+                                                                         <td>@Html.DropDownListFor(o => o.BreakLst[a].Reason,Model.BreakLst[a].Reasonlst, new { @id = "txtReason" +a, @class = "form-control _select" , style = "width: 180px; "  })</td>
 
                                                                     <td>
                                                                                     @Html.HiddenFor(o => o.BreakLst[a].Isvalid, new { @id = "BreakIsvalid" + a})
@@ -762,7 +768,7 @@ a{
                                                                                         </td>
                                                                                         <td>@Html.TextBoxFor(o => o.LogLst[x].EndTime, new { @id = "txtLEndTime" + x, @class = "form-control" , style = "width: 120px; " })</td>
                                                                                         <td>@Html.TextBoxFor(o => o.LogLst[x].tothrs, new { @id = "txtTotalHrs" + x, @class = "form-control" , style = "width: 100px;" })</td>
-                                                                                        <td>@Html.TextBoxFor(o => o.LogLst[x].Reason, new { @id = "txtLReason" + x, @class = "form-control" , style = "width: 100px;" })</td>
+                                                                                        <td>@Html.DropDownListFor(o => o.LogLst[x].Reason,Model.LogLst[x].reasonlst, new { @id = "txtLReason" + x, @class = "form-control _select" , style = "width: 180px;" })</td>
 
                                                                                         <td>
                                                                                             @Html.HiddenFor(o => o.LogLst[x].Isvalid, new { @id = "Isvalid" + x })
@@ -965,6 +971,7 @@ a{
     }
     function AddRow() {
         var opt = "";
+        var remopt = "";
         var batch= document.getElementById("batch").value;
        
         $.ajax({
@@ -976,9 +983,18 @@ a{
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
                 });
 
-             
-                        AppendRow(opt);
+             $.ajax({
+                    type: "POST",
+                    url: 'GetDrumJSON',
+                    success: function (data) {
+                        $.each(data, function () {
+                            remopt += "<option value=" + this.value + ">" + this.text + "</option>";
+                        });
+                        AppendRow(opt,remopt);
                    
+
+            }
+                })
 
             }
         })
@@ -1040,20 +1056,23 @@ a{
         }
         $(dropDownId).trigger("liszt:updated");
     }
-    function AppendRow(opt) {
+    function AppendRow(opt,remopt) {
         var index = $("#tbBooks").children("tr").length;
 
         var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='inputlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
           var unit = "<td><input class='form-control'  id='txtunit" + index + "' name='inputlst[" + index + "].unit' style='width: 100px;' type='text' value='' readonly='true'><input type='hidden' id='txtOutBin" + index + "' name='outlst[" + index + "].OutBin'></td>";
 
-        var binid = "<td><input class='form-control'  id='txtBinId" + index + "' name='inputlst[" + index + "].BinId' style='width: 100px;' type='text' value='' readonly='true'></td>";
-        var batchno = "<td><input class='form-control'  id='txtbatchno" + index + "' name='inputlst[" + index + "].batchno' style='width: 200px;' type='text' value=''></td>";
+      
+          var binid = "<td><input class='form-control'  id='txtBinId" + index + "' name='inputlst[" + index + "].BinId' style='width: 100px;' type='text' value='' readonly='true'></td>";
+               var drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlIdrumno" + index + "' name='inputlst[" + index + "].drumno' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + remopt + "</select></td>";
+
+          var batchno = "<td><input class='form-control'  id='txtbatchno" + index + "' name='inputlst[" + index + "].batchno' style='width: 200px;' type='text' value=''></td>";
         var time = "<td><input class='form-control'  id='txtITime" + index + "' name='inputlst[" + index + "].Time' style='width: 100px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
 
         var stock = "<td><input class='form-control'  id='txtStockAvailable" + index + "' name='inputlst[" + index + "].StockAvailable' style='width: 80px; text-align:right' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)' readonly='true'></td>";
         var issueqty = "<td><input class='form-control'  id='txtIssueQty" + index + "' name='inputlst[" + index + "].IssueQty'  type='text' value='' style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' ></td>";
         var removeCell = "<td><input id='Isvalid" + index + "' name='inputlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemid + unit + binid  + batchno  + time + stock + issueqty  + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemid + unit + binid  + drum + batchno  + time + stock + issueqty  + removeCell + "</tr>";
         $("#tbBooks").append(newRow);
 
         $(function () {
@@ -1148,6 +1167,7 @@ a{
             success: function (result) {
 
                 document.getElementById("txtEmpCode" + i).value = result.code;
+                document.getElementById("txtDepart" + i).value = result.dept;
 
 
 

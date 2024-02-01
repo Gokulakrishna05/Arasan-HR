@@ -87,7 +87,7 @@ namespace Arasan.Services
 		public DataTable GetEmployeeDetails(string id)
 		{
 			string SvSql = string.Empty;
-			SvSql = "Select EMPID,EMPNAME,EMPMASTID from EMPMAST where EMPMASTID='" + id + "' ";
+			SvSql = "Select EMPID,EMPNAME,EMPMASTID,EMPDEPT, DDBASIC.DEPTNAME from EMPMAST LEFT OUTER JOIN DDBASIC ON DDBASICID=EMPMAST.EMPDEPT where EMPMASTID='" + id + "' ";
 			DataTable dtt = new DataTable();
 			OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
 			OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -128,10 +128,10 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetItemCon()
+        public DataTable GetItemCon(string id)
 		{
 			string SvSql = string.Empty;
-			SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER where igroup='Consumables'";
+			SvSql = "select ITEMMASTER.ITEMID,ITEM_ID from INVENTORY_ITEM LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=INVENTORY_ITEM.ITEM_ID where ITEMMASTER.igroup='Consumables' and INVENTORY_ITEM.LOCATION_ID='" + id+ "' GROUP BY ITEMMASTER.ITEMID,INVENTORY_ITEM.ITEM_ID";
 
 			DataTable dtt = new DataTable();
 			OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -1221,6 +1221,17 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "select I.ITEMID,B.OITEMID  from BCOUTPUTDETAIL B,ITEMMASTER I    where B.OITEMID=I.ITEMMASTERID AND BCPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetReason()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select REASON,REASONBASICID  from REASONDETAIL ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

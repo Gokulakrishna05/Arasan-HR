@@ -207,6 +207,16 @@ namespace Arasan.Services.Production
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetAPProdSche(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,APWCID,APPRODD,SIEVEMAST.SIEVE,SIEVEID,APPRODQTY,PROCESSMAST.PROCESSID,WCBASIC.PROCESSID as process from PRODFCAPP  INNER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCAPP.APWCID LEFT OUTER JOIN PROCESSMAST  on PROCESSMAST.PROCESSMASTID=WCBASIC.PROCESSID LEFT OUTER JOIN SIEVEMAST on SIEVEMAST.SIEVEMASTID=PRODFCAPP.SIEVEID  where PRODFCAPPID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         //public DataTable GetData(string sql)
         //{
         //    DataTable _Dt = new DataTable();
@@ -763,6 +773,16 @@ namespace Arasan.Services.Production
         {
             string SvSql = string.Empty;
             SvSql = "SELECT distinct I.ITEMID,pb.OITEMID PACKMAT FROM itemmaster im,wcbasic wc, packconsdetail pc,packbasic pb,ITEMMASTER I WHERE pb.WCID=wc.WCBASICID AND pb.OITEMID=im.ITEMMASTERID AND PC.CITEMID=I.ITEMMASTERID AND im.ITEMID='" + value +"' AND pb.PACKBASICID=pc.PACKBASICID   ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAPItem( )
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT  ITEMID,ITEMMASTERID  FROM ITEMMASTER WHERE IGROUP='RAW MATERIAL'  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

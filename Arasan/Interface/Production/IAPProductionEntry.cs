@@ -29,6 +29,7 @@ namespace Arasan.Interface
 
         DataTable GetOutItem();
         DataTable GetEmp();
+        DataTable GetReason();
         DataTable GetSupEmp(string id);
         DataTable GetAPProd(string id);
         DataTable GetBatchInput(string id);
@@ -44,7 +45,7 @@ namespace Arasan.Interface
         DataTable GetCons(string id);
         DataTable GetEmpdet(string id);
         DataTable GetBreak(string id);
-        DataTable GetItemCon();
+        DataTable GetItemCon(string id);
 
         DataTable GetDrum();
 

@@ -1717,6 +1717,7 @@ WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='" + Docdate + "' AND S.LocID = 
                     tda6 = new PFCAPPRODItem();
 
                     tda6.WorkId = dt10.Rows[i]["WCID"].ToString();
+                    tda6.sieve = dt10.Rows[i]["SIEVE"].ToString();
                     tda6.wdays = dt10.Rows[i]["APWCDAYS"].ToString();
                     tda6.capacity = dt10.Rows[i]["APPRODCAP"].ToString();
                     tda6.detid = dt10.Rows[i]["PRODFCAPPID"].ToString();
@@ -1726,6 +1727,8 @@ WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='" + Docdate + "' AND S.LocID = 
                     tda6.ingotreq = dt10.Rows[i]["RMREQ"].ToString();
                     tda6.powerrequired = dt10.Rows[i]["APPPOWREQ"].ToString();
                     tda6.target = dt10.Rows[i]["APTARPROD"].ToString();
+                    tda6.status = dt10.Rows[i]["STATUS"].ToString();
+                    tda6.SchYN = dt10.Rows[i]["SCHEDULE"].ToString();
 
 
 

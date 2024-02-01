@@ -151,7 +151,7 @@ namespace Arasan.Services.Production
         public DataTable GetProdForecastAPProdDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PRODFCBASICID,WCBASIC.WCID,APWCID,APWCDAYS,APPRODCAP,APPRODD,APPRODQTY,FUELREQ,RMREQ,APPPOWREQ,APTARPROD,PRODFCAPPID from PRODFCAPP LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCAPP.APWCID where PRODFCBASICID='" + id + "' ";
+            SvSql = "select PRODFCBASICID,WCBASIC.WCID,APWCID,APWCDAYS,APPRODCAP,APPRODD,APPRODQTY,FUELREQ,RMREQ,APPPOWREQ,APTARPROD,PRODFCAPPID,STATUS,SCHEDULE,SIEVEID,SIEVEMAST.SIEVE from PRODFCAPP LEFT OUTER JOIN WCBASIC on WCBASIC.WCBASICID=PRODFCAPP.APWCID LEFT OUTER JOIN SIEVEMAST on SIEVEMAST.SIEVEMASTID=PRODFCAPP.SIEVEID where PRODFCBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -585,12 +585,15 @@ Order by 2 Desc";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
+                     
                         PFCPASTEItem cmp = new PFCPASTEItem
                         {
                             itemid = rdr["ITEMID"].ToString(),
                             saveitemid = datatrans.GetDataString("SELECT   ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["ITEMID"].ToString() + "'"),
                             required = rdr["Tar"].ToString(),
-                            minstock = rdr["min"].ToString(),
+                            
+                            minstock = rdr["min"].ToString()==""?"0":rdr["min"].ToString(),
+                           
                             stock = rdr["stk"].ToString(),
                             startval= rdr["STARTVALUE"].ToString(),
                             endval= rdr["ENDVALUE"].ToString(),
@@ -753,7 +756,7 @@ ORDER BY ORD DESC";
                             itemid = rdr["ITEMID"].ToString(),
                             saveitemid = datatrans.GetDataString("SELECT ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["ITEMID"].ToString() + "'"),
                             avlstk = rdr["stk"].ToString(),
-                            ministk = rdr["MINSTK"].ToString(),
+                            ministk = rdr["MINSTK"].ToString()==""?"0": rdr["MINSTK"].ToString(),
                             reqqty = rdr["REQ"].ToString(),
                             ordqty = rdr["ORD"].ToString(),
                             startvalue = rdr["STARTVALUE"].ToString(),
@@ -1062,15 +1065,22 @@ ORDER BY ORD DESC";
                                 }
                             }
                         }
-                                if (cy.ID == null)
+                        if (cy.PFAPREFlst != null)
                         {
+                            if (cy.ID == null)
+                            {
+                                foreach (ProdApReqItem cp in cy.PFAPREFlst)
+                                {
+                                    if (cp.saveitemid != null)
+                                    {
+                                        svSQL = "Insert into PRODREQBASIC (PRODFCBASICID,REQAPPOWPY,REQAPPOWPA,REQAPPOWAP,REQAPPOW,APPOWSTOCK,MELTCOAW,REQPOWQTY,APPOWMIN,REQITEMID,STARTVALUE,ENDVALUE,INGSTOCK) VALUES ('" + Pid + "','" + cp.appyrovalue + "','" + cp.appastevalue + "','" + cp.apfgapsvalue + "','" + cp.reqappowder + "','" + cp.avlstk + "','" + cp.coarsemelting + "','" + cp.powderrequired + "','" + cp.ministk + "','"+cp.saveitemid+"','"+cp.startvalue+"','"+cp.endvalue+"','"+cp.ingotstock+"')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+                                    }
+                                }
 
-                            svSQL = "Insert into PRODREQBASIC (PRODFCBASICID,REQAPPOWPY,REQAPPOWPA,REQAPPOWAP,REQAPPOW,APPOWSTOCK,MELTCOAW,REQPOWQTY,APPOWMIN) VALUES ('" + Pid + "','" + cy.appyro + "','" + cy.appaste + "','" + cy.apfg + "','" + cy.reqappow + "','" + cy.apstk + "','"+cy.coarse+"','"+cy.power+"','"+cy.ministk+"')";
-                            OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                            objCmds.ExecuteNonQuery();
 
-
-
+                            }
                         }
                         if (cy.PFCAPPRODLst != null)
                         {
@@ -1080,7 +1090,7 @@ ORDER BY ORD DESC";
                                 {
                                     if (cp.WorkId != null)
                                     {
-                                        svSQL = "Insert into PRODFCAPP (PRODFCBASICID,APWCID,APWCDAYS,APPRODCAP,APPRODD,APPRODQTY,FUELREQ,RMREQ,APPPOWREQ,APTARPROD) VALUES ('" + Pid + "','" + cp.WorkId + "','" + cp.wdays + "','" + cp.capacity + "','" + cp.proddays + "','" + cp.production + "','" + cp.fuelreq + "','" + cp.ingotreq + "','" + cp.powerrequired + "','" + cp.target + "')";
+                                        svSQL = "Insert into PRODFCAPP (PRODFCBASICID,APWCID,APWCDAYS,APPRODCAP,APPRODD,APPRODQTY,FUELREQ,RMREQ,APPPOWREQ,APTARPROD,SIEVEID) VALUES ('" + Pid + "','" + cp.WorkId + "','" + cp.wdays + "','" + cp.capacity + "','" + cp.proddays + "','" + cp.production + "','" + cp.fuelreq + "','" + cp.ingotreq + "','" + cp.powerrequired + "','" + cp.target + "','"+cp.sieveid+"')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 

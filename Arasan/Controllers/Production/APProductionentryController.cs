@@ -239,6 +239,23 @@ namespace Arasan.Controllers
 				throw ex;
 			}
 		}
+        public List<SelectListItem> BindReason()
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetReason();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["REASON"].ToString(), Value = dtDesg.Rows[i]["REASON"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindSupEmp(string id)
         {
             try
@@ -297,6 +314,7 @@ namespace Arasan.Controllers
 				DataTable dt = new DataTable();
 
 				string code = "";
+				string dept = "";
 
 
 				dt = IProductionEntry.GetEmployeeDetails(ItemId);
@@ -305,12 +323,13 @@ namespace Arasan.Controllers
 				{
 
 					code = dt.Rows[0]["EMPID"].ToString();
+                    dept = dt.Rows[0]["DEPTNAME"].ToString();
 
 
 
 				}
 
-				var result = new { code = code };
+				var result = new { code = code , dept = dept };
 				return Json(result);
 			}
 			catch (Exception ex)
@@ -376,7 +395,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dt3.Rows.Count; i++)
                 {
                     tda1 = new APProInCons();
-                    tda1.Itemlst = BindItemlstCon();
+                   // tda1.Itemlst = BindItemlstCon();
                     tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
                     tda1.saveitemId = dt3.Rows[i]["item"].ToString();
                     tda1.consunit = dt3.Rows[i]["UNITID"].ToString();
@@ -510,7 +529,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dt3.Rows.Count; i++)
                 {
                     tda1 = new APProInCons();
-                    tda1.Itemlst = BindItemlstCon();
+                    //tda1.Itemlst = BindItemlstCon();
                     tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
                     tda1.consunit = dt3.Rows[i]["UNIT"].ToString();
                     tda1.BinId = dt3.Rows[i]["BINID"].ToString();
@@ -753,15 +772,15 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindItemlstCon()
+        public List<SelectListItem> BindItemlstCon(string value)
 		{
 			try
 			{
-				DataTable dtDesg = IProductionEntry.GetItemCon();
+				DataTable dtDesg = IProductionEntry.GetItemCon(value);
 				List<SelectListItem> lstdesg = new List<SelectListItem>();
 				for (int i = 0; i < dtDesg.Rows.Count; i++)
 				{
-					lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString()});
+					lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEM_ID"].ToString()});
 				}
 				return lstdesg;
 			}
@@ -1102,76 +1121,7 @@ namespace Arasan.Controllers
             LogDetails tda5 = new LogDetails();
             if (tag == "2")
 			{
-				for (int i = 0; i < 3; i++)
-				{
-					tda3 = new BreakDet();
-
-					tda3.Machinelst = BindMachineID();
-					tda3.Emplst = BindEmp();
-					tda3.Isvalid = "Y";
-					tda3.APID = id;
-					TData3.Add(tda3);
-
-				}
-				
-				
-				for (int i = 0; i < 1; i++)
-				{
-					tda1 = new APProInCons();
-					tda1.Itemlst = BindItemlstCon();
-					tda1.Isvalid = "Y";
-					tda1.APID = id;
-					TData1.Add(tda1);
-				}
-				for (int i = 0; i < 3; i++)
-				{
-					tda2 = new EmpDetails();
-					tda2.APID = id;
-					tda2.Employeelst = BindEmp();
-					tda2.Isvalid = "Y";
-					TTData2.Add(tda2);
-				}
-                for (int i = 0; i < 1; i++)
-                {
-                    tda5 = new LogDetails();
-                    tda5.APID = id;
-                    string ShiftTime = datatrans.GetDataString("Select SHIFTHRS from SHIFTMAST where shiftno='" + ca.Shift + "' ");
-                    tda5.StartDate = DateTime.Now.ToString("dd-MMM-yyyy  HH:mm:ss");
-                    tda5.StartTime = DateTime.Now.ToString("HH:mm");
-                    DateTime dateTime = DateTime.Parse(tda5.StartDate);
-                    //TimeSpan t1 = new TimeSpan(24,0,0);
-
-
-                    //int hours = int.Parse(ShiftTime);
-                    TimeSpan t2 = new TimeSpan(8, 0, 0);
-                    DateTime resultDateTime = dateTime + t2;
-                    tda5.EndDate = resultDateTime.ToString("dd-MMM-yyyy - HH:mm");
-
-                    string[] sdateList = tda5.StartDate.Split(" ");
-                    string sdate = "";
-                    string stime = "";
-                    if (sdateList.Length > 0)
-                    {
-                        sdate = sdateList[0];
-                        stime = sdateList[1];
-                    }
-                    string[] edateList = tda5.EndDate.Split(" - ");
-                    string endate = "";
-                    string endtime = "";
-                    if (sdateList.Length > 0)
-                    {
-                        endate = edateList[0];
-                        endtime = edateList[1];
-                    }
-                    tda5.StartDate = sdate;
-                    tda5.EndDate = endate;
-
-                    tda5.EndTime = endtime;
-
-                    tda5.Isvalid = "Y";
-                    TTData5.Add(tda5);
-
-                }
+		
                 if (!string.IsNullOrEmpty(id))
                 {
 
@@ -1204,7 +1154,8 @@ namespace Arasan.Controllers
                             tda = new ProInput();
                             tda.APID = id;
                             tda.Itemlst = BindBatchItemlst(ca.batchid);
-                            tda.Isvalid = "Y";
+                        tda.drumlst = BindDrum();
+                        tda.Isvalid = "Y";
                             TData.Add(tda);
 
                         }
@@ -1220,8 +1171,79 @@ namespace Arasan.Controllers
                             TData4.Add(tda4);
 
                         }
-                    
-                    
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        tda3 = new BreakDet();
+
+                        tda3.Machinelst = BindMachineID();
+                        tda3.Emplst = BindEmp();
+                        tda3.Reasonlst = BindReason();
+                        tda3.Isvalid = "Y";
+                        tda3.APID = id;
+                        TData3.Add(tda3);
+
+                    }
+
+
+                    for (int i = 0; i < 1; i++)
+                    {
+                        tda1 = new APProInCons();
+                        tda1.Itemlst = BindItemlstCon(ca.LOCID);
+                        tda1.Isvalid = "Y";
+                        tda1.APID = id;
+                        TData1.Add(tda1);
+                    }
+                    for (int i = 0; i < 3; i++)
+                    {
+                        tda2 = new EmpDetails();
+                        tda2.APID = id;
+                        tda2.Employeelst = BindEmp();
+                        tda2.Isvalid = "Y";
+                        TTData2.Add(tda2);
+                    }
+                    for (int i = 0; i < 1; i++)
+                    {
+                        tda5 = new LogDetails();
+                        tda5.APID = id;
+                        string ShiftTime = datatrans.GetDataString("Select SHIFTHRS from SHIFTMAST where shiftno='" + ca.Shift + "' ");
+                        tda5.StartDate = DateTime.Now.ToString("dd-MMM-yyyy  HH:mm:ss");
+                        tda5.StartTime = DateTime.Now.ToString("HH:mm");
+                        DateTime dateTime = DateTime.Parse(tda5.StartDate);
+                        //TimeSpan t1 = new TimeSpan(24,0,0);
+
+
+                        //int hours = int.Parse(ShiftTime);
+                        TimeSpan t2 = new TimeSpan(8, 0, 0);
+                        DateTime resultDateTime = dateTime + t2;
+                        tda5.EndDate = resultDateTime.ToString("dd-MMM-yyyy - HH:mm");
+
+                        string[] sdateList = tda5.StartDate.Split(" ");
+                        string sdate = "";
+                        string stime = "";
+                        if (sdateList.Length > 0)
+                        {
+                            sdate = sdateList[0];
+                            stime = sdateList[1];
+                        }
+                        string[] edateList = tda5.EndDate.Split(" - ");
+                        string endate = "";
+                        string endtime = "";
+                        if (sdateList.Length > 0)
+                        {
+                            endate = edateList[0];
+                            endtime = edateList[1];
+                        }
+                        tda5.StartDate = sdate;
+                        tda5.EndDate = endate;
+                        tda5.reasonlst = BindReason();
+
+                        tda5.EndTime = endtime;
+
+                        tda5.Isvalid = "Y";
+                        TTData5.Add(tda5);
+
+                    }
                 }
             }
 			if (!string.IsNullOrEmpty(id))
@@ -1283,7 +1305,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dt3.Rows.Count; i++)
                 {
                     tda1 = new APProInCons();
-                    tda1.Itemlst = BindItemlstCon();
+                    tda1.Itemlst = BindItemlstCon(ca.LOCID);
                     tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
                     tda1.consunit = dt3.Rows[i]["UNIT"].ToString();
                     tda1.BinId = dt3.Rows[i]["BINID"].ToString();
@@ -1476,7 +1498,7 @@ namespace Arasan.Controllers
                             tda = new ProInput();
                             tda.APID = apID;
                             tda.Itemlst = BindBatchItemlst(ca.batchid);
-
+                            tda.drumlst = BindDrum();
                             tda.Isvalid = "Y";
                             TData.Add(tda);
 
@@ -1489,7 +1511,7 @@ namespace Arasan.Controllers
                         for (int i = 0; i < adt3.Rows.Count; i++)
                         {
                             tda1 = new APProInCons();
-                            tda1.Itemlst = BindItemlstCon();
+                            tda1.Itemlst = BindItemlstCon(ca.LOCID);
                             tda1.ItemId = adt3.Rows[i]["ITEMID"].ToString();
                             tda1.consunit = adt3.Rows[i]["UNIT"].ToString();
                             tda1.BinId = adt3.Rows[i]["BINID"].ToString();
@@ -1508,7 +1530,7 @@ namespace Arasan.Controllers
                         for (int i = 0; i < 1; i++)
                         {
                             tda1 = new APProInCons();
-                            tda1.Itemlst = BindItemlstCon();
+                            tda1.Itemlst = BindItemlstCon(ca.LOCID);
                             tda1.Isvalid = "Y";
                             tda1.APID = apID;
                             TData1.Add(tda1);
@@ -1587,6 +1609,7 @@ namespace Arasan.Controllers
 
                             tda3.Machinelst = BindMachineID();
                             tda3.Emplst = BindEmp();
+                            tda3.Reasonlst = BindReason();
                             tda3.Isvalid = "Y";
                             tda3.APID = apID;
                             TData3.Add(tda3);
@@ -1708,7 +1731,7 @@ namespace Arasan.Controllers
                             }
                             tda5.StartDate = sdate;
                             tda5.EndDate = endate;
-                            
+                            tda5.reasonlst = BindReason();
                             tda5.EndTime = endtime;
                              
                            tda5.Isvalid = "Y";
@@ -1762,8 +1785,8 @@ namespace Arasan.Controllers
                             tda = new ProInput();
                             tda.APID = id;
                             tda.Itemlst = BindItemlst();
-
-                            tda.Isvalid = "Y";
+                    tda.drumlst = BindDrum();
+                    tda.Isvalid = "Y";
                             TData.Add(tda);
 
                         }
@@ -1771,8 +1794,8 @@ namespace Arasan.Controllers
                         for (int i = 0; i < 1; i++)
                         {
                             tda1 = new APProInCons();
-                            tda1.Itemlst = BindItemlstCon();
-                            tda1.Isvalid = "Y";
+                    tda1.Itemlst = BindItemlstCon(ca.LOCID);
+                    tda1.Isvalid = "Y";
                             tda1.APID = id;
                             TData1.Add(tda1);
                         }
@@ -1791,7 +1814,8 @@ namespace Arasan.Controllers
                             tda3 = new BreakDet();
 
                             tda3.Machinelst = BindMachineID();
-                            tda3.Emplst = BindEmp();
+                    tda3.Reasonlst = BindReason();
+                    tda3.Emplst = BindEmp();
                             tda3.Isvalid = "Y";
                             tda3.APID = id;
                             TData3.Add(tda3);
@@ -1877,8 +1901,8 @@ namespace Arasan.Controllers
                             }
                             tda5.StartDate = sdate;
                             tda5.EndDate = endate;
-
-                            tda5.EndTime = endtime;
+                    tda5.reasonlst = BindReason();
+                    tda5.EndTime = endtime;
 
                             tda5.Isvalid = "Y";
                             TTData5.Add(tda5);
@@ -2077,9 +2101,9 @@ namespace Arasan.Controllers
             //model.Itemlst = BindItemlst(itemid);
             return Json(BindBatchItemlst(batch));
         }
-        public JsonResult GetconsItemJSON()
+        public JsonResult GetconsItemJSON(string id)
         {
-            return Json(BindItemlstCon());
+            return Json(BindItemlstCon(id));
         }
         public JsonResult GetOutItemJSON(string batch)
         {
