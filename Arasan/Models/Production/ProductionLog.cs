@@ -247,17 +247,11 @@ namespace Arasan.Models
     public class SourcingDetail
     {
         public string ID { get; set; }
-      
         public string saveItemId { get; set; }
-
-
-
-
         public string NOW { get; set; }
         public string NoOfEmp { get; set; }
         public double EmpCost { get; set; }
         public double Expence { get; set; }
-
         public double WorkHrs { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
@@ -268,12 +262,6 @@ namespace Arasan.Models
     public class BunkerDetail
     {
         public string ID { get; set; }
-
-       
-
-
-
-
         public double OPBin { get; set; }
         public double PIP { get; set; }
         public double GIP { get; set; }
@@ -283,8 +271,6 @@ namespace Arasan.Models
         public double MLAdd { get; set; }
         public double MLDed { get; set; }
         public double MLCL { get; set; }
-      
-        
     }
     public class ParameterDetail
     {
