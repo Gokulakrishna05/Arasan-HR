@@ -340,6 +340,17 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public DataTable BindProcess()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PROCESSID,PROCESSMASTID from PROCESSMAST WHERE BATCHYN='N'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetBatch()
         {
             string SvSql = string.Empty;

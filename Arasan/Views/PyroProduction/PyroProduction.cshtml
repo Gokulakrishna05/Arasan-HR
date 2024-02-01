@@ -1,6 +1,6 @@
 ﻿@model Arasan.Models.PyroProduction
 @{
-    ViewData["Title"] = "Pyro Production  Entry";
+    ViewData["Title"] = "Production  Entry";
     string tag = ViewContext.HttpContext.Request.Query["tag"];
     string shift = ViewContext.HttpContext.Request.Query["shift"];
   
@@ -129,7 +129,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Production</a> </li>
-            <li class="active"> <strong>Pyro Production  Entry</strong> </li>
+            <li class="active"> <strong>Production  Entry</strong> </li>
         </ol>
     </div>
 </div>
@@ -138,7 +138,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    <h5 style="font-size:14px">Pyro Production Entry</h5>
+                    <h5 style="font-size:14px">Production Entry</h5>
                     <hr>
                     @using (Html.BeginForm("PyroProduction", "PyroProduction", FormMethod.Post))
                         {

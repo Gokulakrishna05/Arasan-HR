@@ -59,7 +59,6 @@ namespace Arasan.Models
     }
     public class PyroProductionentryDet
     {
-
         public string ID { get; set; }
         public string change { get; set; }
         public object APID { get; set; }
@@ -73,15 +72,13 @@ namespace Arasan.Models
         public List<SelectListItem> Shiftlst { get; set; }
         public List<SelectListItem> worklst { get; set; }
         public List<SelectListItem> Wclst { get; set; }
-
-
-
+        public List<SelectListItem> ProdSchlst { get; set; }
+        public List<SelectListItem> Processlst { get; set; }
         public string CLocation { get; set; }
         public string BatchNo { get; set; }
         public string batchcomplete { get; set; }
         public string SchQty { get; set; }
         public string ProdQty { get; set; }
-
         public List<PBreakDet> BreakLst { get; set; }
         public string Shift { get; set; }
         public List<PProInput> inplst { get; set; }
@@ -89,13 +86,13 @@ namespace Arasan.Models
         public List<PAPProInCons> Binconslst { get; set; }
         public List<PEmpDetails> EmplLst { get; set; }
         public List<PLogDetails> LogLst { get; set; }
-
+        public List<PSourcingDetail> SourcingLst { get; set; }
+        public List<PBunkerDetail> BunkLst { get; set; }
         public List<string> ShiftNames { get; set; }
-
         public string LOCID { get; set; }
-
         public string BranchId { get; set; }
-
+        public string ProcessId { get; set; }  
+        public string ProdSchNo { get; set; }
     }
     public class PProInput
     {
@@ -246,7 +243,34 @@ namespace Arasan.Models
         public string PB { get; set; }
         public string Isvalid { get; set; }
     }
+    public class PSourcingDetail
+    {
+        public string ID { get; set; }
+        public string saveItemId { get; set; }
+        public string NOW { get; set; }
+        public string NoOfEmp { get; set; }
+        public double EmpCost { get; set; }
+        public double Expence { get; set; }
+        public double WorkHrs { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+        public string Isvalid { get; set; }
+    }
+    public class PBunkerDetail
+    {
+        public string ID { get; set; }
+        public double OPBin { get; set; }
+        public double PIP { get; set; }
+        public double GIP { get; set; }
+        public double CLBin { get; set; }
 
+        public double MLOP { get; set; }
+        public double MLAdd { get; set; }
+        public double MLDed { get; set; }
+        public double MLCL { get; set; }
+    }
     public class PyroDetail
     {
         public string DOCDATE { get; set; }
@@ -332,7 +356,7 @@ namespace Arasan.Models
         public string super { get; set; }
         public string shi { get; set; }
         public string location { get; set; }
-
+        public string reptrow { get; set; }
         public string viewrow { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }

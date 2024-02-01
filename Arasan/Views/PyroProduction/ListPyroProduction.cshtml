@@ -18,7 +18,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong> PyroProduction </strong> </li>
+            <li class="active"> <strong>Production Entry</strong> </li>
         </ol>
     </div>
 </div>
@@ -45,7 +45,7 @@
                     { name: 'editrow', type: 'string' },
                     { name: 'viewrow', type: 'string' },
                     { name: 'delrow', type: 'string' },
-
+                    { name: 'reptrow', type: 'string' },
 
                 ],
                 id: 'id',
@@ -82,11 +82,12 @@
                         { text: 'Supervisor', filtertype: 'checkedlist', datafield: 'super', width: 150 },
                        { text: 'Shift', filtertype: 'checkedlist', datafield: 'shi', width: 50 },
                         { text: 'Location', filtertype: 'checkedlist', datafield: 'location', width: 150 },
-                        { text: 'Generate ', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 80 },
+                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
+                        { text: 'Generate ', datafield: 'reptrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 80 },
                         { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        //{ text: 'Approve', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
+                       // { text: 'Approve', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                         { text: 'Approve', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
-
+                        
                      ]
                 });
 
@@ -124,7 +125,7 @@
 
                             <div class="col-md-10">
                                 <div class=" textalignright"> 
-                                    <a href="@Url.Action("PyroProduction","PyroProduction")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add PyroProduction</a>
+                                    <a href="@Url.Action("PyroProductionentry","PyroProduction")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add PyroProduction</a>
                                     <br>
                                 </div>
 
