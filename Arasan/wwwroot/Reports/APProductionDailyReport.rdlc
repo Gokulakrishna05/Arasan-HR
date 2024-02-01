@@ -682,7 +682,6 @@
             </ReportItems>
             <KeepTogether>true</KeepTogether>
             <Top>0.72347cm</Top>
-            <Left>0cm</Left>
             <Height>6.47657cm</Height>
             <Width>8.96015cm</Width>
             <ZIndex>1</ZIndex>
@@ -709,7 +708,6 @@
           </Rectangle>
           <Line Name="Line65">
             <Top>0.72347cm</Top>
-            <Left>0cm</Left>
             <Height>0cm</Height>
             <Width>20.90466cm</Width>
             <ZIndex>2</ZIndex>
@@ -2293,7 +2291,6 @@
             </ReportItems>
             <KeepTogether>true</KeepTogether>
             <Top>7.20004cm</Top>
-            <Left>0cm</Left>
             <Height>7.22517cm</Height>
             <Width>8.96015cm</Width>
             <ZIndex>4</ZIndex>
@@ -2726,7 +2723,7 @@
             <Top>7.21835cm</Top>
             <Left>8.96015cm</Left>
             <Height>6.74385cm</Height>
-            <Width>9.02809cm</Width>
+            <Width>9.0281cm</Width>
             <ZIndex>5</ZIndex>
             <Style>
               <Border>
@@ -2751,7 +2748,6 @@
           </Rectangle>
           <Line Name="Line156">
             <Top>7.20004cm</Top>
-            <Left>0cm</Left>
             <Height>0cm</Height>
             <Width>20.90466cm</Width>
             <ZIndex>6</ZIndex>
@@ -2935,7 +2931,6 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox40</rd:DefaultName>
-                <Top>0cm</Top>
                 <Left>0.00001cm</Left>
                 <Height>0.45889cm</Height>
                 <Width>1.69897cm</Width>
@@ -2951,7 +2946,6 @@
               </Textbox>
               <Line Name="Line60">
                 <Top>0.63528cm</Top>
-                <Left>0cm</Left>
                 <Height>0cm</Height>
                 <Width>20.90466cm</Width>
                 <ZIndex>1</ZIndex>
@@ -3309,7 +3303,6 @@
                 </Style>
               </Textbox>
               <Line Name="Line66">
-                <Top>0cm</Top>
                 <Left>4.54582cm</Left>
                 <Height>3.28516cm</Height>
                 <Width>0cm</Width>
@@ -3849,7 +3842,6 @@
                   </Textbox>
                 </ReportItems>
                 <KeepTogether>true</KeepTogether>
-                <Left>0cm</Left>
                 <Height>3.28516cm</Height>
                 <Width>20.90466cm</Width>
                 <ZIndex>19</ZIndex>
@@ -3879,7 +3871,6 @@
           </Rectangle>
           <Line Name="Line164">
             <Top>14.42522cm</Top>
-            <Left>0cm</Left>
             <Height>0cm</Height>
             <Width>20.90466cm</Width>
             <ZIndex>10</ZIndex>
@@ -4386,7 +4377,6 @@
             </ReportItems>
             <KeepTogether>true</KeepTogether>
             <Top>18.94463cm</Top>
-            <Left>0cm</Left>
             <Height>2.6237cm</Height>
             <Width>20.90466cm</Width>
             <ZIndex>14</ZIndex>
@@ -4929,7 +4919,6 @@
             </ReportItems>
             <KeepTogether>true</KeepTogether>
             <Top>22.24696cm</Top>
-            <Left>0cm</Left>
             <Height>3.32044cm</Height>
             <Width>20.90466cm</Width>
             <ZIndex>16</ZIndex>
@@ -4955,7 +4944,9 @@
                     </Style>
                   </TextRun>
                 </TextRuns>
-                <Style />
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox213</rd:DefaultName>
@@ -4987,7 +4978,9 @@
                     </Style>
                   </TextRun>
                 </TextRuns>
-                <Style />
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox213</rd:DefaultName>
@@ -5019,7 +5012,9 @@
                     </Style>
                   </TextRun>
                 </TextRuns>
-                <Style />
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox213</rd:DefaultName>
@@ -5051,7 +5046,9 @@
                     </Style>
                   </TextRun>
                 </TextRuns>
-                <Style />
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox213</rd:DefaultName>
@@ -5083,7 +5080,9 @@
                     </Style>
                   </TextRun>
                 </TextRuns>
-                <Style />
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox213</rd:DefaultName>
