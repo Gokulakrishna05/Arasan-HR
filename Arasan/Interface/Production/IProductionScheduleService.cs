@@ -20,6 +20,7 @@ namespace Arasan.Interface.Production
         DataTable GetProdSche(string id);
         DataTable GetAllProdSch(string id);
         DataTable GetPackItem(string id);
+        DataTable GetAPItem( );
         DataTable GetProdScheInputDetail(string id);
         DataTable GetProdScheOutputDetail(string id);
         DataTable GetProductionScheduleDetail(string id);
@@ -44,6 +45,7 @@ namespace Arasan.Interface.Production
         DataTable ProDailyDatDetail(string id);
         DataTable ProPackDetail(string id);
         string StatusChange(string id );
+        DataTable GetAPProdSche(string id);
 
         string StatusChange(string tag, int id);
     }

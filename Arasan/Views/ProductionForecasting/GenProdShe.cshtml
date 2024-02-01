@@ -969,15 +969,14 @@
                                                                         <thead>
                                                                             <tr>
 
+                                                                                <th>Sieve</th>
                                                                                 <th>Work Center</th>
-                                                                                <th>Wc.Days</th>
-                                                                                <th>Capacity/Day </th>
-                                                                                <th> Production Target </th>
+                                                                                 
                                                                                 <th>Prod.Days </th>
                                                                                 <th>Production </th>
                                                                                 <th>Fuel Req. </th>
                                                                                 <th>Ingots Required</th>
-                                                                                <th>Power Required</th>
+                                                                              
 
                                                                             </tr>
                                                                         </thead>
@@ -992,21 +991,15 @@
                                                                                 {
                                                                                     <tr id="trBook6@(z)" class="chkitemlst6" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
+                                                                                     <td>
 
+                                                                                            @Html.DisplayFor(o => o.PFCAPPRODLst[z].sieve)
+                                                                                        </td>
                                                                                         <td>
 
                                                                                             @Html.DisplayFor(o => o.PFCAPPRODLst[z].WorkId)
                                                                                         </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCAPPRODLst[z].wdays)
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCAPPRODLst[z].capacity)
-                                                                                        </td>
-
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCAPPRODLst[z].target)
-                                                                                        </td>
+                                                                                        
 
 
                                                                                         <td>
@@ -1023,10 +1016,20 @@
                                                                                         <td>
                                                                                             @Html.DisplayFor(o => o.PFCAPPRODLst[z].ingotreq)
                                                                                         </td>
-                                                                                        <td>
-                                                                                            @Html.DisplayFor(o => o.PFCAPPRODLst[z].powerrequired)
+                                                                                        
+                                                                                         <td>
+                                                                                            @Html.DisplayFor(o => o.PFCAPPRODLst[t].status)
                                                                                         </td>
+                                                                                         @if (item.SchYN == "Y")
+                                                                                        {
+                                                                                            <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="AP"})'" hidden>Generate </button></td>
 
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="location.href='@Url.Action("ProdSchedule", "ProductionSchedule",new{id=item.detid,Ptype="AP"})'">Generate </button></td>
+
+                                                                                        }
 
 
                                                                                     </tr>

@@ -286,7 +286,13 @@ namespace Arasan.Models
         public string ingotreq { get; set; }
         public string capacity { get; set; }
         public string detid { get; set; }
+
+        public string status { get; set; }
+        public string SchYN { get; set; }
+      
+
         public string balanceqty { get; set; }
+
         public string powerrequired { get; set; }
         public string sieve { get; set; }
         public string sieveid { get; set; }

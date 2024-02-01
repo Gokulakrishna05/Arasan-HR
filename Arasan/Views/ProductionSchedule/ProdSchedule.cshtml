@@ -347,8 +347,38 @@
                                                                     foreach (var item in Model.PrsLst.ToList())
                                                                     {
                                                                         <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-
+                                                                        @if(item.saveItemId=="")
+                                                                        {
                                                                             <td>
+                                                                              @Html.DropDownListFor(o => o.PrsLst[i].saveItemId,Model.PrsLst[i].Itemlst, new { @id = "txtItemId" + i, @class = "form-control _select", style = "width: 200px;",@onchange = "changeItem(this.value," +i + ")"})
+
+                                                                                @*@Html.HiddenFor(o => o.PrsLst[i].saveItemId)*@
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(o => o.PrsLst[i].Desc)
+                                                                                @Html.TextBoxFor(o => o.PrsLst[i].Desc, new { @id = "txtDes" + i, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(o => o.PrsLst[i].Unit)
+                                                                                @Html.TextBoxFor(o => o.PrsLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;" , @readonly = "readonly"})
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.HiddenFor(o => o.PrsLst[i].Addict)
+                                                                                @Html.TextBoxFor(o => o.PrsLst[i].Addict, new { @id = "txtAddict" + i, @class = "form-control", style = "width: 200px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly="readonly"})
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.HiddenFor(o => o.PrsLst[i].AddictPer)
+                                                                                @Html.TextBoxFor(o => o.PrsLst[i].AddictPer, new { @id = "txtAddictPer" + i, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly="readonly"})
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(o => o.PrsLst[i].Qty)
+                                                                                @Html.HiddenFor(o => o.PrsLst[i].Isvalid)
+                                                                                @Html.HiddenFor(o => o.PrsLst[i].Qty, new { @id = "txtQty" + i, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                                            </td>
+                                                                        }
+                                                                        else
+                                                                            {
+                                                                                <td>
                                                                                 @Html.DisplayFor(o => o.PrsLst[i].ItemId)
                                                                                 @Html.HiddenFor(o => o.PrsLst[i].saveItemId)
                                                                             </td>
@@ -373,6 +403,8 @@
                                                                                 @Html.HiddenFor(o => o.PrsLst[i].Isvalid)
                                                                                 @Html.HiddenFor(o => o.PrsLst[i].Qty, new { @id = "txtQty" + i, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                             </td>
+                                                                            }
+                                                                            
 
 
 
@@ -856,6 +888,8 @@
 
                     document.getElementById("txtDes" + i).value = result.desc;
                     document.getElementById("txtUnit" + i).value = result.unit;
+                    document.getElementById("txtAddict" + i).value = result.additive;
+                    document.getElementById("txtAddictPer" + i).value = result.per;
 
                 },
                 error: function () {
@@ -1069,13 +1103,14 @@
 
 
     
-                     var Item = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='PrsLst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+                     var Item = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='PrsLst[" + index + "].saveItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
       
 
             var Desc = "<td><input class='form-control' id='txtDes" + index + "' name='PrsLst[" + index + "].Desc'  style='width: 200px;' type='text' readonly='True' /></td>";
 
             var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='PrsLst[" + index + "].Unit'  style='width: 100px;' type='text'  readonly='True' /></td>";
-            var addict = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlAddict" + index + "' name='PrsLst[" + index + "].Addict' ><option value=''>Please select</option>" + opt + "</select></td>";
+            var addict = "<td><input class='form-control' id='txtAddict" + index + "' name='PrsLst[" + index + "].Addict'  style='width: 200px;' type='text'  readonly='True' /></td>";
+            //var addict = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlAddict" + index + "' name='PrsLst[" + index + "].Addict' ><option value=''>Please select</option>" + opt + "</select></td>";
 
             var Input = "<td><input class='form-control' id='txtAddictPer" + index + "' name='PrsLst[" + index + "].AddictPer'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)'  /></td>";
 
@@ -1095,7 +1130,7 @@
             var index = $("#tbBooks1").children("tr").length;
 
 
-            var Item = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItemid" + index + "' name='ProLst[" + index + "].Item' onchange = 'changeItem1(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+            var Item = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItemid" + index + "' name='ProLst[" + index + "].saveItemId' onchange = 'changeItem1(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
             var Des = "<td><input class='form-control' id='txtDesc" + index + "' name='ProLst[" + index + "].Des'  style='width: 200px;' type='text' readonly='True'  /></td>";
 

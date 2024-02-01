@@ -34,6 +34,7 @@ namespace Arasan.Models
         public List<SelectListItem> Processlst;
         public string Process { get; set; }
         public string Processid { get; set; }
+        public string Sieve { get; set; }
 
         public List<SelectListItem> RecList;
         public string Enterd { get; set; }

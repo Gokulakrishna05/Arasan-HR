@@ -186,6 +186,7 @@ namespace Arasan.Models
     {
         public string ID { get; set; }
         public string APID { get; set; }
+         public List<SelectListItem> reasonlst { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public string StartTime { get; set; }
