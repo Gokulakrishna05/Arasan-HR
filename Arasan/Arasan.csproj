@@ -11,8 +11,6 @@
     <Content Remove="wwwroot\Reports\Basic.rdlc" />
     <Content Remove="wwwroot\Reports\EnqReport.rdlc" />
 
-    <Content Remove="wwwroot\Reports\Example.rdlc" />
-
     <Content Remove="wwwroot\Reports\PyroReport.rdlc" />
 
     <Content Remove="wwwroot\Reports\QuotationImportReport.rdlc" />
@@ -51,10 +49,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
  
-
-    <None Include="wwwroot\Reports\Example.rdlc">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
 
     <None Include="wwwroot\Reports\PyroReport.rdlc" />
  
