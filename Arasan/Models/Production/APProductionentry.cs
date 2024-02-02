@@ -14,14 +14,18 @@ namespace Arasan.Models
 		public string Location { get; set; }
         public string Branch { get; set; }
         public List<SelectListItem> Loclst { get; set; }
+        public List<SelectListItem> processlst { get; set; }
         public string DocId { get; set; }
         public string workid { get; set; }
+        public string Process { get; set; }
         public string Docdate { get; set; }
         public string Eng { get; set; } 
         public List<SelectListItem> Englst { get; set; }
         public List<SelectListItem> suplst { get; set; }
         public List<SelectListItem> Batchlst { get; set; }
+        public List<SelectListItem> shedulst { get; set; }
         public string BatchNo { get;set; }
+        public string Sheduleno { get;set; }
         public string Super { get;set; }
        
         public string batchcomplete { get; set; }
@@ -59,6 +63,7 @@ namespace Arasan.Models
         public List<ProOutput> outlst { get; set; }
         public List<APProInCons> Binconslst { get; set; }
         public List<EmpDetails> EmplLst { get; set; }
+        public List<SourceDetail> SourcingLst { get; set; }
         public List<LogDetails> LogLst { get; set; }
 
         public List<string> ShiftNames { get; set; }
@@ -302,6 +307,28 @@ namespace Arasan.Models
         public string approve { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
+    }
+    public class SourceDetail
+    {
+        public string ID { get; set; }
+
+        public string saveItemId { get; set; }
+
+
+
+
+        public string NOW { get; set; }
+        public string APID { get; set; }
+        public string NoOfEmp { get; set; }
+        public double EmpCost { get; set; }
+        public double Expence { get; set; }
+
+        public double WorkHrs { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+        public string Isvalid { get; set; }
     }
 }
 

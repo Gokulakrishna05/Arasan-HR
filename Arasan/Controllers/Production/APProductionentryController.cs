@@ -53,6 +53,7 @@ namespace Arasan.Controllers
 			APProductionentry ca = new APProductionentry();
 			DataTable dtv = datatrans.GetSequence("APPro");
 			ca.Loclst = BindAPWorkCenter();
+			ca.processlst = BindProcess();
 			
 			ca.Shiftlst = BindShift();
             ca.Branch = Request.Cookies["BranchId"];
@@ -66,7 +67,9 @@ namespace Arasan.Controllers
 			{
 				ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
 			}
-			ca.Batchlst = BindBatch();
+			
+			ca.shedulst = BindShedule();
+			ca.Batchlst = BindBatch("");
 			if (id == null)
 			{
 
@@ -273,11 +276,11 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindBatch()
+        public List<SelectListItem> BindBatch(string value)
 		{
 			try
 			{
-				DataTable dtDesg = datatrans.GetBatch();
+				DataTable dtDesg = IProductionEntry.GetBatch(value);
 				List<SelectListItem> lstdesg = new List<SelectListItem>();
 				for (int i = 0; i < dtDesg.Rows.Count; i++)
 				{
@@ -290,7 +293,28 @@ namespace Arasan.Controllers
 				throw ex;
 			}
 		}
-		public List<SelectListItem> BindAPWorkCenter()
+        public JsonResult GetBatchJSON(string ItemId)
+        {
+            return Json(BindBatch(ItemId));
+        }
+        public List<SelectListItem> BindShedule()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetSchedule();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["PSBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindAPWorkCenter()
 		{
 			try
 			{
@@ -307,7 +331,24 @@ namespace Arasan.Controllers
 				throw ex;
 			}
 		}
-		public ActionResult GetEmployeeDetail(string ItemId)
+        public List<SelectListItem> BindProcess()
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetProcess();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PROCESSID"].ToString(), Value = dtDesg.Rows[i]["PROCESSMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetEmployeeDetail(string ItemId)
 		{
 			try
 			{
@@ -1059,7 +1100,7 @@ namespace Arasan.Controllers
                 APPrint1 = "<a href=APPrint1?id=" + dtUsers.Rows[i]["APPRODUCTIONBASICID"].ToString() + " target='_blank'><img src='../Images/pdf.png' alt='Generate PO' width='20' /></a>";
                 if (dtUsers.Rows[i]["IS_APPROVE"].ToString() == "N")
                 {
-                    if (dtUsers.Rows[i]["IS_CURRENT"].ToString() == "Yes")
+                    if (dtUsers.Rows[i]["IS_CURRENT"].ToString() == "No")
                     {
                         Approve = "<a href=ApproveAPProductionentry?id=" + dtUsers.Rows[i]["APPRODUCTIONBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Approve' /></a>";
                         EditRow = "<a href=APProductionentryDetail?id=" + dtUsers.Rows[i]["APPRODUCTIONBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
@@ -1117,6 +1158,8 @@ namespace Arasan.Controllers
 			APProInCons tda1 = new APProInCons();
 			List<EmpDetails> TTData2 = new List<EmpDetails>();
 			EmpDetails tda2 = new EmpDetails();
+            List<SourceDetail> TTData6 = new List<SourceDetail>();
+            SourceDetail tda6 = new SourceDetail();
             List<LogDetails> TTData5 = new List<LogDetails>();
             LogDetails tda5 = new LogDetails();
             if (tag == "2")
@@ -1201,6 +1244,14 @@ namespace Arasan.Controllers
                         tda2.Employeelst = BindEmp();
                         tda2.Isvalid = "Y";
                         TTData2.Add(tda2);
+                    }
+                    for (int i = 0; i < 3; i++)
+                    {
+                        tda6 = new SourceDetail();
+                        tda6.APID = id;
+
+                        tda6.Isvalid = "Y";
+                        TTData6.Add(tda6);
                     }
                     for (int i = 0; i < 1; i++)
                     {
@@ -1739,6 +1790,14 @@ namespace Arasan.Controllers
                           
                         }
                     }
+                    for (int i = 0; i < 3; i++)
+                    {
+                        tda6 = new SourceDetail();
+                        tda6.APID = id;
+
+                        tda6.Isvalid = "Y";
+                        TTData6.Add(tda6);
+                    }
                 }
 				else
 				{
@@ -1821,8 +1880,16 @@ namespace Arasan.Controllers
                             TData3.Add(tda3);
 
                         }
-                    
-                    DataTable adt6 = new DataTable();
+                for (int i = 0; i < 3; i++)
+                {
+                    tda6 = new SourceDetail();
+                    tda6.APID = id;
+
+                    tda6.Isvalid = "Y";
+                    TTData6.Add(tda6);
+                }
+
+                DataTable adt6 = new DataTable();
 
                     adt6 = IProductionEntry.GetOutput(baid);
                     if (adt6.Rows.Count > 0)
@@ -1917,6 +1984,7 @@ namespace Arasan.Controllers
             ca.EmplLst = TTData2;
 			ca.Binconslst = TData1;
             ca.LogLst = TTData5;
+            ca.SourcingLst = TTData6;
 
             return View(ca);
 		}
@@ -2040,6 +2108,8 @@ namespace Arasan.Controllers
 				string binid = "";
                 string stk = "";
                 string unit = "";
+                string drum = "";
+                string lot = "";
                 dt = IProductionEntry.GetItemDetails(ItemId);
 
 				if (dt.Rows.Count > 0)
@@ -2048,6 +2118,8 @@ namespace Arasan.Controllers
 					bin = dt.Rows[0]["BINID"].ToString();
 					binid = dt.Rows[0]["bin"].ToString();
 					unit = dt.Rows[0]["UNITID"].ToString();
+					drum = dt.Rows[0]["DRUMYN"].ToString();
+					lot = dt.Rows[0]["LOTYN"].ToString();
 
 				}
                 dt1 = IProductionEntry.Getstkqty(ItemId, loc );
@@ -2059,7 +2131,7 @@ namespace Arasan.Controllers
                 {
                     stk = "0";
                 }
-                var result = new { bin = bin, binid= binid, stk = stk, unit= unit };
+                var result = new { bin = bin, binid= binid, stk = stk, unit= unit , drum = drum , lot= lot };
 				return Json(result);
 			}
 			catch (Exception ex)

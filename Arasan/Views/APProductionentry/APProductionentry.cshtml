@@ -157,20 +157,30 @@
                                     </div>
                                 </div>
                             </div>
-                       <div class="col-md-6">
+                              <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Batch<label class="mandatory"> *</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Prod Schedule<label class="mandatory"> *</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.BatchNo, Model.Batchlst, new { @id = "ddlBatchNo", @Class = "form-control _select", @TabIndex = 1, @onchange = "ItemChange(this.value)"})<br />
+                                            @Html.DropDownListFor(C => C.Sheduleno, Model.shedulst," -- Please Select -- ", new { @id = "ddlSheduleno", @Class = "form-control _select", @TabIndex = 1, @onchange = "ChangeBatch(this.value)"})<br />
                                         </div>
                                     </div>
                                 </div>
+                       
       
                           
                         </div>
                         <div style="height:15px;"></div>
                         <div class="row">
+                            <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Batch<label class="mandatory"> *</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.BatchNo, Model.Batchlst," -- Please Select -- ", new { @id = "ddlBatchNo", @Class = "form-control _select", @TabIndex = 1, @onchange = "ItemChange(this.value)"})<br />
+                                        </div>
+                                    </div>
+                                </div>
                                <div class="col-md-6">
                                 <div class="form-group">
 
@@ -185,7 +195,23 @@
 *@                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                          
+                          
+                        </div>
+                        
+                            <div class="row">
+                                 <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Process <label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                       
+   @Html.DropDownListFor(C => C.Process, Model.processlst," -- Please Select -- ", new { @id = "ddlProcess", @Class = "form-control _select", @TabIndex = 1 /*, @onchange = "Stk_Change(this.value)"*/ })<br />
+                                     </div>
+                                </div>
+                            </div>
+                          
+                                  <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">DOC ID <label class="mandatory">*</label></label>
@@ -194,9 +220,7 @@
                                     </div>
                                 </div>
                             </div>
-                          
-                        </div>
-                        
+                            </div>
                             <div class="row">
                                   <div class="col-md-6">
                                 <div class="form-group">
@@ -353,4 +377,33 @@
             }
             });
             }
+ function ChangeBatch(ItemId) {
+
+        $.ajax({
+            url: "GetBatchJSON",
+            type: "post",
+            data: { 'ItemId': ItemId },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                newlist = response.Itemlst;
+                PopulateDropDown("#ddlBatchNo", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Prod Schedule");
+            }
+        });
+      }
+      function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
 </script>
