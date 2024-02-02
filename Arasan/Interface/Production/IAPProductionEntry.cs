@@ -31,6 +31,7 @@ namespace Arasan.Interface
         DataTable GetEmp();
         DataTable GetReason();
         DataTable GetSupEmp(string id);
+        DataTable GetBatch(string id);
         DataTable GetAPProd(string id);
         DataTable GetBatchInput(string id);
         DataTable GetBatchOutput(string id);
@@ -50,6 +51,7 @@ namespace Arasan.Interface
         DataTable GetDrum();
 
         DataTable GetAPWorkCenter();
+        DataTable GetProcess();
 		DataTable GetMachineDetails(string id);
 
         

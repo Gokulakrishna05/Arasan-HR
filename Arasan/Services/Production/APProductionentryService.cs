@@ -138,10 +138,31 @@ namespace Arasan.Services
 			adapter.Fill(dtt);
 			return dtt;
 		}
-		public DataTable GetItemDetails(string id)
+        public DataTable GetProcess( )
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PROCESSID,PROCESSMASTID from PROCESSMAST where BATCHYN='Y'";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetBatch(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BCPRODBASICID,DOCID from BCPRODBASIC WHERE PSCHNO='"+id+"'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetItemDetails(string id)
 		{
 			string SvSql = string.Empty;
-			SvSql = "select BINBASIC.BINID,ITEMMASTER.BINNO as bin ,ITEMMASTERID ,UNITMAST.UNITID from ITEMMASTER left outer join BINBASIC ON BINBASICID= ITEMMASTER.BINNO left outer join UNITMAST ON UNITMASTID= ITEMMASTER.PRIUNIT where ITEMMASTERID='" + id +"' ";
+			SvSql = "select BINBASIC.BINID,ITEMMASTER.BINNO as bin ,ITEMMASTERID ,UNITMAST.UNITID,DRUMYN,LOTYN from ITEMMASTER left outer join BINBASIC ON BINBASICID= ITEMMASTER.BINNO left outer join UNITMAST ON UNITMASTID= ITEMMASTER.PRIUNIT where ITEMMASTERID='" + id +"' ";
 
 			DataTable dtt = new DataTable();
 			OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -223,6 +244,8 @@ namespace Arasan.Services
 					objCmd.Parameters.Add("BATCHYN", OracleDbType.NVarchar2).Value = cy.batchcomplete;
 					objCmd.Parameters.Add("IS_CURRENT", OracleDbType.NVarchar2).Value = "Yes";
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
+                    objCmd.Parameters.Add("PSCHNO", OracleDbType.NVarchar2).Value = cy.Sheduleno;
+                    objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 					objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 					try
