@@ -35,8 +35,8 @@ namespace Arasan.Controllers
 
         public ActionResult APProductinentryselection()
         {
-            var userId = Request.Cookies["UserId"];
-            int cunt = datatrans.GetDataId("select count(*) as cunt from APPRODUCTIONBASIC where IS_CURRENT='Yes' AND ASSIGNENG='"+ userId + "'");
+            var userId = Request.Cookies["UserName"];
+            int cunt = datatrans.GetDataId("select count(*) as cunt from BPRODBASIC where IS_COMPLETE='No' AND ENTEREDBY='"+ userId + "'");
             if (cunt == 0)
             {
                 return RedirectToAction("APProductionentry");
@@ -267,7 +267,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["USERNAME"].ToString() });
                 }
                 return lstdesg;
             }
@@ -284,7 +284,7 @@ namespace Arasan.Controllers
 				List<SelectListItem> lstdesg = new List<SelectListItem>();
 				for (int i = 0; i < dtDesg.Rows.Count; i++)
 				{
-					lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["BCPRODBASICID"].ToString() });
+					lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["DOCID"].ToString() });
 				}
 				return lstdesg;
 			}
@@ -887,9 +887,10 @@ namespace Arasan.Controllers
                     string stock = input.StockAvailable.ToString();
                     string qty = input.IssueQty.ToString();
                     string unit = input.unit.ToString();
+                    string drum = input.drumno.ToString();
                     DataTable dt = new DataTable();
                     
-                    dt = IProductionEntry.SaveInputDetails(id, item, bin, time, qty, stock, batch, unit);
+                    dt = IProductionEntry.SaveInputDetails(id, item, bin, time, qty, stock, batch, drum);
                 }
                     if (model != null)
                     {
@@ -1177,18 +1178,20 @@ namespace Arasan.Controllers
                         ca.Location = dt.Rows[0]["WCID"].ToString();
                         ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
                         ca.DocId = dt.Rows[0]["DOCID"].ToString();
-                        ca.Eng = dt.Rows[0]["EMPNAME"].ToString();
+                        ca.Eng = dt.Rows[0]["ENTEREDBY"].ToString();
                         ca.Shift = dt.Rows[0]["SHIFT"].ToString();
                         ViewBag.shift = dt.Rows[0]["SHIFT"].ToString();
                         ca.SchQty = dt.Rows[0]["SCHQTY"].ToString();
-                        ca.LOCID = dt.Rows[0]["ILOCATION"].ToString();
-                        ca.BranchId = dt.Rows[0]["BRANCHID"].ToString();
-                        //ca.ParNo = dt.Rows[0]["PARTYREFNO"].ToString();
+                        ca.LOCID = dt.Rows[0]["ILOCDETAILSID"].ToString();
+                        ca.BranchId = dt.Rows[0]["BRANCH"].ToString();
+                        ca.Process = dt.Rows[0]["PROCESSID"].ToString();
+                        ca.Sheduleno = dt.Rows[0]["psno"].ToString();
                         ca.ProdQty = dt.Rows[0]["PRODQTY"].ToString();
                         //ca.ExRate = dt.Rows[0]["EXCRATERATE"].ToString();
                         ca.BatchNo = dt.Rows[0]["BATCH"].ToString();
-                       ca.batchid = dt.Rows[0]["batchid"].ToString();
-                        ca.batchcomplete = dt.Rows[0]["BATCHYN"].ToString();
+                        ca.batchid = datatrans.GetDataString("SELECT BCPRODBASICID FROM BCPRODBASIC WHERE DOCID='" + ca.BatchNo + "'");
+                       //ca.batchid = dt.Rows[0]["batchid"].ToString();
+                        ca.batchcomplete = dt.Rows[0]["BATCHCOMP"].ToString();
                         ca.APID = id;
                     }
                  
@@ -1306,21 +1309,22 @@ namespace Arasan.Controllers
             dt = IProductionEntry.GetAPProd(id);
             if (dt.Rows.Count > 0)
             {
-                ca.Location = dt.Rows[0]["WCID"].ToString();
-                ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
-                ca.DocId = dt.Rows[0]["DOCID"].ToString();
-                ca.Eng = dt.Rows[0]["EMPNAME"].ToString();
-                ca.Shift = dt.Rows[0]["SHIFT"].ToString();
-                ViewBag.shift= dt.Rows[0]["SHIFT"].ToString();
+                    ca.Location = dt.Rows[0]["WCID"].ToString();
+                    ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                    ca.Eng = dt.Rows[0]["ENTEREDBY"].ToString();
+                    ca.Shift = dt.Rows[0]["SHIFT"].ToString();
+                    ViewBag.shift = dt.Rows[0]["SHIFT"].ToString();
                     ca.SchQty = dt.Rows[0]["SCHQTY"].ToString();
-               ca.LOCID= dt.Rows[0]["ILOCATION"].ToString();
-                    ca.BranchId= dt.Rows[0]["BRANCHID"].ToString();
-                    //ca.ParNo = dt.Rows[0]["PARTYREFNO"].ToString();
+                    ca.LOCID = dt.Rows[0]["ILOCDETAILSID"].ToString();
+                    ca.BranchId = dt.Rows[0]["BRANCH"].ToString();
+                    ca.Process = dt.Rows[0]["PROCESSID"].ToString();
+                    ca.Sheduleno = dt.Rows[0]["psno"].ToString();
                     ca.ProdQty = dt.Rows[0]["PRODQTY"].ToString();
-                //ca.ExRate = dt.Rows[0]["EXCRATERATE"].ToString();
-                ca.BatchNo = dt.Rows[0]["BATCH"].ToString();
-                ca.batchid = dt.Rows[0]["batchid"].ToString();
-                ca.batchcomplete = dt.Rows[0]["BATCHYN"].ToString();
+                    //ca.ExRate = dt.Rows[0]["EXCRATERATE"].ToString();
+                    ca.BatchNo = dt.Rows[0]["BATCH"].ToString();
+                    ca.batchid = datatrans.GetDataString("SELECT BCPRODBASICID FROM BCPRODBASIC WHERE DOCID='" + ca.BatchNo + "'");
+                    ca.batchcomplete = dt.Rows[0]["BATCHCOMP"].ToString();
                     ca.APID = id;
                 }
             DataTable dt2 = new DataTable();
@@ -1332,11 +1336,11 @@ namespace Arasan.Controllers
                 {
                     tda = new ProInput();
                     tda.Itemlst = BindItemlst();
-                    tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                    tda.ItemId = dt2.Rows[i]["IITEMID"].ToString();
                         tda.Time = dt2.Rows[i]["CHARGINGTIME"].ToString();
-                        tda.BinId = dt2.Rows[i]["BINID"].ToString();
-                    tda.batchno = dt2.Rows[i]["BATCHNO"].ToString();
-                    tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
+                        tda.BinId = dt2.Rows[i]["IBINID"].ToString();
+                    tda.batchno = dt2.Rows[i]["IBATCHNO"].ToString();
+                    tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["IQTY"].ToString() == "" ? "0" : dt2.Rows[i]["IQTY"].ToString());
                         dtstk = IProductionEntry.Getstkqty(tda.ItemId, ca.LOCID );
                         if (dtstk.Rows.Count > 0)
                         {
@@ -1488,10 +1492,10 @@ namespace Arasan.Controllers
             if (tag=="1")
 			{
               
-                DataTable ap = datatrans.GetData("select APPRODUCTIONBASICID,DOCID,DOCDATE,SHIFT from APPRODUCTIONBASIC WHERE IS_CURRENT='Yes'");
+                DataTable ap = datatrans.GetData("select BPRODBASICID,DOCID,DOCDATE,SHIFT from BPRODBASIC WHERE IS_COMPLETE='No'");
 				if (ap.Rows.Count > 0)
 				{
-					string apID = datatrans.GetDataString("Select APPRODUCTIONBASICID from APPRODUCTIONBASIC where IS_CURRENT='Yes' ");
+					string apID = datatrans.GetDataString("Select BPRODBASICID from BPRODBASIC where IS_COMPLETE='No' ");
 
                     DataTable adt = new DataTable();
                     DataTable dt6 = new DataTable();
@@ -1501,18 +1505,20 @@ namespace Arasan.Controllers
                         ca.Location = adt.Rows[0]["WCID"].ToString();
                         ca.Docdate = adt.Rows[0]["DOCDATE"].ToString();
                         ca.DocId = adt.Rows[0]["DOCID"].ToString();
-                        ca.Eng = adt.Rows[0]["EMPNAME"].ToString();
+                        ca.Eng = adt.Rows[0]["ENTEREDBY"].ToString();
                         ca.Shift = adt.Rows[0]["SHIFT"].ToString();
-                        ca.SchQty = adt.Rows[0]["SCHQTY"].ToString();
                         ViewBag.shift = adt.Rows[0]["SHIFT"].ToString();
-                        ca.LOCID = adt.Rows[0]["ILOCATION"].ToString();
-                        ca.BranchId = adt.Rows[0]["BRANCHID"].ToString();
-                        //ca.ParNo = dt.Rows[0]["PARTYREFNO"].ToString();
+                        ca.SchQty = adt.Rows[0]["SCHQTY"].ToString();
+                        ca.LOCID = adt.Rows[0]["ILOCDETAILSID"].ToString();
+                        ca.BranchId = adt.Rows[0]["BRANCH"].ToString();
+                        ca.Process = adt.Rows[0]["PROCESSID"].ToString();
+                        ca.Sheduleno = adt.Rows[0]["psno"].ToString();
                         ca.ProdQty = adt.Rows[0]["PRODQTY"].ToString();
                         //ca.ExRate = dt.Rows[0]["EXCRATERATE"].ToString();
                         ca.BatchNo = adt.Rows[0]["BATCH"].ToString();
-                        ca.batchid = adt.Rows[0]["batchid"].ToString();
-                        ca.batchcomplete = adt.Rows[0]["BATCHYN"].ToString();
+                        ca.batchid = datatrans.GetDataString("SELECT BCPRODBASICID FROM BCPRODBASIC WHERE DOCID='" + ca.BatchNo + "'");
+                        ca.batchcomplete = adt.Rows[0]["BATCHCOMP"].ToString();
+                         
                         ca.APID= apID;
                     }
                   
@@ -1524,12 +1530,14 @@ namespace Arasan.Controllers
                         for (int i = 0; i < adt2.Rows.Count; i++)
                         {
                             tda = new ProInput();
-                            tda.Itemlst = BindItemlst();
-                            tda.ItemId = adt2.Rows[i]["ITEMID"].ToString();
-                            tda.BinId = adt2.Rows[i]["BINID"].ToString();
+                            tda.Itemlst = BindBatchItemlst(ca.batchid);
+                            tda.ItemId = adt2.Rows[i]["IITEMID"].ToString();
+                            tda.BinId = adt2.Rows[i]["IBINID"].ToString();
                             tda.Time = adt2.Rows[i]["CHARGINGTIME"].ToString();
-                            tda.batchno = adt2.Rows[i]["BATCHNO"].ToString();
-                            tda.IssueQty = Convert.ToDouble(adt2.Rows[i]["QTY"].ToString() == "" ? "0" : adt2.Rows[i]["QTY"].ToString());
+                            tda.batchno = adt2.Rows[i]["IBATCHNO"].ToString();
+                            tda.drumlst = BindDrum();
+                            tda.drumno = adt2.Rows[i]["IDRUMNO"].ToString();
+                            tda.IssueQty = Convert.ToDouble(adt2.Rows[i]["IQTY"].ToString() == "" ? "0" : adt2.Rows[i]["IQTY"].ToString());
                             dtstk = IProductionEntry.Getstkqty(tda.ItemId, ca.LOCID );
                             if(dtstk.Rows.Count > 0)
                             {
@@ -2187,7 +2195,7 @@ namespace Arasan.Controllers
         {
             return Json(BindDrum());
         }
-        public ActionResult SaveOutDetail(string id,string ItemId,string drum,string time,string qty,string totime,string exqty,string stat, string stock,string unit)
+        public ActionResult SaveOutDetail(string id,string ItemId,string drum,string time,string qty,string totime,string exqty,string stat, string stock,string loc,string work,string process,string shift,string schedule)
         {
             try
             {
@@ -2195,7 +2203,7 @@ namespace Arasan.Controllers
                 DataTable dt1 = new DataTable();
 
                  
-                dt = IProductionEntry.SaveOutDetails(id,ItemId, drum, time, qty, totime,exqty,stat, stock, unit);
+                dt = IProductionEntry.SaveOutDetails(id,ItemId, drum, time, qty, totime,exqty,stat, stock, loc, work, process, shift, schedule);
 
                  
 
@@ -2250,6 +2258,23 @@ namespace Arasan.Controllers
                 }
 
                 var result = new { bin = bin, binid = binid , unit = unit };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetBatchNo(string ItemId,string work,string doc,string item)
+        {
+            try
+            {
+                string itemname = datatrans.GetDataString("SELECT ITEMID FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
+                string drum = datatrans.GetDataString("SELECT DRUMNO FROM  DRUMMAST WHERE DRUMMASTID='" + ItemId + "'");
+
+
+                string batch = itemname + " - " + work + " - " + drum + " - " + doc;
+                var result = new { batch = batch };
                 return Json(result);
             }
             catch (Exception ex)
@@ -2388,9 +2413,9 @@ namespace Arasan.Controllers
                 DataTable dt2 = new DataTable();
                 DataTable dt3 = new DataTable();
              
-                dt = datatrans.GetData("select W.WCID,S.WCID as work from BCPRODBASIC S ,WCBASIC W where   W.WCBASICID=S.WCID AND S.BCPRODBASICID='" + batchid + "'");
-                dt1 = datatrans.GetData("select SUM(IQTY) as qty from BCINPUTDETAIL where   BCPRODBASICID='" + batchid + "'");
-                dt2 = datatrans.GetData("select SUM(PRODQTY) as qty from APPRODUCTIONBASIC where   BATCH='" + batchid + "'");
+                dt = datatrans.GetData("select W.WCID,S.WCID as work,S.BCPRODBASICID from BCPRODBASIC S ,WCBASIC W where   W.WCBASICID=S.WCID AND S.DOCID='" + batchid + "'");
+                dt1 = datatrans.GetData("select SUM(IQTY) as qty from BCINPUTDETAIL where   BCPRODBASICID='" + dt.Rows[0]["BCPRODBASICID"].ToString() + "'");
+                //dt2 = datatrans.GetData("select SUM(PRODQTY) as qty from APPRODUCTIONBASIC where   BATCH='" + batchid + "'");
 
                 string work = "";
                 string workid = "";
@@ -2403,13 +2428,13 @@ namespace Arasan.Controllers
                     work = dt.Rows[0]["WCID"].ToString();
                     workid = dt.Rows[0]["work"].ToString();
                     schqty = dt1.Rows[0]["qty"].ToString();
-                    prodqty = dt2.Rows[0]["qty"].ToString();
+                    //prodqty = dt2.Rows[0]["qty"].ToString();
                    
 
                    
                 }
                 
-                var result = new { work = work , workid = workid , schqty = schqty, prodqty= prodqty };
+                var result = new { work = work , workid = workid , schqty = schqty/*, prodqty= prodqty*/ };
                 return Json(result);
             }
             catch (Exception ex)

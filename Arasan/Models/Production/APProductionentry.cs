@@ -43,9 +43,11 @@ namespace Arasan.Models
     {
       
         public string ID { get; set; }
+        public string Process { get; set; }
         public string change { get; set; }
         public object APID { get; set; }
         public string Location { get; set; }
+        public string Sheduleno { get; set; }
         public string Branch { get; set; }
         public string DocId { get; set; }
         public string Docdate { get; set; }

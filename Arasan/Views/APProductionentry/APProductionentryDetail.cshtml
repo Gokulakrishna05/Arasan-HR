@@ -140,21 +140,8 @@ a{
                         {
                             @Html.AntiForgeryToken()
                              <form>
-
-  <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Work Center <label class="mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        @Html.HiddenFor(C => C.APID,new{@id="hdapid"})
-                                            @Html.HiddenFor(C => C.LOCID,new{@id="hdlocation"})
-                                        @Html.HiddenFor(C => C.BranchId,new{@id="hdbranch"})
-                                        @Html.DisplayFor(C => C.Location)<br>                                
-</div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+ <div class="row">
+      <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Engineer<label class="mandatory"></label></label>
@@ -164,19 +151,74 @@ a{
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Prod Schedule <label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                         
+                                        @Html.HiddenFor(C => C.Sheduleno,new{@id="schedul"})                                
+                                        @Html.DisplayFor(C => C.Sheduleno)<br>                                
+</div>
+                                </div>
+                            </div>
+                            
+                        </div>
+  <div class="row">
+      <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Batch<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+ @Html.DisplayFor(C => C.BatchNo)<br>                                        </div>
+ @Html.HiddenFor(C => C.batchid,new{@id="batch"})                                  
+                                    </div>
+                                </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Work Center <label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.HiddenFor(C => C.APID,new{@id="hdapid"})
+                                            @Html.HiddenFor(C => C.LOCID,new{@id="hdlocation"})
+                                        @Html.HiddenFor(C => C.BranchId,new{@id="hdbranch"})
+                                        @Html.HiddenFor(C => C.Location,new{@id="workcenter"})                                 
+                                        @Html.DisplayFor(C => C.Location)<br>                                
+</div>
+                                </div>
+                            </div>
+                            
+                           
                         </div>
                           <div style="height:30px;"></div>
                             <div class="row">
+                                <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Process<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                            @Html.HiddenFor(C => C.Process,new{@id="process"}) 
+                                            @Html.DisplayFor(C => C.Process)<br>
+                                    </div>
+                                </div>
+                            </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
                                         <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="mandatory"> </label></label>
                                         <div class="col-sm-8">
+                                            @Html.HiddenFor(C => C.DocId,new{@id="docid"})  
                                             @Html.DisplayFor(C => C.DocId)<br>  
                                             </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                               
+                            </div>
+                        <div style="height:30px;"></div>
+                            <div class="row">
+                                 <div class="col-md-6">
                                     <div class="form-group">
 
                                         <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory"> </label></label>
@@ -185,9 +227,6 @@ a{
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        <div style="height:30px;"></div>
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -197,7 +236,11 @@ a{
                                             </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                               
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                 <div class="col-md-6">
                                     <div class="form-group">
 
                                         <label for="inputName3" class="col-sm-4 control-label">Prod Qty<label class="mandatory"> </label></label>
@@ -206,9 +249,6 @@ a{
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div style="height:30px;"></div>
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -219,15 +259,7 @@ a{
 
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Batch<label class="mandatory"></label></label>
-                                        <div class="col-sm-8">
- @Html.DisplayFor(C => C.BatchNo)<br>                                        </div>
- @Html.HiddenFor(C => C.batchid,new{@id="batch"})                                  
-                                    </div>
-                                </div>
+                                
 
                             </div>
                            @* <div id="divshiftgenerate">*@
@@ -239,7 +271,9 @@ a{
                                     <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"> </label></label>
 
                                     <div class="col-sm-8">
- @Html.DisplayFor(C => C.Shift)<br>                                    </div>
+                                                 @Html.HiddenFor(C => C.Shift,new{@id="shift"})                   
+                                                 @Html.DisplayFor(C => C.Shift)<br>                  
+                                    </div>
                                 </div>
                             </div>
                               <div class="col-md-6">
@@ -326,7 +360,7 @@ a{
                                                                                             <td>@Html.TextBoxFor(o => o.inplst[i].BinId, new { @id = "txtBinId" + i, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.inplst[i].Bin, new { @id = "txtBin" + i, @class = "form-control", style = "width: 100px;"})</td>
                                                                                  <td>
                                                                                  <div id="drum">
-                                                                                   @Html.DropDownListFor(o => o.inplst[i].drumno, Model.inplst[i].drumlst, "Please Select", new { @class = "form-control _select newcss ", @id = "ddlIdrumno" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })  
+                                                                                   @Html.DropDownListFor(o => o.inplst[i].drumno, Model.inplst[i].drumlst, "Please Select", new { @class = "form-control _select newcss ", @id = "ddlIdrumno" + i, style = "width: 170px;", onchange = "GetBatch(this.value," + i + ")" })  
                                                                             </div>
                                                                                   
                                                                                     </td>
@@ -337,7 +371,7 @@ a{
                                                                                             <td>@Html.TextBoxFor(o => o.inplst[i].Time, new { @id = "txtITime" + i, @class = "form-control", style = "width: 100px;"})</td>
 
                                                                                             <td>@Html.TextBoxFor(o => o.inplst[i].StockAvailable, new { @id = "txtStockAvailable" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" ,@readonly=true})</td>
-                                                                                <td>@Html.TextBoxFor(o => o.inplst[i].IssueQty, new { @id = "txtIssueQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })</td>
+                                                                                <td>@Html.TextBoxFor(o => o.inplst[i].IssueQty, new { @id = "txtIssueQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})</td>
 
                                                                                 <td>
                                                                                     @Html.HiddenFor(o => o.inplst[i].Isvalid, new { @id = "Isvalid" + i })
@@ -1014,6 +1048,11 @@ a{
 
     function outputsave(i){
          
+                    var loc = document.getElementById("hdlocation").value;
+                    var work = document.getElementById("workcenter").value;
+                    var process = document.getElementById("process").value;
+                    var shift = document.getElementById("shift").value;
+                    var schedule = document.getElementById("schedul").value;
                     var id = document.getElementById("hdapid").value;
                     var ItemId = document.getElementById("ddlOutItem" + i).value;
                     var unit = document.getElementById("txtOunit" + i).value;
@@ -1026,7 +1065,7 @@ a{
         var stock = document.getElementById("txtStockQty" + i).value;
                     $.ajax({
                         url: 'SaveOutDetail',
-                        data: { "id": id, "ItemId": ItemId, "drum": drum, "time": time, "qty": qty, "totime": totime, "exqty": exqty, "stat": stat,"stock":stock,"unit":unit },
+                        data: { "id": id, "ItemId": ItemId, "drum": drum, "time": time, "qty": qty, "totime": totime, "exqty": exqty, "stat": stat,"stock":stock,"loc":loc,"work":work,"process":process ,"shift":shift,"schedule":schedule},
                         type: "POST",
                         success: function (result) {
 
@@ -1052,6 +1091,25 @@ a{
                 document.getElementById("txtOutBinId" + i).value = result.bin;
                 document.getElementById("txtOutBin" + i).value = result.binid;
                 document.getElementById("txtOunit" + i).value = result.unit;
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+     function GetBatch(ItemId, i) {
+       var work=document.getElementById("workcenter").value ;
+       var doc=document.getElementById("docid").value ;
+       var item=document.getElementById("ddlItem" +i).value ;
+         $.ajax({
+            url: 'GetBatchNo',
+            data: { "ItemId": ItemId,"work":work ,"doc":doc,"item":item},
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtbatchno" + i).value = result.batch;
+                
 
             },
             error: function () {
@@ -1173,8 +1231,8 @@ a{
           var unit = "<td><input class='form-control'  id='txtunit" + index + "' name='inputlst[" + index + "].unit' style='width: 100px;' type='text' value='' readonly='true'><input type='hidden' id='txtOutBin" + index + "' name='outlst[" + index + "].OutBin'></td>";
 
       
-          var binid = "<td><input class='form-control'  id='txtBinId" + index + "' name='inputlst[" + index + "].BinId' style='width: 100px;' type='text' value='' readonly='true'></td>";
-               var drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlIdrumno" + index + "' name='inputlst[" + index + "].drumno' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + remopt + "</select></td>";
+          var binid = "<td><input class='form-control'  id='txtBinId" + index + "' name='inputlst[" + index + "].BinId' style='width: 100px;' type='text' value='' readonly='true'><input    id='txtBin" + index + "' name='inputlst[" + index + "].Bin' style='width: 100px;' type='hidden' value='' readonly='true'></td>";
+               var drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlIdrumno" + index + "' name='inputlst[" + index + "].drumno' onchange = 'GetBatch(this.value," + index + ")'><option value=''>Please select</option>" + remopt + "</select></td>";
 
           var batchno = "<td><input class='form-control'  id='txtbatchno" + index + "' name='inputlst[" + index + "].batchno' style='width: 200px;' type='text' value=''></td>";
         var time = "<td><input class='form-control'  id='txtITime" + index + "' name='inputlst[" + index + "].Time' style='width: 100px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
@@ -1195,7 +1253,7 @@ a{
         var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlOutItem" + index + "' name='outlst[" + index + "].ItemId' onchange = 'changeOutItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
                var unit = "<td><input class='form-control'  id='txtOunit" + index + "' name='outlst[" + index + "].unit' style='width: 100px;' type='text' value='' readonly='true'><input type='hidden' id='txtOutBin" + index + "' name='outlst[" + index + "].OutBin'></td>";
 
-        var drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddldrumno" + index + "' name='outlst[" + index + "].drumno' ><option value=''>Please select</option>" + remopt + "</select></td>";
+        var drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddldrumno" + index + "' name='outlst[" + index + "].drumno'  ><option value=''>Please select</option>" + remopt + "</select></td>";
         var bin = "<td><input class='form-control'  id='txtOutBinId" + index + "' name='outlst[" + index + "].BinId' style='width: 100px;' type='text' value='' readonly='true'><input type='hidden' id='txtOutBin" + index + "' name='outlst[" + index + "].OutBin'></td>";
         var time = "<td><input class='form-control'  id='txtFromTime" + index + "' name='outlst[" + index + "].FromTime' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
          var totime = "<td><input class='form-control'  id='txtToTime" + index + "' name='outlst[" + index + "].ToTime' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
@@ -1535,13 +1593,14 @@ a{
                     var order = {};
                
                     order.ItemId = document.getElementById("ddlItem" + j).value;
-                    order.BinId = document.getElementById("txtBinId" + j).value;
+                    order.BinId = document.getElementById("txtBin" + j).value;
                     order.unit = document.getElementById("txtunit" + j).value;
                     order.batchno = document.getElementById("txtbatchno" + j).value;
                     order.IssueQty = document.getElementById("txtIssueQty" + j).value;
                      order.Time = document.getElementById("txtITime" + j).value;
                     order.APID = document.getElementById("hdapid").value;
                     order.StockAvailable = document.getElementById("txtStockAvailable" + j).value;
+                    order.drumno = document.getElementById("ddlIdrumno" + j).value;
                     ProInput.push(order);
                     j += 1;
                 }
