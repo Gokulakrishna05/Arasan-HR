@@ -340,6 +340,16 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetPLot(string procid, string wcid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PROCLOTNO,PROCLOTID from PROCLOT where PROCESSID='" + procid + "' AND WCID='"+ wcid + "' AND STATUS=1";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
         public DataTable BindProcess()
         {

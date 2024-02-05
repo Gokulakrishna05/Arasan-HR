@@ -40,7 +40,9 @@ namespace Arasan.Controllers
             ca.Wclst = BindWorkedit(ca.super);
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.ProdSchlst = BindProdSch();
-            ca.Processlst = BindProcess();
+           ca.Plotlst = BindPLot("","");
+            ca.ProdLog = "N";
+            ca.Processlst= BindProcess();
             DataTable dtv = datatrans.GetSequence("PYRO");
             if (dtv.Rows.Count > 0)
             {
@@ -362,6 +364,13 @@ namespace Arasan.Controllers
             return Json(BindDrum(itemid));
 
         }
+        public JsonResult GetPLotJSON(string procid,string wcid)
+        {
+            PyroProductionentryDet model = new PyroProductionentryDet();
+            model.Plotlst = BindPLot(procid, wcid);
+            return Json(BindPLot(procid, wcid));
+
+        }
         public List<SelectListItem> BindDrum(string item)
         {
             try
@@ -500,7 +509,23 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-
+        public List<SelectListItem> BindPLot(string procid, string wcid)
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetPLot(procid, wcid);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PROCLOTNO"].ToString(), Value = dtDesg.Rows[i]["PROCLOTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindProcess()
         {
             try
@@ -1348,6 +1373,40 @@ namespace Arasan.Controllers
             list.Add("Complete");
             ca.ShiftNames = list;
             return View(ca);
+        }
+        public ActionResult Getsch(string schid)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+                DataTable dt2 = new DataTable();
+                DataTable dt3 = new DataTable();
+
+                dt = datatrans.GetData("select W.WCID,W.WCBASICID,P.PROCESSID from PSBASIC P,WCBASIC W where W.WCBASICID=P.WCID AND P.PSBASICID='" + schid + "'");
+                dt1 = datatrans.GetData("select SUM(RQTY) as qty from PSINPDETAIL WHERE PSBASICID='" + schid + "'");
+
+                string work = "";
+                string workid = "";
+                string schqty = "";
+                string prodqty = "";
+                string proc = "";
+                if (dt.Rows.Count > 0)
+                {
+                    work = dt.Rows[0]["WCID"].ToString();
+                    workid = dt.Rows[0]["WCBASICID"].ToString();
+                    schqty = dt1.Rows[0]["qty"].ToString();
+                    prodqty = dt1.Rows[0]["qty"].ToString();
+                    proc = dt.Rows[0]["PROCESSID"].ToString();
+                }
+
+                var result = new { work = work, workid = workid, schqty = schqty, prodqty = prodqty, proc= proc };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         [HttpPost]
         public ActionResult PyroProdApprove(PyroProductionentryDet Cy, string id)
