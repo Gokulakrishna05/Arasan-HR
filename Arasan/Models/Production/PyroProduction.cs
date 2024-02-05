@@ -63,6 +63,7 @@ namespace Arasan.Models
         public string change { get; set; }
         public object APID { get; set; }
         public string Location { get; set; }
+        public string workid { get; set; }
         public string Branch { get; set; }
         public string DocId { get; set; }
         public string super { get; set; }
@@ -93,6 +94,9 @@ namespace Arasan.Models
         public string BranchId { get; set; }
         public string ProcessId { get; set; }  
         public string ProdSchNo { get; set; }
+        public string ProdLog { get; set;}
+        public string ProcessLot { get; set; }
+        public List<SelectListItem> Plotlst { get; set; }
     }
     public class PProInput
     {
