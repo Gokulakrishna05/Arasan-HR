@@ -2130,7 +2130,7 @@ namespace Arasan.Controllers
 					lot = dt.Rows[0]["LOTYN"].ToString();
 
 				}
-                dt1 = IProductionEntry.Getstkqty(ItemId, loc );
+                dt1 = datatrans.GetData("SELECT SUM(DECODE(s.PLUSORMINUS,'p',S.QTY,-S.QTY)) as QTY FROM STOCKVALUE S WHERE ITEMID='"+ItemId+"'");
                 if (dt1.Rows.Count > 0)
                 {
                     stk = dt1.Rows[0]["QTY"].ToString();
