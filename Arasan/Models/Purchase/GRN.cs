@@ -50,6 +50,7 @@ namespace Arasan.Models
         public string dispatchname { get; set; }
 
         public string Supplier { get; set; }
+        public string Supplierid { get; set; }
         public string party { get; set; }
         public string Status { get; set; }
         public string Active { get; set; }

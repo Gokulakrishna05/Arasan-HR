@@ -317,7 +317,7 @@ namespace Arasan.Services
                                     string Docid = cy.GRNNo;
                                     string DocDate = cy.GRNdate;
 
-                                    lotnumber = string.Format("{0}-{1}-{2}-{3}", item, DocDate, Docid, l.ToString());
+                                    lotnumber = string.Format("{0} -- {1} -- {2} -- {3}", item, DocDate, Docid, l.ToString());
                                     l++;
                                 }
                                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
@@ -372,7 +372,7 @@ namespace Arasan.Services
                                     objCmdI.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
                                     objCmdI.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                                     objCmdI.Parameters.Add("WASTAGE", OracleDbType.NVarchar2).Value = cp.DamageQty;
-                                    objCmdI.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = "10001000000827";
+                                    objCmdI.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = "10036000012390";
                                     objCmdI.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = "0";
                                     objCmdI.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = "0";
                                     objCmdI.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.BranchID;
@@ -406,7 +406,7 @@ namespace Arasan.Services
                                         objCmdIn.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
                                         objCmdIn.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
                                         objCmdIn.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                                        objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = "10001000000827";
+                                        objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = "10036000012390";
                                         objCmdIn.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.BranchID;
                                         objCmdIn.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
                                         objCmdIn.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
@@ -417,11 +417,31 @@ namespace Arasan.Services
                                         objConnIn.Close();
 
                                     }
-
                                     objConnI.Close();
 
-
-
+                                    DataTable itemma = datatrans.GetData("SELECT LOTYN,QCCOMPFLAG,BINBASIC.BINID,ITEMMASTER.BINNO FROM ITEMMASTER LEFT OUTER JOIN BINBASIC on BINBASICID=ITEMMASTER.BINNO WHERE ITEMMASTERID='" + cp.saveItemId+"'");
+                                    string insflag = "";
+                                    if (itemma.Rows.Count > 0)
+                                    {
+                                        if(itemma.Rows[0]["QCCOMPFLAG"].ToString()=="YES")
+                                        {
+                                             insflag = "0";
+                                        }
+                                        else
+                                        {
+                                             insflag = "1";
+                                        }
+                                        if (itemma.Rows[0]["LOTYN"].ToString() == "YES")
+                                        {
+                                            svSQL = "Insert into LOTMAST (T1SOURCEID,ITEMID,PARTYID,RATE,DOCID,DOCDATE,QTY,LOTNO,LOCATION,INSFLAG,RCFLAG,PRODTYPE,QCRELASEFLAG,ESTATUS,COMPFLAG,AMOUNT,PACKFLAG,CURINWFLAG,CUROUTFLAG,PACKINSFLAG,MATCOST,MCCOST,EMPCOST,OTHERCOST,ADMINCOST,GENSETCOST,EBCOST,EBUNITRATE,DIESELRATE,TESTINSFLAG,BINNO,FIDRMS) VALUES ('" + GRNITEMID + "','" + cp.saveItemId + "','" + cy.Supplierid + "','" + cp.rate + "','" + cy.GRNNo + "','" + cy.GRNdate + "','" + cp.ConvQty + "','" + lotnumber + "','10036000012390','" + insflag + "','0','GRN','0','0','0','" + cp.Amount + "','0','0','0','0','0','0','0','0','0','0','0','0','0','0','" + itemma.Rows[0]["BINID"].ToString() + "','0')";
+                                            OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                            objCmds.ExecuteNonQuery();
+                                        }
+                                        svSQL = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,STOCKVALUE,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG) VALUES ('" + GRNITEMID + "','p','" + cp.saveItemId + "','" + cy.GRNdate + "','" + cp.ConvQty + "','" + cp.Amount + "','10036000012390','" + itemma.Rows[0]["BINNO"].ToString() + "','0','0','0','0','0','0','GRN','"+ insflag +"')";
+                                        OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                        objCmdss.ExecuteNonQuery();
+                                    }
+                                 
                                 }
                                 string status = "GRN Completed";
                                 if (cp.PendingQty > 0)

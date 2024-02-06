@@ -1249,7 +1249,7 @@ namespace Arasan.Services
         public DataTable GetBatchItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select I.ITEMID,B.IITEMID  from BCINPUTDETAIL B,ITEMMASTER I    where B.IITEMID=I.ITEMMASTERID AND BCPRODBASICID='" + id + "' ";
+            SvSql = "select I.ITEMID,B.IITEMID  from BCINPUTDETAIL B,ITEMMASTER I,STOCKVALUE S   where  B.IITEMID=S.ITEMID AND B.IITEMID=I.ITEMMASTERID AND BCPRODBASICID='" + id + "'  GROUP BY I.ITEMID,B.IITEMID";    
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

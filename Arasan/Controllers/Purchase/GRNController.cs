@@ -54,6 +54,7 @@ namespace Arasan.Controllers
                     po.GRNNo = dt.Rows[0]["DOCID"].ToString();
                     po.GRNdate = dt.Rows[0]["DOCDATE"].ToString();
                     po.Supplier = dt.Rows[0]["PARTYID"].ToString();
+                    po.Supplierid = dt.Rows[0]["PARTYID"].ToString();
                     po.party = dt.Rows[0]["PARTYNAME"].ToString();
                     po.PONo = dt.Rows[0]["DOCID"].ToString();
                     po.ID = id;
