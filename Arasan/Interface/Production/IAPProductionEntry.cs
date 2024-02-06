@@ -20,7 +20,7 @@ namespace Arasan.Interface
         IEnumerable<APProductionentry>  GetAllAPProductionentry();
 		DataTable GetItemDetails(string id);
 
-        DataTable SaveOutDetails(string id, string item,string drum, string time, string qty, string totime, string exqty, string stat, string stock,string loc, string work, string process, string shift, string schedule);
+        DataTable SaveOutDetails(string id, string item,string drum, string time, string qty, string totime, string exqty, string stat, string stock,string loc, string work, string process, string shift, string schedule,string doc);
 
         DataTable GetOutItemDetails(string id);
         DataTable GetConItemDetails(string id);
@@ -59,8 +59,9 @@ namespace Arasan.Interface
 
 
         DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch,string drum);
-        DataTable SaveConsDetails(string id, string item, string bin, string unit, string usedqty, string qty, string stock);
+        DataTable SaveConsDetails(string id, string item, string unit, string qty, string usedqty, string work, string process, int l);
         DataTable SaveEmpDetails(string id, string empname, string code, string depat, string sdate, string stime, string edate, string etime, string ot, string et, string normal, string now);
+        DataTable SaveOutsDetails(string id, string noofemp, string sdate, string stime, string edate, string etime, string workhrs, string cost, string expence, string now);
         DataTable SaveBreakDetails(string id, string machine, string des, string dtype, string mtype, string stime, string etime, string pb,string all, string reason);
         DataTable SaveLogDetails(string id, string sdate, string stime, string edate, string etime, string tot, string reason);
         Task<IEnumerable<APItemDetail>> GetAPItem( string aid);
