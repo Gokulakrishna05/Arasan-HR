@@ -301,6 +301,9 @@ namespace Arasan.Models
         public string docNo { get; set; }
         public string docDate { get; set; }
         public string workcenter { get; set; }
+        public string batch { get; set; }
+        public string psno { get; set; }
+        public string process { get; set; }
         public string empname { get; set; }
         public string shi { get; set; }
         public string view { get; set; }

@@ -168,7 +168,7 @@ a{
       <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Batch<label class="mandatory"></label></label>
+                                       <br> <label for="inputName3" class="col-sm-4 control-label">Batch<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
  @Html.DisplayFor(C => C.BatchNo)<br>                                        </div>
  @Html.HiddenFor(C => C.batchid,new{@id="batch"})                                  
@@ -178,7 +178,7 @@ a{
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Work Center <label class="mandatory"></label></label>
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">Work Center <label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.HiddenFor(C => C.APID,new{@id="hdapid"})
                                             @Html.HiddenFor(C => C.LOCID,new{@id="hdlocation"})
@@ -658,8 +658,10 @@ a{
                                                         </table>
                                                     </div>
                                                 </div>
+                                                                <div class="col-lg-11"></div>
+                                                                <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnEmp" onclick="insertempdetails()">Submit</button>
 
-                                                <!-- 1st tab  -->
+                                                                <!-- 1st tab  -->
                                             </div>
                                             <div class="tab-pane" id="tab-4">
                                                 <!-- 2nd tab  -->
@@ -690,7 +692,7 @@ a{
                                                                                 <th>Nature Of Work </th>
                                                                             </tr>
                                                                         </thead>
-                                                                       <tbody id="tbBooks">
+                                                                       <tbody id="tbBooksoutsour">
                                                                             @{
 
                                                             int r = 0;
@@ -700,17 +702,17 @@ a{
                                                                                                                                     
                                                   
                                                                   <td>@Html.TextBoxFor(o => o.SourcingLst[r].NoOfEmp, new { @id = "txtNoOfEmp" + r, @class = "form-control" , style = "width: 110px; "  })</td>
-                                                                   <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >@Html.TextBoxFor(o => o.SourcingLst[r].StartDate, new { @id = "txtStartDate" + r, @class = "form-control", style = "width: 100px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                   <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >@Html.TextBoxFor(o => o.SourcingLst[r].StartDate, new { @id = "txtSStartDate" + r, @class = "form-control", style = "width: 100px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                                                                                 </div> </td> 
                                                                    
                                                                     <td>@Html.TextBoxFor(o => o.SourcingLst[r].StartTime, new { @id = "txtSStartTime" + r, @class = "form-control", style = "width: 110px;", @Type="text"})</td> 
-                                                                        <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy"> @Html.TextBoxFor(o => o.SourcingLst[r].EndDate, new { @id = "txtEndDate" + r, @class = "form-control",  style = "width: 100px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                        <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy"> @Html.TextBoxFor(o => o.SourcingLst[r].EndDate, new { @id = "txtSEndDate" + r, @class = "form-control",  style = "width: 100px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                                                                                 </div> </td>
                                                                 <td>@Html.TextBoxFor(o => o.SourcingLst[r].EndTime, new { @id = "txtSEndTime" + r, @class = "form-control" , style = "width: 110px; ",@Type="text" , @onkeyup = "changehrs(this," + r + ")"})</td>
                                                         
                                                                     <td>@Html.TextBoxFor(o => o.SourcingLst[r].WorkHrs, new { @id = "txWorkHrs" + r, @class = "form-control" , style = "width: 110px; ",onkeydown = "return isNumeric2(event.keyCode,this.value)"  })</td>
-                                                                    <td>@Html.TextBoxFor(o => o.SourcingLst[r].EmpCost, new { @id = "txtEmpCost" + r, @class = "form-control" , style = "width: 110px; " ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })</td>                                                                
-                                                                   <td>@Html.TextBoxFor(o => o.SourcingLst[r].Expence, new { @id = "txtExpence" + r, @class = "form-control" , style = "width: 110px; "  })</td>                                                                  
+                                                                                            <td>@Html.TextBoxFor(o => o.SourcingLst[r].EmpCost, new { @id = "txtEmpCost" + r, @class = "form-control" , style = "width: 110px; " ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeexpence(this," + r + ")" })</td>
+                                                                                            <td>@Html.TextBoxFor(o => o.SourcingLst[r].Expence, new { @id = "txtExpence" + r, @class = "form-control" , style = "width: 110px; "  })</td>                                                                  
                                                                    
                                                             
                                                              <td>@Html.TextBoxFor(o => o.SourcingLst[r].NOW, new { @id = "txtNOFW" + r, @class = "form-control" , style = "width: 110px; "  })</td>
@@ -732,14 +734,15 @@ a{
                                                                 </div>
                                                             </div>
                                                             </div>
-                                                            </div>
+                                                            <div class="col-lg-11"></div>
+                                                            <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnOutsource" onclick="insertoutsourdetails()">Submit</button>
+
+                                                        </div>
                                                         
                                                 
 
                                                             
-                                                               <div class="col-lg-11"></div>
-                                                  <button type="button" class="btn aqua m-t-xs bottom15-xs"  id="btnEmp" onclick="insertempdetails()">Submit</button>
-                                         </div>            
+                                                              </div>            
                                         </div>
                                         </div>
                                         </div>
@@ -1020,8 +1023,7 @@ a{
                 document.getElementById("txtBinId" + i).value = result.bin;
                 document.getElementById("txtBin" + i).value = result.binid;
                 document.getElementById("txtunit" + i).value = result.unit;
-                alert(result.drum);
-                alert(result.lot);
+              
                   if(result.drum=="YES")
                  {
  document.getElementById("drum").style.display = "block";
@@ -1047,7 +1049,7 @@ a{
     }
 
     function outputsave(i){
-         
+        var doc = document.getElementById("docid").value;
                     var loc = document.getElementById("hdlocation").value;
                     var work = document.getElementById("workcenter").value;
                     var process = document.getElementById("process").value;
@@ -1065,7 +1067,7 @@ a{
         var stock = document.getElementById("txtStockQty" + i).value;
                     $.ajax({
                         url: 'SaveOutDetail',
-                        data: { "id": id, "ItemId": ItemId, "drum": drum, "time": time, "qty": qty, "totime": totime, "exqty": exqty, "stat": stat,"stock":stock,"loc":loc,"work":work,"process":process ,"shift":shift,"schedule":schedule},
+            data: { "id": id, "ItemId": ItemId, "drum": drum, "time": time, "qty": qty, "totime": totime, "exqty": exqty, "stat": stat, "stock": stock, "loc": loc, "work": work, "process": process, "shift": shift, "schedule": schedule, "doc": doc },
                         type: "POST",
                         success: function (result) {
 
@@ -1082,15 +1084,18 @@ a{
 
 
     function changeOutItem(ItemId, i) {
+        var branch = document.getElementById("hdbranch").value;
+        var loc = document.getElementById("hdlocation").value;
         $.ajax({
             url: 'GetOutItemDetail',
-            data: { "ItemId": ItemId },
+            data: { "ItemId": ItemId, "loc": loc },
             type: "GET",
             success: function (result) {
 
                 document.getElementById("txtOutBinId" + i).value = result.bin;
                 document.getElementById("txtOutBin" + i).value = result.binid;
                 document.getElementById("txtOunit" + i).value = result.unit;
+                document.getElementById("txtStockQty" + i).value = result.stk;
 
             },
             error: function () {
@@ -1681,8 +1686,48 @@ a{
             });
 
        
-    }   
-     function insertbreakdetails(){
+    }
+
+    function insertoutsourdetails() {
+        var e = 0;
+
+        var SourceDetail = new Array();
+        $('tr.chkOutsitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                var emp = {};
+                emp.NoOfEmp = document.getElementById("txtNoOfEmp" + e).value;
+                emp.StartDate = document.getElementById("txtSStartDate" + e).value;
+                emp.StartTime = document.getElementById("txtSStartTime" + e).value;
+                emp.APID = document.getElementById("hdapid").value;
+                emp.EndDate = document.getElementById("txtSEndDate" + e).value;
+                emp.EndTime = document.getElementById("txtSEndTime" + e).value;
+                emp.WorkHrs = document.getElementById("txWorkHrs" + e).value;
+                emp.EmpCost = document.getElementById("txtEmpCost" + e).value;
+               
+               
+                emp.Expence = document.getElementById("txtExpence" + e).value;
+              
+                emp.NOW = document.getElementById("txtNOFW" + e).value;
+                SourceDetail.push(emp);
+                e += 1;
+            }
+        });
+
+
+        $.ajax({
+            type: "POST",
+            url: "InsertProOutsource",
+            data: JSON.stringify(SourceDetail),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (r) {
+                //alert(r + " record(s) inserted.");
+            }
+        });
+
+
+    }
+    function insertbreakdetails(){
             var e = 0;
             
         var BreakDet = new Array();
@@ -1833,11 +1878,22 @@ a{
         function changehrs(_this, i) {
        var frtime = document.getElementById("txtSStartTime"+i).value;
        var entime = document.getElementById("txtSEndTime"+i).value;
-       alert(frtime);
-       alert(entime);
+        
             var tothrs=eval(entime)-eval(frtime);
-                alert(tothrs);
+ 
             document.getElementById("txWorkHrs" +i).value=tothrs;
+
+        var cost = document.getElementById("txtEmpCost" + i).value;
+        var totexp = eval(tothrs) * eval(cost)
+        document.getElementById("txtExpence" + i).value = totexp;
+    }
+      function changeexpence(_this, i) {
+        var workhrs = document.getElementById("txWorkHrs" + i).value;
+        var cost = document.getElementById("txtEmpCost" + i).value;
+
+        var expence = eval(workhrs) * eval(cost);
+
+        document.getElementById("txtExpence" + i).value = expence;
     }
      function removeOutsRow(id) {
        var table = document.getElementById("dataTableOuts");

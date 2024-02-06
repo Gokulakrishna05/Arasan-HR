@@ -1,7 +1,7 @@
 ﻿@model Arasan.Models.APProductionentry
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Batch Production";
 }
 <partial name="JqxGridPartial" />
 @* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
@@ -42,7 +42,9 @@
                 { name: 'docNo', type: 'string' },
                 { name: 'docDate', type: 'string' },
                 { name: 'workcenter', type: 'string' },
-                { name: 'empname', type: 'string' },
+                { name: 'batch', type: 'string' },
+                { name: 'psno', type: 'string' },
+                { name: 'process', type: 'string' },
                 { name: 'shi', type: 'string' },
                 { name: 'view', type: 'string' },
                 { name: 'print', type: 'string' },
@@ -80,15 +82,17 @@
                 enablebrowserselection: true,
                 columns: [
                     //{ text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
-                    { text: 'Doc No', filtertype: 'input', datafield: 'docNo', width: 150 },
+                    { text: 'Doc No', filtertype: 'input', datafield: 'docNo', width: 100 },
                     { text: 'Doc Date', datafield: 'docDate', width: 100, align: 'center' },
-                    { text: 'Work Center', filtertype: 'input', datafield: 'workcenter', width: 150 },
-                    { text: 'Emp Name', filtertype: 'checkedlist', datafield: 'empname', width: 150 },
-                    { text: 'Shift', filtertype: 'checkedlist', datafield: 'shi', width: 90 },
+                    { text: 'Work Center', filtertype: 'input', datafield: 'workcenter', width: 100 },
+                    { text: 'Process', filtertype: 'checkedlist', datafield: 'process', width: 100 },
+                    { text: 'Batch', filtertype: 'checkedlist', datafield: 'batch', width: 130 },
+                    { text: 'PSNO', filtertype: 'checkedlist', datafield: 'psno', width: 130 },
+                    { text: 'Shift', filtertype: 'checkedlist', datafield: 'shi', width: 50 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Print', datafield: 'print', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'AP Print', datafield: 'apprint', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Approve', datafield: 'approve', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
+                    { text: 'Approve', datafield: 'approve', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
