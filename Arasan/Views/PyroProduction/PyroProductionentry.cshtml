@@ -167,7 +167,7 @@
 
                         <label for="inputName3" class="col-sm-4 control-label">Work Center <label class="mandatory"></label></label>
                         <div class="col-sm-8">
-                        @Html.DropDownListFor(C => C.CLocation, Model.Wclst," -- Please Select -- ", new { @id = "ddleditWC", @Class = "form-control _select", @TabIndex = 1 ,@onchange="changewc(this.value)" })<br />
+                        @Html.DropDownListFor(C => C.CLocation, Model.Wclst," -- Please Select -- ", new { @id = "ddleditWC", @Class = "form-control _select", @TabIndex = 1 ,@onchange="changewc(this.value)" })
                         </div>
                         </div>
                         </div>
@@ -175,7 +175,7 @@
                         <div class="form-group">
                         <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"> </label></label>
                         <div class="col-sm-8">
-                        @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddleditShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift1(this.value)"})<br />
+                        @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddleditShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift1(this.value)"})
                         </div>
                         </div>
                         </div>
@@ -198,7 +198,7 @@
                                             <label for="inputName3" class="col-sm-4 control-label">Supervisor<label class="mandatory"></label></label>
                                             <div class="col-sm-8">
                                                 <h4>@Html.DisplayFor(C => C.Eng)</h4>
-                                                <br />
+                                               
                                                 @Html.HiddenFor(C => C.super)
                                                 @Html.HiddenFor(C => C.Branch)
 
@@ -210,7 +210,7 @@
                                             <label for="inputName3" class="col-sm-4 control-label">Prod.Sch.No<label class="mandatory">*</label></label>
 
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.ProdSchNo, Model.ProdSchlst," -- Please Select -- ", new { @id = "ddlProdSchNo", @Class = "form-control _select", @TabIndex = 1,@onchange="changesch(this.value)"})<br />
+                                            @Html.DropDownListFor(C => C.ProdSchNo, Model.ProdSchlst," -- Please Select -- ", new { @id = "ddlProdSchNo", @Class = "form-control _select", @TabIndex = 1,@onchange="changesch(this.value)"})
                                     </div>
                                 </div>
                             </div>
@@ -224,7 +224,7 @@
 
                                             <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="mandatory"> </label></label>
                                             <div class="col-sm-8">
-                                                @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1,@readonly="readonly" })<br />
+                                                @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1,@readonly="readonly" })
 
 
                                             </div>
@@ -252,7 +252,7 @@
                                                 @Html.HiddenFor(C => C.APID)
                                                 @Html.HiddenFor(C => C.workid,new{@id="WorkCenterid"})
                                                 @Html.TextBoxFor(C => C.Location, new { @id = "txtLocation", @class = "form-control", @TabIndex = 1,@readonly=true })
-                                                @*@Html.DropDownListFor(C => C.Location, Model.worklst," -- Please Select -- ", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 })<br />*@
+                                                @*@Html.DropDownListFor(C => C.Location, Model.worklst," -- Please Select -- ", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 })*@
                                                 <br>
                                             </div>
                                         </div>
@@ -283,14 +283,14 @@
                                                 <label id="mt-radio">NO</label>
 
 
-                                            </div><br />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
 
-                                            <br />  <label for="inputName3" class="col-sm-4 control-label">Process Lot No<label class="Mandatory"></label></label>
+                                              <label for="inputName3" class="col-sm-4 control-label">Process Lot No<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
                                                 @Html.DropDownListFor(C => C.ProcessLot, Model.Plotlst," -- Please Select -- ", new { @id = "ddlProcessLot", @Class = "form-control _select", @TabIndex = 1 })
                                             </div>
@@ -306,7 +306,7 @@
                                             <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"> *</label></label>
 
                                             <div class="col-sm-8">
-                                                @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift(this.value);"})<br />
+                                                @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift(this.value);"})
                                                 <br>
                                             </div>
                                         </div>
@@ -316,7 +316,7 @@
                                             <label for="inputName3" class="col-sm-4 control-label">Shift Details<label class="Mandatory"></label></label>
 
                                             <div class="col-sm-8">
-                                                <span style="color:green;font-size: 14px;"> <label id="shiftdetails"></label></span><br />
+                                                <span style="color:green;font-size: 14px;"> <label id="shiftdetails"></label></span>
                                             </div>
                                         </div>
                                     </div>
@@ -328,7 +328,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Sch Qty<label class="mandatory"> *</label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.SchQty, new { @id = "txtSchQty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                            @Html.TextBoxFor(C => C.SchQty, new { @id = "txtSchQty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                     </div>
                                 </div>
                             </div>
@@ -337,11 +337,12 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Prod Qty<label class="mandatory"> *</label></label>
                                     <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.ProdQty, new { @id = "txtProdQty", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
+                                         @Html.TextBoxFor(C => C.ProdQty, new { @id = "txtProdQty", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                     </div>
                                 </div>
                             </div>
                         </div>
+                                <div style="height:35px;"></div>
                                 <div class="col-lg-10"></div>
                                  @*<button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" >start</button>*@
                                 <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onclick="insertbasicdetails()">Start</button>
@@ -357,7 +358,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Supervisor<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             <h4>@Html.DisplayFor(C => C.Eng)</h4>
-                                            <br />
+                                            
                                             @Html.HiddenFor(C => C.super)
                                             @Html.HiddenFor(C => C.Branch)
                                             @Html.HiddenFor(C => C.APID,new{@id="hdapid"})
@@ -384,7 +385,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="mandatory"> </label></label>
                                         <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.DocId)<br />
+                                            @Html.DisplayFor(C => C.DocId)
 
 
                                         </div>
@@ -396,7 +397,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.Docdate)<br />
+                                            @Html.DisplayFor(C => C.Docdate)
                                         </div>
                                     </div>
                                 </div>
@@ -410,7 +411,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"> </label></label>
 
                                         <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.Shift)                                            <br />
+                                            @Html.DisplayFor(C => C.Shift)                                            
                                         </div>
                                     </div>
                                 </div>
@@ -419,7 +420,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Shift Details<label class="Mandatory"></label></label>
 
                                         <div class="col-sm-8">
-                                            <span style="color:green;font-size: 14px;"> <label id="shiftdetails"></label></span><br />
+                                            <span style="color:green;font-size: 14px;"> <label id="shiftdetails"></label></span>
                                         </div>
                                     </div>
                                 </div>
@@ -996,7 +997,7 @@
                                         <div class="col-sm-8">
                                        
                                           
-                                                                                     @Html.TextBoxFor(C => C.BunkLst[n].OPBin, new { @id = "txtOPBin", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                                                                     @Html.TextBoxFor(C => C.BunkLst[n].OPBin, new { @id = "txtOPBin", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                          
                                         </div>
                                     </div>
@@ -1008,7 +1009,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Total RM Charged<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                                                                 @Html.TextBoxFor(C => C.FuelQty, new { @id = "txtFuelQty", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
+                                                                                 @Html.TextBoxFor(C => C.FuelQty, new { @id = "txtFuelQty", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
 
 
                                         </div>
@@ -1022,7 +1023,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Final RM Charged<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
-                                                                                   @Html.TextBoxFor(C => C.FuelQty, new { @id = "txtFuelQty", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
+                                                                                   @Html.TextBoxFor(C => C.FuelQty, new { @id = "txtFuelQty", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
 
                                         </div>
                                     </div>
@@ -1033,7 +1034,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Powder I/P<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                                                                @Html.TextBoxFor(C => C.BunkLst[n].PIP, new { @id = "txtPIP", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                                                                @Html.TextBoxFor(C => C.BunkLst[n].PIP, new { @id = "txtPIP", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
 
                                         </div>
                                     </div>
@@ -1045,7 +1046,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Total Production<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                                                                                @Html.TextBoxFor(C => C.FuelQty, new { @id = "txtFuelQty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                                                                                @Html.TextBoxFor(C => C.FuelQty, new { @id = "txtFuelQty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
 
                                         </div>
                                     </div>
@@ -1057,7 +1058,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label"> Grease I/P<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
-                                                                                   @Html.TextBoxFor(C => C.BunkLst[n].GIP, new { @id = "txtGIP", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                                                                   @Html.TextBoxFor(C => C.BunkLst[n].GIP, new { @id = "txtGIP", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
 
                                         </div>
                                     </div>
@@ -1070,7 +1071,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label"> Excess Qty Reduced <label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
-                                                                                    @Html.TextBoxFor(C => C.FuelQty, new { @id = "txtFuelQty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                                                                    @Html.TextBoxFor(C => C.FuelQty, new { @id = "txtFuelQty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
 
                                         </div>
                                     </div>
@@ -1082,7 +1083,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">CI.Bin Bal<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
-                                                                                 @Html.TextBoxFor(C => C.BunkLst[n].CLBin, new { @id = "txtCLBin", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                                                                 @Html.TextBoxFor(C => C.BunkLst[n].CLBin, new { @id = "txtCLBin", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
 
                                         </div>
                                     </div>
@@ -1102,9 +1103,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                       <br /><br /> <label for="inputName3" class="col-sm-4 control-label">M.L.OP.Bal<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">M.L.OP.Bal<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                                                                @Html.TextBoxFor(C => C.BunkLst[n].MLOP, new { @id = "txtMLOP", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                                                                @Html.TextBoxFor(C => C.BunkLst[n].MLOP, new { @id = "txtMLOP", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
 
                                         </div>
                                     </div>
@@ -1113,10 +1114,10 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                                        <br /><br />   <label for="inputName3" class="col-sm-4 control-label"> M.L Addition<label class="Mandatory"></label></label>
+                                                           <label for="inputName3" class="col-sm-4 control-label"> M.L Addition<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
-                                                                                 @Html.TextBoxFor(C => C.BunkLst[n].MLAdd, new { @id = "txtMLAdd", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                                                                 @Html.TextBoxFor(C => C.BunkLst[n].MLAdd, new { @id = "txtMLAdd", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
 
                                         </div>
                                     </div>
@@ -1129,7 +1130,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">M.L Deduction<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
-                                                                                 @Html.TextBoxFor(C => C.BunkLst[n].MLDed, new { @id = "txtMLDed", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                                                                 @Html.TextBoxFor(C => C.BunkLst[n].MLDed, new { @id = "txtMLDed", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
 
                                         </div>
                                     </div>
@@ -1140,7 +1141,7 @@
                                                         <label for="inputName3" class="col-sm-4 control-label">M.L CI.Bal<label class="Mandatory"></label></label>
                                                         <div class="col-sm-8">
 
-                                                                        @Html.TextBoxFor(C => C.BunkLst[n].MLCL, new { @id = "txtMLCL", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
+                                                                        @Html.TextBoxFor(C => C.BunkLst[n].MLCL, new { @id = "txtMLCL", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
 
                                                         </div>
                                                     </div>
@@ -1167,7 +1168,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
 
-                                            <br />      <label for="inputName3" class="col-sm-4 control-label">Is Complete<label class="Mandatory"></label></label>
+                                                  <label for="inputName3" class="col-sm-4 control-label">Is Complete<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
                                                 <div class="input-group">
                                                     @Html.CheckBoxFor(model => model.Complete,new{value="Yes",onchange = "changeentry(this.value)",@id="chkcmp"})
@@ -1177,7 +1178,7 @@
                                                 <label id="mt-radio">No</label>*@
 
 
-                                                </div><br />
+                                                </div>
                                             </div>
 
                                         </div>
