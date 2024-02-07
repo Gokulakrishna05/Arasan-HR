@@ -303,7 +303,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"> </label></label>
+                                            <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"> *</label></label>
 
                                             <div class="col-sm-8">
                                                 @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift(this.value);"})<br />
@@ -343,6 +343,7 @@
                             </div>
                         </div>
                                 <div class="col-lg-10"></div>
+                                 @*<button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" >start</button>*@
                                 <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onclick="insertbasicdetails()">Start</button>
                                     <button class="btn btn-danger" type="button" causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("PyroProductionentry", "PyroProduction")'">Cancel</button>
                                     
@@ -1266,6 +1267,71 @@ function changeproc(procid){
         changeshift(shift);
 
     });
+    function insertbasicdetails(){
+        var isValid = true;
+
+        if (document.getElementById("ddlProdSchNo").value == "" || document.getElementById("ddlProdSchNo").value == 0) {
+                isValid = false;
+                $(ddlProdSchNo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Schedule No.");
+                return false;
+            }
+            else {
+                $(ddlProdSchNo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+             if (document.getElementById("ddlShift").value == "" || document.getElementById("ddlShift").value == 0) {
+                isValid = false;
+                $(ddlShift).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Shift");
+                return false;
+            }
+            else {
+                $(ddlShift).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+            {
+                e.preventDefault();
+            }else{
+                    var schno = document.getElementById("ddlProdSchNo").value;
+                    var docid = document.getElementById("txtDocId").value;
+                    var docdate = document.getElementById("Docdate").value;
+                    var loc = document.getElementById("ddlLocation").value;
+                    var proc = document.getElementById("ddlProcess").value;
+                    var shift = document.getElementById("ddlShift").value;
+                    var schqty = document.getElementById("txtSchQty").value;
+                    var prodqty = document.getElementById("txtProdQty").value;
+                    $.ajax({
+                        url: 'SaveOutDetail',
+                        data: { "schno": schno, "docid": docid, "docdate": docdate, "loc": loc, "proc": proc, "shift": shift, "schqty": schqty, "prodqty": prodqty },
+                        type: "POST",
+                        success: function (result) {
+
+                        },
+                        error: function () {
+
+                        }
+                    });
+                   // window.location.reload();
+                     window.location.href = "PyroProductionentry?tag=2";
+            }
+      
+    }
     $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
