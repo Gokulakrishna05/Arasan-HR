@@ -374,7 +374,7 @@ namespace Arasan.Models
         public DataTable GetSchedule()
         {
             string SvSql = string.Empty;
-            SvSql = "select PSBASICID,DOCID from PSBASIC ";
+            SvSql = "select PSBASICID,DOCID from PSBASIC WHERE PSCHSTATUS='ACTIVE' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -242,6 +242,23 @@ namespace Arasan.Controllers
 				throw ex;
 			}
 		}
+        public List<SelectListItem> BindBreakEmp()
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPNAME"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindReason()
         {
             try
@@ -581,10 +598,13 @@ namespace Arasan.Controllers
                     //tda1.Itemlst = BindItemlstCon();
                     tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
                     tda1.consunit = dt3.Rows[i]["CUNIT"].ToString();
-                     tda1.Qty = Convert.ToDouble(dt3.Rows[i]["QTY"].ToString() == "" ? "0" : dt3.Rows[i]["QTY"].ToString());
+                     tda1.Qty = Convert.ToDouble(dt3.Rows[i]["CSUBQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CSUBQTY"].ToString());
                     tda1.consQty = Convert.ToDouble(dt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CONSQTY"].ToString());
-                    tda1.ConsStock = Convert.ToDouble(dt3.Rows[i]["STOCK"].ToString() == "" ? "0" : dt3.Rows[i]["STOCK"].ToString());
-
+                   DataTable dtstk = datatrans.GetData("SELECT SUM(DECODE(s.PLUSORMINUS,'p',S.QTY,-S.QTY)) as QTY FROM STOCKVALUE S WHERE ITEMID='" + tda1.ItemId + "' and LOCID='" + ca.LOCID + "'");
+                    if (dtstk.Rows.Count > 0)
+                    {
+                        tda1.ConsStock = Convert.ToDouble(dtstk.Rows[0]["QTY"].ToString() == "" ? "0" : dtstk.Rows[0]["QTY"].ToString());
+                    }
                     tda1.APID = id;
                     tda1.Isvalid = "Y";
                     TData1.Add(tda1);
@@ -602,19 +622,19 @@ namespace Arasan.Controllers
                 {
                     tda2 = new EmpDetails();
                     tda2.Employeelst = BindEmp();
-                    tda2.Employee = dt4.Rows[i]["EMPID"].ToString();
+                    tda2.Employee = dt4.Rows[i]["EMPNAME"].ToString();
 
-                    tda2.EmpCode = dt4.Rows[i]["EMPCODE"].ToString();
+                    tda2.EmpCode = dt4.Rows[i]["EMPCODE1"].ToString();
                     tda2.Depart = dt4.Rows[i]["DEPARTMENT"].ToString();
-                    tda2.StartDate = dt4.Rows[i]["STARTDATE"].ToString();
-                    tda2.StartTime = dt4.Rows[i]["STARTTIME"].ToString();
-                    tda2.EndDate = dt4.Rows[i]["ENDDATE"].ToString();
-                    tda2.EndTime = dt4.Rows[i]["ENDTIME"].ToString();
-                    tda2.OTHrs = dt4.Rows[i]["OTHOUR"].ToString();
+                    tda2.StartDate = dt4.Rows[i]["ESTARTDATE"].ToString();
+                    tda2.StartTime = dt4.Rows[i]["ESTARTTIME"].ToString();
+                    tda2.EndDate = dt4.Rows[i]["EENDDATE"].ToString();
+                    tda2.EndTime = dt4.Rows[i]["EENDTIME"].ToString();
+                    tda2.OTHrs = dt4.Rows[i]["OTHRS"].ToString();
 
-                    tda2.ETOther = dt4.Rows[i]["ETOTHER"].ToString();
-                    tda2.Normal = dt4.Rows[i]["NHOUR"].ToString();
-                    tda2.NOW = dt4.Rows[i]["NATUREOFWORK"].ToString();
+                    tda2.ETOther = dt4.Rows[i]["ETOTHRS"].ToString();
+                    tda2.Normal = dt4.Rows[i]["NORMHRS"].ToString();
+                    tda2.NOW = dt4.Rows[i]["NATOFW"].ToString();
                     tda2.ID = id;
                     tda2.Isvalid = "Y";
                     TTData2.Add(tda2);
@@ -634,15 +654,15 @@ namespace Arasan.Controllers
                     tda3.Machinelst = BindMachineID();
                     tda3.MachineId = dt5.Rows[i]["MCODE"].ToString();
                     tda3.Emplst = BindEmp();
-                    tda3.MachineDes = dt5.Rows[i]["DESCRIPTION"].ToString();
-                    tda3.StartTime = dt5.Rows[i]["FROMTIME"].ToString();
-                    tda3.EndTime = dt5.Rows[i]["TOTIME"].ToString();
-                    tda3.PB = dt5.Rows[i]["PB"].ToString();
+                    tda3.MachineDes = dt5.Rows[i]["BMACHINEDESC"].ToString();
+                    tda3.StartTime = dt5.Rows[i]["BFROMTIME"].ToString();
+                    tda3.EndTime = dt5.Rows[i]["BTOTIME"].ToString();
+                    tda3.PB = dt5.Rows[i]["PREORBRE"].ToString();
                     tda3.Isvalid = "Y";
-                    tda3.Alloted = dt5.Rows[i]["EMPNAME"].ToString();
+                    tda3.Alloted = dt5.Rows[i]["ALLOTEDTO"].ToString();
                     tda3.DType = dt5.Rows[i]["DTYPE"].ToString();
                     tda3.MType = dt5.Rows[i]["MTYPE"].ToString();
-                    tda3.Reason = dt5.Rows[i]["REASON"].ToString();
+                    tda3.Reason = dt5.Rows[i]["ACTDESC"].ToString();
 
                     tda3.APID = id;
                     TData3.Add(tda3);
@@ -660,20 +680,24 @@ namespace Arasan.Controllers
                     tda4 = new ProOutput();
                     tda4.Itemlst = BindOutItemlst();
                     tda4.ItemId = dt6.Rows[i]["ITEMID"].ToString();
-                    tda4.BinId = dt6.Rows[i]["BINID"].ToString();
+                   
                     tda4.drumlst = BindDrum();
                     tda4.statuslst = BindStatus();
                     tda4.drumno = dt6.Rows[i]["DRUMNO"].ToString();
-                    tda4.FromTime = dt6.Rows[i]["FROMTIME"].ToString();
-                    tda4.ToTime = dt6.Rows[i]["TOTIME"].ToString();
-                    tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OUTQTY"].ToString());
-                    DataTable dt7 = new DataTable();
-                    dt7 = IProductionEntry.GetResult(id);
-                    if (dt7.Rows.Count > 0)
-                    {
-                        tda4.Result = dt7.Rows[i]["TESTRESULT"].ToString();
-                        tda4.Status = dt7.Rows[i]["MOVETOQC"].ToString();
-                    }
+                    tda4.unit = dt6.Rows[i]["UNITID"].ToString();
+                    tda4.FromTime = dt6.Rows[i]["STIME"].ToString();
+                    tda4.ToTime = dt6.Rows[i]["ETIME"].ToString();
+                  
+                    tda4.Status = dt6.Rows[i]["STATUS"].ToString();
+                    tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OQTY"].ToString());
+                    tda4.ExcessQty = Convert.ToDouble(dt6.Rows[i]["OXQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OXQTY"].ToString());
+                    //DataTable dt7 = new DataTable();
+                    //dt7 = IProductionEntry.GetResult(id);
+                    //if (dt7.Rows.Count > 0)
+                    //{
+                    //    tda4.Result = dt7.Rows[i]["TESTRESULT"].ToString();
+                    //    tda4.Status = dt7.Rows[i]["MOVETOQC"].ToString();
+                    //}
                     tda4.APID = id;
                     tda4.Isvalid = "Y";
                     TData4.Add(tda4);
@@ -883,6 +907,7 @@ namespace Arasan.Controllers
         {
             try
 			{
+                int r = 1;
                 foreach (ProInput input in model)
                 {
                    
@@ -897,7 +922,8 @@ namespace Arasan.Controllers
                     string drum = input.drumno.ToString();
                     DataTable dt = new DataTable();
                     
-                    dt = IProductionEntry.SaveInputDetails(id, item, bin, time, qty, stock, batch, drum);
+                    dt = IProductionEntry.SaveInputDetails(id, item, bin, time, qty, stock, batch, drum,r);
+                    r++;
                 }
                     if (model != null)
                     {
@@ -931,7 +957,7 @@ namespace Arasan.Controllers
                     string stock = Cons.ConsStock.ToString();
                     string usedqty = Cons.Qty.ToString();
 
-                    DataTable wopro = datatrans.GetData("SELECT WCBASIC.WCID,PROCESSMAST.PROCESSID FROM BPRODBASIC LEFT OUTER JOIN WCBASIC ON WCBASICID=BPRODBASIC.WCID LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BPRODBASIC.PROCESSID");
+                    DataTable wopro = datatrans.GetData("SELECT WCBASIC.WCID,PROCESSMAST.PROCESSID FROM BPRODBASIC LEFT OUTER JOIN WCBASIC ON WCBASICID=BPRODBASIC.WCID LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BPRODBASIC.PROCESSID WHERE BPRODBASICID='"+ id +"'");
                     string work = wopro.Rows[0]["WCID"].ToString();
                     string process = wopro.Rows[0]["PROCESSID"].ToString();
                     DataTable dt = new DataTable();
@@ -1276,7 +1302,7 @@ namespace Arasan.Controllers
                         tda3 = new BreakDet();
 
                         tda3.Machinelst = BindMachineID();
-                        tda3.Emplst = BindEmp();
+                        tda3.Emplst = BindBreakEmp();
                         tda3.Reasonlst = BindReason();
                         tda3.Isvalid = "Y";
                         tda3.APID = id;
@@ -1310,7 +1336,7 @@ namespace Arasan.Controllers
                         tda6.StartTime = DateTime.Now.ToString("HH:mm");
                         DateTime dateTime = DateTime.Parse(tda6.StartDate);
                         //TimeSpan t1 = new TimeSpan(24,0,0);
-
+                        tda6.WorkHrs = ShiftTime.ToString();
 
                         //int hours = int.Parse(ShiftTime);
                         TimeSpan t2 = new TimeSpan(ShiftTime, 0, 0);
@@ -1434,7 +1460,9 @@ namespace Arasan.Controllers
                             tda.BinId = dt2.Rows[i]["BINID"].ToString();
                             tda.batchno = dt2.Rows[i]["IBATCHNO"].ToString();
                             tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["IQTY"].ToString() == "" ? "0" : dt2.Rows[i]["IQTY"].ToString());
-                            dtstk = IProductionEntry.Getstkqty(tda.ItemId, ca.LOCID);
+                            //dtstk = IProductionEntry.Getstkqty(tda.ItemId, ca.LOCID);
+                            dtstk = datatrans.GetData("SELECT SUM(DECODE(s.PLUSORMINUS,'p',S.QTY,-S.QTY)) as QTY FROM STOCKVALUE S WHERE ITEMID='" + tda.ItemId + "' and LOCID='" + ca.LOCID + "'");
+
                             if (dtstk.Rows.Count > 0)
                             {
                                 tda.StockAvailable = Convert.ToDouble(dtstk.Rows[0]["QTY"].ToString() == "" ? "0" : dtstk.Rows[0]["QTY"].ToString());
@@ -1454,13 +1482,17 @@ namespace Arasan.Controllers
                         {
                             tda1 = new APProInCons();
                             tda1.Itemlst = BindItemlstCon(ca.LOCID);
-                            tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
-                            tda1.consunit = dt3.Rows[i]["UNIT"].ToString();
-                            tda1.BinId = dt3.Rows[i]["BINID"].ToString();
-                            tda1.Qty = Convert.ToDouble(dt3.Rows[i]["QTY"].ToString() == "" ? "0" : dt3.Rows[i]["QTY"].ToString());
+                            tda1.ItemId = dt3.Rows[i]["CITEMID"].ToString();
+                            tda1.consunit = dt3.Rows[i]["CUNIT"].ToString();
+                            tda1.BinId = dt3.Rows[i]["CBINID"].ToString();
+                            tda1.Qty = Convert.ToDouble(dt3.Rows[i]["CSUBQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CSUBQTY"].ToString());
                             tda1.consQty = Convert.ToDouble(dt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CONSQTY"].ToString());
-                            tda1.ConsStock = Convert.ToDouble(dt3.Rows[i]["STOCK"].ToString() == "" ? "0" : dt3.Rows[i]["STOCK"].ToString());
 
+                            dtstk = datatrans.GetData("SELECT SUM(DECODE(s.PLUSORMINUS,'p',S.QTY,-S.QTY)) as QTY FROM STOCKVALUE S WHERE ITEMID='" + tda1.ItemId + "' and LOCID='" + ca.LOCID + "'");
+                            if (dtstk.Rows.Count > 0)
+                            {
+                                tda1.ConsStock = Convert.ToDouble(dtstk.Rows[0]["QTY"].ToString() == "" ? "0" : dtstk.Rows[0]["QTY"].ToString());
+                            }
                             tda1.APID = id;
                             tda1.Isvalid = "Y";
                             TData1.Add(tda1);
@@ -1476,19 +1508,19 @@ namespace Arasan.Controllers
                         {
                             tda2 = new EmpDetails();
                             tda2.Employeelst = BindEmp();
-                            tda2.Employee = dt4.Rows[i]["EMPID"].ToString();
+                            tda2.Employee = dt4.Rows[i]["EMPNAME"].ToString();
 
-                            tda2.EmpCode = dt4.Rows[i]["EMPCODE"].ToString();
+                            tda2.EmpCode = dt4.Rows[i]["EMPCODE1"].ToString();
                             tda2.Depart = dt4.Rows[i]["DEPARTMENT"].ToString();
-                            tda2.StartDate = dt4.Rows[i]["STARTDATE"].ToString();
-                            tda2.StartTime = dt4.Rows[i]["STARTTIME"].ToString();
-                            tda2.EndDate = dt4.Rows[i]["ENDDATE"].ToString();
-                            tda2.EndTime = dt4.Rows[i]["ENDTIME"].ToString();
-                            tda2.OTHrs = dt4.Rows[i]["OTHOUR"].ToString();
+                            tda2.StartDate = dt4.Rows[i]["ESTARTDATE"].ToString();
+                            tda2.StartTime = dt4.Rows[i]["ESTARTTIME"].ToString();
+                            tda2.EndDate = dt4.Rows[i]["EENDDATE"].ToString();
+                            tda2.EndTime = dt4.Rows[i]["EENDTIME"].ToString();
+                            tda2.OTHrs = dt4.Rows[i]["OTHRS"].ToString();
 
-                            tda2.ETOther = dt4.Rows[i]["ETOTHER"].ToString();
-                            tda2.Normal = dt4.Rows[i]["NHOUR"].ToString();
-                            tda2.NOW = dt4.Rows[i]["NATUREOFWORK"].ToString();
+                            tda2.ETOther = dt4.Rows[i]["ETOTHRS"].ToString();
+                            tda2.Normal = dt4.Rows[i]["NORMHRS"].ToString();
+                            tda2.NOW = dt4.Rows[i]["NATOFW"].ToString();
                             tda2.ID = id;
                             tda2.Isvalid = "Y";
                             TTData2.Add(tda2);
@@ -1504,17 +1536,17 @@ namespace Arasan.Controllers
                         {
                             tda3 = new BreakDet();
                             tda3.Machinelst = BindMachineID();
-                            tda3.MachineId = dt5.Rows[i]["MACHCODE"].ToString();
-                            tda3.Emplst = BindEmp();
-                            tda3.MachineDes = dt5.Rows[i]["DESCRIPTION"].ToString();
-                            tda3.StartTime = dt5.Rows[i]["FROMTIME"].ToString();
-                            tda3.EndTime = dt5.Rows[i]["TOTIME"].ToString();
-                            tda3.PB = dt5.Rows[i]["PB"].ToString();
+                            tda3.MachineId = dt5.Rows[i]["BMACNO"].ToString();
+                            tda3.Emplst = BindBreakEmp();
+                            tda3.MachineDes = dt5.Rows[i]["BMACHINEDESC"].ToString();
+                            tda3.StartTime = dt5.Rows[i]["BFROMTIME"].ToString();
+                            tda3.EndTime = dt5.Rows[i]["BTOTIME"].ToString();
+                            tda3.PB = dt5.Rows[i]["PREORBRE"].ToString();
                             tda3.Isvalid = "Y";
-                            tda3.Alloted = dt5.Rows[i]["ALLOTTEDTO"].ToString();
+                            tda3.Alloted = dt5.Rows[i]["ALLOTEDTO"].ToString();
                             tda3.DType = dt5.Rows[i]["DTYPE"].ToString();
                             tda3.MType = dt5.Rows[i]["MTYPE"].ToString();
-                            tda3.Reason = dt5.Rows[i]["REASON"].ToString();
+                            tda3.Reason = dt5.Rows[i]["ACTDESC"].ToString();
 
                             tda3.APID = id;
                             TData3.Add(tda3);
@@ -1698,20 +1730,21 @@ namespace Arasan.Controllers
                         for (int i = 0; i < adt4.Rows.Count; i++)
                         {
                             tda2 = new EmpDetails();
+                            
                             tda2.Employeelst = BindEmp();
-                            tda2.Employee = adt4.Rows[i]["EMPID"].ToString();
+                            tda2.Employee = adt4.Rows[i]["EMPNAME"].ToString();
 
-                            tda2.EmpCode = adt4.Rows[i]["EMPCODE"].ToString();
+                            tda2.EmpCode = adt4.Rows[i]["EMPCODE1"].ToString();
                             tda2.Depart = adt4.Rows[i]["DEPARTMENT"].ToString();
-                            tda2.StartDate = adt4.Rows[i]["STARTDATE"].ToString();
-                            tda2.StartTime = adt4.Rows[i]["STARTTIME"].ToString();
-                            tda2.EndDate = adt4.Rows[i]["ENDDATE"].ToString();
-                            tda2.EndTime = adt4.Rows[i]["ENDTIME"].ToString();
-                            tda2.OTHrs = adt4.Rows[i]["OTHOUR"].ToString();
+                            tda2.StartDate = adt4.Rows[i]["ESTARTDATE"].ToString();
+                            tda2.StartTime = adt4.Rows[i]["ESTARTTIME"].ToString();
+                            tda2.EndDate = adt4.Rows[i]["EENDDATE"].ToString();
+                            tda2.EndTime = adt4.Rows[i]["EENDTIME"].ToString();
+                            tda2.OTHrs = adt4.Rows[i]["OTHRS"].ToString();
 
-                            tda2.ETOther = adt4.Rows[i]["ETOTHER"].ToString();
-                            tda2.Normal = adt4.Rows[i]["NHOUR"].ToString();
-                            tda2.NOW = adt4.Rows[i]["NATUREOFWORK"].ToString();
+                            tda2.ETOther = adt4.Rows[i]["ETOTHRS"].ToString();
+                            tda2.Normal = adt4.Rows[i]["NORMHRS"].ToString();
+                            tda2.NOW = adt4.Rows[i]["NATOFW"].ToString();
                             tda2.APID = apID;
                             TTData2.Add(tda2);
                             tda2.Isvalid = "Y";
@@ -1738,17 +1771,17 @@ namespace Arasan.Controllers
                         {
                             tda3 = new BreakDet();
                             tda3.Machinelst = BindMachineID();
-                            tda3.MachineId = adt5.Rows[i]["MACHCODE"].ToString();
-                            tda3.Emplst = BindEmp();
-                            tda3.MachineDes = adt5.Rows[i]["DESCRIPTION"].ToString();
-                            tda3.StartTime = adt5.Rows[i]["FROMTIME"].ToString();
-                            tda3.EndTime = adt5.Rows[i]["TOTIME"].ToString();
-                            tda3.PB = adt5.Rows[i]["PB"].ToString();
+                            tda3.MachineId = adt5.Rows[i]["BMACNO"].ToString();
+                            tda3.Emplst = BindBreakEmp();
+                            tda3.MachineDes = adt5.Rows[i]["BMACHINEDESC"].ToString();
+                            tda3.StartTime = adt5.Rows[i]["BFROMTIME"].ToString();
+                            tda3.EndTime = adt5.Rows[i]["BTOTIME"].ToString();
+                            tda3.PB = adt5.Rows[i]["PREORBRE"].ToString();
                             tda3.Isvalid = "Y";
-                            tda3.Alloted = adt5.Rows[i]["ALLOTTEDTO"].ToString();
+                            tda3.Alloted = adt5.Rows[i]["ALLOTEDTO"].ToString();
                             tda3.DType = adt5.Rows[i]["DTYPE"].ToString();
                             tda3.MType = adt5.Rows[i]["MTYPE"].ToString();
-                            tda3.Reason = adt5.Rows[i]["REASON"].ToString();
+                            tda3.Reason = adt5.Rows[i]["ACTDESC"].ToString();
 
                             tda3.APID = apID;
                             TData3.Add(tda3);
@@ -1762,7 +1795,7 @@ namespace Arasan.Controllers
                             tda3 = new BreakDet();
 
                             tda3.Machinelst = BindMachineID();
-                            tda3.Emplst = BindEmp();
+                            tda3.Emplst = BindBreakEmp();
                             tda3.Reasonlst = BindReason();
                             tda3.Isvalid = "Y";
                             tda3.APID = apID;
@@ -1977,7 +2010,7 @@ namespace Arasan.Controllers
 
                             tda3.Machinelst = BindMachineID();
                     tda3.Reasonlst = BindReason();
-                    tda3.Emplst = BindEmp();
+                    tda3.Emplst = BindBreakEmp();
                             tda3.Isvalid = "Y";
                             tda3.APID = id;
                             TData3.Add(tda3);
