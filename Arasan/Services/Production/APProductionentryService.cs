@@ -930,7 +930,8 @@ namespace Arasan.Services
         public DataTable GetEmpdet(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select APPRODUCTIONBASICID,EMPID,EMPCODE,DEPARTMENT,to_char(APPRODEMPDET.STARTDATE,'dd-MON-yyyy')STARTDATE,to_char(APPRODEMPDET.ENDDATE,'dd-MON-yyyy')ENDDATE,STARTTIME,ENDTIME,OTHOUR,ETOTHER,NHOUR,NATUREOFWORK from APPRODEMPDET where APPRODUCTIONBASICID='" + id + "' ";
+           // SvSql = "select APPRODUCTIONBASICID,EMPID,EMPCODE,DEPARTMENT,to_char(APPRODEMPDET.STARTDATE,'dd-MON-yyyy')STARTDATE,to_char(APPRODEMPDET.ENDDATE,'dd-MON-yyyy')ENDDATE,STARTTIME,ENDTIME,OTHOUR,ETOTHER,NHOUR,NATUREOFWORK from APPRODEMPDET where APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select BPRODBASICID,EMPNAME,EMPCODE1,DEPARTMENT,to_char(BPRODEMPDET.ESTARTDATE,'dd-MON-yyyy')ESTARTDATE,ESTARTTIME,to_char(BPRODEMPDET.EENDDATE,'dd-MON-yyyy')EENDDATE,EENDTIME,OTHRS,ETOTHRS,NORMHRS,NATOFW from BPRODEMPDET where BPRODBASICID='" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -941,7 +942,8 @@ namespace Arasan.Services
         public DataTable GetBreak(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select APPRODUCTIONBASICID,MACHCODE,DESCRIPTION,DTYPE,MTYPE,FROMTIME,TOTIME,PB,ALLOTTEDTO,REASON from APPRODBREAKDET  where APPRODUCTIONBASICID='" + id + "' ";
+            //SvSql = "select APPRODUCTIONBASICID,MACHCODE,DESCRIPTION,DTYPE,MTYPE,FROMTIME,TOTIME,PB,ALLOTTEDTO,REASON from APPRODBREAKDET  where APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select BPRODBASICID,BMACNO,BMACHINEDESC,DTYPE,MTYPE,BFROMTIME,BTOTIME,PREORBRE,ALLOTEDTO,ACTDESC from BPRODBRKDWN  where BPRODBASICID='" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -1011,7 +1013,7 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch,string drum)
+        public DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch,string drum,int r)
         {
             string SvSql = string.Empty;
             using (OracleConnection objConnT = new OracleConnection(_connectionString))
@@ -1025,6 +1027,7 @@ namespace Arasan.Services
             DataTable drumno = datatrans.GetData("SELECT DRUMNO,LOCATION FROM DRUMMAST WHERE DRUMMASTID='"+drum+"'");
             string drumloc = "";
             string drumid = "";
+            string narr = "";
             if (drumno.Rows.Count > 0)
             {
                  drumloc = drumno.Rows[0]["LOCATION"].ToString();
@@ -1035,8 +1038,20 @@ namespace Arasan.Services
                  drumloc = "0";
                  drumid = "0";
             }
-            DataTable drlot = datatrans.GetData("SELECT DRUMYN,LOTYN FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
-            SvSql = "Insert into BPRODINPDET (BPRODBASICID,IITEMID,IBINID,CHARGINGTIME,IQTY,IBATCHQTY,IBATCHNO,IDRUMNO,ICDRUMNO,IDRUMSLOCID,IDRUMSLOCATION,DRUMYN,LOTYN) VALUES ('" + id + "','" + item + "','" + bin + "','" + time + "','" + qty + "','" + stock + "','" + batch + "','"+ drum +"','"+ drumid + "','" + drumloc + "','" + drumloc + "','"+ drlot.Rows[0]["DRUMYN"].ToString() +"','"+ drlot.Rows[0]["LOTYN"].ToString() +"')";
+            DataTable drlot = datatrans.GetData("SELECT DRUMYN,LOTYN,ITEMACC FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
+            DataTable wopro = datatrans.GetData("SELECT WCBASIC.WCID,PROCESSMAST.PROCESSID FROM BPRODBASIC LEFT OUTER JOIN WCBASIC ON WCBASICID=BPRODBASIC.WCID LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BPRODBASIC.PROCESSID WHERE BPRODBASICID='"+ id +"'");
+            string work = wopro.Rows[0]["WCID"].ToString();
+            string process = wopro.Rows[0]["PROCESSID"].ToString();
+            if (drumid == "0")
+            {
+                 narr = "Consumption in " + work + " - " + process ;
+            }
+            else
+            {
+                 narr = "Consumption in " + work + " - " + process + " - " + drumid;
+            }
+          
+            SvSql = "Insert into BPRODINPDET (BPRODBASICID,IITEMID,IBINID,CHARGINGTIME,IQTY,IBATCHQTY,IBATCHNO,IDRUMNO,ICDRUMNO,IDRUMSLOCID,IDRUMSLOCATION,DRUMYN,LOTYN,IITEMACC,BPRODINPDETROW,INARR) VALUES ('" + id + "','" + item + "','" + bin + "','" + time + "','" + qty + "','" + stock + "','" + batch + "','"+ drum +"','"+ drumid + "','" + drumloc + "','" + drumloc + "','"+ drlot.Rows[0]["DRUMYN"].ToString() +"','"+ drlot.Rows[0]["LOTYN"].ToString() + "','" + drlot.Rows[0]["ITEMACC"].ToString() + "','"+ r+"','"+ narr +"')";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1056,8 +1071,9 @@ namespace Arasan.Services
             }
             string narr = "Consumption in "+ work + " - "+ process;
             string lot = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
+            string itemacc = datatrans.GetDataString("SELECT ITEMACC FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
 
-            SvSql = "Insert into BPRODCONSDET (BPRODBASICID,CITEMID,CBINID,CUNIT,CLOTYN,CNARR,CONSQTY,CSUBQTY,VALIDROW3,BPRODCONSDETROW) VALUES ('" + id + "','" + item + "','0','" + unit + "','" + lot + "','" + narr + "','" + qty + "','" + usedqty + "','T','"+l+"')";
+            SvSql = "Insert into BPRODCONSDET (BPRODBASICID,CITEMID,CBINID,CUNIT,CLOTYN,CNARR,CONSQTY,CSUBQTY,VALIDROW3,BPRODCONSDETROW,CITEMACC) VALUES ('" + id + "','" + item + "','0','" + unit + "','" + lot + "','" + narr + "','" + qty + "','" + usedqty + "','T','"+l+"','"+ itemacc +"')";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1213,7 +1229,9 @@ namespace Arasan.Services
         public DataTable GetConsDeatils(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select APPRODUCTIONBASICID,ITEMMASTER.ITEMID, APPRODCONSDET.ITEMID as item,APPRODCONSDET.UNIT,APPRODCONSDET.BINID,STOCK,QTY,UNITMAST.UNITID,CONSQTY,APPRODCONSDETID from APPRODCONSDET left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID= APPRODCONSDET.ITEMID  LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select BPRODBASICID,ITEMMASTER.ITEMID,CITEMID,CBINID,CUNIT,CLOTYN,CNARR,CONSQTY,CSUBQTY,VALIDROW3,BPRODCONSDETROW from BPRODCONSDET LEFT OUTER JOIN ITEMMASTER ON  ITEMMASTERID=BPRODCONSDET.CITEMID WHERE BPRODBASICID='" + id + "' ";
+
+            //SvSql = "select APPRODUCTIONBASICID,ITEMMASTER.ITEMID, APPRODCONSDET.ITEMID as item,APPRODCONSDET.UNIT,APPRODCONSDET.BINID,STOCK,QTY,UNITMAST.UNITID,CONSQTY,APPRODCONSDETID from APPRODCONSDET left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID= APPRODCONSDET.ITEMID  LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where APPRODUCTIONBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1224,7 +1242,9 @@ namespace Arasan.Services
         public DataTable GetEmpdetDeatils(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select APPRODUCTIONBASICID,EMPMAST.EMPID,EMPCODE,DEPARTMENT,to_char(APPRODEMPDET.STARTDATE,'dd-MON-yyyy')STARTDATE,to_char(APPRODEMPDET.ENDDATE,'dd-MON-yyyy')ENDDATE,STARTTIME,ENDTIME,OTHOUR,ETOTHER,NHOUR,NATUREOFWORK from APPRODEMPDET left outer join EMPMAST ON EMPMAST.EMPMASTID= APPRODEMPDET.EMPID where APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select BPRODBASICID,EMPMAST.EMPNAME,EMPCODE1,DEPARTMENT,to_char(BPRODEMPDET.ESTARTDATE,'dd-MON-yyyy')ESTARTDATE,ESTARTTIME,to_char(BPRODEMPDET.EENDDATE,'dd-MON-yyyy')EENDDATE,EENDTIME,OTHRS,ETOTHRS,NORMHRS,NATOFW from BPRODEMPDET left outer join EMPMAST ON EMPMAST.EMPMASTID= BPRODEMPDET.EMPNAME  where BPRODBASICID='" + id + "' ";
+
+            //SvSql = "select APPRODUCTIONBASICID,EMPMAST.EMPID,EMPCODE,DEPARTMENT,to_char(APPRODEMPDET.STARTDATE,'dd-MON-yyyy')STARTDATE,to_char(APPRODEMPDET.ENDDATE,'dd-MON-yyyy')ENDDATE,STARTTIME,ENDTIME,OTHOUR,ETOTHER,NHOUR,NATUREOFWORK from APPRODEMPDET left outer join EMPMAST ON EMPMAST.EMPMASTID= APPRODEMPDET.EMPID where APPRODUCTIONBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1235,7 +1255,9 @@ namespace Arasan.Services
         public DataTable GetBreakDeatils(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select APPRODUCTIONBASICID,machineinfobasic.MCODE,DESCRIPTION,DTYPE,APPRODBREAKDET.MTYPE,FROMTIME,TOTIME,PB,EMPMAST.EMPNAME,REASON from APPRODBREAKDET left outer join machineinfobasic on machineinfobasic.machineinfobasicid=APPRODBREAKDET.MACHCODE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=APPRODBREAKDET.ALLOTTEDTO\r\n  where APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select BPRODBASICID,machineinfobasic.MCODE,BMACHINEDESC,BPRODBRKDWN.DTYPE,BPRODBRKDWN.MTYPE,BFROMTIME,BTOTIME,PREORBRE,ALLOTEDTO,ACTDESC from BPRODBRKDWN left outer join machineinfobasic on machineinfobasic.machineinfobasicid=BPRODBRKDWN.BMACNO where BPRODBASICID='" + id + "' ";
+
+            //SvSql = "select APPRODUCTIONBASICID,machineinfobasic.MCODE,DESCRIPTION,DTYPE,APPRODBREAKDET.MTYPE,FROMTIME,TOTIME,PB,EMPMAST.EMPNAME,REASON from APPRODBREAKDET left outer join machineinfobasic on machineinfobasic.machineinfobasicid=APPRODBREAKDET.MACHCODE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=APPRODBREAKDET.ALLOTTEDTO\r\n  where APPRODUCTIONBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1246,7 +1268,9 @@ namespace Arasan.Services
         public DataTable GetOutputDeatils(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select APPRODOUTDETID,APPRODUCTIONBASICID,ITEMMASTER.ITEMID,APPRODOUTDET.ITEMID as item,BINID,OUTQTY,DRUMMAST.DRUMNO,FROMTIME,TOTIME,ITEMMASTER.ITEMID as ITEMNAME,TESTRESULT,MOVETOQC,EXQTY,APPRODOUTDET.STATUS,APPRODOUTDET.DRUMNO as drum from APPRODOUTDET  LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=APPRODOUTDET.ITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=APPRODOUTDET.DRUMNO  where APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select BPRODBASICID,ITEMMASTER.ITEMID,OITEMID,DRUMMAST.DRUMNO,ODRUMNO,STIME,OQTY,ETIME,OXQTY,BPRODOUTDET.STATUS,IS_ACCOUNTED,OSTOCK,TOLOCATION,OCDRUMNO,UNITMAST.UNITID from BPRODOUTDET INNER JOIN ITEMMASTER on ITEMMASTERID=BPRODOUTDET.OITEMID LEFT OUTER  JOIN UNITMAST on UNITMASTID=ITEMMASTER.PRIUNIT LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=BPRODOUTDET.OITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=BPRODOUTDET.ODRUMNO   where BPRODBASICID='" + id + "' ";
+
+            //SvSql = "select APPRODOUTDETID,APPRODUCTIONBASICID,ITEMMASTER.ITEMID,APPRODOUTDET.ITEMID as item,BINID,OUTQTY,DRUMMAST.DRUMNO,FROMTIME,TOTIME,ITEMMASTER.ITEMID as ITEMNAME,TESTRESULT,MOVETOQC,EXQTY,APPRODOUTDET.STATUS,APPRODOUTDET.DRUMNO as drum from APPRODOUTDET  LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=APPRODOUTDET.ITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=APPRODOUTDET.DRUMNO  where APPRODUCTIONBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

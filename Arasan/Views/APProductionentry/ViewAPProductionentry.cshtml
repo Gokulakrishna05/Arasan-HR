@@ -305,7 +305,7 @@
 
                                                                             <th> Stock</th>
                                                                             <th> Issue Qty </th>
-                                                                            <th> Remove </th>
+                                                                           
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="tbBooks">
@@ -507,10 +507,17 @@
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                                            <div class="panel-body">
-                                              
+                                          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                        <div class="panel-body">
+                                            <div class="tabs-container">
+                                                <ul class="nav nav-tabs">
+                                                      <li class="active" id="liinp"><a href="#tab-3" data-toggle="tab" >Employee Detail</a></li>
+                                            <li > <a href="#tab-4" data-toggle="tab">OutSourcing </a></li>
 
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active" id="tab-3">
+                                      
                                                 <div class="row">
                                                     <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
 
@@ -595,9 +602,84 @@
                                                 </div>
 
 
+                                                </div>
+                                                    <div class="tab-pane" id="tab-4">
+                                                        <!-- 2nd tab  -->
+                                                        <div class="row">
+
+                                                            
+
+                                                            <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+                                                                <table class="table table-striped table-hover" id="dataTableinc">
+                                                                    <thead>
+                                                                        <tr>
+                                                                           <th>No.Of.Emp</th>
+                                                                                <th>Start Date</th>
+                                                                                <th>Start Time </th>
+                                                                                <th> End Date </th>
+                                                                                <th> End Time </th>
+
+                                                                                <th> Worked Hrs </th>
+                                                                                <th>Emp Cost/Hr </th>
+                                                                                <th>Expenses</th>
+                                                                                <th>Nature Of Work </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="tbBooksoutsour">
+                                                                        @{
+
+                                                                            int r = 0;
+                                                                            foreach (var item in Model.SourcingLst.ToList())
+                                                                            {
+                                                                 <tr id="trBookOuts@(r)" class="chkOutsitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                                    <td>
+                                                                                        @Html.DisplayFor(o => o.SourcingLst[r].NoOfEmp)
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        @Html.DisplayFor(o => o.SourcingLst[r].StartDate)
+                                                                                  </td>
+                                                                                    <td>
+                                                                                        @Html.DisplayFor(o => o.SourcingLst[r].StartTime)
+                                                                                   </td>
+                                                                                    <td>
+                                                                                        @Html.DisplayFor(o => o.SourcingLst[r].EndDate)
+                                                                                   
+                                                                                        </td>
+                                                                                    <td>
+                                                                                        @Html.DisplayFor(o => o.SourcingLst[r].EndTime)
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        @Html.DisplayFor(o => o.SourcingLst[r].WorkHrs)
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        @Html.DisplayFor(o => o.SourcingLst[r].EmpCost)
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        @Html.DisplayFor(o => o.SourcingLst[r].Expence)
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        @Html.DisplayFor(o => o.SourcingLst[r].NOW)
+                                                                                    </td>
+                                                                                </tr>
+
+                                                                                r = r + 1;
+                                                                            }
+                                                                        }
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+
+                                                        </div>
+
+                                                        <!-- 2nd tab  -->
+                                                    </div>
+                                                    
+                                                </div>
                                             </div>
-                                           
                                         </div>
+                                    </div>
                                     </div>
 
                                     <div class="panel panel-default">

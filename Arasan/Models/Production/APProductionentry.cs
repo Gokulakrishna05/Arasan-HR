@@ -328,7 +328,7 @@ namespace Arasan.Models
         public double EmpCost { get; set; }
         public double Expence { get; set; }
 
-        public double WorkHrs { get; set; }
+        public string WorkHrs { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public string StartTime { get; set; }

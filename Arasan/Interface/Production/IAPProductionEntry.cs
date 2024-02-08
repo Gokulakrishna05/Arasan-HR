@@ -58,7 +58,7 @@ namespace Arasan.Interface
         DataTable GetEmployeeDetails(string id);
 
 
-        DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch,string drum);
+        DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch,string drum, int r);
         DataTable SaveConsDetails(string id, string item, string unit, string qty, string usedqty, string work, string process, int l);
         DataTable SaveEmpDetails(string id, string empname, string code, string depat, string sdate, string stime, string edate, string etime, string ot, string et, string normal, string now);
         DataTable SaveOutsDetails(string id, string noofemp, string sdate, string stime, string edate, string etime, string workhrs, string cost, string expence, string now);
