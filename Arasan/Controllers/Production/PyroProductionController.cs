@@ -213,13 +213,7 @@ namespace Arasan.Controllers
 
                 }
 
-
-
-
-
                 ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
-
-
 
             }
             return View(ca);
