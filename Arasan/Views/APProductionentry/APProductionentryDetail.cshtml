@@ -359,14 +359,14 @@ a{
 
                                                                                             <td>@Html.TextBoxFor(o => o.inplst[i].BinId, new { @id = "txtBinId" + i, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.inplst[i].Bin, new { @id = "txtBin" + i, @class = "form-control", style = "width: 100px;"})</td>
                                                                                  <td>
-                                                                                 <div id="drum">
+                                                                                 <div id="drum@(i)">
                                                                                    @Html.DropDownListFor(o => o.inplst[i].drumno, Model.inplst[i].drumlst, "Please Select", new { @class = "form-control _select newcss ", @id = "ddlIdrumno" + i, style = "width: 170px;", onchange = "GetBatch(this.value," + i + ")" })  
                                                                             </div>
                                                                                   
                                                                                     </td>
                                                                                 <td>
-                                                                                <div id="batchno">
-                                                                                @Html.TextBoxFor(o => o.inplst[i].batchno, new { @id = "txtbatchno" + i, @class = "form-control", style = "width: 200px;"})
+                                                                                <div id="batchno@(i)">
+                                                                                   @Html.DropDownListFor(o => o.inplst[i].batchno, Model.inplst[i].batchlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlbatchno" + i, style = "width: 170px;",onchange = "GetBatchqty(this.value," + i + ")" })  
                                                                                 </div></td>
                                                                                             <td>@Html.TextBoxFor(o => o.inplst[i].Time, new { @id = "txtITime" + i, @class = "form-control", style = "width: 100px;"})</td>
 
@@ -1027,24 +1027,69 @@ a{
               
                   if(result.drum=="YES")
                  {
- document.getElementById("drum").style.display = "block";
- document.getElementById("batchno").style.display = "block";
+ document.getElementById("drum" +i).style.display = "block";
+ document.getElementById("batchno"+i).style.display = "block";
                  }
                  else
                  {
-                      document.getElementById("drum").style.display = "none";
+                      document.getElementById("drum" +i).style.display = "none";
                  } 
                   if(result.lot=="YES" || result.drum=="YES")
                  {
- document.getElementById("batchno").style.display = "block";
+ document.getElementById("batchno" +i).style.display = "block";
                  }
                  else
                  {
-                      document.getElementById("batchno").style.display = "none";
+                      document.getElementById("batchno" +i).style.display = "none";
                  }
             },
             error: function () {
                 alert("Data Not Found");
+            }
+        });
+              
+        $.ajax({
+            url: "GetStockDrumJSON",
+            type: "post",
+            data: { 'ItemId': ItemId ,'loc':loc},
+            cache: false,
+            success: function (response) {
+                var newlist;
+              
+                newlist = response.Ilst;
+                 
+                $('tr.chkitemlst').each(function () {
+                    if ($(this).css('display') !== 'none') {
+                        PopulateDropDown("#ddlIdrumno" + i, response);
+                         
+                    }
+                });
+            },
+            error: function () {
+                debugger;
+                alert("Please Select From Item");
+            }
+        });
+    $.ajax({
+            url: "GetStockBatchJSON",
+            type: "post",
+            data: { 'ItemId': ItemId ,'loc':loc },
+            cache: false,
+            success: function (response) {
+                var newlist;
+              
+                newlist = response.Ilst;
+              
+                $('tr.chkitemlst').each(function () {
+                    if ($(this).css('display') !== 'none') {
+                        PopulateDropDown("#ddlbatchno" + i, response);
+                       
+                    }
+                });
+            },
+            error: function () {
+                debugger;
+                alert("Please Select From Drum No");
             }
         });
     }
@@ -1104,22 +1149,47 @@ a{
             }
         });
     }
-     function GetBatch(ItemId, i) {
-       var work=document.getElementById("workcenter").value ;
-       var doc=document.getElementById("docid").value ;
-       var item=document.getElementById("ddlItem" +i).value ;
-         $.ajax({
-            url: 'GetBatchNo',
-            data: { "ItemId": ItemId,"work":work ,"doc":doc,"item":item},
+     function GetBatchqty(ItemId, i) {
+        var branch = document.getElementById("hdbranch").value;
+        var loc = document.getElementById("hdlocation").value;
+        $.ajax({
+            url: 'GetBatchqty',
+            data: { "ItemId": ItemId },
             type: "GET",
             success: function (result) {
 
-                document.getElementById("txtbatchno" + i).value = result.batch;
+                document.getElementById("txtStockAvailable" + i).value = result.stk;
                 
 
             },
             error: function () {
                 alert("Data Not Found");
+            }
+        });
+    }
+     function GetBatch(ItemId, i) {
+      var loc = document.getElementById("hdlocation").value;
+       var item=document.getElementById("ddlItem" +i).value ;
+          $.ajax({
+            url: "GetStockDrumBatchJSON",
+            type: "post",
+            data: { 'ItemId': ItemId ,'loc':loc,'item':item},
+            cache: false,
+            success: function (response) {
+                var newlist;
+              
+                newlist = response.Ilst;
+                  
+                $('tr.chkitemlst').each(function () {
+                    if ($(this).css('display') !== 'none') {
+                        PopulateDropDown("#ddlbatchno" + i, response);
+                        i += 1;
+                    }
+                });
+            },
+            error: function () {
+                debugger;
+                alert("Please Select From Drum No");
             }
         });
     }
@@ -1146,6 +1216,7 @@ a{
     function AddRow() {
         var opt = "";
         var remopt = "";
+        var lot = "";
         var batch= document.getElementById("batch").value;
        
         $.ajax({
@@ -1159,15 +1230,24 @@ a{
 
              $.ajax({
                     type: "POST",
-                    url: 'GetDrumJSON',
+                    url: 'GetStockDrumJSON',
                     success: function (data) {
                         $.each(data, function () {
                             remopt += "<option value=" + this.value + ">" + this.text + "</option>";
                         });
-                        AppendRow(opt,remopt);
+                        $.ajax({
+                    type: "POST",
+                    url: 'GetStockDrumBatchJSON',
+                    success: function (data) {
+                        $.each(data, function () {
+                            lot += "<option value=" + this.value + ">" + this.text + "</option>";
+                        });
+                        AppendRow(opt,remopt,lot);
                    
 
             }
+                })
+                 }
                 })
 
             }
@@ -1175,11 +1255,12 @@ a{
     }
     function AddConsRow() {
         var opt = "";
-
+         var id = document.getElementById("hdlocation").value;
 
         $.ajax({
             type: "POST",
             url: 'GetconsItemJSON',
+               data: { 'id': id  },
             success: function (data) {
                 $.each(data, function () {
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
@@ -1230,7 +1311,7 @@ a{
         }
         $(dropDownId).trigger("liszt:updated");
     }
-    function AppendRow(opt,remopt) {
+    function AppendRow(opt,remopt,lot) {
         var index = $("#tbBooks").children("tr").length;
 
         var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='inputlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
@@ -1238,9 +1319,9 @@ a{
 
       
           var binid = "<td><input class='form-control'  id='txtBinId" + index + "' name='inputlst[" + index + "].BinId' style='width: 100px;' type='text' value='' readonly='true'><input    id='txtBin" + index + "' name='inputlst[" + index + "].Bin' style='width: 100px;' type='hidden' value='' readonly='true'></td>";
-               var drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlIdrumno" + index + "' name='inputlst[" + index + "].drumno' onchange = 'GetBatch(this.value," + index + ")'><option value=''>Please select</option>" + remopt + "</select></td>";
+               var drum = "<td><div id='drum" + index + "'> <select style = 'width: 170px;' class='form-control _select newcss' id='ddlIdrumno" + index + "' name='inputlst[" + index + "].drumno' onchange = 'GetBatch(this.value," + index + ")'><option value=''>Please select</option>" + remopt + "</select></div></td>";
 
-          var batchno = "<td><input class='form-control'  id='txtbatchno" + index + "' name='inputlst[" + index + "].batchno' style='width: 200px;' type='text' value=''></td>";
+               var batchno = "<td><div id='batchno" + index + "'> <select style = 'width: 170px;' class='form-control _select newcss' id='ddlbatchno" + index + "' name='inputlst[" + index + "].batchno' onchange = 'GetBatchqty(this.value," + index + ")'><option value=''>Please select</option>" + lot + "</select></div></td>";
         var time = "<td><input class='form-control'  id='txtITime" + index + "' name='inputlst[" + index + "].Time' style='width: 100px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
 
         var stock = "<td><input class='form-control'  id='txtStockAvailable" + index + "' name='inputlst[" + index + "].StockAvailable' style='width: 80px; text-align:right' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)' readonly='true'></td>";
@@ -1580,7 +1661,7 @@ a{
                 }
     }
     function insertinputdetails(){
-            var j = 0;
+           var j = $("#tbBooks").children("tr").length;
             var i=0;
              var stk = document.getElementById("txtStockAvailable" + j).value;
         var constk = document.getElementById("txtConsStock" + j).value;
@@ -1601,7 +1682,7 @@ a{
                     order.ItemId = document.getElementById("ddlItem" + j).value;
                     order.BinId = document.getElementById("txtBin" + j).value;
                     order.unit = document.getElementById("txtunit" + j).value;
-                    order.batchno = document.getElementById("txtbatchno" + j).value;
+                    order.batchno = document.getElementById("ddlbatchno" + j).value;
                     order.IssueQty = document.getElementById("txtIssueQty" + j).value;
                      order.Time = document.getElementById("txtITime" + j).value;
                     order.APID = document.getElementById("hdapid").value;

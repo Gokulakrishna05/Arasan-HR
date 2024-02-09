@@ -615,6 +615,8 @@ namespace Arasan.Controllers
             DataTable dt4 = new DataTable();
             List<EmpDetails> TTData2 = new List<EmpDetails>();
             EmpDetails tda2 = new EmpDetails();
+            List<SourceDetail> TTData6 = new List<SourceDetail>();
+            SourceDetail tda6 = new SourceDetail();
             dt4 = IProductionEntry.GetEmpdetDeatils(id);
             if (dt4.Rows.Count > 0)
             {
@@ -739,6 +741,7 @@ namespace Arasan.Controllers
             ca.EmplLst = TTData2;
             ca.Binconslst = TData1;
             ca.LogLst = TTData5;
+            ca.SourcingLst = TTData6;
             return View(ca);
 
         }
@@ -878,6 +881,64 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public List<SelectListItem> BindInpDrum(string ItemId,string loc)
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetInpDrum(ItemId,loc);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUMNO"].ToString(), Value = dtDesg.Rows[i]["DRUMNO"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindDrumBatch(string ItemId, string loc,string item)
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetDrumBatch(ItemId, loc, item);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOTNO"].ToString(), Value = dtDesg.Rows[i]["LOTNO"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindStockBatch(string ItemId, string loc )
+        {
+            try
+            {
+                DataTable dtDesg = new DataTable();
+                string lot = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER WHERE ITEMMASTERID='" + ItemId + "' ");
+                string drum = datatrans.GetDataString("SELECT DRUMYN FROM ITEMMASTER WHERE ITEMMASTERID='" + ItemId + "' ");
+                if (lot == "YES" && drum == "NO")
+                {
+                    dtDesg = IProductionEntry.GetStockBatch(ItemId, loc);
+                }
+               
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOTNO"].ToString(), Value = dtDesg.Rows[i]["LOTNO"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult GetshiftDetail(string Shiftid)
 		{
 			try
@@ -907,7 +968,7 @@ namespace Arasan.Controllers
         {
             try
 			{
-                int r = 1;
+                double r = 1;
                 foreach (ProInput input in model)
                 {
                    
@@ -921,13 +982,24 @@ namespace Arasan.Controllers
                     string unit = input.unit.ToString();
                     string drum = input.drumno.ToString();
                     DataTable dt = new DataTable();
-                    
-                    dt = IProductionEntry.SaveInputDetails(id, item, bin, time, qty, stock, batch, drum,r);
-                    r++;
+                    string ins = "";
+                    string detid = "";
+                    DataTable insert = datatrans.GetData("SELECT BPRODINPDETID,IS_INSERT,BPRODINPDETROW FROM BPRODINPDET WHERE BPRODBASICID='" + id + "' IITEMID='"+ item +"'");
+                    if(insert.Rows.Count > 0)
+                    {
+                        // r =Convert.ToDouble( insert.Rows[0]["BPRODINPDETROW"].ToString());
+                        r++;
+                    }
+                    else
+                    {
+                        //dt = IProductionEntry.SaveInputDetails(id, item, bin, time, qty, stock, batch, drum, r);
+                        r++;
+                    }
+                   
                 }
                     if (model != null)
                     {
-
+             
                         return Json("Success");
                     }
                     else
@@ -945,7 +1017,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                int l = 1;
+                double l = 1;
                 foreach (APProInCons Cons in model)
                 {
 
@@ -960,11 +1032,26 @@ namespace Arasan.Controllers
                     DataTable wopro = datatrans.GetData("SELECT WCBASIC.WCID,PROCESSMAST.PROCESSID FROM BPRODBASIC LEFT OUTER JOIN WCBASIC ON WCBASICID=BPRODBASIC.WCID LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BPRODBASIC.PROCESSID WHERE BPRODBASICID='"+ id +"'");
                     string work = wopro.Rows[0]["WCID"].ToString();
                     string process = wopro.Rows[0]["PROCESSID"].ToString();
+                    string ins = "";
+                    string detid = "";
                     DataTable dt = new DataTable();
-
-                    dt = IProductionEntry.SaveConsDetails(id, item, unit,qty, usedqty, work, process,l);
-                    l++;
+                    DataTable insert = datatrans.GetData("SELECT BPRODCONSDETID,IS_INSERT,BPRODCONSDETROW FROM BPRODCONSDET WHERE BPRODBASICID='" + id + "' AND CITEMID='"+item+"'");
+                    if (insert.Rows.Count > 0)
+                    {
+                         
+                           // l = Convert.ToDouble(insert.Rows[0]["BPRODCONSDETROW"].ToString());
+                        l++;
+                       
+                    }
+                    else
+                    {
+                       // dt = IProductionEntry.SaveConsDetails(id, item, unit, qty, usedqty, work, process, l);
+                        l++;
+                    }
+                    
                 }
+                    
+              
 
                 if (model != null)
                 {
@@ -1279,7 +1366,8 @@ namespace Arasan.Controllers
                             tda = new ProInput();
                             tda.APID = id;
                             tda.Itemlst = BindBatchItemlst(ca.batchid);
-                        tda.drumlst = BindDrum();
+                            tda.batchlst = BindDrumBatch("","","");
+                        tda.drumlst = BindInpDrum("","");
                         tda.Isvalid = "Y";
                             TData.Add(tda);
 
@@ -1452,7 +1540,7 @@ namespace Arasan.Controllers
                             tda.Itemlst = BindBatchItemlst(ca.batchid);
                             tda.ItemId = dt2.Rows[i]["IITEMID"].ToString();
                             tda.Time = dt2.Rows[i]["CHARGINGTIME"].ToString();
-                            tda.drumlst = BindDrum();
+                            tda.drumlst = BindInpDrum(tda.ItemId, ca.LOCID);
 
                             tda.drumno = dt2.Rows[i]["IDRUMNO"].ToString();
                             tda.unit = dt2.Rows[i]["UNITID"].ToString();
@@ -1662,7 +1750,7 @@ namespace Arasan.Controllers
                             tda.BinId = adt2.Rows[i]["IBINID"].ToString();
                             tda.Time = adt2.Rows[i]["CHARGINGTIME"].ToString();
                             tda.batchno = adt2.Rows[i]["IBATCHNO"].ToString();
-                            tda.drumlst = BindDrum();
+                            tda.drumlst = BindInpDrum(tda.ItemId, ca.LOCID);
                             tda.drumno = adt2.Rows[i]["IDRUMNO"].ToString();
                             tda.IssueQty = Convert.ToDouble(adt2.Rows[i]["IQTY"].ToString() == "" ? "0" : adt2.Rows[i]["IQTY"].ToString());
                             dtstk = IProductionEntry.Getstkqty(tda.ItemId, ca.LOCID );
@@ -1684,7 +1772,8 @@ namespace Arasan.Controllers
                             tda = new ProInput();
                             tda.APID = apID;
                             tda.Itemlst = BindBatchItemlst(ca.batchid);
-                            tda.drumlst = BindDrum();
+                            tda.batchlst = BindDrumBatch("", "", "");
+                            tda.drumlst = BindInpDrum("","");
                             tda.Isvalid = "Y";
                             TData.Add(tda);
 
@@ -1980,7 +2069,8 @@ namespace Arasan.Controllers
                             tda = new ProInput();
                             tda.APID = id;
                             tda.Itemlst = BindItemlst();
-                    tda.drumlst = BindDrum();
+                    tda.batchlst = BindDrumBatch("", "", "");
+                    tda.drumlst = BindInpDrum("","");
                     tda.Isvalid = "Y";
                             TData.Add(tda);
 
@@ -2235,37 +2325,40 @@ namespace Arasan.Controllers
         }
         public ActionResult GetItemDetail(string ItemId, string branch,string loc)
 		{
-			try
-			{
-				DataTable dt = new DataTable();
-				DataTable dt1 = new DataTable();
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
 
-				string bin = "";
-				string binid = "";
+                string bin = "";
+                string binid = "";
                 string stk = "";
                 string unit = "";
                 string drum = "";
                 string lot = "";
                 dt = IProductionEntry.GetItemDetails(ItemId);
 
-				if (dt.Rows.Count > 0)
-				{
-
-					bin = dt.Rows[0]["BINID"].ToString();
-					binid = dt.Rows[0]["bin"].ToString();
-					unit = dt.Rows[0]["UNITID"].ToString();
-					drum = dt.Rows[0]["DRUMYN"].ToString();
-					lot = dt.Rows[0]["LOTYN"].ToString();
-
-				}
-                dt1 = datatrans.GetData("SELECT SUM(DECODE(s.PLUSORMINUS,'p',S.QTY,-S.QTY)) as QTY FROM STOCKVALUE S WHERE ITEMID='"+ItemId+"' and LOCID='"+ loc +"'");
-                if (dt1.Rows.Count > 0)
+                if (dt.Rows.Count > 0)
                 {
-                    stk = dt1.Rows[0]["QTY"].ToString();
+
+                    bin = dt.Rows[0]["BINID"].ToString();
+                    binid = dt.Rows[0]["bin"].ToString();
+                    unit = dt.Rows[0]["UNITID"].ToString();
+                    drum = dt.Rows[0]["DRUMYN"].ToString();
+                    lot = dt.Rows[0]["LOTYN"].ToString();
+
                 }
-                if (stk == "")
+                if (drum == "NO" && lot=="NO")
                 {
-                    stk = "0";
+                    dt1 = datatrans.GetData("SELECT SUM(DECODE(s.PLUSORMINUS,'p',S.QTY,-S.QTY)) as QTY FROM STOCKVALUE S WHERE ITEMID='" + ItemId + "' and LOCID='" + loc + "'");
+                    if (dt1.Rows.Count > 0)
+                    {
+                        stk = dt1.Rows[0]["QTY"].ToString();
+                    }
+                    if (stk == "")
+                    {
+                        stk = "0";
+                    }
                 }
                 var result = new { bin = bin, binid= binid, stk = stk, unit= unit , drum = drum , lot= lot };
 				return Json(result);
@@ -2313,16 +2406,32 @@ namespace Arasan.Controllers
         {
             return Json(BindItemlstCon(id));
         }
+
+        public JsonResult GetStockDrumJSON(string ItemId,string loc)
+        {
+            //EnqItem model = new EnqItem();
+            //model.Itemlst = BindItemlst(itemid);
+            return Json(BindInpDrum(ItemId, loc));
+        }
+        public JsonResult GetStockDrumBatchJSON(string ItemId, string loc,string item)
+        {
+            //EnqItem model = new EnqItem();
+            //model.Itemlst = BindItemlst(itemid);
+            return Json(BindDrumBatch(ItemId, loc, item));
+        }
+        public JsonResult GetStockBatchJSON(string ItemId, string loc )
+        {
+           
+                return Json(BindStockBatch(ItemId, loc));
+             
+        }
         public JsonResult GetOutItemJSON(string batch)
         {
             //EnqItem model = new EnqItem();
             //model.Itemlst = BindItemlst(itemid);
             return Json(BindBatchOutItemlst(batch));
         }
-        public JsonResult GetDrumJSON()
-        {
-            return Json(BindDrum());
-        }
+        
         public ActionResult SaveOutDetail(string id,string ItemId,string drum,string time,string qty,string totime,string exqty,string stat, string stock,string loc,string work,string process,string shift,string schedule,string doc)
         {
             try
@@ -2395,6 +2504,32 @@ namespace Arasan.Controllers
                     stk = "0";
                 }
                 var result = new { bin = bin, binid = binid , unit = unit , stk = stk };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetBatchqty(string ItemId )
+        {
+            try
+            {
+               
+                DataTable dt1 = new DataTable();
+ 
+                string stk = "";
+                
+                dt1 = datatrans.GetData("SELECT SUM(PLUSQTY) as QTY FROM LSTOCKVALUE S WHERE LOTNO='" + ItemId + "' ");
+                if (dt1.Rows.Count > 0)
+                {
+                    stk = dt1.Rows[0]["QTY"].ToString();
+                }
+                if (stk == "")
+                {
+                    stk = "0";
+                }
+                var result = new { stk = stk };
                 return Json(result);
             }
             catch (Exception ex)
@@ -2542,7 +2677,7 @@ namespace Arasan.Controllers
 
         }
 
-        public ActionResult GetBatch(string batchid)
+        public ActionResult GetBatch(string ItemId)
         {
             try
             {
@@ -2551,28 +2686,26 @@ namespace Arasan.Controllers
                 DataTable dt2 = new DataTable();
                 DataTable dt3 = new DataTable();
              
-                dt = datatrans.GetData("select W.WCID,S.WCID as work,S.BCPRODBASICID from BCPRODBASIC S ,WCBASIC W where   W.WCBASICID=S.WCID AND S.DOCID='" + batchid + "'");
-                dt1 = datatrans.GetData("select SUM(IQTY) as qty from BCINPUTDETAIL where   BCPRODBASICID='" + dt.Rows[0]["BCPRODBASICID"].ToString() + "'");
+                dt = datatrans.GetData("select W.WCID,S.WCID as work,S.PSBASICID,S.PRODQTY,S.OPQTY from PSBASIC S ,WCBASIC W where   W.WCBASICID=S.WCID AND S.PSBASICID='" + ItemId + "'");
+               // dt1 = datatrans.GetData("select SUM(IQTY) as qty from BCINPUTDETAIL where   BCPRODBASICID='" + dt.Rows[0]["BCPRODBASICID"].ToString() + "'");
                 //dt2 = datatrans.GetData("select SUM(PRODQTY) as qty from APPRODUCTIONBASIC where   BATCH='" + batchid + "'");
 
                 string work = "";
                 string workid = "";
                 string schqty = "";
                 string prodqty = "";
-                string doc = "";
+               
                 if (dt.Rows.Count > 0)
                 {
                     
                     work = dt.Rows[0]["WCID"].ToString();
                     workid = dt.Rows[0]["work"].ToString();
-                    schqty = dt1.Rows[0]["qty"].ToString();
-                    //prodqty = dt2.Rows[0]["qty"].ToString();
-                   
-
-                   
+                    schqty = dt.Rows[0]["OPQTY"].ToString();
+                    prodqty = dt.Rows[0]["PRODQTY"].ToString();
+                  
                 }
                 
-                var result = new { work = work , workid = workid , schqty = schqty/*, prodqty= prodqty*/ };
+                var result = new { work = work , workid = workid , schqty = schqty, prodqty= prodqty };
                 return Json(result);
             }
             catch (Exception ex)
