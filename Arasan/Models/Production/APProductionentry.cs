@@ -92,6 +92,7 @@ namespace Arasan.Models
 		public List<SelectListItem> binlst { get; set; }
         public string drumno { get; set; }
         public List<SelectListItem> drumlst { get; set; }
+        public List<SelectListItem> batchlst { get; set; }
         public string batchno { get; set; }
         public string Time { get; set; }
         public double batchqty { get; set; }

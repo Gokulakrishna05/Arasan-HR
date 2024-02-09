@@ -177,7 +177,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Batch<label class="mandatory"> *</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.BatchNo, Model.Batchlst," -- Please Select -- ", new { @id = "ddlBatchNo", @Class = "form-control _select", @TabIndex = 1, @onchange = "ItemChange(this.value)"})<br />
+                                            @Html.DropDownListFor(C => C.BatchNo, Model.Batchlst," -- Please Select -- ", new { @id = "ddlBatchNo", @Class = "form-control _select", @TabIndex = 1/*, @onchange = "ItemChange(this.value)"*/})<br />
                                         </div>
                                     </div>
                                 </div>
@@ -378,7 +378,24 @@
             });
             }
  function ChangeBatch(ItemId) {
+      $.ajax({
+            url: 'GetBatch',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
 
+                document.getElementById("txtLocation").value = result.work;
+            
+                document.getElementById("WorkCenterid").value = result.workid;
+                document.getElementById("txtSchQty").value = result.schqty;
+                document.getElementById("txtProdQty").value = result.prodqty;
+              
+           
+            },
+            error: function () {
+            alert("Data Not Found");
+            }
+            });
         $.ajax({
             url: "GetBatchJSON",
             type: "post",
