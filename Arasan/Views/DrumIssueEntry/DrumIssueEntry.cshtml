@@ -33,7 +33,7 @@
                         {
                             @Html.AntiForgeryToken()
                         <form>
-                            <div class="row">
+                          @*  <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
 
@@ -43,7 +43,7 @@
                                             </div>
                                         </div>
                                     </div> 
-                                    </div>
+                                    </div>*@
                                       <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -68,6 +68,32 @@
                                     </div>
                                 </div>
                             </div>
+                             <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                       <br /> <label for="inputName3" class="col-sm-4 control-label">From Location<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                           @{
+                                            int k=0;
+                                                    @Html.DropDownListFor(C => C.FromLoc, Model.Loc," -- Please Select -- ", new { @id = "ddlFromLoc", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeItem(this.value)" })
+                                                    k = k + 1;     
+                                                }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">To Location<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+
+                                                @Html.DropDownListFor(C => C.Toloc, Model.ToLoc," -- Please Select -- ", new { @id = "ddlToloc", @Class = "form-control _select", @TabIndex = 1 })
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                               
                                 <div class="col-md-6">
@@ -75,7 +101,7 @@
 
                                       <br />  <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                                @Html.DropDownListFor(C => C.Itemid, Model.Itemlst," -- Please Select -- ", new { @id = "ddlItemid", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeItem(value)" })
+                                                @Html.DropDownListFor(C => C.Itemid, Model.Itemlst," -- Please Select -- ", new { @id = "ddlItemid", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeDrum(value)" })
                                         </div>
 
 
@@ -94,32 +120,7 @@
                                         </div>
                                     </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                       <br /> <label for="inputName3" class="col-sm-4 control-label">From Location<label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
-                                           @{
-                                            int k=0;
-                                                    @Html.DropDownListFor(C => C.FromLoc, Model.Loc," -- Please Select -- ", new { @id = "ddlFromLoc", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeDrum(this.value)" })
-                                                    k = k + 1;     
-                                                }
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">To Location<label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
-
-                                                @Html.DropDownListFor(C => C.Toloc, Model.ToLoc," -- Please Select -- ", new { @id = "ddlToloc", @Class = "form-control _select", @TabIndex = 1 })
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                           
                         @*    <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -335,7 +336,7 @@
         forceParse: 0
     });
      function changeDrum(ItemId) {
-     var item = document.getElementById("ddlItemid").value;
+      
 
     @*   $.ajax({
             url: "GetDrumJSON",
@@ -356,6 +357,20 @@
                 alert("Please Select From Location");
             }
         });*@
+         $.ajax({
+            url: 'GetItemDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+                
+                document.getElementById("txtUnit").value = result.unit;
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+           var item = document.getElementById("ddlFromLoc").value;
         $.ajax({
             url: 'GetStockDetail',
             data: { 'items' : item ,"ItemId": ItemId },
@@ -373,7 +388,7 @@
         });
 
         document.getElementById("tbBooks").innerHTML = "";
-        var item = document.getElementById("ddlItemid").value;
+     
         $.ajax({
             url: 'GetDrumStockDetails',
             type: "post",
@@ -388,7 +403,7 @@
                     //alert(item.batch);
                     var Drum = "<td><input class='form-control' id='txtdrum" + index + "' name='Drumlst[" + index + "].drum'  style='width: 100px;' type='text'  readonly='True'  value=" + item.drum + " /><input id='txtdrum" + index + "' name='Drumlst[" + index + "].drum' type='hidden'  value=" + item.drum + "></td>";
 
-                    var Batch = "<td><input class='form-control' id='txtbatchno" + index + "' name='Drumlst[" + index + "].batchno'  style='width: 200px;' type='text'   value=" + item.batchno + " /><input type='hidden' value=" + item.batchno + " id='txtbatchno" + index + "' name='Drumlst[" + index + "].batchno'></td>";
+                    var Batch = "<td><lable>"+item.batchno+"</lable><input type='hidden' value=" + item.batchno + " id='txtbatchno" + index + "' name='Drumlst[" + index + "].batchno'></td>";
 
                     var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='Drumlst[" + index + "].'qty  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /><input id='txtqty" + index + "' name='Drumlst[" + index + "].qty' type='hidden'  value=" + item.qty + "></td>";
 
@@ -440,19 +455,26 @@
             });*@
     
     function changeItem(ItemId) {
-        $.ajax({
-            url: 'GetItemDetail',
-            data: { "ItemId": ItemId },
-            type: "GET",
-            success: function (result) {
-                
-                document.getElementById("txtUnit").value = result.unit;
-
+         $.ajax({
+            url: "GetItemJSON",
+            type: "post",
+            data: { 'ItemId' : ItemId},
+            cache: false,
+            success: function (response) {
+             
+                 var newlist;
+                    newlist = response.Itemlst;
+                PopulateDropDown("#ddlItemid", response);
+                         
+                 
             },
             error: function () {
-                alert("Data Not Found");
+                debugger;
+                alert("Please Select From Location");
             }
         });
+        
+       
     }
     function changeQty(_this, i) {
         try {

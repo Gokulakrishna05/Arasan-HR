@@ -13,9 +13,10 @@ namespace Arasan.Interface.Production
         string DrumIssueEntryCRUD(DrumIssueEntry cy);
         IEnumerable<DrumIssueEntry> GetAllDrumIssueEntry(string st, string ed);
         DataTable GetBranch();
+        DataTable GetAllDrumIssueItems(string strStatus);
         DataTable GetDIEDetail(string id);
         DataTable GetDrumIssuseDetails(string id);
-        DataTable GetItem();
+        DataTable GetItem(string id);
         DataTable EditDrumIssue(string DRUM);
         DataTable EditDrumDetail(string DRUM);
         DataTable GetDrumDetails(string DRUM);

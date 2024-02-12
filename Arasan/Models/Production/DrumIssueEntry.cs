@@ -33,6 +33,7 @@ namespace Arasan.Models
         public List<SelectListItem> Loc;
 
         public String FromLoc { get; set; }
+        public String ddlStatus { get; set; }
 
         public List<SelectListItem> ToLoc;
 
@@ -83,5 +84,18 @@ namespace Arasan.Models
         public Double Amount { get; set; }
         public string Isvalid { get; set; }
 
+    }
+    public class DrumIssueitem
+    {
+        public double id { get; set; }
+        public string docno { get; set; }
+        public string docdate { get; set; }
+        public string fromloc { get; set; }
+        public string toloc { get; set; }
+        public string item { get; set; }
+      
+        public string view { get; set; }
+       
+        public string delrow { get; set; }
     }
 }
