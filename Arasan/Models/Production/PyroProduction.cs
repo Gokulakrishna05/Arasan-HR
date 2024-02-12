@@ -268,8 +268,11 @@ namespace Arasan.Models
         public double OPBin { get; set; }
         public double PIP { get; set; }
         public double GIP { get; set; }
+        public double TIP { get; set; }
+        public double TOP { get; set; }
         public double CLBin { get; set; }
-
+        public double OXD { get; set; }
+        public double TRM { get; set; }
         public double MLOP { get; set; }
         public double MLAdd { get; set; }
         public double MLDed { get; set; }
