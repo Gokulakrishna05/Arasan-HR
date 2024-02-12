@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Pyro Production  Entry";
     string tag = ViewContext.HttpContext.Request.Query["tag"];
-    string shift = ViewContext.HttpContext.Request.Query["shift"];
+    string pid = ViewContext.HttpContext.Request.Query["id"];
 
 }
 <style>
@@ -147,7 +147,7 @@
 
 
 
-                             @*<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            @*<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                         <div class="panel panel-default">
 
                         <div class="panel-heading" role="tab" id="headingWc">
@@ -190,7 +190,7 @@
 
                         </div>
                         </div>*@
-                         <div id="divonload" style="display:block">
+                            <div id="divonload" style="display:block">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -198,23 +198,23 @@
                                             <label for="inputName3" class="col-sm-4 control-label">Supervisor<label class="mandatory"></label></label>
                                             <div class="col-sm-8">
                                                 <h4>@Html.DisplayFor(C => C.Eng)</h4>
-                                               
+
                                                 @Html.HiddenFor(C => C.super)
                                                 @Html.HiddenFor(C => C.Branch)
 
                                             </div>
                                         </div>
                                     </div>
-                                        <div class="col-md-6">
-                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             <label for="inputName3" class="col-sm-4 control-label">Prod.Sch.No<label class="mandatory">*</label></label>
 
-                                    <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.ProdSchNo, Model.ProdSchlst," -- Please Select -- ", new { @id = "ddlProdSchNo", @Class = "form-control _select", @TabIndex = 1,@onchange="changesch(this.value)"})
+                                            <div class="col-sm-8">
+                                                @Html.DropDownListFor(C => C.ProdSchNo, Model.ProdSchlst," -- Please Select -- ", new { @id = "ddlProdSchNo", @Class = "form-control _select", @TabIndex = 1,@onchange="changesch(this.value)"})
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                                    
+
 
                                 </div>
                                 <div style="height:15px;"></div>
@@ -243,8 +243,8 @@
                                 </div>
 
                                 <div style="height:15px;"></div>
-                                 <div class="row">
-                                 <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <div class="form-group">
 
                                             <label for="inputName3" class="col-sm-4 control-label">Work Center <label class="mandatory"></label></label>
@@ -267,36 +267,36 @@
                                             </div>
                                         </div>
                                     </div>
-                                     </div>
-                                <div style="height:15px;"></div>
-                                       <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">ProcLot Y/N<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            <div class="input-group">
-
-                                                @Html.RadioButtonFor(C => C.ProdLog, "Y", new { @TabIndex = 2 })
-                                                <label id="mt-radio">YES</label>&emsp;
-                                                @Html.RadioButtonFor(C => C.ProdLog, "N", new { @TabIndex = 3 })
-                                                <label id="mt-radio">NO</label>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
+                                <div style="height:15px;"></div>
+                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
 
-                                              <label for="inputName3" class="col-sm-4 control-label">Process Lot No<label class="Mandatory"></label></label>
+                                            <label for="inputName3" class="col-sm-4 control-label">ProcLot Y/N<label class="Mandatory"></label></label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+
+                                                    @Html.RadioButtonFor(C => C.ProdLog, "Y", new { @TabIndex = 2 })
+                                                    <label id="mt-radio">YES</label>&emsp;
+                                                    @Html.RadioButtonFor(C => C.ProdLog, "N", new { @TabIndex = 3 })
+                                                    <label id="mt-radio">NO</label>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="inputName3" class="col-sm-4 control-label">Process Lot No<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
                                                 @Html.DropDownListFor(C => C.ProcessLot, Model.Plotlst," -- Please Select -- ", new { @id = "ddlProcessLot", @Class = "form-control _select", @TabIndex = 1 })
                                             </div>
                                         </div>
                                     </div>
-                        </div>
+                                </div>
                                 @* <div id="divshiftgenerate">*@
                                 <div style="height:15px;"></div>
                                 <div class="row">
@@ -321,113 +321,113 @@
                                         </div>
                                     </div>
                                 </div>
-                                 <div style="height:15px;"></div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
+                                <div style="height:15px;"></div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Sch Qty<label class="mandatory"> *</label></label>
-                                    <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.SchQty, new { @id = "txtSchQty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                            <label for="inputName3" class="col-sm-4 control-label">Sch Qty<label class="mandatory"> *</label></label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(C => C.SchQty, new { @id = "txtSchQty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="inputName3" class="col-sm-4 control-label">Prod Qty<label class="mandatory"> *</label></label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(C => C.ProdQty, new { @id = "txtProdQty", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Prod Qty<label class="mandatory"> *</label></label>
-                                    <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.ProdQty, new { @id = "txtProdQty", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                                 <div style="height:35px;"></div>
                                 <div class="col-lg-10"></div>
-                                 @*<button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" >start</button>*@
+                                @*<button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" >start</button>*@
                                 <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onclick="insertbasicdetails()">Start</button>
-                                    <button class="btn btn-danger" type="button" causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("PyroProductionentry", "PyroProduction")'">Cancel</button>
-                                    
-                            </div>
-                         <div id="divonsub" style="display:none">
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Supervisor<label class="mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            <h4>@Html.DisplayFor(C => C.Eng)</h4>
-                                            
-                                            @Html.HiddenFor(C => C.super)
-                                            @Html.HiddenFor(C => C.Branch)
-                                            @Html.HiddenFor(C => C.APID,new{@id="hdapid"})
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Work Center <label class="mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.HiddenFor(C => C.ID)
-                                            @Html.DisplayFor(C => C.Location)<br>
-                                        </div>
-                                    </div>
-                                </div>
+                                <button class="btn btn-danger" type="button" causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("PyroProductionentry", "PyroProduction")'">Cancel</button>
 
                             </div>
-                            <div style="height:15px;"></div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
+                            <div id="divonsub" style="display:none">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="mandatory"> </label></label>
-                                        <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.DocId)
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="inputName3" class="col-sm-4 control-label">Supervisor<label class="mandatory"></label></label>
+                                            <div class="col-sm-8">
+                                                <h4>@Html.DisplayFor(C => C.Eng)</h4>
+
+                                                @Html.HiddenFor(C => C.super)
+                                                @Html.HiddenFor(C => C.Branch)
+                                                @Html.HiddenFor(C => C.APID,new{@id="hdapid"})
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="inputName3" class="col-sm-4 control-label">Work Center <label class="mandatory"></label></label>
+                                            <div class="col-sm-8">
+                                                @Html.HiddenFor(C => C.ID)
+                                                @Html.DisplayFor(C => C.Location)<br>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div style="height:15px;"></div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="mandatory"> </label></label>
+                                            <div class="col-sm-8">
+                                                @Html.DisplayFor(C => C.DocId)
 
 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+
+                                            <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory">*</label></label>
+                                            <div class="col-sm-8">
+                                                @Html.DisplayFor(C => C.Docdate)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
+                                @* <div id="divshiftgenerate">*@
+                                <div style="height:15px;"></div>
+                                <div class="row">
 
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"> </label></label>
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.Docdate)
+                                            <div class="col-sm-8">
+                                                @Html.DisplayFor(C => C.Shift)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputName3" class="col-sm-4 control-label">Shift Details<label class="Mandatory"></label></label>
+
+                                            <div class="col-sm-8">
+                                                <span style="color:green;font-size: 14px;"> <label id="shiftdetails"></label></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
-                            @* <div id="divshiftgenerate">*@
-                            <div style="height:15px;"></div>
-                            <div class="row">
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"> </label></label>
-
-                                        <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.Shift)                                            
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Shift Details<label class="Mandatory"></label></label>
-
-                                        <div class="col-sm-8">
-                                            <span style="color:green;font-size: 14px;"> <label id="shiftdetails"></label></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            </div>
-                            
                             <div style="height:30px;"></div>
                             <div id="divshiftrowdetail">
 
@@ -864,334 +864,337 @@
                                                 <!--    Panel 4 End  -->
                                             </div>
                                         </div>
-                                                 </div>
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" role="tab" id="headingFive">
-                                                <h4 class="panel-title">
-                                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                                        Log Details
-                                                    </a>
-                                                </h4>
-                                            </div>
-                                            <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
-                                                <div class="panel-body">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <input type="button" value="Add Row" onclick="AddEmpRow()" class="btn sbold green" />
-                                                            </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingFive">
+                                            <h4 class="panel-title">
+                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                                    Log Details
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-group">
+                                                            <input type="button" value="Add Row" onclick="AddEmpRow()" class="btn sbold green" />
                                                         </div>
                                                     </div>
-
-                                                    <div class="row">
-                                                        <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
-
-                                                            <table class="table table-striped table-hover" id="dataTableLog">
-
-                                                                <thead>
-                                                                    <tr>
-
-                                                                        <th> Start Date </th>
-                                                                        <th> Start Time </th>
-                                                                        <th> End Date </th>
-                                                                        <th> End Time </th>
-                                                                        <th>Total Hrs </th>
-
-                                                                        <th>Reason </th>
-
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody id="tbBooksLog">
-                                                                    @{
-
-                                                                        int x = 0;
-                                                                        foreach (var item in Model.LogLst.ToList())
-                                                                        {
-                                                                            <tr id="trBookLog@(k)" class="chkLogitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-
-
-
-                                                                                <td>
-                                                                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                                                        @Html.TextBoxFor(o => o.LogLst[x].StartDate, new { @id = "txtLStartDate" + x, @class = "form-control", style = "width: 130px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                                    </div>
-                                                                                    @Html.HiddenFor(o => o.LogLst[x].APID, new { @id = "txtAPID" + x, @class = "form-control", style = "width: 100px;"})
-                                                                                </td>
-
-                                                                                <td>@Html.TextBoxFor(o => o.LogLst[x].StartTime, new { @id = "txtLStartTime" + x, @class = "form-control", style = "width: 120px;"})</td>
-                                                                                <td>
-                                                                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                                                        @Html.TextBoxFor(o => o.LogLst[x].EndDate, new { @id = "txtLEndDate" + x, @class = "form-control",  style = "width: 130px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>@Html.TextBoxFor(o => o.LogLst[x].EndTime, new { @id = "txtLEndTime" + x, @class = "form-control" , style = "width: 120px; " })</td>
-                                                                                <td>@Html.TextBoxFor(o => o.LogLst[x].tothrs, new { @id = "txtTotalHrs" + x, @class = "form-control" , style = "width: 100px;" })</td>
-                                                                                <td>@Html.TextBoxFor(o => o.LogLst[x].Reason, new { @id = "txtLReason" + x, @class = "form-control" , style = "width: 100px;" })</td>
-
-                                                                                <td>
-                                                                                    @Html.HiddenFor(o => o.LogLst[x].Isvalid, new { @id = "Isvalid" + x })
-                                                                                    <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" />
-                                                                                </td>
-
-
-
-                                                                            </tr>
-
-                                                                            k = k + 1;
-                                                                        }
-                                                                    }
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-11"></div>
-                                                    <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnLog" onclick="insertlogdetails()">Submit</button>
                                                 </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+
+                                                        <table class="table table-striped table-hover" id="dataTableLog">
+
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th> Start Date </th>
+                                                                    <th> Start Time </th>
+                                                                    <th> End Date </th>
+                                                                    <th> End Time </th>
+                                                                    <th>Total Hrs </th>
+
+                                                                    <th>Reason </th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooksLog">
+                                                                @{
+
+                                                                    int x = 0;
+                                                                    foreach (var item in Model.LogLst.ToList())
+                                                                    {
+                                                                        <tr id="trBookLog@(k)" class="chkLogitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+
+
+                                                                            <td>
+                                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                                    @Html.TextBoxFor(o => o.LogLst[x].StartDate, new { @id = "txtLStartDate" + x, @class = "form-control", style = "width: 130px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                </div>
+                                                                                @Html.HiddenFor(o => o.LogLst[x].APID, new { @id = "txtAPID" + x, @class = "form-control", style = "width: 100px;"})
+                                                                            </td>
+
+                                                                            <td>@Html.TextBoxFor(o => o.LogLst[x].StartTime, new { @id = "txtLStartTime" + x, @class = "form-control", style = "width: 120px;"})</td>
+                                                                            <td>
+                                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                                    @Html.TextBoxFor(o => o.LogLst[x].EndDate, new { @id = "txtLEndDate" + x, @class = "form-control",  style = "width: 130px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>@Html.TextBoxFor(o => o.LogLst[x].EndTime, new { @id = "txtLEndTime" + x, @class = "form-control" , style = "width: 120px; " })</td>
+                                                                            <td>@Html.TextBoxFor(o => o.LogLst[x].tothrs, new { @id = "txtTotalHrs" + x, @class = "form-control" , style = "width: 100px;" })</td>
+                                                                            <td>@Html.TextBoxFor(o => o.LogLst[x].Reason, new { @id = "txtLReason" + x, @class = "form-control" , style = "width: 100px;" })</td>
+
+                                                                            <td>
+                                                                                @Html.HiddenFor(o => o.LogLst[x].Isvalid, new { @id = "Isvalid" + x })
+                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" />
+                                                                            </td>
+
+
+
+                                                                        </tr>
+
+                                                                        k = k + 1;
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-11"></div>
+                                                <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnLog" onclick="insertlogdetails()">Submit</button>
                                             </div>
                                         </div>
-                                    
+                                    </div>
 
-                                       
-                                        
-                                      
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" role="tab" id="headingSix">
-                                                <h4 class="panel-title">
-                                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                                        Bunker Balance
-                                                    </a>
-                                                </h4>
-                                            </div>
-                                            <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
-                                                <div class="panel-body">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="btn-group">
-                                                                <input type="button" value="Add Row" onclick="AddEmpRow()" class="btn sbold green" />
-                                                            </div>
+
+
+
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingSix">
+                                            <h4 class="panel-title">
+                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                                    Bunker Balance
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-group">
+                                                            <input type="button" value="Add Row" onclick="AddEmpRow()" class="btn sbold green" />
                                                         </div>
                                                     </div>
+                                                </div>
 
-                                                    <div class="row">
-                                                        <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
 
-                                                             @{
-                       int n = 0;
-                                  foreach (var item in Model.BunkLst.ToList())
-                                         {     
-   <div class="row">
-                                                  
-                          <div class="col-lg-3"></div>
-                             <div class="col-md-6">
-                                  <div class="form-group">
-                      <h4> <span style="color:blue;"><label for="inputName3" class="col-sm-4 control-label">Bin Details </label></span></h4>
-                      </div>
-                      </div>
-                      </div>
-                      
+                                                        @{
+                                                            int n = 0;
+                                                            foreach (var item in Model.BunkLst.ToList())
+                                                            {
+                                                                <div class="row">
+
+                                                                    <div class="col-lg-3"></div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <h4> <span style="color:blue;"><label for="inputName3" class="col-sm-4 control-label">Bin Details </label></span></h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+
+                                                                            <label for="inputName3" class="col-sm-4 control-label">Op.Bin Bal<label class="Mandatory"></label></label>
+                                                                            <div class="col-sm-8">
+
+
+                                                                                @Html.TextBoxFor(C => C.BunkLst[n].OPBin, new { @id = "txtOPBin", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                   
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+
+                                                                            <label for="inputName3" class="col-sm-4 control-label">Powder I/P<label class="Mandatory"></label></label>
+                                                                            <div class="col-sm-8">
+                                                                                @Html.TextBoxFor(C => C.BunkLst[n].PIP, new { @id = "txtPIP", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+
+                                                                            <label for="inputName3" class="col-sm-4 control-label"> Grease I/P<label class="Mandatory"></label></label>
+                                                                            <div class="col-sm-8">
+
+                                                                                @Html.TextBoxFor(C => C.BunkLst[n].GIP, new { @id = "txtGIP", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+
+                                                                            <label for="inputName3" class="col-sm-4 control-label"> Total I/P<label class="Mandatory"></label></label>
+                                                                            <div class="col-sm-8">
+
+                                                                                @Html.TextBoxFor(C => C.BunkLst[n].TIP, new { @id = "txtTIP", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+
+                                                                            <label for="inputName3" class="col-sm-4 control-label">Total Production<label class="Mandatory"></label></label>
+                                                                            <div class="col-sm-8">
+                                                                                @Html.TextBoxFor(C => C.BunkLst[n].TOP, new { @id = "txtTOP", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+
+                                                                            <label for="inputName3" class="col-sm-4 control-label"> Excess Qty Reduced <label class="Mandatory"></label></label>
+                                                                            <div class="col-sm-8">
+
+                                                                                @Html.TextBoxFor(C => C.BunkLst[n].OXD, new { @id = "txtOXD", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                   
+                                                                <div class="col-md-6">
+                                                        <div class="form-group">
+
+
+                                                        <label for="inputName3" class="col-sm-4 control-label">Total RM Charged<label class="Mandatory"></label></label>
+                                                        <div class="col-sm-8">
+                                                                                @Html.TextBoxFor(C => C.BunkLst[n].TRM, new { @id = "txtTRM", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
+
+
+                                                        </div>
+                                                        </div>
+                                                         </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+
+                                                                            <label for="inputName3" class="col-sm-4 control-label">CI.Bin Bal<label class="Mandatory"></label></label>
+                                                                            <div class="col-sm-8">
+
+                                                                                @Html.TextBoxFor(C => C.BunkLst[n].CLBin, new { @id = "txtCLBin", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+
+                                                                    <div class="col-lg-3"></div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <h4> <span style="color:blue;"><label for="inputName3" class="col-sm-4 control-label">Mill Load Details </label></span></h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+
+                                                                            <label for="inputName3" class="col-sm-4 control-label">M.L.OP.Bal<label class="Mandatory"></label></label>
+                                                                            <div class="col-sm-8">
+                                                                                @Html.TextBoxFor(C => C.BunkLst[n].MLOP, new { @id = "txtMLOP", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+
+                                                                            <label for="inputName3" class="col-sm-4 control-label"> M.L Addition<label class="Mandatory"></label></label>
+                                                                            <div class="col-sm-8">
+
+                                                                                @Html.TextBoxFor(C => C.BunkLst[n].MLAdd, new { @id = "txtMLAdd", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+
+                                                                            <label for="inputName3" class="col-sm-4 control-label">M.L Deduction<label class="Mandatory"></label></label>
+                                                                            <div class="col-sm-8">
+
+                                                                                @Html.TextBoxFor(C => C.BunkLst[n].MLDed, new { @id = "txtMLDed", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+
+                                                                            <label for="inputName3" class="col-sm-4 control-label">M.L CI.Bal<label class="Mandatory"></label></label>
+                                                                            <div class="col-sm-8">
+
+                                                                            @Html.TextBoxFor(C => C.BunkLst[n].MLCL, new { @id = "txtMLCL", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                n = n + 1;
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-11"></div>
+                                                <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnLog" onclick="insertlogdetails()">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Op.Bin Bal<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Is Complete<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                       
-                                          
-                                                                                     @Html.TextBoxFor(C => C.BunkLst[n].OPBin, new { @id = "txtOPBin", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
-                                         
-                                        </div>
-                                    </div>
-                                </div>
-
-                               @*  <div class="col-md-6">
-                                    <div class="form-group">
+                                            <div class="input-group">
+                                                @Html.CheckBoxFor(model => model.Complete,new{value="Yes",onchange = "changeentry(this.value)",@id="chkcmp"})
+                                                @*  @Html.RadioButtonFor(C => C.Complete, "Yes", new { @TabIndex = 2 ,onchange = "changeentry(this.value)"})
+                                            <label id="mt-radio">Yes</label>
+                                            @Html.RadioButtonFor(C => C.Complete, "No", new { @TabIndex = 3,onchange = "changeentry(this.value)" ,@checked="checked"})
+                                            <label id="mt-radio">No</label>*@
 
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Total RM Charged<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                                                                 @Html.TextBoxFor(C => C.FuelQty, new { @id = "txtFuelQty", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                                        <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Final RM Charged<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-
-                                                                                   @Html.TextBoxFor(C => C.FuelQty, new { @id = "txtFuelQty", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
-
-                                        </div>
-                                    </div>
-                                </div>*@
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Powder I/P<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                                                                @Html.TextBoxFor(C => C.BunkLst[n].PIP, new { @id = "txtPIP", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
-
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                                        <div class="row">
-                               @* <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Total Production<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                                                                                @Html.TextBoxFor(C => C.FuelQty, new { @id = "txtFuelQty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
-
-                                        </div>
-                                    </div>
-                                </div>*@
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label"> Grease I/P<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-
-                                                                                   @Html.TextBoxFor(C => C.BunkLst[n].GIP, new { @id = "txtGIP", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
-
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                                        <div class="row">
-                                @*<div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label"> Excess Qty Reduced <label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-
-                                                                                    @Html.TextBoxFor(C => C.FuelQty, new { @id = "txtFuelQty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
-
-                                        </div>
-                                    </div>
-                                </div>*@
-
-                                  <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">CI.Bin Bal<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-
-                                                                                 @Html.TextBoxFor(C => C.BunkLst[n].CLBin, new { @id = "txtCLBin", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
-
-                                        </div>
-                                    </div>
-                                </div>
-                                 </div>
-
-                                   <div class="row">
-                                                  
-                                                <div class="col-lg-3"></div>
-                             <div class="col-md-6">
-                                  <div class="form-group">
-                      <h4> <span style="color:blue;"><label for="inputName3" class="col-sm-4 control-label">Mill Load Details </label></span></h4>
-                      </div>
-                      </div>
-                      </div>
-                                <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">M.L.OP.Bal<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                                                                @Html.TextBoxFor(C => C.BunkLst[n].MLOP, new { @id = "txtMLOP", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                                           <label for="inputName3" class="col-sm-4 control-label"> M.L Addition<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-
-                                                                                 @Html.TextBoxFor(C => C.BunkLst[n].MLAdd, new { @id = "txtMLAdd", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
-
-                                        </div>
-                                    </div>
-                                </div>
                                             </div>
-                                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">M.L Deduction<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-
-                                                                                 @Html.TextBoxFor(C => C.BunkLst[n].MLDed, new { @id = "txtMLDed", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
-
                                         </div>
+
                                     </div>
                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
 
-                                                        <label for="inputName3" class="col-sm-4 control-label">M.L CI.Bal<label class="Mandatory"></label></label>
-                                                        <div class="col-sm-8">
-
-                                                                        @Html.TextBoxFor(C => C.BunkLst[n].MLCL, new { @id = "txtMLCL", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
-
-                                                        </div>
-                                                    </div>
-                                                </div>
                             </div>
-                            
-                              n = n + 1;
-                                                            }
-                                                        }
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-11"></div>
-                                                    <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnLog" onclick="insertlogdetails()">Submit</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                             
-                                
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-
-                                                  <label for="inputName3" class="col-sm-4 control-label">Is Complete<label class="Mandatory"></label></label>
-                                            <div class="col-sm-8">
-                                                <div class="input-group">
-                                                    @Html.CheckBoxFor(model => model.Complete,new{value="Yes",onchange = "changeentry(this.value)",@id="chkcmp"})
-                                                    @*  @Html.RadioButtonFor(C => C.Complete, "Yes", new { @TabIndex = 2 ,onchange = "changeentry(this.value)"})
-                                                <label id="mt-radio">Yes</label>
-                                                @Html.RadioButtonFor(C => C.Complete, "No", new { @TabIndex = 3,onchange = "changeentry(this.value)" ,@checked="checked"})
-                                                <label id="mt-radio">No</label>*@
-
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
- </div>
-                                    <div class="col-lg-10" hidden id="go">
-                                        <div class="col-lg-10"></div>
-                                        <button type="button" href="@Url.Action("PyroProdApprove", "PyroProduction", new { id = Model.APID })" class="btn aqua fancybox" data-fancybox-type='iframe' id="btnSave" onClick="window.parent.jQuery.fancybox.close();">Submit</button>
-                                        <button class="btn btn-danger" type="button" causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("ListPyroProduction", "PyroProduction")'">Cancel</button>
-                                        @*@* <button class="btn btn-danger" type="button" causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("PyroProduction", "PyroProduction")'">Cancel</button>*@
-                                        @*</div>*@
-                                    </div>
+                            <div class="col-lg-10" hidden id="go">
+                                <div class="col-lg-10"></div>
+                                <button type="button" href="@Url.Action("PyroProdApprove", "PyroProduction", new { id = Model.APID })" class="btn aqua fancybox" data-fancybox-type='iframe' id="btnSave" onClick="window.parent.jQuery.fancybox.close();">Submit</button>
+                                <button class="btn btn-danger" type="button" causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("ListPyroProduction", "PyroProduction")'">Cancel</button>
+                                @*@* <button class="btn btn-danger" type="button" causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("PyroProduction", "PyroProduction")'">Cancel</button>*@
+                                @*</div>*@
+                            </div>
                         </form>
                     }
 
@@ -1203,9 +1206,20 @@
 
 </div>
 <script>
-  
-      function changesch(schid){
-          $.ajax({
+    $(document).ready(function () {
+        var id = "@pid";
+        if(id==""){
+            document.getElementById("divonload").style.display="block";
+            document.getElementById("divonsub").style.display = "none";
+        }
+        else{
+            document.getElementById("divonload").style.display="none";
+            document.getElementById("divonsub").style.display = "block";
+        }
+    });
+
+    function changesch(schid) {
+        $.ajax({
             url: 'Getsch',
             data: { "schid": schid },
             type: "GET",
@@ -1217,34 +1231,34 @@
                 document.getElementById("txtProdQty").value = result.prodqty;
                 var $procde = $("#ddlProcess").select2();
                 $procde.val(result.proc).trigger("change");
-                     var wcid = document.getElementById("WorkCenterid").value;
+                var wcid = document.getElementById("WorkCenterid").value;
                 var procid = document.getElementById("ddlProcess").value;
-            $.ajax({
-            url: "GetPLotJSON",
-            type: "post",
-            data: { 'procid': procid, 'wcid': wcid },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                newlist = response.Ilst;
-                PopulateDropDown("#ddlProcessLot", response);
+                $.ajax({
+                    url: "GetPLotJSON",
+                    type: "post",
+                    data: { 'procid': procid, 'wcid': wcid },
+                    cache: false,
+                    success: function (response) {
+                        var newlist;
+                        newlist = response.Ilst;
+                        PopulateDropDown("#ddlProcessLot", response);
+                    },
+                    error: function () {
+                        debugger;
+                        alert("Please Select Item ");
+                    }
+                });
             },
             error: function () {
-                debugger;
-                alert("Please Select Item ");
+                alert("Data Not Found");
             }
         });
-            },
-            error: function () {
-            alert("Data Not Found");
-            }
-            });
-   
-       
-            }
 
-function changeproc(procid){
-    var wcid=document.getElementById("WorkCenterid").value;
+
+    }
+
+    function changeproc(procid) {
+        var wcid = document.getElementById("WorkCenterid").value;
         $.ajax({
             url: "GetPLotJSON",
             type: "post",
@@ -1260,7 +1274,7 @@ function changeproc(procid){
                 alert("Please Select Item ");
             }
         });
-}
+    }
 
     $(function () {
         $('._select').select2();
@@ -1268,70 +1282,72 @@ function changeproc(procid){
         changeshift(shift);
 
     });
-    function insertbasicdetails(){
+    function insertbasicdetails() {
         var isValid = true;
 
         if (document.getElementById("ddlProdSchNo").value == "" || document.getElementById("ddlProdSchNo").value == 0) {
-                isValid = false;
-                $(ddlProdSchNo).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+            isValid = false;
+            $(ddlProdSchNo).css({
+                "border": "1px solid red",
+                "background": "#FFCECE"
+            });
 
-                alert("Please Select Schedule No.");
-                return false;
-            }
-            else {
-                $(ddlProdSchNo).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+            alert("Please Select Schedule No.");
+            return false;
+        }
+        else {
+            $(ddlProdSchNo).css({
+                "border": "",
+                "background": ""
+            });
+        }
 
-             if (document.getElementById("ddlShift").value == "" || document.getElementById("ddlShift").value == 0) {
-                isValid = false;
-                $(ddlShift).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+        if (document.getElementById("ddlShift").value == "" || document.getElementById("ddlShift").value == 0) {
+            isValid = false;
+            $(ddlShift).css({
+                "border": "1px solid red",
+                "background": "#FFCECE"
+            });
 
-                alert("Please Select Shift");
-                return false;
-            }
-            else {
-                $(ddlShift).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+            alert("Please Select Shift");
+            return false;
+        }
+        else {
+            $(ddlShift).css({
+                "border": "",
+                "background": ""
+            });
+        }
 
-            if (isValid == false)
-            {
-                e.preventDefault();
-            }else{
-                    var schno = document.getElementById("ddlProdSchNo").value;
-                    var docid = document.getElementById("txtDocId").value;
-                    var docdate = document.getElementById("Docdate").value;
-                    var loc = document.getElementById("ddlLocation").value;
-                    var proc = document.getElementById("ddlProcess").value;
-                    var shift = document.getElementById("ddlShift").value;
-                    var schqty = document.getElementById("txtSchQty").value;
-                    var prodqty = document.getElementById("txtProdQty").value;
-                    $.ajax({
-                        url: 'SaveOutDetail',
-                        data: { "schno": schno, "docid": docid, "docdate": docdate, "loc": loc, "proc": proc, "shift": shift, "schqty": schqty, "prodqty": prodqty },
-                        type: "POST",
-                        success: function (result) {
+        if (isValid == false) {
+            e.preventDefault();
+        } else {
+            var schno = document.getElementById("ddlProdSchNo").value;
+            var docid = document.getElementById("txtDocId").value;
+            var docdate = document.getElementById("Docdate").value;
+            var loc = ""; //document.getElementById("ddlLocation").value;
+            var proc = document.getElementById("ddlProcess").value;
+            var shift = document.getElementById("ddlShift").value;
+            var schqty = document.getElementById("txtSchQty").value;
+            var prodqty = document.getElementById("txtProdQty").value;
+            var wcid = document.getElementById("WorkCenterid").value;
+            var proclot = document.getElementById("ddlProcessLot").value;
+            $.ajax({
+                url: 'SaveOutDetail',
+                data: { "schno": schno, "docid": docid, "docdate": docdate, "loc": loc, "proc": proc, "shift": shift, "schqty": schqty, "prodqty": prodqty, "wcid": wcid, "proclot": proclot },
+                type: "POST",
+                success: function (result) {
+                    var pid = result.pid;
+                    window.location.href = "PyroProductionentry?tag=2&id=" + pid;
+                },
+                error: function () {
 
-                        },
-                        error: function () {
+                }
+            });
+            // window.location.reload();
+            //window.location.href = "PyroProductionentry?tag=2";
+        }
 
-                        }
-                    });
-                   // window.location.reload();
-                     window.location.href = "PyroProductionentry?tag=2";
-            }
-      
     }
     $('.form_date').datetimepicker({
         //   language:  'fr',
@@ -1414,7 +1430,7 @@ function changeproc(procid){
                 alert("Data Not Found");
             }
         });
-           $.ajax({
+        $.ajax({
             url: "GetDrumnoJSON",
             type: "post",
             data: { 'itemid': ItemId },
@@ -1431,12 +1447,12 @@ function changeproc(procid){
             }
         });
     }
-     function changeStock(ItemId, i) {
-            var item = document.getElementById("ddlItem" + i).value;
+    function changeStock(ItemId, i) {
+        var item = document.getElementById("ddlItem" + i).value;
 
         $.ajax({
             url: 'GetStockDetail',
-            data: { "ItemId": ItemId ,'item':item},
+            data: { "ItemId": ItemId, 'item': item },
             type: "GET",
             success: function (result) {
 
@@ -1518,15 +1534,15 @@ function changeproc(procid){
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
                 });
 
-                 $.ajax({
+                $.ajax({
                     type: "POST",
                     url: 'GetDrumIdJSON',
                     success: function (data) {
                         $.each(data, function () {
                             remopt += "<option value=" + this.value + ">" + this.text + "</option>";
                         });
-                         AppendRow(opt, remopt);
-                   }
+                        AppendRow(opt, remopt);
+                    }
                 })
 
             }
@@ -1588,7 +1604,7 @@ function changeproc(procid){
         }
         $(dropDownId).trigger("liszt:updated");
     }
-    function AppendRow(opt,remopt) {
+    function AppendRow(opt, remopt) {
         var index = $("#tbBooks").children("tr").length;
 
         var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='inputlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
@@ -1818,7 +1834,7 @@ function changeproc(procid){
             });
             document.getElementById("txttotalinqty").value = tot.toFixed(2);*@
 
-            }
+                }
     function removeOutRow(id) {
         var table = document.getElementById("dataTableout");
         var rowCount = table.rows.length;
@@ -1932,103 +1948,101 @@ function changeproc(procid){
         var i = 0;
         var stk = document.getElementById("txtStockAvailable" + j).value;
         var constk = document.getElementById("txtConsStock" + j).value;
-         var isValid = true;
+        var isValid = true;
 
-             if(stk==0 && constk==0)
-             {
-                 alert("Stock Qty is Empty So Change the item");
+        if (stk == 0 && constk == 0) {
+            alert("Stock Qty is Empty So Change the item");
             return false;
-             }
-             else
-             {
-        var ProInput = new Array();
-        $('tr.chkitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                var order = {};
+        }
+        else {
+            var ProInput = new Array();
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    var order = {};
 
-                order.ItemId = document.getElementById("ddlItem" + j).value;
-                order.drumno = document.getElementById("ddlInpdrumno" + j).value;
-                order.BinId = document.getElementById("txtBinId" + j).value;
-                order.batchno = document.getElementById("txtbatchno" + j).value;
-                order.IssueQty = document.getElementById("txtIssueQty" + j).value;
-                order.Time = document.getElementById("txtITime" + j).value;
-                order.APID = document.getElementById("hdapid").value;
-                order.StockAvailable = document.getElementById("txtStockAvailable" + j).value;
-                ProInput.push(order);
-                j += 1;
-            }
-        });
+                    order.ItemId = document.getElementById("ddlItem" + j).value;
+                    order.drumno = document.getElementById("ddlInpdrumno" + j).value;
+                    order.BinId = document.getElementById("txtBinId" + j).value;
+                    order.batchno = document.getElementById("txtbatchno" + j).value;
+                    order.IssueQty = document.getElementById("txtIssueQty" + j).value;
+                    order.Time = document.getElementById("txtITime" + j).value;
+                    order.APID = document.getElementById("hdapid").value;
+                    order.StockAvailable = document.getElementById("txtStockAvailable" + j).value;
+                    ProInput.push(order);
+                    j += 1;
+                }
+            });
 
-        var APProInCons = new Array();
-        $('tr.chkitemlstinc').each(function () {
-            if ($(this).css('display') !== 'none') {
-                var proincons = {};
-                proincons.ItemId = document.getElementById("ddlConsItem" + i).value;
+            var APProInCons = new Array();
+            $('tr.chkitemlstinc').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    var proincons = {};
+                    proincons.ItemId = document.getElementById("ddlConsItem" + i).value;
                     proincons.BinId = document.getElementById("txtConsBinId" + i).value;
-                proincons.Qty = document.getElementById("txtQty" + i).value;
+                    proincons.Qty = document.getElementById("txtQty" + i).value;
                     proincons.consunit = document.getElementById("txtconsunit" + i).value;
-                proincons.consQty = document.getElementById("txtconsQty" + i).value;
-                proincons.APID = document.getElementById("hdapid").value;
-                proincons.ConsStock = document.getElementById("txtConsStock" + i).value;
-                APProInCons.push(proincons);
-                i += 1;
-            }
-        });
-        $.ajax({
-            type: "POST",
-            url: "InsertProInput",
-            data: JSON.stringify(ProInput),
-            contentType: "application/json",
-            dataType: "json",
-            success: function (r) {
-                //alert(r + " record(s) inserted.");
-            }
-        });
+                    proincons.consQty = document.getElementById("txtconsQty" + i).value;
+                    proincons.APID = document.getElementById("hdapid").value;
+                    proincons.ConsStock = document.getElementById("txtConsStock" + i).value;
+                    APProInCons.push(proincons);
+                    i += 1;
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: "InsertProInput",
+                data: JSON.stringify(ProInput),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (r) {
+                    //alert(r + " record(s) inserted.");
+                }
+            });
 
-        $.ajax({
-            type: "POST",
-            url: "InsertConsInput",
-            data: JSON.stringify(APProInCons),
-            contentType: "application/json",
-            dataType: "json",
-            success: function (r) {
-                //alert(r + " record(s) inserted.");
-            }
-        });
+            $.ajax({
+                type: "POST",
+                url: "InsertConsInput",
+                data: JSON.stringify(APProInCons),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (r) {
+                    //alert(r + " record(s) inserted.");
+                }
+            });
         }
     }
-     function insertoutputdetails() {
+    function insertoutputdetails() {
         var e = 0;
 
-                    var OutDetails = new Array();
-                    $('tr.chkitemlstout').each(function () {
-                        if ($(this).css('display') !== 'none') {
-                            var out = {};
+        var OutDetails = new Array();
+        $('tr.chkitemlstout').each(function () {
+            if ($(this).css('display') !== 'none') {
+                var out = {};
 
-                            out.ItemId = document.getElementById("ddlOutItem" + e).value;
-                            out.drumno = document.getElementById("ddldrumno" + e).value;
-                            out.APID = document.getElementById("hdapid").value;
-                            out.BinId = document.getElementById("txtOutBinId" + e).value;
-                            out.FromTime = document.getElementById("txtFromTime" + e).value;
-                            out.ToTime = document.getElementById("txtToTime" + e).value;
-                            out.OutputQty = document.getElementById("txtOutputQty" + e).value;
+                out.ItemId = document.getElementById("ddlOutItem" + e).value;
+                out.drumno = document.getElementById("ddldrumno" + e).value;
+                out.APID = document.getElementById("hdapid").value;
+                out.BinId = document.getElementById("txtOutBinId" + e).value;
+                out.FromTime = document.getElementById("txtFromTime" + e).value;
+                out.ToTime = document.getElementById("txtToTime" + e).value;
+                out.OutputQty = document.getElementById("txtOutputQty" + e).value;
 
-                            OutDetails.push(out);
-                            e += 1;
-                        }
-                    });
+                OutDetails.push(out);
+                e += 1;
+            }
+        });
 
 
-                    $.ajax({
-                        type: "POST",
-                        url: "InsertProOut",
-                        data: JSON.stringify(OutDetails),
-                        contentType: "application/json",
-                        dataType: "json",
-                        success: function (r) {
-                            //alert(r + " record(s) inserted.");
-                        }
-                    });
+        $.ajax({
+            type: "POST",
+            url: "InsertProOut",
+            data: JSON.stringify(OutDetails),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (r) {
+                //alert(r + " record(s) inserted.");
+            }
+        });
 
 
 
@@ -2222,7 +2236,7 @@ function changeproc(procid){
     function changewc(wcid) {
     @*var url = '@Url.Action("GetWcRec", "PyroProduction")?wcid=' + wcid;
             window.location.href = url;*@
-            var shift = document.getElementById("ddlShift").value;
+                var shift = document.getElementById("ddlShift").value;
         $.ajax({
             url: 'GetWcRec',
             data: { "wcid": wcid, "shift": shift },
