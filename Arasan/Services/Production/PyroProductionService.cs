@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Dapper;
+using DocumentFormat.OpenXml.Spreadsheet;
+using System.DirectoryServices.Protocols;
 
 namespace Arasan.Services
 {
@@ -734,6 +736,97 @@ namespace Arasan.Services
             return msg;
         }
 
+        public string SaveBasicDetail(string schno, string docid, string docdate, string loc, string proc, string shift, string schqty, string prodqty, string wcid, string proclot,string branchid)
+        {
+            string msg = "";
+            string Pid = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                int idc = datatrans.GetDataId("select LASTNO  from sequence where TRANSTYPE='nProd' AND ACTIVESEQUENCE='T'");
+                DataTable dt=new DataTable();
+                dt = datatrans.GetData("select ILOCATION,RLOCATION,WIPLOCID,WIPITEMID,REJLOCATION,EBCONSPERHR,DRUMILOCATION from wcbasic where WCBASICID='" + wcid + "'");
+                string iloc = "";
+                string rloc = "";string rejlocid = "";string drumlocid = "";
+                string wiplocid = "";string wipitemd = "";string ebhr = "";
+                if (dt.Rows.Count > 0)
+                {
+                    iloc = dt.Rows[0]["ILOCATION"].ToString();
+                    rloc= dt.Rows[0]["RLOCATION"].ToString();
+                    wiplocid= dt.Rows[0]["WIPLOCID"].ToString();
+                    wipitemd= dt.Rows[0]["WIPITEMID"].ToString();
+                    rejlocid = dt.Rows[0]["REJLOCATION"].ToString();
+                    ebhr= dt.Rows[0]["EBCONSPERHR"].ToString();
+                    drumlocid = dt.Rows[0]["DRUMILOCATION"].ToString();
+                }
+                DataTable dtt = new DataTable();
+                string fromtime = "";
+                string totime = "";
+                string tothrs = "";
+                dtt = datatrans.GetData("Select FROMTIME,TOTIME,SHIFTHRS from SHIFTMAST where SHIFTNO='" + shift + "'");
+                if (dtt.Rows.Count > 0)
+                {
+
+                    fromtime = dtt.Rows[0]["FROMTIME"].ToString();
+                    totime = dtt.Rows[0]["TOTIME"].ToString();
+                    tothrs = dtt.Rows[0]["SHIFTHRS"].ToString();
+                }
+                DataTable dt2 = new DataTable();
+                dt2 = datatrans.GetData("select DRUMRETURNYN,PRODHRTYPE from PROCESSMAST where PROCESSMASTID='"+ proc + "'");
+                string drmreturnyn = "";
+                string prohrtype = "";
+                if(dt2.Rows.Count > 0)
+                {
+                    drmreturnyn= dt2.Rows[0]["DRUMRETURNYN"].ToString();
+                    prohrtype= dt2.Rows[0]["PRODHRTYPE"].ToString();
+                }
+
+                DateTime fdate = DateTime.Now;
+               DateTime tdate = fdate.AddHours(Convert.ToDouble(totime=="" ?0 : totime));
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+
+                {
+                    objConn.Open();
+
+                    using (OracleCommand command = objConn.CreateCommand())
+                    {
+                        using (OracleTransaction transaction = objConn.BeginTransaction(IsolationLevel.ReadCommitted))
+                        {
+                            command.Transaction = transaction;
+
+                            try
+                            {
+                                command.CommandText = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE='nProd' AND ACTIVESEQUENCE='T'";
+                                command.ExecuteNonQuery();
+
+                                command.CommandText = "insert into NPRODBASIC (APPROVAL,MAXAPPROVED,CANCEL,BRANCH,DOCID,DOCDATE,PROCESSID,WCID,PROCLOTNO,PSCHNO,ETYPE,ILOCDETAILSID,RLOCDETAILSID,WIPLOCDETAILSID,SHIFT,STARTDATE,STARTTIME,ENDDATE,ENDTIME,TOTMINS,TOTHRS,REJLOCDETAILSID,WIPITEMMASTERID,WIPITEMID,PTYPE,IBINYN,SCHQTY,PRODQTY,EBHRS,PROCESSMASTID,LSTARTDT,LSTARTTIME,LENDDT,LENDTIME,LHOUR,ILOCID,RLOCID,DRUMILOCDETAILSID,DRUMRETURNYN,PRODHRTYPE) Values ('0','0','F','" + branchid + "','"+ docid + "','"+ docdate + "','"+ proc + "','"+ wcid + "','"+ proclot + "','"+ schno + "','BOTH','"+ iloc + "','"+ rloc + "','"+ wiplocid + "','"+ shift + "','"+ fdate.ToString("dd-MMM-yyyy") + "','"+ fromtime + "','"+ tdate.ToString("dd-MMM-yyyy") + "','"+ totime + "',0,'"+ tothrs +"','"+ rejlocid + "','"+ wipitemd + "','"+ wipitemd + "','EB','NO','"+ schqty+"','"+ prodqty +"','"+ ebhr + "','"+ proc + "','" + fdate.ToString("dd-MMM-yyyy") + "','"+ fromtime +"','" + tdate.ToString("dd-MMM-yyyy") + "','"+ totime + "','"+ tothrs +"','"+ iloc + "','"+ rloc +"','"+ drumlocid +"','"+ drmreturnyn  + "','"+ prohrtype  + "') RETURNING NPRODBASICID INTO :LASTCID";
+                                command.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                                command.ExecuteNonQuery();
+                                Pid = command.Parameters["LASTCID"].Value.ToString();
+                                command.ExecuteNonQuery();
+
+
+                                transaction.Commit();
+                            }
+                            catch (DataException e)
+                            {
+                                transaction.Rollback();
+                                Console.WriteLine(e.ToString());
+                                Console.WriteLine("Neither record was written to database.");
+                            }
+                        }
+                    }
+                }
+
+                            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return Pid;
+        }
         public string ApprovePyroProductionEntryGURD(PyroProductionentryDet cy)
         {
             string msg = "";
@@ -1228,6 +1321,105 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public string GetBinOPBal(string ProcLotNo,string DocID,string ProcessMastID,string WcMastID)
+        {
+            string opbal = string.Empty;
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = @"Select BB.ClBbal
+From LProdBasic B , LProdBunk BB
+Where B.LProdBasicID = BB.LProdBasicID
+And DocID = (Select Max(LB.DocID) 
+             From LProdBasic LB , ProcLot P
+             Where LB.WcID = :WcMastID 
+             And LB.ProcessID = :ProcessMastID 
+             And LB.ProcLotNo = P.ProcLotID
+             And P.ProcLotNo = :ProcLotNo
+             And LB.DocID < :DocID)
+Union
+Select P.OpBbal
+From WcBasic W, ProcLot P
+Where W.WcBasicid = P.WcID 
+And W.WcBasicID = :WcMastID
+And P.ProcessID = :ProcessMastID
+And P.ProcLotNo = :ProcLotNo
+And Upper(W.BunkerYN) = 'YES'
+And (Select  Max(LB.DocID) 
+             From LProdBasic LB , LProdBunk B , ProcLot P
+             Where LB.LProdBasicID = B.LProdBasicID
+             And LB.WcID = :WcMastID 
+             And LB.ProcessID = :ProcessMastID
+             And LB.ProcLotNo = P.ProcLotID
+             And P.ProcLotNo = :ProcLotNo 
+             And LB.DocID < :DocID) Is Null";
+                    cmd.Parameters.Add("WcMastID", WcMastID);
+                    cmd.Parameters.Add("ProcessMastID", ProcessMastID);
+                    cmd.Parameters.Add("ProcLotNo", ProcLotNo);
+                    cmd.Parameters.Add("DocID", DocID);
+                    cmd.BindByName = true;
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        opbal = rdr["ClBbal"].ToString();
+                    }
+
+                }
+            }
+                    return opbal;
+        }
+        public string GetMLOPBal(string ProcLotNo, string DocID, string ProcessMastID, string WcMastID)
+        {
+            string opbal = string.Empty;
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = @"Select BB.MLClBal
+From LProdBasic B , LProdBunk BB
+Where B.LProdBasicID = BB.LProdBasicID
+And DocID = (Select Max(LB.DocID) 
+             From LProdBasic LB , ProcLot P
+             Where LB.WcID = :WcMastID 
+             And LB.ProcessID = :ProcessMastID 
+             And LB.ProcLotNo = P.ProcLotID
+             And P.ProcLotNo = :ProcLotNo
+             And LB.DocID < :DocID)
+Union
+Select P.OpMLBal
+From WcBasic W, ProcLot P
+Where W.WcBasicid = P.WcID 
+And W.WcBasicID = :WcMastID
+And P.ProcLotNo = :ProcLotNo
+And Upper(W.MLYN) = 'YES'
+And (Select  Max(LB.DocID) 
+             From LProdBasic LB , LProdBunk B , ProcLot P
+             Where LB.LProdBasicID = B.LProdBasicID
+             And LB.WcID = :WcMastID 
+             And LB.ProcessID = :ProcessMastID
+             And LB.ProcLotNo = P.ProcLotID
+             And P.ProcLotNo = :ProcLotNo
+             And LB.DocID < :DocID) Is Null";
+                    cmd.Parameters.Add("WcMastID", WcMastID);
+                    cmd.Parameters.Add("ProcessMastID", ProcessMastID);
+                    cmd.Parameters.Add("ProcLotNo", ProcLotNo);
+                    cmd.Parameters.Add("DocID", DocID);
+                    cmd.BindByName = true;
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        opbal = rdr["MLClBal"].ToString();
+                    }
+
+                }
+            }
+            return opbal;
+        }
+
 
     }
 }

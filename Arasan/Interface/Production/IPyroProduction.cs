@@ -47,11 +47,12 @@ namespace Arasan.Interface
         DataTable GetCons(string id);
         DataTable GetEmpdet(string id);
         DataTable GetBreak(string id);
-        
+        string GetBinOPBal(string ProcLotNo, string DocID, string ProcessMastID, string WcMastID);
+        string GetMLOPBal(string ProcLotNo, string DocID, string ProcessMastID, string WcMastID);
 
-        //IEnumerable<PyroProduction> GetAllPyro();
+            //IEnumerable<PyroProduction> GetAllPyro();
 
-        DataTable GetPyroProductionName(string id);
+            DataTable GetPyroProductionName(string id);
         DataTable GetInputDeatils(string id);
         DataTable GetConsDeatils(string id);
         DataTable GetEmpdetDeatils(string id);
@@ -62,6 +63,8 @@ namespace Arasan.Interface
         Task<IEnumerable<PyroDetail>> Getpyropdf(string id);
 
         DataTable GetLogdetailDeatils(string id);
+
+        string SaveBasicDetail(string schno, string docid, string docdate, string loc, string proc, string shift, string schqty, string prodqty, string wcid, string proclot, string branchid);
 
         DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch, string drum);
         DataTable SaveOutputDetails(string id, string item, string bin, string stime, string ttime, string qty, string drum);
