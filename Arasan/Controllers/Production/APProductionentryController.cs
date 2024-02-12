@@ -51,7 +51,7 @@ namespace Arasan.Controllers
 		public ActionResult APProductionentry(string id)
 		{
 			APProductionentry ca = new APProductionentry();
-			DataTable dtv = datatrans.GetSequence("APPro");
+			DataTable dtv = datatrans.GetSequence("BPrd");
 			ca.Loclst = BindAPWorkCenter();
 			ca.processlst = BindProcess();
 			
@@ -968,11 +968,12 @@ namespace Arasan.Controllers
         {
             try
 			{
-                double r = 1;
+                int r = 1;
                 foreach (ProInput input in model)
                 {
                    
                     string item = input.ItemId;
+                    string saveitem = input.saveitemId;
                     string bin = input.BinId;
                     string batch = input.batchno;
                     string time = input.Time;
@@ -984,15 +985,15 @@ namespace Arasan.Controllers
                     DataTable dt = new DataTable();
                     string ins = "";
                     string detid = "";
-                    DataTable insert = datatrans.GetData("SELECT BPRODINPDETID,IS_INSERT,BPRODINPDETROW FROM BPRODINPDET WHERE BPRODBASICID='" + id + "' IITEMID='"+ item +"'");
+                    DataTable insert = datatrans.GetData("SELECT BPRODINPDETID,IS_INSERT,BPRODINPDETROW FROM BPRODINPDET WHERE BPRODBASICID='" + id + "' IITEMID='"+ saveitem + "' and IS_INSERT='Y'");
                     if(insert.Rows.Count > 0)
                     {
-                        // r =Convert.ToDouble( insert.Rows[0]["BPRODINPDETROW"].ToString());
+                         r =(int)Convert.ToDouble( insert.Rows[0]["BPRODINPDETROW"].ToString());
                         r++;
                     }
                     else
                     {
-                        //dt = IProductionEntry.SaveInputDetails(id, item, bin, time, qty, stock, batch, drum, r);
+                        dt = IProductionEntry.SaveInputDetails(id, item, bin, time, qty, stock, batch, drum, r);
                         r++;
                     }
                    
@@ -1017,7 +1018,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                double l = 1;
+                int l = 1;
                 foreach (APProInCons Cons in model)
                 {
 
@@ -1039,13 +1040,13 @@ namespace Arasan.Controllers
                     if (insert.Rows.Count > 0)
                     {
                          
-                           // l = Convert.ToDouble(insert.Rows[0]["BPRODCONSDETROW"].ToString());
+                            l = (int)Convert.ToDouble(insert.Rows[0]["BPRODCONSDETROW"].ToString());
                         l++;
                        
                     }
                     else
                     {
-                       // dt = IProductionEntry.SaveConsDetails(id, item, unit, qty, usedqty, work, process, l);
+                        dt = IProductionEntry.SaveConsDetails(id, item, unit, qty, usedqty, work, process, l);
                         l++;
                     }
                     
@@ -1539,17 +1540,44 @@ namespace Arasan.Controllers
                             tda = new ProInput();
                             tda.Itemlst = BindBatchItemlst(ca.batchid);
                             tda.ItemId = dt2.Rows[i]["IITEMID"].ToString();
+                            tda.saveitemId = dt2.Rows[i]["IITEMID"].ToString();
                             tda.Time = dt2.Rows[i]["CHARGINGTIME"].ToString();
                             tda.drumlst = BindInpDrum(tda.ItemId, ca.LOCID);
-
+                            tda.insert = dt2.Rows[i]["IS_INSERT"].ToString();
                             tda.drumno = dt2.Rows[i]["IDRUMNO"].ToString();
                             tda.unit = dt2.Rows[i]["UNITID"].ToString();
                             tda.Bin = dt2.Rows[i]["IBINID"].ToString();
                             tda.BinId = dt2.Rows[i]["BINID"].ToString();
+                            if(tda.drumno=="0")
+                            {
+                                tda.batchlst = BindStockBatch(tda.ItemId, ca.LOCID);
+                            }
+                            else
+                            {
+                                tda.batchlst = BindDrumBatch(tda.drumno, ca.LOCID, tda.ItemId);
+                            }
+                           
                             tda.batchno = dt2.Rows[i]["IBATCHNO"].ToString();
                             tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["IQTY"].ToString() == "" ? "0" : dt2.Rows[i]["IQTY"].ToString());
                             //dtstk = IProductionEntry.Getstkqty(tda.ItemId, ca.LOCID);
-                            dtstk = datatrans.GetData("SELECT SUM(DECODE(s.PLUSORMINUS,'p',S.QTY,-S.QTY)) as QTY FROM STOCKVALUE S WHERE ITEMID='" + tda.ItemId + "' and LOCID='" + ca.LOCID + "'");
+                            if(tda.drumno=="0" && tda.batchno=="")
+                            {
+                                dtstk = datatrans.GetData("SELECT SUM(DECODE(s.PLUSORMINUS,'p',S.QTY,-S.QTY)) as QTY FROM STOCKVALUE S WHERE ITEMID='" + tda.ItemId + "' and LOCID='" + ca.LOCID + "'");
+
+                            }
+                            else
+                            {
+                                if (tda.drumno != "0")
+                                {
+                                    dtstk = datatrans.GetData("SELECT SUM(S.PLUSQTY-S.MINUSQTY) as QTY FROM LSTOCKVALUE S WHERE S.ITEMID='" + tda.ItemId + "' and S.LOCID='" + ca.LOCID + "' and s.DRUMNO='" + tda.drumno + "' and s.LOTNO='" + tda.batchno + "' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0");
+                                }
+                                else
+                                {
+                                    dtstk = datatrans.GetData("SELECT SUM(S.PLUSQTY-S.MINUSQTY) as QTY FROM LSTOCKVALUE S WHERE S.ITEMID='" + tda.ItemId + "' and S.LOCID='" + ca.LOCID + "' and s.LOTNO='" + tda.batchno + "' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0");
+
+                                }
+                            }
+
 
                             if (dtstk.Rows.Count > 0)
                             {
@@ -1573,6 +1601,7 @@ namespace Arasan.Controllers
                             tda1.ItemId = dt3.Rows[i]["CITEMID"].ToString();
                             tda1.consunit = dt3.Rows[i]["CUNIT"].ToString();
                             tda1.BinId = dt3.Rows[i]["CBINID"].ToString();
+                            tda1.insert = dt3.Rows[i]["IS_INSERT"].ToString();
                             tda1.Qty = Convert.ToDouble(dt3.Rows[i]["CSUBQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CSUBQTY"].ToString());
                             tda1.consQty = Convert.ToDouble(dt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CONSQTY"].ToString());
 
@@ -2413,6 +2442,12 @@ namespace Arasan.Controllers
             //model.Itemlst = BindItemlst(itemid);
             return Json(BindInpDrum(ItemId, loc));
         }
+        public JsonResult GetDrumJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //model.Itemlst = BindItemlst(itemid);
+            return Json(BindDrum());
+        }
         public JsonResult GetStockDrumBatchJSON(string ItemId, string loc,string item)
         {
             //EnqItem model = new EnqItem();
@@ -2520,7 +2555,7 @@ namespace Arasan.Controllers
  
                 string stk = "";
                 
-                dt1 = datatrans.GetData("SELECT SUM(PLUSQTY) as QTY FROM LSTOCKVALUE S WHERE LOTNO='" + ItemId + "' ");
+                dt1 = datatrans.GetData("SELECT SUM(S.PLUSQTY-S.MINUSQTY) as QTY  FROM LSTOCKVALUE S WHERE LOTNO='" + ItemId + "' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0 ");
                 if (dt1.Rows.Count > 0)
                 {
                     stk = dt1.Rows[0]["QTY"].ToString();

@@ -29,6 +29,23 @@ namespace Arasan.Services.Production
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetAllDrumIssueItems(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "select DOCID,to_char(DIEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,l.LOCID as toloc,TYPE,DIEBASICID,ITEMMASTER.ITEMID FROM DIEBASIC LEFT OUTER JOIN LOCDETAILS l ON l.LOCDETAILSID=DIEBASIC.TOLOC  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DIEBASIC.FROMLOC  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=DIEBASIC.ITEMID Where DIEBASIC.IS_ACTIVE='Y' ORDER BY DIEBASIC.DIEBASICID DESC";
+            }
+            else
+            {
+                SvSql = "select DOCID,to_char(DIEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,l.LOCID as toloc,TYPE,DIEBASICID,ITEMMASTER.ITEMID FROM DIEBASIC LEFT OUTER JOIN LOCDETAILS l ON l.LOCDETAILSID=DIEBASIC.TOLOC  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DIEBASIC.FROMLOC  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=DIEBASIC.ITEMID Where DIEBASIC.IS_ACTIVE='N' ORDER BY DIEBASIC.DIEBASICID DESC";
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable DrumDeatils(string id,string item)
         {
             string SvSql = string.Empty;
@@ -52,7 +69,7 @@ namespace Arasan.Services.Production
         public DataTable GetStockDetails(string id,string item)
         {
             string SvSql = string.Empty;
-            SvSql = "select  SUM(QTY) as SUM_QTY  from DRUM_STOCK where BALANCE_QTY  > 0 AND LOCID= '" + id + "' AND ITEMID = '" + item + "'";
+            SvSql = "select  SUM(PLUSQTY-MINUSQTY) as SUM_QTY  from LSTOCKVALUE where ITEMID= '" + id + "' AND LOCID  = '" + item + "' HAVING SUM(PLUSQTY-MINUSQTY) > 0";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -62,7 +79,7 @@ namespace Arasan.Services.Production
         public DataTable GetLocation()
         {
             string SvSql = string.Empty;
-            SvSql = "Select LOCDETAILS.LOCID,DRUM_STOCK.LOCID as loc from DRUM_STOCK left outer join  LOCDETAILS on LOCDETAILS.LOCDETAILSID=DRUM_STOCK.LOCID GROUP BY LOCDETAILS.LOCID,DRUM_STOCK.LOCID";
+            SvSql = "Select LOCDETAILS.LOCID,LSTOCKVALUE.LOCID as loc from LSTOCKVALUE left outer join  LOCDETAILS on LOCDETAILS.LOCDETAILSID=LSTOCKVALUE.LOCID GROUP BY LOCDETAILS.LOCID,LSTOCKVALUE.LOCID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -79,10 +96,10 @@ namespace Arasan.Services.Production
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetItem()
+        public DataTable GetItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,DRUM_STOCK.ITEMID as item from DRUM_STOCK left outer join ITEMMASTER on ITEMMASTER.ITEMMASTERID=DRUM_STOCK.ITEMID  GROUP BY ITEMMASTER.ITEMID,DRUM_STOCK.ITEMID";
+            SvSql = "select ITEMMASTER.ITEMID,LSTOCKVALUE.ITEMID as item from LSTOCKVALUE left outer join ITEMMASTER on ITEMMASTER.ITEMMASTERID=LSTOCKVALUE.ITEMID WHERE LOCID='"+id+"'  GROUP BY ITEMMASTER.ITEMID,LSTOCKVALUE.ITEMID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -420,7 +437,7 @@ namespace Arasan.Services.Production
         public DataTable GetDrumStockDetail(string id,string item)
         {
             string SvSql = string.Empty;
-            SvSql = "select DRUM_NO,DRUM_ID,BALANCE_QTY from DRUM_STOCK where BALANCE_QTY  > 0 AND LOCID= '" + id + "' AND ITEMID ='" + item + "'";
+            SvSql = "select l.DRUMNO,SUM(l.PLUSQTY-l.MINUSQTY) as QTY,l.LOTNO from LSTOCKVALUE l,LOTMAST lt where lt.LOTNO=l.LOTNO AND lt.INSFLAG='1' AND  l.ITEMID = '" + id + "' AND l.LOCID ='" + item + "'  GROUP BY l.DRUMNO,l.LOTNO HAVING SUM(l.PLUSQTY-l.MINUSQTY) > 0 ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -156,10 +156,46 @@ namespace Arasan.Controllers.Production
 
             return View(Cy);
         }
-        public IActionResult ListDrumIssueEntry(string st, string ed)
+        public IActionResult ListDrumIssueEntry()
         {
-            IEnumerable<DrumIssueEntry> cmp = DrumIssueEntryService.GetAllDrumIssueEntry(st, ed);
-            return View(cmp);
+            //IEnumerable<DrumIssueEntry> cmp = DrumIssueEntryService.GetAllDrumIssueEntry(st, ed);
+            return View();
+        }
+        public ActionResult MyListDrumIssueGrid(string strStatus)
+        {
+            List<DrumIssueitem> Reg = new List<DrumIssueitem>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)DrumIssueEntryService.GetAllDrumIssueItems(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string View = string.Empty;
+                
+                string DeleteRow = string.Empty;
+
+                View = "<a href=ApproveDrumIssue?id=" + dtUsers.Rows[i]["DIEBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["DIEBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                Reg.Add(new DrumIssueitem
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["DIEBASICID"].ToString()),
+                    docno = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    fromloc = dtUsers.Rows[i]["LOCID"].ToString(),
+                    toloc = dtUsers.Rows[i]["toloc"].ToString(),
+                    item = dtUsers.Rows[i]["ITEMID"].ToString(),
+                    
+                    view = View,
+                   
+                    delrow = DeleteRow,
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
         public List<SelectListItem> BindEmp()
         {
@@ -226,11 +262,11 @@ namespace Arasan.Controllers.Production
         //        throw ex;
         //    }
         //}
-        public JsonResult GetItemJSON()
+        public JsonResult GetItemJSON(string ItemId)
         {
-            DrumIssueEntryItem model = new DrumIssueEntryItem();
-            //model.Itemlst = BindItemlst(itemid);
-            return Json(model);
+            //DrumIssueEntry model = new DrumIssueEntry();
+            //model.Itemlst = BindItemlst(ItemId);
+            return Json(BindItemlst(ItemId));
 
         }
         //public JsonResult GetItemGrpJSON(string id, string item)
@@ -259,7 +295,7 @@ namespace Arasan.Controllers.Production
         {
             try
             {
-                DataTable dtDesg = DrumIssueEntryService.GetItem();
+                DataTable dtDesg = DrumIssueEntryService.GetItem(id);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -429,10 +465,10 @@ namespace Arasan.Controllers.Production
         //    }
         //}
 
-        public IActionResult ApproveDrumIssue(string DRUM)
+        public IActionResult ApproveDrumIssue(string id)
         {
             DrumIssueEntry ca = new DrumIssueEntry();
-            DataTable dt = DrumIssueEntryService.EditDrumIssue(DRUM);
+            DataTable dt = DrumIssueEntryService.EditDrumIssue(id);
             if (dt.Rows.Count > 0)
             {
                 ca.Docid = dt.Rows[0]["DOCID"].ToString();
@@ -456,7 +492,7 @@ namespace Arasan.Controllers.Production
                 //ViewBag.entrytype = ca.EntryType;
                 List<DrumIssueEntryItem> TData = new List<DrumIssueEntryItem>();
                 DrumIssueEntryItem tda = new DrumIssueEntryItem();
-                DataTable dtDrum = DrumIssueEntryService.EditDrumDetail(DRUM);
+                DataTable dtDrum = DrumIssueEntryService.EditDrumDetail(id);
                 for (int i = 0; i < dtDrum.Rows.Count; i++)
                 {
                     tda = new DrumIssueEntryItem();
@@ -488,9 +524,10 @@ namespace Arasan.Controllers.Production
                 {
                     tda = new DrumIssueEntryItem();
 
-                    tda.drum = dtt.Rows[i]["DRUM_NO"].ToString();
+                    tda.drum = dtt.Rows[i]["DRUMNO"].ToString();
                   
-                    tda.qty = dtt.Rows[i]["BALANCE_QTY"].ToString();
+                    tda.qty = dtt.Rows[i]["QTY"].ToString();
+                    tda.batchno = dtt.Rows[i]["LOTNO"].ToString();
                    
 
                     Data.Add(tda);

@@ -141,7 +141,7 @@ namespace Arasan.Services
         public DataTable GetDrumBatch(string ItemId, string loc,string item)
         {
             string SvSql = string.Empty;
-            SvSql = "select  LOTNO from LSTOCKVALUE WHERE DRUMNO='" + ItemId + "' AND LOCID='" + loc + "' AND ITEMID ='"+item + "' AND PLUSQTY >0";
+            SvSql = "select  l.LOTNO from LSTOCKVALUE l,LOTMAST lt WHERE lt.LOTNO=l.LOTNO AND lt.INSFLAG='1' AND DRUMNO='" + ItemId + "' AND LOCID='" + loc + "' AND ITEMID ='"+item + "' AND PLUSQTY >0 GROUP BY LOTNO";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -944,7 +944,7 @@ namespace Arasan.Services
         public DataTable GetInput(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select BPRODBASICID,IITEMID,BINBASIC.BINID,IBINID,IBATCHNO,IBATCHQTY,IQTY,CHARGINGTIME,IDRUMNO,UNITMAST.UNITID from BPRODINPDET INNER JOIN ITEMMASTER on ITEMMASTERID=BPRODINPDET.IITEMID LEFT OUTER  JOIN UNITMAST on UNITMASTID=ITEMMASTER.PRIUNIT   LEFT OUTER JOIN BINBASIC ON BINBASICID=BPRODINPDET.IBINID where BPRODBASICID='" + id + "' ";
+            SvSql = "select BPRODBASICID,IITEMID,BINBASIC.BINID,IBINID,IBATCHNO,IBATCHQTY,IQTY,IS_INSERT,CHARGINGTIME,IDRUMNO,UNITMAST.UNITID from BPRODINPDET INNER JOIN ITEMMASTER on ITEMMASTERID=BPRODINPDET.IITEMID LEFT OUTER  JOIN UNITMAST on UNITMASTID=ITEMMASTER.PRIUNIT   LEFT OUTER JOIN BINBASIC ON BINBASICID=BPRODINPDET.IBINID where BPRODBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -954,7 +954,7 @@ namespace Arasan.Services
         public DataTable GetCons(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select BPRODBASICID,CITEMID,CBINID,CUNIT,CLOTYN,CNARR,CONSQTY,CSUBQTY,VALIDROW3,BPRODCONSDETROW from BPRODCONSDET  where BPRODBASICID='" + id + "' ";
+            SvSql = "select BPRODBASICID,CITEMID,CBINID,CUNIT,CLOTYN,CNARR,CONSQTY,IS_INSERT,CSUBQTY,VALIDROW3,BPRODCONSDETROW from BPRODCONSDET  where BPRODBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1028,7 +1028,13 @@ namespace Arasan.Services
             }
             string drumno = datatrans.GetDataString("SELECT DRUMNO FROM DRUMMAST WHERE DRUMMASTID='" + drum + "'");
             string itemname = datatrans.GetDataString("SELECT ITEMID FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
+            string qcyn = datatrans.GetDataString("SELECT QCCOMPFLAG FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
             string obatch = "";
+            if(qcyn=="YES")
+            {
+                qcyn = "0";
+            }
+            else { qcyn = "1"; }
             if (stock=="0")
             {
                  obatch = "None";
@@ -1039,7 +1045,7 @@ namespace Arasan.Services
             }
             string nbatch= itemname + " - " + work + " - " + drumno + " - " + doc;
             string narr= "Production in " + work + " - " + process + " - " + drumno;
-            SvSql = "Insert into BPRODOUTDET (BPRODBASICID,OITEMID,ODRUMNO,STIME,OQTY,ETIME,OXQTY,STATUS,IS_ACCOUNTED,OSTOCK,TOLOCATION,TOLOCDETAILSID,OCDRUMNO,LWCID,LPROCESS,LSHIFT,LSCH,OBINID,OBATCHNO,NBATCHNO,ONARR) VALUES ('" + id + "','" + item + "','" + drum + "','" + time + "','" + qty + "','" + totime + "','" + exqty + "','" + stat + "','"+ is_account + "','"+stock+"','"+ loc + "','"+ loc +"','" + drumno+ "','" + work + "','" + process + "','" + shift + "','" + schedule + "','0','"+ obatch +"','"+ nbatch +"','"+ narr +"')";
+            SvSql = "Insert into BPRODOUTDET (BPRODBASICID,OITEMID,ODRUMNO,STIME,OQTY,ETIME,OXQTY,STATUS,IS_ACCOUNTED,OSTOCK,TOLOCATION,TOLOCDETAILSID,OCDRUMNO,LWCID,LPROCESS,LSHIFT,LSCH,OBINID,OBATCHNO,NBATCHNO,ONARR,INSFLAGCTRL) VALUES ('" + id + "','" + item + "','" + drum + "','" + time + "','" + qty + "','" + totime + "','" + exqty + "','" + stat + "','"+ is_account + "','"+stock+"','"+ loc + "','"+ loc +"','" + drumno+ "','" + work + "','" + process + "','" + shift + "','" + schedule + "','0','"+ obatch +"','"+ nbatch +"','"+ narr +"','"+ qcyn +"')";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -1210,11 +1216,11 @@ namespace Arasan.Services
                 }
                 ///////////////////////////// Input Inventory
 
-                using (OracleDataReader reader = objCmds.ExecuteReader())
-                {
-                    // Load data into DataTable
-                    dtt.Load(reader);
-                }
+                //using (OracleDataReader reader = objCmds.ExecuteReader())
+                //{
+                //    // Load data into DataTable
+                //    dtt.Load(reader);
+                //}
             }
             
             return dtt;
@@ -1247,11 +1253,11 @@ namespace Arasan.Services
                 SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG) VALUES ('" + detid + "','m','" + item + "','" + docdate + "','" + qty + "' ,'" + wopro.Rows[0]["ILOCDETAILSID"].ToString() + "','0','0','0','0','0','0','0','BPROD CONS','" + insflag + "')";
                 OracleCommand objCmdss = new OracleCommand(SvSql1, objConnT);
                 objCmdss.ExecuteNonQuery();
-                using (OracleDataReader reader = objCmds.ExecuteReader())
-                {
-                    // Load data into DataTable
-                    dtt.Load(reader);
-                }
+                //using (OracleDataReader reader = objCmds.ExecuteReader())
+                //{
+                //    // Load data into DataTable
+                //    dtt.Load(reader);
+                //}
             }
                 return dtt;
         }

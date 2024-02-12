@@ -95,6 +95,7 @@ namespace Arasan.Models
         public List<SelectListItem> batchlst { get; set; }
         public string batchno { get; set; }
         public string Time { get; set; }
+        public string insert { get; set; }
         public double batchqty { get; set; }
         public double StockAvailable { get; set; }
         public double IssueQty { get; set; }
@@ -163,6 +164,7 @@ namespace Arasan.Models
 		public double Qty { get; set; }
 		public string Isvalid { get; set; }
 		public string BinId { get; set; }
+		public string insert { get; set; }
 
 		public string saveitemId { get; set; }
 
