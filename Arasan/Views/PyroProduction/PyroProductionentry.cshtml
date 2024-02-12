@@ -200,7 +200,7 @@
                                                 <h4>@Html.DisplayFor(C => C.Eng)</h4>
 
                                                 @Html.HiddenFor(C => C.super)
-                                                @Html.HiddenFor(C => C.Branch)
+                                                @Html.HiddenFor(C => C.Branch,new{@id="hdbrch"})
 
                                             </div>
                                         </div>
@@ -1332,9 +1332,10 @@
             var prodqty = document.getElementById("txtProdQty").value;
             var wcid = document.getElementById("WorkCenterid").value;
             var proclot = document.getElementById("ddlProcessLot").value;
+            var brid = document.getElementById("hdbrch").value;
             $.ajax({
                 url: 'SaveOutDetail',
-                data: { "schno": schno, "docid": docid, "docdate": docdate, "loc": loc, "proc": proc, "shift": shift, "schqty": schqty, "prodqty": prodqty, "wcid": wcid, "proclot": proclot },
+                data: { "schno": schno, "docid": docid, "docdate": docdate, "loc": loc, "proc": proc, "shift": shift, "schqty": schqty, "prodqty": prodqty, "wcid": wcid, "proclot": proclot, "brid": brid },
                 type: "POST",
                 success: function (result) {
                     var pid = result.pid;

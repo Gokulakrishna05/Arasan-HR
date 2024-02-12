@@ -10,6 +10,7 @@ using Arasan.Interface;
 using System.Xml.Linq;
 using Arasan.Services.Sales;
 using AspNetCore.Reporting;
+using DocumentFormat.OpenXml.EMMA;
 
 namespace Arasan.Controllers
 {
@@ -65,7 +66,7 @@ namespace Arasan.Controllers
             List<PBunkerDetail> TData9 = new List<PBunkerDetail>();
             PBunkerDetail tda9 = new PBunkerDetail();
 
-            if (tag == "2" || tag == null)
+            if (string.IsNullOrEmpty(id))
             {
                 for (int i = 0; i < 3; i++)
                 {
@@ -147,7 +148,191 @@ namespace Arasan.Controllers
                     ViewBag.shift = dt.Rows[0]["SHIFT"].ToString();
 
                     ca.APID = id;
+                    ca.workid = "0";
+                    double MLDed = 0;
+                    string binopbal = Pyro.GetBinOPBal(ca.ProcessLot, ca.DocId,ca.ProcessId, ca.workid);
+                    string mlopbal = Pyro.GetMLOPBal(ca.ProcessLot, ca.DocId, ca.ProcessId, ca.workid);
+                    string powinp = datatrans.GetDataString("Select Sum(I.IQty) TotPinp From nProdBasic B , nProdInpDet I , LProdBasic LB , ItemMaster IM Where B.nProdBasicID = I.nProdBasicID And B.ProdLogID = LB.LProdBasicID And I.IItemID = IM.ItemMasterID And ( Upper(IM.SubCategory) <> 'GREASE' Or IM.SubCategory Is Null ) And LB.DocID = '"+ ca.DocId + "'");
+                    string totginp= datatrans.GetDataString("Select SUm(Qty) from (Select Sum(I.IQty) Qty From nProdBasic B , nProdInpDet I , LProdBasic LB , ItemMaster IM Where B.nProdBasicID = I.nProdBasicID And B.ProdLogID = LB.LProdBasicID And I.IItemID = IM.ItemMasterID And Upper(IM.SubCategory) = 'GREASE' And LB.DocID = '" + ca.DocId + "' Union All Select Sum(I.ConsQty) TotGinp From nProdBasic B , nProdConsDet I , LProdBasic LB , ItemMaster IM Where B.nProdBasicID = I.nProdBasicID And B.ProdLogID = LB.LProdBasicID And I.CItemID = IM.ItemMasterID And Upper(IM.SubCategory) = 'GREASE' And LB.DocID = '" + ca.DocId + "') ");
+                    string TotOut = datatrans.GetDataString("Select Sum(I.OQty) TotOut From nProdBasic B , nProdOutDet I , LProdBasic LB , ItemMaster IM Where B.nProdBasicID = I.nProdBasicID And B.ProdLogID = LB.LProdBasicID And I.OItemID = IM.ItemMasterID And LB.DocID = '"+ ca.DocId + "'");
+                    string TotOxd = datatrans.GetDataString("Select Sum(I.OxQty) TotOxd From nProdBasic B , nProdOutDet I , LProdBasic LB , ItemMaster IM Where B.nProdBasicID = I.nProdBasicID And B.ProdLogID = LB.LProdBasicID And I.OItemID = IM.ItemMasterID And Upper(IM.SnCategory) = 'PYRO POWDER' And LB.DocID = '"+ ca.DocId + "'");
+                    string MLAdd = datatrans.GetDataString("Select Sum(I.MLOADADD) TotOxd From nProdBasic B , nProdInpDet I , LProdBasic LB  Where B.nProdBasicID = I.nProdBasicID And B.ProdLogID = LB.LProdBasicID And LB.DocID = '"+ ca.DocId + "'");
+                    double Totinp = Convert.ToDouble(binopbal == "" ? 0 : binopbal) + Convert.ToDouble(powinp == "" ? 0 : powinp);
+                    double MlClBal = (Convert.ToDouble(mlopbal == "" ? 0 : mlopbal) + Convert.ToDouble(MLAdd == "" ? 0 : MLAdd)) - MLDed;
+                    double TotRmCh = Convert.ToDouble(TotOut == "" ? 0 : TotOut) + Convert.ToDouble(MLAdd == "" ? 0 : MLAdd) - MLDed - Convert.ToDouble(TotOxd == "" ? 0 : TotOxd) - Convert.ToDouble(totginp == "" ? 0 : totginp);
+                    double ClBal = Math.Round((((Totinp + Convert.ToDouble(totginp == "" ? 0 : totginp) + Convert.ToDouble(TotOxd == "" ? 0 : TotOxd)) - Convert.ToDouble(TotOut == "" ? 0 : TotOut)) - Convert.ToDouble(MLAdd == "" ? 0 : MLAdd) + MLDed), 0);
+
+                    tda9 = new PBunkerDetail();
+                    tda9.OPBin = Convert.ToDouble(binopbal == "" ? 0 : binopbal);
+                    tda9.PIP= Convert.ToDouble(powinp == "" ? 0 : powinp);
+                    tda9.GIP = Convert.ToDouble(totginp == "" ? 0 : totginp);
+                    tda9.TIP = Totinp;
+                    tda9.TOP = Convert.ToDouble(TotOut == "" ? 0 : TotOut);
+                    tda9.OXD = Convert.ToDouble(TotOxd == "" ? 0 : TotOxd);
+                    tda9.TRM = TotRmCh;
+                    tda9.CLBin = ClBal;
+                    tda9.MLOP = Convert.ToDouble(mlopbal == "" ? 0 : mlopbal);
+                    tda9.MLAdd = Convert.ToDouble(MLAdd == "" ? 0 : MLAdd);
+                    tda9.MLCL = MlClBal;
+                    TData9.Add(tda9);
+
+
+
+
+                    DataTable dt2 = new DataTable();
+
+                    dt2 = Pyro.GetInput(id);
+                    if (dt2.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt2.Rows.Count; i++)
+                        {
+                            tda = new PProInput();
+                            tda.Itemlst = BindItemlst();
+                            tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                            tda.Time = dt2.Rows[i]["CHARGINGTIME"].ToString();
+                            tda.BinId = dt2.Rows[i]["BINID"].ToString();
+                            tda.batchno = dt2.Rows[i]["BATCHNO"].ToString();
+                            tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
+                            tda.StockAvailable = Convert.ToDouble(dt2.Rows[i]["STOCK"].ToString() == "" ? "0" : dt2.Rows[i]["STOCK"].ToString());
+                            tda.APID = id;
+                            tda.Isvalid = "Y";
+                            TData.Add(tda);
+
+                        }
+
+                    }
+                    DataTable dt3 = new DataTable();
+                    dt3 = Pyro.GetCons(id);
+                    if (dt3.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt3.Rows.Count; i++)
+                        {
+                            tda1 = new PAPProInCons();
+                            tda1.Itemlst = BindItemlstCon();
+                            tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
+                            tda1.consunit = dt3.Rows[i]["UNITID"].ToString();
+                            tda1.BinId = dt3.Rows[i]["BINID"].ToString();
+                            tda1.Qty = Convert.ToDouble(dt3.Rows[i]["QTY"].ToString() == "" ? "0" : dt3.Rows[i]["QTY"].ToString());
+                            tda1.consQty = Convert.ToDouble(dt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CONSQTY"].ToString());
+                            tda1.ConsStock = Convert.ToDouble(dt3.Rows[i]["STOCK"].ToString() == "" ? "0" : dt3.Rows[i]["STOCK"].ToString());
+
+                            tda1.APID = id;
+                            tda1.Isvalid = "Y";
+                            TData1.Add(tda1);
+                        }
+
+                    }
+
+                    DataTable dt4 = new DataTable();
+                    dt4 = Pyro.GetEmpdet(id);
+                    if (dt4.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt4.Rows.Count; i++)
+                        {
+                            tda2 = new PEmpDetails();
+                            tda2.Employeelst = BindEmp();
+                            tda2.Employee = dt4.Rows[i]["EMPID"].ToString();
+
+                            tda2.EmpCode = dt4.Rows[i]["EMPCODE"].ToString();
+                            tda2.Depart = dt4.Rows[i]["DEPARTMENT"].ToString();
+                            tda2.StartDate = dt4.Rows[i]["STARTDATE"].ToString();
+                            tda2.StartTime = dt4.Rows[i]["STARTTIME"].ToString();
+                            tda2.EndDate = dt4.Rows[i]["ENDDATE"].ToString();
+                            tda2.EndTime = dt4.Rows[i]["ENDTIME"].ToString();
+                            tda2.OTHrs = dt4.Rows[i]["OTHOUR"].ToString();
+
+                            tda2.ETOther = dt4.Rows[i]["ETOTHER"].ToString();
+                            tda2.Normal = dt4.Rows[i]["NHOUR"].ToString();
+                            tda2.NOW = dt4.Rows[i]["NATUREOFWORK"].ToString();
+                            tda2.ID = id;
+                            tda2.Isvalid = "Y";
+                            TTData2.Add(tda2);
+
+                        }
+
+                    }
+                    DataTable dt5 = new DataTable();
+                    dt5 = Pyro.GetBreak(id);
+                    if (dt5.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt5.Rows.Count; i++)
+                        {
+                            tda3 = new PBreakDet();
+                            tda3.Machinelst = BindMachineID();
+                            tda3.MachineId = dt5.Rows[i]["MACHCODE"].ToString();
+                            tda3.Emplst = BindEmp();
+                            tda3.MachineDes = dt5.Rows[i]["DESCRIPTION"].ToString();
+                            tda3.StartTime = dt5.Rows[i]["FROMTIME"].ToString();
+                            tda3.EndTime = dt5.Rows[i]["TOTIME"].ToString();
+                            tda3.PB = dt5.Rows[i]["PB"].ToString();
+                            tda3.Isvalid = "Y";
+                            tda3.Alloted = dt5.Rows[i]["ALLOTTEDTO"].ToString();
+                            tda3.DType = dt5.Rows[i]["DTYPE"].ToString();
+                            tda3.MType = dt5.Rows[i]["MTYPE"].ToString();
+                            tda3.Reason = dt5.Rows[i]["REASON"].ToString();
+
+                            tda3.APID = id;
+                            TData3.Add(tda3);
+                        }
+
+                    }
+                    DataTable dt6 = new DataTable();
+
+                    dt6 = Pyro.GetOutput(id);
+                    if (dt6.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt6.Rows.Count; i++)
+                        {
+                            tda4 = new PProOutput();
+                            tda4.Itemlst = BindOutItemlst();
+                            tda4.ItemId = dt6.Rows[i]["ITEMID"].ToString();
+                            tda4.BinId = dt6.Rows[i]["BINID"].ToString();
+                            tda4.drumlst = BindDrum();
+                            tda4.drumno = dt6.Rows[i]["DRUMNO"].ToString();
+                            tda4.FromTime = dt6.Rows[i]["FROMTIME"].ToString();
+                            tda4.ToTime = dt6.Rows[i]["TOTIME"].ToString();
+                            tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OUTQTY"].ToString());
+                            DataTable dt7 = new DataTable();
+                             tda4.APID = id;
+                            tda4.Isvalid = "Y";
+                            TData4.Add(tda4);
+
+                        }
+
+                    }
+                    DataTable adt7 = new DataTable();
+
+                    adt7 = Pyro.GetLogdetail(id);
+                    if (adt7.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt6.Rows.Count; i++)
+                        {
+                            tda5 = new PLogDetails();
+
+                            tda5.StartDate = adt7.Rows[i]["STARTDATE"].ToString();
+                            tda5.StartTime = adt7.Rows[i]["STARTTIME"].ToString();
+
+                            tda5.EndDate = adt7.Rows[i]["ENDDATE"].ToString();
+
+                            tda5.Reason = adt7.Rows[i]["REASON"].ToString();
+
+
+
+                            tda5.EndTime = adt7.Rows[i]["ENDTIME"].ToString();
+                            tda5.tothrs = adt7.Rows[i]["TOTALHRS"].ToString();
+
+                            tda5.APID = id;
+                            TTData5.Add(tda5);
+                            tda5.Isvalid = "Y";
+                        }
+
+                    }
+
+
+
+
                 }
+
 
             }
 
@@ -651,12 +836,12 @@ namespace Arasan.Controllers
             //model.drumlst = BindDrum(item);
             return Json(BindDrum(item));
         }
-        public ActionResult SaveOutDetail(string schno, string docid, string docdate, string loc, string proc, string shift, string schqty, string prodqty, string wcid, string proclot)
+        public ActionResult SaveOutDetail(string schno, string docid, string docdate, string loc, string proc, string shift, string schqty, string prodqty, string wcid, string proclot, string brid)
         {
             try
             {
-                string pid = "14";
-                // pid = Pyro.SaveOutDetails(schno, docid, docdate, loc, proc, shift, schqty, prodqty, wcid, proclot);
+                string pid = "0";
+                pid = Pyro.SaveBasicDetail(schno, docid, docdate, loc, proc, shift, schqty, prodqty, wcid, proclot, brid);
                 var result = new { pid = pid };
                 return Json(result);
             }
