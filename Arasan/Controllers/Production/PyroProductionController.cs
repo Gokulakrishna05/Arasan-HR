@@ -47,7 +47,7 @@ namespace Arasan.Controllers
             DataTable dtv = datatrans.GetSequence("nProd");
             if (dtv.Rows.Count > 0)
             {
-                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
             }
             List<PBreakDet> TData3 = new List<PBreakDet>();
             PBreakDet tda3 = new PBreakDet();
@@ -137,18 +137,21 @@ namespace Arasan.Controllers
 
                 DataTable dt = new DataTable();
 
-                dt = Pyro.GetPyroProd(id);
+                dt = Pyro.GetProduction(id);
                 if (dt.Rows.Count > 0)
                 {
-                    ca.Location = dt.Rows[0]["LOCID"].ToString();
+                    ca.Location = dt.Rows[0]["WORKID"].ToString();
                     ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.DocId = dt.Rows[0]["DOCID"].ToString();
-                    ca.Eng = dt.Rows[0]["EMPNAME"].ToString();
+                    ca.Eng = dt.Rows[0]["ENTEREDBY"].ToString();
                     ca.Shift = dt.Rows[0]["SHIFT"].ToString();
                     ViewBag.shift = dt.Rows[0]["SHIFT"].ToString();
-
+                    ca.ProcessLot= dt.Rows[0]["PROCLOTNO"].ToString();
+                    ca.ProcessId= dt.Rows[0]["PROCESSID"].ToString();
+                    ca.ProdQty = dt.Rows[0]["PRODQTY"].ToString();
+                    ca.SchQty = dt.Rows[0]["SCHQTY"].ToString();
                     ca.APID = id;
-                    ca.workid = "0";
+                    ca.workid = dt.Rows[0]["WCID"].ToString(); 
                     double MLDed = 0;
                     string binopbal = Pyro.GetBinOPBal(ca.ProcessLot, ca.DocId,ca.ProcessId, ca.workid);
                     string mlopbal = Pyro.GetMLOPBal(ca.ProcessLot, ca.DocId, ca.ProcessId, ca.workid);
@@ -179,154 +182,154 @@ namespace Arasan.Controllers
 
 
 
-                    DataTable dt2 = new DataTable();
+                    //DataTable dt2 = new DataTable();
 
-                    dt2 = Pyro.GetInput(id);
-                    if (dt2.Rows.Count > 0)
-                    {
-                        for (int i = 0; i < dt2.Rows.Count; i++)
-                        {
-                            tda = new PProInput();
-                            tda.Itemlst = BindItemlst();
-                            tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
-                            tda.Time = dt2.Rows[i]["CHARGINGTIME"].ToString();
-                            tda.BinId = dt2.Rows[i]["BINID"].ToString();
-                            tda.batchno = dt2.Rows[i]["BATCHNO"].ToString();
-                            tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
-                            tda.StockAvailable = Convert.ToDouble(dt2.Rows[i]["STOCK"].ToString() == "" ? "0" : dt2.Rows[i]["STOCK"].ToString());
-                            tda.APID = id;
-                            tda.Isvalid = "Y";
-                            TData.Add(tda);
+                    //dt2 = Pyro.GetInput(id);
+                    //if (dt2.Rows.Count > 0)
+                    //{
+                    //    for (int i = 0; i < dt2.Rows.Count; i++)
+                    //    {
+                    //        tda = new PProInput();
+                    //        tda.Itemlst = BindItemlst();
+                    //        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                    //        tda.Time = dt2.Rows[i]["CHARGINGTIME"].ToString();
+                    //        tda.BinId = dt2.Rows[i]["BINID"].ToString();
+                    //        tda.batchno = dt2.Rows[i]["BATCHNO"].ToString();
+                    //        tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
+                    //        tda.StockAvailable = Convert.ToDouble(dt2.Rows[i]["STOCK"].ToString() == "" ? "0" : dt2.Rows[i]["STOCK"].ToString());
+                    //        tda.APID = id;
+                    //        tda.Isvalid = "Y";
+                    //        TData.Add(tda);
 
-                        }
+                    //    }
 
-                    }
-                    DataTable dt3 = new DataTable();
-                    dt3 = Pyro.GetCons(id);
-                    if (dt3.Rows.Count > 0)
-                    {
-                        for (int i = 0; i < dt3.Rows.Count; i++)
-                        {
-                            tda1 = new PAPProInCons();
-                            tda1.Itemlst = BindItemlstCon();
-                            tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
-                            tda1.consunit = dt3.Rows[i]["UNITID"].ToString();
-                            tda1.BinId = dt3.Rows[i]["BINID"].ToString();
-                            tda1.Qty = Convert.ToDouble(dt3.Rows[i]["QTY"].ToString() == "" ? "0" : dt3.Rows[i]["QTY"].ToString());
-                            tda1.consQty = Convert.ToDouble(dt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CONSQTY"].ToString());
-                            tda1.ConsStock = Convert.ToDouble(dt3.Rows[i]["STOCK"].ToString() == "" ? "0" : dt3.Rows[i]["STOCK"].ToString());
+                    //}
+                    //DataTable dt3 = new DataTable();
+                    //dt3 = Pyro.GetCons(id);
+                    //if (dt3.Rows.Count > 0)
+                    //{
+                    //    for (int i = 0; i < dt3.Rows.Count; i++)
+                    //    {
+                    //        tda1 = new PAPProInCons();
+                    //        tda1.Itemlst = BindItemlstCon();
+                    //        tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
+                    //        tda1.consunit = dt3.Rows[i]["UNITID"].ToString();
+                    //        tda1.BinId = dt3.Rows[i]["BINID"].ToString();
+                    //        tda1.Qty = Convert.ToDouble(dt3.Rows[i]["QTY"].ToString() == "" ? "0" : dt3.Rows[i]["QTY"].ToString());
+                    //        tda1.consQty = Convert.ToDouble(dt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CONSQTY"].ToString());
+                    //        tda1.ConsStock = Convert.ToDouble(dt3.Rows[i]["STOCK"].ToString() == "" ? "0" : dt3.Rows[i]["STOCK"].ToString());
 
-                            tda1.APID = id;
-                            tda1.Isvalid = "Y";
-                            TData1.Add(tda1);
-                        }
+                    //        tda1.APID = id;
+                    //        tda1.Isvalid = "Y";
+                    //        TData1.Add(tda1);
+                    //    }
 
-                    }
+                    //}
 
-                    DataTable dt4 = new DataTable();
-                    dt4 = Pyro.GetEmpdet(id);
-                    if (dt4.Rows.Count > 0)
-                    {
-                        for (int i = 0; i < dt4.Rows.Count; i++)
-                        {
-                            tda2 = new PEmpDetails();
-                            tda2.Employeelst = BindEmp();
-                            tda2.Employee = dt4.Rows[i]["EMPID"].ToString();
+                    //DataTable dt4 = new DataTable();
+                    //dt4 = Pyro.GetEmpdet(id);
+                    //if (dt4.Rows.Count > 0)
+                    //{
+                    //    for (int i = 0; i < dt4.Rows.Count; i++)
+                    //    {
+                    //        tda2 = new PEmpDetails();
+                    //        tda2.Employeelst = BindEmp();
+                    //        tda2.Employee = dt4.Rows[i]["EMPID"].ToString();
 
-                            tda2.EmpCode = dt4.Rows[i]["EMPCODE"].ToString();
-                            tda2.Depart = dt4.Rows[i]["DEPARTMENT"].ToString();
-                            tda2.StartDate = dt4.Rows[i]["STARTDATE"].ToString();
-                            tda2.StartTime = dt4.Rows[i]["STARTTIME"].ToString();
-                            tda2.EndDate = dt4.Rows[i]["ENDDATE"].ToString();
-                            tda2.EndTime = dt4.Rows[i]["ENDTIME"].ToString();
-                            tda2.OTHrs = dt4.Rows[i]["OTHOUR"].ToString();
+                    //        tda2.EmpCode = dt4.Rows[i]["EMPCODE"].ToString();
+                    //        tda2.Depart = dt4.Rows[i]["DEPARTMENT"].ToString();
+                    //        tda2.StartDate = dt4.Rows[i]["STARTDATE"].ToString();
+                    //        tda2.StartTime = dt4.Rows[i]["STARTTIME"].ToString();
+                    //        tda2.EndDate = dt4.Rows[i]["ENDDATE"].ToString();
+                    //        tda2.EndTime = dt4.Rows[i]["ENDTIME"].ToString();
+                    //        tda2.OTHrs = dt4.Rows[i]["OTHOUR"].ToString();
 
-                            tda2.ETOther = dt4.Rows[i]["ETOTHER"].ToString();
-                            tda2.Normal = dt4.Rows[i]["NHOUR"].ToString();
-                            tda2.NOW = dt4.Rows[i]["NATUREOFWORK"].ToString();
-                            tda2.ID = id;
-                            tda2.Isvalid = "Y";
-                            TTData2.Add(tda2);
+                    //        tda2.ETOther = dt4.Rows[i]["ETOTHER"].ToString();
+                    //        tda2.Normal = dt4.Rows[i]["NHOUR"].ToString();
+                    //        tda2.NOW = dt4.Rows[i]["NATUREOFWORK"].ToString();
+                    //        tda2.ID = id;
+                    //        tda2.Isvalid = "Y";
+                    //        TTData2.Add(tda2);
 
-                        }
+                    //    }
 
-                    }
-                    DataTable dt5 = new DataTable();
-                    dt5 = Pyro.GetBreak(id);
-                    if (dt5.Rows.Count > 0)
-                    {
-                        for (int i = 0; i < dt5.Rows.Count; i++)
-                        {
-                            tda3 = new PBreakDet();
-                            tda3.Machinelst = BindMachineID();
-                            tda3.MachineId = dt5.Rows[i]["MACHCODE"].ToString();
-                            tda3.Emplst = BindEmp();
-                            tda3.MachineDes = dt5.Rows[i]["DESCRIPTION"].ToString();
-                            tda3.StartTime = dt5.Rows[i]["FROMTIME"].ToString();
-                            tda3.EndTime = dt5.Rows[i]["TOTIME"].ToString();
-                            tda3.PB = dt5.Rows[i]["PB"].ToString();
-                            tda3.Isvalid = "Y";
-                            tda3.Alloted = dt5.Rows[i]["ALLOTTEDTO"].ToString();
-                            tda3.DType = dt5.Rows[i]["DTYPE"].ToString();
-                            tda3.MType = dt5.Rows[i]["MTYPE"].ToString();
-                            tda3.Reason = dt5.Rows[i]["REASON"].ToString();
+                    //}
+                    //DataTable dt5 = new DataTable();
+                    //dt5 = Pyro.GetBreak(id);
+                    //if (dt5.Rows.Count > 0)
+                    //{
+                    //    for (int i = 0; i < dt5.Rows.Count; i++)
+                    //    {
+                    //        tda3 = new PBreakDet();
+                    //        tda3.Machinelst = BindMachineID();
+                    //        tda3.MachineId = dt5.Rows[i]["MACHCODE"].ToString();
+                    //        tda3.Emplst = BindEmp();
+                    //        tda3.MachineDes = dt5.Rows[i]["DESCRIPTION"].ToString();
+                    //        tda3.StartTime = dt5.Rows[i]["FROMTIME"].ToString();
+                    //        tda3.EndTime = dt5.Rows[i]["TOTIME"].ToString();
+                    //        tda3.PB = dt5.Rows[i]["PB"].ToString();
+                    //        tda3.Isvalid = "Y";
+                    //        tda3.Alloted = dt5.Rows[i]["ALLOTTEDTO"].ToString();
+                    //        tda3.DType = dt5.Rows[i]["DTYPE"].ToString();
+                    //        tda3.MType = dt5.Rows[i]["MTYPE"].ToString();
+                    //        tda3.Reason = dt5.Rows[i]["REASON"].ToString();
 
-                            tda3.APID = id;
-                            TData3.Add(tda3);
-                        }
+                    //        tda3.APID = id;
+                    //        TData3.Add(tda3);
+                    //    }
 
-                    }
-                    DataTable dt6 = new DataTable();
+                    //}
+                    //DataTable dt6 = new DataTable();
 
-                    dt6 = Pyro.GetOutput(id);
-                    if (dt6.Rows.Count > 0)
-                    {
-                        for (int i = 0; i < dt6.Rows.Count; i++)
-                        {
-                            tda4 = new PProOutput();
-                            tda4.Itemlst = BindOutItemlst();
-                            tda4.ItemId = dt6.Rows[i]["ITEMID"].ToString();
-                            tda4.BinId = dt6.Rows[i]["BINID"].ToString();
-                            tda4.drumlst = BindDrum();
-                            tda4.drumno = dt6.Rows[i]["DRUMNO"].ToString();
-                            tda4.FromTime = dt6.Rows[i]["FROMTIME"].ToString();
-                            tda4.ToTime = dt6.Rows[i]["TOTIME"].ToString();
-                            tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OUTQTY"].ToString());
-                            DataTable dt7 = new DataTable();
-                             tda4.APID = id;
-                            tda4.Isvalid = "Y";
-                            TData4.Add(tda4);
+                    //dt6 = Pyro.GetOutput(id);
+                    //if (dt6.Rows.Count > 0)
+                    //{
+                    //    for (int i = 0; i < dt6.Rows.Count; i++)
+                    //    {
+                    //        tda4 = new PProOutput();
+                    //        tda4.Itemlst = BindOutItemlst();
+                    //        tda4.ItemId = dt6.Rows[i]["ITEMID"].ToString();
+                    //        tda4.BinId = dt6.Rows[i]["BINID"].ToString();
+                    //        tda4.drumlst = BindDrum();
+                    //        tda4.drumno = dt6.Rows[i]["DRUMNO"].ToString();
+                    //        tda4.FromTime = dt6.Rows[i]["FROMTIME"].ToString();
+                    //        tda4.ToTime = dt6.Rows[i]["TOTIME"].ToString();
+                    //        tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OUTQTY"].ToString());
+                    //        DataTable dt7 = new DataTable();
+                    //         tda4.APID = id;
+                    //        tda4.Isvalid = "Y";
+                    //        TData4.Add(tda4);
 
-                        }
+                    //    }
 
-                    }
-                    DataTable adt7 = new DataTable();
+                    //}
+                    //DataTable adt7 = new DataTable();
 
-                    adt7 = Pyro.GetLogdetail(id);
-                    if (adt7.Rows.Count > 0)
-                    {
-                        for (int i = 0; i < dt6.Rows.Count; i++)
-                        {
-                            tda5 = new PLogDetails();
+                    //adt7 = Pyro.GetLogdetail(id);
+                    //if (adt7.Rows.Count > 0)
+                    //{
+                    //    for (int i = 0; i < dt6.Rows.Count; i++)
+                    //    {
+                    //        tda5 = new PLogDetails();
 
-                            tda5.StartDate = adt7.Rows[i]["STARTDATE"].ToString();
-                            tda5.StartTime = adt7.Rows[i]["STARTTIME"].ToString();
+                    //        tda5.StartDate = adt7.Rows[i]["STARTDATE"].ToString();
+                    //        tda5.StartTime = adt7.Rows[i]["STARTTIME"].ToString();
 
-                            tda5.EndDate = adt7.Rows[i]["ENDDATE"].ToString();
+                    //        tda5.EndDate = adt7.Rows[i]["ENDDATE"].ToString();
 
-                            tda5.Reason = adt7.Rows[i]["REASON"].ToString();
+                    //        tda5.Reason = adt7.Rows[i]["REASON"].ToString();
 
 
 
-                            tda5.EndTime = adt7.Rows[i]["ENDTIME"].ToString();
-                            tda5.tothrs = adt7.Rows[i]["TOTALHRS"].ToString();
+                    //        tda5.EndTime = adt7.Rows[i]["ENDTIME"].ToString();
+                    //        tda5.tothrs = adt7.Rows[i]["TOTALHRS"].ToString();
 
-                            tda5.APID = id;
-                            TTData5.Add(tda5);
-                            tda5.Isvalid = "Y";
-                        }
+                    //        tda5.APID = id;
+                    //        TTData5.Add(tda5);
+                    //        tda5.Isvalid = "Y";
+                    //    }
 
-                    }
+                    //}
 
 
 
@@ -1913,32 +1916,32 @@ namespace Arasan.Controllers
                 string ViewRow = string.Empty;
                 string Approve = string.Empty;
                 string Edit = string.Empty;
-                if (dtUsers.Rows[i]["IS_APPROVED"].ToString() == "Y")
-                {
+                //if (dtUsers.Rows[i]["IS_APPROVED"].ToString() == "Y")
+                //{
 
-                    //Generate = "<a href=Print?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
-                    Generate = "<a href=Print?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + " target='_blank'><img src='../Images/pdf.png' alt='Generate Pyro' width='20' /></a>";
-                    ViewRow = "<a href=ViewPyroProduction?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
-                    Approve = "";
-                    Edit = "";
-                }
+                //    //Generate = "<a href=Print?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
+                //    Generate = "<a href=Print?id=" + dtUsers.Rows[i]["NPRODBASICID"].ToString() + " target='_blank'><img src='../Images/pdf.png' alt='Generate Pyro' width='20' /></a>";
+                //    ViewRow = "<a href=ViewPyroProduction?id=" + dtUsers.Rows[i]["NPRODBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
+                //    Approve = "";
+                //    Edit = "";
+                //}
 
-                else
-                {
-                    Generate = "<a href=Print?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + " target='_blank'><img src='../Images/pdf.png' alt='Generate Pyro' width='20' /></a>";
-                    ViewRow = "<a href=ViewPyroProduction?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
-                    Approve = "<a href=ApprovePyroProduction?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Approve' /></a>";
-                    Edit = "<a href=PyroProductionentryDetail?id=" + dtUsers.Rows[i]["PYROPRODBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                }
+                //else
+                //{
+                    Generate = "<a href=Print?id=" + dtUsers.Rows[i]["NPRODBASICID"].ToString() + " target='_blank'><img src='../Images/pdf.png' alt='Generate Pyro' width='20' /></a>";
+                    ViewRow = "<a href=ViewPyroProduction?id=" + dtUsers.Rows[i]["NPRODBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
+                    Approve = "<a href=ApprovePyroProduction?id=" + dtUsers.Rows[i]["NPRODBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Approve' /></a>";
+                    Edit = "<a href=PyroProductionentry?id=" + dtUsers.Rows[i]["NPRODBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                //}
 
                 Reg.Add(new Pyrogrid
                 {
-                    id = dtUsers.Rows[i]["PYROPRODBASICID"].ToString(),
+                    id = dtUsers.Rows[i]["NPRODBASICID"].ToString(),
                     docid = dtUsers.Rows[i]["DOCID"].ToString(),
                     docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
-                    super = dtUsers.Rows[i]["EMPNAME"].ToString(),
+                    super = dtUsers.Rows[i]["ENTEREDBY"].ToString(),
                     shi = dtUsers.Rows[i]["SHIFT"].ToString(),
-                    location = dtUsers.Rows[i]["LOCID"].ToString(),
+                    location = dtUsers.Rows[i]["WCID"].ToString(),
                     reptrow = Generate,
                     editrow = Edit,
                     viewrow = ViewRow,
