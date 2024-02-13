@@ -345,71 +345,81 @@ a{
                                                                     int i = 0;
                                                                     foreach (var item in Model.inplst.ToList())
                                                                     {
-                                                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                                        @if(item.insert=="Y")
+                                                                                            <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                            @if(item.insert=="Y")
                                                                             {
-                                                                                                <td>
-                                                                                               @Html.DropDownListFor(o => o.inplst[i].ItemId, Model.inplst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" ,disabled="disabled"})  
-                                                                                        
-                                                                                             
-                                                                                                            @Html.HiddenFor(o => o.inplst[i].APID, new { @id = "txtAPID" + i, @class = "form-control", style = "width: 100px;"})
-                                                                                                            @Html.HiddenFor(o => o.inplst[i].saveitemId, new { @id = "txtsaveitemId" + i, @class = "form-control", style = "width: 100px;"})
-                                                                                                </td>
+                                                                                                    <td>
+                                                                                                   @Html.DropDownListFor(o => o.inplst[i].ItemId, Model.inplst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" ,disabled="disabled"})  
+                                                                                            
+                                                                                                 
+                                                                                                                @Html.HiddenFor(o => o.inplst[i].APID, new { @id = "txtAPID" + i, @class = "form-control", style = "width: 100px;"})
+                                                                                                                @Html.HiddenFor(o => o.inplst[i].saveitemId, new { @id = "txtsaveitemId" + i, @class = "form-control", style = "width: 100px;"})
+                                                                                                    </td>
                                                                                      
-                                                                                                     <td>@Html.TextBoxFor(o => o.inplst[i].unit, new { @id = "txtunit" + i, @class = "form-control", style = "width: 100px;",@readonly=true})</td>
+                                                                                                         <td>@Html.TextBoxFor(o => o.inplst[i].unit, new { @id = "txtunit" + i, @class = "form-control", style = "width: 100px;",@readonly=true})</td>
 
-                                                                                                        <td>@Html.TextBoxFor(o => o.inplst[i].BinId, new { @id = "txtBinId" + i, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.inplst[i].Bin, new { @id = "txtBin" + i, @class = "form-control", style = "width: 100px;",@readonly=true})</td>
-                                                                                             <td>
-                                                                                             <div id="drum@(i)">
-                                                                                               @Html.DropDownListFor(o => o.inplst[i].drumno, Model.inplst[i].drumlst, "Please Select", new { @class = "form-control _select newcss ", @id = "ddlIdrumno" + i, style = "width: 170px;", onchange = "GetBatch(this.value," + i + ")" ,disabled="disabled"})  
-                                                                                        </div>
-                                                                                              
-                                                                                                </td>
-                                                                                            <td>
-                                                                                            <div id="batchno@(i)">
-                                                                                               @Html.DropDownListFor(o => o.inplst[i].batchno, Model.inplst[i].batchlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlbatchno" + i, style = "width: 170px;",onchange = "GetBatchqty(this.value," + i + ")",disabled="disabled" })  
-                                                                                            </div></td>
-                                                                                                        <td>@Html.TextBoxFor(o => o.inplst[i].Time, new { @id = "txtITime" + i, @class = "form-control", style = "width: 100px;",@readonly=true})</td>
+                                                                                                            <td>@Html.TextBoxFor(o => o.inplst[i].BinId, new { @id = "txtBinId" + i, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.inplst[i].Bin, new { @id = "txtBin" + i, @class = "form-control", style = "width: 100px;",@readonly=true})</td>
+                                                                                                 <td>
+                                                                                                 <div id="drum@(i)">
+                                                                                                   @Html.DropDownListFor(o => o.inplst[i].drumno, Model.inplst[i].drumlst, "Please Select", new { @class = "form-control _select newcss ", @id = "ddlIdrumno" + i, style = "width: 170px;", onchange = "GetBatch(this.value," + i + ")" ,disabled="disabled"})  
+                                                                                            </div>
+                                                                                                  
+                                                                                                    </td>
+                                                                                                <td>
+                                                                                                <div id="batchno@(i)">
+                                                                                                   @Html.DropDownListFor(o => o.inplst[i].batchno, Model.inplst[i].batchlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlbatchno" + i, style = "width: 170px;",onchange = "GetBatchqty(this.value," + i + ")",disabled="disabled" })  
+                                                                                                </div></td>
+                                                                                                            <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                                                            @Html.TextBoxFor(o => o.inplst[i].Time, new { @id = "txtITime" + i, @class = "form-control", style = "width: 100px;",@readonly=true})
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                        </div>
+                                                        <input type="hidden" id="dtp_input3" value="" />
+                                                        </td>
 
-                                                                                                        <td>@Html.TextBoxFor(o => o.inplst[i].StockAvailable, new { @id = "txtStockAvailable" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" ,@readonly=true})</td>
-                                                                                            <td>@Html.TextBoxFor(o => o.inplst[i].IssueQty, new { @id = "txtIssueQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly=true})</td>
+                                                                                                            <td>@Html.TextBoxFor(o => o.inplst[i].StockAvailable, new { @id = "txtStockAvailable" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" ,@readonly=true})</td>
+                                                                                                <td>@Html.TextBoxFor(o => o.inplst[i].IssueQty, new { @id = "txtIssueQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly=true})</td>
 
                                                                             }
                                                                             else
                                                                             {
-                                                                                            <td>
-                                                                                               @Html.DropDownListFor(o => o.inplst[i].ItemId, Model.inplst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })  
-                                                                                        
-                                                                                             
-                                                                                                            @Html.HiddenFor(o => o.inplst[i].APID, new { @id = "txtAPID" + i, @class = "form-control", style = "width: 100px;"})
-                                                                                                            @Html.HiddenFor(o => o.inplst[i].saveitemId, new { @id = "txtsaveitemId" + i, @class = "form-control", style = "width: 100px;"})
-                                                                                                </td>
+                                                                                                <td>
+                                                                                                   @Html.DropDownListFor(o => o.inplst[i].ItemId, Model.inplst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })  
+                                                                                            
+                                                                                                 
+                                                                                                                @Html.HiddenFor(o => o.inplst[i].APID, new { @id = "txtAPID" + i, @class = "form-control", style = "width: 100px;"})
+                                                                                                                @Html.HiddenFor(o => o.inplst[i].saveitemId, new { @id = "txtsaveitemId" + i, @class = "form-control", style = "width: 100px;"})
+                                                                                                    </td>
                                                                                      
-                                                                                                     <td>@Html.TextBoxFor(o => o.inplst[i].unit, new { @id = "txtunit" + i, @class = "form-control", style = "width: 100px;",@readonly=true})</td>
+                                                                                                         <td>@Html.TextBoxFor(o => o.inplst[i].unit, new { @id = "txtunit" + i, @class = "form-control", style = "width: 100px;",@readonly=true})</td>
 
-                                                                                                        <td>@Html.TextBoxFor(o => o.inplst[i].BinId, new { @id = "txtBinId" + i, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.inplst[i].Bin, new { @id = "txtBin" + i, @class = "form-control", style = "width: 100px;"})</td>
-                                                                                             <td>
-                                                                                             <div id="drum@(i)">
-                                                                                               @Html.DropDownListFor(o => o.inplst[i].drumno, Model.inplst[i].drumlst, "Please Select", new { @class = "form-control _select newcss ", @id = "ddlIdrumno" + i, style = "width: 170px;", onchange = "GetBatch(this.value," + i + ")" })  
-                                                                                        </div>
-                                                                                              
+                                                                                                            <td>@Html.TextBoxFor(o => o.inplst[i].BinId, new { @id = "txtBinId" + i, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.inplst[i].Bin, new { @id = "txtBin" + i, @class = "form-control", style = "width: 100px;"})</td>
+                                                                                                 <td>
+                                                                                                 <div id="drum@(i)">
+                                                                                                   @Html.DropDownListFor(o => o.inplst[i].drumno, Model.inplst[i].drumlst, "Please Select", new { @class = "form-control _select newcss ", @id = "ddlIdrumno" + i, style = "width: 170px;", onchange = "GetBatch(this.value," + i + ")" })  
+                                                                                            </div>
+                                                                                                  
+                                                                                                    </td>
+                                                                                                <td>
+                                                                                                <div id="batchno@(i)">
+                                                                                                   @Html.DropDownListFor(o => o.inplst[i].batchno, Model.inplst[i].batchlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlbatchno" + i, style = "width: 170px;",onchange = "GetBatchqty(this.value," + i + ")" })  
+                                                                                                </div></td>
+                                                                                                             <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                                                            @Html.TextBoxFor(o => o.inplst[i].Time, new { @id = "txtITime" + i, @class = "form-control", style = "width: 70px;",@readonly=true})
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                        </div>
+                                                        <input type="hidden" id="dtp_input3" value="" />
+                                                        </td>
+
+                                                                                                            <td>@Html.TextBoxFor(o => o.inplst[i].StockAvailable, new { @id = "txtStockAvailable" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" ,@readonly=true})</td>
+                                                                                                <td>@Html.TextBoxFor(o => o.inplst[i].IssueQty, new { @id = "txtIssueQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})</td>
+
+                                                                                                <td>
+                                                                                                    @Html.HiddenFor(o => o.inplst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                                    <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" />
                                                                                                 </td>
-                                                                                            <td>
-                                                                                            <div id="batchno@(i)">
-                                                                                               @Html.DropDownListFor(o => o.inplst[i].batchno, Model.inplst[i].batchlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlbatchno" + i, style = "width: 170px;",onchange = "GetBatchqty(this.value," + i + ")" })  
-                                                                                            </div></td>
-                                                                                                        <td>@Html.TextBoxFor(o => o.inplst[i].Time, new { @id = "txtITime" + i, @class = "form-control", style = "width: 100px;"})</td>
-
-                                                                                                        <td>@Html.TextBoxFor(o => o.inplst[i].StockAvailable, new { @id = "txtStockAvailable" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" ,@readonly=true})</td>
-                                                                                            <td>@Html.TextBoxFor(o => o.inplst[i].IssueQty, new { @id = "txtIssueQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})</td>
-
-                                                                                            <td>
-                                                                                                @Html.HiddenFor(o => o.inplst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" />
-                                                                                            </td>
 
                                                                                 }
-                                                                                        </tr>
+                                                                                            </tr>
 
                                                                         i = i + 1;
                                                                     }
@@ -452,39 +462,39 @@ a{
                                                                     int j = 0;
                                                                     foreach (var item in Model.Binconslst.ToList())
                                                                     {
-                                                                                        <tr id="trBookinc@(j)" class="chkitemlstinc" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                                          @if(item.insert=="Y")
+                                                                                            <tr id="trBookinc@(j)" class="chkitemlstinc" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                              @if(item.insert=="Y")
                                                                             {
-                                                                                        <td>
-                                                                                                @Html.DropDownListFor(o => o.Binconslst[j].ItemId, Model.Binconslst[j].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlConsItem" + j, style = "width: 170px;", onchange = "changeconsItem(this.value," + j + ")",disabled="disabled" })
-                                                                                             @Html.HiddenFor(o => o.Binconslst[j].APID, new { @id = "txtCAPID" + j, @class = "form-control", style = "width: 100px;"})
-                                                                                                </td>
-                                                                                            <td>@Html.TextBoxFor(o => o.Binconslst[j].consunit, new { @id = "txtconsunit" + j, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.Binconslst[j].unitid, new { @id = "txtconsunitid" + j, @class = "form-control", style = "width: 100px;"})</td>
-                                                                                            <td>@Html.TextBoxFor(o => o.Binconslst[j].BinId, new { @id = "txtConsBinId" + j, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.Binconslst[j].consBin, new { @id = "txtConsBin" + j, @class = "form-control", style = "width: 100px;"})</td>
-                                                                                                        <td>@Html.TextBoxFor(o => o.Binconslst[j].ConsStock, new { @id = "txtConsStock" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" ,@readonly=true})</td>
-                                                                                            <td>@Html.TextBoxFor(o => o.Binconslst[j].consQty, new { @id = "txtconsQty" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" ,@readonly=true })</td>
-                                                                                             <td>@Html.TextBoxFor(o => o.Binconslst[j].Qty, new { @id = "txtQty" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" ,@readonly=true })</td>
+                                                                                            <td>
+                                                                                                    @Html.DropDownListFor(o => o.Binconslst[j].ItemId, Model.Binconslst[j].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlConsItem" + j, style = "width: 170px;", onchange = "changeconsItem(this.value," + j + ")",disabled="disabled" })
+                                                                                                 @Html.HiddenFor(o => o.Binconslst[j].APID, new { @id = "txtCAPID" + j, @class = "form-control", style = "width: 100px;"})
+                                                                                                    </td>
+                                                                                                <td>@Html.TextBoxFor(o => o.Binconslst[j].consunit, new { @id = "txtconsunit" + j, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.Binconslst[j].unitid, new { @id = "txtconsunitid" + j, @class = "form-control", style = "width: 100px;"})</td>
+                                                                                                <td>@Html.TextBoxFor(o => o.Binconslst[j].BinId, new { @id = "txtConsBinId" + j, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.Binconslst[j].consBin, new { @id = "txtConsBin" + j, @class = "form-control", style = "width: 100px;"})</td>
+                                                                                                            <td>@Html.TextBoxFor(o => o.Binconslst[j].ConsStock, new { @id = "txtConsStock" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" ,@readonly=true})</td>
+                                                                                                <td>@Html.TextBoxFor(o => o.Binconslst[j].consQty, new { @id = "txtconsQty" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" ,@readonly=true })</td>
+                                                                                                 <td>@Html.TextBoxFor(o => o.Binconslst[j].Qty, new { @id = "txtQty" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" ,@readonly=true })</td>
 
                                                                             }
                                                                             else
                                                                                 {
-                                                                                            <td>
-                                                                                                @Html.DropDownListFor(o => o.Binconslst[j].ItemId, Model.Binconslst[j].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlConsItem" + j, style = "width: 170px;", onchange = "changeconsItem(this.value," + j + ")" })
-                                                                                             @Html.HiddenFor(o => o.Binconslst[j].APID, new { @id = "txtCAPID" + j, @class = "form-control", style = "width: 100px;"})
-                                                                                                </td>
-                                                                                            <td>@Html.TextBoxFor(o => o.Binconslst[j].consunit, new { @id = "txtconsunit" + j, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.Binconslst[j].unitid, new { @id = "txtconsunitid" + j, @class = "form-control", style = "width: 100px;"})</td>
-                                                                                            <td>@Html.TextBoxFor(o => o.Binconslst[j].BinId, new { @id = "txtConsBinId" + j, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.Binconslst[j].consBin, new { @id = "txtConsBin" + j, @class = "form-control", style = "width: 100px;"})</td>
-                                                                                                        <td>@Html.TextBoxFor(o => o.Binconslst[j].ConsStock, new { @id = "txtConsStock" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" ,@readonly=true})</td>
-                                                                                            <td>@Html.TextBoxFor(o => o.Binconslst[j].consQty, new { @id = "txtconsQty" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })</td>
-                                                                                             <td>@Html.TextBoxFor(o => o.Binconslst[j].Qty, new { @id = "txtQty" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })</td>
+                                                                                                <td>
+                                                                                                    @Html.DropDownListFor(o => o.Binconslst[j].ItemId, Model.Binconslst[j].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlConsItem" + j, style = "width: 170px;", onchange = "changeconsItem(this.value," + j + ")" })
+                                                                                                 @Html.HiddenFor(o => o.Binconslst[j].APID, new { @id = "txtCAPID" + j, @class = "form-control", style = "width: 100px;"})
+                                                                                                    </td>
+                                                                                                <td>@Html.TextBoxFor(o => o.Binconslst[j].consunit, new { @id = "txtconsunit" + j, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.Binconslst[j].unitid, new { @id = "txtconsunitid" + j, @class = "form-control", style = "width: 100px;"})</td>
+                                                                                                <td>@Html.TextBoxFor(o => o.Binconslst[j].BinId, new { @id = "txtConsBinId" + j, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.Binconslst[j].consBin, new { @id = "txtConsBin" + j, @class = "form-control", style = "width: 100px;"})</td>
+                                                                                                            <td>@Html.TextBoxFor(o => o.Binconslst[j].ConsStock, new { @id = "txtConsStock" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" ,@readonly=true})</td>
+                                                                                                <td>@Html.TextBoxFor(o => o.Binconslst[j].consQty, new { @id = "txtconsQty" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })</td>
+                                                                                                 <td>@Html.TextBoxFor(o => o.Binconslst[j].Qty, new { @id = "txtQty" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })</td>
 
-                                                                                            <td>
-                                                                                                @Html.HiddenFor(o => o.Binconslst[j].Isvalid, new { @id = "IsConsvalid" + j })
-                                                                                                <img onclick="removeConsRow(@(j));" src="../Images/delete.png" style="cursor:pointer" />
-                </td>
+                                                                                                <td>
+                                                                                                    @Html.HiddenFor(o => o.Binconslst[j].Isvalid, new { @id = "IsConsvalid" + j })
+                                                                                                    <img onclick="removeConsRow(@(j));" src="../Images/delete.png" style="cursor:pointer" />
+                    </td>
             }
 
-                                                                                                    </tr>
+                                                                                                        </tr>
 
                                                                         j = j + 1;
                                                                     }
@@ -551,44 +561,52 @@ a{
                                                                         int m = 0;
                                                                         foreach (var item in Model.outlst.ToList())
                                                                         {
-                                                                                            <tr id="trBookout@(m)" class="chkitemlstout" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                <tr id="trBookout@(m)" class="chkitemlstout" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                                                                <td>
-                                                                                                    @* @Html.DisplayFor(o => o.outlst[m].ItemId) *@
-                                                                                                     @Html.DropDownListFor(o => o.outlst[m].ItemId, Model.outlst[m].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlOutItem" + m, style = "width: 170px;",onchange = "changeOutItem(this.value," + m + ")" })
-                                                                                                    @Html.HiddenFor(o => o.outlst[m].APID, new { @id = "txtOutAPID" + m, @class = "form-control", style = "width: 100px;"})
-                                                                                                
-                                                                                                </td>
-                                                                                               <td>@Html.TextBoxFor(o => o.outlst[m].unit, new { @id = "txtOunit" + m, @class = "form-control", style = "width: 100px;",@readonly=true}) </td>
+                                                                                                    <td>
+                                                                                                        @* @Html.DisplayFor(o => o.outlst[m].ItemId) *@
+                                                                                                         @Html.DropDownListFor(o => o.outlst[m].ItemId, Model.outlst[m].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlOutItem" + m, style = "width: 170px;",onchange = "changeOutItem(this.value," + m + ")" })
+                                                                                                        @Html.HiddenFor(o => o.outlst[m].APID, new { @id = "txtOutAPID" + m, @class = "form-control", style = "width: 100px;"})
+                                                                                                    
+                                                                                                    </td>
+                                                                                                   <td>@Html.TextBoxFor(o => o.outlst[m].unit, new { @id = "txtOunit" + m, @class = "form-control", style = "width: 100px;",@readonly=true}) </td>
 
-                                                                                                <td>  @Html.DropDownListFor(o => o.outlst[m].drumno, Model.outlst[m].drumlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddldrumno" + m, style = "width: 170px;"})</td>
-                                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].BinId, new { @id = "txtOutBinId" + m, @class = "form-control", style = "width: 100px;",@readonly=true}) @Html.HiddenFor(o => o.outlst[m].outBin, new { @id = "txtOutBin" + m, @class = "form-control", style = "width: 100px;"})</td>
-                                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].FromTime, new { @id = "txtFromTime" + m, @class = "form-control", style = "width: 80px; " })</td>
-                                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].ToTime, new { @id = "txtToTime" + m, @class = "form-control", style = "width: 80px; " })</td>
+                                                                                                    <td>  @Html.DropDownListFor(o => o.outlst[m].drumno, Model.outlst[m].drumlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddldrumno" + m, style = "width: 170px;"})</td>
+                                                                                                    <td>@Html.TextBoxFor(o => o.outlst[m].BinId, new { @id = "txtOutBinId" + m, @class = "form-control", style = "width: 100px;",@readonly=true}) @Html.HiddenFor(o => o.outlst[m].outBin, new { @id = "txtOutBin" + m, @class = "form-control", style = "width: 100px;"})</td>
+                                                                                                    <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                                                            @Html.TextBoxFor(o => o.outlst[m].FromTime, new { @id = "txtFromTime" + m, @class = "form-control", style = "width: 70px; " ,@readonly=true})
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                        </div>
+                                                        <input type="hidden" id="dtp_input3" value="" /></td>
+                                                                                                    <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                                                            @Html.TextBoxFor(o => o.outlst[m].ToTime, new { @id = "txtToTime" + m, @class = "form-control", style = "width: 70px; ",@readonly=true })
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                        </div>
+                                                        <input type="hidden" id="dtp_input3" value="" /></td>
 
-                                                                                                @* <td>@Html.TextBoxFor(o => o.outlst[m].consQty, new { @id = "txtconsQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeConsQty(this," + j + ")" })</td>
+                                                                                                    @* <td>@Html.TextBoxFor(o => o.outlst[m].consQty, new { @id = "txtconsQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeConsQty(this," + j + ")" })</td>
                                                                     *@
-                                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].OutputQty, new { @id = "txtOutputQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })   @Html.HiddenFor(o => o.outlst[m].Isvalid, new { @id = "Isoutvalid" + m })</td>
-                                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].ExcessQty, new { @id = "txtExcessQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" })</td>
-                                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].StockQty, new { @id = "txtStockQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right",@readonly="readonly" })</td>
-                                                                                                <td>@Html.DropDownListFor(o => o.outlst[m].StID, Model.outlst[m].statuslst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlstatus" + m, style = "width: 120px;" })</td>
-                                                                                                @if (item.Result != "Ok")
+                                                                                                    <td>@Html.TextBoxFor(o => o.outlst[m].OutputQty, new { @id = "txtOutputQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })   @Html.HiddenFor(o => o.outlst[m].Isvalid, new { @id = "Isoutvalid" + m })</td>
+                                                                                                    <td>@Html.TextBoxFor(o => o.outlst[m].ExcessQty, new { @id = "txtExcessQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" })</td>
+                                                                                                    <td>@Html.TextBoxFor(o => o.outlst[m].StockQty, new { @id = "txtStockQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right",@readonly="readonly" })</td>
+                                                                                                    <td>@Html.DropDownListFor(o => o.outlst[m].StID, Model.outlst[m].statuslst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlstatus" + m, style = "width: 120px;" })</td>
+                                                                                                    @if (item.Result != "Ok")
                                                                                 {
-                                                                                                    <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="outputsave(@(m))" >Save </button></td>
+                                                                                                        <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="outputsave(@(m))" >Save </button></td>
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                                     <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" disabled>Save</button></td>
+                                                                                                         <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" disabled>Save</button></td>
                                                                                 }
-                                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].Result, new { @id = "txtResult" + m, @class = "form-control", style = "width: 100px;text-align:right",@readonly=true })</td>
-                                                                                                <td> <img onclick="refreshrow(@(m));" src="../Images/refresh.gif" style="cursor:pointer;width:20px;height:20px;" /></td>
-                                                                                              @*    <td>
+                                                                                                    <td>@Html.TextBoxFor(o => o.outlst[m].Result, new { @id = "txtResult" + m, @class = "form-control", style = "width: 100px;text-align:right",@readonly=true })</td>
+                                                                                                    <td> <img onclick="refreshrow(@(m));" src="../Images/refresh.gif" style="cursor:pointer;width:20px;height:20px;" /></td>
+                                                                                                  @*    <td>
                                                                                     @Html.HiddenFor(o => o.outlst[m].Isvalid, new { @id = "Isoutvalid" + m })
                                                                                     <img onclick="removeConsRow(@(m));" src="../Images/delete.png" style="cursor:pointer" />
                                                                     </td>*@
 
 
-                                                                                            </tr>
+                                                                                                </tr>
 
                                                                             m = m + 1;
                                                                         }
@@ -657,43 +675,51 @@ a{
                                                                     int k = 0;
                                                                     foreach (var item in Model.EmplLst.ToList())
                                                                     {
-                                                                                        <tr id="trBookEmp@(k)" class="chkEmpitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                            <tr id="trBookEmp@(k)" class="chkEmpitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
 
 
-                                                                                            <td>
-                                                                                                @Html.DropDownListFor(o => o.EmplLst[k].Employee, Model.EmplLst[k].Employeelst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlEmployee" + k, style = "width: 170px;",onchange = "changeEmployeeItem(this.value," + k + ")" })
-                                                                                            @Html.HiddenFor(o => o.EmplLst[k].APID, new { @id = "txtEAPID" + k, @class = "form-control", style = "width: 100px;"})
+                                                                                                <td>
+                                                                                                    @Html.DropDownListFor(o => o.EmplLst[k].Employee, Model.EmplLst[k].Employeelst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlEmployee" + k, style = "width: 170px;",onchange = "changeEmployeeItem(this.value," + k + ")" })
+                                                                                                @Html.HiddenFor(o => o.EmplLst[k].APID, new { @id = "txtEAPID" + k, @class = "form-control", style = "width: 100px;"})
+                                                                                                    </td>
+                                                                                                <td>@Html.TextBoxFor(o => o.EmplLst[k].EmpCode, new { @id = "txtEmpCode" +k, @class = "form-control" , style = "width: 100px; "  })</td>
+                                                                                                <td>@Html.TextBoxFor(o => o.EmplLst[k].Depart, new { @id = "txtDepart" + k, @class = "form-control" , style = "width: 120px; "  })</td>
+
+                                                                                                <td>
+                                                                                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                                                        @Html.TextBoxFor(o => o.EmplLst[k].StartDate, new { @id = "txtStartDate" + k, @class = "form-control", style = "width: 100px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                                    </div>
                                                                                                 </td>
-                                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].EmpCode, new { @id = "txtEmpCode" +k, @class = "form-control" , style = "width: 100px; "  })</td>
-                                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].Depart, new { @id = "txtDepart" + k, @class = "form-control" , style = "width: 120px; "  })</td>
 
-                                                                                            <td>
-                                                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                                                                    @Html.TextBoxFor(o => o.EmplLst[k].StartDate, new { @id = "txtStartDate" + k, @class = "form-control", style = "width: 100px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                                                </div>
-                                                                                            </td>
+                                                                                                <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                                                            @Html.TextBoxFor(o => o.EmplLst[k].StartTime, new { @id = "txtStartTime" +k, @class = "form-control", style = "width: 70px;",@readonly=true})
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                        </div>
+                                                        <input type="hidden" id="dtp_input3" value="" /></td>
+                                                                                                <td>
+                                                                                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                                                        @Html.TextBoxFor(o => o.EmplLst[k].EndDate, new { @id = "txtEndDate" + k, @class = "form-control",  style = "width: 100px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                                    </div>
+                                                                                                </td>
+                                                                                                <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                                                            @Html.TextBoxFor(o => o.EmplLst[k].EndTime, new { @id = "txtEndTime" + k, @class = "form-control" , style = "width: 70px; ",@readonly=true })
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                        </div>
+                                                        <input type="hidden" id="dtp_input3" value="" /></td>
+                                                                                                <td>@Html.TextBoxFor(o => o.EmplLst[k].OTHrs, new { @id = "txtOTHrs" + k, @class = "form-control" , style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})</td>
+                                                                                                @* <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>*@
+                                                                                                <td>@Html.TextBoxFor(o => o.EmplLst[k].ETOther, new { @id = "txtETOther" + k, @class = "form-control" , style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })</td>
+                                                                                                <td>@Html.TextBoxFor(o => o.EmplLst[k].Normal, new { @id = "txtNormal" + k, @class = "form-control" , style = "width: 70px; " ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })</td>
+                                                                                                <td>@Html.TextBoxFor(o => o.EmplLst[k].NOW, new { @id = "txtNOW" + k, @class = "form-control" , style = "width: 120px; "  })</td>
 
-                                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].StartTime, new { @id = "txtStartTime" +k, @class = "form-control", style = "width: 110px;"})</td>
-                                                                                            <td>
-                                                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                                                                    @Html.TextBoxFor(o => o.EmplLst[k].EndDate, new { @id = "txtEndDate" + k, @class = "form-control",  style = "width: 100px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                                                </div>
-                                                                                            </td>
-                                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].EndTime, new { @id = "txtEndTime" + k, @class = "form-control" , style = "width: 110px; " })</td>
-                                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].OTHrs, new { @id = "txtOTHrs" + k, @class = "form-control" , style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})</td>
-                                                                                            @* <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>*@
-                                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].ETOther, new { @id = "txtETOther" + k, @class = "form-control" , style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })</td>
-                                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].Normal, new { @id = "txtNormal" + k, @class = "form-control" , style = "width: 70px; " ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })</td>
-                                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].NOW, new { @id = "txtNOW" + k, @class = "form-control" , style = "width: 120px; "  })</td>
-
-                                                                                            <td>
-                                                                                                @Html.HiddenFor(o => o.EmplLst[k].Isvalid, new { @id = "EmpIsvalid" + k})
-                                                                                                <img onclick="removeEmpRow(@(k));" src="../Images/delete.png" style="cursor:pointer" />
-                                                                                            </td>
+                                                                                                <td>
+                                                                                                    @Html.HiddenFor(o => o.EmplLst[k].Isvalid, new { @id = "EmpIsvalid" + k})
+                                                                                                    <img onclick="removeEmpRow(@(k));" src="../Images/delete.png" style="cursor:pointer" />
+                                                                                                </td>
 
 
-                                                                                        </tr>
+                                                                                            </tr>
 
                                                                         k = k + 1;
                                                                     }
@@ -742,32 +768,40 @@ a{
                                                             int r = 0;
                                                             foreach (var item in Model.SourcingLst.ToList())
                                                             {
-                                                                             <tr id="trBookOuts@(r)" class="chkOutsitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                                                                                                
-                                                              
-                                                                              <td>@Html.TextBoxFor(o => o.SourcingLst[r].NoOfEmp, new { @id = "txtNoOfEmp" + r, @class = "form-control" , style = "width: 110px; "  })</td>
-                                                                               <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >@Html.TextBoxFor(o => o.SourcingLst[r].StartDate, new { @id = "txtSStartDate" + r, @class = "form-control", style = "width: 100px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                                                                            </div> </td> 
-                                                                               
-                                                                                <td>@Html.TextBoxFor(o => o.SourcingLst[r].StartTime, new { @id = "txtSStartTime" + r, @class = "form-control", style = "width: 110px;", @Type="text"})</td> 
-                                                                                    <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy"> @Html.TextBoxFor(o => o.SourcingLst[r].EndDate, new { @id = "txtSEndDate" + r, @class = "form-control",  style = "width: 100px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                                                                            </div> </td>
-                                                                            <td>@Html.TextBoxFor(o => o.SourcingLst[r].EndTime, new { @id = "txtSEndTime" + r, @class = "form-control" , style = "width: 110px; ",@Type="text" , @onkeyup = "changehrs(this," + r + ")"})</td>
-                                                                    
-                                                                                <td>@Html.TextBoxFor(o => o.SourcingLst[r].WorkHrs, new { @id = "txWorkHrs" + r, @class = "form-control" , style = "width: 110px; ",onkeydown = "return isNumeric2(event.keyCode,this.value)"  })</td>
-                                                                                                        <td>@Html.TextBoxFor(o => o.SourcingLst[r].EmpCost, new { @id = "txtEmpCost" + r, @class = "form-control" , style = "width: 110px; " ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeexpence(this," + r + ")" })</td>
-                                                                                                        <td>@Html.TextBoxFor(o => o.SourcingLst[r].Expence, new { @id = "txtExpence" + r, @class = "form-control" , style = "width: 110px; "  })</td>                                                                  
-                                                                               
+                                                                                 <tr id="trBookOuts@(r)" class="chkOutsitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                                                    
+                                                                  
+                                                                                  <td>@Html.TextBoxFor(o => o.SourcingLst[r].NoOfEmp, new { @id = "txtNoOfEmp" + r, @class = "form-control" , style = "width: 110px; "  })</td>
+                                                                                   <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >@Html.TextBoxFor(o => o.SourcingLst[r].StartDate, new { @id = "txtSStartDate" + r, @class = "form-control", style = "width: 100px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                                                                </div> </td> 
+                                                                                   
+                                                                                    <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                                                            @Html.TextBoxFor(o => o.SourcingLst[r].StartTime, new { @id = "txtSStartTime" + r, @class = "form-control", style = "width: 70px;", @Type="text",@readonly=true})
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                        </div>
+                                                        <input type="hidden" id="dtp_input3" value="" /></td> 
+                                                                                        <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy"> @Html.TextBoxFor(o => o.SourcingLst[r].EndDate, new { @id = "txtSEndDate" + r, @class = "form-control",  style = "width: 100px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                                                                </div> </td>
+                                                                                <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                                                            @Html.TextBoxFor(o => o.SourcingLst[r].EndTime, new { @id = "txtSEndTime" + r, @class = "form-control" , style = "width: 70px; ",@Type="text" , @onchange = "changehrs(this.value," + r + ")",@readonly=true})
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                        </div>
+                                                        <input type="hidden" id="dtp_input3" value="" /></td>
                                                                         
-                                                                         <td>@Html.TextBoxFor(o => o.SourcingLst[r].NOW, new { @id = "txtNOFW" + r, @class = "form-control" , style = "width: 110px; "  })</td>
+                                                                                    <td>@Html.TextBoxFor(o => o.SourcingLst[r].WorkHrs, new { @id = "txWorkHrs" + r, @class = "form-control" , style = "width: 110px; ",onkeydown = "return isNumeric2(event.keyCode,this.value)"  })</td>
+                                                                                                            <td>@Html.TextBoxFor(o => o.SourcingLst[r].EmpCost, new { @id = "txtEmpCost" + r, @class = "form-control" , style = "width: 110px; " ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeexpence(this," + r + ")" })</td>
+                                                                                                            <td>@Html.TextBoxFor(o => o.SourcingLst[r].Expence, new { @id = "txtExpence" + r, @class = "form-control" , style = "width: 110px; "  })</td>                                                                  
+                                                                                   
+                                                                            
+                                                                             <td>@Html.TextBoxFor(o => o.SourcingLst[r].NOW, new { @id = "txtNOFW" + r, @class = "form-control" , style = "width: 110px; "  })</td>
 
-                                                                            <td>
-                                                                                            @Html.HiddenFor(o => o.SourcingLst[r].Isvalid, new { @id = "OutsIsvalid" + r})
-                                                                              <img onclick="removeOutsRow(@(r));" src="../Images/delete.png" style="cursor:pointer" /> 
-                                                                             </td>
+                                                                                <td>
+                                                                                                @Html.HiddenFor(o => o.SourcingLst[r].Isvalid, new { @id = "OutsIsvalid" + r})
+                                                                                  <img onclick="removeOutsRow(@(r));" src="../Images/delete.png" style="cursor:pointer" /> 
+                                                                                 </td>
 
 
-                                                                                                                                                </tr>
+                                                                                                                                                    </tr>
                                                       
                                                           r = r + 1;
                                                             }
@@ -837,35 +871,43 @@ a{
                                                             int a = 0;
                                                             foreach (var item in Model.BreakLst.ToList())
                                                             {
-                                                                                 <tr id="trBookBreak@(a)" class="chkBreakitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                                                                                                    
-                                                                  
+                                                                                     <tr id="trBookBreak@(a)" class="chkBreakitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                                                        
+                                                                      
 
-                                                                               <td>@Html.DropDownListFor(o => o.BreakLst[a].MachineId, Model.BreakLst[a].Machinelst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlMachineId" + a, style = "width: 120px;", onchange = "changeMachineItem(this.value," + a + ")" })
-                                                                                @Html.HiddenFor(o => o.BreakLst[a].APID, new { @id = "txtAPID" + a, @class = "form-control", style = "width: 100px;"})      
-                                                                               </td>
-                                                                                          <td>@Html.TextBoxFor(o => o.BreakLst[a].MachineDes, new { @id = "txtMachineDes" +a, @class = "form-control" , style = "width: 180px; "  })</td>
-                                                                              <td>@Html.TextBoxFor(o => o.BreakLst[a].DType, new { @id = "txtDType" + a, @class = "form-control" , style = "width: 120px; "  })</td>
+                                                                                   <td>@Html.DropDownListFor(o => o.BreakLst[a].MachineId, Model.BreakLst[a].Machinelst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlMachineId" + a, style = "width: 120px;", onchange = "changeMachineItem(this.value," + a + ")" })
+                                                                                    @Html.HiddenFor(o => o.BreakLst[a].APID, new { @id = "txtAPID" + a, @class = "form-control", style = "width: 100px;"})      
+                                                                                   </td>
+                                                                                              <td>@Html.TextBoxFor(o => o.BreakLst[a].MachineDes, new { @id = "txtMachineDes" +a, @class = "form-control" , style = "width: 180px; "  })</td>
+                                                                                  <td>@Html.TextBoxFor(o => o.BreakLst[a].DType, new { @id = "txtDType" + a, @class = "form-control" , style = "width: 120px; "  })</td>
 
-                                                                                      <td>@Html.TextBoxFor(o => o.BreakLst[a].MType, new { @id = "txtMType" + a, @class = "form-control" , style = "width: 120px;" })</td>
-                                                                                   
-                                                                                    <td>@Html.TextBoxFor(o => o.BreakLst[a].StartTime, new { @id = "txtBStartTime" +a, @class = "form-control", style = "width: 110px;" })</td> 
-                                                                                        
-                                                                                <td>@Html.TextBoxFor(o => o.BreakLst[a].EndTime, new { @id = "txtBEndTime" + a, @class = "form-control" , style = "width: 110px; "  })</td>
-                                                                            
-                                                                           @* <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>*@
-                                                                                <td>@Html.TextBoxFor(o => o.BreakLst[a].PB, new { @id = "txtPB" + a, @class = "form-control" , style = "width: 80px;" })</td>
-                                                                               <td>@Html.DropDownListFor(o => o.BreakLst[a].Alloted, Model.BreakLst[a].Emplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlAlloted" + a, style = "width: 140px;" })
-                                                                                      </td>
-                                                                                     <td>@Html.DropDownListFor(o => o.BreakLst[a].Reason,Model.BreakLst[a].Reasonlst, new { @id = "txtReason" +a, @class = "form-control _select" , style = "width: 180px; "  })</td>
+                                                                                          <td>@Html.TextBoxFor(o => o.BreakLst[a].MType, new { @id = "txtMType" + a, @class = "form-control" , style = "width: 120px;" })</td>
+                                                                                       
+                                                                                        <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                                                            @Html.TextBoxFor(o => o.BreakLst[a].StartTime, new { @id = "txtBStartTime" +a, @class = "form-control", style = "width: 70px;",@readonly=true })
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                        </div>
+                                                        <input type="hidden" id="dtp_input3" value="" /></td> 
+                                                                                            
+                                                                                    <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                                                            @Html.TextBoxFor(o => o.BreakLst[a].EndTime, new { @id = "txtBEndTime" + a, @class = "form-control" , style = "width: 70px; " ,@readonly=true })
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                        </div>
+                                                        <input type="hidden" id="dtp_input3" value="" /></td>
+                                                                                
+                                                                               @* <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>*@
+                                                                                    <td>@Html.TextBoxFor(o => o.BreakLst[a].PB, new { @id = "txtPB" + a, @class = "form-control" , style = "width: 80px;" })</td>
+                                                                                   <td>@Html.DropDownListFor(o => o.BreakLst[a].Alloted, Model.BreakLst[a].Emplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlAlloted" + a, style = "width: 140px;" })
+                                                                                          </td>
+                                                                                         <td>@Html.DropDownListFor(o => o.BreakLst[a].Reason,Model.BreakLst[a].Reasonlst, new { @id = "txtReason" +a, @class = "form-control _select" , style = "width: 180px; "  })</td>
 
-                                                                                <td>
-                                                                                                @Html.HiddenFor(o => o.BreakLst[a].Isvalid, new { @id = "BreakIsvalid" + a})
-                                                                                  <img onclick="removeBreakRow(@(a));" src="../Images/delete.png" style="cursor:pointer" /> 
-                                                                                 </td>
+                                                                                    <td>
+                                                                                                    @Html.HiddenFor(o => o.BreakLst[a].Isvalid, new { @id = "BreakIsvalid" + a})
+                                                                                      <img onclick="removeBreakRow(@(a));" src="../Images/delete.png" style="cursor:pointer" /> 
+                                                                                     </td>
 
 
-                                                                                                                                                    </tr>
+                                                                                                                                                        </tr>
                                                       
                                                          a =a + 1;
                                                             }
@@ -923,35 +965,43 @@ a{
                                                                             int x = 0;
                                                                             foreach (var item in Model.LogLst.ToList())
                                                                             {
-                                                                                                <tr id="trBookLog@(x)" class="chkLogitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                    <tr id="trBookLog@(x)" class="chkLogitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
 
 
-                                                                                                    <td>
-                                                                                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                                                                            @Html.TextBoxFor(o => o.LogLst[x].StartDate, new { @id = "txtLStartDate" + x, @class = "form-control", style = "width: 130px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                                                        </div>
-                                                                                                        @Html.HiddenFor(o => o.LogLst[x].APID, new { @id = "txtAPID" + x, @class = "form-control", style = "width: 100px;"})
-                                                                                                    </td>
+                                                                                                        <td>
+                                                                                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                                                                @Html.TextBoxFor(o => o.LogLst[x].StartDate, new { @id = "txtLStartDate" + x, @class = "form-control", style = "width: 130px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                                            </div>
+                                                                                                            @Html.HiddenFor(o => o.LogLst[x].APID, new { @id = "txtAPID" + x, @class = "form-control", style = "width: 100px;"})
+                                                                                                        </td>
 
-                                                                                                    <td>@Html.TextBoxFor(o => o.LogLst[x].StartTime, new { @id = "txtLStartTime" + x, @class = "form-control", style = "width: 120px;"})</td>
-                                                                                                    <td>
-                                                                                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                                                                            @Html.TextBoxFor(o => o.LogLst[x].EndDate, new { @id = "txtLEndDate" + x, @class = "form-control",  style = "width: 130px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                                                        </div>
-                                                                                                    </td>
-                                                                                                    <td>@Html.TextBoxFor(o => o.LogLst[x].EndTime, new { @id = "txtLEndTime" + x, @class = "form-control" , style = "width: 120px; " })</td>
-                                                                                                    <td>@Html.TextBoxFor(o => o.LogLst[x].tothrs, new { @id = "txtTotalHrs" + x, @class = "form-control" , style = "width: 100px;" })</td>
-                                                                                                    <td>@Html.DropDownListFor(o => o.LogLst[x].Reason,Model.LogLst[x].reasonlst, new { @id = "txtLReason" + x, @class = "form-control _select" , style = "width: 180px;" })</td>
+                                                                                                        <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                                                            @Html.TextBoxFor(o => o.LogLst[x].StartTime, new { @id = "txtLStartTime" + x, @class = "form-control", style = "width: 120px;",@readonly=true})
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                        </div>
+                                                        <input type="hidden" id="dtp_input3" value="" /></td>
+                                                                                                        <td>
+                                                                                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                                                                @Html.TextBoxFor(o => o.LogLst[x].EndDate, new { @id = "txtLEndDate" + x, @class = "form-control",  style = "width: 130px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                                            </div>
+                                                                                                        </td>
+                                                                                                        <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                                                            @Html.TextBoxFor(o => o.LogLst[x].EndTime, new { @id = "txtLEndTime" + x, @class = "form-control" , style = "width: 120px; ",@readonly=true })
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                        </div>
+                                                        <input type="hidden" id="dtp_input3" value="" /></td>
+                                                                                                        <td>@Html.TextBoxFor(o => o.LogLst[x].tothrs, new { @id = "txtTotalHrs" + x, @class = "form-control" , style = "width: 100px;" })</td>
+                                                                                                        <td>@Html.DropDownListFor(o => o.LogLst[x].Reason,Model.LogLst[x].reasonlst, new { @id = "txtLReason" + x, @class = "form-control _select" , style = "width: 180px;" })</td>
 
-                                                                                                    <td>
-                                                                                                        @Html.HiddenFor(o => o.LogLst[x].Isvalid, new { @id = "Isvalid" + x })
-                                                                                                        <img onclick="removeLogRow(@(x));" src="../Images/delete.png" style="cursor:pointer" />
-                                                                                                    </td>
+                                                                                                        <td>
+                                                                                                            @Html.HiddenFor(o => o.LogLst[x].Isvalid, new { @id = "Isvalid" + x })
+                                                                                                            <img onclick="removeLogRow(@(x));" src="../Images/delete.png" style="cursor:pointer" />
+                                                                                                        </td>
 
 
 
-                                                                                                </tr>
+                                                                                                    </tr>
 
                                                                                 x = x + 1;
                                                                             }
@@ -1026,6 +1076,17 @@ a{
             minView: 2,
             forceParse: 0
         });
+        $('.form_time').datetimepicker({
+       // language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    minView: 0,
+    maxView: 1,
+    forceParse: 0
+    });
     function changeshift(Shiftid) {
         $.ajax({
             url: 'GetshiftDetail',
@@ -2008,16 +2069,16 @@ a{
             forceParse: 0
         });
     }
-        function changehrs(_this, i) {
+        function changehrs(tohr, i) {
        var frtime = document.getElementById("txtSStartTime"+i).value;
        var entime = document.getElementById("txtSEndTime"+i).value;
         
-            var tothrs=eval(entime)-eval(frtime);
- 
-            document.getElementById("txWorkHrs" +i).value=tothrs;
+            var tothrs=eval(tohr)-eval(frtime);
+            var rohrs = Math.ceil(tothrs);
+            document.getElementById("txWorkHrs" +i).value=rohrs ;
 
         var cost = document.getElementById("txtEmpCost" + i).value;
-        var totexp = eval(tothrs) * eval(cost)
+        var totexp = eval(rohrs) * eval(cost)
         document.getElementById("txtExpence" + i).value = totexp;
     }
       function changeexpence(_this, i) {

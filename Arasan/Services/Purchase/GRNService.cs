@@ -436,10 +436,26 @@ namespace Arasan.Services
                                             svSQL = "Insert into LOTMAST (T1SOURCEID,ITEMID,PARTYID,RATE,DOCID,DOCDATE,QTY,LOTNO,LOCATION,INSFLAG,RCFLAG,PRODTYPE,QCRELASEFLAG,ESTATUS,COMPFLAG,AMOUNT,PACKFLAG,CURINWFLAG,CUROUTFLAG,PACKINSFLAG,MATCOST,MCCOST,EMPCOST,OTHERCOST,ADMINCOST,GENSETCOST,EBCOST,EBUNITRATE,DIESELRATE,TESTINSFLAG,BINNO,FIDRMS) VALUES ('" + GRNITEMID + "','" + cp.saveItemId + "','" + cy.Supplierid + "','" + cp.rate + "','" + cy.GRNNo + "','" + cy.GRNdate + "','" + cp.ConvQty + "','" + lotnumber + "','10036000012390','" + insflag + "','0','GRN','0','0','0','" + cp.Amount + "','0','0','0','0','0','0','0','0','0','0','0','0','0','0','" + itemma.Rows[0]["BINID"].ToString() + "','0')";
                                             OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                             objCmds.ExecuteNonQuery();
+                                            svSQL = "Insert into LSTOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,DOCID,DOCDATE,LOTNO,PLUSQTY,MINUSQTY,RATE,STOCKVALUE,ITEMID,LOCID,BINNO,FROMLOCID) VALUES ('0','0','F','" + GRNITEMID + "','0','" + cy.GRNNo + "','" + cy.GRNdate + "','" + lotnumber + "' ,'"+ cp.ConvQty +"','0','"+ cp.rate +"','"+cp.Amount + "','" + cp.saveItemId + "','10036000012390','" + itemma.Rows[0]["BINID"].ToString() + "','0')";
+                                            OracleCommand objCmdsss = new OracleCommand(svSQL, objConn);
+                                            objCmdsss.ExecuteNonQuery();
                                         }
-                                        svSQL = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,STOCKVALUE,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG) VALUES ('" + GRNITEMID + "','p','" + cp.saveItemId + "','" + cy.GRNdate + "','" + cp.ConvQty + "','" + cp.Amount + "','10036000012390','" + itemma.Rows[0]["BINNO"].ToString() + "','0','0','0','0','0','0','GRN','"+ insflag +"')";
-                                        OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
-                                        objCmdss.ExecuteNonQuery();
+
+                                        DataTable lstock = datatrans.GetData("SELECT ITEMID,T1SOURCEID,QTY FROM STOCKVALUE WHERE ITEMID='"+ cp.saveItemId + "' and T1SOURCEID='"+cy.GRNID+"'");
+                                        if (lstock.Rows.Count > 0)
+                                        {
+                                            double sqty = Convert.ToDouble(lstock.Rows[0]["QTY"].ToString());
+                                            double totqty = sqty - cp.ConvQty;
+                                            svSQL = "UPDATE LSTOCKVALUE SET QTY='"+ totqty + "' WHERE ITEMID='" + cp.saveItemId + "' and T1SOURCEID='" + cy.GRNID + "'";
+                                            OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                            objCmdss.ExecuteNonQuery();
+                                        }
+                                        else
+                                        {
+                                            svSQL = "Insert into STOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,STOCKVALUE,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG) VALUES ('0','0','F','" + cy.GRNID + "','p','" + cp.saveItemId + "','" + cy.GRNdate + "','" + cp.ConvQty + "','" + cp.Amount + "','10036000012390','" + itemma.Rows[0]["BINNO"].ToString() + "','0','0','0','0','0','0','GRN','" + insflag + "')";
+                                            OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                            objCmdss.ExecuteNonQuery();
+                                        }
                                     }
                                  
                                 }
