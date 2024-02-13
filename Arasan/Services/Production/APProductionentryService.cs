@@ -141,7 +141,7 @@ namespace Arasan.Services
         public DataTable GetDrumBatch(string ItemId, string loc,string item)
         {
             string SvSql = string.Empty;
-            SvSql = "select  l.LOTNO from LSTOCKVALUE l,LOTMAST lt WHERE lt.LOTNO=l.LOTNO AND lt.INSFLAG='1' AND DRUMNO='" + ItemId + "' AND LOCID='" + loc + "' AND ITEMID ='"+item + "' AND PLUSQTY >0 GROUP BY LOTNO";
+            SvSql = "select  l.LOTNO from LSTOCKVALUE l,LOTMAST lt WHERE lt.LOTNO=l.LOTNO AND lt.INSFLAG='1' AND l.DRUMNO='" + ItemId + "' AND l.LOCID='" + loc + "' AND l.ITEMID ='" + item + "' AND l.PLUSQTY >0 GROUP BY l.LOTNO";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -1161,7 +1161,7 @@ namespace Arasan.Services
                 }
                 if (drumid != "0" || batch != "")
                 {
-                    SvSql1 = "Insert into LSTOCKVALUE (T1SOURCEID,LATEMPLATEID,DOCID,DOCDATE,LOTNO,PLUSQTY,MINUSQTY,DRUMNO,RATE,STOCKVALUE,ITEMID,LOCID,BINNO,FROMLOCID,STOCKTRANSTYPE,BATCH) VALUES ('" + detid + "','754368046','" + wopro.Rows[0]["DOCID"].ToString() + "','" + docdate + "','" + batch + "' ,'0','" + qty + "','" + drum + "','0','0','" + item + "','" + wopro.Rows[0]["ILOCDETAILSID"].ToString() + "','0','0','BPROD INPUT','" + wopro.Rows[0]["BATCH"].ToString() + "')";
+                    SvSql1 = "Insert into LSTOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,DOCID,DOCDATE,LOTNO,PLUSQTY,MINUSQTY,DRUMNO,RATE,STOCKVALUE,ITEMID,LOCID,BINNO,FROMLOCID,STOCKTRANSTYPE,BATCH) VALUES ('0','0','F','" + detid + "','754368046','" + wopro.Rows[0]["DOCID"].ToString() + "','" + docdate + "','" + batch + "' ,'0','" + qty + "','" + drum + "','0','0','" + item + "','" + wopro.Rows[0]["ILOCDETAILSID"].ToString() + "','0','0','BPROD INPUT','" + wopro.Rows[0]["BATCH"].ToString() + "')";
                     objCmdss = new OracleCommand(SvSql1, objConnT);
                     objCmdss.ExecuteNonQuery();
 
