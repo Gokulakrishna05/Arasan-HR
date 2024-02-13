@@ -485,6 +485,17 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetProduction(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select W.WCID WORKID,N.BRANCH,N.PROCESSID,N.WCID,SHIFT,to_char(N.DOCDATE,'dd-MON-yyyy')DOCDATE,N.DOCID,N.ENTEREDBY,N.SCHQTY,N.PRODQTY,N.PROCLOTNO from NPRODBASIC N,WCBASIC W where W.WCBASICID=N.WCID AND N.NPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+
+        }
 
         public DataTable GetInputDeatils(string id)
         {
@@ -782,7 +793,7 @@ namespace Arasan.Services
                 }
 
                 DateTime fdate = DateTime.Now;
-               DateTime tdate = fdate.AddHours(Convert.ToDouble(totime=="" ?0 : totime));
+               DateTime tdate = fdate.AddHours(Convert.ToDouble(tothrs == "" ?0 : tothrs));
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
 
                 {
@@ -799,7 +810,7 @@ namespace Arasan.Services
                                 command.CommandText = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE='nProd' AND ACTIVESEQUENCE='T'";
                                 command.ExecuteNonQuery();
 
-                                command.CommandText = "insert into NPRODBASIC (APPROVAL,MAXAPPROVED,CANCEL,BRANCH,DOCID,DOCDATE,PROCESSID,WCID,PROCLOTNO,PSCHNO,ETYPE,ILOCDETAILSID,RLOCDETAILSID,WIPLOCDETAILSID,SHIFT,STARTDATE,STARTTIME,ENDDATE,ENDTIME,TOTMINS,TOTHRS,REJLOCDETAILSID,WIPITEMMASTERID,WIPITEMID,PTYPE,IBINYN,SCHQTY,PRODQTY,EBHRS,PROCESSMASTID,LSTARTDT,LSTARTTIME,LENDDT,LENDTIME,LHOUR,ILOCID,RLOCID,DRUMILOCDETAILSID,DRUMRETURNYN,PRODHRTYPE) Values ('0','0','F','" + branchid + "','"+ docid + "','"+ docdate + "','"+ proc + "','"+ wcid + "','"+ proclot + "','"+ schno + "','BOTH','"+ iloc + "','"+ rloc + "','"+ wiplocid + "','"+ shift + "','"+ fdate.ToString("dd-MMM-yyyy") + "','"+ fromtime + "','"+ tdate.ToString("dd-MMM-yyyy") + "','"+ totime + "',0,'"+ tothrs +"','"+ rejlocid + "','"+ wipitemd + "','"+ wipitemd + "','EB','NO','"+ schqty+"','"+ prodqty +"','"+ ebhr + "','"+ proc + "','" + fdate.ToString("dd-MMM-yyyy") + "','"+ fromtime +"','" + tdate.ToString("dd-MMM-yyyy") + "','"+ totime + "','"+ tothrs +"','"+ iloc + "','"+ rloc +"','"+ drumlocid +"','"+ drmreturnyn  + "','"+ prohrtype  + "') RETURNING NPRODBASICID INTO :LASTCID";
+                                command.CommandText = "insert into NPRODBASIC (APPROVAL,MAXAPPROVED,CANCEL,BRANCH,DOCID,DOCDATE,PROCESSID,WCID,PROCLOTNO,PSCHNO,ETYPE,ILOCDETAILSID,RLOCDETAILSID,WIPLOCDETAILSID,SHIFT,STARTDATE,STARTTIME,ENDDATE,ENDTIME,TOTMINS,TOTHRS,REJLOCDETAILSID,WIPITEMMASTERID,WIPITEMID,PTYPE,IBINYN,SCHQTY,PRODQTY,EBHRS,PROCESSMASTID,LSTARTDT,LSTARTTIME,LENDDT,LENDTIME,LHOUR,ILOCID,RLOCID,DRUMILOCDETAILSID,DRUMRETURNYN,PRODHRTYPE) Values ('0','0','F','" + branchid + "','" + docid + "','" + docdate + "','" + proc + "','" + wcid + "','" + proclot + "','" + schno + "','BOTH','" + iloc + "','" + rloc + "','" + wiplocid + "','" + shift + "','" + fdate.ToString("dd-MMM-yyyy") + "','" + fromtime + "','" + tdate.ToString("dd-MMM-yyyy") + "','" + totime + "',0,'" + tothrs + "','" + rejlocid + "','" + wipitemd + "','" + wipitemd + "','EB','NO','" + schqty + "','" + prodqty + "','" + ebhr + "','" + proc + "','" + fdate.ToString("dd-MMM-yyyy") + "','" + fromtime + "','" + tdate.ToString("dd-MMM-yyyy") + "','" + totime + "','" + tothrs + "','" + iloc + "','" + rloc + "','" + drumlocid + "','" + drmreturnyn + "','" + prohrtype + "') RETURNING NPRODBASICID INTO :LASTCID";
                                 command.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                 command.ExecuteNonQuery();
                                 Pid = command.Parameters["LASTCID"].Value.ToString();
@@ -1304,17 +1315,17 @@ namespace Arasan.Services
         public DataTable GetAllPyro(string strStatus)
         {
             string SvSql = string.Empty;
-            if (strStatus == "Y" || strStatus == null)
-            {
-                SvSql = "Select  DOCID,to_char(PYROPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SHIFT,EMPMAST.EMPNAME,LOCDETAILS.LOCID,PYROPRODBASICID,PYROPRODBASIC.IS_APPROVED from PYROPRODBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=PYROPRODBASIC.SUPERVISOR  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PYROPRODBASIC.LOCID  ORDER BY PYROPRODBASICID desc ";
+            //if (strStatus == "Y" || strStatus == null)
+            //{
+            //    SvSql = "Select  DOCID,to_char(PYROPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SHIFT,EMPMAST.EMPNAME,LOCDETAILS.LOCID,PYROPRODBASICID,PYROPRODBASIC.IS_APPROVED from PYROPRODBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=PYROPRODBASIC.SUPERVISOR  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PYROPRODBASIC.LOCID  ORDER BY PYROPRODBASICID desc ";
 
-            }
-            else
-            {
-                SvSql = "Select  DOCID,to_char(PYROPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SHIFT,EMPMAST.EMPNAME,LOCDETAILS.LOCID,PYROPRODBASICID,PYROPRODBASIC.IS_APPROVED from PYROPRODBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=PYROPRODBASIC.SUPERVISOR  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PYROPRODBASIC.LOCID  ORDER BY PYROPRODBASICID desc ";
+            //}
+            //else
+            //{
+            //    SvSql = "Select  DOCID,to_char(PYROPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SHIFT,EMPMAST.EMPNAME,LOCDETAILS.LOCID,PYROPRODBASICID,PYROPRODBASIC.IS_APPROVED from PYROPRODBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=PYROPRODBASIC.SUPERVISOR  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PYROPRODBASIC.LOCID  ORDER BY PYROPRODBASICID desc ";
 
-            }
-
+            //}
+            SvSql = "Select N.ENTEREDBY,N.NPRODBASICID,N.SHIFT,W.WCID,N.DOCID,to_char(N.DOCDATE,'dd-MON-yyyy')DOCDATE from NPRODBASIC N,WCBASIC W where W.WCBASICID=N.WCID order by N.NPRODBASICid ASC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

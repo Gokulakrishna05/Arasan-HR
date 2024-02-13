@@ -316,7 +316,7 @@
                                             <label for="inputName3" class="col-sm-4 control-label">Shift Details<label class="Mandatory"></label></label>
 
                                             <div class="col-sm-8">
-                                                <span style="color:green;font-size: 14px;"> <label id="shiftdetails"></label></span>
+                                                <span style="color:green;font-size: 14px;"> <label id="shiftdetails1"></label></span>
                                             </div>
                                         </div>
                                     </div>
@@ -1366,12 +1366,14 @@
         changeshift(shift);
     });
     function changeshift(Shiftid) {
+        @*alert(Shiftid);*@
         $.ajax({
             url: 'GetshiftDetail',
             data: { "Shiftid": Shiftid },
             type: "GET",
             success: function (result) {
                 document.getElementById("shiftdetails").innerHTML = result.fromtime + " to " + result.totime + "  Total Hours : " + result.tothrs;
+                document.getElementById("shiftdetails1").innerHTML = result.fromtime + " to " + result.totime + "  Total Hours : " + result.tothrs;
             },
             error: function () {
                 alert("Data Not Found");

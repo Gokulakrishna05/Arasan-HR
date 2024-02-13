@@ -20,7 +20,7 @@ namespace Arasan.Interface
 
         string  PyroProductionEntry(PyroProduction Cy);
 
-
+        DataTable GetProduction(string id);
         DataTable GetOutItemDetails(string id);
         DataTable GetConItemDetails(string id);
         DataTable GetItem();
