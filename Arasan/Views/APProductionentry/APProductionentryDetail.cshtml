@@ -683,8 +683,8 @@ a{
                                                                                                     @Html.DropDownListFor(o => o.EmplLst[k].Employee, Model.EmplLst[k].Employeelst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlEmployee" + k, style = "width: 170px;",onchange = "changeEmployeeItem(this.value," + k + ")" })
                                                                                                 @Html.HiddenFor(o => o.EmplLst[k].APID, new { @id = "txtEAPID" + k, @class = "form-control", style = "width: 100px;"})
                                                                                                     </td>
-                                                                                                <td>@Html.TextBoxFor(o => o.EmplLst[k].EmpCode, new { @id = "txtEmpCode" +k, @class = "form-control" , style = "width: 100px; "  })</td>
-                                                                                                <td>@Html.TextBoxFor(o => o.EmplLst[k].Depart, new { @id = "txtDepart" + k, @class = "form-control" , style = "width: 120px; "  })</td>
+                                                                                                <td>@Html.TextBoxFor(o => o.EmplLst[k].EmpCode, new { @id = "txtEmpCode" +k, @class = "form-control" , style = "width: 100px; " ,@readonly="readonly" })</td>
+                                                                                                <td>@Html.TextBoxFor(o => o.EmplLst[k].Depart, new { @id = "txtDepart" + k, @class = "form-control" , style = "width: 120px; " ,@readonly="readonly" })</td>
 
                                                                                                 <td>
                                                                                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
@@ -692,8 +692,8 @@ a{
                                                                                                     </div>
                                                                                                 </td>
 
-                                                                                                <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
-                                                            @Html.TextBoxFor(o => o.EmplLst[k].StartTime, new { @id = "txtStartTime" +k, @class = "form-control", style = "width: 70px;",@readonly=true})
+                                                                                                <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh.ii">
+                                                            @Html.TextBoxFor(o => o.EmplLst[k].StartTime, new { @id = "txtStartTime" +k, @class = "form-control", style = "width: 70px;",@readonly=true, @onchange = "changeehrs(" + k + ")"})
                                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                                                         </div>
                                                         <input type="hidden" id="dtp_input3" value="" /></td>
@@ -702,15 +702,15 @@ a{
                                                                                                         @Html.TextBoxFor(o => o.EmplLst[k].EndDate, new { @id = "txtEndDate" + k, @class = "form-control",  style = "width: 100px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                                                                     </div>
                                                                                                 </td>
-                                                                                                <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
-                                                            @Html.TextBoxFor(o => o.EmplLst[k].EndTime, new { @id = "txtEndTime" + k, @class = "form-control" , style = "width: 70px; ",@readonly=true })
+                                                                                                <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh.ii">
+                                                            @Html.TextBoxFor(o => o.EmplLst[k].EndTime, new { @id = "txtEndTime" + k, @class = "form-control" , style = "width: 70px; ",@readonly=true, @onchange = "changeehrs(" + k + ")" })
                                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                                                         </div>
                                                         <input type="hidden" id="dtp_input3" value="" /></td>
-                                                                                                <td>@Html.TextBoxFor(o => o.EmplLst[k].OTHrs, new { @id = "txtOTHrs" + k, @class = "form-control" , style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})</td>
+                                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].OTHrs, new { @id = "txtOTHrs" + k, @class = "form-control" , style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "chempexpence(this," + k + ")"})@Html.HiddenFor(o => o.EmplLst[k].Empcost,new{@id="hdempcost"+ k})@Html.HiddenFor(o => o.EmplLst[k].OTcost,new{@id="hdotcost"+ k})</td>
                                                                                                 @* <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>*@
-                                                                                                <td>@Html.TextBoxFor(o => o.EmplLst[k].ETOther, new { @id = "txtETOther" + k, @class = "form-control" , style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })</td>
-                                                                                                <td>@Html.TextBoxFor(o => o.EmplLst[k].Normal, new { @id = "txtNormal" + k, @class = "form-control" , style = "width: 70px; " ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })</td>
+                                                                                                <td>@Html.TextBoxFor(o => o.EmplLst[k].ETOther, new { @id = "txtETOther" + k, @class = "form-control" , style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" ,@readonly=true})</td>
+                                                                                                <td>@Html.TextBoxFor(o => o.EmplLst[k].Normal, new { @id = "txtNormal" + k, @class = "form-control" , style = "width: 70px; " ,onkeydown = "return isNumeric2(event.keyCode,this.value)" ,@readonly=true})</td>
                                                                                                 <td>@Html.TextBoxFor(o => o.EmplLst[k].NOW, new { @id = "txtNOW" + k, @class = "form-control" , style = "width: 120px; "  })</td>
 
                                                                                                 <td>
@@ -738,7 +738,7 @@ a{
                                               <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="btn-group">
-                                                        <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" />
+                                                        <input type="button" value="Add Row" onclick="AddOEmpRow()" class="btn sbold green" />
                                                     </div>
                                                 </div>
                                                  </div>
@@ -771,7 +771,7 @@ a{
                                                                                  <tr id="trBookOuts@(r)" class="chkOutsitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                                                                                                     
                                                                   
-                                                                                  <td>@Html.TextBoxFor(o => o.SourcingLst[r].NoOfEmp, new { @id = "txtNoOfEmp" + r, @class = "form-control" , style = "width: 110px; "  })</td>
+                                                                                  <td>@Html.TextBoxFor(o => o.SourcingLst[r].NoOfEmp, new { @id = "txtNoOfEmp" + r, @class = "form-control" , style = "width: 110px; " , @onkeyup = "changeexpence(this," + r + ")" })</td>
                                                                                    <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >@Html.TextBoxFor(o => o.SourcingLst[r].StartDate, new { @id = "txtSStartDate" + r, @class = "form-control", style = "width: 100px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                                                                                                 </div> </td> 
                                                                                    
@@ -788,7 +788,7 @@ a{
                                                         </div>
                                                         <input type="hidden" id="dtp_input3" value="" /></td>
                                                                         
-                                                                                    <td>@Html.TextBoxFor(o => o.SourcingLst[r].WorkHrs, new { @id = "txWorkHrs" + r, @class = "form-control" , style = "width: 110px; ",onkeydown = "return isNumeric2(event.keyCode,this.value)"  })</td>
+                                                                                    <td>@Html.TextBoxFor(o => o.SourcingLst[r].WorkHrs, new { @id = "txWorkHrs" + r, @class = "form-control" , style = "width: 110px; ",onkeydown = "return isNumeric2(event.keyCode,this.value)" ,@readonly="readonly" })</td>
                                                                                                             <td>@Html.TextBoxFor(o => o.SourcingLst[r].EmpCost, new { @id = "txtEmpCost" + r, @class = "form-control" , style = "width: 110px; " ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeexpence(this," + r + ")" })</td>
                                                                                                             <td>@Html.TextBoxFor(o => o.SourcingLst[r].Expence, new { @id = "txtExpence" + r, @class = "form-control" , style = "width: 110px; "  })</td>                                                                  
                                                                                    
@@ -976,7 +976,7 @@ a{
                                                                                                             @Html.HiddenFor(o => o.LogLst[x].APID, new { @id = "txtAPID" + x, @class = "form-control", style = "width: 100px;"})
                                                                                                         </td>
 
-                                                                                                        <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                                                                                                        <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh.ii">
                                                             @Html.TextBoxFor(o => o.LogLst[x].StartTime, new { @id = "txtLStartTime" + x, @class = "form-control", style = "width: 120px;",@readonly=true})
                                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                                                         </div>
@@ -986,8 +986,8 @@ a{
                                                                                                                 @Html.TextBoxFor(o => o.LogLst[x].EndDate, new { @id = "txtLEndDate" + x, @class = "form-control",  style = "width: 130px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                                                                             </div>
                                                                                                         </td>
-                                                                                                        <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh:ii">
-                                                            @Html.TextBoxFor(o => o.LogLst[x].EndTime, new { @id = "txtLEndTime" + x, @class = "form-control" , style = "width: 120px; ",@readonly=true })
+                                                                                                        <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh.ii">
+                                                            @Html.TextBoxFor(o => o.LogLst[x].EndTime, new { @id = "txtLEndTime" + x, @class = "form-control" , style = "width: 120px; ",@readonly=true , @onchange = "changeloghrs(" + x + ")"})
                                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                                                         </div>
                                                         <input type="hidden" id="dtp_input3" value="" /></td>
@@ -1427,7 +1427,7 @@ a{
                var drum = "<td><div id='drum" + index + "'> <select style = 'width: 170px;' class='form-control _select newcss' id='ddlIdrumno" + index + "' name='inputlst[" + index + "].drumno' onchange = 'GetBatch(this.value," + index + ")'><option value=''>Please select</option>" + remopt + "</select></div></td>";
 
                var batchno = "<td><div id='batchno" + index + "'> <select style = 'width: 170px;' class='form-control _select newcss' id='ddlbatchno" + index + "' name='inputlst[" + index + "].batchno' onchange = 'GetBatchqty(this.value," + index + ")'><option value=''>Please select</option>" + lot + "</select></div></td>";
-        var time = "<td><input class='form-control'  id='txtITime" + index + "' name='inputlst[" + index + "].Time' style='width: 100px;' type='text'   onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
+        var time = "<td><div class='input-group date form_time col-md-5' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control'  id='txtITime" + index + "' name='inputlst[" + index + "].Time' style='width: 100px;' type='text' readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div></td>";
 
         var stock = "<td><input class='form-control'  id='txtStockAvailable" + index + "' name='inputlst[" + index + "].StockAvailable' style='width: 80px; text-align:right' type='text'   onkeydown = 'return isNumeric2(event.keyCode,this.value)' readonly='true'></td>";
         var issueqty = "<td><input class='form-control'  id='txtIssueQty" + index + "' name='inputlst[" + index + "].IssueQty'  type='text'   style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' ></td>";
@@ -1438,6 +1438,17 @@ a{
         $(function () {
             $('._select').select2();
         });
+
+          $('.form_time').datetimepicker({
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    minView: 0,
+    maxView: 1,
+    forceParse: 0
+    });
     }
     function AppendOutRow(opt,remopt) {
         var index = $("#tbBooksout").children("tr").length;
@@ -1447,11 +1458,11 @@ a{
 
         var drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddldrumno" + index + "' name='outlst[" + index + "].drumno'  ><option value=''>Please select</option>" + remopt + "</select></td>";
         var bin = "<td><input class='form-control'  id='txtOutBinId" + index + "' name='outlst[" + index + "].BinId' style='width: 100px;' type='text' value='' readonly='true'><input type='hidden' id='txtOutBin" + index + "' name='outlst[" + index + "].OutBin'></td>";
-        var time = "<td><input class='form-control'  id='txtFromTime" + index + "' name='outlst[" + index + "].FromTime' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
-         var totime = "<td><input class='form-control'  id='txtToTime" + index + "' name='outlst[" + index + "].ToTime' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
+        var time = "<td><div class='input-group date form_time col-md-5' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control'  id='txtFromTime" + index + "' name='outlst[" + index + "].FromTime' style='width: 80px;' type='text' value='' readonly='readonly' ><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div></td>";
+         var totime = "<td><div class='input-group date form_time col-md-5' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control'  id='txtToTime" + index + "' name='outlst[" + index + "].ToTime' style='width: 80px;' type='text' value='' readonly='readonly' ><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div></td>";
         var qty = "<td><input class='form-control'  id='txtOutputQty" + index + "' name='outlst[" + index + "].OutputQty'  type='text' value='' style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' ></td>";
         var exqty="<td><input class='form-control'  id='txtExcessQty" + index + "' name='outlst[" + index + "].ExcessQty' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0'></td>";
-                var stock="<td><input class='form-control'  id='txtStockQty" + index + "' name='outlst[" + index + "].StockQty' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' readonly='true'></td>";
+         var stock="<td><input class='form-control'  id='txtStockQty" + index + "' name='outlst[" + index + "].StockQty' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' readonly='true'></td>";
    
         var stat="<td><select class='form-control _select newcss' id='ddlstatus" + index + "' name='outlst[" + index + "].StID' style='width: 120px;'><option selected='selected' value='COMPLETED'>COMPLETED</option><option value='PENDING'>PENDING</option></select></td>";
         var qc = "<td> <button type='button' class='btn aqua m - t - xs bottom15 - xs' id='Save' onclick='outputsave(" + index + ")'>Save </button></td>";
@@ -1464,6 +1475,17 @@ a{
         $(function () {
             $('._select').select2();
         });
+          $('.form_time').datetimepicker({
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    minView: 0,
+    maxView: 1,
+    forceParse: 0
+    });
+
     }
     function AppendConsRow(opt) {
         var index = $("#tbBooksinc").children("tr").length;
@@ -1519,6 +1541,19 @@ a{
             }
         })
     }
+    function AddOEmpRow(){
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetEmpJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendOEmpRow(opt);
+            }
+        })
+    }
     function changeEmployeeItem(ItemId, i) {
         $.ajax({
             url: 'GetEmployeeDetail',
@@ -1528,7 +1563,8 @@ a{
 
                 document.getElementById("txtEmpCode" + i).value = result.code;
                 document.getElementById("txtDepart" + i).value = result.dept;
-
+                document.getElementById("hdempcost" + i).value = result.empcost;
+                document.getElementById("hdotcost" + i).value = result.othrs;
 
 
             },
@@ -1540,6 +1576,7 @@ a{
     function AddBreakRow() {
         var opt = "";
         var remopt = "";
+        var breakopt="";
         $.ajax({
             type: "POST",
             url: 'GetBreakJSON',
@@ -1554,28 +1591,41 @@ a{
                         $.each(data, function () {
                             remopt += "<option value=" + this.value + ">" + this.text + "</option>";
                         });
-                        AppendBreakRow(opt, remopt);
+                        $.ajax({
+                    type: "POST",
+                    url: 'GetReasonJSON',
+                    success: function (data) {
+                        $.each(data, function () {
+                            breakopt += "<option value=" + this.value + ">" + this.text + "</option>";
+                        });
+                        AppendBreakRow(opt, remopt,breakopt);
                     }
                 })
 
+
+                    }
+                })
+
+
             }
         })
+
     }
     function AppendEmpRow(opt) {
         var index = $("#tbBooksEmp").children("tr").length;
         var empname = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlEmployee" + index + "' name='EmpLst[" + index + "].Employee' onchange = 'changeEmployeeItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var code = "<td><input class='form-control'  id='txtEmpCode" + index + "' name='EmpLst[" + index + "].EmpCode' style='width: 100px;'   value=''><input class='form-control'  id='txtEAPID" + index + "' name='EmpLst[" + index + "].APID' style='width: 100px;'   value='' type='hidden'></td>";
+        var code = "<td><input class='form-control'  id='txtEmpCode" + index + "' name='EmpLst[" + index + "].EmpCode' style='width: 100px;' readonly='readonly'   value=''><input class='form-control'  id='txtEAPID" + index + "' name='EmpLst[" + index + "].APID' style='width: 100px;'   value='' type='hidden'></td>";
 
-        var Department = "<td><input class='form-control'  id='txtDepart" + index + "' name='EmpLst[" + index + "].Depart' style='width: 120px;'   value=''></td>";
+        var Department = "<td><input class='form-control'  id='txtDepart" + index + "' name='EmpLst[" + index + "].Depart' style='width: 120px;' readonly='readonly'   value=''></td>";
 
         var startdate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtStartDate" + index + "' name='EmpLst[" + index + "].StartDate' style='width: 100px;' type='text' value=''readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
-        var starttime = "<td><input class='form-control'  id='txtStartTime" + index + "' name='EmpLst[" + index + "].StartTime' style='width: 110px;'   value=''></td>";
+        var starttime = "<td><div class='input-group date form_time col-md-5' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control'  id='txtStartTime" + index + "' name='EmpLst[" + index + "].StartTime' style='width: 110px;'   value='' readonly='True' onchange = 'changeehrs(" + index + ")' ><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div></td>";
         var enddate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtEndDate" + index + "' name='EmpLst[" + index + "].EndDate' style='width: 100px;' type='text' value='' readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
-        var endtime = "<td><input class='form-control'  id='txtEndTime" + index + "' name='EmpLst[" + index + "].EndTime' style='width: 110px;'   value=''></td>";
-        var othrs = "<td><input class='form-control'  id='txtOTHrs" + index + "' name='EmpLst[" + index + "].OTHrs' style='width: 80px;' type='text' value=''></td>";
-        var ethrs = "<td><input class='form-control'  id='txtETOther" + index + "' name='EmpLst[" + index + "].ETOther' style='width: 80px;'   value=''></td>";
-        var nhr = "<td><input class='form-control'  id='txtNormal" + index + "' name='EmpLst[" + index + "].Normal' style='width: 70px;'   value=''></td>";
+        var endtime = "<td><div class='input-group date form_time col-md-5' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control'  id='txtEndTime" + index + "' name='EmpLst[" + index + "].EndTime' style='width: 110px;'   value='' readonly='readonly' onchange = 'changeehrs(" + index + ")' ><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div></td>";
+        var othrs = "<td><input class='form-control'  id='txtOTHrs" + index + "' name='EmpLst[" + index + "].OTHrs' style='width: 80px;' type='text' value='' onkeyup = 'chempexpence(this," + index + ")' ><input id='hdempcost" + index + "' name='EmpLst[" + index + "].Empcost'   type='hidden' /><input id='hdotcost" + index + "' name='EmpLst[" + index + "].OTcost'   type='hidden' /></td>";
+        var ethrs = "<td><input class='form-control'  id='txtETOther" + index + "' name='EmpLst[" + index + "].ETOther' style='width: 80px;'   value='' readonly='readonly' ></td>";
+        var nhr = "<td><input class='form-control'  id='txtNormal" + index + "' name='EmpLst[" + index + "].Normal' style='width: 70px;'   value='' readonly='readonly' ></td>";
         var now = "<td><input class='form-control'  id='txtNow" + index + "' name='EmpLst[" + index + "].Reason' style='width: 120px;'   value=''></td>";
 
         var removeCell = "<td><input id='IsEmpvalid" + index + "' name='EmpLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeEmpRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
@@ -1597,21 +1647,77 @@ a{
             minView: 2,
             forceParse: 0
         });
+
+          $('.form_time').datetimepicker({
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    minView: 0,
+    maxView: 1,
+    forceParse: 0
+    });
+
+    }
+     function AppendOEmpRow(opt) {
+        var index = $("#tbBooksoutsour").children("tr").length;
+
+        var noemp = "<td><input class='form-control'  id='txtNoOfEmp" + index + "' name='SourcingLst[" + index + "].NoOfEmp' style='width: 120px;'   value=''></td>"
+        var startdate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtSStartDate" + index + "' name='SourcingLst[" + index + "].StartDate' style='width: 100px;' type='text' value=''readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+        var starttime = "<td><div class='input-group date form_time col-md-5' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control'  id='txtSStartTime" + index + "' name='SourcingLst[" + index + "].StartTime' style='width: 110px;'   value='' readonly='True' ><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div></td>";
+        var enddate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtSEndDate" + index + "' name='SourcingLst[" + index + "].EndDate' style='width: 100px;' type='text' value='' readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+        var endtime = "<td><div class='input-group date form_time col-md-5' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control'  id='txtSEndTime" + index + "' name='SourcingLst[" + index + "].EndTime' style='width: 110px;'   value='' readonly='readonly' onchange = 'changehrs(this.value," + index + ")'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div></td>";
+        var othrs = "<td><input class='form-control'  id='txWorkHrs" + index + "' name='SourcingLst[" + index + "].WorkHrs' style='width: 110px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)' readonly='readonly' ></td>";
+        var ethrs = "<td><input class='form-control'  id='txtEmpCost" + index + "' name='SourcingLst[" + index + "].EmpCost' style='width: 110px;'   value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)' onkeyup = 'changeexpence(this," + index + ")'></td>";
+        var nhr = "<td><input class='form-control'  id='txtExpence" + index + "' name='SourcingLst[" + index + "].Expence' style='width: 110px;'   value=''></td>";
+        var now = "<td><input class='form-control'  id='txtNOFW" + index + "' name='SourcingLst[" + index + "].NOW' style='width: 110px;'   value=''></td>";
+
+        var removeCell = "<td><input id='OutsIsvalid" + index + "' name='SourcingLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeEmpRow(" + index + ");'  style='cursor:pointer' /><input name='SourcingLst.Index' type='hidden' value='" + index + "'  /></td>";
+        var newRow = "<tr class='chkOutsitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookOuts" + index + "'>" + noemp + startdate + starttime + enddate + endtime + othrs + ethrs + nhr + now + removeCell + "</tr>";
+        $("#tbBooksoutsour").append(newRow);
+
+
+        $(function () {
+            $('._select').select2();
+        });
+
+        $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+
+             $('.form_time').datetimepicker({
+            weekStart: 1,
+            todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 1,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
+        });
     }
   
-    function AppendBreakRow(opt, remopt) {
+    function AppendBreakRow(opt, remopt,breakopt) {
         var index = $("#tbBooksBreak").children("tr").length;
 
         var Code = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='ddlMachineId" + index + "' name='BreakLst[" + index + "].MachineId' onchange = 'changeMachineItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
         var Des = "<td><input class='form-control'  id='txtMachineDes" + index + "' name='BreakLst[" + index + "].MachineDes' style='width: 180px;'   value=''></td>";
         var Dtype = "<td><input class='form-control'  id='txtDType" + index + "' name='BreakLst[" + index + "].DType' style='width: 120px;'   value=''></td>";
         var MType = "<td><input class='form-control'  id='txtMType" + index + "' name='BreakLst[" + index + "].MType' style='width: 120px;' type='text' value=''></td>";
-        var starttime = "<td><input class='form-control'  id='txtBStartTime" + index + "' name='BreakLst[" + index + "].StartTime' style='width: 110px;'   value=''></td>";
-        var endtime = "<td><input class='form-control'  id='txtBEndTime" + index + "' name='BreakLst[" + index + "].EndTime' style='width: 110px;'   value=''></td>";
+        var starttime = "<td><div class='input-group date form_time col-md-5' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control'  id='txtBStartTime" + index + "' name='BreakLst[" + index + "].StartTime' style='width: 110px;'   value='' readonly='readonly' ><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div></td>";
+        var endtime = "<td><div class='input-group date form_time col-md-5' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control'  id='txtBEndTime" + index + "' name='BreakLst[" + index + "].EndTime' style='width: 110px;'   value='' readonly='readonly' ><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div></td>";
         var PB = "<td><input class='form-control'  id='txtPB" + index + "' name='BreakLst[" + index + "].PB' style='width: 80px;' type='text' value=''></td>";
         var Enterd = "<td><select style = 'width: 140px;' class='form-control _select newcss' id='ddlAlloted" + index + "' name='BreakLst[" + index + "].Alloted' ><option value=''>Please select</option>" + remopt + "</select> </td>";
 
-        var Reason = "<td><input class='form-control'  id='txtReason" + index + "' name='BreakLst[" + index + "].Reason' style='width: 120px;' type='text' value=''></td>";
+        var Reason = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='txtReason" + index + "' name='BreakLst[" + index + "].Reason' ><option value=''>Please select</option>" + breakopt + "</select> </td>";
         var removeCell = "<td><input id='IsBreakvalid" + index + "' name='BreakLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeBreakRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkBreakitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookBreak" + index + "'>" + Code + Des + Dtype + MType + starttime + endtime + PB + Enterd + Reason + removeCell + "</tr>";
         $("#tbBooksBreak").append(newRow);
@@ -1621,7 +1727,16 @@ a{
             $('._select').select2();
         });
 
-
+              $('.form_time').datetimepicker({
+                weekStart: 1,
+                todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 1,
+            minView: 0,
+            maxView: 1,
+            forceParse: 0
+            });
     }
     function removeRow(id) {
         var table = document.getElementById("dataTable");
@@ -2038,18 +2153,36 @@ a{
         else {
             alert("Cannot delete all the rows.")
         }
-    } function AddLogRow() {
+    } 
+    
+    
+      function AddLogRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetReasonJSON',
+           success: function (data) {
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendLogRow(opt);
+             }
+        })
+    }
+    
+    function AppendLogRow(opt) {
         var index = $("#tbBooksLog").children("tr").length;
 
 
         var startdate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtLStartDate" + index + "' name='LogLst[" + index + "].StartDate' style='width: 130px;' type='text' value=''readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
-        var starttime = "<td><input class='form-control'  id='txtLStartTime" + index + "' name='LogLst[" + index + "].StartTime' style='width: 120px;'  value=''></td>";
+        var starttime = "<td><div class='input-group date form_time col-md-5' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control'  id='txtLStartTime" + index + "' name='LogLst[" + index + "].StartTime' style='width: 120px;'  value='' readonly='True' onchange = 'changeloghrs(" + index + ")'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div></td>";
         var enddate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtLEndDate" + index + "' name='LogLst[" + index + "].EndDate' style='width: 130px;' type='text' value='' readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
-        var endtime = "<td><input class='form-control'  id='txtLEndTime" + index + "' name='LogLst[" + index + "].EndTime' style='width: 110px;'  value=''></td>";
+        var endtime = "<td><div class='input-group date form_time col-md-5' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control'  id='txtLEndTime" + index + "' name='LogLst[" + index + "].EndTime' style='width: 110px;'  value='' readonly='True' onchange = 'changeloghrs(" + index + ")'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div></td>";
         var total = "<td><input class='form-control'  id='txtTotalHrs" + index + "' name='LogLst[" + index + "].tothrs' style='width: 100px;' type='text' value=''></td>";
-        var reason = "<td><input class='form-control'  id='txtLReason" + index + "' name='LogLst[" + index + "].Reason' style='width: 100px;'   value=''></td>";
+        var reason = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='txtLReason" + index + "' name='LogLst[" + index + "].Reason' ><option value=''>Please select</option>" + opt + "</select> </td>";
 
-        var removeCell = "<td><input id='LogIsvalid" + index + "' name='LogLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeLogRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var removeCell = "<td><input id='LogIsvalid" + index + "' name='LogLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeLogRow(" + index + ");'  style='cursor:pointer' /><input name='LogLst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkLogitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookLog" + index + "'>" + startdate + starttime + enddate + endtime + total + reason + removeCell + "</tr>";
         $("#tbBooksLog").append(newRow);
 
@@ -2068,26 +2201,98 @@ a{
             minView: 2,
             forceParse: 0
         });
+
+          $('.form_time').datetimepicker({
+            weekStart: 1,
+            todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 1,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
+        });
+    }
+    function changeehrs(i){
+         var frtime = document.getElementById("txtStartTime"+i).value;
+       var entime = document.getElementById("txtEndTime"+i).value;
+       
+       if (frtime == "")
+                        frtime = 0;
+
+        if (entime == "")
+                        entime = 0;
+        
+            var tothrs=eval(entime)-eval(frtime);
+           
+            var rohrs = Math.ceil(tothrs);
+            document.getElementById("txtETOther" +i).value=rohrs;
     }
         function changehrs(tohr, i) {
        var frtime = document.getElementById("txtSStartTime"+i).value;
        var entime = document.getElementById("txtSEndTime"+i).value;
+
         
             var tothrs=eval(tohr)-eval(frtime);
             var rohrs = Math.ceil(tothrs);
             document.getElementById("txWorkHrs" +i).value=rohrs ;
 
         var cost = document.getElementById("txtEmpCost" + i).value;
-        var totexp = eval(rohrs) * eval(cost)
+        var noemp = document.getElementById("txtNoOfEmp"+i).value;
+
+         if (cost == "")
+                        cost = 0;
+
+        if (noemp == "")
+                        noemp = 0;
+
+        var totexp = eval(rohrs) * eval(cost) *eval(noemp);
         document.getElementById("txtExpence" + i).value = totexp;
+    }
+    function changeloghrs(i){
+         var frtime = document.getElementById("txtLStartTime"+i).value;
+       var entime = document.getElementById("txtLEndTime"+i).value;
+        if (frtime == "")
+                        frtime = 0;
+
+        if (entime == "")
+                        entime = 0;
+        
+            var tothrs=eval(entime)-eval(frtime);
+            var rohrs = Math.ceil(tothrs);
+            document.getElementById("txtTotalHrs" +i).value=rohrs ;
     }
       function changeexpence(_this, i) {
         var workhrs = document.getElementById("txWorkHrs" + i).value;
         var cost = document.getElementById("txtEmpCost" + i).value;
+         var noemp = document.getElementById("txtNoOfEmp"+i).value;
+         if (cost == "")
+                        cost = 0;
 
-        var expence = eval(workhrs) * eval(cost);
+        if (workhrs == "")
+                        workhrs = 0;
+
+                         if (noemp == "")
+                        noemp = 0;
+
+        var expence = eval(workhrs) * eval(cost) *eval(noemp);
 
         document.getElementById("txtExpence" + i).value = expence;
+    }
+     function chempexpence(_this, i) {
+        var othrs = document.getElementById("txtOTHrs" + i).value;
+        var tothrs = document.getElementById("txtETOther" + i).value;
+         
+         if (othrs == "")
+                        othrs = 0;
+
+        if (tothrs == "")
+                        tothrs = 0;
+
+
+        var nrhr = eval(tothrs) - eval(othrs);
+
+            document.getElementById("txtNormal" + i).value = nrhr;
     }
      function removeOutsRow(id) {
        var table = document.getElementById("dataTableOuts");

@@ -158,10 +158,13 @@ namespace Arasan.Controllers
 			//  model.ItemGrouplst = BindItemGrplst(value);
 			return Json(BindEmp());
 		}
+        public JsonResult GetReasonJSON()
+        {
+           return Json(BindReason());
+        }
 
 
-
-		[HttpPost]
+        [HttpPost]
 		public ActionResult APProductionentry(APProductionentry Cy, string id)
 		{
 
@@ -373,7 +376,8 @@ namespace Arasan.Controllers
 
 				string code = "";
 				string dept = "";
-
+                string empcost = "";
+                string othrs = "";
 
 				dt = IProductionEntry.GetEmployeeDetails(ItemId);
 
@@ -382,12 +386,12 @@ namespace Arasan.Controllers
 
 					code = dt.Rows[0]["EMPID"].ToString();
                     dept = dt.Rows[0]["DEPTNAME"].ToString();
+                    empcost = dt.Rows[0]["EMPCOST"].ToString();
+                    othrs= dt.Rows[0]["OTPERHR"].ToString();
 
+                }
 
-
-				}
-
-				var result = new { code = code , dept = dept };
+				var result = new { code = code , dept = dept, empcost = empcost , othrs = othrs };
 				return Json(result);
 			}
 			catch (Exception ex)

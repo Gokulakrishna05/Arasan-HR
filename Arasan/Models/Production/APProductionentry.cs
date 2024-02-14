@@ -178,7 +178,8 @@ namespace Arasan.Models
 
         public string APID { get; set; }
         public List<SelectListItem> Employeelst { get; set; }
-
+        public string OTcost { get; set; }
+        public string Empcost { get; set; }
         public string Employee { get; set; }
         public string NOW { get; set; }
 
