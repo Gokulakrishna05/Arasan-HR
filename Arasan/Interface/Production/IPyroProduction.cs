@@ -11,9 +11,10 @@ namespace Arasan.Interface
         //string StatusChange(string tag, string id);
         //string RemoveChange(string tag, string id);
         DataTable GetAllPyro(string strStatus);
-        DataTable GetWork(string id);
+        DataTable GetWork();
         DataTable ShiftDeatils();
         DataTable GetWorkedit(string id);
+        DataTable GetProdSch(string id);
 
         DataTable GetItemDetails(string id);
         DataTable GetStockDetails(string ItemId,string item);
@@ -64,11 +65,11 @@ namespace Arasan.Interface
 
         DataTable GetLogdetailDeatils(string id);
 
-        string SaveBasicDetail(string schno, string docid, string docdate, string loc, string proc, string shift, string schqty, string prodqty, string wcid, string proclot, string branchid);
+        string SaveBasicDetail(string schno, string docid, string docdate, string loc, string proc, string shift, string schqty, string prodqty, string wcid, string proclot, string branchid,string enterd);
 
-        DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch, string drum);
-        DataTable SaveOutputDetails(string id, string item, string bin, string stime, string ttime, string qty, string drum);
-        DataTable SaveConsDetails(string id, string item, string bin, string unit, string usedqty, string qty, string stock);
+        DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch, string drum,int r);
+        DataTable SaveOutputDetails(string id, string item, string bin, string stime, string ttime, string qty, string drum,string status, string stock, string excess);
+        DataTable SaveConsDetails(string id, string item, string bin, string unit, string usedqty, string qty, string stock,int l);
         DataTable SaveEmpDetails(string id, string empname, string code, string depat, string sdate, string stime, string edate, string etime, string ot, string et, string normal, string now);
         DataTable SaveBreakDetails(string id, string machine, string des, string dtype, string mtype, string stime, string etime, string pb, string all, string reason);
         DataTable SaveLogDetails(string id, string sdate, string stime, string edate, string etime, string tot, string reason);

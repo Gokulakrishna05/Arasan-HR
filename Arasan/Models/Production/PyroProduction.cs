@@ -149,6 +149,7 @@ namespace Arasan.Models
         public List<SelectListItem> binlst { get; set; }
         public string drumno { get; set; }
         public List<SelectListItem> drumlst { get; set; }
+        public List<SelectListItem> statuslst { get; set; }
         public string batchno { get; set; }
         public double batchqty { get; set; }
         public double Stock { get; set; }
@@ -158,6 +159,7 @@ namespace Arasan.Models
 
         public string Status { get; set; }
         public double OutputQty { get; set; }
+        public double ExcessQty { get; set; }
         public string Isvalid { get; set; }
         public List<SelectListItem> outputlst;
         public string Purchasestock { get; set; }
