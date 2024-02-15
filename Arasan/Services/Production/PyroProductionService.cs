@@ -193,10 +193,22 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetWork(string id)
+        public DataTable GetWork()
         {
             string SvSql = string.Empty;
-            SvSql = "Select EMPID EMPNAME,EP.LOCATIONID LOCATIONNAME,LOCDETAILS.LOCID,EP.EMPALLOCATIONID from EMPALLOCATION left outer join EMPALLOCATIONDETAILS EP ON EMPALLOCATION.EMPALLOCATIONID=EP.EMPALLOCATIONID left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=EP.LOCATIONID  where EMPID='" + id + "' order by EMPALLOCATIONDETAILSID ASC";
+            SvSql = "Select WCID,WCBASICID from WCBASIC";
+           // SvSql = "Select EMPID EMPNAME,EP.LOCATIONID LOCATIONNAME,LOCDETAILS.LOCID,EP.EMPALLOCATIONID from EMPALLOCATION left outer join EMPALLOCATIONDETAILS EP ON EMPALLOCATION.EMPALLOCATIONID=EP.EMPALLOCATIONID left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=EP.LOCATIONID  where EMPID='" + id + "' order by EMPALLOCATIONDETAILSID ASC";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetProdSch(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select PSBASICID,DOCID from PSBASIC WHERE WCID='"+id+"' ";
+            // SvSql = "Select EMPID EMPNAME,EP.LOCATIONID LOCATIONNAME,LOCDETAILS.LOCID,EP.EMPALLOCATIONID from EMPALLOCATION left outer join EMPALLOCATIONDETAILS EP ON EMPALLOCATION.EMPALLOCATIONID=EP.EMPALLOCATIONID left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=EP.LOCATIONID  where EMPID='" + id + "' order by EMPALLOCATIONDETAILSID ASC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -563,53 +575,116 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch,string drum)
+        public DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch,string drum,int r)
         {
             string SvSql = string.Empty;
+            string insflag = string.Empty;
+            DataTable dtt = new DataTable();
             using (OracleConnection objConnT = new OracleConnection(_connectionString))
             {
                 objConnT.Open();
-                SvSql = "Delete PYROPRODINPDET WHERE PYROPRODBASICID='" + id + "'";
-                OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
-                objCmdd.ExecuteNonQuery();
+                DataTable drumno = datatrans.GetData("SELECT DRUMMASTID,DRUMSLOCID FROM DRUMMAST WHERE DRUMNO ='" + drum + "'");
+                string drumloc = "";
+                string drumid = "";
+                string narr = "";
+                if (drumno.Rows.Count > 0)
+                {
+                    drumloc = drumno.Rows[0]["DRUMSLOCID"].ToString();
+                    drumid = drumno.Rows[0]["DRUMMASTID"].ToString();
+                }
+              
+                DataTable drlot = datatrans.GetData("SELECT DRUMYN,LOTYN,ITEMACC,QCT FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
+                DataTable wopro = datatrans.GetData("SELECT WCBASIC.WCID,PROCESSMAST.PROCESSID,NPRODBASIC.DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MM-yy')DOCDATE,ILOCDETAILSID FROM NPRODBASIC LEFT OUTER JOIN WCBASIC ON WCBASICID=NPRODBASIC.WCID LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID=NPRODBASIC.PROCESSID WHERE NPRODBASICID ='" + id + "'");
+                string qc = drlot.Rows[0]["QCT"].ToString();
+                string docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+                string work = wopro.Rows[0]["WCID"].ToString();
+                string process = wopro.Rows[0]["PROCESSID"].ToString();
+                 
+                    narr = "Consumption in " + work + " - " + process +" - "+ drum;
+                
+                SvSql = "Insert into NPRODINPDET (NPRODBASICID,IITEMID,IBINID,CHARGINGTIME,IQTY,IBATCHQTY,IBATCHNO,IDRUMNO,ICDRUMNO,IDRUMSLOCID,IDRUMSLOCATION,DRUMYN,LOTYN,IITEMACC,NPRODINPDETROW,INARR,IS_INSERT,IITEMMASTERID,ICLSTKBUP,ICSOCTKBUP) VALUES ('" + id + "','" + item + "','0','" + time + "','" + qty + "','" + stock + "','" + batch + "','" + drumid + "','" + drum + "','" + drumloc + "','" + drumloc + "','" + drlot.Rows[0]["DRUMYN"].ToString() + "','" + drlot.Rows[0]["LOTYN"].ToString() + "','" + drlot.Rows[0]["ITEMACC"].ToString() + "','" + r + "','" + narr + "','Y','"+ item + "','0','0') RETURNING NPRODINPDETID INTO :LASTCID";
+                OracleCommand objCmds = new OracleCommand(SvSql, objConnT);
+
+                objCmds.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                objCmds.ExecuteNonQuery();
+                string detid = objCmds.Parameters["LASTCID"].Value.ToString();
             }
-            SvSql = "Insert into PYROPRODINPDET (PYROPRODBASICID,ITEMID,BINID,TIME,QTY,STOCK,BATCH,DRUMNO) VALUES ('" + id + "','" + item + "','" + bin + "','" + time + "','" + qty + "','" + stock + "','" + batch + "','"+ drum +"')";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
+            //SvSql = "Insert into PYROPRODINPDET (PYROPRODBASICID,ITEMID,BINID,TIME,QTY,STOCK,BATCH,DRUMNO) VALUES ('" + id + "','" + item + "','" + bin + "','" + time + "','" + qty + "','" + stock + "','" + batch + "','"+ drum +"')";
+            
+          
             return dtt;
         }
 
-        public DataTable SaveConsDetails(string id, string item, string bin, string unit, string usedqty, string qty, string stock)
+        public DataTable SaveConsDetails(string id, string item, string bin, string unit, string usedqty, string qty, string stock,int l)
         {
             string SvSql = string.Empty;
+            string SvSql1 = string.Empty;
+            string insflag = string.Empty;
+            DataTable dtt = new DataTable();
             using (OracleConnection objConnT = new OracleConnection(_connectionString))
             {
                 objConnT.Open();
-                SvSql = "Delete PYROPRODCONSDET WHERE PYROPRODBASICID='" + id + "'";
-                OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
-                objCmdd.ExecuteNonQuery();
-            }
+                DataTable drlot = datatrans.GetData("SELECT DRUMYN,LOTYN,ITEMACC,QCT FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
+                DataTable wopro = datatrans.GetData("SELECT WCBASIC.WCID,PROCESSMAST.PROCESSID,NPRODBASIC.DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MM-yy')DOCDATE,ILOCDETAILSID FROM NPRODBASIC LEFT OUTER JOIN WCBASIC ON WCBASICID=NPRODBASIC.WCID LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID=NPRODBASIC.PROCESSID WHERE NPRODBASICID='" + id + "'");
+                string qc = drlot.Rows[0]["QCT"].ToString();
+                string work = wopro.Rows[0]["WCID"].ToString();
+                string process = wopro.Rows[0]["PROCESSID"].ToString();
+                string docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+                string narr = "Consumption in " + work + " - " + process;
 
-            SvSql = "Insert into PYROPRODCONSDET (PYROPRODBASICID,ITEMID,BINID,UNITID,QTY,CONSQTY,STOCK) VALUES ('" + id + "','" + item + "','" + bin + "','" + unit + "','" + usedqty + "','" + qty + "','" + stock + "')";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
+
+                SvSql = "Insert into NPRODCONSDET (NPRODBASICID,CITEMID,CBINID,CUNIT,CLOTYN,CNARR,CONSQTY,CSUBQTY,VALIDROW3,NPRODCONSDETROW,CITEMACC,IS_INSERT) VALUES ('" + id + "','" + item + "','0','" + unit + "','" + drlot.Rows[0]["LOTYN"].ToString() + "','" + narr + "','" + qty + "','" + usedqty + "','T','" + l + "','" + drlot.Rows[0]["ITEMACC"].ToString() + "','Y') RETURNING NPRODCONSDETID INTO :LASTCID";
+                OracleCommand objCmds = new OracleCommand(SvSql, objConnT);
+
+                objCmds.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                objCmds.ExecuteNonQuery();
+                // SvSql = "Insert into PYROPRODCONSDET (PYROPRODBASICID,ITEMID,BINID,UNITID,QTY,CONSQTY,STOCK) VALUES ('" + id + "','" + item + "','" + bin + "','" + unit + "','" + usedqty + "','" + qty + "','" + stock + "')";
+            }
             return dtt;
         }
-        public DataTable SaveOutputDetails(string id, string item, string bin, string stime, string ttime, string qty, string drum)
+        public DataTable SaveOutputDetails(string id, string item, string bin, string stime, string ttime, string qty, string drum,string status, string stock,string excess)
         {
             string SvSql = string.Empty;
+            string loc = string.Empty;
             using (OracleConnection objConnT = new OracleConnection(_connectionString))
             {
                 objConnT.Open();
-                SvSql = "Delete PYROPRODOUTDET WHERE PYROPRODBASICID='" + id + "'";
-                OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
-                objCmdd.ExecuteNonQuery();
+                string drumno = datatrans.GetDataString("SELECT DRUMNO FROM DRUMMAST WHERE DRUMMASTID='" + drum + "'");
+                string itemname = datatrans.GetDataString("SELECT ITEMID FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
+                string qcyn = datatrans.GetDataString("SELECT QCCOMPFLAG FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
+                DataTable ld = datatrans.GetData("SELECT DRUMYN,LOTYN FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
+                DataTable wopro = datatrans.GetData("SELECT WCBASIC.WCID,WCBASIC.ILOCATION,PROCESSMAST.PROCESSID,NPRODBASIC.DOCID,DRUMILOCDETAILSID,PSBASIC.DOCID as psno,SHIFT,to_char(NPRODBASIC.DOCDATE,'dd-MM-yy')DOCDATE,ILOCDETAILSID FROM NPRODBASIC LEFT OUTER JOIN WCBASIC ON WCBASICID=NPRODBASIC.WCID LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID=NPRODBASIC.PROCESSID LEFT OUTER JOIN PSBASIC ON PSBASIC.PSBASICID=NPRODBASIC.PSCHNO WHERE NPRODBASICID='" + id + "'");
+                string work = wopro.Rows[0]["WCID"].ToString();
+                string process = wopro.Rows[0]["PROCESSID"].ToString();
+                string doc = wopro.Rows[0]["DOCID"].ToString();
+                string psno = wopro.Rows[0]["psno"].ToString();
+                string shift = wopro.Rows[0]["SHIFT"].ToString();
+                string drumloc = wopro.Rows[0]["DRUMILOCDETAILSID"].ToString();
+                string lot = ld.Rows[0]["LOTYN"].ToString();
+                string drumyn = ld.Rows[0]["DRUMYN"].ToString();
+                string obatch = "";
+                string ins = "";
+                string docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+                if (qcyn == "YES")
+                {
+                    ins = "0";
+                }
+                else { ins = "1"; }
+                if (stock == "0")
+                {
+                    obatch = "None";
+                }
+                else
+                {
+                    obatch = itemname + " - " + work + " - " + drumno + " - " + doc;
+                }
+                if (status == "COMPLETED") { loc = "10044000011739"; } else { loc = wopro.Rows[0]["ILOCATION"].ToString(); }
+                string nbatch = itemname + " - " + work + " - " + drumno + " - " + doc;
+                string narr = "Production in " + work + " - " + process + " - " + drumno;
+                SvSql = "Insert into NPRODOUTDET (NPRODBASICID,OITEMID,ODRUMNO,STIME,OQTY,ETIME,OXQTY,STATUS,OSTOCK,TOLOCATION,TOLOCDETAILSID,OCDRUMNO,LWCID,LPROCESS,LSHIFT,LSCH,OBINID,OBATCHNO,NBATCHNO,ONARR,INSFLAGCTRL,ODRUMYN,OLOTYN,DSDT,DSTIME,DEDT,DETIME,OBQTY,DRUMLOADID,OQCYN,ODRUMSLOCID) VALUES ('" + id + "','" + item + "','" + drum + "','" + stime + "','" + qty + "','" + ttime + "','" + excess + "','" + status + "','" + stock + "','" + loc + "','" + loc + "','" + drumno + "','" + work + "','" + process + "','" + shift + "','" + psno + "','0','" + obatch + "','" + nbatch + "','" + narr + "','" + ins + "','"+ drumyn +"','"+lot+"','"+ docdate+"','"+ stime + "','"+ docdate +"','"+ ttime +"','"+excess +"','0','"+ qcyn +"','"+ drumloc +"')";
+
             }
-            SvSql = "Insert into PYROPRODOUTDET (PYROPRODBASICID,ITEMID,BINID,STARTTIME,ENDTIME,OUTQTY,DRUM) VALUES ('" + id + "','" + item + "','" + bin + "','" + stime + "','" + ttime + "','" + qty + "','" + drum + "')";
+           // SvSql = "Insert into PYROPRODOUTDET (PYROPRODBASICID,ITEMID,BINID,STARTTIME,ENDTIME,OUTQTY,DRUM) VALUES ('" + id + "','" + item + "','" + bin + "','" + stime + "','" + ttime + "','" + qty + "','" + drum + "')";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -626,8 +701,9 @@ namespace Arasan.Services
                 OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
                 objCmdd.ExecuteNonQuery();
             }
+            SvSql = "Insert into NPRODEMPDET (NPRODBASICID,EMPNAME,EMPCODE1,DEPARTMENT,ESTARTDATE,ESTARTTIME,EENDDATE,EENDTIME,OTHRS,ETOTHRS,NORMHRS,NATOFW) VALUES ('" + id + "','" + empname + "','" + code + "','" + depat + "','" + sdate + "','" + stime + "','" + edate + "','" + etime + "','" + ot + "','" + et + "','" + normal + "','" + now + "')";
 
-            SvSql = "Insert into PYROPRODEMPDET (PYROPRODBASICID,EMPID,EMPCODE,DEPARTMENT,STARTDATE,STARTTIME,ENDDATE,ENDTIME,OTHRS,ETOTHER,NORMELHRS,NATUREOFWORK) VALUES ('" + id + "','" + empname + "','" + code + "','" + depat + "','" + sdate + "','" + stime + "','" + edate + "','" + etime + "','" + ot + "','" + et + "','" + normal + "','" + now + "')";
+            // SvSql = "Insert into PYROPRODEMPDET (PYROPRODBASICID,EMPID,EMPCODE,DEPARTMENT,STARTDATE,STARTTIME,ENDDATE,ENDTIME,OTHRS,ETOTHER,NORMELHRS,NATUREOFWORK) VALUES ('" + id + "','" + empname + "','" + code + "','" + depat + "','" + sdate + "','" + stime + "','" + edate + "','" + etime + "','" + ot + "','" + et + "','" + normal + "','" + now + "')";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -645,7 +721,9 @@ namespace Arasan.Services
                 OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
                 objCmdd.ExecuteNonQuery();
             }
-            SvSql = "Insert into PYROPRODBREAKDET (PYROPRODBASICID,MEACHINECODE,MEACHDES,DTYPE,MTYPE,STARTTIME,ENDTIME,PB,ALLOTTEDTO,REASON) VALUES ('" + id + "','" + machine + "','" + des + "','" + dtype + "','" + mtype + "','" + stime + "','" + etime + "','" + pb + "','" + all + "','" + reason + "')";
+            SvSql = "Insert into NPRODBRKDWN (NPRODBASICID,BMACNO,BMACHINEDESC,DTYPE,MTYPE,BFROMTIME,BTOTIME,PREORBRE,ALLOTEDTO,ACTDESC) VALUES ('" + id + "','" + machine + "','" + des + "','" + dtype + "','" + mtype + "','" + stime + "','" + etime + "','" + pb + "','" + all + "','" + reason + "')";
+
+            // SvSql = "Insert into PYROPRODBREAKDET (PYROPRODBASICID,MEACHINECODE,MEACHDES,DTYPE,MTYPE,STARTTIME,ENDTIME,PB,ALLOTTEDTO,REASON) VALUES ('" + id + "','" + machine + "','" + des + "','" + dtype + "','" + mtype + "','" + stime + "','" + etime + "','" + pb + "','" + all + "','" + reason + "')";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -747,7 +825,7 @@ namespace Arasan.Services
             return msg;
         }
 
-        public string SaveBasicDetail(string schno, string docid, string docdate, string loc, string proc, string shift, string schqty, string prodqty, string wcid, string proclot,string branchid)
+        public string SaveBasicDetail(string schno, string docid, string docdate, string loc, string proc, string shift, string schqty, string prodqty, string wcid, string proclot,string branchid, string enterd)
         {
             string msg = "";
             string Pid = "";
@@ -793,6 +871,7 @@ namespace Arasan.Services
                 }
 
                 DateTime fdate = DateTime.Now;
+                string entdate = DateTime.Now.ToString("dd/MMM/yyyy  h:mm:ss" );
                DateTime tdate = fdate.AddHours(Convert.ToDouble(tothrs == "" ?0 : tothrs));
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
 
@@ -810,11 +889,11 @@ namespace Arasan.Services
                                 command.CommandText = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE='nProd' AND ACTIVESEQUENCE='T'";
                                 command.ExecuteNonQuery();
 
-                                command.CommandText = "insert into NPRODBASIC (APPROVAL,MAXAPPROVED,CANCEL,BRANCH,DOCID,DOCDATE,PROCESSID,WCID,PROCLOTNO,PSCHNO,ETYPE,ILOCDETAILSID,RLOCDETAILSID,WIPLOCDETAILSID,SHIFT,STARTDATE,STARTTIME,ENDDATE,ENDTIME,TOTMINS,TOTHRS,REJLOCDETAILSID,WIPITEMMASTERID,WIPITEMID,PTYPE,IBINYN,SCHQTY,PRODQTY,EBHRS,PROCESSMASTID,LSTARTDT,LSTARTTIME,LENDDT,LENDTIME,LHOUR,ILOCID,RLOCID,DRUMILOCDETAILSID,DRUMRETURNYN,PRODHRTYPE) Values ('0','0','F','" + branchid + "','" + docid + "','" + docdate + "','" + proc + "','" + wcid + "','" + proclot + "','" + schno + "','BOTH','" + iloc + "','" + rloc + "','" + wiplocid + "','" + shift + "','" + fdate.ToString("dd-MMM-yyyy") + "','" + fromtime + "','" + tdate.ToString("dd-MMM-yyyy") + "','" + totime + "',0,'" + tothrs + "','" + rejlocid + "','" + wipitemd + "','" + wipitemd + "','EB','NO','" + schqty + "','" + prodqty + "','" + ebhr + "','" + proc + "','" + fdate.ToString("dd-MMM-yyyy") + "','" + fromtime + "','" + tdate.ToString("dd-MMM-yyyy") + "','" + totime + "','" + tothrs + "','" + iloc + "','" + rloc + "','" + drumlocid + "','" + drmreturnyn + "','" + prohrtype + "') RETURNING NPRODBASICID INTO :LASTCID";
+                                command.CommandText = "insert into NPRODBASIC (APPROVAL,MAXAPPROVED,CANCEL,BRANCH,DOCID,DOCDATE,PROCESSID,WCID,PROCLOTNO,PSCHNO,ETYPE,ILOCDETAILSID,RLOCDETAILSID,WIPLOCDETAILSID,SHIFT,STARTDATE,STARTTIME,ENDDATE,ENDTIME,TOTMINS,TOTHRS,REJLOCDETAILSID,WIPITEMMASTERID,WIPITEMID,PTYPE,IBINYN,SCHQTY,PRODQTY,EBHRS,PROCESSMASTID,LSTARTDT,LSTARTTIME,LENDDT,LENDTIME,LHOUR,ILOCID,RLOCID,DRUMILOCDETAILSID,DRUMRETURNYN,PRODHRTYPE,ENTEREDBY,ENTDATE) Values ('0','0','F','" + branchid + "','" + docid + "','" + docdate + "','" + proc + "','" + wcid + "','" + proclot + "','" + schno + "','BOTH','" + iloc + "','" + rloc + "','" + wiplocid + "','" + shift + "','" + fdate.ToString("dd-MMM-yyyy") + "','" + fromtime + "','" + tdate.ToString("dd-MMM-yyyy") + "','" + totime + "',0,'" + tothrs + "','" + rejlocid + "','" + wipitemd + "','" + wipitemd + "','EB','NO','" + schqty + "','" + prodqty + "','" + ebhr + "','" + proc + "','" + fdate.ToString("dd-MMM-yyyy") + "','" + fromtime + "','" + tdate.ToString("dd-MMM-yyyy") + "','" + totime + "','" + tothrs + "','" + iloc + "','" + rloc + "','" + drumlocid + "','" + drmreturnyn + "','" + prohrtype + "','"+ enterd +"','"+ entdate+"') RETURNING NPRODBASICID INTO :LASTCID";
                                 command.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                 command.ExecuteNonQuery();
                                 Pid = command.Parameters["LASTCID"].Value.ToString();
-                                command.ExecuteNonQuery();
+                                
 
 
                                 transaction.Commit();

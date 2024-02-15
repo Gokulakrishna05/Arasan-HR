@@ -40,7 +40,7 @@ namespace Arasan.Controllers
             ca.Shiftlst = BindShift();
             ca.Wclst = BindWorkedit(ca.super);
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
-            ca.ProdSchlst = BindProdSch();
+            ca.ProdSchlst = BindProdSch("");
             ca.Plotlst = BindPLot("", "");
             ca.ProdLog = "N";
             ca.Processlst = BindProcess();
@@ -95,6 +95,7 @@ namespace Arasan.Controllers
                     tda4.APID = id;
                     tda4.Itemlst = BindOutItemlst();
                     tda4.drumlst = BindDrum();
+                    tda4.statuslst = BindStatus();
                     tda4.Isvalid = "Y";
                     TData4.Add(tda4);
 
@@ -336,7 +337,69 @@ namespace Arasan.Controllers
 
                 }
 
+                for (int i = 0; i < 3; i++)
+                {
+                    tda3 = new PBreakDet();
 
+                    tda3.Machinelst = BindMachineID();
+                    tda3.Emplst = BindEmp();
+                    tda3.Isvalid = "Y";
+                    tda3.APID = id;
+                    TData3.Add(tda3);
+
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda = new PProInput();
+                    tda.APID = id;
+                    tda.Itemlst = BindItemlst();
+                    tda.drumlst = BindDrum("");
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda4 = new PProOutput();
+                    tda4.APID = id;
+                    tda4.Itemlst = BindOutItemlst();
+                    tda4.drumlst = BindDrum();
+                    tda4.statuslst = BindStatus();
+                    tda4.Isvalid = "Y";
+                    TData4.Add(tda4);
+
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda1 = new PAPProInCons();
+                    tda1.Itemlst = BindItemlstCon();
+                    tda1.Isvalid = "Y";
+                    tda1.APID = id;
+                    TData1.Add(tda1);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda2 = new PEmpDetails();
+                    tda2.APID = id;
+                    tda2.Employeelst = BindEmp();
+                    tda2.Isvalid = "Y";
+                    TTData2.Add(tda2);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda5 = new PLogDetails();
+                    tda5.APID = id;
+                    tda5.Isvalid = "Y";
+                    TTData5.Add(tda5);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda8 = new PSourcingDetail();
+                    tda8.Isvalid = "Y";
+                    TData8.Add(tda8);
+                }
+                tda9 = new PBunkerDetail();
+                TData9.Add(tda9);
             }
 
 
@@ -546,11 +609,18 @@ namespace Arasan.Controllers
             return Json(BindDrum(itemid));
 
         }
-        public JsonResult GetPLotJSON(string procid, string wcid)
+        public JsonResult GetPLotJSON(string procid, string schid)
         {
             PyroProductionentryDet model = new PyroProductionentryDet();
-            model.Plotlst = BindPLot(procid, wcid);
-            return Json(BindPLot(procid, wcid));
+            model.Plotlst = BindPLot(procid, schid);
+            return Json(BindPLot(procid, schid));
+
+        }
+        public JsonResult GetPSchedJSON(string schid)
+        {
+            PyroProductionentryDet model = new PyroProductionentryDet();
+            model.Plotlst = BindProdSch(schid);
+            return Json(BindProdSch(schid));
 
         }
         public List<SelectListItem> BindDrum(string item)
@@ -674,11 +744,11 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindProdSch()
+        public List<SelectListItem> BindProdSch(string value)
         {
             try
             {
-                DataTable dtDesg = datatrans.GetProdSch();
+                DataTable dtDesg = Pyro.GetProdSch(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -729,11 +799,11 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = Pyro.GetWork(id);
+                DataTable dtDesg = Pyro.GetWork();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCATIONNAME"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -839,12 +909,12 @@ namespace Arasan.Controllers
             //model.drumlst = BindDrum(item);
             return Json(BindDrum(item));
         }
-        public ActionResult SaveOutDetail(string schno, string docid, string docdate, string loc, string proc, string shift, string schqty, string prodqty, string wcid, string proclot, string brid)
+        public ActionResult SaveOutDetail(string schno, string docid, string docdate, string loc, string proc, string shift, string schqty, string prodqty, string wcid, string proclot, string brid,string eng)
         {
             try
             {
                 string pid = "0";
-                pid = Pyro.SaveBasicDetail(schno, docid, docdate, loc, proc, shift, schqty, prodqty, wcid, proclot, brid);
+                pid = Pyro.SaveBasicDetail(schno, docid, docdate, loc, proc, shift, schqty, prodqty, wcid, proclot, brid,eng);
                 var result = new { pid = pid };
                 return Json(result);
             }
@@ -1579,8 +1649,8 @@ namespace Arasan.Controllers
                 DataTable dt2 = new DataTable();
                 DataTable dt3 = new DataTable();
 
-                dt = datatrans.GetData("select W.WCID,W.WCBASICID,P.PROCESSID from PSBASIC P,WCBASIC W where W.WCBASICID=P.WCID AND P.PSBASICID='" + schid + "'");
-                dt1 = datatrans.GetData("select SUM(RQTY) as qty from PSINPDETAIL WHERE PSBASICID='" + schid + "'");
+                dt = datatrans.GetData("select  PROCESSID from  WCBASIC  where WCBASICID ='" + schid + "'");
+                //dt1 = datatrans.GetData("select SUM(RQTY) as qty from PSINPDETAIL WHERE PSBASICID='" + schid + "'");
 
                 string work = "";
                 string workid = "";
@@ -1589,14 +1659,46 @@ namespace Arasan.Controllers
                 string proc = "";
                 if (dt.Rows.Count > 0)
                 {
-                    work = dt.Rows[0]["WCID"].ToString();
-                    workid = dt.Rows[0]["WCBASICID"].ToString();
-                    schqty = dt1.Rows[0]["qty"].ToString();
-                    prodqty = dt1.Rows[0]["qty"].ToString();
+                    //work = dt.Rows[0]["WCID"].ToString();
+                    //workid = dt.Rows[0]["WCBASICID"].ToString();
+                    //schqty = dt1.Rows[0]["qty"].ToString();
+                    //prodqty = dt1.Rows[0]["qty"].ToString();
                     proc = dt.Rows[0]["PROCESSID"].ToString();
                 }
 
-                var result = new { work = work, workid = workid, schqty = schqty, prodqty = prodqty, proc = proc };
+                var result = new { /*work = work, workid = workid, schqty = schqty, prodqty = prodqty,*/ proc = proc };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult Getschqty(string schid)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+                DataTable dt2 = new DataTable();
+                DataTable dt3 = new DataTable();
+
+                dt = datatrans.GetData("select  OPQTY,PRODQTY from  PSBASIC  where PSBASICID ='" + schid + "'");
+                //dt1 = datatrans.GetData("select SUM(RQTY) as qty from PSINPDETAIL WHERE PSBASICID='" + schid + "'");
+
+                
+                string schqty = "";
+                string prodqty = "";
+              
+                if (dt.Rows.Count > 0)
+                {
+                     
+                    schqty = dt.Rows[0]["OPQTY"].ToString();
+                    prodqty = dt.Rows[0]["PRODQTY"].ToString();
+                     
+                }
+
+                var result = new {  schqty = schqty, prodqty = prodqty  };
                 return Json(result);
             }
             catch (Exception ex)
@@ -1642,6 +1744,7 @@ namespace Arasan.Controllers
         {
             try
             {
+                int r = 1;
                 foreach (PProInput input in model)
                 {
 
@@ -1655,7 +1758,8 @@ namespace Arasan.Controllers
                     string qty = input.IssueQty.ToString();
                     DataTable dt = new DataTable();
 
-                    dt = Pyro.SaveInputDetails(id, item, bin, time, qty, stock, batch, drum);
+                    dt = Pyro.SaveInputDetails(id, item, bin, time, qty, stock, batch, drum,r);
+                    r++;
                 }
                 if (model != null)
                 {
@@ -1677,6 +1781,7 @@ namespace Arasan.Controllers
         {
             try
             {
+                int l = 1;
                 foreach (PAPProInCons Cons in model)
                 {
 
@@ -1689,7 +1794,8 @@ namespace Arasan.Controllers
                     string usedqty = Cons.Qty.ToString();
                     DataTable dt = new DataTable();
 
-                    dt = Pyro.SaveConsDetails(id, item, bin, unit, usedqty, qty, stock);
+                    dt = Pyro.SaveConsDetails(id, item, bin, unit, usedqty, qty, stock,l);
+                    l++;
                 }
 
                 if (model != null)
@@ -1719,10 +1825,13 @@ namespace Arasan.Controllers
                     string stime = output.FromTime;
                     string id = output.APID;
                     string ttime = output.ToTime;
+                    string status = output.Status;
+                    string stock = output.Stock.ToString();
+                    string excess = output.ExcessQty.ToString();
                     string qty = output.OutputQty.ToString();
                     DataTable dt = new DataTable();
 
-                    dt = Pyro.SaveOutputDetails(id, item, bin, stime, ttime, qty, drum);
+                    dt = Pyro.SaveOutputDetails(id, item, bin, stime, ttime, qty, drum,status,stock, excess);
                 }
                 if (model != null)
                 {
@@ -1957,6 +2066,20 @@ namespace Arasan.Controllers
             });
 
         }
+        public List<SelectListItem> BindStatus()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "COMPLETED", Value = "COMPLETED" });
+                lstdesg.Add(new SelectListItem() { Text = "PENDING", Value = "PENDING" });
 
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
