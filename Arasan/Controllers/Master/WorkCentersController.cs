@@ -32,7 +32,8 @@ namespace Arasan.Controllers.Master
             ca.QCLst = BindLocation();
             ca.WIPLst = BindLocation();
             ca.CONLst = BindLocation();
-            ca.Drumlst = BindLocation(); 
+            ca.Drumlst = BindLocation();
+            ca.Contlst = BindContType();
             ca.Itemlst = BindItemlst("");
             ca.ConItemlst = BindItemlst("");
             ca.Suplst = BindSupplier();
@@ -184,6 +185,23 @@ namespace Arasan.Controllers.Master
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindContType()
+        {
+            try
+            {
+                DataTable dtDesg = WorkCentersService.GetContType();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CONTTYPE"].ToString(), Value = dtDesg.Rows[i]["CONTRMASTID"].ToString() });
                 }
                 return lstdesg;
             }

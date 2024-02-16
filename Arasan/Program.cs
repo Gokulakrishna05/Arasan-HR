@@ -14,7 +14,6 @@ using Arasan.Interface.Stores_Management;
 using Arasan.Interface.Sales;
 using Arasan.Services.Sales;
 using System.Collections.Generic;
-using Arasan.Models;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Hosting;
 using Arasan.Interface.Account;

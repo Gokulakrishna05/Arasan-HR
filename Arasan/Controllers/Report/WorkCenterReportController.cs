@@ -174,5 +174,53 @@ namespace Arasan.Controllers.Report
         {
             throw new NotImplementedException();
         }
+        public ActionResult MyListAPProdReportGrid(string dtFrom, string dtTo, string WorkCenter, string Process)
+        {
+            List<APProdReportItems> Reg = new List<APProdReportItems>();
+            DataTable dtUsers = new DataTable();
+
+            dtUsers = (DataTable)WorkCenterReportService.GetAllAPProdReport(dtFrom, dtTo, WorkCenter, Process);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+
+                Reg.Add(new APProdReportItems
+                {
+
+                    docNo = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    wc = dtUsers.Rows[i]["WCID"].ToString(),
+                    process = dtUsers.Rows[i]["PROCESSID"].ToString(),
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public IActionResult APProdReport(string strfrom, string strTo)
+        {
+            try
+            {
+                WorkCenterReport objR = new WorkCenterReport();
+                objR.Worklst = BindWorkCenter();
+                objR.Processlst = BindProcess();
+                objR.dtFrom = strfrom;
+                objR.dtTo = strTo;
+                return View(objR);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        [HttpPost]
+        public IActionResult ListAPProdReport()
+        {
+            return View();
+        }
     }
 }

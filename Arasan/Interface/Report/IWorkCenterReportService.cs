@@ -8,6 +8,7 @@ namespace Arasan.Interface.Report
     public interface IWorkCenterReportService
     {
         DataTable GetAllWorkCenterReport(string dtFrom, string dtTo, string WorkCenter, string Process);
+        DataTable GetAllAPProdReport(string dtFrom, string dtTo, string WorkCenter, string Process);
         DataTable GetProcess();
         DataTable GetWorkCenter();
     }

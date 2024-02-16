@@ -20,4 +20,5 @@ public interface IWorkCentersService
 
 
     DataTable GetAllWorkCenters(string strStatus);
+    DataTable GetContType();
 }

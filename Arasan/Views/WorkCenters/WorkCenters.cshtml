@@ -93,17 +93,6 @@
 
                                     </div>
                                 </div>
-                                @*<div class="col-md-6">
-                                    <div class="form-group">
-
-                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Issuse Location<label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
-                                           
-                                            @Html.DropDownListFor(C => C.Iloc, Model.Loc," -- Please Select -- ", new { @id = "ddIloc", @Class = "form-control chosen-select", @TabIndex = 1 })
-                                        </div>
-
-                                    </div>
-                                </div>*@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                       <br/>  <label for="inputName3" class="col-sm-4 control-label">Issuse Location<label class="Mandatory"></label></label>
@@ -113,7 +102,17 @@
                                     </div>
                                 </div>
                             </div>
-                          
+                           <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Cont Type<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.ContType, Model.Contlst," -- Please Select -- ", new { @id = "ddIContType", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                             <div style="height:30px;"></div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -707,10 +706,26 @@
                     "background": ""
                 });
             }
-           
+            if (document.getElementById("ddIContType").value == "") {
+                isValid = false;
+                $(ddIContType).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter ContType");
+                return false;
+            }
+            else {
+                $(ddIContType).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
 
 
-             if (isValid == false)
+
+            if (isValid == false)
                 e.preventDefault();
 
        });
