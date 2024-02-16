@@ -64,6 +64,15 @@ namespace Arasan.Services.Master
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetContType()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select CONTTYPE,CONTRMASTID from CONTRMAST";
+            DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetWorkCenters(string id)
         {
             string SvSql = string.Empty;
@@ -148,6 +157,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("COST", OracleDbType.NVarchar2).Value = cy.Cost;
                     objCmd.Parameters.Add("COSTUNIT", OracleDbType.NVarchar2).Value = cy.Unit;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remarks;
+                    objCmd.Parameters.Add("CONTTYPE", OracleDbType.NVarchar2).Value = cy.ContType;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     if (cy.ID == null)
                     {
