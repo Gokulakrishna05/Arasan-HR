@@ -30,4 +30,12 @@ namespace Arasan.Models
         public string docDate { get; set; }
         public string wc { get; set; }
     }
+    public class APProdReportItems
+    {
+        public string process { get; set; }
+        public string docNo { get; set; }
+        public string docDate { get; set; }
+        public string wc { get; set; }
+
+    }
 }

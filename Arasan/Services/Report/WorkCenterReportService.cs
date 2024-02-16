@@ -84,5 +84,44 @@ namespace Arasan.Services.Report
                 throw ex;
             }
         }
+        public DataTable GetAllAPProdReport(string dtFrom, string dtTo, string WorkCenter, string Process)
+        {
+            try
+            {
+                string SvSql = "";
+                if (dtFrom == null && WorkCenter == null && Process == null)
+                {
+                    SvSql = "SELECT B.DOCID,to_char(B.DOCDATE,'dd-MON-yyyy')DOCDATE,W.WCID,P.PROCESSID FROM BCPRODBASIC B , WCBASIC W , PROCESSMAST P WHERE B.WCID = W.WCBASICID AND B.WPROCESSID = P.PROCESSMASTID";
+                }
+                else
+                {
+                    SvSql = "SELECT B.DOCID,to_char(B.DOCDATE,'dd-MON-yyyy')DOCDATE,W.WCID,P.PROCESSID FROM BCPRODBASIC B , WCBASIC W , PROCESSMAST P WHERE B.WCID = W.WCBASICID AND B.WPROCESSID = P.PROCESSMASTID";
+                    if (dtFrom != null && dtTo != null)
+                    {
+                        SvSql += " and B.DOCDATE BETWEEN '" + dtFrom + "' AND '" + dtTo + "'";
+                    }
+
+
+                    if (WorkCenter != null)
+                    {
+                        SvSql += " and W.WCID='" + WorkCenter + "'";
+                    }
+
+
+                    if (Process != null)
+                    {
+                        SvSql += " and P.PROCESSID='" + Process + "'";
+                    }
+                }
+                OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+                DataTable dtReport = new DataTable();
+                adapter.Fill(dtReport);
+                return dtReport;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
