@@ -15,7 +15,11 @@ namespace Arasan.Models
             this.Drumlst = new List<SelectListItem>();
             this.Suplst = new List<SelectListItem>();
             this.Typelst = new List<SelectListItem>();
+            this.Contlst = new List<SelectListItem>();
         }
+        public string ContType { get; set; }
+
+        public List<SelectListItem> Contlst;
         public string ID { get; set; }
 
         public List<SelectListItem> Typelst;
