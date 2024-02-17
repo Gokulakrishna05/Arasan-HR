@@ -659,7 +659,7 @@ namespace Arasan.Controllers
                     tda3 = new BreakDet();
                     tda3.Machinelst = BindMachineID();
                     tda3.MachineId = dt5.Rows[i]["MCODE"].ToString();
-                    tda3.Emplst = BindEmp();
+                    tda3.Emplst = BindBreakEmp();
                     tda3.MachineDes = dt5.Rows[i]["BMACHINEDESC"].ToString();
                     tda3.StartTime = dt5.Rows[i]["BFROMTIME"].ToString();
                     tda3.EndTime = dt5.Rows[i]["BTOTIME"].ToString();
@@ -736,6 +736,32 @@ namespace Arasan.Controllers
                     tda5.APID = id;
                     TTData5.Add(tda5);
                     tda5.Isvalid = "Y";
+                }
+
+            }
+            DataTable adt8 = new DataTable();
+
+            adt8 = IProductionEntry.GetOutsdetail(id);
+            if (adt8.Rows.Count > 0)
+            {
+                for (int i = 0; i < adt8.Rows.Count; i++)
+                {
+                    tda6 = new SourceDetail();
+
+                    tda6.NoOfEmp = adt8.Rows[i]["NOOFEMP"].ToString();
+                    tda6.StartDate = adt8.Rows[i]["OWSTDTT"].ToString();
+
+                    tda6.StartTime = adt8.Rows[i]["OWSTT"].ToString();
+                    tda6.EndDate = adt8.Rows[i]["OWEDDTT"].ToString();
+                    tda6.EndTime = adt8.Rows[i]["OWEDT"].ToString();
+                    tda6.Expence = Convert.ToDouble(adt8.Rows[i]["MANPOWEXP"].ToString() == "" ? "0" : adt8.Rows[i]["MANPOWEXP"].ToString());
+                    tda6.WorkHrs = adt8.Rows[i]["EMPWHRS"].ToString();
+                    tda6.EmpCost = Convert.ToDouble(adt8.Rows[i]["EMPPAY"].ToString() == "" ? "0" : adt8.Rows[i]["EMPPAY"].ToString());
+                    tda6.NOW = adt8.Rows[i]["ONATOFW"].ToString();
+
+                    tda6.APID = id;
+                    TTData6.Add(tda6);
+                    tda6.Isvalid = "Y";
                 }
 
             }
@@ -989,7 +1015,7 @@ namespace Arasan.Controllers
                     DataTable dt = new DataTable();
                     string ins = "";
                     string detid = "";
-                    DataTable insert = datatrans.GetData("SELECT BPRODINPDETID,IS_INSERT,BPRODINPDETROW FROM BPRODINPDET WHERE BPRODBASICID='" + id + "' IITEMID='"+ saveitem + "' and IS_INSERT='Y'");
+                    DataTable insert = datatrans.GetData("SELECT BPRODINPDETID,IS_INSERT,BPRODINPDETROW FROM BPRODINPDET WHERE BPRODBASICID='" + id + "'  ICDRUMNO='" + drum + "' and IS_INSERT='Y'");
                     if(insert.Rows.Count > 0)
                     {
                          r =(int)Convert.ToDouble( insert.Rows[0]["BPRODINPDETROW"].ToString());
@@ -1040,7 +1066,7 @@ namespace Arasan.Controllers
                     string ins = "";
                     string detid = "";
                     DataTable dt = new DataTable();
-                    DataTable insert = datatrans.GetData("SELECT BPRODCONSDETID,IS_INSERT,BPRODCONSDETROW FROM BPRODCONSDET WHERE BPRODBASICID='" + id + "' AND CITEMID='"+item+"'");
+                    DataTable insert = datatrans.GetData("SELECT BPRODCONSDETID,IS_INSERT,BPRODCONSDETROW FROM BPRODCONSDET WHERE BPRODBASICID='" + id + "' AND IS_INSERT='Y'");
                     if (insert.Rows.Count > 0)
                     {
                          
@@ -1548,7 +1574,7 @@ namespace Arasan.Controllers
                             tda.Time = dt2.Rows[i]["CHARGINGTIME"].ToString();
                             tda.drumlst = BindInpDrum(tda.ItemId, ca.LOCID);
                             tda.insert = dt2.Rows[i]["IS_INSERT"].ToString();
-                            tda.drumno = dt2.Rows[i]["IDRUMNO"].ToString();
+                            tda.drumno = dt2.Rows[i]["ICDRUMNO"].ToString();
                             tda.unit = dt2.Rows[i]["UNITID"].ToString();
                             tda.Bin = dt2.Rows[i]["IBINID"].ToString();
                             tda.BinId = dt2.Rows[i]["BINID"].ToString();
@@ -1667,6 +1693,7 @@ namespace Arasan.Controllers
                             tda3.Alloted = dt5.Rows[i]["ALLOTEDTO"].ToString();
                             tda3.DType = dt5.Rows[i]["DTYPE"].ToString();
                             tda3.MType = dt5.Rows[i]["MTYPE"].ToString();
+                            tda3.Reasonlst = BindReason();
                             tda3.Reason = dt5.Rows[i]["ACTDESC"].ToString();
 
                             tda3.APID = id;
@@ -1721,7 +1748,7 @@ namespace Arasan.Controllers
                             tda5.StartTime = adt7.Rows[i]["STARTTIME"].ToString();
 
                             tda5.EndDate = adt7.Rows[i]["ENDDATE"].ToString();
-
+                            tda5.reasonlst = BindReason();
                             tda5.Reason = adt7.Rows[i]["REASON"].ToString();
 
 
@@ -1732,6 +1759,32 @@ namespace Arasan.Controllers
                             tda5.APID = id;
                             TTData5.Add(tda5);
                             tda5.Isvalid = "Y";
+                        }
+
+                    }
+                    DataTable adt8 = new DataTable();
+
+                    adt8 = IProductionEntry.GetOutsdetail(id);
+                    if (adt8.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < adt8.Rows.Count; i++)
+                        {
+                            tda6 =  new SourceDetail();
+
+                            tda6.NoOfEmp = adt8.Rows[i]["NOOFEMP"].ToString();
+                            tda6.StartDate = adt8.Rows[i]["OWSTDTT"].ToString();
+
+                            tda6.StartTime = adt8.Rows[i]["OWSTT"].ToString();
+                            tda6.EndDate = adt8.Rows[i]["OWEDDTT"].ToString();
+                            tda6.EndTime = adt8.Rows[i]["OWEDT"].ToString();
+                            tda6.Expence = Convert.ToDouble(adt8.Rows[i]["MANPOWEXP"].ToString() == "" ? "0" : adt8.Rows[i]["MANPOWEXP"].ToString());
+                            tda6.WorkHrs = adt8.Rows[i]["ENDDATE"].ToString();
+                            tda6.EmpCost = Convert.ToDouble(adt8.Rows[i]["EMPPAY"].ToString() == "" ? "0" : adt8.Rows[i]["EMPPAY"].ToString());
+                            tda6.NOW = adt8.Rows[i]["ONATOFW"].ToString();
+
+                            tda6.APID = id;
+                            TTData6.Add(tda6);
+                            tda6.Isvalid = "Y";
                         }
 
                     }

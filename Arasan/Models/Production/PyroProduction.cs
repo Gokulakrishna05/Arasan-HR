@@ -63,6 +63,7 @@ namespace Arasan.Models
         public string change { get; set; }
         public object APID { get; set; }
         public string Location { get; set; }
+        public string Locationid { get; set; }
         public string workid { get; set; }
         public string Branch { get; set; }
         public string DocId { get; set; }
@@ -86,6 +87,7 @@ namespace Arasan.Models
         public List<PProOutput> outlst { get; set; }
         public List<PAPProInCons> Binconslst { get; set; }
         public List<PEmpDetails> EmplLst { get; set; }
+        
         public List<PLogDetails> LogLst { get; set; }
         public List<PSourcingDetail> SourcingLst { get; set; }
         public List<PBunkerDetail> BunkLst { get; set; }
@@ -93,7 +95,9 @@ namespace Arasan.Models
         public string LOCID { get; set; }
         public string BranchId { get; set; }
         public string ProcessId { get; set; }  
+        public string process { get; set; }  
         public string ProdSchNo { get; set; }
+        public string ProdSchid { get; set; }
         public string ProdLog { get; set;}
         public string ProcessLot { get; set; }
         public List<SelectListItem> Plotlst { get; set; }
@@ -112,8 +116,10 @@ namespace Arasan.Models
         public List<SelectListItem> binlst { get; set; }
         public string drumno { get; set; }
         public List<SelectListItem> drumlst { get; set; }
+        public List<SelectListItem> batchlst { get; set; }
         public string batchno { get; set; }
         public string Time { get; set; }
+        public string insert { get; set; }
         public string inpid { get; set; }
         public double batchqty { get; set; }
         public double StockAvailable { get; set; }
@@ -185,6 +191,7 @@ namespace Arasan.Models
         public double consQty { get; set; }
         public double Qty { get; set; }
         public string Isvalid { get; set; }
+        public string insert { get; set; }
         public string BinId { get; set; }
 
         public string saveitemId { get; set; }
@@ -211,6 +218,8 @@ namespace Arasan.Models
         public string OTHrs { get; set; }
         public string Normal { get; set; }
         public string ETOther { get; set; }
+        public string Empcost { get; set; }
+        public string OTcost { get; set; }
         public string Isvalid { get; set; }
     }
     public class PLogDetails
@@ -222,6 +231,7 @@ namespace Arasan.Models
         public string StartTime { get; set; }
         public string EndTime { get; set; }
         public string tothrs { get; set; }
+        public List<SelectListItem> Reasonlst { get; set; }
         public string Reason { get; set; }
 
         public string Isvalid { get; set; }
@@ -257,8 +267,9 @@ namespace Arasan.Models
         public string NoOfEmp { get; set; }
         public double EmpCost { get; set; }
         public double Expence { get; set; }
-        public double WorkHrs { get; set; }
+        public string WorkHrs { get; set; }
         public string StartDate { get; set; }
+        public string APID { get; set; }
         public string EndDate { get; set; }
         public string StartTime { get; set; }
         public string EndTime { get; set; }
@@ -371,5 +382,6 @@ namespace Arasan.Models
         public string delrow { get; set; }
 
     }
+   
 }
 

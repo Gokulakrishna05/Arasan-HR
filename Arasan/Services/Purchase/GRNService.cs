@@ -445,8 +445,8 @@ namespace Arasan.Services
                                         if (lstock.Rows.Count > 0)
                                         {
                                             double sqty = Convert.ToDouble(lstock.Rows[0]["QTY"].ToString());
-                                            double totqty = sqty - cp.ConvQty;
-                                            svSQL = "UPDATE LSTOCKVALUE SET QTY='"+ totqty + "' WHERE ITEMID='" + cp.saveItemId + "' and T1SOURCEID='" + cy.GRNID + "'";
+                                            double totqty = sqty + cp.ConvQty;
+                                            svSQL = "UPDATE STOCKVALUE SET QTY='"+ totqty + "' WHERE ITEMID='" + cp.saveItemId + "' and T1SOURCEID='" + cy.GRNID + "'";
                                             OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
                                             objCmdss.ExecuteNonQuery();
                                         }

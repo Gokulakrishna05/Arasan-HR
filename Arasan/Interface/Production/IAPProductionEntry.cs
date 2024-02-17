@@ -39,6 +39,7 @@ namespace Arasan.Interface
         DataTable GetInput(string id);
         DataTable GetOutput(string id);
         DataTable GetLogdetail(string id);
+        DataTable GetOutsdetail(string id);
         DataTable GetBatchItem(string id);
         DataTable GetBatchOutItem(string id);
 
