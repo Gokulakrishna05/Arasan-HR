@@ -1360,6 +1360,8 @@ namespace Arasan.Controllers
             SourceDetail tda6 = new SourceDetail();
             List<LogDetails> TTData5 = new List<LogDetails>();
             LogDetails tda5 = new LogDetails();
+            string ebcost = datatrans.getebcost();
+            ca.EBCOST = ebcost;
             if (tag == "2")
 			{
 		

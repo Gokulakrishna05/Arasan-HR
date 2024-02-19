@@ -200,8 +200,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                 <div class="col-md-6">
+                                      <div class="btn-group">
+                                          <a href="#" class='fancybox btn sbold green' data-fancybox-type='iframe' id="hdrumselection" onclick="AddDrum()">Drum Selection</a>
+                                          
+                                    </div>
+                                     </div>
                             </div>
                              <div style="height:30px;"></div>
+
                           @*  <div class="row">
                                 <div class="col-md-12">
                                     <div class="btn-group">
@@ -335,6 +342,54 @@
         minView: 2,
         forceParse: 0
     });
+    function AddDrum(){
+    
+         var isValid = true;
+
+        if (document.getElementById("ddlFromLoc").value == "" || document.getElementById("ddlFromLoc").value == 0) {
+            isValid = false;
+            $(ddlFromLoc).css({
+                "border": "1px solid red",
+                "background": "#FFCECE"
+            });
+
+            alert("Please Select From Location");
+            return false;
+        }
+        else {
+            $(ddlFromLoc).css({
+                "border": "",
+                "background": ""
+            });
+        }
+
+        if (document.getElementById("ddlItemid").value == "" || document.getElementById("ddlItemid").value == 0) {
+            isValid = false;
+            $(ddlItemid).css({
+                "border": "1px solid red",
+                "background": "#FFCECE"
+            });
+
+            alert("Please Select Item");
+            return false;
+        }
+        else {
+            $(ddlItemid).css({
+                "border": "",
+                "background": ""
+            });
+        }
+
+        if (isValid == false) {
+            e.preventDefault();
+        }
+        else{
+              var locid=document.getElementById("ddlFromLoc").value;
+        var ItemId=document.getElementById("ddlItemid").value;
+          var url = "/DrumIssueEntry/DrumSelection?itemid=" + ItemId + "&locid=" + locid;
+            document.getElementById("hdrumselection").href = url;
+    }
+    }
      function changeDrum(ItemId) {
       
 
@@ -389,7 +444,7 @@
 
         document.getElementById("tbBooks").innerHTML = "";
      
-        $.ajax({
+       @* $.ajax({
             url: 'GetDrumStockDetails',
             type: "post",
             data: { "item":item,"id": ItemId },
@@ -419,7 +474,7 @@
             error: function () {
                 alert("Data Not Found");
             }
-        });
+        });*@
 
     }
   @*  function changeDrumDetail(ItemId, i) {
@@ -544,7 +599,7 @@
     }*@
     function PopulateDropDown(dropDownId, list) {
         //alert(list);
-        $(dropDownId).empty().append();
+           $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
         if (list != null && list.length > 0) {
             $(dropDownId).removeAttr("disabled");
             $.each(list, function () {
@@ -817,4 +872,29 @@
         });
 
     });
+</script>
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false,
+
+        });
+        fancybox123 = $.fancybox;
+    });
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
 </script>

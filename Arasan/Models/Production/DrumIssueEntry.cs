@@ -65,18 +65,19 @@ namespace Arasan.Models
         public Double IValue { get; set; }
 
         public List<DrumIssueEntryItem> Drumlst { get; set; }
+        public bool selectall { get; set; }
     }
     public class DrumIssueEntryItem
     {
         public string ID { get; set; }
-      
+      public string invid { get; set; }
         public List<SelectListItem> FBinlst { get; set; }
         public string FBinId { get; set; }
         public List<SelectListItem> TBinlst { get; set; }
         public string TBinid { get; set; }
         public List<SelectListItem> drumlst { get; set; }
         public string drum { get; set; }
-
+        public bool drumselect { get; set; }
         public string qty { get; set; }
         public string batch { get; set; }
         public string batchno { get; set; }
