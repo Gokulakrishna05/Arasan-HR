@@ -2217,21 +2217,28 @@ a{
          var frtime = document.getElementById("txtStartTime"+i).value;
        var entime = document.getElementById("txtEndTime"+i).value;
        
+       
        if (frtime == "")
                         frtime = 0;
 
         if (entime == "")
                         entime = 0;
-        
-            var tothrs=eval(entime)-eval(frtime);
-           
+
+         
+
+
+          @*  var tothrs=eval(entime)-eval(frtime);
+            
             var rohrs = Math.ceil(tothrs);
-            document.getElementById("txtETOther" +i).value=rohrs;
+       
+
+            document.getElementById("txtETOther" +i).value=rohrs;*@
     }
         function changehrs(tohr, i) {
        var frtime = document.getElementById("txtSStartTime"+i).value;
        var entime = document.getElementById("txtSEndTime"+i).value;
-
+       var etcost=document.getElementById("hdotcost" + i).value;
+       var empcost=document.getElementById("hdempcost" + i).value;
         
             var tothrs=eval(tohr)-eval(frtime);
             var rohrs = Math.ceil(tothrs);
@@ -2245,8 +2252,15 @@ a{
 
         if (noemp == "")
                         noemp = 0;
+        
+        if (etcost == "")
+             etcost = 0;
+
+                if (empcost == "")
+             empcost = 0;
 
         var totexp = eval(rohrs) * eval(cost) *eval(noemp);
+       @* var etamt = eval(rohrs) * eval(etcost);*@
         document.getElementById("txtExpence" + i).value = totexp;
     }
     function changeloghrs(i){
