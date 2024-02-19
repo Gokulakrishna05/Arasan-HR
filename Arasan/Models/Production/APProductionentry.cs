@@ -41,7 +41,7 @@ namespace Arasan.Models
     }
     public class APProductionentryDet
     {
-      
+        public string EBCOST { get; set; }
         public string ID { get; set; }
         public string Process { get; set; }
         public string change { get; set; }

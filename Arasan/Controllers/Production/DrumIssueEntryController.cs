@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Services.Production;
 using System.Collections.Specialized;
 using Arasan.Interface;
+using Arasan.Services;
 
 namespace Arasan.Controllers.Production
 {
@@ -433,6 +434,29 @@ namespace Arasan.Controllers.Production
             {
                 throw ex;
             }
+        }
+        public ActionResult DrumSelection(string itemid,string locid)
+        {
+            DrumIssueEntry model = new DrumIssueEntry();
+            DataTable dtt = new DataTable();
+            List<DrumIssueEntryItem> Data = new List<DrumIssueEntryItem>();
+            DrumIssueEntryItem tda = new DrumIssueEntryItem();
+            dtt = DrumIssueEntryService.GetDrumStockDetail(itemid, locid);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new DrumIssueEntryItem();
+                   tda.drum = dtt.Rows[i]["DRUMNO"].ToString();
+
+                    tda.qty = dtt.Rows[i]["QTY"].ToString();
+                    tda.batchno = dtt.Rows[i]["LOTNO"].ToString();
+
+                    Data.Add(tda);
+                }
+            }
+            model.Drumlst = Data;
+            return View(model);
         }
         //public ActionResult GetItemJSON(string ItemId)
         //{

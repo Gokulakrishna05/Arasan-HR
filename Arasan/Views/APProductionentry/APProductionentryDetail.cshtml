@@ -286,9 +286,20 @@ a{
                                 </div>
                             </div>
                         </div>
-                       
-                         
-                        
+                        <div style="height:30px;"></div>
+                           <div class="row">
+                          
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">EB Cost/Unit<label class="mandatory"> </label></label>
+
+                                    <div class="col-sm-8">
+                                                 @Html.HiddenFor(C => C.EBCOST,new{@id="hdebcost"})
+                                            <span style="color:red"><b>@Html.DisplayFor(C => C.EBCOST)</b></span>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
                         <div style="height:30px;"></div>
                         <div id="divshiftrowdetail">
 

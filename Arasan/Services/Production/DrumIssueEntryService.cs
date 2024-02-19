@@ -99,7 +99,7 @@ namespace Arasan.Services.Production
         public DataTable GetItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,LSTOCKVALUE.ITEMID as item from LSTOCKVALUE left outer join ITEMMASTER on ITEMMASTER.ITEMMASTERID=LSTOCKVALUE.ITEMID WHERE LOCID='"+id+"'  GROUP BY ITEMMASTER.ITEMID,LSTOCKVALUE.ITEMID";
+            SvSql = "select I.ITEMID,L.ITEMID as item from LSTOCKVALUE L,ITEMMASTER I where I.ITEMMASTERID=L.ITEMID AND LOCID='"+ id +"'  GROUP BY I.ITEMID,L.ITEMID having sum(Plusqty-Minusqty)>0 order by I.ITEMID DESC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -437,10 +437,10 @@ namespace Arasan.Services.Production
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetDrumStockDetail(string id,string item)
+        public DataTable GetDrumStockDetail(string itemid, string locid)
         {
             string SvSql = string.Empty;
-            SvSql = "select l.DRUMNO,SUM(l.PLUSQTY-l.MINUSQTY) as QTY,l.LOTNO from LSTOCKVALUE l,LOTMAST lt where lt.LOTNO=l.LOTNO AND lt.INSFLAG='1' AND  l.ITEMID = '" + id + "' AND l.LOCID ='" + item + "'  GROUP BY l.DRUMNO,l.LOTNO HAVING SUM(l.PLUSQTY-l.MINUSQTY) > 0 ";
+            SvSql = "select l.DRUMNO,SUM(l.PLUSQTY-l.MINUSQTY) as QTY,l.LOTNO from LSTOCKVALUE l,LOTMAST lt where lt.LOTNO=l.LOTNO AND lt.INSFLAG='1' AND  l.ITEMID = '" + itemid + "' AND l.LOCID ='" + locid + "'  GROUP BY l.DRUMNO,l.LOTNO HAVING SUM(l.PLUSQTY-l.MINUSQTY) > 0 ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
