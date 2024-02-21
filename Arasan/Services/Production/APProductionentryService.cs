@@ -153,7 +153,7 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             
-                SvSql = "select  LOTNO from LSTOCKVALUE WHERE ITEMID='" + ItemId + "' AND LOCID='" + loc + "'  AND PLUSQTY >0 AND DRUMNO IS NULL GROUP BY LOTNO ";
+                SvSql = "select  LOTNO from LSTOCKVALUE WHERE ITEMID='" + ItemId + "' AND LOCID='" + loc + "'  AND DRUMNO IS NULL HAVING SUM(PLUSQTY-MINUSQTY) > 0  GROUP BY LOTNO ";
              
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -165,7 +165,7 @@ namespace Arasan.Services
 		{
 			string SvSql = string.Empty;
 			//SvSql = "select ITEMMASTER.ITEMID,ITEM_ID from INVENTORY_ITEM LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=INVENTORY_ITEM.ITEM_ID where ITEMMASTER.igroup='Consumables' and INVENTORY_ITEM.LOCATION_ID='" + id+ "' GROUP BY ITEMMASTER.ITEMID,INVENTORY_ITEM.ITEM_ID";
-			SvSql = "select ITEMMASTER.ITEMID,STOCKVALUE.ITEMID as item from STOCKVALUE LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=STOCKVALUE.ITEMID where ITEMMASTER.igroup='Consumables' and STOCKVALUE.LOCID='" + id+ "' GROUP BY ITEMMASTER.ITEMID,STOCKVALUE.ITEMID";
+			SvSql = "select I.ITEMID,S.ITEMID as item from STOCKVALUE S,ITEMMASTER I Where I.ITEMMASTERID=S.ITEMID AND I.igroup='Consumables' and S.LOCID='"+ id + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  GROUP BY I.ITEMID,S.ITEMID";
 
 			DataTable dtt = new DataTable();
 			OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -1149,12 +1149,13 @@ namespace Arasan.Services
             
             return dtt;
         }
-        public DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch, string drum, int r)
+        public DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch, string drum, int r,double rate)
         {
             string SvSql = string.Empty;
             string SvSql1 = string.Empty;
             string insflag = string.Empty;
             DataTable dtt = new DataTable();
+            double amt = rate * Convert.ToDouble(qty);
             using (OracleConnection objConnT = new OracleConnection(_connectionString))
             {
                 objConnT.Open();
@@ -1188,7 +1189,7 @@ namespace Arasan.Services
                 {
                     narr = "Consumption in " + work + " - " + process + " - " + drum;
                 }
-                SvSql = "Insert into BPRODINPDET (BPRODBASICID,IITEMID,IBINID,CHARGINGTIME,IQTY,IBATCHQTY,IBATCHNO,IDRUMNO,ICDRUMNO,IDRUMSLOCID,IDRUMSLOCATION,DRUMYN,LOTYN,IITEMACC,BPRODINPDETROW,INARR,IS_INSERT) VALUES ('" + id + "','" + item + "','" + bin + "','" + time + "','" + qty + "','" + stock + "','" + batch + "','" + drumid + "','" + drum + "','" + drumloc + "','" + drumloc + "','" + drlot.Rows[0]["DRUMYN"].ToString() + "','" + drlot.Rows[0]["LOTYN"].ToString() + "','" + drlot.Rows[0]["ITEMACC"].ToString() + "','" + r + "','" + narr + "','Y') RETURNING BPRODINPDETID INTO :LASTCID";
+                SvSql = "Insert into BPRODINPDET (BPRODBASICID,IITEMID,IBINID,CHARGINGTIME,IQTY,IBATCHQTY,IBATCHNO,IDRUMNO,ICDRUMNO,IDRUMSLOCID,IDRUMSLOCATION,DRUMYN,LOTYN,IITEMACC,BPRODINPDETROW,INARR,IS_INSERT,IBRATE,IRATE,IAMOUNT) VALUES ('" + id + "','" + item + "','" + bin + "','" + time + "','" + qty + "','" + stock + "','" + batch + "','" + drumid + "','" + drum + "','" + drumloc + "','" + drumloc + "','" + drlot.Rows[0]["DRUMYN"].ToString() + "','" + drlot.Rows[0]["LOTYN"].ToString() + "','" + drlot.Rows[0]["ITEMACC"].ToString() + "','" + r + "','" + narr + "','Y','"+ rate +"','"+ rate +"','"+ amt +"') RETURNING BPRODINPDETID INTO :LASTCID";
                 OracleCommand objCmds = new OracleCommand(SvSql, objConnT);
 
                 objCmds.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
@@ -1208,7 +1209,7 @@ namespace Arasan.Services
                 }
                 else
                 {
-                    SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG) VALUES ('" + detid + "','m','" + item + "','" + docdate + "','" + qty + "' ,'" + wopro.Rows[0]["ILOCDETAILSID"].ToString() + "','0','0','0','0','0','0','0','BPROD INPUT','" + insflag + "')";
+                    SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG,STOCKVALUE) VALUES ('" + detid + "','m','" + item + "','" + docdate + "','" + qty + "' ,'" + wopro.Rows[0]["ILOCDETAILSID"].ToString() + "','0','"+ rate +"','0','0','0','0','0','BPROD INPUT','" + insflag + "','"+ amt + "')";
                     OracleCommand objCmdss = new OracleCommand(SvSql1, objConnT);
                     objCmdss.ExecuteNonQuery();
                 }
@@ -1269,7 +1270,7 @@ namespace Arasan.Services
                 }
                 if (drumid != "0" || batch != "")
                 {
-                    SvSql1 = "Insert into LSTOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,DOCID,DOCDATE,LOTNO,PLUSQTY,MINUSQTY,DRUMNO,RATE,STOCKVALUE,ITEMID,LOCID,BINNO,FROMLOCID,STOCKTRANSTYPE,BATCH) VALUES ('0','0','F','" + detid + "','754368046','" + wopro.Rows[0]["DOCID"].ToString() + "','" + docdate + "','" + batch + "' ,'0','" + qty + "','" + drum + "','0','0','" + item + "','" + wopro.Rows[0]["ILOCDETAILSID"].ToString() + "','0','0','BPROD INPUT','" + wopro.Rows[0]["BATCH"].ToString() + "')";
+                    SvSql1 = "Insert into LSTOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,DOCID,DOCDATE,LOTNO,PLUSQTY,MINUSQTY,DRUMNO,RATE,STOCKVALUE,ITEMID,LOCID,BINNO,FROMLOCID,STOCKTRANSTYPE,BATCH) VALUES ('0','0','F','" + detid + "','754368046','" + wopro.Rows[0]["DOCID"].ToString() + "','" + docdate + "','" + batch + "' ,'0','" + qty + "','" + drum + "','"+ rate +"','"+ amt +"','" + item + "','" + wopro.Rows[0]["ILOCDETAILSID"].ToString() + "','0','0','BPROD INPUT','" + wopro.Rows[0]["BATCH"].ToString() + "')";
                     OracleCommand objCmdss = new OracleCommand(SvSql1, objConnT);
                     objCmdss.ExecuteNonQuery();
 
@@ -1334,12 +1335,13 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable SaveConsDetails(string id, string item, string unit, string qty, string usedqty, string work, string process, int l)
+        public DataTable SaveConsDetails(string id, string item, string unit, string qty, string usedqty, string work, string process, int l, double rate)
         {
             string SvSql = string.Empty;
             string SvSql1 = string.Empty;
             string insflag = string.Empty;
             DataTable dtt = new DataTable();
+            double amt = rate * Convert.ToDouble(qty);
             using (OracleConnection objConnT = new OracleConnection(_connectionString))
             {
                 objConnT.Open();
@@ -1350,7 +1352,7 @@ namespace Arasan.Services
                 string narr = "Consumption in " + work + " - " + process;
                 
 
-                SvSql = "Insert into BPRODCONSDET (BPRODBASICID,CITEMID,CBINID,CUNIT,CLOTYN,CNARR,CONSQTY,CSUBQTY,VALIDROW3,BPRODCONSDETROW,CITEMACC,IS_INSERT) VALUES ('" + id + "','" + item + "','0','" + unit + "','" + drlot.Rows[0]["LOTYN"].ToString() + "','" + narr + "','" + qty + "','" + usedqty + "','T','" + l + "','" + drlot.Rows[0]["ITEMACC"].ToString() + "','Y') RETURNING BPRODCONSDETID INTO :LASTCID";
+                SvSql = "Insert into BPRODCONSDET (BPRODBASICID,CITEMID,CBINID,CUNIT,CLOTYN,CNARR,CONSQTY,CSUBQTY,VALIDROW3,BPRODCONSDETROW,CITEMACC,IS_INSERT,CRATE,CVALUE) VALUES ('" + id + "','" + item + "','0','" + unit + "','" + drlot.Rows[0]["LOTYN"].ToString() + "','" + narr + "','" + qty + "','" + usedqty + "','T','" + l + "','" + drlot.Rows[0]["ITEMACC"].ToString() + "','Y','"+ rate +"','"+ amt +"') RETURNING BPRODCONSDETID INTO :LASTCID";
                 OracleCommand objCmds = new OracleCommand(SvSql, objConnT);
 
                 objCmds.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
@@ -1358,7 +1360,7 @@ namespace Arasan.Services
 
                 string detid = objCmds.Parameters["LASTCID"].Value.ToString();
                 if (qc == "YES") { insflag = "0"; } else { insflag = "1"; }
-                SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG) VALUES ('" + detid + "','m','" + item + "','" + docdate + "','" + qty + "' ,'" + wopro.Rows[0]["ILOCDETAILSID"].ToString() + "','0','0','0','0','0','0','0','BPROD CONS','" + insflag + "')";
+                SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG,STOCKVALUE) VALUES ('" + detid + "','m','" + item + "','" + docdate + "','" + qty + "' ,'" + wopro.Rows[0]["ILOCDETAILSID"].ToString() + "','0','"+ rate +"','0','0','0','0','0','BPROD CONS','" + insflag + "','"+ amt + "')";
                 OracleCommand objCmdss = new OracleCommand(SvSql1, objConnT);
                 objCmdss.ExecuteNonQuery();
                 //using (OracleDataReader reader = objCmds.ExecuteReader())
@@ -1369,7 +1371,7 @@ namespace Arasan.Services
             }
                 return dtt;
         }
-        public DataTable SaveEmpDetails(string id, string empname, string code, string depat, string sdate, string stime, string edate, string etime, string ot, string et, string normal, string now)
+        public DataTable SaveEmpDetails(string id, string empname, string code, string depat, string sdate, string stime, string edate, string etime, string ot, string et, string normal, string now,string otcost,string empcost)
         {
             string SvSql = string.Empty;
             using (OracleConnection objConnT = new OracleConnection(_connectionString))
@@ -1379,8 +1381,14 @@ namespace Arasan.Services
                 OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
                 objCmdd.ExecuteNonQuery();
             }
-
-            SvSql = "Insert into BPRODEMPDET (BPRODBASICID,EMPNAME,EMPCODE1,DEPARTMENT,ESTARTDATE,ESTARTTIME,EENDDATE,EENDTIME,OTHRS,ETOTHRS,NORMHRS,NATOFW) VALUES ('" + id + "','" + empname + "','" + code + "','" + depat + "','" + sdate + "','" + stime + "','" + edate + "','" + etime + "','" + ot + "','" + et + "','" + normal + "','" + now + "')";
+            double normalhr= Convert.ToDouble(normal=="" ? 0: normal);
+            double emc = Convert.ToDouble(empcost == "" ? 0 : empcost);
+            double othr = Convert.ToDouble(ot == "" ? 0 : ot);
+            double otc = Convert.ToDouble(otcost == "" ? 0 : otcost);
+            double nohrc = normalhr * emc;
+            double otct = othr * otc;
+            double etot = nohrc + otct;
+            SvSql = "Insert into BPRODEMPDET (BPRODBASICID,EMPNAME,EMPCODE1,DEPARTMENT,ESTARTDATE,ESTARTTIME,EENDDATE,EENDTIME,OTHRS,ETOTHRS,NORMHRS,NATOFW,EMPCOST,OTC,NORMHRC,OTHRC,ETOTC) VALUES ('" + id + "','" + empname + "','" + code + "','" + depat + "','" + sdate + "','" + stime + "','" + edate + "','" + etime + "','" + othr + "','" + et + "','" + normal + "','" + now + "','"+ empcost +"','"+ otcost +"','"+ nohrc +"','"+ otct + "','"+ etot + "')";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -1496,7 +1504,7 @@ namespace Arasan.Services
         public DataTable GetAPProductionentryName(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select BPRODBASICID,BPRODBASIC.DOCID,to_char(BPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PROCESSMAST.PROCESSID,WCBASIC.WCID,BPRODBASIC.ENTEREDBY,PSBASIC.DOCID as psno,SCHQTY,BPRODBASIC.PRODQTY, BATCH,SHIFT,BATCHCOMP,ILOCDETAILSID,BPRODBASIC.BRANCH from BPRODBASIC left outer join PSBASIC ON PSBASIC.PSBASICID= BPRODBASIC.PSCHNO left outer join WCBASIC ON WCBASICID= BPRODBASIC.WCID left outer join PROCESSMAST ON PROCESSMASTID= BPRODBASIC.PROCESSID where BPRODBASICID='" + id + "' ";
+            SvSql = "select WCBASIC.WCBASICID,BPRODBASICID,BPRODBASIC.DOCID,to_char(BPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PROCESSMAST.PROCESSID,WCBASIC.WCID,BPRODBASIC.ENTEREDBY,PSBASIC.DOCID as psno,SCHQTY,BPRODBASIC.PRODQTY, BATCH,SHIFT,BATCHCOMP,ILOCDETAILSID,BPRODBASIC.BRANCH from BPRODBASIC left outer join PSBASIC ON PSBASIC.PSBASICID= BPRODBASIC.PSCHNO left outer join WCBASIC ON WCBASICID= BPRODBASIC.WCID left outer join PROCESSMAST ON PROCESSMASTID= BPRODBASIC.PROCESSID where BPRODBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1620,7 +1628,7 @@ namespace Arasan.Services
         public DataTable GetBatchItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select I.ITEMID,B.IITEMID  from BCINPUTDETAIL B,ITEMMASTER I,STOCKVALUE S   where  B.IITEMID=S.ITEMID AND B.IITEMID=I.ITEMMASTERID AND BCPRODBASICID='" + id + "'  GROUP BY I.ITEMID,B.IITEMID";    
+            SvSql = "select I.ITEMID,B.IITEMID  from BCINPUTDETAIL B,ITEMMASTER I,STOCKVALUE S   where  B.IITEMID=S.ITEMID AND B.IITEMID=I.ITEMMASTERID AND BCPRODBASICID='" + id + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0   GROUP BY I.ITEMID,B.IITEMID";    
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

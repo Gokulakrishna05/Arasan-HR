@@ -42,6 +42,7 @@ namespace Arasan.Models
     public class APProductionentryDet
     {
         public string EBCOST { get; set; }
+        public string EBCOSTPHR { get; set; }
         public string ID { get; set; }
         public string Process { get; set; }
         public string change { get; set; }
@@ -58,7 +59,7 @@ namespace Arasan.Models
         public string batchcomplete { get; set; }
         public string SchQty { get; set; }
         public string ProdQty { get; set; }
-       
+        public string tothrs { get; set; }
         public List<BreakDet> BreakLst { get; set; }
         public string Shift { get; set; }
         public List<ProInput> inplst { get; set; }
@@ -109,6 +110,8 @@ namespace Arasan.Models
         public List<SelectListItem> lotlist { get; set; }
         public string Lotno { get; set; }
         public double totalqty { get; set; }
+        public double rate { get; set; }
+        public double amount { get;set; }
     }
     public class ProOutput
     {
@@ -165,7 +168,7 @@ namespace Arasan.Models
 		public string Isvalid { get; set; }
 		public string BinId { get; set; }
 		public string insert { get; set; }
-
+        public string rate { get; set; }
 		public string saveitemId { get; set; }
 
 	}
@@ -192,6 +195,10 @@ namespace Arasan.Models
         public string Normal { get; set; }
         public string ETOther { get; set; }
         public string Isvalid { get; set; }
+        public string NORMHRC { get; set; }
+        public string OTHRC { get; set; }
+        public string ETOTC { get; set; }
+
     }
     public class LogDetails
     {

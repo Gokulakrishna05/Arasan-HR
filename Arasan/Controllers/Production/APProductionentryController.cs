@@ -3,6 +3,7 @@ using Arasan.Models;
 using Arasan.Services;
 using Arasan.Services.Master;
 using AspNetCore.Reporting;
+using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -1037,6 +1038,7 @@ namespace Arasan.Controllers
                     string qty = input.IssueQty.ToString();
                     string unit = input.unit.ToString();
                     string drum = input.drumno.ToString();
+                    double rate = input.rate;
                     DataTable dt = new DataTable();
                     string ins = "";
                     string detid = "";
@@ -1048,7 +1050,7 @@ namespace Arasan.Controllers
                     }
                     else
                     {
-                        dt = IProductionEntry.SaveInputDetails(id, item, bin, time, qty, stock, batch, drum, r);
+                        dt = IProductionEntry.SaveInputDetails(id, item, bin, time, qty, stock, batch, drum, r, rate);
                         r++;
                     }
                    
@@ -1084,7 +1086,7 @@ namespace Arasan.Controllers
                     string id = Cons.APID;
                     string stock = Cons.ConsStock.ToString();
                     string usedqty = Cons.Qty.ToString();
-
+                    double rate = Convert.ToDouble(Cons.rate==""?0: Cons.rate);
                     DataTable wopro = datatrans.GetData("SELECT WCBASIC.WCID,PROCESSMAST.PROCESSID FROM BPRODBASIC LEFT OUTER JOIN WCBASIC ON WCBASICID=BPRODBASIC.WCID LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BPRODBASIC.PROCESSID WHERE BPRODBASICID='"+ id +"'");
                     string work = wopro.Rows[0]["WCID"].ToString();
                     string process = wopro.Rows[0]["PROCESSID"].ToString();
@@ -1101,7 +1103,7 @@ namespace Arasan.Controllers
                     }
                     else
                     {
-                        dt = IProductionEntry.SaveConsDetails(id, item, unit, qty, usedqty, work, process, l);
+                        dt = IProductionEntry.SaveConsDetails(id, item, unit, qty, usedqty, work, process, l,rate);
                         l++;
                     }
                     
@@ -1141,10 +1143,12 @@ namespace Arasan.Controllers
                     string ot = emp.OTHrs;
                     string et = emp.ETOther;
                     string normal = emp.Normal;
+                    string otcost = emp.OTcost;
+                    string empcost = emp.Empcost;
                     string now = emp.NOW;
                     DataTable dt = new DataTable();
 
-                    dt = IProductionEntry.SaveEmpDetails(id,empname, code, depat, sdate, stime, edate, etime, ot, et, normal, now);
+                    dt = IProductionEntry.SaveEmpDetails(id,empname, code, depat, sdate, stime, edate, etime, ot, et, normal, now,otcost,empcost);
                 }
 
                 if (model != null)
@@ -1386,6 +1390,7 @@ namespace Arasan.Controllers
             List<LogDetails> TTData5 = new List<LogDetails>();
             LogDetails tda5 = new LogDetails();
             string ebcost = datatrans.getebcost();
+            
             ca.EBCOST = ebcost;
             if (tag == "2")
 			{
@@ -1417,6 +1422,8 @@ namespace Arasan.Controllers
                        //ca.batchid = dt.Rows[0]["batchid"].ToString();
                         ca.batchcomplete = dt.Rows[0]["BATCHCOMP"].ToString();
                         ca.APID = id;
+                        string ebcostphr = datatrans.GetDataString("Select EBCONSPERHR from wcbasic where wcbasicid='" + dt.Rows[0]["WCBASICID"].ToString()  + "'");
+                        ca.EBCOSTPHR= ebcostphr;
                     }
                  
                         for (int i = 0; i < 3; i++)
@@ -1805,7 +1812,7 @@ namespace Arasan.Controllers
                             tda6.EndDate = adt8.Rows[i]["OWEDDTT"].ToString();
                             tda6.EndTime = adt8.Rows[i]["OWEDT"].ToString();
                             tda6.Expence = Convert.ToDouble(adt8.Rows[i]["MANPOWEXP"].ToString() == "" ? "0" : adt8.Rows[i]["MANPOWEXP"].ToString());
-                            tda6.WorkHrs = adt8.Rows[i]["ENDDATE"].ToString();
+                            tda6.WorkHrs = adt8.Rows[i]["EMPWHRS"].ToString();
                             tda6.EmpCost = Convert.ToDouble(adt8.Rows[i]["EMPPAY"].ToString() == "" ? "0" : adt8.Rows[i]["EMPPAY"].ToString());
                             tda6.NOW = adt8.Rows[i]["ONATOFW"].ToString();
 
@@ -2473,7 +2480,8 @@ namespace Arasan.Controllers
                         stk = "0";
                     }
                 }
-                var result = new { bin = bin, binid= binid, stk = stk, unit= unit , drum = drum , lot= lot };
+                string rate = datatrans.GetDataString("SELECT AVG(S.STOCKVALUE/S.QTY) as rate FROM STOCKVALUE S WHERE ITEMID='" + ItemId + "' and LOCID='" + loc + "'");
+                var result = new { bin = bin, binid= binid, stk = stk, unit= unit , drum = drum , lot= lot , rate = rate };
 				return Json(result);
 			}
 			catch (Exception ex)
@@ -2655,7 +2663,8 @@ namespace Arasan.Controllers
                 {
                     stk = "0";
                 }
-                var result = new { stk = stk };
+                string rate = datatrans.GetDataString("Select MAX(RATE) rate from LSTOCKVALUE where LOTNO='" + ItemId + "' "); /*AND LATEMPLATEID = '730926300'*/
+                var result = new { stk = stk ,rate=rate};
                 return Json(result);
             }
             catch (Exception ex)
@@ -2686,8 +2695,8 @@ namespace Arasan.Controllers
 			{
 				DataTable dt = new DataTable();
 				DataTable dt1 = new DataTable();
-
-				string bin = "";
+                
+                string bin = "";
 				string binid = "";
 				string unit = "";
 				string unitid = "";
@@ -2713,8 +2722,8 @@ namespace Arasan.Controllers
                 {
                     stk = "0";
                 }
-
-                var result = new { bin = bin, binid = binid, unit= unit , unitid = unitid, stk= stk };
+                string rate = datatrans.GetDataString("SELECT AVG(S.STOCKVALUE/S.QTY) as rate FROM STOCKVALUE S WHERE ITEMID='" + ItemId + "' and LOCID='"+ loc +"'");
+                var result = new { bin = bin, binid = binid, unit= unit , unitid = unitid, stk= stk, rate=rate };
 				return Json(result);
 			}
 			catch (Exception ex)
