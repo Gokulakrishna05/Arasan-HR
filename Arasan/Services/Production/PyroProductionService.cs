@@ -86,7 +86,7 @@ namespace Arasan.Services
         public DataTable GetItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select P.RITEMID,I.ITEMID from PSINPDETAIL P,LSTOCKVALUE L,ITEMMASTER I   where P.RITEMID=I.ITEMMASTERID AND PSBASICID='" + id + "' GROUP BY P.RITEMID,I.ITEMID";
+            SvSql = "select P.RITEMID,I.ITEMID from PSINPDETAIL P,LSTOCKVALUE L,ITEMMASTER I   where P.RITEMID=I.ITEMMASTERID AND PSBASICID='" + id + "'  HAVING SUM(L.PLUSQTY-L.MINUSQTY) > 0 GROUP BY P.RITEMID,I.ITEMID";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -805,7 +805,7 @@ namespace Arasan.Services
             }
             return dtt;
         }
-        public DataTable SaveOutputDetails(string id, string item, string bin, string stime, string ttime, string qty, string drum,string status, string stock,string excess,string shed)
+        public DataTable SaveOutputDetails(string id, string item , string stime, string ttime, string qty, string drum,string status, string stock,string excess,string shed)
         {
             string SvSql = string.Empty;
             string loc = string.Empty;
@@ -816,7 +816,7 @@ namespace Arasan.Services
                 string itemname = datatrans.GetDataString("SELECT ITEMID FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
                 string qcyn = datatrans.GetDataString("SELECT QCCOMPFLAG FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
                 DataTable ld = datatrans.GetData("SELECT DRUMYN,LOTYN FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
-                DataTable wopro = datatrans.GetData("SELECT WCBASIC.WCID,WCBASIC.ILOCATION,PROCESSMAST.PROCESSID,NPRODBASIC.DOCID,DRUMILOCDETAILSID,PSBASIC.DOCID as psno,SHIFT,to_char(NPRODBASIC.DOCDATE,'dd-MM-yy')DOCDATE,ILOCDETAILSID FROM NPRODBASIC LEFT OUTER JOIN WCBASIC ON WCBASICID=NPRODBASIC.WCID LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID=NPRODBASIC.PROCESSID LEFT OUTER JOIN PSBASIC ON PSBASIC.PSBASICID=NPRODBASIC.PSCHNO WHERE NPRODBASICID='" + id + "'");
+                DataTable wopro = datatrans.GetData("SELECT BRANCHID,WCBASIC.WCID,WCBASIC.ILOCATION,PROCESSMAST.PROCESSID,NPRODBASIC.DOCID,NPRODBASIC.ENTEREDBY,DRUMILOCDETAILSID,PSBASIC.DOCID as psno,SHIFT,to_char(NPRODBASIC.DOCDATE,'dd-MM-yy')DOCDATE,ILOCDETAILSID FROM NPRODBASIC LEFT OUTER JOIN WCBASIC ON WCBASICID=NPRODBASIC.WCID LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID=NPRODBASIC.PROCESSID LEFT OUTER JOIN PSBASIC ON PSBASIC.PSBASICID=NPRODBASIC.PSCHNO WHERE NPRODBASICID='" + id + "'");
                 string work = wopro.Rows[0]["WCID"].ToString();
                 string process = wopro.Rows[0]["PROCESSID"].ToString();
                 
@@ -861,6 +861,99 @@ namespace Arasan.Services
                     SvSql = "  INSERT INTO LSTOCKVALUE (APPROVAL, MAXAPPROVED, CANCEL, T1SOURCEID, LATEMPLATEID, DOCID, DOCDATE, Drumno, LOTNO, PLUSQTY, MINUSQTY, RATE, STOCKVALUE, ITEMID, LOCID, BINNO, FROMLOCID, StockTranstype, batch) VALUES ('0', '0', 'F', '" + detid + "', 748213892, '" + wopro.Rows[0]["DOCID"].ToString() + "',  '" + docdate + "', '" + drumno + "','" + nbatch + "','" + qty + "', '0', '0','0', '" + item + "','" + loc + "', '0', '0', 'PROD OUTPUT', '')";
                     objCmds = new OracleCommand(SvSql, objConnT);
                     objCmds.ExecuteNonQuery();
+
+                    int occupied = datatrans.GetDataId(" SELECT OCCUPIED FROM CURINGMASTER WHERE SHEDNUMBER = '" + shed + "' ");
+
+
+                    string updateoccupied = " UPDATE CURINGMASTER SET OCCUPIED ='" + (occupied + 1).ToString() + "' WHERE SHEDNUMBER ='" + shed + "'";
+
+                    datatrans.UpdateStatus(updateoccupied);
+                    string Sql = "Update CURINGMASTER SET  STATUS='Occupied' WHERE SHEDNUMBER='" + shed + "'";
+                    objCmds = new OracleCommand(Sql, objConnT);
+                    objCmds.ExecuteNonQuery();
+                    datatrans = new DataTransactions(_connectionString);
+
+
+                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'CURI' AND ACTIVESEQUENCE = 'T'");
+                    string curid = string.Format("{0}{1}", "CURI", (idc + 1).ToString());
+
+                    string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='CURI' AND ACTIVESEQUENCE ='T'";
+                    try
+                    {
+                        datatrans.UpdateStatus(updateCMd);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    DataTable shiftid = datatrans.GetData("Select SHIFTMASTID,FROMTIME,TOTIME from SHIFTMAST where SHIFTNO='" + shift + "' ");
+
+                    
+                    OracleCommand objCmdsss = new OracleCommand("CURINGINWARDPPROC", objConnT);
+                    objCmdsss.CommandType = CommandType.StoredProcedure;
+                    objCmdsss.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    objCmdsss.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = wopro.Rows[0]["BRANCHID"].ToString();
+                    objCmdsss.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = curid;
+                    objCmdsss.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Now;
+                    objCmdsss.Parameters.Add("LOCDETAILSID", OracleDbType.NVarchar2).Value = "10044000011739";
+                    objCmdsss.Parameters.Add("SHIFT", OracleDbType.NVarchar2).Value = shiftid.Rows[0]["SHIFTMASTID"].ToString();
+                    objCmdsss.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = "10932000000839";
+                    objCmdsss.Parameters.Add("STARTTIME", OracleDbType.NVarchar2).Value = shiftid.Rows[0]["FROMTIME"].ToString();
+                    objCmdsss.Parameters.Add("ENDTIME", OracleDbType.NVarchar2).Value = shiftid.Rows[0]["TOTIME"].ToString();
+                    objCmdsss.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = wopro.Rows[0]["ENTEREDBY"].ToString(); 
+                    objCmdsss.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = "";
+                    objCmdsss.Parameters.Add("NPRODBASICID", OracleDbType.NVarchar2).Value = id;
+                    objCmdsss.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
+                    objCmdsss.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+
+                    try
+                    {
+
+                        objCmdsss.ExecuteNonQuery();
+                        Object crdid = objCmdsss.Parameters["OUTID"].Value;
+
+                        
+                        
+                        string batch = string.Format("{0}-{1}", item, drum.ToString());
+                        DataTable dttt = datatrans.GetData("Select SHEDNUMBER,CAPACITY,OCCUPIED from CURINGMASTER where SHEDNUMBER='" + shed + "'");
+                        int curday = datatrans.GetDataId("Select CURINGDAY from ITEMMASTER where ITEMMASTERID='" + item + "' ");
+                        DateTime due = DateTime.Now.AddDays(curday);
+                        string dueda = due.ToString("dd-MMM-yyyy");
+                        for (int i = 0; i < dttt.Rows.Count; i++)
+                        {
+
+                            OracleCommand objCmdInp1 = new OracleCommand("CURINPDETAILPROC", objConnT);
+
+                            objCmdInp1.CommandType = CommandType.StoredProcedure;
+                            objCmdInp1.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                            objCmdInp1.Parameters.Add("CURINGESBASICID", OracleDbType.NVarchar2).Value = crdid;
+                            objCmdInp1.Parameters.Add("FDATE", OracleDbType.Date).Value = DateTime.Now;
+                            objCmdInp1.Parameters.Add("FTIME", OracleDbType.NVarchar2).Value = shiftid.Rows[0]["FROMTIME"].ToString();
+                            objCmdInp1.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = item;
+                            objCmdInp1.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = drum;
+                            objCmdInp1.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = nbatch;
+                            objCmdInp1.Parameters.Add("BATCHQTY", OracleDbType.NVarchar2).Value = qty;
+                            objCmdInp1.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = "";
+                            objCmdInp1.Parameters.Add("CURDAY", OracleDbType.NVarchar2).Value = curday;
+                            objCmdInp1.Parameters.Add("BINMASTERID", OracleDbType.NVarchar2).Value = "";
+                            objCmdInp1.Parameters.Add("CAPACITY", OracleDbType.NVarchar2).Value = dttt.Rows[i]["CAPACITY"].ToString();
+                            objCmdInp1.Parameters.Add("OCCUPIED", OracleDbType.NVarchar2).Value = dttt.Rows[i]["OCCUPIED"].ToString();
+                            objCmdInp1.Parameters.Add("DUEDATE", OracleDbType.Date).Value = due;
+                            objCmdInp1.Parameters.Add("CBINID", OracleDbType.NVarchar2).Value = dttt.Rows[i]["SHEDNUMBER"].ToString();
+                            objCmdInp1.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
+
+                            objCmdInp1.ExecuteNonQuery();
+                            // Sql = string.Empty;
+                            //Sql = "Update DRUM_STOCK SET  CURINGDUEDATE='" + dueda + "' where DRUM_STOCK_ID='" + Pid1 + "' ";
+                            //OracleCommand objCmdsd = new OracleCommand(Sql, objConnT);
+                            //objCmdsd.ExecuteNonQuery();
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
                 }
             }
             // SvSql = "Insert into PYROPRODOUTDET (PYROPRODBASICID,ITEMID,BINID,STARTTIME,ENDTIME,OUTQTY,DRUM) VALUES ('" + id + "','" + item + "','" + bin + "','" + stime + "','" + ttime + "','" + qty + "','" + drum + "')";
@@ -1512,7 +1605,7 @@ namespace Arasan.Services
         public DataTable GetShedNo()
         {
             string SvSql = string.Empty;
-            SvSql = "Select SHEDNUMBER,CURINGMASTERID,CAPACITY from CURINGMASTER WHERE STATUS='Active' ";
+            SvSql = "Select SHEDNUMBER,CURINGMASTERID,CAPACITY from CURINGMASTER WHERE STATUS IN ('Active','Occupied') ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1522,7 +1615,7 @@ namespace Arasan.Services
         public DataTable CuringsetDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SHEDNUMBER,CAPACITY from CURINGMASTER WHERE SHEDNUMBER= '"+ id +"' ";
+            SvSql = "Select SHEDNUMBER,CAPACITY,OCCUPIED +1 as occ from CURINGMASTER WHERE SHEDNUMBER= '" + id +"' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

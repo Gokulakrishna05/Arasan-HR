@@ -48,6 +48,7 @@ namespace Arasan.Interface
         DataTable GetEmpdet(string id);
         DataTable GetBreak(string id);
         DataTable GetItemCon(string id);
+        DataTable GetSchedule(string id);
         DataTable GetInpDrum(string ItemId,string loc);
         DataTable GetDrumBatch(string ItemId,string loc,string item);
         DataTable GetStockBatch(string ItemId,string loc );

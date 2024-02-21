@@ -57,7 +57,7 @@ namespace Arasan.Services
 		public DataTable GetAPWorkCenter()
 		{
 			string SvSql = string.Empty;
-			SvSql = "select * from WCBASIC where WCID like 'AP %' AND ACTIVE='Yes'";
+			SvSql = "select WCBASICID,WCID from WCBASIC  ";
 			DataTable dtt = new DataTable();
 			OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
 			OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1561,7 +1561,17 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetSchedule(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select PSBASICID,DOCID from PSBASIC WHERE WCID='" + id + "' ";
+            // SvSql = "Select EMPID EMPNAME,EP.LOCATIONID LOCATIONNAME,LOCDETAILS.LOCID,EP.EMPALLOCATIONID from EMPALLOCATION left outer join EMPALLOCATIONDETAILS EP ON EMPALLOCATION.EMPALLOCATIONID=EP.EMPALLOCATIONID left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=EP.LOCATIONID  where EMPID='" + id + "' order by EMPALLOCATIONDETAILSID ASC";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetOutputDeatils(string id)
         {
             string SvSql = string.Empty;
