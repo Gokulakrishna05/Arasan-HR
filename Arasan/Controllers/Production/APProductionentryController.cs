@@ -68,7 +68,7 @@ namespace Arasan.Controllers
 				ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
 			}
 			
-			ca.shedulst = BindShedule();
+			ca.shedulst = BindShedule("");
 			ca.Batchlst = BindBatch("");
 			if (id == null)
 			{
@@ -317,11 +317,11 @@ namespace Arasan.Controllers
         {
             return Json(BindBatch(ItemId));
         }
-        public List<SelectListItem> BindShedule()
+        public List<SelectListItem> BindShedule(string id)
         {
             try
             {
-                DataTable dtDesg = datatrans.GetSchedule();
+                DataTable dtDesg = IProductionEntry.GetSchedule(id);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -362,6 +362,31 @@ namespace Arasan.Controllers
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PROCESSID"].ToString(), Value = dtDesg.Rows[i]["PROCESSMASTID"].ToString() });
                 }
                 return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult Getsch(string schid)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+               
+
+                dt = datatrans.GetData("select  PROCESSID from  WCBASIC  where WCBASICID ='" + schid + "'");
+ 
+               
+                string proc = "";
+                if (dt.Rows.Count > 0)
+                {
+                     
+                    proc = dt.Rows[0]["PROCESSID"].ToString();
+                }
+
+                var result = new { /*work = work, workid = workid, schqty = schqty, prodqty = prodqty,*/ proc = proc };
+                return Json(result);
             }
             catch (Exception ex)
             {
@@ -2525,7 +2550,14 @@ namespace Arasan.Controllers
             //model.Itemlst = BindItemlst(itemid);
             return Json(BindBatchOutItemlst(batch));
         }
-        
+        public JsonResult GetPSchedJSON(string schid)
+        {
+            //PyroProductionentryDet model = new PyroProductionentryDet();
+            //model.Plotlst = BindProdSch(schid);
+            return Json(BindShedule(schid));
+
+        }
+
         public ActionResult SaveOutDetail(string id,string ItemId,string drum,string time,string qty,string totime,string exqty,string stat, string stock,string loc,string work,string process,string shift,string schedule,string doc)
         {
             try
@@ -2780,9 +2812,8 @@ namespace Arasan.Controllers
                 DataTable dt2 = new DataTable();
                 DataTable dt3 = new DataTable();
              
-                dt = datatrans.GetData("select W.WCID,S.WCID as work,S.PSBASICID,S.PRODQTY,S.OPQTY from PSBASIC S ,WCBASIC W where   W.WCBASICID=S.WCID AND S.PSBASICID='" + ItemId + "'");
-               // dt1 = datatrans.GetData("select SUM(IQTY) as qty from BCINPUTDETAIL where   BCPRODBASICID='" + dt.Rows[0]["BCPRODBASICID"].ToString() + "'");
-                //dt2 = datatrans.GetData("select SUM(PRODQTY) as qty from APPRODUCTIONBASIC where   BATCH='" + batchid + "'");
+                dt = datatrans.GetData("select S.PSBASICID,S.PRODQTY,S.OPQTY from PSBASIC S  where   S.PSBASICID='" + ItemId + "'");
+               
 
                 string work = "";
                 string workid = "";
@@ -2792,14 +2823,13 @@ namespace Arasan.Controllers
                 if (dt.Rows.Count > 0)
                 {
                     
-                    work = dt.Rows[0]["WCID"].ToString();
-                    workid = dt.Rows[0]["work"].ToString();
+                    
                     schqty = dt.Rows[0]["OPQTY"].ToString();
                     prodqty = dt.Rows[0]["PRODQTY"].ToString();
                   
                 }
                 
-                var result = new { work = work , workid = workid , schqty = schqty, prodqty= prodqty };
+                var result = new {   schqty = schqty, prodqty= prodqty };
                 return Json(result);
             }
             catch (Exception ex)

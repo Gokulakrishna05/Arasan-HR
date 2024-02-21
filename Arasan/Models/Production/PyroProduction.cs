@@ -146,6 +146,7 @@ namespace Arasan.Models
 
         public string ShedNo { get; set; }
         public string ShedOccu { get; set; }
+        public string ShedCap { get; set; }
         public string BinId { get; set; }
         public string outid { get; set; }
         public string outBin { get; set; }
