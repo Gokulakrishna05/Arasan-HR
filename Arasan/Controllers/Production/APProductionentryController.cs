@@ -1022,6 +1022,7 @@ namespace Arasan.Controllers
         }
         public ActionResult InsertProInput([FromBody] ProInput[] model)
         {
+            string msg = "";
             try
 			{
                 int r = 1;
@@ -1055,24 +1056,26 @@ namespace Arasan.Controllers
                     }
                    
                 }
-                    if (model != null)
-                    {
-             
-                        return Json("Success");
-                    }
-                    else
-                    {
-                        return Json("An Error Has occoured");
-                    }
-                
+                if (model.Length > 0)
+                {
+                    msg = "Records Inserted Successfully.";
+                }
+                else
+                {
+                    msg = "Please add records.";
+                }
+
             }
             catch (Exception ex)
             {
+                msg = "An Error Has occoured";
                 throw ex;
             }
+            return Json(msg);
         }
         public ActionResult InsertConsInput([FromBody] APProInCons[] model)
         {
+            string msg = "";
             try
             {
                 int l = 1;
@@ -1108,25 +1111,28 @@ namespace Arasan.Controllers
                     }
                     
                 }
-                    
-              
 
-                if (model != null)
+
+
+                if (model.Length > 0)
                 {
-                    return Json("Success");
+                    msg = "Records Inserted Successfully.";
                 }
                 else
                 {
-                    return Json("An Error Has occoured");
+                    msg = "Please add records.";
                 }
             }
             catch (Exception ex)
             {
+                msg = "An Error Has occoured";
                 throw ex;
             }
+            return Json(msg);
         }
         public ActionResult InsertProEmp([FromBody] EmpDetails[] model)
         {
+            string msg = "";
             try
             {
                 foreach (EmpDetails emp in model)
@@ -1151,22 +1157,25 @@ namespace Arasan.Controllers
                     dt = IProductionEntry.SaveEmpDetails(id,empname, code, depat, sdate, stime, edate, etime, ot, et, normal, now,otcost,empcost);
                 }
 
-                if (model != null)
+                if (model.Length > 0)
                 {
-                    return Json("Success");
+                    msg = "Records Inserted Successfully.";
                 }
                 else
                 {
-                    return Json("An Error Has occoured");
+                    msg = "Please add records.";
                 }
             }
             catch (Exception ex)
             {
+                msg = "An Error Has occoured";
                 throw ex;
             }
+            return Json(msg);
         }
         public ActionResult InsertProOutsource([FromBody] SourceDetail[] model)
         {
+            string msg = "";
             try
             {
                 foreach (SourceDetail outs in model)
@@ -1189,22 +1198,25 @@ namespace Arasan.Controllers
                     dt = IProductionEntry.SaveOutsDetails(id, noofemp, sdate, stime, edate, etime, workhrs, cost, expence, now);
                 }
 
-                if (model != null)
+                if (model.Length > 0)
                 {
-                    return Json("Success");
+                    msg = "Records Inserted Successfully.";
                 }
                 else
                 {
-                    return Json("An Error Has occoured");
+                    msg = "Please add records.";
                 }
             }
             catch (Exception ex)
             {
+                msg = "An Error Has occoured";
                 throw ex;
             }
+            return Json(msg);
         }
         public ActionResult InsertProLog([FromBody] LogDetails[] model)
         {
+            string msg = "";
             try
             {
                 foreach (LogDetails log in model)
@@ -1221,25 +1233,27 @@ namespace Arasan.Controllers
                      
                     DataTable dt = new DataTable();
 
-                    dt = IProductionEntry.SaveLogDetails(id, sdate, stime, edate, etime, tot, reason);
+                   dt = IProductionEntry.SaveLogDetails(id, sdate, stime, edate, etime, tot, reason);
                 }
-
-                if (model != null)
+                if (model.Length > 0)
                 {
-                    return Json("Success");
+                    msg = "Records Inserted Successfully.";
                 }
                 else
                 {
-                    return Json("An Error Has occoured");
+                    msg = "Please add records.";
                 }
             }
             catch (Exception ex)
             {
+                msg = "An Error Has occoured";
                 throw ex;
             }
+            return Json(msg);
         }
         public ActionResult InsertProBreak([FromBody] BreakDet[] model)
         {
+            string msg = "";
             try
             {
                 foreach (BreakDet det in model)
@@ -1261,19 +1275,21 @@ namespace Arasan.Controllers
                     dt = IProductionEntry.SaveBreakDetails(id, machine, des, dtype, mtype, stime, etime, pb, all, reason);
                 }
 
-                if (model != null)
+                if (model.Length > 0)
                 {
-                    return Json("Success");
+                    msg = "Records Inserted Successfully.";
                 }
                 else
                 {
-                    return Json("An Error Has occoured");
+                    msg = "Please add records.";
                 }
             }
             catch (Exception ex)
             {
+                msg = "An Error Has occoured";
                 throw ex;
             }
+            return Json(msg);
         }
         public ActionResult GetMachineDetail(string ItemId)
 		{
@@ -1774,7 +1790,7 @@ namespace Arasan.Controllers
                     adt7 = IProductionEntry.GetLogdetail(id);
                     if (adt7.Rows.Count > 0)
                     {
-                        for (int i = 0; i < dt6.Rows.Count; i++)
+                        for (int i = 0; i < adt7.Rows.Count; i++)
                         {
                             tda5 = new LogDetails();
 
