@@ -852,11 +852,11 @@ namespace Arasan.Controllers
 				throw ex;
 			}
 		}
-        public List<SelectListItem> BindBatchItemlst(string value)
+        public List<SelectListItem> BindBatchItemlst(string value,string locid)
         {
             try
             {
-                DataTable dtDesg = IProductionEntry.GetBatchItem(value);
+                DataTable dtDesg = IProductionEntry.GetBatchItem(value,locid);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -1430,7 +1430,7 @@ namespace Arasan.Controllers
                         {
                             tda = new ProInput();
                             tda.APID = id;
-                            tda.Itemlst = BindBatchItemlst(ca.batchid);
+                            tda.Itemlst = BindBatchItemlst(ca.batchid,ca.LOCID);
                             tda.batchlst = BindDrumBatch("","","");
                         tda.drumlst = BindInpDrum("","");
                         tda.Isvalid = "Y";
@@ -1602,7 +1602,7 @@ namespace Arasan.Controllers
                         for (int i = 0; i < dt2.Rows.Count; i++)
                         {
                             tda = new ProInput();
-                            tda.Itemlst = BindBatchItemlst(ca.batchid);
+                            tda.Itemlst = BindBatchItemlst(ca.batchid, ca.LOCID);
                             tda.ItemId = dt2.Rows[i]["IITEMID"].ToString();
                             tda.saveitemId = dt2.Rows[i]["IITEMID"].ToString();
                             tda.Time = dt2.Rows[i]["CHARGINGTIME"].ToString();
@@ -1865,7 +1865,7 @@ namespace Arasan.Controllers
                         for (int i = 0; i < adt2.Rows.Count; i++)
                         {
                             tda = new ProInput();
-                            tda.Itemlst = BindBatchItemlst(ca.batchid);
+                            tda.Itemlst = BindBatchItemlst(ca.batchid,ca.LOCID);
                             tda.ItemId = adt2.Rows[i]["IITEMID"].ToString();
                             tda.BinId = adt2.Rows[i]["IBINID"].ToString();
                             tda.Time = adt2.Rows[i]["CHARGINGTIME"].ToString();
@@ -1891,7 +1891,7 @@ namespace Arasan.Controllers
                         {
                             tda = new ProInput();
                             tda.APID = apID;
-                            tda.Itemlst = BindBatchItemlst(ca.batchid);
+                            tda.Itemlst = BindBatchItemlst(ca.batchid,ca.LOCID);
                             tda.batchlst = BindDrumBatch("", "", "");
                             tda.drumlst = BindInpDrum("","");
                             tda.Isvalid = "Y";
@@ -2517,11 +2517,11 @@ namespace Arasan.Controllers
             }
         }
 
-        public JsonResult GetItemJSON(string batch)
+        public JsonResult GetItemJSON(string batch, string locid)
         {
             //EnqItem model = new EnqItem();
             //model.Itemlst = BindItemlst(itemid);
-            return Json(BindBatchItemlst(batch));
+            return Json(BindBatchItemlst(batch, locid));
         }
         public JsonResult GetconsItemJSON(string id)
         {
@@ -2663,7 +2663,7 @@ namespace Arasan.Controllers
                 {
                     stk = "0";
                 }
-                string rate = datatrans.GetDataString("Select MAX(RATE) rate from LSTOCKVALUE where LOTNO='" + ItemId + "' "); /*AND LATEMPLATEID = '730926300'*/
+                string rate = datatrans.GetDataString("Select ROUND(AVG(RATE),2) rate  from LSTOCKVALUE where LOTNO='" + ItemId + "' "); /*AND LATEMPLATEID = '730926300'*/
                 var result = new { stk = stk ,rate=rate};
                 return Json(result);
             }
@@ -2722,7 +2722,7 @@ namespace Arasan.Controllers
                 {
                     stk = "0";
                 }
-                string rate = datatrans.GetDataString("SELECT AVG(S.STOCKVALUE/S.QTY) as rate FROM STOCKVALUE S WHERE ITEMID='" + ItemId + "' and LOCID='"+ loc +"'");
+                string rate = datatrans.GetDataString("SELECT ROUND(AVG(S.STOCKVALUE/S.QTY),2) as rate FROM STOCKVALUE S WHERE ITEMID='" + ItemId + "' and LOCID='"+ loc +"'");
                 var result = new { bin = bin, binid = binid, unit= unit , unitid = unitid, stk= stk, rate=rate };
 				return Json(result);
 			}

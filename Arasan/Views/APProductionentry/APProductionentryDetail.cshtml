@@ -442,7 +442,8 @@ a{
 
                                                     </div>
                                                 </div>
-                                                 
+                                                            <div class="col-lg-11"></div>
+                                                            <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnInsert" onclick="insertinputdetails()">Submit</button>
                                                 <!-- 1st tab  -->
                                             </div>
                                             <div class="tab-pane" id="tab-2">
@@ -518,11 +519,11 @@ a{
 
 
                                                 </div>
-                                               
+                                                            <div class="col-lg-11"></div>
+                                                            <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnInsert" onclick="insertinputconsdetails()">Submit</button>
                                                 <!-- 2nd tab  -->
                                             </div>
-                                                        <div class="col-lg-11"></div>
-                                                        <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnInsert" onclick="insertinputdetails()">Submit</button>
+                                                       
                                      </div>
                                </div>
                                </div>
@@ -1142,7 +1143,7 @@ a{
                 document.getElementById("txtBinId" + i).value = result.bin;
                 document.getElementById("txtBin" + i).value = result.binid;
                 document.getElementById("txtunit" + i).value = result.unit;
-                document.getElementById("hdconsrate" + i).value = result.rate;
+                document.getElementById("hditemrate" + i).value = result.rate;
                   if(result.drum=="YES")
                  {
  document.getElementById("drum" +i).style.display = "block";
@@ -1337,11 +1338,12 @@ a{
         var remopt = "";
         var lot = "";
         var batch= document.getElementById("batch").value;
+        var locid = document.getElementById("hdlocation").value;
        
         $.ajax({
             type: "POST",
             url: 'GetItemJSON',
-              data: { 'batch': batch  },
+            data: { 'batch': batch, 'locid': locid },
             success: function (data) {
                 $.each(data, function () {
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
@@ -1901,7 +1903,7 @@ a{
         var constk = document.getElementById("txtConsStock" + j).value;
               var isValid = true;
             
-             if(stk==0 && constk==0)
+             if(stk==0)
              {
                  alert("Stock Qty is Empty So Change the item");
             return false;
@@ -1930,23 +1932,6 @@ a{
                  j += 1;
             });
 
-            var APProInCons = new Array();
-                $('tr.chkitemlstinc').each(function () {
-                    if ($(this).css('display') !== 'none') {
-                        var proincons = {};
-                    proincons.ItemId = document.getElementById("ddlConsItem" + i).value;
-                proincons.BinId = document.getElementById("txtConsBinId" + i).value;
-                    proincons.Qty = document.getElementById("txtQty" + i).value;
-                proincons.consunit = document.getElementById("txtconsunit" + i).value;
-                   proincons.consQty = document.getElementById("txtconsQty" + i).value;
-                     proincons.APID = document.getElementById("hdapid").value;
-                    proincons.ConsStock = document.getElementById("txtConsStock" + i).value;
-                    proincons.rate = document.getElementById("hdconsrate" + i).value;
-                    APProInCons.push(proincons);
-                    
-                    }
-                    i += 1;
-                }); 
             $.ajax({
                 type: "POST",
                 url: "InsertProInput",
@@ -1958,19 +1943,53 @@ a{
                 }
             });
 
-        $.ajax({
-            type: "POST",
-            url: "InsertConsInput",
-            data: JSON.stringify(APProInCons),
-            contentType: "application/json",
-            dataType: "json",
-            success: function (r) {
-                //alert(r + " record(s) inserted.");
-            }
-        });
+       
         }
-    }    
- function insertempdetails(){
+    }
+    function insertinputconsdetails() {
+        var j = 0;
+        var i = 0;
+        var stk = document.getElementById("txtStockAvailable" + j).value;
+        var constk = document.getElementById("txtConsStock" + j).value;
+        var isValid = true;
+
+        if (constk == 0) {
+            alert("Stock Qty is Empty So Change the item");
+            return false;
+        }
+        else {
+            var APProInCons = new Array();
+            $('tr.chkitemlstinc').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    var proincons = {};
+                    proincons.ItemId = document.getElementById("ddlConsItem" + i).value;
+                    proincons.BinId = document.getElementById("txtConsBinId" + i).value;
+                    proincons.Qty = document.getElementById("txtQty" + i).value;
+                    proincons.consunit = document.getElementById("txtconsunit" + i).value;
+                    proincons.consQty = document.getElementById("txtconsQty" + i).value;
+                    proincons.APID = document.getElementById("hdapid").value;
+                    proincons.ConsStock = document.getElementById("txtConsStock" + i).value;
+                    proincons.rate = document.getElementById("hdconsrate" + i).value;
+                    APProInCons.push(proincons);
+
+                }
+                i += 1;
+            });
+          
+
+            $.ajax({
+                type: "POST",
+                url: "InsertConsInput",
+                data: JSON.stringify(APProInCons),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (r) {
+                    //alert(r + " record(s) inserted.");
+                }
+            });
+        }
+    }
+    function insertempdetails(){
             var e = 0;
             
         var EmpDetails = new Array();
