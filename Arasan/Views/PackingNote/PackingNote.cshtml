@@ -11,7 +11,7 @@
     }
      div.scroll {
        
-        width: 100 %;
+        width: 100%;
         height: 400px;
         overflow-x: hidden;
         overflow-y: auto;
@@ -48,6 +48,8 @@
                                             <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Enterd)
+                                            @Html.HiddenFor(C => C.WorkId,new{@id="workid"})
                                             @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })<br />
                                         </div>
                                     </div>
@@ -110,7 +112,7 @@
 
                                               <label for="inputName3" class="col-sm-4 control-label">To Location<label class="mandatory">*</label></label>
                                             <div class="col-sm-8">
-                                                @Html.DropDownListFor(C => C.WorkId, Model.DrumLoclst, " -- Please Select -- ",new { @id = "ddlToDrumLoc", @Class = "form-control _select", @TabIndex = 1  })<br />
+                                                @Html.DropDownListFor(C => C.toloc, Model.DrumLoclst, " -- Please Select -- ",new { @id = "ddlToDrumLoc", @Class = "form-control _select", @TabIndex = 1  })<br />
 
                                             </div>
                                         </div>
@@ -180,7 +182,7 @@
 
                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Start Date/Time<label class="mandatory">*</label></label>
                                        
-													<div class="input-group date form_datetime col-sm-8" data-date="" data-date-format="dd-M-yyyy - HH:ii p" >
+													<div class="input-group date form_datetime col-sm-8" data-date="" data-date-format="dd-M-yyyy - HH.ii " >
                                                          @Html.TextBoxFor(C => C.startdate, new { @id = "startdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
 														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 													</div>
@@ -194,7 +196,7 @@
 
                                             <br />  <label for="inputName3" class="col-sm-4 control-label">End Date/Time<label class="mandatory">*</label></label>
                                        
-													<div class="input-group date form_datetime col-sm-8" data-date="" data-date-format="dd-M-yyyy - HH:ii p" >
+													<div class="input-group date form_datetime col-sm-8" data-date="" data-date-format="dd-M-yyyy - HH.ii " >
                                                 @Html.TextBoxFor(C => C.enddate, new { @id = "enddate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
 														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 													</div>
@@ -259,24 +261,24 @@
 
                                                 foreach (var item in Model.DrumDetlst.ToList())
                                                 {
-                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                            <td>  @Html.TextBoxFor(o => o.DrumDetlst[i].drum, new { @id = "ddlDrumNo" + i, @class = "form-control", style = "width: 130px;" }) </td>
-                                                            <td>
-                                                                @Html.TextBoxFor(o => o.DrumDetlst[i].batch, new { @id = "txtbatch" + i, @class = "form-control", style = "width: 130px;" })
- </td>
-                                                            <td>
-                                                                @Html.TextBoxFor(o => o.DrumDetlst[i].qty, new { @id = "txtqty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)",ReadOnly="readonly"})
-                                                            </td>
-                                                            <td>
-                                                                @Html.TextBoxFor(o => o.DrumDetlst[i].comp, new { @id = "txtComp" + i, @class = "form-control", style = "width: 130px;" })
-                                                            </td>
-                                                            
-                                                            <td>
-                                                                @Html.HiddenFor(o => o.DrumDetlst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
-                                                            </td>
-                                                        </tr>
+                                                                    <td>  @Html.TextBoxFor(o => o.DrumDetlst[i].drum, new { @id = "ddlDrumNo" + i, @class = "form-control", style = "width: 130px;" }) </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.DrumDetlst[i].batch, new { @id = "txtbatch" + i, @class = "form-control", style = "width: 130px;" })
+         </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.DrumDetlst[i].qty, new { @id = "txtqty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)",ReadOnly="readonly"})
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.DrumDetlst[i].comp, new { @id = "txtComp" + i, @class = "form-control", style = "width: 130px;" })
+                                                                    </td>
+                                                                    
+                                                                    <td>
+                                                                        @Html.HiddenFor(o => o.DrumDetlst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                        <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
+                                                                    </td>
+                                                                </tr>
                                                     i = i + 1;
                                                     
                                                 }
@@ -287,16 +289,7 @@
                                             </div>
                                          
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                         
-                                              <br /><label for="inputName3" class="col-sm-4 control-label">EnteredBy<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @*@Html.DropDownListFor(C => C.Enterd , Model.RecList," -- Please Select -- ", new { @id = "ddlEnterd ", @Class = "form-control _select", @TabIndex = 1 })<br />*@
-                                            @Html.TextBoxFor(C => C.Enterd, new { @id = "txtEnterd", @class = "form-control", @TabIndex = 1 })<br />
-                                        </div>
-                                    </div>
-                                </div>
+                                  
                                 <div class="col-md-6">
                                     <div class="form-group">
                                             <br />  <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
@@ -426,7 +419,7 @@
                     //alert(item.batch);
                     var Drum = "<td><input class='form-control' id='ddlDrumNo" + index + "' name='DrumDetlst[" + index + "].drum'  style='width: 100px;' type='text'  readonly='True'  value=" + item.drum + " /><input class='form-control' id='ddlDrumNo" + index + "' name='DrumDetlst[" + index + "].drum'  style='width: 100px;' type='hidden'  readonly='True'  value=" + item.drum + " /><input id='txtdrumid" + index + "' name='DrumDetlst[" + index + "].drumid' type='hidden'  value=" + item.drumid + "></td>";
 
-                    var Batch = "<td><label>" + item.batch + "</label><input type='hidden' value=" + item.batch + " id='txtbatch" + index + "' name='DrumDetlst[" + index + "].batch'></td>";
+                    var Batch = "<td><label>" + item.batch + "</label><input type='hidden' value='" + item.batch + "' id='txtbatch" + index + "' name='DrumDetlst[" + index + "].batch'><input type='hidden' value=" + item.lotid + " id='txtlotid" + index + "' name='DrumDetlst[" + index + "].lotid'><input type='hidden' value=" + item.rate + " id='txtrate" + index + "' name='DrumDetlst[" + index + "].rate'><input type='hidden' value=" + item.amount + " id='txtamount" + index + "' name='DrumDetlst[" + index + "].amount'></td>";
 
                     var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='DrumDetlst[" + index + "].qty'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /><input id='txtqty" + index + "' name='DrumDetlst[" + index + "].qty' type='hidden'  value=" + item.qty + "></td>";
 
@@ -444,7 +437,18 @@
                 alert("Data Not Found");
             }
         });
-
+         $.ajax({
+             url: 'Getsch',
+             data: { "item": item, "id": ItemId },
+             type: "GET",
+             success: function(result) {
+                
+                 document.getElementById("workid").value = result.wcid;
+                 var $procde = $("#ddlProdSchNo").select2();
+                 $procde.val(result.proc).trigger("change");
+                    
+             }
+         });
         }
     function changeDrumDetail(ItemId, i) {
         $.ajax({
@@ -556,6 +560,7 @@
             }
         })
     }
+         
      function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 

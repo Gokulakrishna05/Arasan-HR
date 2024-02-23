@@ -31,6 +31,7 @@ namespace Arasan.Controllers
             ca.Worklst = BindWorkCenter();
             //ca.Location = Request.Cookies["LocationId"];
             ca.Branch = Request.Cookies["BranchId"];
+            ca.Enterd = Request.Cookies["UserName"];
             ca.Shiftlst = BindShift();
             ca.RecList = BindEmp();
             ca.DrumLoclst = BindDrumLoc();
@@ -528,7 +529,14 @@ namespace Arasan.Controllers
             DataTable dtt = new DataTable();
             List<DrumDetail> Data = new List<DrumDetail>();
             DrumDetail tda = new DrumDetail();
-            dtt = Packing.GetDrumDetails(id, item);
+            if (item == "10044000011739")
+            {
+                dtt = Packing.GetDrumDetails(id, item);
+            }
+            else
+            {
+                dtt = Packing.GetDrumDetailsdd(id, item);
+            }
             if (dtt.Rows.Count > 0)
             {
                 for (int i = 0; i < dtt.Rows.Count; i++)
@@ -537,6 +545,17 @@ namespace Arasan.Controllers
 
                     tda.drum = dtt.Rows[i]["DRUM_NO"].ToString();
                     tda.drumid = dtt.Rows[i]["DRUM_ID"].ToString();
+
+
+                    tda.qty = dtt.Rows[i]["QTY"].ToString();
+                    tda.batch = dtt.Rows[i]["LOTNO"].ToString();
+                    tda.lotid = dtt.Rows[i]["LOTMASTID"].ToString();
+                    tda.rate = dtt.Rows[i]["RATE"].ToString();
+
+                    double bqty = Convert.ToDouble(tda.qty);
+                    double brate = Convert.ToDouble(tda.rate);
+                    double totamt = bqty * brate;
+                    tda.amount = totamt.ToString();
 
 
                     tda.qty = dtt.Rows[i]["BALANCE_QTY"].ToString();
@@ -555,5 +574,35 @@ namespace Arasan.Controllers
             return Json(model.DrumDetlst);
 
         }
+
+        public ActionResult Getsch(string id, string item)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                
+
+                dt = datatrans.GetData("select  LT.PSCHNO,P.PSBASICID,W.WCBASICID from PSBASIC P, LSTOCKVALUE L,LOTMAST LT  ,WCBASIC W   where LT.WCID=W.WCID AND LT.PSCHNO=P.DOCID AND L.ITEMID=LT.ITEMID AND LT.LOTNO=L.LOTNO AND  LT.INSFLAG='1' AND  L.ITEMID ='" + id + "' AND  L.LOCID ='" + item + "'  HAVING SUM(L.PLUSQTY-L.MINUSQTY) > 0 GROUP BY LT.PSCHNO,P.PSBASICID,W.WCBASICID");
+                //dt1 = datatrans.GetData("select SUM(RQTY) as qty from PSINPDETAIL WHERE PSBASICID='" + schid + "'");
+
+ 
+                string proc = "";
+                string wcid = "";
+                if (dt.Rows.Count > 0)
+                {
+                     
+                    proc = dt.Rows[0]["PSBASICID"].ToString();
+                    wcid = dt.Rows[0]["WCBASICID"].ToString();
+                }
+
+                var result = new {  proc = proc, wcid= wcid };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

@@ -21,6 +21,7 @@ namespace Arasan.Models
         public List<SelectListItem> Schlst;
         public string ItemId { get; set; }
         public string WorkId { get; set; }
+        public string toloc { get; set; }
         public string ID { get; set; }
         public string DocId { get; set; }
         public string Docdate { get; set; }
@@ -50,6 +51,13 @@ namespace Arasan.Models
 
         public List<SelectListItem> Batchlst { get; set; }
         public string batch { get; set; }
+
+
+
+        public string lotid { get; set; }
+        public string rate { get; set; }
+        public string amount { get; set; }
+  
 
         public string qty { get; set; }
 
