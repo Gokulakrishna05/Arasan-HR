@@ -1,15 +1,19 @@
-﻿@model IEnumerable<Arasan.Models.PackingNote>
+﻿@model Arasan.Models.PackingNote
 
 @{
     ViewData["Title"] = "Packing Note";
-    string sdate = ViewContext.HttpContext.Request.Query["st"];
-    string edate = ViewContext.HttpContext.Request.Query["ed"];
+    string strfrom = ViewContext.HttpContext.Request.Query["strfrom"];
+    string strTo = ViewContext.HttpContext.Request.Query["strTo"];
 }
-<style>
-    .newwidth {
-        width: 120px;
+<partial name="JqxGridPartial" />
+@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
     }
-</style>
+</script>
 <style>
     .mandatory {
         color: red;
@@ -24,11 +28,83 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Transaction</a> </li>
-            <li class="active"> <strong>Packing Note  </strong> </li>
+            <li class="active"> <strong>Packing Note</strong> </li>
         </ol>
     </div>
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        var source =
+        {
+            url: "/PackingNote/MyListPackinggrid",
+            data: {
+                strfrom: "@strfrom ",
+                strTo: "@strTo",
+                strstatus: ""
+            },
+            datatype: "json",
+            updaterow: function (rowid, rowdata) {
+                // synchronize with the server - send update command
+            },
+            datafields: [
+                { name: 'branch', type: 'string' },
+                { name: 'loc', type: 'string' },
+                { name: 'work', type: 'string' },
+                { name: 'item', type: 'string' },
+                { name: 'viewrow', type: 'string' },
+                { name: 'editrow', type: 'string' },
+                { name: 'delrow', type: 'string' },
+            ],
+            id: 'id',
+        };
+        var dataAdapter = new $.jqx.dataAdapter(source,
+            { contentType: 'application/json; charset=utf-8' }, {
+            loadComplete: function () {
+
+            }
+        }
+        );
+
+        $("#grid").jqxGrid(
+            {
+                width: '100%',
+                source: dataAdapter,
+                //height: 450,
+                autorowheight: true,
+                autoheight: true,
+                source: source,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterbar: true,
+                filterbarmode: 'simple',
+                //showfilterrow: true,
+                theme: 'darkblue',
+                enablebrowserselection: true,
+                columns: [
+                    { text: 'Branch', filtertype: 'input', datafield: 'branch', width: 150 },
+                    { text: 'Drum Location', filtertype: 'input', datafield: 'loc', width: 150 },
+                    { text: 'Work Centre', filtertype: 'checkedlist', datafield: 'work', width: 200 },
+                    { text: 'Item', filtertype: 'checkedlist', datafield: 'item', width: 200, align: 'center' },
+                    { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                ]
+            });
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
+    });
+</script>
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -37,100 +113,62 @@
 
                     <form>
                         <div class="row">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="inputName3" class="col-sm-3 control-label">From Date  <label class="mandatory">*</label></label>
-                                    <div class="col-sm-7">
-                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @*@Html.TextBoxFor(C => C.SStart, new { @id = "SStart", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })*@
-                                            <input id="SStart" class="form-control" readonly="readonly" value="@sdate" />
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
+                            <div class="col-md-6">
+                                <label for="inputName3" class="col-sm-3 control-label">From Date  <label class="mandatory">*</label></label>
+                                <div class="col-sm-7">
+                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
 
+                                        @*@Html.TextBoxFor(C => C.SStart, new { @id = "SStart", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })*@
+                                        <input id="SStart" class="form-control" readonly="readonly" value="@strfrom" />
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                     </div>
+
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="inputName3" class="col-sm-3 control-label"> To date  <label class="mandatory">*</label></label>
-                                    <div class="col-sm-7">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputName3" class="col-sm-3 control-label"> To date  <label class="mandatory">*</label></label>
+                                <div class="col-sm-7">
 
-                                        <div class="input-group date to_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @*  @Html.TextBoxFor(C => C.SEnd, new { @id = "SEnd", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })*@
-                                            <input id="SEnd" class="form-control" readonly="readonly" value="@edate" />
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
-                                        <button type="button" class="btn  btn-round btn-primary" onclick="changesearch()" style="float: right; color:white;">Search </button>
+                                    <div class="input-group date to_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                        <input id="SEnd" class="form-control" readonly="readonly" value="@strTo" />
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                     </div>
-
+                                    <div class="row">
+                                        <button type="button" class="btn btn-primary  marginright" id="btnSave" value="Run" onclick="loadReport()">Search</button>
+                                    </div>
                                 </div>
 
                             </div>
-                            <div class="col-md-12 ">
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 ">
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                { new SelectListItem() {Text = "Enabled", Value="Y"},
+                                new SelectListItem() {Text = "Disabled", Value="N"}},
+                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                            </div>
+
+                            <div class="col-md-9 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("PackingNote", "PackingNote")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Packing Note </a>
+                                    <a href="@Url.Action("PackingNote", "PackingNote")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add PackingNote</a>
                                     <br>
                                 </div>
+
+
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div class="ibox float-e-margins">
-
-                                    <div class="ibox-content collapse in">
-                                        <div class="widgets-container">
-                                            <div>
-                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Branch</th>
-                                                            <th>Doc No</th>
-                                                            <th>Item</th>
-                                                            
-                                                            <th>Drum Location</th>
-                                                            <th>View</th>
-                                                            @* <th>Followup</th>
-                                                            <th>Move To Quote</th>*@
-                                                            <th>Edit</th>
-                                                            <th>Delete</th>
-                                                        </tr>
-                                                    </thead>
-
-                                                    <tbody>
-                                                        @{
-                                                            int i = 1;
-                                                            foreach (var item in Model)
-                                                            {
 
 
-                                                                <tr>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.DocId)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.ItemId)</td>
-                                                                   
-                                                                    <td>@Html.DisplayFor(modelItem => item.DrumLoc)</td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApprovePacking", "PackingNote",new { NOTE=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
-
-                                                                    @*<td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/checklist.png' alt='Waiting for approval' /></a></div></td>*@
-                                                                    @*<td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>*@
-
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PackingNote", "PackingNote",new { id=item.ID })"></a></div></td>
-                                                                    <td> <a href="@Url.Action("DeleteMR","PackingNote",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-
-                                                                </tr>
-
-                                                                i++;
-                                                            }
-                                                        }
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="col-md-10 ">
+                                <div id="grid">
                                 </div>
+
                             </div>
+
                         </div>
-
-
 
                     </form>
                 </div>
@@ -138,68 +176,30 @@
         </div>
     </div>
 </div>
-
 <script>
-    $(document).ready(function () {
-        $('#example7').DataTable({
-            dom: 'Bfrtip',
-            buttons: [{
-                text: 'copy',
-                extend: "copy",
-                className: 'btn dark btn-outline'
-            }, {
-                text: 'csv',
-                extend: "csv",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'excel',
-                extend: "excel",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'pdf',
-                extend: "pdf",
-                className: 'btn yellow  btn-outline'
-            }, {
-                text: 'print',
-                extend: "print",
-                className: 'btn purple  btn-outline'
-            }]
-        });
-
-
-
-    });
-</script>
-<script>
-
-    <!--/container -->
-
-        <a class="fancybox1" rel = "group" data - fancybox - type="iframe" href = "#" style = "display: none; width: 760px;" > </a>
-            <a class="fancyboxe1" rel = "group" data - fancybox - type="iframe" href = "#" style = "display: none; width: 760px;" > </a>
-                <link rel = "stylesheet" href = "@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type = "text/css" media = "screen" />
-                    <script type="text/javascript" src = "@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")" ></script>
-<script type="text/javascript">
-        var fancybox123;
-    jQuery(document).ready(function ($) {
-        $(".fancybox").fancybox({
-            width: '80%',
-            height: '10%',
-            arrows: false,
-
-        });
-        fancybox123 = $.fancybox;
-    });
-    function close_popup() {
-        fancybox123.close();
-        $(".fancybox1").fancybox({
-            width: '100%',
-            height: '100%',
-            arrows: false,
-        });
-        $(".fancybox1").eq(0).trigger('click');
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
     }
 
+    function loadReport() {
+        var dtfrom = document.getElementById("SStart").value;
+        var dtto = document.getElementById("SEnd").value;
+        //var strsech = document.getElementById("txtprosearch").value;
 
+        var url = 'ListPackingNote?strfrom=' + dtfrom + '&strTo=' + dtto;
+        window.location.href = url;
+
+        //source.data = {
+        //    strfrom: dtfrom,
+        //    strTo: dtto,
+        //    strProSearch: strsech,
+        //    strstatus: ""
+        //};
+        //$("#grid").jqxGrid({ source: source });
+    }
+
+</script>
+<script>
     $('.to_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -226,52 +226,34 @@
         var minDate = new Date(selected.date.valueOf());
         $('.to_date').datetimepicker('setStartDate', minDate);
     });
-    function changesearch() {
+</script>
 
-        var isValid = true;
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '50%',
+            arrows: false,
+            afterClose: function () {
+                location.reload();
+                return;
+            }
+        });
+        fancybox123 = $.fancybox;
+    });
 
-        if (document.getElementById("SStart").value == "" || document.getElementById("SStart").value == 0) {
-            isValid = false;
-            $(SStart).css({
-                "border": "1px solid red",
-                "background": "#FFCECE"
-            });
-
-            alert("Please Select From Date");
-            isValid = false;
-        }
-        else {
-            $(SStart).css({
-                "border": "",
-                "background": ""
-            });
-        }
-
-
-        if (document.getElementById("SEnd").value == "" || document.getElementById("SEnd").value == 0) {
-            isValid = false;
-            $(SEnd).css({
-                "border": "1px solid red",
-                "background": "#FFCECE"
-            });
-
-            alert("Please Select To date");
-            isValid = false;
-        }
-        else {
-            $(SEnd).css({
-                "border": "",
-                "background": ""
-            });
-        }
-
-        if (isValid == true) {
-
-            var fromDate = document.getElementById("SStart").value;
-            var toDate = document.getElementById("SEnd").value;
-            var url = '@Url.Action("ListPackingNote", "PackingNote")?st=' + fromDate + '&ed=' + toDate;
-            window.location.href = url;
-        }
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
     }
-
 </script>

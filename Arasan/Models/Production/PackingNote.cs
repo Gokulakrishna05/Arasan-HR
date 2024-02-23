@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Arasan.Models 
+namespace Arasan.Models
 {
     public class PackingNote
     {
@@ -25,6 +25,7 @@ namespace Arasan.Models
         public string DocId { get; set; }
         public string Docdate { get; set; }
         public string DrumLoc { get; set; }
+        public string ddlStatus { get; set; }
         public string ProdSchNo { get; set; }
         public string startdate { get; set; }
         public string enddate { get; set; }
@@ -49,14 +50,25 @@ namespace Arasan.Models
 
         public List<SelectListItem> Batchlst { get; set; }
         public string batch { get; set; }
-  
+
         public string qty { get; set; }
-             
-        
+
+
         public string comp { get; set; }
         //public string Output { get; set; }
         public string Isvalid { get; set; }
         //public List<SelectListItem> outputlst;
 
+    }
+    public class PackingListItem
+    {
+        public string id { get; set; }
+        public string branch { get; set; }
+        public string loc { get; set; }
+        public string item { get; set; }
+        public string work { get; set; }
+        public string viewrow { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
     }
 }
