@@ -852,11 +852,11 @@ namespace Arasan.Controllers
 				throw ex;
 			}
 		}
-        public List<SelectListItem> BindBatchItemlst(string value)
+        public List<SelectListItem> BindBatchItemlst(string value,string locid)
         {
             try
             {
-                DataTable dtDesg = IProductionEntry.GetBatchItem(value);
+                DataTable dtDesg = IProductionEntry.GetBatchItem(value,locid);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -1022,6 +1022,7 @@ namespace Arasan.Controllers
         }
         public ActionResult InsertProInput([FromBody] ProInput[] model)
         {
+            string msg = "";
             try
 			{
                 int r = 1;
@@ -1055,24 +1056,26 @@ namespace Arasan.Controllers
                     }
                    
                 }
-                    if (model != null)
-                    {
-             
-                        return Json("Success");
-                    }
-                    else
-                    {
-                        return Json("An Error Has occoured");
-                    }
-                
+                if (model.Length > 0)
+                {
+                    msg = "Records Inserted Successfully.";
+                }
+                else
+                {
+                    msg = "Please add records.";
+                }
+
             }
             catch (Exception ex)
             {
+                msg = "An Error Has occoured";
                 throw ex;
             }
+            return Json(msg);
         }
         public ActionResult InsertConsInput([FromBody] APProInCons[] model)
         {
+            string msg = "";
             try
             {
                 int l = 1;
@@ -1108,25 +1111,28 @@ namespace Arasan.Controllers
                     }
                     
                 }
-                    
-              
 
-                if (model != null)
+
+
+                if (model.Length > 0)
                 {
-                    return Json("Success");
+                    msg = "Records Inserted Successfully.";
                 }
                 else
                 {
-                    return Json("An Error Has occoured");
+                    msg = "Please add records.";
                 }
             }
             catch (Exception ex)
             {
+                msg = "An Error Has occoured";
                 throw ex;
             }
+            return Json(msg);
         }
         public ActionResult InsertProEmp([FromBody] EmpDetails[] model)
         {
+            string msg = "";
             try
             {
                 foreach (EmpDetails emp in model)
@@ -1151,22 +1157,25 @@ namespace Arasan.Controllers
                     dt = IProductionEntry.SaveEmpDetails(id,empname, code, depat, sdate, stime, edate, etime, ot, et, normal, now,otcost,empcost);
                 }
 
-                if (model != null)
+                if (model.Length > 0)
                 {
-                    return Json("Success");
+                    msg = "Records Inserted Successfully.";
                 }
                 else
                 {
-                    return Json("An Error Has occoured");
+                    msg = "Please add records.";
                 }
             }
             catch (Exception ex)
             {
+                msg = "An Error Has occoured";
                 throw ex;
             }
+            return Json(msg);
         }
         public ActionResult InsertProOutsource([FromBody] SourceDetail[] model)
         {
+            string msg = "";
             try
             {
                 foreach (SourceDetail outs in model)
@@ -1189,22 +1198,25 @@ namespace Arasan.Controllers
                     dt = IProductionEntry.SaveOutsDetails(id, noofemp, sdate, stime, edate, etime, workhrs, cost, expence, now);
                 }
 
-                if (model != null)
+                if (model.Length > 0)
                 {
-                    return Json("Success");
+                    msg = "Records Inserted Successfully.";
                 }
                 else
                 {
-                    return Json("An Error Has occoured");
+                    msg = "Please add records.";
                 }
             }
             catch (Exception ex)
             {
+                msg = "An Error Has occoured";
                 throw ex;
             }
+            return Json(msg);
         }
         public ActionResult InsertProLog([FromBody] LogDetails[] model)
         {
+            string msg = "";
             try
             {
                 foreach (LogDetails log in model)
@@ -1221,25 +1233,27 @@ namespace Arasan.Controllers
                      
                     DataTable dt = new DataTable();
 
-                    dt = IProductionEntry.SaveLogDetails(id, sdate, stime, edate, etime, tot, reason);
+                   dt = IProductionEntry.SaveLogDetails(id, sdate, stime, edate, etime, tot, reason);
                 }
-
-                if (model != null)
+                if (model.Length > 0)
                 {
-                    return Json("Success");
+                    msg = "Records Inserted Successfully.";
                 }
                 else
                 {
-                    return Json("An Error Has occoured");
+                    msg = "Please add records.";
                 }
             }
             catch (Exception ex)
             {
+                msg = "An Error Has occoured";
                 throw ex;
             }
+            return Json(msg);
         }
         public ActionResult InsertProBreak([FromBody] BreakDet[] model)
         {
+            string msg = "";
             try
             {
                 foreach (BreakDet det in model)
@@ -1261,19 +1275,21 @@ namespace Arasan.Controllers
                     dt = IProductionEntry.SaveBreakDetails(id, machine, des, dtype, mtype, stime, etime, pb, all, reason);
                 }
 
-                if (model != null)
+                if (model.Length > 0)
                 {
-                    return Json("Success");
+                    msg = "Records Inserted Successfully.";
                 }
                 else
                 {
-                    return Json("An Error Has occoured");
+                    msg = "Please add records.";
                 }
             }
             catch (Exception ex)
             {
+                msg = "An Error Has occoured";
                 throw ex;
             }
+            return Json(msg);
         }
         public ActionResult GetMachineDetail(string ItemId)
 		{
@@ -1430,7 +1446,7 @@ namespace Arasan.Controllers
                         {
                             tda = new ProInput();
                             tda.APID = id;
-                            tda.Itemlst = BindBatchItemlst(ca.batchid);
+                            tda.Itemlst = BindBatchItemlst(ca.batchid,ca.LOCID);
                             tda.batchlst = BindDrumBatch("","","");
                         tda.drumlst = BindInpDrum("","");
                         tda.Isvalid = "Y";
@@ -1602,7 +1618,7 @@ namespace Arasan.Controllers
                         for (int i = 0; i < dt2.Rows.Count; i++)
                         {
                             tda = new ProInput();
-                            tda.Itemlst = BindBatchItemlst(ca.batchid);
+                            tda.Itemlst = BindBatchItemlst(ca.batchid, ca.LOCID);
                             tda.ItemId = dt2.Rows[i]["IITEMID"].ToString();
                             tda.saveitemId = dt2.Rows[i]["IITEMID"].ToString();
                             tda.Time = dt2.Rows[i]["CHARGINGTIME"].ToString();
@@ -1774,7 +1790,7 @@ namespace Arasan.Controllers
                     adt7 = IProductionEntry.GetLogdetail(id);
                     if (adt7.Rows.Count > 0)
                     {
-                        for (int i = 0; i < dt6.Rows.Count; i++)
+                        for (int i = 0; i < adt7.Rows.Count; i++)
                         {
                             tda5 = new LogDetails();
 
@@ -1865,7 +1881,7 @@ namespace Arasan.Controllers
                         for (int i = 0; i < adt2.Rows.Count; i++)
                         {
                             tda = new ProInput();
-                            tda.Itemlst = BindBatchItemlst(ca.batchid);
+                            tda.Itemlst = BindBatchItemlst(ca.batchid,ca.LOCID);
                             tda.ItemId = adt2.Rows[i]["IITEMID"].ToString();
                             tda.BinId = adt2.Rows[i]["IBINID"].ToString();
                             tda.Time = adt2.Rows[i]["CHARGINGTIME"].ToString();
@@ -1891,7 +1907,7 @@ namespace Arasan.Controllers
                         {
                             tda = new ProInput();
                             tda.APID = apID;
-                            tda.Itemlst = BindBatchItemlst(ca.batchid);
+                            tda.Itemlst = BindBatchItemlst(ca.batchid,ca.LOCID);
                             tda.batchlst = BindDrumBatch("", "", "");
                             tda.drumlst = BindInpDrum("","");
                             tda.Isvalid = "Y";
@@ -2517,11 +2533,11 @@ namespace Arasan.Controllers
             }
         }
 
-        public JsonResult GetItemJSON(string batch)
+        public JsonResult GetItemJSON(string batch, string locid)
         {
             //EnqItem model = new EnqItem();
             //model.Itemlst = BindItemlst(itemid);
-            return Json(BindBatchItemlst(batch));
+            return Json(BindBatchItemlst(batch, locid));
         }
         public JsonResult GetconsItemJSON(string id)
         {
@@ -2663,7 +2679,7 @@ namespace Arasan.Controllers
                 {
                     stk = "0";
                 }
-                string rate = datatrans.GetDataString("Select MAX(RATE) rate from LSTOCKVALUE where LOTNO='" + ItemId + "' "); /*AND LATEMPLATEID = '730926300'*/
+                string rate = datatrans.GetDataString("Select ROUND(AVG(RATE),2) rate  from LSTOCKVALUE where LOTNO='" + ItemId + "' "); /*AND LATEMPLATEID = '730926300'*/
                 var result = new { stk = stk ,rate=rate};
                 return Json(result);
             }
@@ -2722,7 +2738,7 @@ namespace Arasan.Controllers
                 {
                     stk = "0";
                 }
-                string rate = datatrans.GetDataString("SELECT AVG(S.STOCKVALUE/S.QTY) as rate FROM STOCKVALUE S WHERE ITEMID='" + ItemId + "' and LOCID='"+ loc +"'");
+                string rate = datatrans.GetDataString("SELECT ROUND(AVG(S.STOCKVALUE/S.QTY),2) as rate FROM STOCKVALUE S WHERE ITEMID='" + ItemId + "' and LOCID='"+ loc +"'");
                 var result = new { bin = bin, binid = binid, unit= unit , unitid = unitid, stk= stk, rate=rate };
 				return Json(result);
 			}

@@ -51,15 +51,15 @@ namespace Arasan.Services.Report
                 string SvSql = "";
                 if (dtFrom == null && WorkCenter == null && Process == null)
                 {
-                    SvSql = "SELECT B.DOCID,to_char(B.DOCDATE,'dd-MON-yyyy')DOCDATE,W.WCID,P.PROCESSID FROM BCPRODBASIC B , WCBASIC W , PROCESSMAST P WHERE B.WCID = W.WCBASICID AND B.WPROCESSID = P.PROCESSMASTID";
+                    SvSql = "SELECT B.BATCH , 2 , BC.DOCDATE , W.WCID , P.PROCESSID , I.ITEMID , U.UNITID , 0, Decode(I.SUBCATEGORY,'FUEL',0,SUM(D.CONSQTY)) QTY , Decode(I.SUBCATEGORY,'FUEL',SUM(D.CONSQTY),0) Fuel,0,0 ,0, I.SUBCATEGORY ICAT FROM BPRODBASIC B , BPRODCONSDET D , WCBASIC W , PROCESSMAST P , ITEMMASTER I , UNITMAST U , BCPRODBASIC BC GROUP BY B.BATCH ,BC.DOCDATE , W.WCID , P.PROCESSID ,  I.ITEMID , U.UNITID,I.SUBCATEGORY\r\n";
 
                 }
                 else
                 {
-                    SvSql = "SELECT B.DOCID,to_char(B.DOCDATE,'dd-MON-yyyy')DOCDATE,W.WCID,P.PROCESSID FROM BCPRODBASIC B , WCBASIC W , PROCESSMAST P WHERE B.WCID = W.WCBASICID AND B.WPROCESSID = P.PROCESSMASTID";
+                    SvSql = "SELECT B.BATCH , 2 , BC.DOCDATE , W.WCID , P.PROCESSID , I.ITEMID , U.UNITID , 0, Decode(I.SUBCATEGORY,'FUEL',0,SUM(D.CONSQTY)) QTY , Decode(I.SUBCATEGORY,'FUEL',SUM(D.CONSQTY),0) Fuel,0,0 ,0, I.SUBCATEGORY ICAT FROM BPRODBASIC B , BPRODCONSDET D , WCBASIC W , PROCESSMAST P , ITEMMASTER I , UNITMAST U , BCPRODBASIC BC GROUP BY B.BATCH ,BC.DOCDATE , W.WCID , P.PROCESSID ,  I.ITEMID , U.UNITID,I.SUBCATEGORY\r\n";
                     if (dtFrom != null && dtTo != null)
                     {
-                        SvSql += " and B.DOCDATE BETWEEN '" + dtFrom + "' AND '" + dtTo + "'";
+                        SvSql += " and BC.DOCDATE BETWEEN '" + dtFrom + "' AND '" + dtTo + "'";
                     }
 
 

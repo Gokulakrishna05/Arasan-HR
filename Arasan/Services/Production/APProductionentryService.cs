@@ -130,7 +130,7 @@ namespace Arasan.Services
         public DataTable GetInpDrum(string ItemId,string loc)
         {
             string SvSql = string.Empty;
-            SvSql = "select  DRUMNO from LSTOCKVALUE WHERE ITEMID='"+ ItemId +"' AND LOCID='"+ loc + "' AND PLUSQTY >0 ";
+            SvSql = "select DRUMNO,SUM(PLUSQTY-MINUSQTY) as QTY  from LSTOCKVALUE where ITEMID='" + ItemId + "' AND LOCID='" + loc + "' HAVING SUM(PLUSQTY-MINUSQTY) > 0 GROUP BY DRUMNO";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -252,7 +252,7 @@ namespace Arasan.Services
             try
 			{
 				string StatementType = string.Empty; string svSQL = "";
-                DataTable work = datatrans.GetData("SELECT ILOCATION,REJLOCATION,DRUMILOCATION,WIPITEMID FROM WCBASIC WHERE WCBASICID='"+cy.workid+"'");
+                DataTable work = datatrans.GetData("SELECT ILOCATION,REJLOCATION,DRUMILOCATION,WIPITEMID FROM WCBASIC WHERE WCBASICID='"+cy.Location+"'");
                 DataTable process = datatrans.GetData("SELECT PRODHRTYPE,BATCHORAVGCOST,DRUMRETURNYN  FROM PROCESSMAST WHERE PROCESSMASTID='" + cy.Process+"'");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
 				{
@@ -269,7 +269,7 @@ namespace Arasan.Services
 					objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                     objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
-                    objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.workid;
+                    objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.Location;
                     objCmd.Parameters.Add("SHIFT", OracleDbType.NVarchar2).Value = cy.Shift;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
@@ -933,7 +933,7 @@ namespace Arasan.Services
         public DataTable GetAPProd(string id)
 		{
 			string SvSql = string.Empty;
-			SvSql = "select BPRODBASICID,BPRODBASIC.DOCID,to_char(BPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PROCESSMAST.PROCESSID,WCBASIC.WCID,BPRODBASIC.ENTEREDBY,PSBASIC.DOCID as psno,SCHQTY,BPRODBASIC.PRODQTY, BATCH,SHIFT,BATCHCOMP,ILOCDETAILSID,BPRODBASIC.BRANCH from BPRODBASIC left outer join PSBASIC ON PSBASIC.PSBASICID= BPRODBASIC.PSCHNO left outer join WCBASIC ON WCBASICID= BPRODBASIC.WCID left outer join PROCESSMAST ON PROCESSMASTID= BPRODBASIC.PROCESSID where BPRODBASICID='" + id + "' ";
+			SvSql = "select WCBASICID,BPRODBASICID,BPRODBASIC.DOCID,to_char(BPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PROCESSMAST.PROCESSID,WCBASIC.WCID,BPRODBASIC.ENTEREDBY,PSBASIC.DOCID as psno,SCHQTY,BPRODBASIC.PRODQTY, BATCH,SHIFT,BATCHCOMP,ILOCDETAILSID,BPRODBASIC.BRANCH from BPRODBASIC left outer join PSBASIC ON PSBASIC.PSBASICID= BPRODBASIC.PSCHNO left outer join WCBASIC ON WCBASICID= BPRODBASIC.WCID left outer join PROCESSMAST ON PROCESSMASTID= BPRODBASIC.PROCESSID where BPRODBASICID='" + id + "' ";
 
 			DataTable dtt = new DataTable();
 			OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -1625,10 +1625,10 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetBatchItem(string id)
+        public DataTable GetBatchItem(string id,string locid)
         {
             string SvSql = string.Empty;
-            SvSql = "select I.ITEMID,B.IITEMID  from BCINPUTDETAIL B,ITEMMASTER I,STOCKVALUE S   where  B.IITEMID=S.ITEMID AND B.IITEMID=I.ITEMMASTERID AND BCPRODBASICID='" + id + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0   GROUP BY I.ITEMID,B.IITEMID";    
+            SvSql = "select I.ITEMID,B.IITEMID  from BCINPUTDETAIL B,ITEMMASTER I,STOCKVALUE S   where  B.IITEMID=S.ITEMID AND B.IITEMID=I.ITEMMASTERID AND BCPRODBASICID='" + id + "' AND S.LOCID='"+ locid + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0   GROUP BY I.ITEMID,B.IITEMID";    
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
