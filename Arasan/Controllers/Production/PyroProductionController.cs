@@ -428,6 +428,18 @@ namespace Arasan.Controllers
                             //    tda4.Result = dt7.Rows[i]["TESTRESULT"].ToString();
                             //    tda4.Status = dt7.Rows[i]["MOVETOQC"].ToString();
                             //}
+                            DataTable cur = datatrans.GetData("SELECT OCCUPIED,CAPACITY FROM CURINGMASTER WHERE SHEDNUMBER='" + tda4.ShedNo + "' ");
+                          
+
+
+                            if (cur.Rows.Count > 0)
+                            {
+
+                                tda4.ShedOccu = cur.Rows[0]["OCCUPIED"].ToString();
+                                tda4.ShedCap = cur.Rows[0]["CAPACITY"].ToString();
+
+
+                            }
                             tda4.APID = id;
                             tda4.Isvalid = "Y";
                             TData4.Add(tda4);
@@ -1540,12 +1552,22 @@ namespace Arasan.Controllers
             dt = Pyro.GetPyroProductionName(id);
             if (dt.Rows.Count > 0)
             {
-                ca.Location = dt.Rows[0]["LOCID"].ToString();
+                ca.Location = dt.Rows[0]["WORKID"].ToString();
+                ca.Locationid = dt.Rows[0]["ILOCDETAILSID"].ToString();
                 ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
                 ca.DocId = dt.Rows[0]["DOCID"].ToString();
-                ca.Eng = dt.Rows[0]["EMPNAME"].ToString();
+                ca.Eng = dt.Rows[0]["ENTEREDBY"].ToString();
                 ca.Shift = dt.Rows[0]["SHIFT"].ToString();
                 ViewBag.shift = dt.Rows[0]["SHIFT"].ToString();
+                ca.ProcessLot = dt.Rows[0]["PROCLOTNO"].ToString();
+                ca.process = dt.Rows[0]["PROCESS"].ToString();
+                ca.ProcessId = dt.Rows[0]["PROCESSID"].ToString();
+                ca.ProdQty = dt.Rows[0]["PRODQTY"].ToString();
+                ca.SchQty = dt.Rows[0]["SCHQTY"].ToString();
+                ca.ProdSchNo = dt.Rows[0]["psno"].ToString();
+                ca.ProdSchid = dt.Rows[0]["PSCHNO"].ToString();
+                ca.APID = id;
+                ca.workid = dt.Rows[0]["WCID"].ToString();
 
                 ca.ID = id;
             }
@@ -1558,18 +1580,14 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dt2.Rows.Count; i++)
                 {
                     tda = new PProInput();
-                    tda.Itemlst = BindInputItemlst("");
                     tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
-                    tda.saveitemId = dt2.Rows[i]["item"].ToString();
-                    tda.drumno = dt2.Rows[i]["DRUMNO"].ToString();
-                    tda.drumid = dt2.Rows[i]["drum"].ToString();
-                    tda.inpid = dt2.Rows[i]["PYROPRODINPDETID"].ToString();
-
-                    tda.Time = dt2.Rows[i]["TIME"].ToString();
+                    //tda.unit = dt2.Rows[i]["UNITID"].ToString();
+                    tda.Time = dt2.Rows[i]["CHARGINGTIME"].ToString();
                     tda.BinId = dt2.Rows[i]["BINID"].ToString();
-                    tda.batchno = dt2.Rows[i]["BATCH"].ToString();
-                    tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
-                    tda.StockAvailable = Convert.ToDouble(dt2.Rows[i]["STOCK"].ToString() == "" ? "0" : dt2.Rows[i]["STOCK"].ToString());
+                    tda.batchno = dt2.Rows[i]["IBATCHNO"].ToString();
+                    tda.drumno = dt2.Rows[i]["DRUMNO"].ToString();
+                    tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["IQTY"].ToString() == "" ? "0" : dt2.Rows[i]["IQTY"].ToString());
+
                     tda.APID = id;
                     tda.Isvalid = "Y";
                     TData.Add(tda);
@@ -1586,16 +1604,15 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dt3.Rows.Count; i++)
                 {
                     tda1 = new PAPProInCons();
-                    tda1.Itemlst = BindItemlstCon("");
                     tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
-                    tda1.saveitemId = dt3.Rows[i]["item"].ToString();
-                    tda1.consunit = dt3.Rows[i]["UNITID"].ToString();
-                    tda1.consid = dt3.Rows[i]["PYROPRODCONSDETID"].ToString();
-                    tda1.BinId = dt3.Rows[i]["BINID"].ToString();
-                    tda1.Qty = Convert.ToDouble(dt3.Rows[i]["QTY"].ToString() == "" ? "0" : dt3.Rows[i]["QTY"].ToString());
+                    tda1.consunit = dt3.Rows[i]["CUNIT"].ToString();
+                    tda1.Qty = Convert.ToDouble(dt3.Rows[i]["CSUBQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CSUBQTY"].ToString());
                     tda1.consQty = Convert.ToDouble(dt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CONSQTY"].ToString());
-                    tda1.ConsStock = Convert.ToDouble(dt3.Rows[i]["STOCK"].ToString() == "" ? "0" : dt3.Rows[i]["STOCK"].ToString());
-
+                    DataTable dtstk = datatrans.GetData("SELECT SUM(DECODE(s.PLUSORMINUS,'p',S.QTY,-S.QTY)) as QTY FROM STOCKVALUE S WHERE ITEMID='" + tda1.ItemId + "' and LOCID='" + ca.LOCID + "'");
+                    if (dtstk.Rows.Count > 0)
+                    {
+                        tda1.ConsStock = Convert.ToDouble(dtstk.Rows[0]["QTY"].ToString() == "" ? "0" : dtstk.Rows[0]["QTY"].ToString());
+                    }
                     tda1.APID = id;
                     tda1.Isvalid = "Y";
                     TData1.Add(tda1);
@@ -1613,17 +1630,18 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dt6.Rows.Count; i++)
                 {
                     tda4 = new PProOutput();
-                    tda4.Itemlst = BindOutItemlst("");
                     tda4.ItemId = dt6.Rows[i]["ITEMID"].ToString();
-                    tda4.saveitemId = dt6.Rows[i]["item"].ToString();
-                    tda4.BinId = dt6.Rows[i]["BINID"].ToString();
-                    tda4.outid = dt6.Rows[i]["PYROPRODOUTDETID"].ToString();
+
                     tda4.drumlst = BindDrum();
+                    tda4.statuslst = BindStatus();
                     tda4.drumno = dt6.Rows[i]["DRUMNO"].ToString();
-                    tda4.drumid = dt6.Rows[i]["DRUM"].ToString();
-                    tda4.FromTime = dt6.Rows[i]["STARTTIME"].ToString();
-                    tda4.ToTime = dt6.Rows[i]["ENDTIME"].ToString();
-                    tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OUTQTY"].ToString());
+                    // tda4.unit = dt6.Rows[i]["UNITID"].ToString();
+                    tda4.FromTime = dt6.Rows[i]["STIME"].ToString();
+                    tda4.ToTime = dt6.Rows[i]["ETIME"].ToString();
+                    tda4.ShedNo = dt6.Rows[i]["SHEDNUMBER"].ToString();
+                    tda4.Status = dt6.Rows[i]["STATUS"].ToString();
+                    tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OQTY"].ToString());
+                    tda4.ExcessQty = Convert.ToDouble(dt6.Rows[i]["OXQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OXQTY"].ToString());
                     //DataTable dt7 = new DataTable();
                     //dt7 = IProductionEntry.GetResult(id);
                     //if (dt7.Rows.Count > 0)
@@ -1631,10 +1649,12 @@ namespace Arasan.Controllers
                     //    tda4.Result = dt7.Rows[i]["TESTRESULT"].ToString();
                     //    tda4.Status = dt7.Rows[i]["MOVETOQC"].ToString();
                     //}
-                    tda4.shedlst = BindShed();
                     tda4.APID = id;
+                    tda4.shedlst = BindShed();
                     tda4.Isvalid = "Y";
                     TData4.Add(tda4);
+                    
+                     
 
                 }
 
@@ -2212,38 +2232,22 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public ActionResult InsertProOut([FromBody] PProOutput[] model)
+        public ActionResult InsertProOut(string id, string ItemId, string drum, string time, string qty, string totime, string exqty, string stat, string stock, string ShedNo)
         {
             try
             {
-                foreach (PProOutput output in model)
-                {
-
-                    string item = output.ItemId;
-                    string drum = output.drumno;
-                    string bin = output.BinId;
-                    string stime = output.FromTime;
-                    string id = output.APID;
-                    string ttime = output.ToTime;
-                    string status = output.Status;
-                    string shed = output.ShedNo;
-                    string stock = output.Stock.ToString();
-                    string excess = output.ExcessQty.ToString();
-                    string qty = output.OutputQty.ToString();
+                 
                     DataTable dt = new DataTable();
+                    DataTable dt2 = new DataTable();
 
-                    dt = Pyro.SaveOutputDetails(id, item, bin, stime, ttime, qty, drum,status,stock, excess, shed);
-                }
-                if (model != null)
-                {
+                    dt = Pyro.SaveOutputDetails(id, ItemId, time, totime, qty, drum, stat, stock, exqty, ShedNo);
+                dt2 = datatrans.GetData("SELECT OCCUPIED,CAPACITY FROM CURINGMASTER WHERE SHEDNUMBER='"+ ShedNo +"' ");
 
-                    return Json("Success");
-                }
-                else
-                {
-                    return Json("An Error Has occoured");
-                }
 
+                string occ = dt2.Rows[0]["OCCUPIED"].ToString();
+                string cap = dt2.Rows[0]["CAPACITY"].ToString();
+                var result = new { occ = occ , cap = cap };
+                return Json(result);
             }
             catch (Exception ex)
             {
@@ -2360,7 +2364,7 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public ActionResult Curingset(string ItemId)
+        public ActionResult Getshedocc(string item)
         {
             try
             {
@@ -2368,22 +2372,24 @@ namespace Arasan.Controllers
 
 
                 string shed = "";
+                string cap = "";
 
 
                 DataTable dt = new DataTable();
 
-                dt = Pyro.CuringsetDetails(ItemId);
+                dt = Pyro.CuringsetDetails(item);
 
 
                 if (dt.Rows.Count > 0)
                 {
 
-                    shed = dt.Rows[0]["CAPACITY"].ToString();
+                    shed = dt.Rows[0]["occ"].ToString();
+                    cap = dt.Rows[0]["CAPACITY"].ToString();
 
 
                 }
 
-                var result = new { shed = shed };
+                var result = new { shed = shed , cap = cap };
                 return Json(result);
             }
 

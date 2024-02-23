@@ -93,12 +93,12 @@ namespace Arasan.Controllers
                 for (int i = 0; i < Outdt.Rows.Count; i++)
                 {
                     tdao1 = new APOut();
-                    tdao1.id = Outdt.Rows[i]["APPRODUCTIONBASICID"].ToString();
-                    tdao1.apoutid = Outdt.Rows[i]["APPRODOUTDETID"].ToString();
+                    tdao1.id = Outdt.Rows[i]["BPRODBASICID"].ToString();
+                    tdao1.apoutid = Outdt.Rows[i]["BPRODOUTDETID"].ToString();
                     tdao1.ItemName = Outdt.Rows[i]["ITEMID"].ToString();
                     tdao1.Drum = Outdt.Rows[i]["DRUMNO"].ToString();
-                    tdao1.Time = Outdt.Rows[i]["FROMTIME"].ToString();
-                    tdao1.TotalQty = Outdt.Rows[i]["OUTQTY"].ToString();
+                    tdao1.Time = Outdt.Rows[i]["STIME"].ToString();
+                    tdao1.TotalQty = Outdt.Rows[i]["OQTY"].ToString();
                     DataTable Outdt1 = new DataTable();
                     Outdt1 = QcDashboardService.GetAPout1(tdao1.id);
                     if (Outdt1.Rows.Count > 0)

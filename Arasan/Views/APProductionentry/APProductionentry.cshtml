@@ -157,6 +157,24 @@
                                     </div>
                                 </div>
                             </div>
+                            
+      <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Work Center <label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                        @Html.HiddenFor(C => C.ID)
+                                         @Html.HiddenFor(C => C.APID)
+                                            @Html.HiddenFor(C => C.Branch)
+                                            @Html.HiddenFor(C => C.workid,new{@id="WorkCenterid"})
+  @Html.DropDownListFor(C => C.Location, Model.Loclst," -- Please Select -- ", new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1 , @onchange = "changesch(this.value)"})<br />
+                                 </div>
+                                </div>
+                            </div>
+                          
+                        </div>
+                        <div style="height:15px;"></div>
+                        <div class="row">
                               <div class="col-md-6">
                                     <div class="form-group">
 
@@ -167,11 +185,6 @@
                                     </div>
                                 </div>
                        
-      
-                          
-                        </div>
-                        <div style="height:15px;"></div>
-                        <div class="row">
                             <div class="col-md-6">
                                     <div class="form-group">
 
@@ -181,20 +194,7 @@
                                         </div>
                                     </div>
                                 </div>
-                               <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Work Center <label class="mandatory">*</label></label>
-                                    <div class="col-sm-8">
-                                        @Html.HiddenFor(C => C.ID)
-                                         @Html.HiddenFor(C => C.APID)
-                                            @Html.HiddenFor(C => C.Branch)
-                                            @Html.HiddenFor(C => C.workid,new{@id="WorkCenterid"})
-                                                @Html.TextBoxFor(C => C.Location, new { @id = "txtLocation", @class = "form-control", @TabIndex = 1,@readonly=true })<br />
-@* @Html.DropDownListFor(C => C.Location, Model.Loclst," -- Please Select -- ", new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1 /*, @onchange = "Stk_Change(this.value)"*/ })<br />
-*@                                    </div>
-                                </div>
-                            </div>
+                               
                           
                           
                         </div>
@@ -203,7 +203,7 @@
                                  <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Process <label class="mandatory">*</label></label>
+                                   <br /> <label for="inputName3" class="col-sm-4 control-label">Process <label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                        
    @Html.DropDownListFor(C => C.Process, Model.processlst," -- Please Select -- ", new { @id = "ddlProcess", @Class = "form-control _select", @TabIndex = 1 /*, @onchange = "Stk_Change(this.value)"*/ })<br />
@@ -214,7 +214,7 @@
                                   <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">DOC ID <label class="mandatory">*</label></label>
+                                    <br /><label for="inputName3" class="col-sm-4 control-label">DOC ID <label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1,@readonly=true })<br />
                                     </div>
@@ -377,16 +377,48 @@
             }
             });
             }
+
+             function changesch(schid) {
+        $.ajax({
+            url: 'Getsch',
+            data: { "schid": schid },
+            type: "GET",
+            success: function (result) {
+
+                
+                var $procde = $("#ddlProcess").select2();
+                $procde.val(result.proc).trigger("change");
+               
+                $.ajax({
+                    url: "GetPSchedJSON",
+                    type: "post",
+                    data: { 'schid': schid },
+                    cache: false,
+                    success: function (response) {
+                        var newlist;
+                        newlist = response.Ilst;
+                        PopulateDropDown("#ddlSheduleno", response);
+                    },
+                    error: function () {
+                        debugger;
+                        alert("Please Select Work Center ");
+                    }
+                });
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+
+
+    }
  function ChangeBatch(ItemId) {
       $.ajax({
             url: 'GetBatch',
             data: { "ItemId": ItemId },
             type: "GET",
             success: function (result) {
-
-                document.getElementById("txtLocation").value = result.work;
-            
-                document.getElementById("WorkCenterid").value = result.workid;
+ 
                 document.getElementById("txtSchQty").value = result.schqty;
                 document.getElementById("txtProdQty").value = result.prodqty;
               

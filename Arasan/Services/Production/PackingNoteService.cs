@@ -405,7 +405,7 @@ return msg;
         public DataTable GetItembyId(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,DRUM_STOCK.ITEMID as item from DRUM_STOCK left outer join ITEMMASTER on ITEMMASTERID =DRUM_STOCK.ITEMID  where BALANCE_QTY >0 AND LOCID= '" + id + "' and CURINGDUEDATE  <= trunc(sysdate)  GROUP BY ITEMMASTER.ITEMID,DRUM_STOCK.ITEMID";
+            SvSql = "select C.ITEMID  as item,I.ITEMID from CURINPDETAIL C, LOTMAST L,ITEMMASTER I where C.BATCHNO=L.LOTNO AND I.ITEMMASTERID =L.ITEMID  AND  L.LOCATION= '" + id+"' and L.INSFLAG='0'  and TRUNC(C.DUEDATE) >= TRUNC(SYSDATE+1)";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -425,7 +425,7 @@ return msg;
         public DataTable GetDrumDetails(string id, string item)
         {
             string SvSql = string.Empty;
-            SvSql = "select DRUM_STOCK.DRUM_NO,DRUM_STOCK.DRUM_ID,BALANCE_QTY  from DRUM_STOCK where ITEMID= '" + id + "' AND LOCID ='" + item + "'";
+            SvSql = "select L.DRUMNO,L.LOTNO,SUM(L.PLUSQTY-L.MINUSQTY) as QTY  from CURINPDETAIL C,LSTOCKVALUE L where C.DRUMNO=L.DRUMNO AND   L.ITEMID= '" + id + "' AND L.LOCID ='" + item + "' and TRUNC(C.DUEDATE) >= TRUNC(SYSDATE+1)  HAVING SUM(L.PLUSQTY-L.MINUSQTY) > 0 GROUP BY L.DRUMNO ,L.LOTNO";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
