@@ -930,7 +930,7 @@ namespace Arasan.Services
                             objCmdInp1.Parameters.Add("FDATE", OracleDbType.Date).Value = DateTime.Now;
                             objCmdInp1.Parameters.Add("FTIME", OracleDbType.NVarchar2).Value = shiftid.Rows[0]["FROMTIME"].ToString();
                             objCmdInp1.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = item;
-                            objCmdInp1.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = drum;
+                            objCmdInp1.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = drumno;
                             objCmdInp1.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = nbatch;
                             objCmdInp1.Parameters.Add("BATCHQTY", OracleDbType.NVarchar2).Value = qty;
                             objCmdInp1.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = "";
