@@ -15,6 +15,7 @@ namespace Arasan.Interface
         DataTable GetDrumLocation();
         DataTable DrumDeatils(string id,string loc);
         DataTable GetDrumDetails(string id,string item);
+        DataTable GetDrumDetailsdd(string id,string item);
         DataTable GetDrumLot(string id,string item,string drum);
         DataTable GetBatch(string id);
         DataTable GetPackingNote(string id);
