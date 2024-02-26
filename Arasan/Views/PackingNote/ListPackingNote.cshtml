@@ -113,34 +113,36 @@
 
                     <form>
                         <div class="row">
-                            <div class="col-md-6">
-                                <label for="inputName3" class="col-sm-3 control-label">From Date  <label class="mandatory">*</label></label>
-                                <div class="col-sm-7">
-                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="inputName3" class="col-sm-3 control-label">From Date  <label class="mandatory">*</label></label>
+                                    <div class="col-sm-7">
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
 
-                                        @*@Html.TextBoxFor(C => C.SStart, new { @id = "SStart", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })*@
-                                        <input id="SStart" class="form-control" readonly="readonly" value="@strfrom" />
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            @*@Html.TextBoxFor(C => C.SStart, new { @id = "SStart", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })*@
+                                            <input id="SStart" class="form-control" readonly="readonly" value="@strfrom" />
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+
                                     </div>
-
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputName3" class="col-sm-3 control-label"> To date  <label class="mandatory">*</label></label>
-                                <div class="col-sm-7">
+                            
+                                <div class="col-md-6">
+                                    <label for="inputName3" class="col-sm-3 control-label"> To date  <label class="mandatory">*</label></label>
+                                    <div class="col-sm-7">
 
-                                    <div class="input-group date to_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                        <div class="input-group date to_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
 
-                                        <input id="SEnd" class="form-control" readonly="readonly" value="@strTo" />
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                    </div>
-                                    <div class="row">
+                                            <input id="SEnd" class="form-control" readonly="readonly" value="@strTo" />
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+
+                                        </div>
                                         <button type="button" class="btn btn-primary  marginright" id="btnSave" value="Run" onclick="loadReport()">Search</button>
+
                                     </div>
-                                </div>
 
+                                 </div>
                             </div>
-
                         </div>
                         <div class="row">
                             <div class="col-md-2 ">
