@@ -543,8 +543,8 @@ namespace Arasan.Controllers
                 {
                     tda = new DrumDetail();
 
-                    tda.drum = dtt.Rows[i]["DRUM_NO"].ToString();
-                    tda.drumid = dtt.Rows[i]["DRUM_ID"].ToString();
+                    tda.drum = dtt.Rows[i]["DRUMNO"].ToString();
+                    //tda.drumid = dtt.Rows[i]["DRUM_ID"].ToString();
 
 
                     tda.qty = dtt.Rows[i]["QTY"].ToString();
@@ -558,14 +558,8 @@ namespace Arasan.Controllers
                     tda.amount = totamt.ToString();
 
 
-                    tda.qty = dtt.Rows[i]["BALANCE_QTY"].ToString();
-
-                    DataTable dtt1 = new DataTable();
-                    dtt1 = Packing.GetDrumLot(id, item, tda.drumid);
-                    for (int j = 0; j < dtt1.Rows.Count; j++)
-                    {
-                        tda.batch = dtt1.Rows[j]["LOTNO"].ToString();
-                    }
+ 
+                     
                     tda.Isvalid = "Y";
                     Data.Add(tda);
                 }

@@ -426,7 +426,6 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
 
-            SvSql = "select ITEMMASTER.ITEMID,DRUM_STOCK.ITEMID as item from DRUM_STOCK left outer join ITEMMASTER on ITEMMASTERID =DRUM_STOCK.ITEMID  where BALANCE_QTY >0 AND LOCID= '" + id + "' and CURINGDUEDATE  <= trunc(sysdate)  GROUP BY ITEMMASTER.ITEMID,DRUM_STOCK.ITEMID";
 
             SvSql = "select C.ITEMID  as item,I.ITEMID from CURINPDETAIL C, LOTMAST L,ITEMMASTER I where C.BATCHNO=L.LOTNO AND I.ITEMMASTERID =L.ITEMID  AND  L.LOCATION= '" + id+"' and L.INSFLAG='0'  and TRUNC(C.DUEDATE) = TRUNC(SYSDATE)";
 
@@ -450,7 +449,6 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
 
-            SvSql = "select DRUM_STOCK.DRUM_NO,DRUM_STOCK.DRUM_ID,BALANCE_QTY  from DRUM_STOCK where ITEMID= '" + id + "' AND LOCID ='" + item + "'";
 
             SvSql = "select L.DRUMNO,L.LOTNO,SUM(L.PLUSQTY-L.MINUSQTY) as QTY ,LT.LOTMASTID,LT.RATE,LT.AMOUNT from CURINPDETAIL C,LSTOCKVALUE L,LOTMAST LT where LT.LOTNO=L.LOTNO AND LT.INSFLAG='1' AND C.BATCHNO=L.LOTNO AND   L.ITEMID= '" + id + "' AND L.LOCID ='" + item + "' and TRUNC(C.DUEDATE) = TRUNC(SYSDATE)  HAVING SUM(L.PLUSQTY-L.MINUSQTY) > 0 GROUP BY L.DRUMNO ,L.LOTNO,LT.LOTMASTID,LT.RATE,LT.AMOUNT";
             DataTable dtt = new DataTable();
