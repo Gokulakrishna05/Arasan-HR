@@ -25,6 +25,8 @@ namespace Arasan.Models
         public string ToWork { get; set; }
         public string ID { get; set; }
         public string DocId { get; set; }
+        public string fromtime { get; set; }
+        public string totime { get; set; }
         public string Docdate { get; set; }
         public string PackingNote { get; set; }
         public string ProdSchNo { get; set; }
@@ -72,6 +74,9 @@ namespace Arasan.Models
 
 
         public string comp { get; set; }
+        public string amount { get; set; }
+        public string rate { get; set; }
+        public string packid { get; set; }
         public string shed { get; set; }
         public string Isvalid { get; set; }
         //public List<SelectListItem> outputlst;
