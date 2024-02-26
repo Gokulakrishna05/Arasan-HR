@@ -413,10 +413,49 @@ namespace Arasan.Controllers
             return Json(model.Curinglst);
 
         }
-        public IActionResult ListCuringOutward(string st, string ed)
+        public IActionResult ListCuringOutward()
         {
-            IEnumerable<CuringOutward> cmp = curingoutward.GetAllCuringOutward(st, ed);
-            return View(cmp);
+            //IEnumerable<CuringOutward> cmp = curingoutward.GetAllCuringOutward(st, ed);
+            return View();
+        }
+
+        public ActionResult MyListCuringOutwardGrid(string strStatus, string st, string ed)
+        {
+            List<CuringOutwardListItem> Reg = new List<CuringOutwardListItem>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = curingoutward.GetAllCuringOutwardDetails(strStatus, st, ed);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string View = string.Empty;
+                string Edit = string.Empty;
+
+                View = "<a href=ViewCuringOutward?id=" + dtUsers.Rows[i]["CUROPBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View' /></a>";
+                Edit = "<a href=CuringOutward?id=" + dtUsers.Rows[i]["CUROPBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CUROPBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate'  /></a>";
+
+                Reg.Add(new CuringOutwardListItem
+                {
+                    id = dtUsers.Rows[i]["CUROPBASICID"].ToString(),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    docId = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    itemId = dtUsers.Rows[i]["ITEMID"].ToString(),
+                    shi = dtUsers.Rows[i]["SHIFTNO"].ToString(),
+                    viewrow = View,
+                    editrow = Edit,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
         public ActionResult GetItemDetail(string ItemId)
         {
