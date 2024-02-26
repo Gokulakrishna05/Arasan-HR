@@ -14,7 +14,7 @@ namespace Arasan.Interface
         DataTable GetBatch(string id);
         DataTable GetPackingNote();
         DataTable GetItembyId(string id);
-        DataTable GetQty(string id);
+         
         DataTable GetPackingDetail(string id);
         //IEnumerable<CuringOutward> GetAllCuringOutward(string st,string ed);
         string  CuringOutwardCRUD(CuringOutward Cy);

@@ -53,6 +53,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Enterd)
                                             @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })<br />
                                         </div>
                                     </div>
@@ -82,6 +83,8 @@
 
                                                 @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 ,@readonly="readonly"})<br />
                                                      @Html.HiddenFor(C => C.ID)
+                                                    @* @Html.HiddenFor(C => C.fromtime,new{@id="txtfromtime"})
+                                                     @Html.HiddenFor(C => C.totime,new{@id="txttotime"})*@
 
                                             </div>
                                         </div>
@@ -196,7 +199,7 @@
                                             </div>
                                          
                             <div class="row">
-                                <div class="col-md-6">
+                                @*<div class="col-md-6">
                                     <div class="form-group">
                                             <br />   <label for="inputName3" class="col-sm-4 control-label">EnteredBy<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
@@ -204,7 +207,7 @@
 
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                             <br />   <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
@@ -217,24 +220,7 @@
                                 </div>
                             </div>
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-
-                                         <label for="inputName3" class="col-sm-4 control-label">End Date<label class="Mandatory"></label></label>
-                                        
-
-                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                    @Html.TextBoxFor(C => C.enddate, new { @id = "enddate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
-                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                </div>
-
-                                                <br />
-
-
-                                            
-                                        </div>
-                                    </div>
-
+                           
 
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -247,6 +233,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                               <label for="inputName3" class="col-sm-4 control-label">FRate<label class="Mandatory"></label></label>
+                                            <div class="col-sm-8">
+
+                                                @Html.TextBoxFor(C => C.FRate, new { @id = "txtFRate", @class = "form-control", @TabIndex = 1,@readonly="readonly"})<br />
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -255,7 +252,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Total Value<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
 
-                                                @Html.TextBoxFor(C => C.TotalValue, new { @id = "txtProdSchNo", @class = "form-control", @TabIndex = 1 })<br />
+                                                @Html.TextBoxFor(C => C.TotalValue, new { @id = "txtTotalValue", @class = "form-control", @TabIndex = 1 ,@readonly="readonly"})<br />
 
 
                                             </div>
@@ -263,17 +260,7 @@
                                     </div>
 
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-
-                                               <label for="inputName3" class="col-sm-4 control-label">FRate<label class="Mandatory"></label></label>
-                                            <div class="col-sm-8">
-
-                                                @Html.TextBoxFor(C => C.FRate, new { @id = "txtLotNo", @class = "form-control", @TabIndex = 1 })<br />
-
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                           <div style="height:30px;"></div>
                                 <div class="col-lg-10"></div>
@@ -328,7 +315,7 @@
             success: function (response) {
                 var newlist;
                 newlist = response.Itemlst;
-                PopulateDropDown("#ddlItemId", response);
+                PopulateDropDownn("#ddlItemId", response);
             },
             error: function () {
                 debugger;
@@ -336,21 +323,7 @@
             }
         });
 
-        $.ajax({
-            url: 'GetItemDetail',
-            data: { "ItemId": ItemId },
-            type: "GET",
-            success: function (result) {
-
-                document.getElementById("txtTotalQty").value = result.qty;
-                
-               
-
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-        });
+       
         $.ajax({
             url: "GetShiftJSON",
             type: "post",
@@ -359,7 +332,7 @@
             success: function (response) {
                 var newlist;
                 newlist = response.Shiftlst;
-                PopulateDropDown("#ddlShift", response);
+                PopulateDropDownn("#ddlShift", response);
             },
             error: function () {
                 debugger;
@@ -381,7 +354,7 @@
                          //alert(item.batch);
             var Drum = "<td><input class='form-control' id='txtdrum" + index + "' name='Curinglst[" + index + "].drum'  style='width: 100px;' type='text'  readonly='True'  value=" + item.drum + " /><input class='form-control' id='txtdrum" + index + "' name='Curinglst[" + index + "].drum'  style='width: 100px;' type='hidden'  readonly='True'  value=" + item.drum + " /><input id='txtdrumid" + index + "' name='Curinglst[" + index + "].drumid' type='hidden'  value=" + item.drumid + "></td>";
 
-                    var Batch = "<td><label>" + item.batch + "</label><input type='hidden' value=" + item.batch + " id='txtbatch" + index + "' name='Curinglst[" + index + "].batch'></td>";
+                    var Batch = "<td><label>" + item.batch + "</label><input type='hidden' value='" + item.batch + "' id='txtbatch" + index + "' name='Curinglst[" + index + "].batch'><input type='hidden' value='" + item.rate + "' id='txtrate" + index + "' name='Curinglst[" + index + "].rate'><input type='hidden' value='" + item.amount + "' id='txtamount" + index + "' name='Curinglst[" + index + "].amount'><input type='hidden' value='" + item.packid + "' id='txtpackid" + index + "' name='Curinglst[" + index + "].packid'><input type='hidden' value='" + item.shed + "' id='txtshed" + index + "' name='Curinglst[" + index + "].shed'></td>";
 
                     var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='Curinglst[" + index + "].qty'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " , onkeyup = 'changeQty(this, " + index + ")'  /><input class='form-control' id='txtqty" + index + "' name='Curinglst[" + index + "].qty'  style='width: 80px;' type='hidden' readonly='True' value=" + item.qty + "  /></td>";
 
@@ -393,6 +366,7 @@
          var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + Batch + Qty + Comp  + "</tr>";
         
         $("#tbBooks").append(newRow);
+         changeQty(0,index);
         });
         //}
                 },
@@ -400,23 +374,58 @@
                 alert("Data Not Found");
             }
         });
+        //  $.ajax({
+        //    url: 'GettimeDetail',
+        //    data: { "ItemId": ItemId },
+        //    type: "GET",
+        //    success: function (result) {
+                
+                 
+              
+        //        document.getElementById("txtfromtime").value = result.fromtime;
+        //        document.getElementById("txttotime" ).value = result.totime;
+                 
+        //    },
+        //    error: function () {
+        //        alert("Data Not Found");
+        //    }
+        //});
         }
           function changeQty(_this, i) {
                  try {
                      var j = 0;
                      var qty = 0;
                      var tot = 0;
+                       var rate = 0;
+                     var totrate = 0;
+                       var amount = 0;
+                     var totamt = 0;
                      $('tr.chkitemlst').each(function () {
                          if ($(this).css('display') !== 'none') {
                               qty = $(this).find('#txtqty' + j.toString()).val();
                              if (qty == "")
                          qty = 0;
-
+                         }
                           tot += eval(qty);
+                           if ($(this).css('display') !== 'none') {
+                              rate = $(this).find('#txtrate' + j.toString()).val();
+                             if (rate == "")
+                         rate = 0;
+                         
+                          totrate += eval(rate);
+                           }
+                          if ($(this).css('display') !== 'none') {
+                              amount = $(this).find('#txtamount' + j.toString()).val();
+                             if (amount == "")
+                         amount = 0;
+
+                          totamt += eval(amount);
                                }
                          j += 1;
                      });
             document.getElementById("txtTotalQty").value = tot.toFixed(2);
+            document.getElementById("txtFRate").value = totrate.toFixed(2);
+            document.getElementById("txtTotalValue").value = totamt.toFixed(2);
                  }
                  catch (ex) {
                      alert(ex.message);
@@ -453,6 +462,19 @@
             });
         }
         $(dropDownId).trigger("liszt:updated");
+    }
+     function PopulateDropDownn(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('');
+        var fvalue="";
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                fvalue = this['value'];
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).select2().val(fvalue).trigger("change");
     }
      function changeDrumDet(ItemId, i) {
         $.ajax({
