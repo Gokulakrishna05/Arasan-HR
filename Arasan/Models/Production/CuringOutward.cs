@@ -26,6 +26,7 @@ namespace Arasan.Models
         public string ID { get; set; }
         public string DocId { get; set; }
         public string Docdate { get; set; }
+        public string ddlStatus { get; set; }
         public string PackingNote { get; set; }
         public string ProdSchNo { get; set; }
         public string FRate { get; set; }
@@ -76,5 +77,18 @@ namespace Arasan.Models
         public string Isvalid { get; set; }
         //public List<SelectListItem> outputlst;
 
+    }
+
+    public class CuringOutwardListItem
+    {
+        public string id { get; set; }
+        public string branch { get; set; }
+        public string docId { get; set; }
+        public string docdate { get; set; }
+        public string itemId { get; set; }
+        public string shi { get; set; }
+        public string viewrow { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
     }
 }
