@@ -24,7 +24,7 @@ namespace Arasan.Controllers
 
             //ic.STypelst = BindSType();
             //ic.statuslst = BindStatus();
-            ic.Sublst = BindSubgroup();
+            //ic.Sublst = BindSubgroup();
             if (id == null)
             {
 
@@ -36,9 +36,8 @@ namespace Arasan.Controllers
                 dt = CuringService.GetCuringDetails(id);
                 if (dt.Rows.Count > 0)
                 {
-                    ic.Location = dt.Rows[0]["LOCATIONID"].ToString();
-                    ic.Sub = dt.Rows[0]["SUBGROUP"].ToString();
-                    ic.Shed = dt.Rows[0]["SHEDNUMBER"].ToString();
+                    ic.Location = dt.Rows[0]["LOCID"].ToString();
+                    ic.binid = dt.Rows[0]["BINID"].ToString();
                     ic.Cap = dt.Rows[0]["CAPACITY"].ToString();
                     ic.ID = id;
                 }
@@ -96,8 +95,7 @@ namespace Arasan.Controllers
             if (dt.Rows.Count > 0)
             {
                 ic.Location = dt.Rows[0]["LOCID"].ToString();
-                ic.Sub = dt.Rows[0]["SUBGROUP"].ToString();
-                ic.Shed = dt.Rows[0]["SHEDNUMBER"].ToString();
+                ic.binid = dt.Rows[0]["BINID"].ToString();
                 ic.Cap = dt.Rows[0]["CAPACITY"].ToString();
                 ic.ID = id;
             }
@@ -151,25 +149,25 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindSubgroup() 
-        {
-            try
-            {
-                DataTable dtDesg = CuringService.GetSubgroup();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SUBGROUP"].ToString(), Value = dtDesg.Rows[i]["SUBGROUP"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public List<SelectListItem> BindSubgroup() 
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = CuringService.GetSubgroup();
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SUBGROUP"].ToString(), Value = dtDesg.Rows[i]["SUBGROUP"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteMR(string tag, string id)
         {
 
             string flag = CuringService.StatusChange(tag, id);
@@ -184,7 +182,7 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListCuring");
             }
         }
-        public ActionResult Remove(string tag, int id)
+        public ActionResult Remove(string tag, string id)
         {
 
             string flag = CuringService.RemoveChange(tag, id);
@@ -204,7 +202,7 @@ namespace Arasan.Controllers
         {
             List<CuringGrid> Reg = new List<CuringGrid>();
             DataTable dtUsers = new DataTable();
-            strStatus = strStatus == "" ? "Action" : strStatus;
+            strStatus = strStatus == "" ? "Y" : strStatus;
             dtUsers = CuringService.GetAllCuring(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
@@ -212,27 +210,26 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                if (dtUsers.Rows[i]["STATUS"].ToString() == "Active")
+                if (dtUsers.Rows[i]["ACTIVE"].ToString() == "Y")
                 {
 
-                    EditRow = "<a href=Curing?id=" + dtUsers.Rows[i]["CURINGMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CURINGMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    EditRow = "<a href=Curing?id=" + dtUsers.Rows[i]["BINBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["BINBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 }
                 else
                 {
 
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["CURINGMASTERID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["BINBASICID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
 
                 }
 
                
                 Reg.Add(new CuringGrid
                 {
-                    id = dtUsers.Rows[i]["CURINGMASTERID"].ToString(),
+                    id = dtUsers.Rows[i]["BINBASICID"].ToString(),
                     location = dtUsers.Rows[i]["LOCID"].ToString(),
-                    sub = dtUsers.Rows[i]["SUBGROUP"].ToString(),
-                    shed = dtUsers.Rows[i]["SHEDNUMBER"].ToString(),
+                    binid = dtUsers.Rows[i]["BINID"].ToString(),
                     cap = dtUsers.Rows[i]["CAPACITY"].ToString(),
                     editrow = EditRow,
                     delrow = DeleteRow,

@@ -20,23 +20,23 @@ namespace Arasan.Services
         public DataTable GetCuring()
         {
             string SvSql = string.Empty;
-            SvSql = "select LOCDETAILSID,LOCID from LOCDETAILS where LOCID = 'CURING'";
+            SvSql = "select LOCDETAILSID,LOCID from LOCDETAILS ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetSubgroup()
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select SUBGROUP,CURINGSUBGROUPMASTID from CURINGSUBGROUPMAST";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //public DataTable GetSubgroup()
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "Select SUBGROUP,CURINGSUBGROUPMASTID from CURINGSUBGROUPMAST";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         //public IEnumerable<Curing> GetAllCuring(string status)
         //{
         //    if (string.IsNullOrEmpty(status))
@@ -109,7 +109,7 @@ namespace Arasan.Services
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(SHEDNUMBER) as cnt FROM CURINGMASTER WHERE SHEDNUMBER = LTRIM(RTRIM('" + cy.Shed + "'))";
+                    svSQL = " SELECT Count(BINID) as cnt FROM BINBASIC WHERE BINID = LTRIM(RTRIM('" + cy.binid + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Curing Already Existed";
@@ -119,7 +119,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("CURINGMASTERPROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("BINBASICPROC", objConn);
                     /*objCmd.Connection = objConn;
                     objCmd.CommandText = "COUNTRYPROC";*/
 
@@ -135,21 +135,20 @@ namespace Arasan.Services
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
 
-                    objCmd.Parameters.Add("LOCATIONID", OracleDbType.NVarchar2).Value = cy.Location;
-                    objCmd.Parameters.Add("SUBGROUP", OracleDbType.NVarchar2).Value = cy.Sub;
-                    objCmd.Parameters.Add("SHEDNUMBER", OracleDbType.NVarchar2).Value = cy.Shed;
+                    objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
+                    objCmd.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = cy.binid;
                     objCmd.Parameters.Add("CAPACITY", OracleDbType.NVarchar2).Value = cy.Cap;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Active";
-                    if (cy.ID == null)
-                    {
-                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.createdby;
-                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                    }
-                    else
-                    {
-                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.createdby;
-                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                    }
+                    objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    //if (cy.ID == null)
+                    //{
+                    //    objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.createdby;
+                    //    objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    //}
+                    //else
+                    //{
+                    //    objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.createdby;
+                    //    objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    //}
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -176,7 +175,7 @@ namespace Arasan.Services
         public DataTable GetCuringDeatil(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select CURINGMASTERID,LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,CAPACITY from CURINGMASTER LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID = CURINGMASTER.LOCATIONID where CURINGMASTERID='" + id + "' ";
+            SvSql = "select BINBASICID,LOCDETAILS.LOCID,BINID,BINDESC,CAPACITY from BINBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID = BINBASIC.LOCID where BINBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -187,7 +186,7 @@ namespace Arasan.Services
         public DataTable GetCuringDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select CURINGMASTERID,LOCATIONID,SUBGROUP,SHEDNUMBER,CAPACITY from CURINGMASTER where CURINGMASTERID='" + id + "' ";
+            SvSql = "select BINBASICID,LOCID,BINID,CAPACITY from BINBASIC where BINBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -195,14 +194,14 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public string StatusChange(string tag, int id)
+        public string StatusChange(string tag, string id)
         {
             try
             {
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CURINGMASTER SET STATUS ='InActive' WHERE CURINGMASTERID='" + id + "'";
+                    svSQL = "UPDATE BINBASIC SET ACTIVE ='N' WHERE BINBASICID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -216,14 +215,14 @@ namespace Arasan.Services
             }
             return "";
 
-        }public string RemoveChange(string tag, int id)
+        }public string RemoveChange(string tag, string id)
         {
             try
             {
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CURINGMASTER SET STATUS ='Active' WHERE CURINGMASTERID='" + id + "'";
+                    svSQL = "UPDATE BINBASIC SET ACTIVE ='Y' WHERE BINBASICID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -242,16 +241,21 @@ namespace Arasan.Services
         public DataTable GetAllCuring(string strStatus)
         {
             string SvSql = string.Empty;
-            if (strStatus == "Active" || strStatus == null)
+            SvSql = " Select  ACTIVE, BINBASICID,LOCDETAILS.LOCID,BINID,BINDESC,CAPACITY from BINBASIC  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=BINBASIC.LOCID WHERE ";
+
+            if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "select  CURINGMASTER.STATUS,CURINGMASTERID,LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,CAPACITY from CURINGMASTER  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=CURINGMASTER.LOCATIONID WHERE CURINGMASTER.STATUS ='Active' ORDER BY CURINGMASTERID DESC ";
+                SvSql += " BINBASIC.ACTIVE ='Y' " ;
 
             }
             else
             {
-                SvSql = "select  CURINGMASTER.STATUS,CURINGMASTERID,LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,CAPACITY from CURINGMASTER  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=CURINGMASTER.LOCATIONID WHERE CURINGMASTER.STATUS ='InActive' ORDER BY CURINGMASTERID DESC ";
+                SvSql += " BINBASIC.ACTIVE ='N'";
 
             }
+            
+            SvSql += "ORDER BY BINBASICID DESC";
+
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

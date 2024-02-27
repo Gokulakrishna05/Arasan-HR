@@ -17,8 +17,8 @@ namespace Arasan.Models
 
         public List<SelectListItem> Sublst;
 
-        public string Sub { get; set; }
-        public string Shed { get; set; }
+        public string binid { get; set; }
+
 
         public string Cap { get; set; }
 
@@ -37,8 +37,7 @@ namespace Arasan.Models
         public string location { get; set; }
 
 
-        public string sub { get; set; }
-        public string shed { get; set; }
+        public string binid { get; set; }
 
         public string cap { get; set; }
         public string editrow { get; set; }
