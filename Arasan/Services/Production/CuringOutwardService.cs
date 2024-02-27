@@ -180,20 +180,20 @@ namespace Arasan.Services
                                 {
                                  objConns.Open();
                                     OracleCommand objCmds = new OracleCommand("CURINGOUTWARDDETPROC", objConns);
-                                    if (cy.ID == null)
-                                    {
-                                        StatementType = "Insert";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
- 
+                                if (cy.ID == null)
+                                {
+                                    StatementType = "Insert";
+                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
 
-                             
+                                }
+
                                 else
                                 {
                                     StatementType = "Update";
                                     objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
 
- 
-                                    }
+
+                                }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("CUROPBASICID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = cp.drum;
