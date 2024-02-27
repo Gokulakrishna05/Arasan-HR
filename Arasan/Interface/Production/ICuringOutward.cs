@@ -14,14 +14,15 @@ namespace Arasan.Interface
         DataTable GetBatch(string id);
         DataTable GetPackingNote();
         DataTable GetItembyId(string id);
-        DataTable GetQty(string id);
+         
         DataTable GetPackingDetail(string id);
-        IEnumerable<CuringOutward> GetAllCuringOutward(string st,string ed);
+        //IEnumerable<CuringOutward> GetAllCuringOutward(string st,string ed);
         string  CuringOutwardCRUD(CuringOutward Cy);
         DataTable Getcuringoutward(string id);
         DataTable GetCuringDetail(string id);
         DataTable GetCuringOutwardByName(string name); 
         DataTable CuringOutwardDetail(string name);
         string StatusChange(string tag, int id);
+        DataTable GetAllCuringOutwardDetails(string strStatus, string st, string ed);
     }
 }

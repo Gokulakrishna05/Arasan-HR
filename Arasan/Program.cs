@@ -222,6 +222,10 @@ internal class Program
         builder.Services.TryAddSingleton<IWCSieveService, WCSieveService>();
 
         builder.Services.TryAddSingleton<ISieve, SieveService>();
+        builder.Services.TryAddSingleton<INatofworkService, NatofworkService>();
+        builder.Services.TryAddSingleton<IProcessMastService, ProcessMastService>();
+        builder.Services.TryAddSingleton<IBatchReportService, BatchReportService>();
+
 
 
 

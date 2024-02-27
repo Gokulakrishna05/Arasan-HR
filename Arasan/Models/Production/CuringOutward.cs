@@ -25,7 +25,10 @@ namespace Arasan.Models
         public string ToWork { get; set; }
         public string ID { get; set; }
         public string DocId { get; set; }
+        public string fromtime { get; set; }
+        public string totime { get; set; }
         public string Docdate { get; set; }
+        public string ddlStatus { get; set; }
         public string PackingNote { get; set; }
         public string ProdSchNo { get; set; }
         public string FRate { get; set; }
@@ -72,9 +75,25 @@ namespace Arasan.Models
 
 
         public string comp { get; set; }
+        public string amount { get; set; }
+        public string rate { get; set; }
+        public string packid { get; set; }
         public string shed { get; set; }
         public string Isvalid { get; set; }
         //public List<SelectListItem> outputlst;
 
+    }
+
+    public class CuringOutwardListItem
+    {
+        public string id { get; set; }
+        public string branch { get; set; }
+        public string docId { get; set; }
+        public string docdate { get; set; }
+        public string itemId { get; set; }
+        public string shi { get; set; }
+        public string viewrow { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
     }
 }
