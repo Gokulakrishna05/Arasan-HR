@@ -520,28 +520,28 @@ namespace Arasan.Services.Sales
 
         }
 
-        public string StatusChange(string tag, int id)
-        {
-            try
-            {
-                string svSQL = string.Empty;
-                using (OracleConnection objConnT = new OracleConnection(_connectionString))
-                {
-                    svSQL = "UPDATE SALES_QUOTE SET STATUS ='CLOSE' WHERE ID='" + id + "'";
-                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
-                    objConnT.Open();
-                    objCmds.ExecuteNonQuery();
-                    objConnT.Close();
-                }
+        //public string StatusChange(string tag, int id)
+        //{
+        //    try
+        //    {
+        //        string svSQL = string.Empty;
+        //        using (OracleConnection objConnT = new OracleConnection(_connectionString))
+        //        {
+        //            svSQL = "UPDATE SALES_QUOTE SET STATUS ='CLOSE' WHERE ID='" + id + "'";
+        //            OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+        //            objConnT.Open();
+        //            objCmds.ExecuteNonQuery();
+        //            objConnT.Close();
+        //        }
 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return "";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return "";
 
-        }
+        //}
 
         //public DataTable GetSalesQuotationByName(string name)
         //{
@@ -670,7 +670,45 @@ namespace Arasan.Services.Sales
             }
 
         }
+        public string StatusDeleteMR(string tag, int id)
+        {
 
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE SALES_QUOTE SET IS_ACTIVE ='N' WHERE SALESQUOTEID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+        }
+        public DataTable GetAllListSalesQuotationItems(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "SELECT SALESQUOTEID,QUOTE_NO,to_char(SALES_QUOTE.QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,QUOTETYPE FROM SALES_QUOTE WHERE SALES_QUOTE.IS_ACTIVE='Y' ORDER BY SALES_QUOTE.SALESQUOTEID DESC";
+            }
+            else
+            {
+                SvSql = "SELECT SALESQUOTEID,QUOTE_NO,to_char(SALES_QUOTE.QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,QUOTETYPE FROM SALES_QUOTE WHERE SALES_QUOTE.IS_ACTIVE='N' ORDER BY SALES_QUOTE.SALESQUOTEID DESC";
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
 

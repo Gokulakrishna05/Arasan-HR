@@ -44,6 +44,11 @@ namespace Arasan.Controllers
             ca.Typelst = BindCusType();
             ca.EnqDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Currency = "1";
+            DataTable dtv = datatrans.GetSequence("taai");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.EnqNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
             List<SalesItem> TData = new List<SalesItem>();
             SalesItem tda = new SalesItem();
             if (id == null)
@@ -331,7 +336,7 @@ namespace Arasan.Controllers
                 string contact = "";
                 string city = "";
                 string pin = "";
-                string Mob = "";
+                string mob = "";
 
 
                 dt = Sales.GetCustomerDetails(ItemId);
@@ -346,11 +351,11 @@ namespace Arasan.Controllers
                 
                    
                         pin = dt.Rows[0]["PINCODE"].ToString();
-                    Mob = dt.Rows[0]["MOBILE"].ToString();
+                    mob = dt.Rows[0]["MOBILE"].ToString();
                    
                 }
 
-                var result = new { address = address, contact= contact, city = city, pin = pin , Mob = Mob };
+                var result = new { address = address, contact= contact, city = city, pin = pin , mob = mob };
                 return Json(result);
             }
             catch (Exception ex)
@@ -473,8 +478,64 @@ namespace Arasan.Controllers
         }
         public IActionResult ListSalesEnquiry()
         {
-            IEnumerable<SalesEnquiry> cmp = Sales.GetAllSalesEnq();
-            return View(cmp);
+            //IEnumerable<SalesEnquiry> cmp = Sales.GetAllSalesEnq();
+            return View();
+        }
+        public ActionResult MyListSalesEnquiryGrid(string strStatus)
+        {
+            List<SalesEnquiryItems> Reg = new List<SalesEnquiryItems>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)Sales.GetAllListSalesEnquiryItem(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string SendMail = string.Empty;
+                string Followup = string.Empty;
+                string Moved = string.Empty;
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+
+                SendMail = "<a href=SendMail?id=" + dtUsers.Rows[i]["SALESENQUIRYID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
+                Followup = "<a href=Followup?id=" + dtUsers.Rows[i]["SALESENQUIRYID"].ToString() + "><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a>";
+
+
+                if (dtUsers.Rows[i]["STATUS"].ToString() == "Generated")
+                {
+                    Moved = "<img src='../Images/tick.png' alt='Moved to Quote' width='20' />";
+                    EditRow = "";
+                }
+                else
+                {
+                    //Moved = dtUsers.Rows[i]["STATUS"].ToString();
+                    Moved = "<a href=ViewQuote?id=" + dtUsers.Rows[i]["SALESENQUIRYID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                    EditRow = "<a href=Sales_Enquiry?id=" + dtUsers.Rows[i]["SALESENQUIRYID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+
+                }
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["SALESENQUIRYID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new SalesEnquiryItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["SALESENQUIRYID"].ToString()),
+                    enqno = dtUsers.Rows[i]["ENQ_NO"].ToString(),
+                    date = dtUsers.Rows[i]["ENQ_DATE"].ToString(),
+                    type = dtUsers.Rows[i]["ENQ_TYPE"].ToString(),
+                    sendmail = SendMail,
+                    followup = Followup,
+                    move = Moved,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
         public IActionResult Followup(string id)
         {

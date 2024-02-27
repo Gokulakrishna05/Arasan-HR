@@ -38,6 +38,7 @@ namespace Arasan.Models
         public string OrderType { get; set; }
         public string RateCode { get; set; }
         public string Narr { get; set; }
+        public string ddlStatus { get; set; }
         public List<WorkItem> Worklst { get; set; }
     }
     public class WorkItem
@@ -115,5 +116,17 @@ namespace Arasan.Models
         public string qty { get; set; }
         public string rate { get; set; }
         public string invid { get; set; }
+    }
+    public class WorkOrderItems
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string enqno { get; set; }
+        public string customer { get; set; }
+        public string date { get; set; }
+        public string loc { get; set; }
+        public string clo { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
     }
 }

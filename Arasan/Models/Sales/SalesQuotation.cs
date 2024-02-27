@@ -79,6 +79,7 @@ namespace Arasan.Models
         public string status { get; set; }
         public string narration { get; set; }
         public string QuoteFormatId { get; set; }
+        public string ddlStatus { get; set; }
         public List<QuoItem> QuoLst { get; set; }
        
         public List<SelectListItem> QuoteFormatList { get; set; }
@@ -181,5 +182,17 @@ namespace Arasan.Models
         public double IGSTAMT { get; set; }
         public string AMTINWORDS { get; set; }
 
+    }
+    public class SalesQuotationItems
+    {
+        public long id { get; set; }
+        public string enqno { get; set; }
+        public string date { get; set; }
+        public string type { get; set; }
+        public string sendmail { get; set; }
+        public string followup { get; set; }
+        public string generate { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
     }
 }

@@ -156,10 +156,66 @@ namespace Arasan.Controllers.Sales
 
             return View(Cy);
         }
-        public IActionResult ListWorkOrder(string status)
+        public IActionResult ListWorkOrder()
         {
-            IEnumerable<WorkOrder> cmp = WorkOrderService.GetAllWorkOrder(status);
-            return View(cmp);
+            //IEnumerable<WorkOrder> cmp = WorkOrderService.GetAllWorkOrder(status);
+            return View();
+        }
+        public ActionResult MyListWorkOrderGrid(string strStatus)
+        {
+            List<WorkOrderItems> Reg = new List<WorkOrderItems>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)WorkOrderService.GetAllListWorkOrderItems(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string Close = string.Empty;
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+
+                Close = "<a href=/WorkOrderShortClose/WorkOrderShortClose?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/close_icon.png' alt='close' /></a>";
+                EditRow = "<a href=WorkOrder?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                
+                Reg.Add(new WorkOrderItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["JOBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    enqno = dtUsers.Rows[i]["DOCID"].ToString(),
+                    customer = dtUsers.Rows[i]["PARTY"].ToString(),
+                    date = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    loc = dtUsers.Rows[i]["LOCID"].ToString(),
+                    clo = Close,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = WorkOrderService.StatusDeleteMR(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListWorkOrder");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListWorkOrder");
+            }
         }
         public List<SelectListItem> BindCurrency()
             {
@@ -203,7 +259,7 @@ namespace Arasan.Controllers.Sales
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["QUOTE_NO"].ToString(), Value = dtDesg.Rows[i]["ID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["QUOTE_NO"].ToString(), Value = dtDesg.Rows[i]["SALESQUOTEID"].ToString() });
                 }
                 return lstdesg;
             }

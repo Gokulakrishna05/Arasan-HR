@@ -25,5 +25,6 @@ namespace Arasan.Interface
         IEnumerable<SalesItem> GetAllSalesenquriyItem(string id);
 
         string StatusChange(string tag, int id);
+        DataTable GetAllListSalesEnquiryItem(string strStatus);
     }
 }

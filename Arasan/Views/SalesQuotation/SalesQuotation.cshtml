@@ -890,7 +890,7 @@
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='QuoLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='QuoLst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + ConFac  + Quantity + Des + Rate + Amount + Disc + DiscAmount + FrigCharge  + CGSTP + SGSTP + IGSTP + CGST + SGST + IGST + TotalAmount +  removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Item + Unit + ConFac  + Quantity + Des + Rate + Amount + Disc + DiscAmount + FrigCharge  + CGSTP + SGSTP + IGSTP + CGST + SGST + IGST + TotalAmount +  removeCell + "</tr>";
         @*//alert(Packing);*@
         $("#tbBooks").append(newRow);
         $(function() {
