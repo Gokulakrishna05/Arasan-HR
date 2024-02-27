@@ -715,7 +715,7 @@ namespace Arasan.Controllers
                    
                     tda4.drumlst = BindDrum();
                     tda4.statuslst = BindStatus();
-                    tda4.drumno = dt6.Rows[i]["DRUMNO"].ToString();
+                    tda4.drumno = dt6.Rows[i]["OCDRUMNO"].ToString();
                     tda4.unit = dt6.Rows[i]["UNITID"].ToString();
                     tda4.FromTime = dt6.Rows[i]["STIME"].ToString();
                     tda4.ToTime = dt6.Rows[i]["ETIME"].ToString();
@@ -1051,7 +1051,7 @@ namespace Arasan.Controllers
                     }
                     else
                     {
-                        dt = IProductionEntry.SaveInputDetails(id, item, bin, time, qty, stock, batch, drum, r, rate);
+                       dt = IProductionEntry.SaveInputDetails(id, item, bin, time, qty, stock, batch, drum, r, rate);
                         r++;
                     }
                    
@@ -1406,7 +1406,7 @@ namespace Arasan.Controllers
             List<LogDetails> TTData5 = new List<LogDetails>();
             LogDetails tda5 = new LogDetails();
             string ebcost = datatrans.getebcost();
-            
+          
             ca.EBCOST = ebcost;
             if (tag == "2")
 			{
@@ -1438,8 +1438,8 @@ namespace Arasan.Controllers
                        //ca.batchid = dt.Rows[0]["batchid"].ToString();
                         ca.batchcomplete = dt.Rows[0]["BATCHCOMP"].ToString();
                         ca.APID = id;
-                        string ebcostphr = datatrans.GetDataString("Select EBCONSPERHR from wcbasic where wcbasicid='" + dt.Rows[0]["WCBASICID"].ToString()  + "'");
-                        ca.EBCOSTPHR= ebcostphr;
+                        string ebcostphr = datatrans.GetDataString("Select EBCONSPERHR from wcbasic where wcbasicid='" + dt.Rows[0]["WCBASICID"].ToString() + "'");
+                        ca.EBCOSTPHR = ebcostphr;
                     }
                  
                         for (int i = 0; i < 3; i++)
@@ -1609,7 +1609,10 @@ namespace Arasan.Controllers
                         ca.batchid = datatrans.GetDataString("SELECT BCPRODBASICID FROM BCPRODBASIC WHERE DOCID='" + ca.BatchNo + "'");
                         ca.batchcomplete = dt.Rows[0]["BATCHCOMP"].ToString();
                         ca.APID = id;
+                        string ebcostphr = datatrans.GetDataString("Select EBCONSPERHR from wcbasic where wcbasicid='" + dt.Rows[0]["WCBASICID"].ToString() + "'");
+                        ca.EBCOSTPHR = ebcostphr;
                     }
+
                     DataTable dt2 = new DataTable();
                     DataTable dtstk = new DataTable();
                     dt2 = IProductionEntry.GetInput(id);
@@ -1767,7 +1770,7 @@ namespace Arasan.Controllers
                             tda4.StID = dt6.Rows[i]["STATUS"].ToString();
                             tda4.unit = dt6.Rows[i]["UNITID"].ToString();
                             tda4.ExcessQty = Convert.ToDouble(dt6.Rows[i]["OXQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OXQTY"].ToString());
-                            tda4.drumno = dt6.Rows[i]["ODRUMNO"].ToString();
+                            tda4.drumno = dt6.Rows[i]["OCDRUMNO"].ToString();
                             tda4.FromTime = dt6.Rows[i]["STIME"].ToString();
                             tda4.ToTime = dt6.Rows[i]["ETIME"].ToString();
                             tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OQTY"].ToString());
@@ -1779,6 +1782,7 @@ namespace Arasan.Controllers
                                 tda4.Status = dt7.Rows[i]["MOVETOQC"].ToString();
                             }
                             tda4.APID = id;
+                            tda4.isoutinsert = "Y";
                             tda4.Isvalid = "Y";
                             TData4.Add(tda4);
 
@@ -1869,7 +1873,8 @@ namespace Arasan.Controllers
                         ca.BatchNo = adt.Rows[0]["BATCH"].ToString();
                         ca.batchid = datatrans.GetDataString("SELECT BCPRODBASICID FROM BCPRODBASIC WHERE DOCID='" + ca.BatchNo + "'");
                         ca.batchcomplete = adt.Rows[0]["BATCHCOMP"].ToString();
-                         
+                        string ebcostphr = datatrans.GetDataString("Select EBCONSPERHR from wcbasic where wcbasicid='" + adt.Rows[0]["WCBASICID"].ToString() + "'");
+                        ca.EBCOSTPHR = ebcostphr;
                         ca.APID= apID;
                     }
                   
@@ -2197,7 +2202,10 @@ namespace Arasan.Controllers
                         ca.BatchNo = adt.Rows[0]["BATCH"].ToString();
                         ca.batchcomplete = adt.Rows[0]["BATCHYN"].ToString();
                         ca.APID = id;
-                    }
+                   
+                    string ebcostphr = datatrans.GetDataString("Select EBCONSPERHR from wcbasic where wcbasicid='" + adt.Rows[0]["WCBASICID"].ToString() + "'");
+                    ca.EBCOSTPHR = ebcostphr;
+                }
 
                  
                         for (int i = 0; i < 1; i++)

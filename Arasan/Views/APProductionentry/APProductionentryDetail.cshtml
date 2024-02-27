@@ -390,7 +390,7 @@ a{
                                                         </td>
 
                                                                                                             <td>@Html.TextBoxFor(o => o.inplst[i].StockAvailable, new { @id = "txtStockAvailable" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" ,@readonly=true})</td>
-                                                                                                <td>@Html.TextBoxFor(o => o.inplst[i].IssueQty, new { @id = "txtIssueQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly=true})</td>
+                                                                                            <td>@Html.TextBoxFor(o => o.inplst[i].IssueQty, new { @id = "txtIssueQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly=true})@Html.HiddenFor(o => o.inplst[i].rate, new { @id = "hditemrate" + i })@Html.HiddenFor(o => o.inplst[i].amount, new { @id = "hditemamt" + i })</td>
 
                                                                             }
                                                                             else
@@ -584,8 +584,15 @@ a{
                                                                                                     
                                                                                                     </td>
                                                                                                    <td>@Html.TextBoxFor(o => o.outlst[m].unit, new { @id = "txtOunit" + m, @class = "form-control", style = "width: 100px;",@readonly=true}) </td>
-
-                                                                                                    <td>  @Html.DropDownListFor(o => o.outlst[m].drumno, Model.outlst[m].drumlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddldrumno" + m, style = "width: 170px;"})</td>
+                                                                                                      @if (item.isoutinsert != "Y")
+                                                                                {
+                                                                                    <td>  @Html.DropDownListFor(o => o.outlst[m].drumno, Model.outlst[m].drumlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddldrumno" + m, style = "width: 170px;"})</td>
+                                                                                }
+                                                                                else{
+                                                                                    <td>  <label style="width:170px;"> @Html.DisplayFor(o => o.outlst[m].drumno)</label></td>
+                                                                                    
+                                                                                }
+                                                                                                   
                                                                                                     <td>@Html.TextBoxFor(o => o.outlst[m].BinId, new { @id = "txtOutBinId" + m, @class = "form-control", style = "width: 100px;",@readonly=true}) @Html.HiddenFor(o => o.outlst[m].outBin, new { @id = "txtOutBin" + m, @class = "form-control", style = "width: 100px;"})</td>
                                                                                                     <td><div class="input-group date form_time col-md-5" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
                                                             @Html.TextBoxFor(o => o.outlst[m].FromTime, new { @id = "txtFromTime" + m, @class = "form-control", style = "width: 70px; " ,@readonly=true})
@@ -604,7 +611,7 @@ a{
                                                                                                     <td>@Html.TextBoxFor(o => o.outlst[m].ExcessQty, new { @id = "txtExcessQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" })</td>
                                                                                                     <td>@Html.TextBoxFor(o => o.outlst[m].StockQty, new { @id = "txtStockQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right",@readonly="readonly" })</td>
                                                                                                     <td>@Html.DropDownListFor(o => o.outlst[m].StID, Model.outlst[m].statuslst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlstatus" + m, style = "width: 120px;" })</td>
-                                                                                                    @if (item.Result != "Ok")
+                                                                                                    @if (item.isoutinsert != "Y")
                                                                                 {
                                                                                                         <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="outputsave(@(m))" >Save </button></td>
                                                                                 }
@@ -1060,7 +1067,8 @@ a{
               
                             <div class="col-lg-10" hidden id="go">
                                 <div class="col-lg-10"></div>
-                                    <button type="button" href="@Url.Action("APProdApprove", "APProductionentry", new { id = Model.APID })" class="btn aqua fancybox" data-fancybox-type='iframe' id="btnSave">Submit</button>
+                                    <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                                   @* <button type="button" href="@Url.Action("APProdApprove", "APProductionentry", new { id = Model.APID })" class="btn aqua fancybox" data-fancybox-type='iframe' id="btnSave">Submit</button>*@
                             <button class="btn btn-danger" type="button"  causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("ListAPProductionentry", "APProductionentry")'">Cancel</button>
                             </div>
                             </div>
@@ -1099,7 +1107,9 @@ a{
     startView: 1,
     minView: 0,
     maxView: 1,
-    forceParse: 0
+    forceParse: 0,
+       @* minTime: '12:00 AM'
+        maxTime: '11:30 PM'*@
     });
     function changeshift(Shiftid) {
         $.ajax({
@@ -1235,7 +1245,7 @@ a{
             data: { "id": id, "ItemId": ItemId, "drum": drum, "time": time, "qty": qty, "totime": totime, "exqty": exqty, "stat": stat, "stock": stock, "loc": loc, "work": work, "process": process, "shift": shift, "schedule": schedule, "doc": doc },
                         type: "POST",
                         success: function (result) {
-
+                location.reload();
                         },
                         error: function () {
 
@@ -1900,7 +1910,7 @@ a{
            var j =0;
             var i=0;
              var stk = document.getElementById("txtStockAvailable" + j).value;
-        var constk = document.getElementById("txtConsStock" + j).value;
+       
               var isValid = true;
             
              if(stk==0)
@@ -1916,30 +1926,32 @@ a{
                     var order = {};
                
                     order.ItemId = document.getElementById("ddlItem" + j).value;
-                    order.saveitemId = document.getElementById("txtsaveitemId" + j).value;
-                    order.BinId = document.getElementById("txtBin" + j).value;
-                    order.unit = document.getElementById("txtunit" + j).value;
-                    order.batchno = document.getElementById("ddlbatchno" + j).value;
-                    order.IssueQty = document.getElementById("txtIssueQty" + j).value;
+                   order.saveitemId = document.getElementById("ddlItem" + j).value;
+                 order.BinId = document.getElementById("txtBin" + j).value;
+     order.unit = document.getElementById("txtunit" + j).value;
+      order.batchno = document.getElementById("ddlbatchno" + j).value;
+     order.IssueQty = document.getElementById("txtIssueQty" + j).value;
                      order.Time = document.getElementById("txtITime" + j).value;
-                    order.APID = document.getElementById("hdapid").value;
+      order.APID = document.getElementById("hdapid").value;
                     order.StockAvailable = document.getElementById("txtStockAvailable" + j).value;
-                    order.drumno = document.getElementById("ddlIdrumno" + j).value;
-                    order.rate = document.getElementById("hditemrate" + j).value;
+    order.drumno = document.getElementById("ddlIdrumno" + j).value;
+                       order.rate = document.getElementById("hditemrate" + j).value;
                     ProInput.push(order);
                    
                 }
                  j += 1;
             });
 
-            $.ajax({
+         $.ajax({
                 type: "POST",
                 url: "InsertProInput",
             data: JSON.stringify(ProInput),
                 contentType: "application/json",
                 dataType: "json",
                 success: function (r) {
-                    //alert(r + " record(s) inserted.");
+                    alert(r);
+                   // window.location.reload();
+                    location.reload();
                 }
             });
 
@@ -1949,7 +1961,7 @@ a{
     function insertinputconsdetails() {
         var j = 0;
         var i = 0;
-        var stk = document.getElementById("txtStockAvailable" + j).value;
+     
         var constk = document.getElementById("txtConsStock" + j).value;
         var isValid = true;
 
@@ -1977,17 +1989,7 @@ a{
             });
           
 
-            $.ajax({
-                type: "POST",
-                url: "InsertConsInput",
-                data: JSON.stringify(APProInCons),
-                contentType: "application/json",
-                dataType: "json",
-                success: function (r) {
-                   // alert(r);
-                }
-            });
- 
+          
 
         $.ajax({
             type: "POST",
@@ -1997,6 +1999,7 @@ a{
             dataType: "json",
             success: function (r) {
                     alert(r);
+                    location.reload();
             }
         });
  
@@ -2039,6 +2042,7 @@ a{
                 dataType: "json",
                 success: function (r) {
                 alert(r);
+                location.reload();
                 }
             });
 
@@ -2080,6 +2084,7 @@ a{
             dataType: "json",
             success: function (r) {
                 alert(r);
+                location.reload();
             }
         });
 
