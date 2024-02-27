@@ -32,23 +32,23 @@ namespace Arasan.Controllers
         {
             PyroProductionentryDet ca = new PyroProductionentryDet();
             //ca.Complete = "No";
-            ca.Eng = Request.Cookies["UserName"];
-            ca.super = Request.Cookies["UserId"];
-            ca.Branch = Request.Cookies["BranchId"];
-            ca.Shiftlst = BindShift();
-            ca.worklst = BindWork(ca.super);
-            ca.Shiftlst = BindShift();
-            ca.Wclst = BindWorkedit(ca.super);
-            ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
-            ca.ProdSchlst = BindProdSch("");
-            ca.Plotlst = BindPLot("", "");
-            ca.ProdLog = "N";
-            ca.Processlst = BindProcess();
-            DataTable dtv = datatrans.GetSequence("nProd");
-            if (dtv.Rows.Count > 0)
-            {
-                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
-            }
+            //ca.Eng = Request.Cookies["UserName"];
+            //ca.super = Request.Cookies["UserId"];
+            //ca.Branch = Request.Cookies["BranchId"];
+            //ca.Shiftlst = BindShift();
+            //ca.worklst = BindWork(ca.super);
+            //ca.Shiftlst = BindShift();
+            //ca.Wclst = BindWorkedit(ca.super);
+            //ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            //ca.ProdSchlst = BindProdSch("");
+            //ca.Plotlst = BindPLot("", "");
+            //ca.ProdLog = "N";
+            //ca.Processlst = BindProcess();
+            //DataTable dtv = datatrans.GetSequence("nProd");
+            //if (dtv.Rows.Count > 0)
+            //{
+            //    ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
+            //}
             List<PBreakDet> TData3 = new List<PBreakDet>();
             PBreakDet tda3 = new PBreakDet();
             List<PProInput> TData = new List<PProInput>();
@@ -80,7 +80,7 @@ namespace Arasan.Controllers
                     TData3.Add(tda3);
 
                 }
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tda = new PProInput();
                     tda.APID = id;
@@ -576,14 +576,8 @@ namespace Arasan.Controllers
 
                 }
 
-                
-                
-               
-                
-                
-              
-                tda9 = new PBunkerDetail();
-                TData9.Add(tda9);
+                //tda9 = new PBunkerDetail();
+                //TData9.Add(tda9);
             }
 
 
@@ -602,54 +596,25 @@ namespace Arasan.Controllers
 
         public IActionResult PyroProduction(string id, string tag, string shift)
         {
-            PyroProduction ca = new PyroProduction();
+
+            PyroProductionentryDet ca = new PyroProductionentryDet();
+            //ca.Complete = "No";
             ca.Eng = Request.Cookies["UserName"];
             ca.super = Request.Cookies["UserId"];
+            ca.Branch = Request.Cookies["BranchId"];
+            ca.Shiftlst = BindShift();
             ca.worklst = BindWork(ca.super);
             ca.Shiftlst = BindShift();
             ca.Wclst = BindWorkedit(ca.super);
-
-            List<PBreakDet> TData3 = new List<PBreakDet>();
-            PBreakDet tda3 = new PBreakDet();
-            List<PProInput> TData = new List<PProInput>();
-            PProInput tda = new PProInput();
-            List<PProOutput> TData4 = new List<PProOutput>();
-            PProOutput tda4 = new PProOutput();
-            List<PAPProInCons> TData1 = new List<PAPProInCons>();
-            PAPProInCons tda1 = new PAPProInCons();
-            List<PEmpDetails> TTData2 = new List<PEmpDetails>();
-            PEmpDetails tda2 = new PEmpDetails();
-            List<PLogDetails> TTData5 = new List<PLogDetails>();
-            PLogDetails tda5 = new PLogDetails();
-
-            if (string.IsNullOrEmpty(id))
+            ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            ca.ProdSchlst = BindProdSch("");
+            ca.Plotlst = BindPLot("", "");
+            ca.ProdLog = "N";
+            ca.Processlst = BindProcess();
+            DataTable dtv = datatrans.GetSequence("nProd");
+            if (dtv.Rows.Count > 0)
             {
-                DataTable dtv = datatrans.GetSequence("PYRO");
-                if (dtv.Rows.Count > 0)
-                {
-                    ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
-                }
-                ca.Branch = Request.Cookies["BranchId"];
-                ca.Shift = "A";
-                if (!string.IsNullOrEmpty(tag))
-                {
-                    if (!string.IsNullOrEmpty(shift))
-                    {
-                        ca.Shift = shift;
-                    }
-                    else
-                    {
-                        ca.Shift = "A";
-                    }
-                    ca.Location = tag;
-                }
-                else
-                {
-
-                }
-
-                ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
-
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
             }
             return View(ca);
         }
