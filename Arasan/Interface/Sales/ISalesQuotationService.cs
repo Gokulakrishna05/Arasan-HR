@@ -39,10 +39,13 @@ namespace Arasan.Interface.Sales
         DataTable GetFollowup(string enqid);
         //DataTable GetSalesQuotationByName(string id);
         //DataTable GetSalesQuotationItem(string id);
-        string StatusChange(string tag, int id);
+        //string StatusChange(string tag, int id);
         DataTable GetSalesQuo(string id);
         DataTable GetSalesQuoItem(string id);
 
         Task<IEnumerable<SQuoItemDetail>> GetSQuoItem(string id);
+        DataTable GetAllListSalesQuotationItems(string strStatus);
+        string StatusDeleteMR(string tag, int id);
+
     }
 }

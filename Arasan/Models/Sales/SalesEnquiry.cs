@@ -50,6 +50,7 @@ namespace Arasan.Models
         public string UpdatedOn { get; set; }
         public string UpdatedBy { get; set; }
         public string TotalQty { get; set; }
+        public string ddlStatus { get; set; }
         public List<SalesItem> SalesLst { get; set; }
     }
     public class SalesItem
@@ -94,6 +95,19 @@ namespace Arasan.Models
         public string Followdate { get; set; }
         public string Nfdate { get; set; }
         public string Rmarks { get; set; }
+    }
+    public class SalesEnquiryItems
+    {
+        public long id { get; set; }
+        public string enqno { get; set; }
+        public string date { get; set; }
+        public string type { get; set; }
+        public string sendmail { get; set; }
+        public string followup { get; set; }
+        public string move { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+
     }
 }
    

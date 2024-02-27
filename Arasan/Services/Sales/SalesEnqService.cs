@@ -57,7 +57,7 @@ namespace Arasan.Services
             List<SalesItem> cmpList = new List<SalesItem>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-
+               
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
@@ -570,6 +570,23 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER WHERE IGROUP = 'FINISHED'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAllListSalesEnquiryItem(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "SELECT  SALESENQUIRYID,SALES_ENQUIRY.STATUS,ENQ_NO,to_char(SALES_ENQUIRY.ENQ_DATE,'dd-MON-yyyy')ENQ_DATE,ENQ_TYPE FROM SALES_ENQUIRY WHERE SALES_ENQUIRY.ISACTIVE='YES' ORDER BY SALES_ENQUIRY.SALESENQUIRYID DESC";
+            }
+            else
+            {
+                SvSql = "SELECT  SALESENQUIRYID,SALES_ENQUIRY.STATUS,ENQ_NO,to_char(SALES_ENQUIRY.ENQ_DATE,'dd-MON-yyyy')ENQ_DATE,ENQ_TYPE FROM SALES_ENQUIRY WHERE SALES_ENQUIRY.ISACTIVE='NO' ORDER BY SALES_ENQUIRY.SALESENQUIRYID DESC";
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

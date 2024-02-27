@@ -192,12 +192,86 @@ namespace Arasan.Controllers.Sales
 
             return View(Cy);
         }
-        public IActionResult ListSalesQuotation(string status)
+        public IActionResult ListSalesQuotation()
         {
 
             //HttpContext.Session.SetString("SalesStatus", "Y");
-            IEnumerable<SalesQuotation> cmp = SalesQuotationService.GetAllSalesQuotation(status);
-            return View(cmp);
+            //IEnumerable<SalesQuotation> cmp = SalesQuotationService.GetAllSalesQuotation(status);
+            return View();
+        }
+        public ActionResult MyListSalesQuotationGrid(string strStatus)
+        {
+            List<SalesQuotationItems> Reg = new List<SalesQuotationItems>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)SalesQuotationService.GetAllListSalesQuotationItems(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string SendMail = string.Empty;
+                string Followup = string.Empty;
+                string Generate = string.Empty;
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+
+                SendMail = "<a href=SendMail?id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
+                Followup = "<a href=Followup?id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + "><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a>";
+                Generate = "<a href=Print?id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + "><img src='../Images/pdf.png' alt='Generate SQ' width='20' /></a>";
+                EditRow = "<a href=SalesQuotation?id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                //if (dtUsers.Rows[i]["STATUS"].ToString() == "CLOSE")
+                //{
+                //    //Moved = "<img src='../Images/tick.png' alt='Moved to Quote' width='20' />";
+                //    EditRow = "";
+                //    Generate = "";
+                //}
+                //else
+                //{
+                //    //Moved = dtUsers.Rows[i]["STATUS"].ToString();
+                //    Generate = "<a href=ViewQuote?id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                //    EditRow = "<a href=SalesQuotation?id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+
+                //}
+                //DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new SalesQuotationItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["SALESQUOTEID"].ToString()),
+                    enqno = dtUsers.Rows[i]["QUOTE_NO"].ToString(),
+                    date = dtUsers.Rows[i]["QUOTE_DATE"].ToString(),
+                    type = dtUsers.Rows[i]["QUOTETYPE"].ToString(),
+                    sendmail = SendMail,
+                    followup = Followup,
+                    generate = Generate,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = SalesQuotationService.StatusDeleteMR(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListSalesQuotation");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListSalesQuotation");
+            }
         }
         public List<SelectListItem> BindCusType()
         {
@@ -881,20 +955,20 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
-        public ActionResult CloseQuote(string tag, int id)
-        {
+        //public ActionResult CloseQuote(string tag, int id)
+        //{
 
-            string flag = SalesQuotationService.StatusChange(tag, id);
-            if (string.IsNullOrEmpty(flag))
-            {
-                return RedirectToAction("ListSalesQuotation");
-            }
-            else
-            {
-                TempData["notice"] = flag;
-                return RedirectToAction("ListSalesQuotation");
-            }
-        }
+        //    string flag = SalesQuotationService.StatusChange(tag, id);
+        //    if (string.IsNullOrEmpty(flag))
+        //    {
+        //        return RedirectToAction("ListSalesQuotation");
+        //    }
+        //    else
+        //    {
+        //        TempData["notice"] = flag;
+        //        return RedirectToAction("ListSalesQuotation");
+        //    }
+        //}
         public IActionResult ViewSQ(string id)
         {
             SalesQuotation ca = new SalesQuotation();

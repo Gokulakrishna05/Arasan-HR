@@ -25,5 +25,7 @@ namespace Arasan.Interface.Sales
         DataTable GetDrumDetails(string Itemid, string locid);
 
         IEnumerable<WDrumAllocation> GetAllWDrumAll();
+        string StatusDeleteMR(string tag, int id);
+        DataTable GetAllListWorkOrderItems(string strStatus);
     }
 }

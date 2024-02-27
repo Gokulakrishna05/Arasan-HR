@@ -43,7 +43,6 @@ namespace Arasan.Services.Sales
 							Customer = rdr["PARTY"].ToString(),
 							JopDate = rdr["DOCDATE"].ToString(),
 							Location = rdr["LOCID"].ToString(),
-							 
 							Branch = rdr["BRANCHID"].ToString(),
                             status = rdr["STATUS"].ToString()
                         };
@@ -56,7 +55,7 @@ namespace Arasan.Services.Sales
 		public DataTable GetQuo()
         {
             string SvSql = string.Empty;
-            SvSql = "select QUOTE_NO,SALES_QUOTE.ID from SALES_QUOTE ";
+            SvSql = "select QUOTE_NO,SALES_QUOTE.SALESQUOTEID from SALES_QUOTE ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -396,6 +395,45 @@ namespace Arasan.Services.Sales
         {
             string SvSql = string.Empty;
             SvSql = "select JODRUMALLOCATIONDETAIL.DRUMNO,JODRUMALLOCATIONDETAIL.RATE,LOTNO,JODRUMALLOCATIONDETAIL.QTY,JODRUMALLOCATIONDETAILID from JODRUMALLOCATIONDETAIL     Where jodrumallocationbasicid='" + id + "'  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public string StatusDeleteMR(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE JOBASIC SET IS_ACTIVE ='N' WHERE JOBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+        }
+        public DataTable GetAllListWorkOrderItems(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID WHERE JOBASIC.IS_ACTIVE='Y' ORDER BY JOBASIC.JOBASICID DESC";
+            }
+            else
+            {
+                SvSql = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID WHERE JOBASIC.IS_ACTIVE='N' ORDER BY JOBASIC.JOBASICID DESC";
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
