@@ -2219,6 +2219,27 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
+        public ActionResult InsertProBunk(string id, string opbin, string powder, string grase, string totip, string top, string oxd, string trm, string clbin, string mlop , string mladd, string mlded, string mlcl)
+        {
+            try
+            {
+
+                DataTable dt = new DataTable();
+                DataTable dt2 = new DataTable();
+
+                dt = Pyro.SaveBunkDetails(id, opbin, powder, grase, totip, top, oxd, trm, clbin, mlop, mladd, mlded, mlcl);
+          
+
+
+                var result = "";
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult InsertProEmp([FromBody] PEmpDetails[] model)
         {
             try

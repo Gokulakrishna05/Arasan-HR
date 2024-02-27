@@ -1187,7 +1187,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-11"></div>
-                                                <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnLog" onclick="insertlogdetails()">Submit</button>
+                                                <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnLog" onclick="insertBunkdetails()">Submit</button>
                                             </div>
                                         </div>
                                     </div>
@@ -2360,6 +2360,37 @@ document.getElementById("occ" + i).innerHTML= result.occ;
 
 
     }
+    
+        function insertBunkdetails() {
+       
+                var opbin = document.getElementById("txtOPBin").value;
+                var powder = document.getElementById("txtPIP").value;
+                var id = document.getElementById("hdapid").value;
+              
+                var grase = document.getElementById("txtGIP").value;
+                var totip = document.getElementById("txtTIP").value;
+               var top = document.getElementById("txtTOP").value;
+                var oxd = document.getElementById("txtOXD").value;
+                var trm = document.getElementById("txtTRM").value;
+                var clbin = document.getElementById("txtCLBin").value;
+                var mlop = document.getElementById("txtMLOP").value;
+                var mladd = document.getElementById("txtMLAdd").value;
+                var mlded = document.getElementById("txtMLDed").value;
+                var mlcl = document.getElementById("txtMLCL").value;
+
+                 
+               $.ajax({
+                        url: 'InsertProBunk',
+            data: { "id": id, "opbin": opbin, "powder": powder, "grase": grase, "totip": totip, "top": top, "oxd": oxd, "trm": trm,"clbin" :clbin,"mlop": mlop ,"mladd":mladd,"mlded":mlded,"mlcl":mlcl},
+                        type: "POST",
+                        success: function (result) {
+             
+                        },
+                        error: function () {
+
+                        }
+                    });
+            }
     function refreshrow(i) {
 
         var id = document.getElementById("txtOutAPID" + i).value;

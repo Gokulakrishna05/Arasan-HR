@@ -1020,6 +1020,26 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable SaveBunkDetails(string id, string opbin, string powder, string grase, string totip, string top, string oxd, string trm, string clbin, string mlop, string mladd, string mlded, string mlcl)
+        {
+            string SvSql = string.Empty;
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                objConnT.Open();
+                SvSql = "Delete NPRODBUNK WHERE NPRODBASICID='" + id + "'";
+                OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
+                objCmdd.ExecuteNonQuery();
+            }
+            SvSql = "Insert into NPRODBUNK (NPRODBASICID,OPBBAL,TOTPINP,TOTGINP,CLBBAL,MLOPBAL,MLADD,MLDED,MLCLBAL,TOTINP,TOTOXD) VALUES ('" + id + "','" + opbin + "','" + powder + "','" + grase + "','" + clbin + "','" + mlop + "','" + mladd + "','" + mlded + "','" + mlcl + "','" + totip + "','" + oxd + "')";
+
+            // SvSql = "Insert into PYROPRODEMPDET (PYROPRODBASICID,EMPID,EMPCODE,DEPARTMENT,STARTDATE,STARTTIME,ENDDATE,ENDTIME,OTHRS,ETOTHER,NORMELHRS,NATUREOFWORK) VALUES ('" + id + "','" + empname + "','" + code + "','" + depat + "','" + sdate + "','" + stime + "','" + edate + "','" + etime + "','" + ot + "','" + et + "','" + normal + "','" + now + "')";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable SaveOutsDetails(string id, string noofemp, string sdate, string stime, string edate, string etime, string workhrs, string cost, string expence, string now)
 
         {

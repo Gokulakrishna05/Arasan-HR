@@ -196,7 +196,9 @@ namespace Arasan.Services
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
-
+                                       string SvSql1 = "Insert into LSTOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,DOCID,DOCDATE,LOTNO,PLUSQTY,MINUSQTY,DRUMNO,RATE,STOCKVALUE,ITEMID,LOCID,BINNO,FROMLOCID,STOCKTRANSTYPE) VALUES ('0','0','F','" + Pid + "','750292868','" + cy.Docid+ "','" + cy.Docdate + "','" + cp.batchno + "' ,'0','" + cp.iqty + "','" + cp.drum + "','" + cp.rate + "','" + cp.amount + "','" + cy.Itemid + "','" + loc + "','0','0','PACKING INPUT' )";
+                                        OracleCommand objCmdss = new OracleCommand(SvSql1, objConn);
+                                        objCmdss.ExecuteNonQuery();
                                     }
 
                                 }
@@ -385,6 +387,23 @@ namespace Arasan.Services
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
+                                        string qcyn = datatrans.GetDataString("SELECT QCCOMPFLAG FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
+                                        string sttime = datatrans.GetDataString("SELECT FROMTIME FROM SHIFTMAST WHERE SHIFTNO='" + cy.Shift + "'");
+                                        string etime = datatrans.GetDataString("SELECT TOTIME FROM SHIFTMAST WHERE SHIFTNO='" + cy.Shift + "'");
+                                        string process = datatrans.GetDataString("SELECT PROCESSMAST.PROCESSID FROM WCBASIC LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID=WCBASIC.PROCESSID  WHERE wcid='" + cy.Work + "'");
+                                        string ins = "";
+                                        string sflag = "1";
+                                        if (qcyn == "YES")
+                                        {
+                                            ins = "0";
+                                        }
+                                        else { ins = "1"; }
+                                        string SvSql = " INSERT INTO PLOTMAST (APPROVAL, MAXAPPROVED, CANCEL, T1SOURCEID, LATEMPLATEID, ITEMID, PARTYID, RATE, DOCID, DOCDATE, QTY, LOTNO, DRUMNO, LOCATION, INSFLAG, RCFLAG, PRODTYPE, AMOUNT, QCRELASEFLAG, ESTATUS, COMPFLAG, PACKFLAG, SHIFT, STARTTIME, ENDTIME, CURINWFLAG, CUROUTFLAG, PACKINSFLAG, PSCHNO, MATCOST, MCCOST, EMPCOST, OTHERCOST, ADMINCOST, GENSETCOST, EBCOST, EBUNITRATE, DIESELRATE, TESTINSFLAG, FIDRMS, DRMPRF, PACKDRMNO, WCID, ProcessID,SHEDNO) Values(0, 0, 'F', '" + Pid + "', '738073639', '" + cy.Item + "', '0', '"+cp.rate+"', '" + cy.Docid + "', '" + cy.Docdate + "','" + cp.dqty + "','" + batch + "', '" + cp.drum + "', '" + cy.toloc + "', '" + ins + "', '0', 'PACK','"+cp.amount+"', '0', '0','" + sflag + "',' 0', '" + cy.Shift + "', '" + sttime + "', '" + etime + "', '0', '0', '1', '" + cy.ProdSchNo + "', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '" + cy.Work + "','" + process + "','')";
+                                        objCmds = new OracleCommand(SvSql, objConn);
+                                        objCmds.ExecuteNonQuery();
+                                        SvSql = "INSERT INTO PLSTOCKVALUE (APPROVAL, MAXAPPROVED, CANCEL, T1SOURCEID, LATEMPLATEID, DOCID, DOCDATE, Drumno, LOTNO, PLUSQTY, MINUSQTY, RATE, STOCKVALUE, ITEMID, LOCID, BINNO, FROMLOCID, StockTranstype, batch) VALUES ('0', '0', 'F', '" + Pid + "', '', '" + cy.Docid + "',  '" + cy.Docdate + "', '" + cp.drum + "','" + batch + "','" + cp.dqty + "', '0', '"+cp.rate+"','"+cp.amount+"', '" + cy.Itemid + "','" + cy.toloc + "', '0', '0', '', '')";
+                                        objCmds = new OracleCommand(SvSql, objConn);
+                                        objCmds.ExecuteNonQuery();
                                         i++;
                                     }
                                   
