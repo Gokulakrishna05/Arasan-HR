@@ -39,8 +39,7 @@
             },
             datafields: [
                 { name: 'location', type: 'string' },
-                { name: 'sub', type: 'string' },
-                { name: 'shed', type: 'string' },
+                { name: 'binid', type: 'string' }, 
                 { name: 'cap', type: 'string' },
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
@@ -78,15 +77,14 @@
                     columns: [
 
                     { text: 'Location Name', filtertype: 'checkedlist', datafield: 'location', width: 200 },
-                    { text: 'Sub Group', filtertype: 'checkedlist', datafield: 'sub', width: 150 },
-                    { text: 'Shed Number', filtertype: 'input', datafield: 'shed', width: 150 },
+                    { text: 'Bin Id', filtertype: 'checkedlist', datafield: 'binid', width: 150 },
                     { text: 'Capacity', datafield: 'cap', width: 100 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                 ]
             });
         $("#ddlStatus").change(function () {
-            var value = "Active";
+            var value = "Y";
             if ($(this).val() != "") {
                 value = $(this).val();
             }
@@ -115,8 +113,8 @@
                         <div class="row">
                             <div class="col-md-2 ">
                                 @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
-                                { new SelectListItem() {Text = "Enabled", Value="Active"},
-                                new SelectListItem() {Text = "Disabled", Value="InActive"}},
+                                { new SelectListItem() {Text = "Enabled", Value="Y"},
+                                new SelectListItem() {Text = "Disabled", Value="N"}},
                                 new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
                             </div>
 
