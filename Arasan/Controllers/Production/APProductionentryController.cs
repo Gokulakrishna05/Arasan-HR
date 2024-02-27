@@ -2391,7 +2391,8 @@ namespace Arasan.Controllers
                     {
                         TempData["notice"] = "APProductionentryDetail Updated Successfully...!";
                     }
-                    return RedirectToAction("APProductionentryDetail", new { id = Cy.inplst[0].APID });
+                    // return RedirectToAction("APProductionentryDetail", new { id = Cy.inplst[0].APID });
+                    return RedirectToAction("ListAPProductionentry");
                 }
 
                 else

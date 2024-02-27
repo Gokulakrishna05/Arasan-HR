@@ -975,7 +975,7 @@ namespace Arasan.Services
                     string totinp= datatrans.GetDataString("select SUM(IQTY) from BPRODINPDET where BPRODBASICID='" + id + "' ");
                     //string totwaste= datatrans.GetDataString("select SUM(IQTY) from BPRODINPDET where BPRODBASICID='" + id + "' ");
 
-                    string svSQLtt = "UPDATE BPRODBASIC SET TOTALDUST='" + totdudt + "',TOTALOUTPUT='"+ totprod + "',TOTALINPUT='"+ totinp + "' where BPRODBASICID='" + id + "'";
+                    string svSQLtt = "UPDATE BPRODBASIC SET TOTALDUST='" + totdudt + "',TOTALOUTPUT='"+ totprod + "',TOTALINPUT='"+ totinp + "',IS_COMPLETE='Y' where BPRODBASICID='" + id + "'";
                     OracleCommand objCmddtt = new OracleCommand(svSQLtt, objConn);
                     objCmddtt.ExecuteNonQuery();
 
