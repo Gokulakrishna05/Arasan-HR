@@ -1,0 +1,237 @@
+﻿@model Arasan.Models.ProcessMast
+
+@{
+    ViewData["Title"] = "Process";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong> Process </strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Process</h5>
+                    <hr>
+                    @using (Html.BeginForm("ProcessMast", "ProcessMast", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+                            <div style="height:20px;"></div>
+
+                            <div class="row">
+                                @* <div class="col-md-6">
+                            <div class="form-group">
+
+                            <label for="inputName3" class="col-sm-4 control-label">Process ID<label class="mandatory">*</label></label>
+                            <div class="col-sm-8">
+                            @Html.TextBoxFor(C => C.ProcessMastId, new { @id = "txtProcessMastId", @class = "form-control", @TabIndex = 2 })<br>
+                            @Html.HiddenFor(C => C.ID)
+                            </div>
+                            </div>
+                            </div>*@
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Process Name<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.ProcessMastName, new { @id = "txtProcessMastname", @class = "form-control", @TabIndex = 2 })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">S No<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Sno, new { @id = "txtSno", @class = "form-control", @TabIndex = 2 })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Batch<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+
+                                                @Html.RadioButtonFor(C => C.Batch, "Y", new { @TabIndex = 2 })
+                                                <label id="mt-radio">Yes</label>&emsp;
+                                                @Html.RadioButtonFor(C => C.Batch, "N", new { @TabIndex = 3 })
+                                                <label id="mt-radio">No</label>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">QC<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+
+                                                @Html.RadioButtonFor(C => C.Qc, "Y", new { @TabIndex = 2 })
+                                                <label id="mt-radio">Yes</label>&emsp;
+                                                @Html.RadioButtonFor(C => C.Qc, "N", new { @TabIndex = 3 })
+                                                <label id="mt-radio">No</label>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:20px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Prod Hr Type <label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Prodhrtype, Model.Prodhrtypelst," -- Please Select -- ", new { @id = "ddlProdhrtype", @Class = "form-control _select", @TabIndex = 1 })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Cost <label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Costtype, Model.Costtypelst," -- Please Select -- ", new { @id = "ddlCosttype", @Class = "form-control _select", @TabIndex = 1 })
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="height:30px;"></div>
+
+                            <div class="col-lg-10"></div>
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
+                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ListProcessMast", "ProcessMast")">Cancel</a>
+
+                        </form>
+                    }
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+            $(function () {
+                $('._select').select2();
+            });
+
+
+        function PopulateDropDown(dropDownId, list) {
+            //alert(list);
+            $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+            if (list != null && list.length > 0) {
+                $(dropDownId).removeAttr("disabled");
+                $.each(list, function () {
+                    $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+                });
+            }
+            $(dropDownId).trigger("liszt:updated");
+        }
+        $(".chosen-select").chosen();
+        $(document).ready(function () {
+            $('#btnSave').click(function (e) {
+                var isValid = true;
+                if (document.getElementById("txtProcessMastname").value == "") {
+                    isValid = false;
+                    $(txtProcessMastname).css({
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+
+                    alert("Please enter Process name");
+                    return false;
+                }
+                else {
+                    $(txtProcessMastname).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
+
+                if (document.getElementById("ddlProdhrtype").value == "" || document.getElementById("ddlProdhrtype").value == 0) {
+                    isValid = false;
+                    $(ddlProdhrtype).css({
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+
+                    alert("Please choose Prod Hr type");
+                    return false;
+                }
+                else {
+                    $(ddlProdhrtype).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
+
+                if (document.getElementById("ddlCosttype").value == "" || document.getElementById("ddlCosttype").value == 0) {
+                    isValid = false;
+                    $(ddlCosttype).css({
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+
+                    alert("Please choose Cost");
+                    return false;
+                }
+                else {
+                    $(ddlCosttype).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
+
+
+
+            });
+
+        });
+
+    </script>

@@ -57,7 +57,6 @@
  
                                            @* @Html.DropDownListFor(C => C.Location, Model.Cur, new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 })*@
                                             @Html.HiddenFor(C => C.ID)
-                                            @Html.HiddenFor(C => C.createdby)
  
                                         </div>
 
@@ -69,25 +68,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Sub Group<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Bin Id<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-
-                                            @Html.DropDownListFor(C => C.Sub, Model.Sublst,"Please Select", new { @id = "ddlSub", @Class = "form-control _select", @TabIndex = 1 })
-
-                                           @* @Html.DropDownListFor(C => C.Sub, Model.Sublst, new { @id = "ddlSub", @Class = "form-control _select", @TabIndex = 1 })*@
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-3"></div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Shed Number<label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Shed, new { @id = "txtShed", @class = "form-control", @TabIndex = 1})
+                                            @Html.TextBoxFor(C => C.binid, new { @id = "txtbinid", @class = "form-control", @TabIndex = 1})
                                         </div>
                                     </div>
                                 </div>
@@ -158,34 +141,18 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("ddlSub").value == "" || document.getElementById("ddlSub").value == 0) {
-                isValid = false;
-                $(ddlSub).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Sub Group");
-                return false;
-            }
-            else {
-                $(ddlSub).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtShed").value == "") {
+            if (document.getElementById("txtbinid").value == "") {
                     isValid = false;
-                $(txtShed).css({
+                $(txtbinid).css({
                         "border": "1px solid red",
                         "background": "#FFCECE"
                     });
 
-                alert("Please Enter Shed Number");
+                alert("Please Enter Bin ID");
                     return false;
                 }
                 else {
-                $(txtShed).css({
+                $(txtbinid).css({
                         "border": "",
                         "background": ""
                     });

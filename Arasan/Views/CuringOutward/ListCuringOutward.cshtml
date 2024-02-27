@@ -1,10 +1,19 @@
-﻿@model IEnumerable<Arasan.Models.CuringOutward>
+﻿@model Arasan.Models.CuringOutward
 
 @{
     ViewData["Title"] = "Curing Outward";
     string sdate = ViewContext.HttpContext.Request.Query["st"];
     string edate = ViewContext.HttpContext.Request.Query["ed"];
 }
+<partial name="JqxGridPartial" />
+@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
 <style>
     .newwidth {
         width: 120px;
@@ -28,12 +37,84 @@
         </ol>
     </div>
 </div>
+
 <script type="text/javascript">
-    @if (TempData["notice"] != null)
-    {
-        @:alert('@TempData["notice"]');
-    }
+    $(document).ready(function () {
+        var source =
+        {
+            url: "/CuringOutward/MyListCuringOutwardGrid",
+            data: {
+                sdate: "@sdate ",
+                edate: "@edate",
+                strstatus: ""
+            },
+            datatype: "json",
+            updaterow: function (rowid, rowdata) {
+                // synchronize with the server - send update command
+            },
+            datafields: [
+                { name: 'branch', type: 'string' },
+                { name: 'docId', type: 'string' },
+                { name: 'docdate', type: 'string' },
+                { name: 'itemId', type: 'string' },
+                { name: 'shi', type: 'string' },
+                { name: 'viewrow', type: 'string' },
+                { name: 'editrow', type: 'string' },
+                { name: 'delrow', type: 'string' },
+            ],
+            id: 'id',
+        };
+        var dataAdapter = new $.jqx.dataAdapter(source,
+            { contentType: 'application/json; charset=utf-8' }, {
+            loadComplete: function () {
+
+            }
+        }
+        );
+
+        $("#grid").jqxGrid(
+            {
+                width: '100%',
+                source: dataAdapter,
+                //height: 450,
+                autorowheight: true,
+                autoheight: true,
+                source: source,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterbar: true,
+                filterbarmode: 'simple',
+                //showfilterrow: true,
+                theme: 'darkblue',
+                enablebrowserselection: true,
+                columns: [
+                    { text: 'Branch', filtertype: 'input', datafield: 'branch', width: 150 },
+                    { text: 'Doc ID', filtertype: 'input', datafield: 'docId', width: 140 },
+                    { text: 'Doc Date', filtertype: 'checkedlist', datafield: 'docdate', width: 134 },
+                    { text: 'Item', filtertype: 'checkedlist', datafield: 'itemId', width: 134, align: 'center' },
+                    { text: 'Shift', filtertype: 'checkedlist', datafield: 'shi', width: 134, align: 'center' },
+                    { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                ]
+            });
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
+    });
 </script>
+
+
+
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -69,6 +150,14 @@
                                 </div>
 
                             </div>
+
+                            <div class="col-md-2 ">
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                { new SelectListItem() {Text = "Enabled", Value="Y"},
+                                new SelectListItem() {Text = "Disabled", Value="N"}},
+                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                            </div>
+
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("CuringOutward", "CuringOutward")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Curing Outward </a>
@@ -76,60 +165,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="ibox float-e-margins">
+                         <div class="row">
 
-                                    <div class="ibox-content collapse in">
-                                        <div class="widgets-container">
-                                            <div>
-                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Branch</th>
-                                                            <th>DOC ID</th>
-                                                            <th>Doc Date</th>
-                                                            <th>Item</th>
-                                                            <th>Shift</th>
-                                                            <th>View</th>
-                                                            <th>Edit</th>
-                                                            <th>Delete</th>
-                                                        </tr>
-                                                    </thead>
-
-                                                    <tbody>
-                                                        @{
-                                                            int i = 1;
-                                                            foreach (var item in Model)
-                                                            {
-
-
-                                                                <tr>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.DocId)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.ItemId)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Shift)</td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewCuringOutward", "CuringOutward",new { id=item.ID })"><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
-
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("CuringOutward", "CuringOutward",new { id=item.ID })"></a></div></td>
-                                                                    <td> <a href="@Url.Action("DeleteMR","CuringOutward",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-                                                                 
-                                                                </tr>
-
-                                                                i++;
-                                                            }
-                                                        }
-                                                         
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="col-md-10 ">
+                                <div id="grid">
                                 </div>
-                            </div>
-                        </div>
 
+                            </div>
+
+                        </div>
 
 
                     </form>
@@ -140,35 +184,17 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-        $('#example7').DataTable({
-            dom: 'Bfrtip',
-            buttons: [{
-                text: 'copy',
-                extend: "copy",
-                className: 'btn dark btn-outline'
-            }, {
-                text: 'csv',
-                extend: "csv",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'excel',
-                extend: "excel",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'pdf',
-                extend: "pdf",
-                className: 'btn yellow  btn-outline'
-            }, {
-                text: 'print',
-                extend: "print",
-                className: 'btn purple  btn-outline'
-            }]
-        });
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
 
+    function loadReport() {
+        var dtfrom = document.getElementById("SStart").value;
+        var dtto = document.getElementById("SEnd").value;
 
+        var url = 'ListCurinngOutward?strfrom=' + dtfrom + '&strTo=' + dtto;
+        window.location.href = url;
 
-    });
 </script>
 
 <!-- /container -->

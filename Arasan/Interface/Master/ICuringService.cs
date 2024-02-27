@@ -13,10 +13,9 @@ namespace Arasan.Interface
         //Curing GetCuringById(string id);
         DataTable GetCuringDeatil(string id);
         DataTable GetCuringDetails(string id);
-        DataTable GetSubgroup();
 
-        string StatusChange(string tag, int id);
-        string RemoveChange(string tag, int id);
+        string StatusChange(string tag, string id);
+        string RemoveChange(string tag, string id);
         DataTable GetAllCuring(string strStatus);
 
      }

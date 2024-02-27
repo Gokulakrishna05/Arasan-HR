@@ -33,6 +33,7 @@ namespace Arasan.Controllers
             ca.ToWorklst =BindWorkCenter();
             ca.Notelst = BindPackingNote();
             ca.Branch = Request.Cookies["BranchId"];
+            ca.Enterd = Request.Cookies["UserName"];
             ca.Shiftlst = BindShift("");
             ca.RecList = BindEmp();
             ca.DrumLoclst = BindDrumLoc();
@@ -405,7 +406,11 @@ namespace Arasan.Controllers
                     tda.batch = dtt.Rows[i]["IBATCHNO"].ToString();
                     tda.qty = dtt.Rows[i]["IBATCHQTY"].ToString();
                     tda.comp = dtt.Rows[i]["COMBNO"].ToString();
-                   
+                    tda.rate = dtt.Rows[i]["IRATE"].ToString();
+                    tda.amount = dtt.Rows[i]["IAMOUNT"].ToString();
+                    tda.packid = dtt.Rows[i]["PACKNOTEINPDETAILID"].ToString();
+                    string shed = datatrans.GetDataString("SELECT SHEDNO FROM LOTMAST WHERE LOTNO='" + tda.batch + "'");
+                   tda.shed=shed;
                     Data.Add(tda);
                 }
             }
@@ -413,34 +418,79 @@ namespace Arasan.Controllers
             return Json(model.Curinglst);
 
         }
-        public IActionResult ListCuringOutward(string st, string ed)
-        {
-            IEnumerable<CuringOutward> cmp = curingoutward.GetAllCuringOutward(st, ed);
-            return View(cmp);
-        }
-        public ActionResult GetItemDetail(string ItemId)
-        {
-            try
-            {
-                DataTable dt = new DataTable();
-                string qty = "";
-                 
-                dt = curingoutward.GetQty(ItemId);
+ 
+        //public ActionResult GettimeDetail(string ItemId)
+        //{
+        //    try
+        //    {
+        //        DataTable dt = new DataTable();
+        //        string fromtime = "";
+        //        string totime = "";
+                
+        //        dt = datatrans.GetData("Select STARTTIME,ENDTIME from PACKNOTEBASIC where PACKNOTEBASICID='" + ItemId + "'");
+        //        if (dt.Rows.Count > 0)
+        //        {
 
-                if (dt.Rows.Count > 0)
-                {
-                    qty = dt.Rows[0]["SUM_QTY"].ToString();
+        //            fromtime = dt.Rows[0]["STARTTIME"].ToString();
+        //            totime = dt.Rows[0]["ENDTIME"].ToString();
                     
-                }
+        //        }
 
-                var result = new { qty = qty  };
-                return Json(result);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+        //        var result = new { fromtime = fromtime, totime = totime  };
+        //        return Json(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+     
+        public IActionResult ListCuringOutward()
+ 
+        {
+            //IEnumerable<CuringOutward> cmp = curingoutward.GetAllCuringOutward(st, ed);
+            return View();
         }
+
+        public ActionResult MyListCuringOutwardGrid(string strStatus, string st, string ed)
+        {
+            List<CuringOutwardListItem> Reg = new List<CuringOutwardListItem>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = curingoutward.GetAllCuringOutwardDetails(strStatus, st, ed);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string View = string.Empty;
+                string Edit = string.Empty;
+
+                View = "<a href=ViewCuringOutward?id=" + dtUsers.Rows[i]["CUROPBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View' /></a>";
+                Edit = "<a href=CuringOutward?id=" + dtUsers.Rows[i]["CUROPBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CUROPBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate'  /></a>";
+
+                Reg.Add(new CuringOutwardListItem
+                {
+                    id = dtUsers.Rows[i]["CUROPBASICID"].ToString(),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    docId = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    itemId = dtUsers.Rows[i]["ITEMID"].ToString(),
+                    shi = dtUsers.Rows[i]["SHIFTNO"].ToString(),
+                    viewrow = View,
+                    editrow = Edit,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+   
         public ActionResult DeleteMR(string tag, int id)
         {
 

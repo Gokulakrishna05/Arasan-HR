@@ -133,7 +133,7 @@ namespace Arasan.Models
         public List<SelectListItem> drumlst { get; set; }
         public string batchno { get; set; }
       
-        
+        public string isoutinsert { get; set; }
         public double IssueQty { get; set; }
          
         public string Result { get; set; }
