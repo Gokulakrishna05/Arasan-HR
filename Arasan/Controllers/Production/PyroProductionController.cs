@@ -240,7 +240,7 @@ namespace Arasan.Controllers
                             tda.Time = dt2.Rows[i]["CHARGINGTIME"].ToString();
                             tda.drumlst = BindDrum(tda.ItemId, ca.Locationid);
                             tda.drumno = dt2.Rows[i]["ICDRUMNO"].ToString();
-                            tda.insert = dt2.Rows[i]["IS_INSERT"].ToString();
+                            tda.insert ="Y";
                          
                             //tda.unit = dt2.Rows[i]["UNITID"].ToString();
                             tda.Bin = dt2.Rows[i]["IBINID"].ToString();
@@ -269,7 +269,7 @@ namespace Arasan.Controllers
                     }
                     else
                     {
-                        for (int i = 0; i < 3; i++)
+                        for (int i = 0; i < 1; i++)
                         {
                             tda = new PProInput();
                             tda.APID = id;
@@ -292,10 +292,10 @@ namespace Arasan.Controllers
                             tda1.ItemId = dt3.Rows[i]["CITEMID"].ToString();
                             tda1.consunit = dt3.Rows[i]["CUNIT"].ToString();
                             tda1.BinId = dt3.Rows[i]["CBINID"].ToString();
-                            tda1.insert = dt3.Rows[i]["IS_INSERT"].ToString();
+                            tda1.insert = "Y";
                             tda1.Qty = Convert.ToDouble(dt3.Rows[i]["CSUBQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CSUBQTY"].ToString());
                             tda1.consQty = Convert.ToDouble(dt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CONSQTY"].ToString());
-
+                            //tda1.insert = "Y";
                             DataTable  dtstk = datatrans.GetData("SELECT SUM(DECODE(s.PLUSORMINUS,'p',S.QTY,-S.QTY)) as QTY FROM STOCKVALUE S WHERE ITEMID='" + tda1.ItemId + "' and LOCID='" + ca.LOCID + "'");
                             if (dtstk.Rows.Count > 0)
                             {
@@ -348,7 +348,7 @@ namespace Arasan.Controllers
                     }
                     else
                     {
-                        for (int i = 0; i < 3; i++)
+                        for (int i = 0; i < 1; i++)
                         {
                             tda2 = new PEmpDetails();
                             tda2.APID = id;
@@ -385,7 +385,7 @@ namespace Arasan.Controllers
                     }
                     else
                     {
-                        for (int i = 0; i < 3; i++)
+                        for (int i = 0; i < 1; i++)
                         {
                             tda3 = new PBreakDet();
 
@@ -946,6 +946,7 @@ namespace Arasan.Controllers
                 string stk = "";
 
                 dt1 = datatrans.GetData("SELECT SUM(S.PLUSQTY-S.MINUSQTY) as QTY  FROM LSTOCKVALUE S WHERE LOTNO='" + ItemId + "' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0 ");
+                string rate = datatrans.GetDataString("SELECT AVG(RATE) as rate  FROM LSTOCKVALUE S WHERE LOTNO='" + ItemId + "' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0");
                 if (dt1.Rows.Count > 0)
                 {
                     stk = dt1.Rows[0]["QTY"].ToString();
@@ -954,7 +955,7 @@ namespace Arasan.Controllers
                 {
                     stk = "0";
                 }
-                var result = new { stk = stk };
+                var result = new { stk = stk, rate= rate };
                 return Json(result);
             }
             catch (Exception ex)
@@ -2122,8 +2123,9 @@ namespace Arasan.Controllers
                     string drum = input.drumno;
                     string stock = input.StockAvailable.ToString();
                     string qty = input.IssueQty.ToString();
+                    double rate = input.rate;
                     DataTable dt = new DataTable();
-                    DataTable insert = datatrans.GetData("SELECT NPRODINPDETID,IS_INSERT,NPRODINPDETROW FROM NPRODINPDET WHERE NPRODBASICID='" + id + "' and ICDRUMNO='"+drum+"' and IS_INSERT='Y'");
+                    DataTable insert = datatrans.GetData("SELECT NPRODINPDETID,NPRODINPDETROW FROM NPRODINPDET WHERE NPRODBASICID='" + id + "' and ICDRUMNO='"+drum+"' ");
 
                     if (insert.Rows.Count > 0)
                     {
@@ -2132,7 +2134,7 @@ namespace Arasan.Controllers
                     }
                     else
                     {
-                        dt = Pyro.SaveInputDetails(id, item, bin, time, qty, stock, batch, drum, r);
+                        dt = Pyro.SaveInputDetails(id, item, bin, time, qty, stock, batch, drum, r, rate);
                         r++;
                     }
                 }
@@ -2168,7 +2170,7 @@ namespace Arasan.Controllers
                     string stock = Cons.ConsStock.ToString();
                     string usedqty = Cons.Qty.ToString();
                     DataTable dt = new DataTable();
-                    DataTable insert = datatrans.GetData("SELECT NPRODCONSDETID,IS_INSERT,NPRODCONSDETROW FROM NPRODCONSDET WHERE NPRODBASICID='" + id + "'   and IS_INSERT='Y'");
+                    DataTable insert = datatrans.GetData("SELECT NPRODCONSDETID,NPRODCONSDETROW FROM NPRODCONSDET WHERE NPRODBASICID='" + id + "' ");
                     if (insert.Rows.Count > 0)
                     {
 

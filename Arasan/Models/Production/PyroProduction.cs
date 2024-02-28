@@ -134,6 +134,8 @@ namespace Arasan.Models
         public List<SelectListItem> lotlist { get; set; }
         public string Lotno { get; set; }
         public double totalqty { get; set; }
+        public double rate { get; set; }
+        public string amount { get; set; }
     }
     public class PProOutput
     {
@@ -194,7 +196,7 @@ namespace Arasan.Models
         public string Isvalid { get; set; }
         public string insert { get; set; }
         public string BinId { get; set; }
-
+        public string rate { get; set; }
         public string saveitemId { get; set; }
 
     }
