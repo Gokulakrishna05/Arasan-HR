@@ -112,6 +112,7 @@ namespace Arasan.Models
         public string Tname { get; set; }
         public string Distance { get; set; }
         public string FrightYN { get; set; }
+        public string ddlStatus { get; set; }
         public List<TermsItem> TermsItemlst { get; set; }
         public List<DepotInvoiceItem> Depotlst { get; set; }
         public List<AreaItem> AreaItemlst { get; set; }
@@ -217,5 +218,17 @@ namespace Arasan.Models
         public List<DDrumdetails> Drumlst { get; set; }
 
         public bool selectall { get; set; }
+    }
+    public class ListDepotInvoiceItems
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string enqno { get; set; }
+        public string date { get; set; }
+        public string customer { get; set; }
+        public string delrow { get; set; }
+        public string net { get; set; }
+        public string view { get; set; }
+
     }
 }

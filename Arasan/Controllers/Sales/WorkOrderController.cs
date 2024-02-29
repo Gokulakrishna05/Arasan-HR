@@ -420,12 +420,81 @@ namespace Arasan.Controllers.Sales
 
             return View(cy);
         }
-        public IActionResult ListWDrumAllocation(string status)
+        public ActionResult MyListWDrumAllocationGrid()
         {
-            IEnumerable<WorkOrder> cmp = WorkOrderService.GetAllWorkOrder(status);
-            return View(cmp);
+            List<ListWDrumAllocationItems> Reg = new List<ListWDrumAllocationItems>();
+            DataTable dtUsers = new DataTable();
+            //strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)WorkOrderService.GetAllListWDrumAllocationItems();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string Drum = string.Empty;
+
+                Drum = "<a href=/WDrumAllocation/WorkOrder?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Allocate' /></a>";
+
+
+                Reg.Add(new ListWDrumAllocationItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["JOBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    jopjd = dtUsers.Rows[i]["DOCID"].ToString(),
+                    jopdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    location = dtUsers.Rows[i]["LOCID"].ToString(),
+                    customer = dtUsers.Rows[i]["PARTY"].ToString(),
+                    drum = Drum,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
-        public IActionResult ListWDrumAllo( )
+        public IActionResult ListWDrumAllocation()
+        {
+            //IEnumerable<WorkOrder> cmp = WorkOrderService.GetAllWorkOrder(status);
+            return View();
+        }
+        //public ActionResult MyListWDrumAlloGrid()
+        //{
+        //    List<ListWDrumAlloItems> Reg = new List<ListWDrumAlloItems>();
+        //    DataTable dtUsers = new DataTable();
+        //    //strStatus = strStatus == "" ? "Y" : strStatus;
+        //    dtUsers = (DataTable)WorkOrderService.GetAllListWDrumAlloItems();
+        //    for (int i = 0; i < dtUsers.Rows.Count; i++)
+        //    {
+
+        //        string Drum = string.Empty;
+
+        //        Drum = "<a href=/WDrumAllocation/WorkOrder?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Allocate' /></a>";
+
+
+        //        Reg.Add(new ListWDrumAlloItems
+        //        {
+        //            branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+        //            jopjd = dtUsers.Rows[i]["DOCID"].ToString(),
+        //            jopdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+        //            location = dtUsers.Rows[i]["LOCID"].ToString(),
+        //            customer = dtUsers.Rows[i]["PARTY"].ToString(),
+        //            drum = Drum,
+
+
+
+        //        });
+        //    }
+
+        //    return Json(new
+        //    {
+        //        Reg
+        //    });
+
+        //}
+        public IActionResult ListWDrumAllo()
         {
             IEnumerable<WDrumAllocation> cmp = WorkOrderService.GetAllWDrumAll();
             return View(cmp);

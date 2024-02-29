@@ -1185,5 +1185,15 @@ Select t2.T2VCHDT, t2.MID, t1.VCHSTATUS EMODE, t1.MSTATUS MSTATUS, t1.MONTHNO MO
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetAllListDepotInvoiceItems()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select  BRANCHMAST.BRANCHID,DEPINVOBASIC.DOCID,PARTYMAST.PARTYNAME,to_char(DEPINVOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,VTYPE,DEPINVOBASICID,DEPINVOBASIC.NET from DEPINVOBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=DEPINVOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DEPINVOBASIC.PARTYID=PARTYMAST.PARTYMASTID order by docdate desc";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

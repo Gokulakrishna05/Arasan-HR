@@ -24,6 +24,7 @@ namespace Arasan.Models
         public string custname { get; set; }
         public string Branch { get; set; }
         public string invoiceid { get; set; }
+        public string ddlStatus { get; set; }
         public string invoicedate { get; set; }
         public string status { get; set; }
         public List<SelectListItem> invoicelst { get; set; }
@@ -59,5 +60,15 @@ namespace Arasan.Models
         public string exicetype { get; set; }
         public string traiffid { get; set; }
         public string Isvalid { get; set; }
+    }
+    public class ListSalesReturnItems
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string docid { get; set; }
+        public string docdate { get; set; }
+        public string custname { get; set; }
+        public string delete { get; set; }
+        public string view { get; set; }
     }
 }

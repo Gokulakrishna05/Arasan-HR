@@ -103,7 +103,7 @@ namespace Arasan.Controllers.Sales
                 if (dt.Rows.Count > 0)
                 {
                     ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
-                    ca.WorkCenter = dt.Rows[0]["WORKORDER"].ToString();
+                    //ca.WorkCenter = dt.Rows[0]["WORKORDER"].ToString();
                     ca.DocId = dt.Rows[0]["DOCID"].ToString();
                     ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.RefNo = dt.Rows[0]["REFNO"].ToString();
@@ -111,11 +111,11 @@ namespace Arasan.Controllers.Sales
                     ca.Currency = dt.Rows[0]["MAINCURR"].ToString();
                     ca.ExRate = dt.Rows[0]["EXRATE"].ToString();
                     ca.Party = dt.Rows[0]["PARTYID"].ToString();
-                    ca.SalesValue = dt.Rows[0]["SALESVALUE"].ToString();
+                    //ca.SalesValue = dt.Rows[0]["SALESVALUE"].ToString();
                     ca.Gross = dt.Rows[0]["GROSS"].ToString();
                     ca.Net = dt.Rows[0]["NET"].ToString();
                     ca.Amount = dt.Rows[0]["AMTWORDS"].ToString();
-                    ca.BankName = dt.Rows[0]["BANKNAME"].ToString();
+                    //ca.BankName = dt.Rows[0]["BANKNAME"].ToString();
                     ca.AcNo = dt.Rows[0]["ACNO"].ToString();
                     ca.Address = dt.Rows[0]["SHIPADDRESS"].ToString();
                     ca.Narration = dt.Rows[0]["NARRATION"].ToString();
@@ -294,8 +294,54 @@ namespace Arasan.Controllers.Sales
         {
 
             //HttpContext.Session.SetString("SalesStatus", "Y");
-            IEnumerable<ProFormaInvoice> cmp = ProFormaInvoiceService.GetAllProFormaInvoice(status);
-            return View(cmp);
+            //IEnumerable<ProFormaInvoice> cmp = ProFormaInvoiceService.GetAllProFormaInvoice(status);
+            return View();
+        }
+        public ActionResult MyListProFormaInvoiceGrid(string strStatus)
+        {
+            List<ListProFormaInvoiceItems> Reg = new List<ListProFormaInvoiceItems>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)ProFormaInvoiceService.GetAllListProFormaInvoiceItems(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+
+                //if (dtUsers.Rows[i]["STATUS"].ToString() == "INACTIVE")
+                //{
+                //    View = "";
+                //    DeleteRow = "";
+                //}
+                //else
+                //{
+                EditRow = "<a href=ViewDepotInvoice?id=" + dtUsers.Rows[i]["PINVBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Deatils' /></a>";
+                DeleteRow = "<a href=CloseQuote?id=" + dtUsers.Rows[i]["PINVBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                //}
+
+                Reg.Add(new ListProFormaInvoiceItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["PINVBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    enqno = dtUsers.Rows[i]["DOCID"].ToString(),
+                    refno = dtUsers.Rows[i]["REFNO"].ToString(),
+                    date = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    party = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    edit = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
         public List<SelectListItem> BindSupplier()
         {

@@ -15,5 +15,6 @@ namespace Arasan.Interface
         DataTable GetRetByName(string invoiceid);
         DataTable GetRetItem(string invoiceid);
         string StatusChange(string tag, int id);
+        DataTable GetAllListSalesReturnItems(string strStatus);
     }
 }

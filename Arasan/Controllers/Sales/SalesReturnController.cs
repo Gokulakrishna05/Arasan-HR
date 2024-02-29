@@ -115,10 +115,54 @@ namespace Arasan.Controllers.Sales
 
             return View(Cy);
         }
-        public IActionResult ListSalesReturn(string status)
+        public IActionResult ListSalesReturn()
         {
-            IEnumerable<SalesReturn> cmp = SRInterface.GetAllSalesReturn(status);
-            return View(cmp);
+            //IEnumerable<SalesReturn> cmp = SRInterface.GetAllSalesReturn(status);
+            return View();
+        }
+        public ActionResult MyListSalesReturnGrid(string strStatus)
+        {
+            List<ListSalesReturnItems> Reg = new List<ListSalesReturnItems>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)SRInterface.GetAllListSalesReturnItems(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string View = string.Empty;
+                string DeleteRow = string.Empty;
+
+                if (dtUsers.Rows[i]["STATUS"].ToString() == "INACTIVE")
+                {
+                    View = "";
+                    DeleteRow = "";
+                }
+                else
+                {
+                    View = "<a href=ViewSalesReturn?id=" + dtUsers.Rows[i]["SALERETBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Deatils' /></a>";
+                    DeleteRow = "<a href=CloseQuote?id=" + dtUsers.Rows[i]["SALERETBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                }
+
+                Reg.Add(new ListSalesReturnItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["SALERETBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    docid = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    custname = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    view = View,
+                    delete = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
         public List<SelectListItem> BindLocation()
         {
