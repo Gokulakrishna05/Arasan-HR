@@ -97,7 +97,7 @@ namespace Arasan.Services
 		public DataTable GetItem( )
 		{
 			string SvSql = string.Empty;
-			SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER where IGROUP='RAW MATERIAL' ";
+			SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER where ITEMID='DROSS' ";
 			DataTable dtt = new DataTable();
 			OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
 			OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1523,6 +1523,7 @@ namespace Arasan.Services
                 DataTable wopro = datatrans.GetData("SELECT WCBASIC.WCID,PROCESSMAST.PROCESSID,BPRODBASIC.DOCID,to_char(BPRODBASIC.DOCDATE,'dd-MM-yy')DOCDATE,ILOCDETAILSID,BATCH FROM BPRODBASIC LEFT OUTER JOIN WCBASIC ON WCBASICID=BPRODBASIC.WCID LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BPRODBASIC.PROCESSID WHERE BPRODBASICID='" + id + "'");
                 string qc = drlot.Rows[0]["QCCOMPFLAG"].ToString();
                 string docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+                string docid = wopro.Rows[0]["DOCID"].ToString();
                 string narr = "Consumption in " + work + " - " + process;
                 
 
@@ -1534,9 +1535,14 @@ namespace Arasan.Services
 
                 string detid = objCmds.Parameters["LASTCID"].Value.ToString();
                 if (qc == "YES") { insflag = "0"; } else { insflag = "1"; }
-                SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG,STOCKVALUE) VALUES ('" + detid + "','m','" + item + "','" + docdate + "','" + qty + "' ,'" + wopro.Rows[0]["ILOCDETAILSID"].ToString() + "','0','"+ rate +"','0','0','0','0','0','BPROD CONS','" + insflag + "','"+ amt + "')";
+                SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG,STOCKVALUE) VALUES ('" + detid + "','m','" + item + "','" + docdate + "','" + qty + "' ,'" + wopro.Rows[0]["ILOCDETAILSID"].ToString() + "','0','"+ rate +"','0','0','0','0','0','BPROD CONS','" + insflag + "','"+ amt + "') RETURNING STOCKVALUEID INTO :STKID";
                 OracleCommand objCmdss = new OracleCommand(SvSql1, objConnT);
+                objCmdss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                 objCmdss.ExecuteNonQuery();
+                string stkid = objCmdss.Parameters["STKID"].Value.ToString();
+                string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION) VALUES ('" + stkid + "','" + docid + "','" + narr + "')";
+                OracleCommand objCmddts = new OracleCommand(SvSql2, objConnT);
+                objCmddts.ExecuteNonQuery();
                 //using (OracleDataReader reader = objCmds.ExecuteReader())
                 //{
                 //    // Load data into DataTable
@@ -1584,6 +1590,33 @@ namespace Arasan.Services
             }
 
             SvSql = "Insert into BPRODOUTS (BPRODBASICID,NOOFEMP,OWSTDTT,OWSTT,OWEDDTT,OWEDT,EMPWHRS,EMPPAY,MANPOWEXP,ONATOFW) VALUES ('" + id + "','" + noofemp + "','" + sdate + "','" + stime + "','" + edate + "','" + etime + "','" + workhrs + "','" + cost + "','" + expence + "','" + now + "')";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable SavewasteDetails(string id, string item, string qty, string rate, string amount)
+
+        {
+            string SvSql = string.Empty;
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                objConnT.Open();
+                SvSql = "Delete BPRODOUTS WHERE BPRODBASICID='" + id + "'";
+                OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
+                objCmdd.ExecuteNonQuery();
+            }
+            DataTable wopro = datatrans.GetData("SELECT WCBASIC.WCID,PROCESSMAST.PROCESSID,BPRODBASIC.DOCID,to_char(BPRODBASIC.DOCDATE,'dd-MM-yy')DOCDATE,ILOCDETAILSID,BATCH FROM BPRODBASIC LEFT OUTER JOIN WCBASIC ON WCBASICID=BPRODBASIC.WCID LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BPRODBASIC.PROCESSID WHERE BPRODBASICID='" + id + "'");
+            DataTable drlot = datatrans.GetData("SELECT DRUMYN,LOTYN,ITEMACC,QCCOMPFLAG FROM ITEMMASTER WHERE ITEMMASTERID='" + item + "'");
+
+            string lot = drlot.Rows[0]["LOTYN"].ToString();
+             string work = wopro.Rows[0]["WCID"].ToString();
+            string process = wopro.Rows[0]["PROCESSID"].ToString();
+            string narr = "Wastage taken in " + work + " - " + process;
+
+            SvSql = "Insert into BPRODWASTEDET (BPRODBASICID,WITEMID,WQTY,WRATE,WAMOUNT,WNARR,WLOTYN,WBINYN,WBINID,BPRODWASTEDETROW) VALUES ('" + id + "','" + item + "','" + qty + "','" + rate + "','" + amount + "','" + narr + "','" + lot + "','NO','0','1')";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);

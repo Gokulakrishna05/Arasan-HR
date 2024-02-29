@@ -64,6 +64,8 @@ namespace Arasan.Models
         public string Shift { get; set; }
         public List<ProInput> inplst { get; set; }
         public List<ProOutput> outlst { get; set; }
+
+        public List<Bpwastage> Bwastelst { get; set; }
         public List<APProInCons> Binconslst { get; set; }
         public List<EmpDetails> EmplLst { get; set; }
         public List<SourceDetail> SourcingLst { get; set; }
@@ -213,6 +215,22 @@ namespace Arasan.Models
         public string Reason { get; set; }
        
         public string Isvalid { get; set; }
+    }
+    public class Bpwastage
+    {
+        public string ID { get; set; }
+        public string ItemId { get; set; }
+        public List<SelectListItem> Itemlst { get; set; }
+        public string Isvalid { get; set; }
+        public string batchno { get; set; }
+        public double wastageQty { get; set; }
+        public double wastagerate { get; set; }
+        public double wastageamount { get; set; }
+        public string APID { get; set; }
+        public string toloc { get; set; }
+        public List<SelectListItem> loclst { get; set; }
+        public string BinId { get; set; }
+        public string saveitemId { get; set; }
     }
     public class BreakDet
     {

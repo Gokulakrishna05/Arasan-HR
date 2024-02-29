@@ -66,6 +66,7 @@ namespace Arasan.Interface
         DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch,string drum, int r, double rate);
         DataTable SaveConsDetails(string id, string item, string unit, string qty, string usedqty, string work, string process, int l, double rate);
         DataTable SaveEmpDetails(string id, string empname, string code, string depat, string sdate, string stime, string edate, string etime, string ot, string et, string normal, string now, string otcost, string empcost);
+        DataTable SavewasteDetails(string id, string item, string qty, string rate, string amount);
         DataTable SaveOutsDetails(string id, string noofemp, string sdate, string stime, string edate, string etime, string workhrs, string cost, string expence, string now);
         DataTable SaveBreakDetails(string id, string machine, string des, string dtype, string mtype, string stime, string etime, string pb,string all, string reason);
         DataTable SaveLogDetails(string id, string sdate, string stime, string edate, string etime, string tot, string reason);
