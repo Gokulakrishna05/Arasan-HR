@@ -21,5 +21,6 @@ namespace Arasan.Interface.Sales
         DataTable EditProFormaInvoiceDetails(string id);
         DataTable GetArea(string custid);
         DataTable GetTerms();
+        DataTable GetAllListProFormaInvoiceItems(string strStatus);
     }
 }

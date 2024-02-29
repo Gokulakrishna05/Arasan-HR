@@ -247,7 +247,7 @@ namespace Arasan.Services.Sales
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE SPINVBASIC SET STATUS ='InActive' WHERE SPINVBASICID='" + id + "'";
+                    svSQL = "UPDATE PINVBASIC SET STATUS ='InActive' WHERE PINVBASICID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -317,6 +317,23 @@ namespace Arasan.Services.Sales
         {
             string SvSql = string.Empty;
             SvSql = "select TANDC,TANDCDETAILID from TANDCDETAIL";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAllListProFormaInvoiceItems(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select  BRANCHMAST.BRANCHID,DOCID,to_char(PINVBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,PINVBASIC.PARTYNAME,PINVBASICID from PINVBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=PINVBASIC.BRANCHID WHERE PINVBASIC.STATUS='Active' ORDER BY PINVBASIC.PINVBASICID DESC";
+            }
+            else
+            {
+                SvSql = "Select  BRANCHMAST.BRANCHID,DOCID,to_char(PINVBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,PINVBASIC.PARTYNAME,PINVBASICID from PINVBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=PINVBASIC.BRANCHID WHERE PINVBASIC.STATUS='InActive' ORDER BY PINVBASIC.PINVBASICID DESC";
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
