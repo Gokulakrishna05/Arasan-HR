@@ -8,6 +8,7 @@
 }
 
 <partial name="JqxGridPartial" />
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
 
 <style>
     .newwidth {
@@ -64,21 +65,24 @@
         $("#grid").jqxGrid(
             {
 
-                width: '100%',
-                source: dataAdapter,
-                //height: 450,
-                  autorowheight: true,
-                autoheight: true,
-                source: source,
-                sortable: true,
-                filterable: true,
-                groupable: false,
-                pageable: true,
-                showfilterbar: true,
-                //showfilterrow: true,
+                    width: '100%',
+                    source: dataAdapter,
+                    height: 450,
+                    source: source,
+                    //autoheight: true,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
+                    theme: 'ui-start',
+                    autorowheight: true,
                     filterbarmode: 'simple',
-                theme: 'darkblue',
-                enablebrowserselection: true,
+                    enablebrowserselection: true,
+                    columnsresize: true,
+                    selectionmode: 'multiplerowsextended',
+                    keyboardnavigation: false,
                 columns: [
 
                     { text: 'Category', datafield: 'category', width: 200 },
