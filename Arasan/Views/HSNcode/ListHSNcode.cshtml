@@ -6,6 +6,7 @@
     //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
 }
 <partial name="JqxGridPartial" />
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
 
 <script type="text/javascript">
     @if (TempData["notice"] != null)
@@ -143,26 +144,26 @@
         // creage grid
         $("#grid").jqxGrid(
          {
-               
 
-                width: '100%',
-                source: dataAdapter,
-                //height: 450,
-                autorowheight: true,
-                autoheight: true,
-                source: source,
-                sortable: true,
-                filterable: true,
-                groupable: false,
-                pageable: true,
-                showfilterbar: true,
-                //showfilterrow: true,
-                rowdetails: true,
-                rowsheight: 35,
-                initrowdetails: initrowdetails,
+
+                    width: '100%',
+                    source: dataAdapter,
+                    height: 450,
+                    source: source,
+                    //autoheight: true,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
+                    theme: 'ui-start',
+                    autorowheight: true,
                     filterbarmode: 'simple',
-                theme: 'darkblue',
-                enablebrowserselection: true,
+                    enablebrowserselection: true,
+                    columnsresize: true,
+                    selectionmode: 'multiplerowsextended',
+                    keyboardnavigation: false,
 
                 rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
                 ready: function () {

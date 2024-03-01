@@ -7,6 +7,7 @@
     //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
 }
 <partial name="JqxGridPartial" />
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
 
 <script type="text/javascript">
     @if (TempData["notice"] != null)
@@ -61,20 +62,24 @@
             {
 
                 width: '100%',
-                source: dataAdapter,
-                height: 450,
-                    //autorowheight: true,
+                    source: dataAdapter,
+                    height: 450,
+                    source: source,
                     //autoheight: true,
-                source: source,
-                sortable: true,
-                filterable: true,
-                groupable: false,
-                pageable: true,
-                showfilterbar: true,
-                //showfilterrow: true,
-               // filterbarmode: 'simple',
-                theme: 'darkblue',
-                enablebrowserselection: true,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
+                    theme: 'ui-start',
+                    autorowheight: true,
+                    filterbarmode: 'simple',
+                    enablebrowserselection: true,
+                    columnsresize: true,
+                    selectionmode: 'multiplerowsextended',
+                    keyboardnavigation: false,
+
                 columns: [
 
                     { text: 'Category Type', filtertype: 'checkedlist', datafield: 'catetype', width: 200 },
