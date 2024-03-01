@@ -316,7 +316,7 @@ namespace Arasan.Controllers.Sales
                 //}
                 //else
                 //{
-                EditRow = "<a href=ViewDepotInvoice?id=" + dtUsers.Rows[i]["PINVBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Deatils' /></a>";
+                EditRow = "<a href=ProFormaInvoice?id=" + dtUsers.Rows[i]["PINVBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Deatils' /></a>";
                 DeleteRow = "<a href=CloseQuote?id=" + dtUsers.Rows[i]["PINVBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 //}
