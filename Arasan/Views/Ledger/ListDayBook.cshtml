@@ -6,6 +6,7 @@
     string strTo = ViewContext.HttpContext.Request.Query["strTo"];
 }
 <partial name="JqxGridPartial" />
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
 @* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
 
 <script type="text/javascript">
@@ -66,15 +67,20 @@
                 source: dataAdapter,
                 height: 450,
                 source: source,
-                autoheight: true,
+                //autoheight: true,
                 sortable: true,
                 filterable: true,
                 groupable: false,
                 pageable: true,
                 showfilterbar: true,
                 //showfilterrow: true,
-                theme: 'darkblue',
+                theme: 'ui-start',
+                autorowheight: true,
+                filterbarmode: 'simple',
                 enablebrowserselection: true,
+                columnsresize: true,
+                selectionmode: 'multiplerowsextended',
+                keyboardnavigation: false,
                 columns: [
                     { text: 'Vocher No', filtertype: 'checkedlist', datafield: 'vocherno', width: 120 },
                     { text: 'Vocher Date', datafield: 'vocherdate', width: 100, align: 'center' },
