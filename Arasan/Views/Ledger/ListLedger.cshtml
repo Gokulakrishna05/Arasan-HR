@@ -4,6 +4,7 @@
     ViewData["Title"] = "Index";
 }
 <partial name="JqxGridPartial" />
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
 @* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
 
 <script type="text/javascript">
@@ -58,19 +59,24 @@
 
         $("#grid").jqxGrid(
             {
-               width: '100%',
-               source: dataAdapter, 
-               height: 450,
-               source: source,
-               sortable: true,
-               filterable: true,
-               groupable: false,
-               pageable: true,
-               showfilterbar: true,
+                width: '100%',
+                source: dataAdapter,
+                height: 450,
+                source: source,
+                //autoheight: true,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterbar: true,
+                //showfilterrow: true,
+                theme: 'ui-start',
+                autorowheight: true,
                 filterbarmode: 'simple',
-              //showfilterrow: true,
-              theme: 'darkblue',
-		      enablebrowserselection :true,
+                enablebrowserselection: true,
+                columnsresize: true,
+                selectionmode: 'multiplerowsextended',
+                keyboardnavigation: false,
                 columns: [
                     { text: 'Account Type', filtertype: 'checkedlist', datafield: 'atype', width: 150 },
                     { text: 'Account Group', filtertype: 'checkedlist', datafield: 'accgroup', width: 150 },

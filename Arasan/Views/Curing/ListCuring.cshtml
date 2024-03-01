@@ -5,6 +5,7 @@
      
 }
 <partial name="JqxGridPartial" />
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
 
 <script type="text/javascript">
     @if (TempData["notice"] != null)
@@ -61,19 +62,22 @@
 
                     width: '100%',
                     source: dataAdapter,
-                    //height: 450,
-                    autorowheight: true,
-                    autoheight: true,
+                    height: 450,
                     source: source,
+                    //autoheight: true,
                     sortable: true,
                     filterable: true,
                     groupable: false,
                     pageable: true,
                     showfilterbar: true,
                     //showfilterrow: true,
+                    theme: 'ui-start',
+                    autorowheight: true,
                     filterbarmode: 'simple',
-                    theme: 'darkblue',
                     enablebrowserselection: true,
+                    columnsresize: true,
+                    selectionmode: 'multiplerowsextended',
+                    keyboardnavigation: false,
                     columns: [
 
                     { text: 'Location Name', filtertype: 'checkedlist', datafield: 'location', width: 200 },
