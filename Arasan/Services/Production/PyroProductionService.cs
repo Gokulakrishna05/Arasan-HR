@@ -152,7 +152,7 @@ namespace Arasan.Services
         public DataTable GetItemCon(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,STOCKVALUE.ITEMID as item from STOCKVALUE left outer join ITEMMASTER on ITEMMASTER.ITEMMASTERID=STOCKVALUE.ITEMID where ITEMMASTER.igroup='Consumables'  AND LOCID='"+ id + "' GROUP BY ITEMMASTER.ITEMID,STOCKVALUE.ITEMID ";
+            SvSql = "select I.ITEMID,S.ITEMID as item from STOCKVALUE S,ITEMMASTER I Where I.ITEMMASTERID=S.ITEMID AND I.igroup='Consumables' AND LOCID='"+ id + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  GROUP BY I.ITEMID,S.ITEMID";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -594,7 +594,7 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch,string drum,int r)
+        public DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch,string drum,int r,double rate)
         {
             string SvSql = string.Empty;
             string SvSql1 = string.Empty;

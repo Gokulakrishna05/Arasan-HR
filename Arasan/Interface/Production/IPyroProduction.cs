@@ -69,7 +69,7 @@ namespace Arasan.Interface
 
         string SaveBasicDetail(string schno, string docid, string docdate, string loc, string proc, string shift, string schqty, string prodqty, string wcid, string proclot, string branchid,string enterd);
 
-        DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch, string drum,int r);
+        DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch, string drum,int r,double rate);
         DataTable SaveOutputDetails(string id, string item, string stime, string ttime, string qty, string drum,string status, string stock, string excess,string shed);
         DataTable SaveBunkDetails(string id, string opbin, string powder, string grase, string totip, string top, string oxd, string trm, string clbin, string mlop, string mladd, string mlded, string mlcl);
         DataTable SaveConsDetails(string id, string item, string bin, string unit, string usedqty, string qty, string stock,int l);
