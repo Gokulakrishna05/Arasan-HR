@@ -760,7 +760,7 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable SaveConsDetails(string id, string item, string bin, string unit, string usedqty, string qty, string stock,int l)
+        public DataTable SaveConsDetails(string id, string item, string bin, string unit, string usedqty, string qty, string stock,int l,double rate)
         {
             string SvSql = string.Empty;
             string SvSql1 = string.Empty;
@@ -776,9 +776,10 @@ namespace Arasan.Services
                 string process = wopro.Rows[0]["PROCESSID"].ToString();
                 string docdate = DateTime.Now.ToString("dd-MMM-yyyy");
                 string narr = "Consumption in " + work + " - " + process;
+                string docid= wopro.Rows[0]["DOCID"].ToString();
 
-
-                SvSql = "Insert into NPRODCONSDET (NPRODBASICID,CITEMID,CBINID,CUNIT,CLOTYN,CNARR,CONSQTY,CSUBQTY,VALIDROW3,NPRODCONSDETROW,CITEMACC,IS_INSERT) VALUES ('" + id + "','" + item + "','0','" + unit + "','" + drlot.Rows[0]["LOTYN"].ToString() + "','" + narr + "','" + qty + "','" + usedqty + "','T','" + l + "','" + drlot.Rows[0]["ITEMACC"].ToString() + "','Y') RETURNING NPRODCONSDETID INTO :LASTCID";
+                double amt = rate * Convert.ToDouble(qty);
+                SvSql = "Insert into NPRODCONSDET (NPRODBASICID,CITEMID,CBINID,CUNIT,CLOTYN,CNARR,CONSQTY,CSUBQTY,VALIDROW3,NPRODCONSDETROW,CITEMACC,CRATE,CVALUE) VALUES ('" + id + "','" + item + "','0','" + unit + "','" + drlot.Rows[0]["LOTYN"].ToString() + "','" + narr + "','" + qty + "','" + usedqty + "','T','" + l + "','" + drlot.Rows[0]["ITEMACC"].ToString() + "','"+ rate +"','"+ amt + "') RETURNING NPRODCONSDETID INTO :LASTCID";
                 OracleCommand objCmds = new OracleCommand(SvSql, objConnT);
 
                 objCmds.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
@@ -797,9 +798,15 @@ namespace Arasan.Services
                 }
                 else
                 {
-                    SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG) VALUES ('" + detid + "','m','" + item + "','" + docdate + "','" + qty + "' ,'" + wopro.Rows[0]["ILOCDETAILSID"].ToString() + "','0','0','0','0','0','0','0','PROD CONS','" + insflag + "')";
+                    SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG,STOCKVALUE) VALUES ('" + detid + "','m','" + item + "','" + docdate + "','" + qty + "' ,'" + wopro.Rows[0]["ILOCDETAILSID"].ToString() + "','0','0','0','0','0','0','0','PROD CONS','" + insflag + "','"+ amt +"')";
                     OracleCommand objCmdss = new OracleCommand(SvSql1, objConnT);
+                    objCmdss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                     objCmdss.ExecuteNonQuery();
+                    string stkid = objCmdss.Parameters["STKID"].Value.ToString();
+
+                    string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION) VALUES ('" + stkid + "','" + docid + "','" + narr + "')";
+                    OracleCommand objCmddts = new OracleCommand(SvSql2, objConnT);
+                    objCmddts.ExecuteNonQuery();
                 }
                 // SvSql = "Insert into PYROPRODCONSDET (PYROPRODBASICID,ITEMID,BINID,UNITID,QTY,CONSQTY,STOCK) VALUES ('" + id + "','" + item + "','" + bin + "','" + unit + "','" + usedqty + "','" + qty + "','" + stock + "')";
             }
@@ -961,7 +968,7 @@ namespace Arasan.Services
            
             return dtt;
         }
-        public DataTable SaveEmpDetails(string id, string empname, string code, string depat, string sdate, string stime, string edate, string etime, string ot, string et, string normal, string now)
+        public DataTable SaveEmpDetails(string id, string empname, string code, string depat, string sdate, string stime, string edate, string etime, string ot, string et, string normal, string now, string otcost, string empcost)
         {
             string SvSql = string.Empty;
             using (OracleConnection objConnT = new OracleConnection(_connectionString))
@@ -971,7 +978,14 @@ namespace Arasan.Services
                 OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
                 objCmdd.ExecuteNonQuery();
             }
-            SvSql = "Insert into NPRODEMPDET (NPRODBASICID,EMPNAME,EMPCODE1,DEPARTMENT,ESTARTDATE,ESTARTTIME,EENDDATE,EENDTIME,OTHRS,ETOTHRS,NORMHRS,NATOFW) VALUES ('" + id + "','" + empname + "','" + code + "','" + depat + "','" + sdate + "','" + stime + "','" + edate + "','" + etime + "','" + ot + "','" + et + "','" + normal + "','" + now + "')";
+            double normalhr = Convert.ToDouble(normal == "" ? 0 : normal);
+            double emc = Convert.ToDouble(empcost == "" ? 0 : empcost);
+            double othr = Convert.ToDouble(ot == "" ? 0 : ot);
+            double otc = Convert.ToDouble(otcost == "" ? 0 : otcost);
+            double nohrc = normalhr * emc;
+            double otct = othr * otc;
+            double etot = nohrc + otct;
+            SvSql = "Insert into NPRODEMPDET (NPRODBASICID,EMPNAME,EMPCODE1,DEPARTMENT,ESTARTDATE,ESTARTTIME,EENDDATE,EENDTIME,OTHRS,ETOTHRS,NORMHRS,NATOFW,EMPCOST,OTC,NORMHRC,OTHRC,ETOTC) VALUES ('" + id + "','" + empname + "','" + code + "','" + depat + "','" + sdate + "','" + stime + "','" + edate + "','" + etime + "','" + ot + "','" + et + "','" + normal + "','" + now + "','"+ empcost +"','"+ otcost +"','"+ nohrc +"','"+ otct + "','"+ etot + "')";
 
             // SvSql = "Insert into PYROPRODEMPDET (PYROPRODBASICID,EMPID,EMPCODE,DEPARTMENT,STARTDATE,STARTTIME,ENDDATE,ENDTIME,OTHRS,ETOTHER,NORMELHRS,NATUREOFWORK) VALUES ('" + id + "','" + empname + "','" + code + "','" + depat + "','" + sdate + "','" + stime + "','" + edate + "','" + etime + "','" + ot + "','" + et + "','" + normal + "','" + now + "')";
 
@@ -1032,8 +1046,6 @@ namespace Arasan.Services
             }
             SvSql = "Insert into NPRODBUNK (NPRODBASICID,OPBBAL,TOTPINP,TOTGINP,CLBBAL,MLOPBAL,MLADD,MLDED,MLCLBAL,TOTINP,TOTOXD) VALUES ('" + id + "','" + opbin + "','" + powder + "','" + grase + "','" + clbin + "','" + mlop + "','" + mladd + "','" + mlded + "','" + mlcl + "','" + totip + "','" + oxd + "')";
 
-            // SvSql = "Insert into PYROPRODEMPDET (PYROPRODBASICID,EMPID,EMPCODE,DEPARTMENT,STARTDATE,STARTTIME,ENDDATE,ENDTIME,OTHRS,ETOTHER,NORMELHRS,NATUREOFWORK) VALUES ('" + id + "','" + empname + "','" + code + "','" + depat + "','" + sdate + "','" + stime + "','" + edate + "','" + etime + "','" + ot + "','" + et + "','" + normal + "','" + now + "')";
-
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1059,6 +1071,180 @@ namespace Arasan.Services
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+        public string PyroProductionEntryDetCRUD(PyroProductionentryDet cy)
+        {
+            string msg = "";
+
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                string id = cy.inplst[0].APID;
+                string wipitemid = datatrans.GetDataString("Select WIPITEMID from WCBASIC where WCID='" + cy.Location + "'");
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    objConn.Open();
+
+                    ///////////////////Electricity cost ///////////
+                    double ebcost = Convert.ToDouble(cy.EBCOST == "" ? 0 : cy.EBCOST);
+                    double ebcostphr = Convert.ToDouble(cy.EBCOSTPHR == "" ? 0 : cy.EBCOSTPHR);
+                    double totrhr = 0;
+                    if (cy.LogLst != null)
+                    {
+                        foreach (PLogDetails cp in cy.LogLst)
+                        {
+                            if (cp.Isvalid == "Y")
+                            {
+                                totrhr += Convert.ToDouble(cp.tothrs == "" ? 0 : cp.tothrs);
+
+                            }
+                        }
+                    }
+                    double breakhr = 0;
+                    if (cy.BreakLst != null)
+                    {
+                        foreach (PBreakDet cp in cy.BreakLst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.MachineId != "0")
+                            {
+                                double stime = Convert.ToDouble(cp.StartTime == "" ? 0 : cp.StartTime);
+                                double etime = Convert.ToDouble(cp.EndTime == "" ? 0 : cp.EndTime);
+                                double tobreak = etime - stime;
+                                breakhr += tobreak;
+                            }
+
+                        }
+                    }
+                    double tothr = totrhr - breakhr;
+                    double ebcot = tothr * ebcost * ebcostphr;
+                    ///////////////////Electricity cost ///////////
+
+                    ///////////////////Employee cost ///////////
+                    double empcot = 0;
+                    string empc = datatrans.GetDataString("select SUM(ETOTC) as totcost from NPRODEMPDET where NPRODBASICID='" + id + "'");
+                    string outc = datatrans.GetDataString("select SUM(MANPOWEXP) as totcost from NPRODOUTS where NPRODBASICID='" + id + "'");
+                    empcot = Convert.ToDouble(empc == "" ? 0 : empc) + Convert.ToDouble(outc == "" ? 0 : outc);
+                    ///////////////////Employee cost ///////////
+
+                    //////////////////Material cost//////////////
+                    string inpc = datatrans.GetDataString("select SUM(IAMOUNT) as tot from NPRODINPDET where NPRODBASICID='" + id + "'");
+                    string consc = datatrans.GetDataString("select SUM(CVALUE) as rate  from NPRODCONSDET where NPRODBASICID='" + id + "'");
+                    double totmcost = Convert.ToDouble(inpc == "" ? 0 : inpc) + Convert.ToDouble(consc == "" ? 0 : consc);
+                    //////////////////Material cost//////////////
+                    double totcost = totmcost + empcot + ebcot;
+
+                    ///////////////////Total Production////////////////
+                    double totprod = 0;
+                    if (cy.outlst != null)
+                    {
+                        foreach (PProOutput cp in cy.outlst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                            {
+                                totprod += Convert.ToDouble(cp.OutputQty);
+                            }
+
+                        }
+                    }
+                    ///////////////////Total Production////////////////
+                    double rate = Math.Round(totcost / totprod, 2);
+
+                    DataTable dt = new DataTable();
+                    dt = datatrans.GetData("select NPRODOUTDETID,OQTY from NPRODOUTDET where NPRODBASICID='" + id + "'");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            svSQL = "UPDATE LSTOCKVALUE SET RATE='" + rate + "' where STOCKTRANSTYPE='PROD OUTPUT' AND T1SOURCEID='" + dt.Rows[i]["NPRODOUTDETID"].ToString() + "'";
+                            OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                            objCmdd.ExecuteNonQuery();
+                            double qty = Convert.ToDouble(dt.Rows[i]["OQTY"].ToString() == "" ? 0 : dt.Rows[i]["OQTY"].ToString());
+                            double amt = qty * rate;
+
+                            string svSQLs = "UPDATE NPRODOUTDET SET ORATE='" + rate + "',FRATE='" + rate + "',OAMOUNT='" + amt + "' where NPRODOUTDETID='" + dt.Rows[i]["NPRODOUTDETID"].ToString() + "'";
+                            OracleCommand objCmdds = new OracleCommand(svSQLs, objConn);
+                            objCmdds.ExecuteNonQuery();
+
+                            string svSQLt = "UPDATE LOTMAST SET RATE='" + rate + "',AMOUNT='" + amt + "' where PRODTYPE='PROD' AND T1SOURCEID='" + dt.Rows[i]["NPRODOUTDETID"].ToString() + "'";
+                            OracleCommand objCmddt = new OracleCommand(svSQLt, objConn);
+                            objCmddt.ExecuteNonQuery();
+                        }
+                    }
+
+                    DataTable dt2 = new DataTable();
+                    dt2 = datatrans.GetData("select L.STOCKVALUE2ID,L.STOCKVALUEID,S.QTY from STOCKVALUE S,STOCKVALUE2 L where L.STOCKVALUEID=S.STOCKVALUEID AND L.DOCID='" + cy.DocId + "' AND S.STOCKTRANSTYPE='PROD OUTPUT'");
+                    if (dt2.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt2.Rows.Count; i++)
+                        {
+                            double qty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? 0 : dt2.Rows[i]["QTY"].ToString());
+                            double amt = qty * rate;
+                            string svSQLr = "UPDATE STOCKVALUE SET STOCKVALUE='" + amt + "' where STOCKVALUEID='" + dt2.Rows[i]["STOCKVALUEID"].ToString() + "'";
+                            OracleCommand objCmddr = new OracleCommand(svSQLr, objConn);
+                            objCmddr.ExecuteNonQuery();
+
+
+                            string svSQLt = "UPDATE STOCKVALUE2 SET RATE='" + rate + "' where STOCKVALUE2ID='" + dt2.Rows[i]["STOCKVALUE2ID"].ToString() + "'";
+                            OracleCommand objCmddt = new OracleCommand(svSQLt, objConn);
+                            objCmddt.ExecuteNonQuery();
+
+                        }
+
+                    }
+
+                    string totdudt = datatrans.GetDataString("select SUM(OQTY) from NPRODOUTDET where NPRODBASICID='" + id + "' AND SUBCATEGORY='DUST'");
+                    string totinp = datatrans.GetDataString("select SUM(IQTY) from NPRODINPDET where NPRODBASICID='" + id + "' ");
+                    //string totwaste= datatrans.GetDataString("select SUM(IQTY) from BPRODINPDET where BPRODBASICID='" + id + "' ");
+
+                    string svSQLtt = "UPDATE NPRODBASIC SET TOTALDUST='" + totdudt + "',TOTALOUTPUT='" + totprod + "',TOTALINPUT='" + totinp + "',IS_COMPLETE='Y' where NPRODBASICID='" + id + "'";
+                    OracleCommand objCmddtt = new OracleCommand(svSQLtt, objConn);
+                    objCmddtt.ExecuteNonQuery();
+
+                    ////////////////////In Process Stock ///////////////////
+
+                    DataTable dtb = new DataTable();
+                    dtb = datatrans.GetData("select PROCESSID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,WCID from NPRODBASIC where NPRODBASICID='" + id + "'");
+                    string inprate = datatrans.GetDataString("select AVG(IRATE) as rate from NPRODINPDET where NPRODBASICID='" + id + "'");
+                    double inpamt = Convert.ToDouble(inprate == "" ? 0 : inprate) * Convert.ToDouble(totinp == "" ? 0 : totinp);
+                    /////////////Input/////////////
+                    string SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG,STOCKVALUE) VALUES ('" + id + "','p','" + wipitemid + "','" + dtb.Rows[0]["DOCDATE"].ToString() + "','" + totinp + "' ,'" + dtb.Rows[0]["WCID"].ToString() + "','0','" + inprate + "','" + dtb.Rows[0]["PROCESSID"].ToString() + "','0','0','0','" + dtb.Rows[0]["WCID"].ToString() + "','PROD INP','0','" + inpamt + "') RETURNING STOCKVALUEID INTO :STKID";
+                    OracleCommand objCmdss = new OracleCommand(SvSql1, objConn);
+                    objCmdss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                    objCmdss.ExecuteNonQuery();
+                    string stkid = objCmdss.Parameters["STKID"].Value.ToString();
+
+                    string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,RATE) VALUES ('" + stkid + "','" + cy.DocId + "','" + inprate + "')";
+                    OracleCommand objCmddts = new OracleCommand(SvSql2, objConn);
+                    objCmddts.ExecuteNonQuery();
+                    /////////////Input/////////////
+                    ////////////////Output////////////
+                    double Outamt = totprod * rate;
+                    string SvSqlo = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG,STOCKVALUE) VALUES ('" + id + "','m','" + wipitemid + "','" + dtb.Rows[0]["DOCDATE"].ToString() + "','" + totprod + "' ,'" + dtb.Rows[0]["WCID"].ToString() + "','0','" + rate + "','" + dtb.Rows[0]["PROCESSID"].ToString() + "','0','0','0','" + dtb.Rows[0]["WCID"].ToString() + "','PROD INP','0','" + Outamt + "') RETURNING STOCKVALUEID INTO :STKID";
+                    OracleCommand objCmdso = new OracleCommand(SvSqlo, objConn);
+                    objCmdso.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                    objCmdso.ExecuteNonQuery();
+                    string stkid1 = objCmdso.Parameters["STKID"].Value.ToString();
+
+                    string SvSqlo2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,RATE) VALUES ('" + stkid1 + "','" + cy.DocId + "','" + rate + "')";
+                    OracleCommand objCmddtos = new OracleCommand(SvSqlo2, objConn);
+                    objCmddtos.ExecuteNonQuery();
+
+
+                    ////////////////Output/////////////
+                    ////////////////////In Process Stock ///////////////////
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
         }
         public string PyroProEntryCRUD(PyroProductionentryDet cy)
         {
