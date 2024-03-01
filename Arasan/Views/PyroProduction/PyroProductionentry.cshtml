@@ -140,7 +140,7 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">Production Entry</h5>
                     <hr>
-                    @using (Html.BeginForm("PyroProduction", "PyroProduction", FormMethod.Post))
+                    @using (Html.BeginForm("PyroProductionentry", "PyroProduction", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         <form>
@@ -275,7 +275,8 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                @Html.HiddenFor(C => C.EBCOST,new{@id="hdebcost"})
+                                @Html.HiddenFor(C => C.EBCOSTPHR,new{@id="hdebcostpher"})
                             </div>
 
                             <div style="height:30px;"></div>
@@ -1239,7 +1240,8 @@
                             </div>
                             <div class="col-lg-10" hidden id="go">
                                 <div class="col-lg-10"></div>
-                                <button type="button" href="@Url.Action("PyroProdApprove", "PyroProduction", new { id = Model.APID })" class="btn aqua fancybox" data-fancybox-type='iframe' id="btnSave" onClick="window.parent.jQuery.fancybox.close();">Submit</button>
+                                <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                               @* <button type="button" href="@Url.Action("PyroProdApprove", "PyroProduction", new { id = Model.APID })" class="btn aqua fancybox" data-fancybox-type='iframe' id="btnSave" onClick="window.parent.jQuery.fancybox.close();">Submit</button>*@
                                 <button class="btn btn-danger" type="button" causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("ListPyroProduction", "PyroProduction")'">Cancel</button>
                                 @*@* <button class="btn btn-danger" type="button" causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("PyroProduction", "PyroProduction")'">Cancel</button>*@
                                 @*</div>*@
@@ -1427,7 +1429,7 @@
             type: "GET",
             success: function (result) {
                 document.getElementById("shiftdetails").innerHTML = result.fromtime + " to " + result.totime + "  Total Hours : " + result.tothrs;
-                document.getElementById("shiftdetails1").innerHTML = result.fromtime + " to " + result.totime + "  Total Hours : " + result.tothrs;
+                //document.getElementById("shiftdetails1").innerHTML = result.fromtime + " to " + result.totime + "  Total Hours : " + result.tothrs;
             },
             error: function () {
                 alert("Data Not Found");
@@ -2305,6 +2307,8 @@ document.getElementById("occ" + i).innerHTML= result.occ;
                 emp.ETOther = document.getElementById("txtETOther" + e).value;
                 emp.Normal = document.getElementById("txtNormal" + e).value;
                 emp.NOW = document.getElementById("txtNOW" + e).value;
+                emp.OTcost = document.getElementById("hdotcost" + e).value;
+                emp.Empcost = document.getElementById("hdempcost" + e).value;
                 EmpDetails.push(emp);
                 
             }
@@ -2599,7 +2603,8 @@ document.getElementById("occ" + i).innerHTML= result.occ;
 
         if (entime == "")
                         entime = 0;
-        
+       @* alert(eval(entime));
+        alert(eval(frtime));*@
             var tothrs=eval(entime)-eval(frtime);
             var rohrs = Math.ceil(tothrs);
             document.getElementById("txtTotalHrs" +i).value=rohrs ;

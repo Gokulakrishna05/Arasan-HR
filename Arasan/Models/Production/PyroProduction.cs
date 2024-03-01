@@ -101,6 +101,8 @@ namespace Arasan.Models
         public string ProdLog { get; set;}
         public string ProcessLot { get; set; }
         public List<SelectListItem> Plotlst { get; set; }
+        public string EBCOST { get; set; }
+        public string EBCOSTPHR { get; set; }
     }
     public class PProInput
     {
