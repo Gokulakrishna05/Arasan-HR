@@ -129,4 +129,14 @@ namespace Arasan.Models
         public string editrow { get; set; }
         public string delrow { get; set; }
     }
+    public class ListWDrumAllocationItems
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string jopjd { get; set; }
+        public string jopdate { get; set; }
+        public string location { get; set; }
+        public string customer { get; set; }
+        public string drum { get; set; }
+    }
 }

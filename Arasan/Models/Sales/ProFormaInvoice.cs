@@ -45,6 +45,7 @@ namespace Arasan.Models
         public List<SelectListItem> Suplst;
 
         public string WorkCenter { get; set; }
+        public string ddlStatus { get; set; }
 
         public List<SelectListItem> Joblst;
         public List<ProFormaInvoiceDetail> ProFormalst { get; set; }
@@ -147,5 +148,16 @@ namespace Arasan.Models
         public string Terms { get; set; }
 
     }
+    public class ListProFormaInvoiceItems
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string enqno { get; set; }
+        public string date { get; set; }
+        public string party { get; set; }
+        public string delrow { get; set; }
+        public string refno { get; set; }
+        public string edit { get; set; }
 
+    }
 }

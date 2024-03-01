@@ -28,6 +28,7 @@
     <None Remove="Views\Account\1agfobwd.bjs~" />
     <None Remove="Views\APProductionentry\0xhmotfp.sma~" />
     <None Remove="Views\QCFinalValueEntry\QCFinalValueEntry.cshtml~RF5db3da.TMP" />
+    <None Remove="Views\WorkOrder\ep0r2hud.dag~" />
   </ItemGroup>
 
   <ItemGroup>

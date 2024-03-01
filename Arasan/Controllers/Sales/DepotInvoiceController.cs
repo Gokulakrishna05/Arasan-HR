@@ -245,8 +245,54 @@ namespace Arasan.Controllers
 
         public IActionResult ListDepotInvoice()
         {
-            IEnumerable<DepotInvoice> cmp = DepotInvoiceService.GetAllDepotInvoice();
-            return View(cmp);
+            //IEnumerable<DepotInvoice> cmp = DepotInvoiceService.GetAllDepotInvoice();
+            return View();
+        }
+        public ActionResult MyListDepotInvoiceGrid()
+        {
+            List<ListDepotInvoiceItems> Reg = new List<ListDepotInvoiceItems>();
+            DataTable dtUsers = new DataTable();
+            //strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)DepotInvoiceService.GetAllListDepotInvoiceItems();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string View = string.Empty;
+                string DeleteRow = string.Empty;
+
+                //if (dtUsers.Rows[i]["STATUS"].ToString() == "INACTIVE")
+                //{
+                //    View = "";
+                //    DeleteRow = "";
+                //}
+                //else
+                //{
+                    View = "<a href=ViewDepotInvoice?id=" + dtUsers.Rows[i]["DEPINVOBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Deatils' /></a>";
+                    DeleteRow = "<a href=DeleteDI?id=" + dtUsers.Rows[i]["DEPINVOBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                //}
+
+                Reg.Add(new ListDepotInvoiceItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["DEPINVOBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    enqno = dtUsers.Rows[i]["DOCID"].ToString(),
+                    customer = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    date = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    net = dtUsers.Rows[i]["NET"].ToString(),
+                    view = View,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
         public JsonResult GetItemJSON(string locid)
         {

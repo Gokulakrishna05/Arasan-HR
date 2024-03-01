@@ -852,6 +852,23 @@ namespace Arasan.Controllers
 				throw ex;
 			}
 		}
+        public List<SelectListItem> BindLocation()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetLocation();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindBatchItemlst(string value,string locid)
         {
             try
@@ -1173,6 +1190,42 @@ namespace Arasan.Controllers
             }
             return Json(msg);
         }
+        public ActionResult InsertProWastage([FromBody] Bpwastage[] model)
+        {
+            string msg = "";
+            try
+            {
+                foreach (Bpwastage waste in model)
+                {
+
+                    string item = waste.ItemId;
+                    string qty = waste.wastageQty.ToString();
+                    string rate = waste.wastagerate.ToString();
+                    string amount = waste.wastageamount.ToString();
+                    string id = waste.APID;
+                    
+                 
+                    DataTable dt = new DataTable();
+
+                    dt = IProductionEntry.SavewasteDetails(id, item, qty, rate, amount);
+                }
+
+                if (model.Length > 0)
+                {
+                    msg = "Records Inserted Successfully.";
+                }
+                else
+                {
+                    msg = "Please add records.";
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "An Error Has occoured";
+                throw ex;
+            }
+            return Json(msg);
+        }
         public ActionResult InsertProOutsource([FromBody] SourceDetail[] model)
         {
             string msg = "";
@@ -1405,6 +1458,8 @@ namespace Arasan.Controllers
             SourceDetail tda6 = new SourceDetail();
             List<LogDetails> TTData5 = new List<LogDetails>();
             LogDetails tda5 = new LogDetails();
+            List<Bpwastage> TData7 = new List<Bpwastage>();
+            Bpwastage tda7 = new Bpwastage();
             string ebcost = datatrans.getebcost();
           
             ca.EBCOST = ebcost;
@@ -1465,6 +1520,14 @@ namespace Arasan.Controllers
                             TData4.Add(tda4);
 
                         }
+                    for (int i = 0; i < 1; i++)
+                    {
+                        tda7 = new Bpwastage();
+                        tda7.Itemlst = BindItemlst();
+                        tda7.loclst = BindLocation();
+                        tda7.Isvalid = "Y";
+                        TData7.Add(tda7);
+                    }
 
                     for (int i = 0; i < 3; i++)
                     {
@@ -2033,6 +2096,14 @@ namespace Arasan.Controllers
 
                         }
                     }
+                    for (int i = 0; i < 1; i++)
+                    {
+                        tda7 = new Bpwastage();
+                        tda7.Itemlst = BindItemlst();
+                        tda7.loclst = BindLocation();
+                        tda7.Isvalid = "Y";
+                        TData7.Add(tda7);
+                    }
                     DataTable adt6 = new DataTable();
 
                     adt6 = IProductionEntry.GetOutput(apID);
@@ -2212,7 +2283,8 @@ namespace Arasan.Controllers
                         {
                             tda = new ProInput();
                             tda.APID = id;
-                            tda.Itemlst = BindItemlst();
+                    tda.Itemlst = BindBatchItemlst(ca.batchid, ca.LOCID);
+
                     tda.batchlst = BindDrumBatch("", "", "");
                     tda.drumlst = BindInpDrum("","");
                     tda.Isvalid = "Y";
@@ -2353,6 +2425,7 @@ namespace Arasan.Controllers
             ca.outlst = TData4;
             ca.EmplLst = TTData2;
 			ca.Binconslst = TData1;
+			ca.Bwastelst = TData7;
             ca.LogLst = TTData5;
             ca.SourcingLst = TTData6;
 

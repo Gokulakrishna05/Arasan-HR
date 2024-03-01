@@ -243,6 +243,23 @@ namespace Arasan.Services.Sales
             return "";
 
         }
+        public DataTable GetAllListSalesReturnItems(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select SALERETBASIC.DOCID,to_char(SALERETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYNAME,BRANCHMAST.BRANCHID,SALERETBASICID,SALERETBASIC.STATUS from SALERETBASIC  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=SALERETBASIC.BRANCHID  WHERE SALERETBASIC.STATUS='ACTIVE' ORDER BY SALERETBASIC.SALERETBASICID DESC";
+            }
+            else
+            {
+                SvSql = "Select SALERETBASIC.DOCID,to_char(SALERETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYNAME,BRANCHMAST.BRANCHID,SALERETBASICID,SALERETBASIC.STATUS from SALERETBASIC  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=SALERETBASIC.BRANCHID  WHERE SALERETBASIC.STATUS='INACTIVE' ORDER BY SALERETBASIC.SALERETBASICID DESC";
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         //public DataTable GetSalesReturn(string invoiceid)
         //{
         //    string SvSql = string.Empty;

@@ -31,5 +31,6 @@ namespace Arasan.Interface
         DataTable AreaDetail(string id);
 
         DataTable GetNarr(string id);
+        DataTable GetAllListDepotInvoiceItems();
     }
 }
