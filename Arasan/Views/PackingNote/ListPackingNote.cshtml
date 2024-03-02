@@ -48,7 +48,8 @@
                 // synchronize with the server - send update command
             },
             datafields: [
-                { name: 'branch', type: 'string' },
+                { name: 'doc', type: 'string' },
+                { name: 'date', type: 'string' },
                 { name: 'loc', type: 'string' },
                 { name: 'work', type: 'string' },
                 { name: 'item', type: 'string' },
@@ -84,7 +85,8 @@
                 theme: 'darkblue',
                 enablebrowserselection: true,
                 columns: [
-                    { text: 'Branch', filtertype: 'input', datafield: 'branch', width: 150 },
+                    { text: 'Doc No', filtertype: 'input', datafield: 'doc', width: 150 },
+                    { text: 'DocDate', filtertype: 'input', datafield: 'date', width: 150 },
                     { text: 'Drum Location', filtertype: 'input', datafield: 'loc', width: 150 },
                     { text: 'Work Centre', filtertype: 'checkedlist', datafield: 'work', width: 200 },
                     { text: 'Item', filtertype: 'checkedlist', datafield: 'item', width: 200, align: 'center' },

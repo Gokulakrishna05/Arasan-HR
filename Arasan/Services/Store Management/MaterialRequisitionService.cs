@@ -228,7 +228,7 @@ namespace Arasan.Services
         public DataTable Getstkqty(string ItemId, string locid, string brid)
         {
             string SvSql = string.Empty;
-            SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid + "' AND BRANCH_ID='" + brid + "' AND ITEM_ID='" + ItemId + "'";
+            SvSql = "select SUM(l.PLUSQTY-l.MINUSQTY) as QTY  from LSTOCKVALUE l,LOTMAST lt where l.LOTNO=lt.LOTNO AND lt.INSFLAG='1' AND l.LOCID='" + locid + "' AND l.ITEMID='" + ItemId + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

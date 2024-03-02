@@ -65,6 +65,8 @@ namespace Arasan.Controllers
             PSourcingDetail tda6 = new PSourcingDetail();
             List<PBunkerDetail> TData9 = new List<PBunkerDetail>();
             PBunkerDetail tda9 = new PBunkerDetail();
+            string ebcost = datatrans.getebcost();
+            ca.EBCOST = ebcost;
 
             if (string.IsNullOrEmpty(id))
             {
@@ -195,15 +197,17 @@ namespace Arasan.Controllers
                     ca.ProdSchNo = dt.Rows[0]["psno"].ToString();
                     ca.ProdSchid = dt.Rows[0]["PSCHNO"].ToString();
                     ca.APID = id;
-                    ca.workid = dt.Rows[0]["WCID"].ToString(); 
+                    ca.workid = dt.Rows[0]["WCID"].ToString();
+                    string ebcostphr = datatrans.GetDataString("Select EBCONSPERHR from wcbasic where wcbasicid='" + dt.Rows[0]["WCID"].ToString() + "'");
+                    ca.EBCOSTPHR = ebcostphr;
                     double MLDed = 0;
                     string binopbal = Pyro.GetBinOPBal(ca.ProcessLot, ca.DocId,ca.ProcessId, ca.workid);
                     string mlopbal = Pyro.GetMLOPBal(ca.ProcessLot, ca.DocId, ca.ProcessId, ca.workid);
-                    string powinp = datatrans.GetDataString("Select Sum(I.IQty) TotPinp From nProdBasic B , nProdInpDet I , LProdBasic LB , ItemMaster IM Where B.nProdBasicID = I.nProdBasicID And B.ProdLogID = LB.LProdBasicID And I.IItemID = IM.ItemMasterID And ( Upper(IM.SubCategory) <> 'GREASE' Or IM.SubCategory Is Null ) And LB.DocID = '"+ ca.DocId + "'");
-                    string totginp= datatrans.GetDataString("Select SUm(Qty) from (Select Sum(I.IQty) Qty From nProdBasic B , nProdInpDet I , LProdBasic LB , ItemMaster IM Where B.nProdBasicID = I.nProdBasicID And B.ProdLogID = LB.LProdBasicID And I.IItemID = IM.ItemMasterID And Upper(IM.SubCategory) = 'GREASE' And LB.DocID = '" + ca.DocId + "' Union All Select Sum(I.ConsQty) TotGinp From nProdBasic B , nProdConsDet I , LProdBasic LB , ItemMaster IM Where B.nProdBasicID = I.nProdBasicID And B.ProdLogID = LB.LProdBasicID And I.CItemID = IM.ItemMasterID And Upper(IM.SubCategory) = 'GREASE' And LB.DocID = '" + ca.DocId + "') ");
-                    string TotOut = datatrans.GetDataString("Select Sum(I.OQty) TotOut From nProdBasic B , nProdOutDet I , LProdBasic LB , ItemMaster IM Where B.nProdBasicID = I.nProdBasicID And B.ProdLogID = LB.LProdBasicID And I.OItemID = IM.ItemMasterID And LB.DocID = '"+ ca.DocId + "'");
-                    string TotOxd = datatrans.GetDataString("Select Sum(I.OxQty) TotOxd From nProdBasic B , nProdOutDet I , LProdBasic LB , ItemMaster IM Where B.nProdBasicID = I.nProdBasicID And B.ProdLogID = LB.LProdBasicID And I.OItemID = IM.ItemMasterID And Upper(IM.SnCategory) = 'PYRO POWDER' And LB.DocID = '"+ ca.DocId + "'");
-                    string MLAdd = datatrans.GetDataString("Select Sum(I.MLOADADD) TotOxd From nProdBasic B , nProdInpDet I , LProdBasic LB  Where B.nProdBasicID = I.nProdBasicID And B.ProdLogID = LB.LProdBasicID And LB.DocID = '"+ ca.DocId + "'");
+                    string powinp = datatrans.GetDataString("Select Sum(I.IQty) TotPinp From nProdBasic B , nProdInpDet I  , ItemMaster IM Where B.nProdBasicID = I.nProdBasicID  And I.IItemID = IM.ItemMasterID And ( Upper(IM.SubCategory) <> 'GREASE' Or IM.SubCategory Is Null ) And B.DocID = '" + ca.DocId + "'");
+                    string totginp= datatrans.GetDataString("Select SUm(Qty) from (Select Sum(I.IQty) Qty From nProdBasic B , nProdInpDet I , ItemMaster IM Where B.nProdBasicID = I.nProdBasicID  And I.IItemID = IM.ItemMasterID And Upper(IM.SubCategory) = 'GREASE' And B.DocID = '" + ca.DocId + "' Union All Select Sum(I.ConsQty) TotGinp From nProdBasic B , nProdConsDet I ,  ItemMaster IM Where B.nProdBasicID = I.nProdBasicID  And I.CItemID = IM.ItemMasterID And Upper(IM.SubCategory) = 'GREASE' And B.DocID = '" + ca.DocId + "') ");
+                    string TotOut = datatrans.GetDataString("Select Sum(I.OQty) TotOut From nProdBasic B , nProdOutDet I ,  ItemMaster IM Where B.nProdBasicID = I.nProdBasicID  And I.OItemID = IM.ItemMasterID And B.DocID = '"+ ca.DocId + "'");
+                    string TotOxd = datatrans.GetDataString("Select Sum(I.OxQty) TotOxd From nProdBasic B , nProdOutDet I ,  ItemMaster IM Where B.nProdBasicID = I.nProdBasicID  And I.OItemID = IM.ItemMasterID And Upper(IM.SnCategory) = 'PYRO POWDER' And B.DocID = '"+ ca.DocId + "'");
+                    string MLAdd = datatrans.GetDataString("Select Sum(I.MLOADADD) TotOxd From nProdBasic B , nProdInpDet I  Where B.nProdBasicID = I.nProdBasicID  And B.DocID = '"+ ca.DocId + "'");
                     double Totinp = Convert.ToDouble(binopbal == "" ? 0 : binopbal) + Convert.ToDouble(powinp == "" ? 0 : powinp);
                     double MlClBal = (Convert.ToDouble(mlopbal == "" ? 0 : mlopbal) + Convert.ToDouble(MLAdd == "" ? 0 : MLAdd)) - MLDed;
                     double TotRmCh = Convert.ToDouble(TotOut == "" ? 0 : TotOut) + Convert.ToDouble(MLAdd == "" ? 0 : MLAdd) - MLDed - Convert.ToDouble(TotOxd == "" ? 0 : TotOxd) - Convert.ToDouble(totginp == "" ? 0 : totginp);
@@ -273,7 +277,7 @@ namespace Arasan.Controllers
                         {
                             tda = new PProInput();
                             tda.APID = id;
-                            tda.Itemlst = BindInputItemlst(ca.ProdSchid);
+                            tda.Itemlst = BindInputItemlst(ca.Locationid);
                             tda.drumlst = BindDrum("", "");
                             tda.batchlst = BindDrumBatch("", "", "");
                             tda.Isvalid = "Y";
@@ -656,6 +660,45 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
+
+        [HttpPost]
+        public ActionResult PyroProductionentry(PyroProductionentryDet Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = Pyro.PyroProductionEntryDetCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = " Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = " Updated Successfully...!";
+                    }
+                    // return RedirectToAction("APProductionentryDetail", new { id = Cy.inplst[0].APID });
+                    return RedirectToAction("ListPyroProductionentry");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit APProductionentryDetail";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
         public ActionResult GetMachineDetail(string ItemId)
         {
             try
@@ -689,7 +732,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["RITEMID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["item"].ToString() });
                 }
                 return lstdesg;
             }
@@ -1258,7 +1301,8 @@ namespace Arasan.Controllers
                 {
                     stk = "0";
                 }
-                var result = new { bin = bin, binid = binid, unit = unit, unitid = unitid, stk= stk };
+                string rate = datatrans.GetDataString("SELECT ROUND(AVG(S.STOCKVALUE/S.QTY),2) as rate FROM STOCKVALUE S WHERE ITEMID='" + ItemId + "' and LOCID='" + loc + "'");
+                var result = new { bin = bin, binid = binid, unit = unit, unitid = unitid, stk= stk, rate = rate };
                 return Json(result);
             }
             catch (Exception ex)
@@ -2170,6 +2214,7 @@ namespace Arasan.Controllers
                     string stock = Cons.ConsStock.ToString();
                     string usedqty = Cons.Qty.ToString();
                     DataTable dt = new DataTable();
+                    double rate = Convert.ToDouble(Cons.rate == "" ? 0 : Cons.rate);
                     DataTable insert = datatrans.GetData("SELECT NPRODCONSDETID,NPRODCONSDETROW FROM NPRODCONSDET WHERE NPRODBASICID='" + id + "' ");
                     if (insert.Rows.Count > 0)
                     {
@@ -2180,7 +2225,7 @@ namespace Arasan.Controllers
                     }
                     else
                     {
-                        dt = Pyro.SaveConsDetails(id, item, bin, unit, usedqty, qty, stock, l);
+                        dt = Pyro.SaveConsDetails(id, item, bin, unit, usedqty, qty, stock, l, rate);
                         l++;
                     }
                 }
@@ -2261,9 +2306,11 @@ namespace Arasan.Controllers
                     string et = emp.ETOther;
                     string normal = emp.Normal;
                     string now = emp.NOW;
+                    string otcost = emp.OTcost;
+                    string empcost = emp.Empcost;
                     DataTable dt = new DataTable();
 
-                    dt = Pyro.SaveEmpDetails(id, empname, code, depat, sdate, stime, edate, etime, ot, et, normal, now);
+                    dt = Pyro.SaveEmpDetails(id, empname, code, depat, sdate, stime, edate, etime, ot, et, normal, now, otcost, empcost);
                 }
 
                 if (model != null)

@@ -413,7 +413,8 @@ namespace Arasan.Controllers
                 Reg.Add(new PackingListItem
                 {
                     id = dtUsers.Rows[i]["PACKNOTEBASICID"].ToString(),
-                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    doc = dtUsers.Rows[i]["DOCID"].ToString(),
+                    date = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     loc = dtUsers.Rows[i]["LOCID"].ToString(),
                     work = dtUsers.Rows[i]["WCID"].ToString(),
                     item = dtUsers.Rows[i]["ITEMID"].ToString(),
@@ -430,10 +431,10 @@ namespace Arasan.Controllers
             });
 
         }
-        public IActionResult ApprovePacking(string NOTE)
+        public IActionResult ApprovePacking(string id)
         {
             PackingNote ca = new PackingNote();
-            DataTable dt = Packing.EditNote(NOTE);
+            DataTable dt = Packing.EditNote(id);
             if (dt.Rows.Count > 0)
             {
                 ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
@@ -458,7 +459,7 @@ namespace Arasan.Controllers
                 //ViewBag.entrytype = ca.EntryType;
                 List<DrumDetail> TData = new List<DrumDetail>();
                 DrumDetail tda = new DrumDetail();
-                DataTable dtDrum = Packing.EditDrumDetail(NOTE);
+                DataTable dtDrum = Packing.EditDrumDetail(id);
                 for (int i = 0; i < dtDrum.Rows.Count; i++)
                 {
                     tda = new DrumDetail();

@@ -233,7 +233,8 @@ namespace Arasan.Services
                             if (cp.Isvalid == "Y" && cp.drum != "0")
                             {
                                 string drumid = datatrans.GetDataString("Select DRUMMASTID from DRUMMAST where DRUMNO='" + cp.drum  + "' ");
-
+                                string curoflag = "";
+                                if(cy.DrumLoc== "10044000011739") { curoflag = "0"; } else { curoflag = "1"; }
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
                                     OracleCommand objCmds = new OracleCommand("PACKNOTEDETPROC", objConns);
@@ -258,7 +259,7 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("IAMOUNT", OracleDbType.NVarchar2).Value = cp.amount;
                                     objCmds.Parameters.Add("PACKNOTEINPDETAILROW", OracleDbType.NVarchar2).Value = r;
                                     objCmds.Parameters.Add("RCFLAG", OracleDbType.NVarchar2).Value = '0';
-                                    objCmds.Parameters.Add("CUROFLAG", OracleDbType.NVarchar2).Value = '0';
+                                    objCmds.Parameters.Add("CUROFLAG", OracleDbType.NVarchar2).Value = curoflag;
                                     
                                      objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objCmds.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -427,7 +428,7 @@ namespace Arasan.Services
             string SvSql = string.Empty;
 
 
-            SvSql = "select C.ITEMID  as item,I.ITEMID from CURINPDETAIL C, LOTMAST L,ITEMMASTER I where C.BATCHNO=L.LOTNO AND I.ITEMMASTERID =L.ITEMID  AND  L.LOCATION= '" + id+"' and L.INSFLAG='0'  and TRUNC(C.DUEDATE) = TRUNC(SYSDATE)";
+            SvSql = "select C.ITEMID  as item,I.ITEMID from CURINPDETAIL C, LOTMAST L,ITEMMASTER I where C.BATCHNO=L.LOTNO AND I.ITEMMASTERID =L.ITEMID  AND  L.LOCATION= '" + id+"' and L.INSFLAG='1'  and TRUNC(C.DUEDATE) = TRUNC(SYSDATE)";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -450,7 +451,7 @@ namespace Arasan.Services
             string SvSql = string.Empty;
 
 
-            SvSql = "select L.DRUMNO,L.LOTNO,SUM(L.PLUSQTY-L.MINUSQTY) as QTY ,LT.LOTMASTID,LT.RATE,LT.AMOUNT from CURINPDETAIL C,LSTOCKVALUE L,LOTMAST LT where LT.LOTNO=L.LOTNO AND LT.INSFLAG='1' AND C.BATCHNO=L.LOTNO AND   L.ITEMID= '" + id + "' AND L.LOCID ='" + item + "' and TRUNC(C.DUEDATE) = TRUNC(SYSDATE)  HAVING SUM(L.PLUSQTY-L.MINUSQTY) > 0 GROUP BY L.DRUMNO ,L.LOTNO,LT.LOTMASTID,LT.RATE,LT.AMOUNT";
+            SvSql = "select L.DRUMNO,L.LOTNO,SUM(L.PLUSQTY-L.MINUSQTY) as QTY ,LT.LOTMASTID,LT.RATE,LT.AMOUNT from CURINPDETAIL C,LSTOCKVALUE L,LOTMAST LT where LT.LOTNO=L.LOTNO AND LT.INSFLAG='1' AND LT.CUROUTFLAG='0' AND C.BATCHNO=L.LOTNO AND   L.ITEMID= '" + id + "' AND L.LOCID ='" + item + "' and TRUNC(C.DUEDATE) = TRUNC(SYSDATE)  HAVING SUM(L.PLUSQTY-L.MINUSQTY) > 0 GROUP BY L.DRUMNO ,L.LOTNO,LT.LOTMASTID,LT.RATE,LT.AMOUNT";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -578,11 +579,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select   BRANCHMAST.BRANCHID,DOCID,LOCDETAILS.LOCID,WCBASIC.WCID,ITEMMASTER.ITEMID,PACKNOTEBASICID  from PACKNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PACKNOTEBASIC.BRANCH LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PACKNOTEBASIC.OITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION  LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKNOTEBASIC.WCID WHERE PACKNOTEBASIC.IS_ACTIVE='Y' ORDER BY  PACKNOTEBASICID DESC";
+                SvSql = "Select   BRANCHMAST.BRANCHID,DOCID,to_char(PACKNOTEBASIC.DOCDATE,'dd-MMM-YYYY')DOCDATE,LOCDETAILS.LOCID,WCBASIC.WCID,ITEMMASTER.ITEMID,PACKNOTEBASICID  from PACKNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PACKNOTEBASIC.BRANCH LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PACKNOTEBASIC.OITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION  LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKNOTEBASIC.WCID WHERE PACKNOTEBASIC.IS_ACTIVE='Y' ORDER BY  PACKNOTEBASICID DESC";
             }
             else
             {
-                SvSql = "Select   BRANCHMAST.BRANCHID,DOCID,LOCDETAILS.LOCID,WCBASIC.WCID,ITEMMASTER.ITEMID,PACKNOTEBASICID  from PACKNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PACKNOTEBASIC.BRANCH LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PACKNOTEBASIC.OITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION  LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKNOTEBASIC.WCID WHERE PACKNOTEBASIC.IS_ACTIVE='N' ORDER BY  PACKNOTEBASICID DESC";
+                SvSql = "Select   BRANCHMAST.BRANCHID,DOCID,LOCDETAILS.LOCID,to_char(PACKNOTEBASIC.DOCDATE,'dd-MMM-YYYY')DOCDATE,WCBASIC.WCID,ITEMMASTER.ITEMID,PACKNOTEBASICID  from PACKNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PACKNOTEBASIC.BRANCH LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PACKNOTEBASIC.OITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION  LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKNOTEBASIC.WCID WHERE PACKNOTEBASIC.IS_ACTIVE='N' ORDER BY  PACKNOTEBASICID DESC";
 
             }
             if (strfrom == null && strTo == null)

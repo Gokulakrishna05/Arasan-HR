@@ -225,8 +225,12 @@ namespace Arasan.Services
                                 SvSql1 = "Insert into LSTOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,DOCID,DOCDATE,LOTNO,PLUSQTY,MINUSQTY,DRUMNO,RATE,STOCKVALUE,ITEMID,LOCID,BINNO,FROMLOCID,STOCKTRANSTYPE) VALUES ('0','0','F','" + Pid1 + "','735441173','" + cy.DocId + "','" + cy.Docdate + "','" + cp.batch + "' ,'" + cp.qty + "','0','" + cp.drum + "','0','0','" + cy.ItemId + "','" + toloc + "','0','" + fromloc + "','" + stype + "')";
                                 objCmdss = new OracleCommand(SvSql1, objConns);
                                 objCmdss.ExecuteNonQuery();
- 
-  
+                                string Sqlu = "Update LOTMAST SET  CUROUTFLAG='1' WHERE LOTNO='" + cp.batch + "'";
+                                objCmds = new OracleCommand(Sqlu, objConns);
+                                objCmds.ExecuteNonQuery();
+                                Sqlu = "Update PACKNOTEINPDETAIL SET  CUROFLAG='1' WHERE IBATCHNO='" + cp.batch + "'";
+                                objCmds = new OracleCommand(Sqlu, objConns);
+                                objCmds.ExecuteNonQuery();
                                 string locid = datatrans.GetDataString("Select ILOCATION  from WCBASIC where WCBASICID ='" + cy.FromWork + "'");
                                 DataTable dt = datatrans.GetData("Select ITEMID,DOC_DATE,DRUM_ID,DRUM_NO,TSOURCEID,STOCKTRANSTYPE,LOCID,QTY,BALANCE_QTY,OUT_ID,DRUM_STOCK_ID from DRUM_STOCK where BALANCE_QTY>0 AND DRUM_STOCK.DRUM_NO='" + cp.drum + "' and ITEMID='" + cy.ItemId + "' and LOCID='" + locid + "'");
 
@@ -456,7 +460,7 @@ namespace Arasan.Services
         public DataTable GetPackingDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = " select DRUMMAST.DRUMNO,PACKNOTEINPDETAIL.IDRUMNO,IBATCHNO,IBATCHQTY,COMBNO,PACKNOTEBASICID,IRATE,IAMOUNT,PACKNOTEINPDETAILID from PACKNOTEINPDETAIL left outer join DRUMMAST on DRUMMASTID =PACKNOTEINPDETAIL.IDRUMNO    where PACKNOTEBASICID= '" + id + "'";
+            SvSql = " select DRUMMAST.DRUMNO,PACKNOTEINPDETAIL.IDRUMNO,IBATCHNO,IBATCHQTY,COMBNO,PACKNOTEBASICID,IRATE,IAMOUNT,PACKNOTEINPDETAILID from PACKNOTEINPDETAIL left outer join DRUMMAST on DRUMMASTID =PACKNOTEINPDETAIL.IDRUMNO    where PACKNOTEBASICID= '" + id + "' AND CUROFLAG='0'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
