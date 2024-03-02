@@ -290,7 +290,7 @@ namespace Arasan.Services.Sales
         public DataTable GetWorkOrder(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select QUOID,JOBASIC.DOCID,JOBASIC.BRANCHID,JOBASIC.LOCID,PARTYRCODE.PARTY,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,CREFNO,to_char(JOBASIC.CREFDATE,'dd-MON-yyyy')CREFDATE,CURRENCY.MAINCURR,JOBASIC.EXRATE,JOBASIC.TRANSAMOUNT,CRLIMIT,ORDTYPE,JOBASIC.RATETYPE,JOBASIC.RATECODE from JOBASIC LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=JOBASIC.MAINCURRENCY LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH')  And JOBASICID='" + id + "' ";
+            SvSql = "SELECT BRANCHID,DOCDATE,MAINCURRENCY,CREFNO,PARTYNAME,LOCID,ORDTYPE,TRANSAMOUNT,CRLIMIT,RATECODE,RATETYPE,DOCID,CREFDATE,EXRATE FROM JOBASIC Where JOBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -401,7 +401,7 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
-        public string StatusDeleteMR(string tag, int id)
+        public string StatusDeleteMR(string tag, string id)
         {
 
             try
@@ -440,10 +440,21 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
+
         public DataTable GetAllListWDrumAllocationItems()
         {
             string SvSql = string.Empty;
             SvSql = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS,JOBASIC.LOCID as LOCMASTERID,JOBASIC.PARTYID as CUSTOMERID,JOBASIC.JOBASICID from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAllListWDrumAlloItems()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select jodrumallocationbasic.DOCID,to_char(jodrumallocationbasic.DOCDATE,'dd-MON-yyyy')DOCDATE,jobasic.DOCID as jobid,PARTYMAST.PARTYNAME ,LOCDETAILS.LOCID,JODRUMALLOCATIONBASICID from jodrumallocationbasic  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=jodrumallocationbasic.LOCID  LEFT OUTER JOIN  PARTYMAST on jodrumallocationbasic.CUSTOMERID=PARTYMAST.PARTYMASTID left outer join jobasic on jobasic.jobasicid= jodrumallocationbasic.JOPID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

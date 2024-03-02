@@ -64,7 +64,7 @@ namespace Arasan.Models
     public class ListSalesReturnItems
     {
         public long id { get; set; }
-        public string branch { get; set; }
+        //public string branch { get; set; }
         public string docid { get; set; }
         public string docdate { get; set; }
         public string custname { get; set; }

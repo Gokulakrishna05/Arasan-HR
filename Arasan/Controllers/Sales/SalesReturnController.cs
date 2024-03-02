@@ -138,7 +138,7 @@ namespace Arasan.Controllers.Sales
                 }
                 else
                 {
-                    View = "<a href=ViewSalesReturn?id=" + dtUsers.Rows[i]["SALERETBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Deatils' /></a>";
+                    View = "<a href=ViewSalesReturn?id=" + dtUsers.Rows[i]["SALERETBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Deatils' /></a>";
                     DeleteRow = "<a href=CloseQuote?id=" + dtUsers.Rows[i]["SALERETBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 }
@@ -146,7 +146,7 @@ namespace Arasan.Controllers.Sales
                 Reg.Add(new ListSalesReturnItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["SALERETBASICID"].ToString()),
-                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    //branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     docid = dtUsers.Rows[i]["DOCID"].ToString(),
                     docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     custname = dtUsers.Rows[i]["PARTYNAME"].ToString(),
