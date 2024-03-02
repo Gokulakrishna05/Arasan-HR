@@ -73,6 +73,8 @@ namespace Arasan.Models
         public string id { get; set; }
         public string branch { get; set; }
         public string loc { get; set; }
+        public string date { get; set; }
+        public string doc { get; set; }
         public string item { get; set; }
         public string work { get; set; }
         public string viewrow { get; set; }

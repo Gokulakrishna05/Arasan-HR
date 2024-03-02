@@ -277,7 +277,7 @@ namespace Arasan.Controllers
                         {
                             tda = new PProInput();
                             tda.APID = id;
-                            tda.Itemlst = BindInputItemlst(ca.ProdSchid);
+                            tda.Itemlst = BindInputItemlst(ca.Locationid);
                             tda.drumlst = BindDrum("", "");
                             tda.batchlst = BindDrumBatch("", "", "");
                             tda.Isvalid = "Y";
@@ -732,7 +732,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["RITEMID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["item"].ToString() });
                 }
                 return lstdesg;
             }

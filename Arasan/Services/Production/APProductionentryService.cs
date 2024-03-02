@@ -908,9 +908,11 @@ namespace Arasan.Services
                     //////////////////Material cost//////////////
                     string inpc = datatrans.GetDataString("select SUM(IAMOUNT) as tot from BPRODINPDET where BPRODBASICID='"+ id + "'");
                     string consc= datatrans.GetDataString("select SUM(CVALUE) as rate  from BPRODCONSDET where BPRODBASICID='" + id + "'");
+                    string wastec= datatrans.GetDataString("select SUM(WAMOUNT) as rate  from BPRODCONSDET where BPRODBASICID='" + id + "'");
                     double totmcost= Convert.ToDouble(inpc == "" ? 0 : inpc) + Convert.ToDouble(consc == "" ? 0 : consc);
+                    double totwcost= Convert.ToDouble(wastec == "" ? 0 : totmcost) ;
                     //////////////////Material cost//////////////
-                    double totcost = totmcost + empcot + ebcot;
+                    double totcost = totmcost + empcot + ebcot - totwcost;
 
                     ///////////////////Total Production////////////////
                     double totprod = 0;
@@ -1354,6 +1356,7 @@ namespace Arasan.Services
                 string qc = drlot.Rows[0]["QCCOMPFLAG"].ToString();
                 string docdate = DateTime.Now.ToString("dd-MMM-yyyy");
                 string work = wopro.Rows[0]["WCID"].ToString();
+                string docid = wopro.Rows[0]["DOCID"].ToString();
                 string process = wopro.Rows[0]["PROCESSID"].ToString();
                 if (drumid == "0")
                 {
@@ -1383,9 +1386,14 @@ namespace Arasan.Services
                 }
                 else
                 {
-                    SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG,STOCKVALUE) VALUES ('" + detid + "','m','" + item + "','" + docdate + "','" + qty + "' ,'" + wopro.Rows[0]["ILOCDETAILSID"].ToString() + "','0','"+ rate +"','0','0','0','0','0','BPROD INPUT','" + insflag + "','"+ amt + "')";
+                    SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG,STOCKVALUE) VALUES ('" + detid + "','m','" + item + "','" + docdate + "','" + qty + "' ,'" + wopro.Rows[0]["ILOCDETAILSID"].ToString() + "','0','"+ rate +"','0','0','0','0','0','BPROD INPUT','" + insflag + "','"+ amt + "')RETURNING STOCKVALUEID INTO :STKID";
                     OracleCommand objCmdss = new OracleCommand(SvSql1, objConnT);
+                     objCmdss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                     objCmdss.ExecuteNonQuery();
+                    string stkid = objCmdss.Parameters["STKID"].Value.ToString();
+                    string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION) VALUES ('" + stkid + "','" + docid + "','" + narr + "')";
+                    OracleCommand objCmddts = new OracleCommand(SvSql2, objConnT);
+                    objCmddts.ExecuteNonQuery();
                 }
                 DataTable dt = datatrans.GetData("Select INVENTORY_ITEM.BALANCE_QTY,INVENTORY_ITEM.ITEM_ID,INVENTORY_ITEM.LOCATION_ID,INVENTORY_ITEM.BRANCH_ID,GRNID,INVENTORY_ITEM_ID,TSOURCEID,GRN_DATE from INVENTORY_ITEM where INVENTORY_ITEM.ITEM_ID='" + item + "' AND INVENTORY_ITEM.LOCATION_ID='" + wopro.Rows[0]["ILOCDETAILSID"].ToString() + "' and LOT_NO='" + batch + "' and BALANCE_QTY!=0 order by GRN_DATE ASC");
                 if (dt.Rows.Count > 0)
@@ -1604,7 +1612,7 @@ namespace Arasan.Services
             using (OracleConnection objConnT = new OracleConnection(_connectionString))
             {
                 objConnT.Open();
-                SvSql = "Delete BPRODOUTS WHERE BPRODBASICID='" + id + "'";
+                SvSql = "Delete BPRODWASTEDET WHERE BPRODBASICID='" + id + "'";
                 OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
                 objCmdd.ExecuteNonQuery();
             }
