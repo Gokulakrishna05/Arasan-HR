@@ -86,7 +86,8 @@ namespace Arasan.Services
         public DataTable GetItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select P.RITEMID,I.ITEMID from PSINPDETAIL P,LSTOCKVALUE L,ITEMMASTER I   where P.RITEMID=I.ITEMMASTERID AND PSBASICID='" + id + "'  HAVING SUM(L.PLUSQTY-L.MINUSQTY) > 0 GROUP BY P.RITEMID,I.ITEMID";
+            //SvSql = "select P.RITEMID,I.ITEMID from PSINPDETAIL P,LSTOCKVALUE L,ITEMMASTER I   where P.RITEMID=I.ITEMMASTERID AND PSBASICID='" + id + "'  HAVING SUM(L.PLUSQTY-L.MINUSQTY) > 0 GROUP BY P.RITEMID,I.ITEMID";
+            SvSql = "select L.ITEMID as item,I.ITEMID from  LSTOCKVALUE L,ITEMMASTER I   where L.ITEMID=I.ITEMMASTERID AND L.LOCID='" + id + "'  HAVING SUM(L.PLUSQTY-L.MINUSQTY) > 0 GROUP BY L.ITEMID,I.ITEMID";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);

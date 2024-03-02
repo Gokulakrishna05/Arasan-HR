@@ -376,7 +376,7 @@ namespace Arasan.Controllers
             try
             {
                 int indent = datatrans.GetDataId("select count(*) as cunt from PINDBASIC   where DOCDATE BETWEEN '" + st + "'  AND '" + ed + "'");
-                int enq = datatrans.GetDataId("select count(*) as cunt from PURENQBASIC   where DOCDATE BETWEEN '" + st + "'  AND '" + ed + "'");
+                int enq = datatrans.GetDataId("select count(*) as cunt from PURENQBASIC   where ENQDATE BETWEEN '" + st + "'  AND '" + ed + "'");
                 int quot = datatrans.GetDataId("select count(*) as cunt from PURQUOTBASIC   where DOCDATE BETWEEN '" + st + "'  AND '" + ed + "'");
                 int po = datatrans.GetDataId("select count(*) as cunt from POBASIC   where DOCDATE BETWEEN '" + st + "'  AND '" + ed + "'");
                 int gate = datatrans.GetDataId("select count(*) as cunt from GATE_INWARD   where DOCDATE BETWEEN '" + st + "'  AND '" + ed + "' ");
