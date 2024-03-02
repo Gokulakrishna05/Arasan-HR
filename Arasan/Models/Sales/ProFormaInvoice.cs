@@ -151,7 +151,7 @@ namespace Arasan.Models
     public class ListProFormaInvoiceItems
     {
         public long id { get; set; }
-        public string branch { get; set; }
+        //public string branch { get; set; }
         public string enqno { get; set; }
         public string date { get; set; }
         public string party { get; set; }

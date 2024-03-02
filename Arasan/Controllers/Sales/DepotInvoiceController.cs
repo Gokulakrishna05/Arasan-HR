@@ -267,7 +267,7 @@ namespace Arasan.Controllers
                 //}
                 //else
                 //{
-                    View = "<a href=ViewDepotInvoice?id=" + dtUsers.Rows[i]["DEPINVOBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Deatils' /></a>";
+                    View = "<a href=ViewDepotInvoice?id=" + dtUsers.Rows[i]["DEPINVOBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Deatils' /></a>";
                     DeleteRow = "<a href=DeleteDI?id=" + dtUsers.Rows[i]["DEPINVOBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 //}
@@ -275,7 +275,7 @@ namespace Arasan.Controllers
                 Reg.Add(new ListDepotInvoiceItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["DEPINVOBASICID"].ToString()),
-                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    //branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     enqno = dtUsers.Rows[i]["DOCID"].ToString(),
                     customer = dtUsers.Rows[i]["PARTYNAME"].ToString(),
                     date = dtUsers.Rows[i]["DOCDATE"].ToString(),

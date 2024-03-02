@@ -240,7 +240,7 @@ namespace Arasan.Services.Sales
         //    adapter.Fill(dtt);
         //    return dtt;
         //}
-        public string StatusChange(string tag, int id)
+        public string StatusChange(string tag, string id)
         {
             try
             {
