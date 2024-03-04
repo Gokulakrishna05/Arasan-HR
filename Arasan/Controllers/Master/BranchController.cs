@@ -3,6 +3,7 @@ using System.Data;
 using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
+using Arasan.Services;
 using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -202,8 +203,8 @@ namespace Arasan.Controllers
         }
         public IActionResult ListBranch(string status)
         {
-            IEnumerable<Branch> br = BranchService.GetAllBranch(status);
-            return View(br);
+            //IEnumerable<Branch> br = BranchService.GetAllBranch(status);
+            return View();
         }
 
         public ActionResult DeleteMR(string tag, int id)
@@ -236,6 +237,48 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListBranch");
             }
+        }
+
+        public ActionResult MyListBranchgrid(string strStatus)
+        {
+            List<BranchList> Reg = new List<BranchList>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "ACTIVE" : strStatus;
+            dtUsers = BranchService.GetAllBranches(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+                if (dtUsers.Rows[i]["STATUS"].ToString() == "ACTIVE")
+                {
+
+                    EditRow = "<a href=Branch?id=" + dtUsers.Rows[i]["BRANCHMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["BRANCHMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["BRANCHMASTID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
+
+                Reg.Add(new BranchList
+                {
+                    companyname = dtUsers.Rows[i]["COMPANYID"].ToString(),
+                    branchname = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    statename = dtUsers.Rows[i]["STATE"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
     }
 }

@@ -1,11 +1,14 @@
-﻿@model IEnumerable<Arasan.Models.Branch>
+﻿@model Arasan.Models.Branch
 
 @{
     ViewData["Title"] = "Branch";
-    string query = ViewContext.HttpContext.Request.Query["status"];
+    //string query = ViewContext.HttpContext.Request.Query["status"];
     string Qid = string.Empty;
-    if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
+    //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
 }
+
+<partial name="JqxGridPartial" />
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
 
 <script type="text/javascript">
     @if (TempData["notice"] != null)
@@ -25,6 +28,85 @@
     </div>
 </div>
 
+<script type="text/javascript">
+        $(document).ready(function () {
+            var source =
+            {
+                url: "/Branch/MyListBranchgrid",
+
+                data: {
+                    strstatus: ""
+                },
+                datatype: "json",
+                updaterow: function (rowid, rowdata) {
+                    // synchronize with the server - send update command
+                },
+                datafields: [
+                    { name: 'companyname', type: 'string' },
+                    { name: 'branchname', type: 'string' },
+                    { name: 'statename', type: 'string' },
+
+                    { name: 'editrow', type: 'string' },
+                    { name: 'delrow', type: 'string' },
+                ],
+                id: 'id',
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source,
+                { contentType: 'application/json; charset=utf-8' }, {
+                loadComplete: function () {
+
+                }
+            }
+            );
+
+            $("#grid").jqxGrid(
+                {
+
+                    width: '100%',
+                    source: dataAdapter,
+                    height: 450,
+                    source: source,
+                    //autoheight: true,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
+                    theme: 'ui-start',
+                    autorowheight: true,
+                    filterbarmode: 'simple',
+                    enablebrowserselection: true,
+                    columnsresize: true,
+                    selectionmode: 'multiplerowsextended',
+                    keyboardnavigation: false,
+                    columns: [
+
+                        { text: 'Company', filtertype: 'input', datafield: 'companyname', width: 200 },
+                        { text: 'Branch', filtertype: 'input', datafield: 'branchname', width: 200 },
+                        { text: 'State', filtertype: 'input', datafield: 'statename', width: 200 },
+                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
+                    ]
+                });
+            $("#ddlStatus").change(function () {
+                var value = "ACTIVE";
+                if ($(this).val() != "") {
+                    value = $(this).val();
+                }
+                source.data = {
+                    strstatus: value
+                };
+                $("#grid").jqxGrid({ source: source });
+            });
+        });
+
+    function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
+    }
+
+</script>
+
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -33,74 +115,27 @@
 
                     <form>
                         <div class="row">
-                            <div class="col-md-6 ">
-                                <select style='width: 200px;'  class='form-control newcss' id="dllstatus" onchange="changeStatus(this.value)" >
-                                     
-                                    <option value="" selected>Open</option>
-                                    <option value='INACTIVE'>Close</option>
-                                  
-                                </select>
+                            <div class="col-md-2 ">
+
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                { new SelectListItem() {Text = "Opened", Value="ACTIVE"},
+                                new SelectListItem() {Text = "Closed", Value="INACTIVE"}},
+                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
                             </div>
+
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
-
-                                    <a href="@Url.Action("Branch", "Branch")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Branch</a><br>
+                                    <a href="@Url.Action("Branch","Branch")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Branch</a>
+                                    <br>
                                 </div>
-
 
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div class="ibox float-e-margins">
 
-                                    <div class="ibox-content collapse in">
-                                        <div class="widgets-container">
-                                            <div>
-                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>S.No</th>
-                                                            <th>Company Name</th>
-                                                            <th>Branch Name</th>
-                                                            <th>State Name</th>
-
-                                                            <th>Edit</th>
-                                                            <th>Close</th>
-                                                        </tr>
-                                                    </thead>
-
-                                                    <tbody>
-                                                        @{
-                                                            int i = 1;
-                                                            foreach (var item in Model)
-                                                            {
-                                                                <tr>
-                                                                    <td>@i</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.CompanyName)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.BranchName)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.StateName)</td>
-                                                                    @if (item.status == "INACTIVE")
-                                                                    {
-                                                                        <td></td>
-                                                                        <td> <a href="@Url.Action("Remove","Branch",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Branch", "Branch",new { id=item.ID })"></a></div></td>
-                                                                    <td> <a href="@Url.Action("DeleteMR","Branch",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-                                                                    }
-                                                                </tr>
-                                                                i++;
-                                                            }
-                                                        }
-                                                        
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="col-md-10 ">
+                                <div id="grid">
                                 </div>
                             </div>
                         </div>
@@ -114,65 +149,8 @@
     </div>
 </div>
 
+
 <script>
-    $(document).ready(function () {
-        $('#example7').DataTable({
-            dom: 'Bfrtip',
-            buttons: [{
-                text: 'copy',
-                extend: "copy",
-                className: 'btn dark btn-outline'
-            }, {
-                text: 'csv',
-                extend: "csv",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'excel',
-                extend: "excel",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'pdf',
-                extend: "pdf",
-                className: 'btn yellow  btn-outline'
-            }, {
-                text: 'print',
-                extend: "print",
-                className: 'btn purple  btn-outline'
-            }]
-        });
-
-
-
-    });
-</script>
-<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
-<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
-<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
-<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
-<script type="text/javascript">
-    var fancybox123;
-    jQuery(document).ready(function ($) {
-        $(".fancybox").fancybox({
-            width: '80%',
-            height: '10%',
-            arrows: false,
-            afterClose: function () {
-                location.reload();
-                return;
-            }
-        });
-        fancybox123 = $.fancybox;
-    });
-
-    function close_popup() {
-        fancybox123.close();
-        $(".fancybox1").fancybox({
-            width: '100%',
-            height: '100%',
-            arrows: false,
-        });
-        $(".fancybox1").eq(0).trigger('click');
-    }
     function changeStatus(status) {
         var url = "/Branch/ListBranch?status=" + status;
         window.location.href = url;
