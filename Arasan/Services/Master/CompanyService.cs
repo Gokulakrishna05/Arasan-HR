@@ -181,6 +181,26 @@ namespace Arasan.Services.Master
             return "";
 
         }
-        
+
+        public DataTable GetAllCompanies(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "ACTIVE" || strStatus == null)
+            {
+                SvSql = "Select STATUS,COMPANYID,COMPANYDESC,COMPANYMASTID from COMPANYMAST  WHERE STATUS ='ACTIVE' ORDER BY COMPANYID DESC ";
+
+            }
+            else
+            {
+                SvSql = "Select STATUS,COMPANYID,COMPANYDESC,COMPANYMASTID from COMPANYMAST  WHERE STATUS ='INACTIVE' ORDER BY COMPANYID DESC";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
     }
 }

@@ -20,6 +20,8 @@ namespace Arasan.Interface
         DataTable GetBranch(string id);
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
+        DataTable GetAllBranches(string strStatus);
+
 
 
     }

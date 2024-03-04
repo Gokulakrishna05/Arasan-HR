@@ -1,6 +1,8 @@
 ﻿using Arasan.Models;
 using System.Collections.Generic;
 using System.Collections;
+using System.Data;
+
 namespace Arasan.Interface.Master
 {
     public interface ICompanyService
@@ -11,6 +13,6 @@ namespace Arasan.Interface.Master
 
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
-
+        DataTable GetAllCompanies(string strStatus);
     }
 }
