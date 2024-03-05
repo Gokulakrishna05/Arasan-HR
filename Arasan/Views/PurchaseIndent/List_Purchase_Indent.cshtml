@@ -11,6 +11,7 @@
 </script>
 <partial name="JqxGridPartial" />
 @* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
 
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -108,7 +109,8 @@
             var nestedGridAdapter = new $.jqx.dataAdapter(orderssource);
             if (grid != null) {
                 grid.jqxGrid({
-                    theme: 'darkblue',
+                    theme: 'ui-start',
+                    enablebrowserselection: true,
                     source: nestedGridAdapter, width: 780,
                     columns: [
                         { text: 'Product Name', datafield: 'itemname', width: 200 },
@@ -138,10 +140,15 @@
                 sortable: true,
                 rowdetails: true,
                 showfilterbar: true,
-                theme: 'darkblue',
+                theme: 'ui-start',
+                autorowheight: true,
+                filterbarmode: 'simple',
                 rowsheight: 35,
                 enablebrowserselection: true,
                 initrowdetails: initrowdetails,
+                columnsresize: true,
+                selectionmode: 'multiplerowsextended',
+                keyboardnavigation: false,
                 rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
                 ready: function () {
                     $("#grid").jqxGrid('showrowdetails', 1);

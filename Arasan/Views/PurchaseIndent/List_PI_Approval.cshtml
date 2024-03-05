@@ -11,6 +11,7 @@
 </script>
   <partial name="JqxGridPartial" />
 @* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
     
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -70,17 +71,23 @@
             {
                 width: '100%',
                 source: dataAdapter,
-                height: 365,
-                filterable: true,
-                pageable: true,
-                filterable: true,
-                autoheight: true,
+                height: 450,
+                source: source,
+                //autoheight: true,
                 sortable: true,
-                rowdetails: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
                 showfilterbar: true,
-                rowsheight: 35,
-                theme: 'darkblue',
+                //showfilterrow: true,
+                theme: 'ui-start',
+                autorowheight: true,
+                filterbarmode: 'simple',
                 enablebrowserselection: true,
+                columnsresize: true,
+                selectionmode: 'multiplerowsextended',
+                keyboardnavigation: false,
+
                 columns: [
                   { text: 'Indent No.', filtertype: 'checkedlist', datafield: 'indentno',color:'black', width: 100 },
                   { text: 'Indent Date', datafield: 'indentdate', filtertype: 'input', width: 100 },
