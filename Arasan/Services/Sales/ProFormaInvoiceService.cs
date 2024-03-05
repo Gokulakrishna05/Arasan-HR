@@ -230,6 +230,7 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
+ 
         public DataTable GetProFormaInvoiceDetails(string id)
         {
             string SvSql = string.Empty;
@@ -240,7 +241,19 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
-        public string StatusChange(string tag, int id)
+      
+        //public DataTable GetProFormaInvoiceDetails(string id)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "SELECT CURRENCY.MAINCURR,PARTYRCODE.PARTY,JOBASICID from JOBASIC LEFT OUTER JOIN CURRENCY ON JOBASIC.MAINCURRENCY=CURRENCY.CURRENCYID  LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH') AND JOBASICID='" + id + "'";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
+        public string StatusChange(string tag, string id)
+ 
         {
             try
             {

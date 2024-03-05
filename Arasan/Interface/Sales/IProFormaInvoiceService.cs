@@ -15,7 +15,7 @@ namespace Arasan.Interface.Sales
         DataTable GetDrumAll(string id);
       
         string ProFormaInvoiceCRUD(ProFormaInvoice cy);
-        string StatusChange(string tag, int id);
+        string StatusChange(string tag, string id);
         DataTable GetWorkOrderDetail(string id);
         DataTable GetProFormaInvoiceDetails(string id);
         DataTable GetgstDetails(string id);

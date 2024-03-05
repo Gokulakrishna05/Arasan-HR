@@ -120,7 +120,7 @@ namespace Arasan.Models
     public class WorkOrderItems
     {
         public long id { get; set; }
-        public string branch { get; set; }
+        //public string branch { get; set; }
         public string enqno { get; set; }
         public string customer { get; set; }
         public string date { get; set; }
@@ -132,11 +132,23 @@ namespace Arasan.Models
     public class ListWDrumAllocationItems
     {
         public long id { get; set; }
-        public string branch { get; set; }
+        //public string branch { get; set; }
         public string jopjd { get; set; }
         public string jopdate { get; set; }
         public string location { get; set; }
         public string customer { get; set; }
         public string drum { get; set; }
+    }
+    public class ListWDrumAlloItems
+    {
+        public long id { get; set; }
+        //public string branch { get; set; }
+        public string jobid { get; set; }
+        public string location { get; set; }
+        public string Customername { get; set; }
+        public string docid { get; set; }
+        public string docdate { get; set; }
+        public string view { get; set; }
+        public string approve { get; set; }
     }
 }

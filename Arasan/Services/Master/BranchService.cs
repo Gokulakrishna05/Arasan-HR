@@ -220,6 +220,26 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public DataTable GetAllBranches(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "ACTIVE" || strStatus == null)
+            {
+                SvSql = "Select BRANCHMASTID,BRANCHID,COMPANYMAST.COMPANYID,COMPANYMAST.COMPANYDESC,STATE,BRANCHMAST.STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID WHERE BRANCHMAST.STATUS ='ACTIVE' ORDER BY BRANCHID DESC ";
+
+            }
+            else
+            {
+                SvSql = "Select BRANCHMASTID,BRANCHID,COMPANYMAST.COMPANYID,COMPANYMAST.COMPANYDESC,STATE,BRANCHMAST.STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID WHERE BRANCHMAST.STATUS ='INACTIVE' ORDER BY BRANCHID DESC ";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
    

@@ -33,10 +33,22 @@ namespace Arasan.Models
 
         public String StateName { get; set; }
         public String status { get; set; }
+        public string ddlStatus { get; set; }
 
 
     }
 
+    public class BranchList
+    {
+        public string companyname { get; set; }
+        public string id { get; set; }
+        public string statename { get; set; }
+        public string branchname { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+
+
+    }
     internal class RegularExpressionAttribute : Attribute
     {
     }

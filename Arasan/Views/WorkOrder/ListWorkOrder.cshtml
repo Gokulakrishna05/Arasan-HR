@@ -5,6 +5,8 @@
 }
 <partial name="JqxGridPartial" />
 @* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
+
 
 <script type="text/javascript">
     @if (TempData["notice"] != null)
@@ -38,7 +40,7 @@
                 // synchronize with the server - send update command
             },
             datafields: [
-                { name: 'branch', type: 'string' },
+                //{ name: 'branch', type: 'string' },
                 { name: 'enqno', type: 'string' },
                 { name: 'date', type: 'string' },
                 { name: 'customer', type: 'string' },
@@ -62,21 +64,24 @@
             {
                 width: '100%',
                 source: dataAdapter,
-                //height: 450,
-                autorowheight: true,
-                autoheight: true,
+                height: 450,
                 source: source,
+                //autoheight: true,
                 sortable: true,
                 filterable: true,
                 groupable: false,
                 pageable: true,
                 showfilterbar: true,
-                filterbarmode: 'simple',
                 //showfilterrow: true,
-                theme: 'darkblue',
+                theme: 'ui-start',
+                autorowheight: true,
+                filterbarmode: 'simple',
                 enablebrowserselection: true,
+                columnsresize: true,
+                selectionmode: 'multiplerowsextended',
+                keyboardnavigation: false,
                 columns: [
-                    { text: 'Branch', filtertype: 'input', datafield: 'branch', width: 160 },
+                    //{ text: 'Branch', filtertype: 'input', datafield: 'branch', width: 160 },
                     { text: 'Doc No', filtertype: 'input', datafield: 'enqno', width: 120 },
                     { text: 'Doc Date', datafield: 'date', width: 120, align: 'center' },
                     { text: 'Party Name', filtertype: 'checkedlist', datafield: 'customer', width: 210 },

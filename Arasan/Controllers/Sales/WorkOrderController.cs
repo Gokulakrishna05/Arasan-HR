@@ -63,10 +63,10 @@ namespace Arasan.Controllers.Sales
                     ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
                     ca.JopDate = dt.Rows[0]["DOCDATE"].ToString();
                   
-                    ca.Currency = dt.Rows[0]["MAINCURR"].ToString();
+                    ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
                    
                     ca.CusNo = dt.Rows[0]["CREFNO"].ToString();
-                    ca.Customer = dt.Rows[0]["PARTY"].ToString();
+                    ca.Customer = dt.Rows[0]["PARTYNAME"].ToString();
                     ca.ID = id;
                     ca.Location = dt.Rows[0]["LOCID"].ToString();
                     ca.OrderType = dt.Rows[0]["ORDTYPE"].ToString();
@@ -74,7 +74,7 @@ namespace Arasan.Controllers.Sales
                     ca.CreditLimit = dt.Rows[0]["CRLIMIT"].ToString();
                     ca.RateCode = dt.Rows[0]["RATECODE"].ToString();
                     ca.RateType = dt.Rows[0]["RATETYPE"].ToString();
-                    ca.Quo = dt.Rows[0]["QUOID"].ToString();
+                    //ca.Quo = dt.Rows[0]["QUOID"].ToString();
                     ca.JopId = dt.Rows[0]["DOCID"].ToString();
                     ca.Cusdate = dt.Rows[0]["CREFDATE"].ToString();
                     ca.ExRate = dt.Rows[0]["EXRATE"].ToString();
@@ -182,7 +182,7 @@ namespace Arasan.Controllers.Sales
                 Reg.Add(new WorkOrderItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["JOBASICID"].ToString()),
-                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    //branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     enqno = dtUsers.Rows[i]["DOCID"].ToString(),
                     customer = dtUsers.Rows[i]["PARTY"].ToString(),
                     date = dtUsers.Rows[i]["DOCDATE"].ToString(),
@@ -202,7 +202,7 @@ namespace Arasan.Controllers.Sales
             });
 
         }
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteMR(string tag, string id)
         {
 
             string flag = WorkOrderService.StatusDeleteMR(tag, id);
@@ -431,13 +431,13 @@ namespace Arasan.Controllers.Sales
 
                 string Drum = string.Empty;
 
-                Drum = "<a href=/WDrumAllocation/WorkOrder?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Allocate' /></a>";
+                Drum = "<a href=/WorkOrder/WDrumAllocation?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Allocate' /></a>";
 
 
                 Reg.Add(new ListWDrumAllocationItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["JOBASICID"].ToString()),
-                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    //branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     jopjd = dtUsers.Rows[i]["DOCID"].ToString(),
                     jopdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     location = dtUsers.Rows[i]["LOCID"].ToString(),
@@ -460,44 +460,48 @@ namespace Arasan.Controllers.Sales
             //IEnumerable<WorkOrder> cmp = WorkOrderService.GetAllWorkOrder(status);
             return View();
         }
-        //public ActionResult MyListWDrumAlloGrid()
-        //{
-        //    List<ListWDrumAlloItems> Reg = new List<ListWDrumAlloItems>();
-        //    DataTable dtUsers = new DataTable();
-        //    //strStatus = strStatus == "" ? "Y" : strStatus;
-        //    dtUsers = (DataTable)WorkOrderService.GetAllListWDrumAlloItems();
-        //    for (int i = 0; i < dtUsers.Rows.Count; i++)
-        //    {
+        public ActionResult MyListWDrumAlloGrid()
+        {
+            List<ListWDrumAlloItems> Reg = new List<ListWDrumAlloItems>();
+            DataTable dtUsers = new DataTable();
+            //strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)WorkOrderService.GetAllListWDrumAlloItems();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
 
-        //        string Drum = string.Empty;
+                string View = string.Empty;
+                string Approve = string.Empty;
 
-        //        Drum = "<a href=/WDrumAllocation/WorkOrder?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Allocate' /></a>";
-
-
-        //        Reg.Add(new ListWDrumAlloItems
-        //        {
-        //            branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
-        //            jopjd = dtUsers.Rows[i]["DOCID"].ToString(),
-        //            jopdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
-        //            location = dtUsers.Rows[i]["LOCID"].ToString(),
-        //            customer = dtUsers.Rows[i]["PARTY"].ToString(),
-        //            drum = Drum,
+                View = "<a href=/WorkOrder/ViewDrumAllocation?id=" + dtUsers.Rows[i]["JODRUMALLOCATIONBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe' ><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                Approve = "<a href=/ProFormaInvoice/ProFormaInvoice?id=" + dtUsers.Rows[i]["JODRUMALLOCATIONBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Waiting for approval' width='20' /></a>";
 
 
+                Reg.Add(new ListWDrumAlloItems
+                {
+                    
+                    jobid = dtUsers.Rows[i]["jobid"].ToString(),
+                    location = dtUsers.Rows[i]["LOCID"].ToString(),
+                    Customername = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    docid = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    view = View,
+                    approve = Approve,
 
-        //        });
-        //    }
 
-        //    return Json(new
-        //    {
-        //        Reg
-        //    });
 
-        //}
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
         public IActionResult ListWDrumAllo()
         {
-            IEnumerable<WDrumAllocation> cmp = WorkOrderService.GetAllWDrumAll();
-            return View(cmp);
+            //IEnumerable<WDrumAllocation> cmp = WorkOrderService.GetAllWDrumAll();
+            return View();
         }
 
         public ActionResult ViewDrumAllocation(string id)

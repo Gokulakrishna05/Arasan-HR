@@ -1,33 +1,108 @@
-﻿@model IEnumerable<Arasan.Models.WDrumAllocation>
+﻿@model Arasan.Models.WDrumAllocation
 
 @{
-    ViewData["Title"] = "Drum Allocation";
-    string sdate = ViewContext.HttpContext.Request.Query["st"];
-    string edate = ViewContext.HttpContext.Request.Query["ed"];
+    ViewData["Title"] = "WDrum Allocation";
 }
-<style>
-    .newwidth {
-        width: 120px;
-    }
+<partial name="JqxGridPartial" />
+@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
 
-    .mandatory {
-        color: red;
-        position: relative;
-        top: 2px;
-        left: 5px;
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
     }
-</style>
+</script>
+
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Sales</a> </li>
-            <li class="active"> <strong>Drum Allocation</strong> </li>
+            <li class="active"> <strong>WDrum Allocation</strong> </li>
         </ol>
     </div>
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        var source =
+        {
+            url: "/WorkOrder/MyListWDrumAlloGrid",
+            //url: "/ItemName/ItemName",
+            data: {
+                strstatus: ""
+            },
+            datatype: "json",
+            updaterow: function (rowid, rowdata) {
+                // synchronize with the server - send update command
+            },
+            datafields: [
+                //{ name: 'branch', type: 'string' },
+                { name: 'jobid', type: 'string' },
+                { name: 'location', type: 'string' },
+                { name: 'Customername', type: 'string' },
+                { name: 'docid', type: 'string' },
+                { name: 'docdate', type: 'string' },
+                { name: 'view', type: 'string' },
+                { name: 'approve', type: 'string' },
+
+            ],
+            id: 'id',
+        };
+        var dataAdapter = new $.jqx.dataAdapter(source,
+            { contentType: 'application/json; charset=utf-8' }, {
+            loadComplete: function () {
+
+            }
+        }
+        );
+
+        $("#grid").jqxGrid(
+            {
+                width: '100%',
+                source: dataAdapter,
+                height: 450,
+                source: source,
+                //autoheight: true,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterbar: true,
+                //showfilterrow: true,
+                theme: 'ui-start',
+                autorowheight: true,
+                filterbarmode: 'simple',
+                enablebrowserselection: true,
+                columnsresize: true,
+                selectionmode: 'multiplerowsextended',
+                keyboardnavigation: false,
+                columns: [
+                    //{ text: 'Branch', filtertype: 'input', datafield: 'branch', width: 160 },
+                    { text: 'Job Id', filtertype: 'input', datafield: 'jobid', width: 120 },
+                    { text: 'Location', filtertype: 'input', datafield: 'location', width: 250 },
+                    { text: 'Customer Name', filtertype: 'checkedlist', datafield: 'Customername', width: 250 },
+                    { text: 'Doc Id', filtertype: 'checkedlist', datafield: 'docid', width: 120 },
+                    { text: 'Doc Date', filtertype: 'checkedlist', datafield: 'docdate', width: 120 },
+                    { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 80 },
+                    { text: 'Approve', datafield: 'approve', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 80 },
+                ]
+            });
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
+    });
+</script>
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -35,104 +110,34 @@
                 <div class="widgets-container">
 
                     <form>
-@*
-                        <div class="row">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="inputName3" class="col-sm-3 control-label">From Date  <label class="mandatory">*</label></label>
-                                    <div class="col-sm-7">
-                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @Html.TextBoxFor(C => C.SStart, new { @id = "SStart", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true }) 
-                                            <input id="SStart" class="form-control" readonly="readonly" value="@sdate" />
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="inputName3" class="col-sm-3 control-label"> To date  <label class="mandatory">*</label></label>
-                                    <div class="col-sm-7">
-
-                                        <div class="input-group date to_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @*  @Html.TextBoxFor(C => C.SEnd, new { @id = "SEnd", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true }) 
-                                            <input id="SEnd" class="form-control" readonly="readonly" value="@edate" />
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
-                                        <button type="button" class="btn  btn-round btn-primary" onclick="changesearch()" style="float: right; color:white;">Search </button>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="col-md-12 ">
-                                <div class=" textalignright">
-                                    <a href="@Url.Action("ProductionEntry", "ProductionEntry")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add ProductionEntry </a>
-                                    <br>
-
-                                </div>
-
-                            </div>
-                        </div>*@
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="ibox float-e-margins">
-
-                                    <div class="ibox-content collapse in">
-                                        <div class="widgets-container">
-
-
-                                            <div>
-                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                           
-                                                            <th>Doc Id</th>
-                                                            <th>Doc Date</th>
-                                                            <th>Job Id</th>
-                                    <th>Customer</th>
-                                    <th>Location</th>
-                                                            <th>View</th>
-                                                            
-                                                            <th>Approve</th>
-                                                            
-                                                        </tr>
-                                                    </thead>
-
-                                                    <tbody id="tbBooks">
-                                                        @{
-                                                            int i = 1;
-                                                            foreach (var item in Model)
-                                                            {
-
-
-                                                                <tr id="trBaook@(i)">
-                                                                    <td>@Html.DisplayFor(modelItem => item.DOCId)</td>
-
-                                                                    <td>@Html.DisplayFor(modelItem => item.DocDate)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.JobId)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Customername)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Location)</td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewDrumAllocation", "WorkOrder",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ProFormaInvoice", "ProFormaInvoice",new { id=item.ID,tag=1 })"><img src='../Images/checklist.png' alt='View Details' width='20' /></a></div></td>
-
-                                                                   
-                                                                </tr>
-
-                                                                i++;
-                                                            }
-                                                        }
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
+                        @* <div class="row">
+                        <div class="col-md-2 ">
+                        @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                        { new SelectListItem() {Text = "Enabled", Value="Y"},
+                        new SelectListItem() {Text = "Disabled", Value="N"}},
+                        new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                        <br>
+                        </div>
+                        <div class="col-md-9 ">
+                        <div class=" textalignright">
+                        <a href="@Url.Action("WorkOrder", "WorkOrder")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add WorkOrder</a>
+                        <br>
                         </div>
 
 
+                        </div>
+                        </div>*@
+                        <div style="height:30px;"></div>
+                        <div class="row">
+
+
+                            @*  <div class="col-md-10 ">*@
+                            <div id="grid">
+                            </div>
+
+                            @*</div>*@
+
+                        </div>
 
                     </form>
                 </div>
@@ -140,40 +145,12 @@
         </div>
     </div>
 </div>
-
 <script>
-    $(document).ready(function () {
-        $('#example7').DataTable({
-            dom: 'Bfrtip',
-            buttons: [{
-                text: 'copy',
-                extend: "copy",
-                className: 'btn dark btn-outline'
-            }, {
-                text: 'csv',
-                extend: "csv",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'excel',
-                extend: "excel",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'pdf',
-                extend: "pdf",
-                className: 'btn yellow  btn-outline'
-            }, {
-                text: 'print',
-                extend: "print",
-                className: 'btn purple  btn-outline'
-            }]
-        });
-
-
-
-    });
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
 </script>
 
-<!-- /container -->
 
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
@@ -186,10 +163,14 @@
             width: '80%',
             height: '10%',
             arrows: false,
-
+            afterClose: function () {
+                location.reload();
+                return;
+            }
         });
         fancybox123 = $.fancybox;
     });
+
     function close_popup() {
         fancybox123.close();
         $(".fancybox1").fancybox({
@@ -199,5 +180,21 @@
         });
         $(".fancybox1").eq(0).trigger('click');
     }
-  
+
+
+                                //function changeStatus(status) {
+                                //    var url = "/PurchaseQuo/ListPurchaseQuo?status=" + status;
+                                //    window.location.href = url;
+                                //    //$.ajax({
+                                //    //    url: 'AssignSession',
+                                //    //    data: { "status": status },
+                                //    //    type: "GET",
+                                //    //    success: function (result) {
+                                //    //        document.getElementById("hdstatus").value = result;
+                                //    //    },
+                                //    //    error: function () {
+                                //    //        alert("Data Not Found");
+                                //    //    }
+                                //    //});
+                                //    //window.location.reload();
 </script>

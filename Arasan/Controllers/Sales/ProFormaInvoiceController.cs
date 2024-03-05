@@ -411,7 +411,7 @@ namespace Arasan.Controllers.Sales
                 //}
                 //else
                 //{
-                EditRow = "<a href=ProFormaInvoice?id=" + dtUsers.Rows[i]["PINVBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View Deatils' /></a>";
+                EditRow = "<a href=ProFormaInvoice?id=" + dtUsers.Rows[i]["PINVBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=CloseQuote?id=" + dtUsers.Rows[i]["PINVBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 //}
@@ -419,7 +419,7 @@ namespace Arasan.Controllers.Sales
                 Reg.Add(new ListProFormaInvoiceItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["PINVBASICID"].ToString()),
-                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    //branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     enqno = dtUsers.Rows[i]["DOCID"].ToString(),
                     refno = dtUsers.Rows[i]["REFNO"].ToString(),
                     date = dtUsers.Rows[i]["DOCDATE"].ToString(),
@@ -506,7 +506,7 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
-        public ActionResult CloseQuote(string tag, int id)
+        public ActionResult CloseQuote(string tag, string id)
         {
 
             string flag = ProFormaInvoiceService.StatusChange(tag, id);

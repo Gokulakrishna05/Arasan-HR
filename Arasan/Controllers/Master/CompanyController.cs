@@ -4,6 +4,7 @@ using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Arasan.Controllers
 {
@@ -67,8 +68,8 @@ namespace Arasan.Controllers
         }
         public IActionResult ListCompany(string status)
         {
-            IEnumerable<Company> cmp = CompanyService.GetAllCompany(status);
-            return View(cmp);
+            //IEnumerable<Company> cmp = CompanyService.GetAllCompany(status);
+            return View();
         }
 
         public ActionResult DeleteMR(string tag, int id)
@@ -99,6 +100,47 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListCompany");
             }
+        }
+
+        public ActionResult MyListCompanygrid(string strStatus)
+        {
+            List<CompanyList> Reg = new List<CompanyList>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "ACTIVE" : strStatus;
+            dtUsers = CompanyService.GetAllCompanies(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+                if (dtUsers.Rows[i]["STATUS"].ToString() == "ACTIVE")
+                {
+
+                    EditRow = "<a href=Company?id=" + dtUsers.Rows[i]["COMPANYMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["COMPANYMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+                    EditRow = "";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["COMPANYMASTID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+
+                }
+
+                Reg.Add(new CompanyList
+                {
+                    compname = dtUsers.Rows[i]["COMPANYID"].ToString(),
+                    compdesc = dtUsers.Rows[i]["COMPANYDESC"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
     }
 }
