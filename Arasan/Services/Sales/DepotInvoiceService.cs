@@ -43,7 +43,7 @@ namespace Arasan.Services
                             Branch = rdr["BRANCHID"].ToString(),
 
                             InvNo = rdr["DOCID"].ToString(),
-
+ 
                             InvDate = rdr["DOCDATE"].ToString(),
                             Party = rdr["PARTYNAME"].ToString(),
                             Net = Convert.ToDouble(rdr["NET"].ToString()),

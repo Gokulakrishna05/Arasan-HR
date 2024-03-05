@@ -53,7 +53,7 @@
 
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Work Order<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.WorkCenter, Model.Joblst," -- Please Select -- ", new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1})
+                                            @Html.DropDownListFor(C => C.WorkCenter, Model.Joblst," -- Please Select -- ", new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1, onchange = "changeItem(this.value)"})
 
                                         </div>
                                     </div>
@@ -140,7 +140,9 @@
                                     <br /><label for="inputName3" class="col-sm-4 control-label">Party Id<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
 
-                                            @Html.DropDownListFor(C => C.Party, Model.Suplst," -- Please Select -- ", new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1 })
+@*                                            @Html.DropDownListFor(C => C.Party, Model.Suplst," -- Please Select -- ", new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1 })
+*@                                                                                @Html.TextBoxFor(C => C.Party, new { @id = "txtParty", @class = "form-control", @TabIndex = 1  })
+
                                         </div>
                                      </div>
                                 </div>
@@ -175,23 +177,23 @@
                                                          
 
                                                             <th>Item Id </th>
-                                                            <th></th>
+                                                           <th></th>
                                                             <th>Description</th>
                                                             <th> Unit </th>
                                                             <th> Quantity </th>
                                                             <th> Rate </th>
                                                             <th> Amount </th>
-                                                            <th> Qty Discount </th>
+                                                            <th>   Discount </th>
                                                            @* <th> Itro Discount </th>*@
                                                             <th> Cash Discount </th>
                                                            @* <th> Trade Discount </th>
-                                                            <th> Additional Discount </th>
-                                                            <th> Special Discount </th>*@
-                                                            @*<th> Frieght </th>*@
+                                                            <th> Additional Discount </th>*@
+                                                            <th> Special Discount </th>
+                                                             <th> Frieght </th>
                                                           @*  <th> Tariff Id. </th>*@
-                                                        @*    <th>CGSTP</th>
+                                                           <th>CGSTP</th>
                                                             <th>SGSTP</th>
-                                                            <th>IGSTP</th>*@
+                                                            <th>IGSTP</th> 
                                                             <th>CGST</th>
                                                             <th>SGST</th>
                                                             <th>IGST</th>
@@ -199,66 +201,7 @@
                                                         </tr>
                                                     </thead>
                                             <tbody id="tbBooks">
-                                                 @{
-
-                                                int i = 0;
-                                                int j = 1;
-
-                                                foreach (var item in Model.ProFormalst.ToList())
-                                                {
-                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                        <td> @Html.TextBoxFor(o => o.ProFormalst[i].itemid, new { @id = "txtIitemid" + i, @class = "form-control", style = "width: 80px;" })  @Html.HiddenFor(o => o.ProFormalst[i].BaID ,new { @id = "txtBaID" + i})</td>
-                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("DrumSelectionView", "ProFormaInvoice" ,new { id=item.BaID})" class='fancybox' data-fancybox-type='iframe' id="hdrumselection@(i)"><img src='../Images/view_icon.png' /></a></div>  </td>
-                                                        <td> @Html.TextBoxFor(o => o.ProFormalst[i].itemdes, new { @id = "txtitemdes" + i, @class = "form-control", style = "width: 80px;" })</td>
-                                                        <td> @Html.TextBoxFor(o => o.ProFormalst[i].unit, new { @id = "txtunit" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})</td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.ProFormalst[i].qty, new { @id = "txtqty" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.ProFormalst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.HiddenFor(o => o.ProFormalst[i].Isvalid, new { @id = "Isvalid" + i })
-
-                                                            @Html.TextBoxFor(o => o.ProFormalst[i].amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly" })
-                                                        </td>
-                                                        <td>
-                                                      
-                                                            @Html.TextBoxFor(o => o.ProFormalst[i].dis, new { @id = "txtDiscAmount" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;",@onkeyup = "changeQty(this," + i + ")" })
-                                                        </td>
-                                                        <td>
-                                                          
-                                                            @Html.TextBoxFor(o => o.ProFormalst[i].cashdisc, new { @id = "txtCashDiscount" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")"})
-                                                        </td>
-                                                          <td>
-                                                            @Html.HiddenFor(o => o.ProFormalst[i].SGSTCGST ,new { @id = "txtSGSTCGST" + i})
-                                                            @Html.HiddenFor(o => o.ProFormalst[i].CGSTP ,new { @id = "txtCGSTP" + i})
-                                                                    @Html.TextBoxFor(o => o.ProFormalst[i].CGST, new { @id = "txtCGST" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly", @onkeyup = "changeQty(this," + i + ")"})
-                                                                </td>
-                                                                <td>
-                                                            @Html.HiddenFor(o => o.ProFormalst[i].SGSTP,new{ @id = "txtSGSTP" + i})
-                                                                    @Html.TextBoxFor(o => o.ProFormalst[i].SGST, new { @id = "txtSGST" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly", @onkeyup = "changeQty(this," + i + ")"})
-                                                                </td>
-                                                                <td>
-                                                            @Html.HiddenFor(o => o.ProFormalst[i].IGSTP,new{ @id = "txtIGSTP" + i})
-                                                                    @Html.TextBoxFor(o => o.ProFormalst[i].IGST, new { @id = "txtIGST" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly", @onkeyup = "changeQty(this," + i + ")"})
-                                                                </td>
-                                                                <td>
-                                                                    @Html.TextBoxFor(o => o.ProFormalst[i].totamount, new { @id = "txtTotalAmount" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
-                                                                </td>
-
-
-                                                                <td>
-                                                                    @Html.HiddenFor(o => o.ProFormalst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="ProFormalst.Index" type="hidden" value="@(i)" />
-                                                                </td>
-
-                                                    </tr>
-                                                    i = i + 1;
-                                                    j = j + 1;
-
-                                                }
-                                            }
+                                              
                                             </tbody>
                                                 </table>
                                             
@@ -620,98 +563,103 @@
         var ItemId = '@ViewBag.WorkCenter';
         changeItem(ItemId);
     });
-    //function changeItem(ItemId) 
-    //{
-    //    document.getElementById("tbBooks").innerHTML = "";
-    //    $.ajax({
-    //        url: 'GetWorkOrderDetails',
-    //        type: "post",
-    //        data: { "id": ItemId },
-    //        cache: false,
+    function changeItem(ItemId) 
+    {
+        document.getElementById("tbBooks").innerHTML = "";
+          
+        $.ajax({
+            url: 'GetWorkOrderDetails',
+            type: "post",
+            data: { "id": ItemId },
+            cache: false,
 
-    //        success: function (list) {
-    //            //if (list != null && list.length > 0) {
-    //            list.forEach((item) => {
+           success: function (list) {
+               //if (list != null && list.length > 0) {
+               list.forEach((item) => {
 
-    //                var index = $("#tbBooks").children("tr").length;
-    //                //alert(item.batch);
-    //                var Item = "<td><input class='form-control' id='txtItem" + index + "' name='ProFormalst[" + index + "].itemid'  style='width: 100px;' type='text'  readonly='True'  value=" + item.itemid + " /></td>";
+                   var index = $("#tbBooks").children("tr").length;
+                   //alert(item.batch);
+                    var Item = "<td><input class='form-control' id='txtItem" + index + "' name='ProFormalst[" + index + "].itemid'  style='width: 100px;' type='text'  readonly='True'  value=" + item.itemid + " /></td>";
+                            var drum = "<td><div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("ProFormaInvoice","DrumSelectionView")?id="+ItemId+"&rowid='index'' class='fancybox' data-fancybox-type='iframe' id='hdrumselection" + index + "'><img src='../Images/view_icon.png'></a></div> <input  id='hddrumid" + index + "' name='Depotlst[" + index + "].DrumIds' type='hidden'> </td>";
 
-    //                var ItemDes = "<td><input class='form-control' id='txtitemdes" + index + "' name='ProFormalst[" + index + "].itemdes'  style='width: 100px;' type='text'  readonly='True'  value=" + item.itemdes + " /></td>";
+                    var ItemDes = "<td><input class='form-control' id='txtitemdes" + index + "' name='ProFormalst[" + index + "].itemdes'  style='width: 100px;' type='text'  readonly='True'  value=" + item.itemdes + " /></td>";
 
-    //                var Unit = "<td><input class='form-control' id='txtunit" + index + "' name='ProFormalst[" + index + "].unit'  style='width: 100px;' type='text'  readonly='True'  value=" + item.unit + " /></td>";
-
-
-    //                var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='ProFormalst[" + index + "].qty'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this," + index + ")'  /></td>";
-
-    //                var Rate = "<td><input class='form-control' id='txtrate" + index + "' name='ProFormalst[" + index + "].rate'  style='width: 60px;' type='text' readonly='True'  value=" + item.rate + " onkeyup = 'changeQty(this," + index + ")' /></td>";
-
-                   
-    //                var Amount = "<td><input class='form-control' id='txtamount" + index + "' name='ProFormalst[" + index + "].amount'  style='width: 100px;' type='text' readonly='True'  value=" + item.amount + " onkeyup = 'changeQty(this," + index + ")'   /></td>";
-
-    //                var Discount = "<td><input class='form-control' id='txtdiscount" + index + "' name='ProFormalst[" + index + "].discount'  style='width: 100px;' type='text'  readonly='True'  value=" + item.discount + " onkeyup = 'changeQty(this," + index + ")'   /></td>";
+                    var Unit = "<td><input class='form-control' id='txtunit" + index + "' name='ProFormalst[" + index + "].unit'  style='width: 100px;' type='text'  readonly='True'  value=" + item.unit + " /></td>";
 
 
-    //                var ItroDiscount = "<td><input class='form-control' id='txtitrodis" + index + "' name='ProFormalst[" + index + "].itrodis'  style='width: 100px;' type='text'    readonly='True'  value=" + item.itrodis + " onkeyup = 'changeQty(this," + index + ")' /></td>";
+                    var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='ProFormalst[" + index + "].qty'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this," + index + ")'  /></td>";
 
-    //                var CashDiscount = "<td><input class='form-control' id='txtcashdisc" + index + "' name='ProFormalst[" + index + "].cashdisc'  style='width: 100px;' type='text'   readonly='True'  value=" + item.cashdisc + " onkeyup = 'changeQty(this," + index + ")' /></td>";
-
-    //                var TradeDiscount = "<td><input class='form-control' id='txttradedis" + index + "' name='ProFormalst[" + index + "].tradedis'  style='width: 100px;' type='text'   readonly='True'  value=" + item.tradedis + " onkeyup = 'changeQty(this," + index + ")'   /></td>";
-
-    //                var AdditionalDiscount = "<td><input class='form-control' id='txtadditionaldis" + index + "' name='ProFormalst[" + index + "].additionaldis'  style='width: 100px;' type='text'    readonly='True'  value=" + item.additionaldis + " onkeyup = 'changeQty(this," + index + ")'  /></td>";
+                    var Rate = "<td><input class='form-control' id='txtrate" + index + "' name='ProFormalst[" + index + "].rate'  style='width: 60px;' type='text' readonly='True'  value=" + item.rate + " onkeyup = 'changeQty(this," + index + ")' /></td>";
 
                    
-    //                var Specialdiscount = "<td><input class='form-control' id='txtdis" + index + "' name='ProFormalst[" + index + "].dis'  style='width: 100px;' type='text'   readonly='True'  value=" + item.dis + " onkeyup = 'changeQty(this," + index + ")' /></td>";
+                    var Amount = "<td><input class='form-control' id='txtamount" + index + "' name='ProFormalst[" + index + "].amount'  style='width: 100px;' type='text' readonly='True'  value=" + item.amount + " onkeyup = 'changeQty(this," + index + ")'   /></td>";
 
-    //                var Frieght = "<td><input class='form-control' id='txtfrieght" + index + "' name='ProFormalst[" + index + "].frieght'  style='width: 100px;' type='text' readonly='True'  value=" + item.frieght + "  onkeyup = 'changeQty(this," + index + ")' /></td>";
+                   var Discount = "<td><input class='form-control' id='txtdiscount" + index + "' name='ProFormalst[" + index + "].discount'  style='width: 100px;' type='text'       onkeyup = 'changeQty(this," + index + ")'   /></td>";
 
 
-    //                var Tariff = "<td><input class='form-control' id='txttariff" + index + "' name='ProFormalst[" + index + "].tariff'  style='width: 100px;' type='text'    /></td>";
+                    var ItroDiscount = "<td><input class='form-control' id='txtitrodis" + index + "' name='ProFormalst[" + index + "].itrodis'  style='width: 100px;' type='text'    readonly='True'   onkeyup = 'changeQty(this," + index + ")' /></td>";
 
-    //                var CGSTP = "<td><input class='form-control' id='txtCGSTP" + index + "' name='ProFormalst[" + index + "].CGSTP'  style='width: 100px;' type='text'   onkeyup = 'changeQty(this," + index + ")'  /></td>";
+                    var CashDiscount = "<td><input class='form-control' id='txtcashdisc" + index + "' name='ProFormalst[" + index + "].cashdisc'  style='width: 100px;' type='text'   readonly='True'   onkeyup = 'changeQty(this," + index + ")' /></td>";
 
-    //                var SGSTP = "<td><input class='form-control' id='txtSGSTP" + index + "' name='ProFormalst[" + index + "].SGSTP'  style='width: 100px;' type='text'  onkeyup = 'changeQty(this," + index + ")'  /></td>";
+                   var TradeDiscount = "<td><input class='form-control' id='txttradedis" + index + "' name='ProFormalst[" + index + "].tradedis'  style='width: 100px;' type='text'   readonly='True'   onkeyup = 'changeQty(this," + index + ")'   /></td>";
 
-    //                var IGSTP = "<td><input class='form-control' id='txtIGSTP" + index + "' name='ProFormalst[" + index + "].IGSTP'  style='width: 100px;' type='text'  onkeyup = 'changeQty(this," + index + ")'   /></td>";
-
-    //                var CGST = "<td><input class='form-control' id='txtCGST" + index + "' name='ProFormalst[" + index + "].CGST'  style='width: 100px;' type='text' readonly='True'  onkeyup = 'changeQty(this," + index + ")'  /></td>";
-
-    //                var SGST = "<td><input class='form-control' id='txtSGST" + index + "' name='ProFormalst[" + index + "].SGST'  style='width: 100px;' type='text'  readonly='True'  onkeyup = 'changeQty(this," + index + ")' /></td>";
-
-    //                var IGST = "<td><input class='form-control' id='txtIGST" + index + "' name='ProFormalst[" + index + "].IGST'  style='width: 100px;' type='text'   readonly='True' onkeyup = 'changeQty(this," + index + ")' /></td>";
+                    var AdditionalDiscount = "<td><input class='form-control' id='txtadditionaldis" + index + "' name='ProFormalst[" + index + "].additionaldis'  style='width: 100px;' type='text'        onkeyup = 'changeQty(this," + index + ")'  /></td>";
 
                    
-    //                var TotAmount = "<td><input class='form-control' id='txttotamount" + index + "' name='ProFormalst[" + index + "].totamount'  style='width: 100px;' type='text' readonly='True'      /></td>";
+                    var Specialdiscount = "<td><input class='form-control' id='txtdis" + index + "' name='ProFormalst[" + index + "].dis'  style='width: 100px;' type='text'      onkeyup = 'changeQty(this," + index + ")' /></td>";
 
-    //                var removeCell = "<td><input id='Isvalid" + index + "' name='ProFormalst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='ProFormalst.Index' type='hidden' value='" + index + "'  /></td>";
+                    var Frieght = "<td><input class='form-control' id='txtfrieght" + index + "' name='ProFormalst[" + index + "].frieght'  style='width: 100px;' type='text'     onkeyup = 'changeQty(this," + index + ")' /></td>";
 
 
-    //                var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Item + ItemDes + Unit + Qty + Rate + Amount + Discount + ItroDiscount + CashDiscount + TradeDiscount + AdditionalDiscount + Specialdiscount + Frieght + Tariff + CGSTP + SGSTP + IGSTP + CGST + SGST + IGST + TotAmount + removeCell + "</tr>";
+                    var Tariff = "<td><input class='form-control' id='txttariff" + index + "' name='ProFormalst[" + index + "].tariff'  style='width: 100px;' type='text'    /></td>";
 
-    //                $("#tbBooks").append(newRow);
-    //            });
-    //            //}
-    //        },
-    //        error: function () {
-    //            alert("Data Not Found");
-    //        }
-    //    });
-    //    //$.ajax({
-    //    //    url: 'GetProFormaInvoiceDetail',
-    //    //    data: { "ItemId": ItemId },
-    //    //    type: "GET",
-    //    //    success: function (result) {
+                    var CGSTP = "<td><input class='form-control' id='txtCGSTP" + index + "' name='ProFormalst[" + index + "].cgstp'  style='width: 100px;' type='text' value=" + item.cgstp + "   onkeyup = 'changeQty(this," + index + ")'  /></td>";
+
+                    var SGSTP = "<td><input class='form-control' id='txtSGSTP" + index + "' name='ProFormalst[" + index + "].sgstp'  style='width: 100px;' type='text' value=" + item.sgstp + " onkeyup = 'changeQty(this," + index + ")'  /></td>";
+
+                    var IGSTP = "<td><input class='form-control' id='txtIGSTP" + index + "' name='ProFormalst[" + index + "].igstp'  style='width: 100px;' type='text' value=" + item.igstp + "  onkeyup = 'changeQty(this," + index + ")'   /></td>";
+
+                    var CGST = "<td><input class='form-control' id='txtCGST" + index + "' name='ProFormalst[" + index + "].cgst'  style='width: 100px;' type='text' readonly='True'  onkeyup = 'changeQty(this," + index + ")'  /></td>";
+
+                    var SGST = "<td><input class='form-control' id='txtSGST" + index + "' name='ProFormalst[" + index + "].sgst'  style='width: 100px;' type='text'  readonly='True'  onkeyup = 'changeQty(this," + index + ")' /></td>";
+
+                    var IGST = "<td><input class='form-control' id='txtIGST" + index + "' name='ProFormalst[" + index + "].igst'  style='width: 100px;' type='text'   readonly='True' onkeyup = 'changeQty(this," + index + ")' /></td>";
+
+                   
+                    var TotAmount = "<td><input class='form-control' id='txttotamount" + index + "' name='ProFormalst[" + index + "].totamount'  style='width: 100px;' type='text' readonly='True'      /></td>";
+
+                    var removeCell = "<td><input id='Isvalid" + index + "' name='ProFormalst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='ProFormalst.Index' type='hidden' value='" + index + "'  /></td>";
+
+
+                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Item + drum + ItemDes + Unit + Qty + Rate + Amount + Discount + CashDiscount  + Specialdiscount + Frieght + CGSTP + SGSTP + IGSTP + CGST + SGST + IGST + TotAmount + removeCell + "</tr>";
+
+                    $("#tbBooks").append(newRow);
+                     changeQty(0,index);
+              });
+              //}
+           },
+           error: function () {
+                alert("Data Not Found");
+            }
+        });
+       $.ajax({
+          url: 'GetProFormaInvoiceDetail',
+           data: { "ItemId": ItemId },
+           type: "GET",
+            success: function (result) {
                 
-    //    //        document.getElementById("txtCurrency").value = result.currency;
-    //    //        document.getElementById("txtParty").value = result.party;
+              
+                document.getElementById("txtParty").value = result.party;
+               
               
                
-    //    //    },
-    //    //    error: function () {
-    //    //        alert("Data Not Found");
-    //    //    }
-    //    //});
-    //}
+            },
+            error: function () {
+              alert("Data Not Found");
+            }
+           
+        });
+    }
     function changeQty(_this, i) {
         try {
             var GTot = 0;
@@ -731,11 +679,11 @@
 
             var SGST = document.getElementById("txtSGSTP" + i).value;
             var Disount = document.getElementById("txtdiscount" + i).value;
-            var ItroDiscount = document.getElementById("txtitrodis" + i).value;
-            var CashDiscount = document.getElementById("txttradedis" + i).value;
-            var TradeDiscount = document.getElementById("txtdiscount" + i).value;
-            var AdditionalDiscount = document.getElementById("txtadditionaldis" + i).value;
-            var Specialdiscount = document.getElementById("txtdis" + i).value;
+            //var ItroDiscount = document.getElementById("txtitrodis" + i).value;
+            //var CashDiscount = document.getElementById("txttradedis" + i).value;
+           
+            //var AdditionalDiscount = document.getElementById("txtadditionaldis" + i).value;
+            //var Specialdiscount = document.getElementById("txtdis" + i).value;
 
 
             if (up == "")
@@ -744,7 +692,7 @@
             if (Disount == "")
                 Disount = 0;
 
-            if (ItroDiscount == "")
+          @*  if (ItroDiscount == "")
                 ItroDiscount = 0;
 
                 if (CashDiscount == "")
@@ -758,7 +706,7 @@
 
 
             if (Specialdiscount == "")
-                Specialdiscount = 0;
+                Specialdiscount = 0;*@
 
             if (IGST == "")
                 IGST = 0;
@@ -793,7 +741,7 @@
 
 
             var tottax = eval(tot) + eval(igstperc) + eval(cgstperc) + eval(sgstperc) + eval(frieght);
-            var totdisc = eval(tottax) - eval(Disount)  - eval(ItroDiscount)  - eval(CashDiscount)  - eval(TradeDiscount)  - eval(AdditionalDiscount) - eval(Specialdiscount);
+            var totdisc = eval(tottax) - eval(Disount) ;
 
 
             document.getElementById("txttotamount" + i).value = totdisc.toFixed(2);

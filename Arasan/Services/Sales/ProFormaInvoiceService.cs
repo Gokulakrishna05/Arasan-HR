@@ -171,7 +171,7 @@ namespace Arasan.Services.Sales
                                     if (cp.Isvalid == "Y")
                                     {
 
-                                        svSQL = "Insert into SPINVDETAIL (SPINVBASICID,ITEMID,ITEMSPEC,UNIT,QTY,RATE,AMOUNT,DISCOUNT,IDISC,CDISC,TDISC,ADISC,SDISC,FREIGHT,TARIFFID,CGST,SGST,IGST,TOTEXAMT) VALUES ('" + Pid + "','" + ItemId + "','" + cp.itemdes + "','" + UnitId + "','" + cp.qty + "','" + cp.rate + "','" + cp.amount + "','" + cp.discount + "','" + cp.itrodis + "''" + cp.cashdisc + "','" + cp.tradedis + "','" + cp.additionaldis + "','" + cp.dis + "','" + cp.frieght + "','" + cp.tariff + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "','" + cp.totamount + "')";
+                                        svSQL = "Insert into SPINVDETAIL (SPINVBASICID,ITEMID,ITEMSPEC,UNIT,QTY,RATE,AMOUNT,DISCOUNT,IDISC,CDISC,TDISC,ADISC,SDISC,FREIGHT,TARIFFID,CGST,SGST,IGST,TOTEXAMT) VALUES ('" + Pid + "','" + ItemId + "','" + cp.itemdes + "','" + UnitId + "','" + cp.qty + "','" + cp.rate + "','" + cp.amount + "','" + cp.discount + "','" + cp.itrodis + "''" + cp.cashdisc + "','" + cp.tradedis + "','" + cp.additionaldis + "','" + cp.dis + "','" + cp.frieght + "','" + cp.tariff + "','" + cp.cgst + "','" + cp.sgst + "','" + cp.igst + "','" + cp.totamount + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -192,7 +192,7 @@ namespace Arasan.Services.Sales
 
                                     if (cp.Isvalid == "Y")
                                     {
-                                        svSQL = "Insert into SPINVDETAIL (SPINVBASICID,ITEMID,ITEMSPEC,UNIT,QTY,RATE,AMOUNT,DISCOUNT,IDISC,CDISC,TDISC,ADISC,SDISC,FREIGHT,TARIFFID,CGST,SGST,IGST,TOTEXAMT) VALUES ('" + Pid + "','" + ItemId + "','" + cp.itemdes + "','" + UnitId + "','" + cp.qty + "','" + cp.rate + "','" + cp.amount + "','" + cp.discount + "','" + cp.itrodis + "''" + cp.cashdisc + "','" + cp.tradedis + "','" + cp.additionaldis + "','" + cp.dis + "','" + cp.frieght + "','" + cp.tariff + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "','" + cp.totamount + "')";
+                                        svSQL = "Insert into SPINVDETAIL (SPINVBASICID,ITEMID,ITEMSPEC,UNIT,QTY,RATE,AMOUNT,DISCOUNT,IDISC,CDISC,TDISC,ADISC,SDISC,FREIGHT,TARIFFID,CGST,SGST,IGST,TOTEXAMT) VALUES ('" + Pid + "','" + ItemId + "','" + cp.itemdes + "','" + UnitId + "','" + cp.qty + "','" + cp.rate + "','" + cp.amount + "','" + cp.discount + "','" + cp.itrodis + "''" + cp.cashdisc + "','" + cp.tradedis + "','" + cp.additionaldis + "','" + cp.dis + "','" + cp.frieght + "','" + cp.tariff + "','" + cp.cgst + "','" + cp.sgst + "','" + cp.igst + "','" + cp.totamount + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -230,6 +230,18 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
+ 
+        public DataTable GetProFormaInvoiceDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT  PARTYMAST.PARTYNAME,JODRUMALLOCATIONBASICID from JODRUMALLOCATIONBASIC  LEFT OUTER JOIN  PARTYMAST on JODRUMALLOCATIONBASIC.CUSTOMERID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Customer','BOTH') AND JOPID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+      
         //public DataTable GetProFormaInvoiceDetails(string id)
         //{
         //    string SvSql = string.Empty;
@@ -241,6 +253,7 @@ namespace Arasan.Services.Sales
         //    return dtt;
         //}
         public string StatusChange(string tag, string id)
+ 
         {
             try
             {
@@ -262,11 +275,20 @@ namespace Arasan.Services.Sales
             return "";
 
         }
-
+        public DataTable GetgstDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select TARIFFID from HSNROW WHERE HSNCODEID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetWorkOrderDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,ITEMSPEC,UNITMAST.UNITID,JODETAIL.QTY,JODETAIL.RATE,AMOUNT,DISCOUNT,IDISC,CDISC,JODETAIL.TDISC,JODETAIL.ADISC,JODETAIL.SDISC,JODETAIL.FREIGHT,JOBASICID from JODETAIL left outer join ITEMMASTER on ITEMMASTER.ITEMMASTERID =JODETAIL.ITEMID left outer join UNITMAST on UNITMASTID=JODETAIL.UNIT where JODETAIL.JOBASICID= '" + id + "'";
+            SvSql = "select ITEMMASTER.ITEMID,ITEMMASTER.ITEMDESC,UNITMAST.UNITID,SUM(JODRUMALLOCATIONDETAIL.QTY) as qty,JODRUMALLOCATIONDETAIL.RATE from JODRUMALLOCATIONDETAIL left outer join ITEMMASTER on ITEMMASTER.ITEMMASTERID =JODRUMALLOCATIONDETAIL.ITEMID left outer join UNITMAST on UNITMASTID=ITEMMASTER.PRIUNIT where JODRUMALLOCATIONDETAIL.JODRUMALLOCATIONBASICID= '" + id + "' GROUP BY ITEMMASTER.ITEMID,ITEMMASTER.ITEMDESC,UNITMAST.UNITID,JODRUMALLOCATIONDETAIL.RATE";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
