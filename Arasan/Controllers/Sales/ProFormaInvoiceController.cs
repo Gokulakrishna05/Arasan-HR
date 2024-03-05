@@ -184,36 +184,38 @@ namespace Arasan.Controllers.Sales
 
             return View(Cy);
         }
-        //public ActionResult GetProFormaInvoiceDetail(string ItemId)
-        //{
-        //    try
-        //    {
-        //        DataTable dt = new DataTable();
+        public ActionResult GetProFormaInvoiceDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
 
-        //        string  currency= "";
-        //        string  party = "";
-        //        if (ItemId != "edit")
-        //        {
-        //            dt = ProFormaInvoiceService.GetProFormaInvoiceDetails(ItemId);
+                string currency = "";
+                string party = "";
+               
+                if (ItemId != "edit")
+                {
+                    dt = ProFormaInvoiceService.GetProFormaInvoiceDetails(ItemId);
 
-        //            if (dt.Rows.Count > 0)
-        //            {
+                    if (dt.Rows.Count > 0)
+                    {
 
-        //                currency = dt.Rows[0]["MAINCURR"].ToString();
-        //                party = dt.Rows[0]["PARTY"].ToString();
+                         
+                        party = dt.Rows[0]["PARTYNAME"].ToString();
 
 
-        //            }
-        //        }
+                    }
+                    
+                }
 
-        //        var result = new { currency = currency, party = party};
-        //        return Json(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+                var result = new {  party = party };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult GetWorkOrderDetails(string id,string jobid)
         {
             ProFormaInvoice model = new ProFormaInvoice();
@@ -235,7 +237,7 @@ namespace Arasan.Controllers.Sales
                         tda.qty = dtt1.Rows[i]["QTY"].ToString();
 
                         tda.rate = dtt1.Rows[i]["RATE"].ToString();
-                        tda.amount = dtt1.Rows[i]["AMOUNT"].ToString();
+                        tda.amount = Convert.ToDouble(dtt1.Rows[i]["AMOUNT"].ToString());
                         tda.discount = dtt1.Rows[i]["DISCOUNT"].ToString();
                         tda.itrodis = dtt1.Rows[i]["IDISC"].ToString();
                         tda.tradedis = dtt1.Rows[i]["TDISC"].ToString();
@@ -246,11 +248,11 @@ namespace Arasan.Controllers.Sales
                         tda.dis = dtt1.Rows[i]["SDISC"].ToString();
                         tda.frieght = dtt1.Rows[i]["FREIGHT"].ToString();
                         tda.tariff = dtt1.Rows[i]["TARIFFID"].ToString();
-                        tda.CGST = dtt1.Rows[i]["CGST"].ToString();
+                        tda.cgst = dtt1.Rows[i]["CGST"].ToString();
                         tda.Isvalid = "Y";
-                        tda.SGST = dtt1.Rows[i]["SGST"].ToString();
-                        tda.IGST = dtt1.Rows[i]["IGST"].ToString();
-                        tda.totamount = dtt1.Rows[i]["TOTEXAMT"].ToString();
+                        tda.sgst = dtt1.Rows[i]["SGST"].ToString();
+                        tda.igst = dtt1.Rows[i]["IGST"].ToString();
+                        tda.totamount = Convert.ToDouble(dtt1.Rows[i]["TOTEXAMT"].ToString());
 
                         Data.Add(tda);
                     }
@@ -258,7 +260,11 @@ namespace Arasan.Controllers.Sales
             }
             else
             {
-                dtt = ProFormaInvoiceService.GetWorkOrderDetail(id);
+
+                string detid = datatrans.GetDataString("select JODRUMALLOCATIONBASICID FROM JODRUMALLOCATIONBASIC WHERE JOPID='" + id + "'");
+               
+              
+                dtt = ProFormaInvoiceService.GetWorkOrderDetail(detid);
                 if (dtt.Rows.Count > 0)
                 {
                     for (int i = 0; i < dtt.Rows.Count; i++)
@@ -266,20 +272,109 @@ namespace Arasan.Controllers.Sales
                         tda = new ProFormaInvoiceDetail();
 
                         tda.itemid = dtt.Rows[i]["ITEMID"].ToString();
-                        tda.itemdes = dtt.Rows[i]["ITEMSPEC"].ToString();
+                        tda.itemdes = dtt.Rows[i]["ITEMDESC"].ToString();
                         tda.unit = dtt.Rows[i]["UNITID"].ToString();
-                        tda.qty = dtt.Rows[i]["QTY"].ToString();
+                        tda.qty = dtt.Rows[i]["qty"].ToString();
                         tda.rate = dtt.Rows[i]["RATE"].ToString();
-                        tda.amount = dtt.Rows[i]["AMOUNT"].ToString();
-                        tda.discount = dtt.Rows[i]["DISCOUNT"].ToString();
-                        tda.itrodis = dtt.Rows[i]["IDISC"].ToString();
-                        tda.cashdisc = dtt.Rows[i]["CDISC"].ToString();
-                        tda.tradedis = dtt.Rows[i]["TDISC"].ToString();
-                        tda.additionaldis = dtt.Rows[i]["ADISC"].ToString();
-                        tda.dis = dtt.Rows[i]["SDISC"].ToString();
-                        tda.frieght = dtt.Rows[i]["FREIGHT"].ToString();
-                        //tda.tariff = dtt.Rows[i]["TARIFFID"].ToString();
-                        //tda.totamount = dtt.Rows[i]["TOTEXAMT"].ToString();
+                        double rate = Convert.ToDouble(tda.rate);
+                        double quatity = Convert.ToDouble(tda.qty);
+                        double amt= quatity * rate;
+                        tda.amount = amt ;
+
+
+                       
+
+                        string hsnid = "";
+
+                        string hsn = "";
+                        string sgstp ="";
+                        string cgstp = "";
+                        string igstp ="";
+                        double cgsta = 0;
+                        double sgsta = 0;
+                        double igsta = 0;
+                        double pers = 0;
+                        string gst = "";
+                        string itemid = datatrans.GetDataString("SELECT ITEMID FROM JODRUMALLOCATIONDETAIL  WHERE JODRUMALLOCATIONBASICID='" + detid + "' GROUP BY ITEMID");
+                        hsn = datatrans.GetDataString("select HSN from ITEMMASTER WHERE ITEMMASTERID = '" + itemid + "'");
+                        
+                        hsnid = datatrans.GetDataString("select HSNCODEID from HSNCODE WHERE HSNCODE='" + hsn + "'");
+
+                        
+                        DataTable trff = new DataTable();
+                        trff = ProFormaInvoiceService.GetgstDetails(hsnid);
+                        // tda.gstlst = bindgst(hsnid);
+                        if (trff.Rows.Count > 0)
+                        {
+                            for (int j = 0; j < trff.Rows.Count; j++)
+                            {
+
+                                gst = trff.Rows[j]["TARIFFID"].ToString();
+
+                                DataTable per = datatrans.GetData("Select PERCENTAGE from TARIFFMASTER where TARIFFMASTERID='" + gst + "'  ");
+                                pers = Convert.ToDouble(per.Rows[0]["PERCENTAGE"].ToString());
+                            }
+
+                        }
+                        //}
+
+                        string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
+
+                        string type = "";
+                       DataTable dt = ProFormaInvoiceService.GetProFormaInvoiceDetails(detid);
+                        string party = "";
+                        if (dt.Rows.Count > 0)
+                        {
+
+
+                            party = dt.Rows[0]["PARTYNAME"].ToString();
+
+
+                        }
+                        string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYNAME='" + party + "'");
+                        if (trff.Rows.Count == 1)
+                        {
+                            if (partystate == cmpstate)
+                            {
+                                double cgst = pers / 2;
+                                double sgst = pers / 2;
+                                sgstp = sgst.ToString();
+                                cgstp = cgst.ToString();
+                                if(sgstp == "" && cgstp == "")
+                                {
+                                    sgstp = "0";
+                                    cgstp = "0";
+                                }
+                                tda.sgstp = sgstp ;
+                                tda.cgstp = cgstp ;
+                                //double cgstperc = tda.amount / 100 * sgstp;
+                                //double sgstperc = tda.amount / 100 * cgstp;
+                                //tda.cgst = cgstperc ;
+                                //tda.sgst = cgstperc ;
+                                //tda.totamount = tda.cgst + tda.sgst + tda.igst;
+                               // po.Net = tda.TotalAmount;
+                            }
+                            else
+                            {
+                                igstp =pers.ToString();
+                                if (igstp == "" ) 
+                                {
+                                    igstp = "0";
+                                    
+                                }
+                                tda.igstp= igstp ;
+                                //tda.igst = tda.amount / 100 * tda.igstp;
+                                //tda.totamount = tda.igst + tda.amount;
+                                 
+                            }
+                            if (sgstp == "" && cgstp == "")
+                            {
+                                sgstp = "0";
+                                cgstp = "0";
+                            }
+                            tda.sgstp = sgstp;
+                            tda.cgstp = cgstp;
+                        }
                         tda.ID = id;
                         tda.Isvalid = "Y";
                         Data.Add(tda);

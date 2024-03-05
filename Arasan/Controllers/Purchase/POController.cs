@@ -215,8 +215,8 @@ namespace Arasan.Controllers
 
                                     double cgstperc = tda.Amount / 100 * tda.SGSTPer;
                                     double sgstperc = tda.Amount / 100 * tda.CGSTPer;
-                                    tda.CGSTAmt = cgstperc + sgstperc;
-                                    tda.SGSTAmt = cgstperc + sgstperc;
+                                    tda.CGSTAmt = cgstperc  ;
+                                    tda.SGSTAmt = sgstperc;
                                     tda.TotalAmount = tda.CGSTAmt + tda.SGSTAmt + tda.Amount;
                                     //po.Net = tda.TotalAmount;
                                 }

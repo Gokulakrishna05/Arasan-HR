@@ -249,10 +249,13 @@ namespace Arasan.Services.Sales
                                 objCmds.Parameters.Add("JOPDETAILID", OracleDbType.NVarchar2).Value = cp.Jodetailid;
                                 objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ca.drumno;
                                 objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = ca.qty; 
+                                objCmds.Parameters.Add("LOTNO", OracleDbType.NVarchar2).Value =ca.lotno; 
                                 objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                 objCmds.ExecuteNonQuery();
                             }
-                            
+                            string Sql = "Update PLSTOCKVALUE SET  IS_LOCK='Y' WHERE SHEDNUMBER='" + ca.lotno + "'";
+                            OracleCommand objCmdss = new OracleCommand(Sql, objConn);
+                            objCmdss.ExecuteNonQuery();
                         }
                     }
 
@@ -321,7 +324,7 @@ namespace Arasan.Services.Sales
         public DataTable GetDrumDetails(string Itemid, string locid)
         {
             string SvSql = string.Empty;
-            SvSql = "select DRUMNO,SUM(PLUSQTY) QTY,lotno,rate,plstockvalueid from plstockvalue where ITEMID='" + Itemid + "' AND LOCID='" + locid + "' group by DRUMNO,lotno,rate,plstockvalueid having sum(Plusqty-Minusqty)>0 order by DRUMNO DESC";
+            SvSql = "select DRUMNO,SUM(PLUSQTY-MINUSQTY) QTY,lotno,rate,plstockvalueid from plstockvalue where ITEMID='" + Itemid + "' AND LOCID='" + locid + "' AND IS_LOCK IS NULL group by DRUMNO,lotno,rate,plstockvalueid having sum(Plusqty-Minusqty)>0 order by DRUMNO DESC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

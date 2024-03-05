@@ -70,7 +70,7 @@ namespace Arasan.Models
 
         public string discount { get; set; }
 
-        public string amount { get; set; }
+        public double amount { get; set; }
 
         public string itrodis { get; set; }
 
@@ -85,16 +85,16 @@ namespace Arasan.Models
         public string frieght { get; set; }
 
         public string tariff { get; set; }
-        public string CGST { get; set; }
-        public string SGST { get; set; }
+        public string cgst { get; set; }
+        public string sgst { get; set; }
         public string SGSTCGST { get; set; }
-        public string IGST { get; set; }
+        public string igst { get; set; }
 
-        public string CGSTP { get; set; }
-        public string SGSTP { get; set; }
-        public string IGSTP { get; set; }
+        public string cgstp { get; set; }
+        public string sgstp { get; set; }
+        public string igstp { get; set; }
 
-        public string totamount { get; set; }
+        public double totamount { get; set; }
 
         public string Isvalid { get; set; }
     }
