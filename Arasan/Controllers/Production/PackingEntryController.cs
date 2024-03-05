@@ -31,7 +31,7 @@ namespace Arasan.Controllers
             PackingEntry ca = new PackingEntry();
             ca.Brlst = BindBranch();
             ca.Worklst = BindWorkCenter();
-            ca.Packlst = BindPackNote();
+            ca.Packlst = BindPackNote("");
             ca.user = Request.Cookies["UserId"];
             ca.Branch = Request.Cookies["BranchId"];
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -87,6 +87,69 @@ namespace Arasan.Controllers
             ca.Emplst = Data2;
             ca.Matlst = Data1;
             
+            return View(ca);
+        }
+        public IActionResult PackingEntryOLD()
+        {
+            PackingEntry ca = new PackingEntry();
+            ca.Brlst = BindBranch();
+            ca.Worklst = BindWorkCenter();
+            ca.Packlst = BindPackNote("");
+            ca.user = Request.Cookies["UserId"];
+            ca.Branch = Request.Cookies["BranchId"];
+            ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence("Pack");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.Docid = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
+            }
+            List<PackInp> Data = new List<PackInp>();
+            PackInp tda = new PackInp();
+            List<PackMat> Data1 = new List<PackMat>();
+            PackMat tda1 = new PackMat();
+            List<PackEmp> Data2 = new List<PackEmp>();
+            PackEmp tda2 = new PackEmp();
+            List<Packothcon> Data3 = new List<Packothcon>();
+            Packothcon tda3 = new Packothcon();
+            List<PackMach> Data4 = new List<PackMach>();
+            PackMach tda4 = new PackMach();
+
+            for (int i = 0; i < 1; i++)
+            {
+                tda1 = new PackMat();
+
+                tda1.Itemlst = BindItemlst();
+                tda1.Isvalid = "Y";
+                Data1.Add(tda1);
+            }
+            for (int i = 0; i < 1; i++)
+            {
+                tda2 = new PackEmp();
+
+                tda2.Emplst = BindEmplst();
+                tda2.Isvalid = "Y";
+                Data2.Add(tda2);
+            }
+            for (int i = 0; i < 1; i++)
+            {
+                tda3 = new Packothcon();
+                tda3.Itemlst = BindItemlst();
+                tda3.Isvalid = "Y";
+                Data3.Add(tda3);
+            }
+            for (int i = 0; i < 1; i++)
+            {
+                tda4 = new PackMach();
+                tda4.Machlst = BindMachine();
+                tda4.Isvalid = "Y";
+                Data4.Add(tda4);
+            }
+
+            ca.machlst = Data4;
+            ca.oconlst = Data3;
+            ca.Emplst = Data2;
+            ca.Matlst = Data1;
+
             return View(ca);
         }
 
@@ -148,7 +211,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = datatrans.GetWorkCenter();
+                DataTable dtDesg = Pack.GETWC();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -161,11 +224,11 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindPackNote()
+        public List<SelectListItem> BindPackNote(string wcid)
         {
             try
             {
-                DataTable dtDesg = Pack.GetPackNote();
+                DataTable dtDesg = Pack.GetPackNote(wcid);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -179,6 +242,23 @@ namespace Arasan.Controllers
             }
         }
         public List<SelectListItem> BindItemlst()
+        {
+            try
+            {
+                DataTable dtDesg = Pack.GetItem();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindconsItemlst()
         {
             try
             {
@@ -283,7 +363,7 @@ namespace Arasan.Controllers
                     totrate = Convert.ToDouble(ap.Rows[0]["rate"].ToString());
                     int totqty = Convert.ToInt32(qty);
                      
-                    totamt = totqty * totrate;
+                    totamt = Math.Round(totqty * totrate,2);
                     stdatime = startda + "-" + starttime;
                     enddatime = endda + "-" + endtime;
                 }
@@ -320,7 +400,7 @@ namespace Arasan.Controllers
                     tda.comp = dtt.Rows[i]["COMBNO"].ToString();
                     tda.packid = dtt.Rows[i]["PACKNOTEINPDETAILID"].ToString();
                     tda.rate = Convert.ToDouble(dtt.Rows[i]["IRATE"].ToString());
-                    tda.amount = tda.rate * tda.iqty;
+                    tda.amount = Math.Round(tda.rate * tda.iqty,2);
 
 
                     tda.Isvalid = "Y";

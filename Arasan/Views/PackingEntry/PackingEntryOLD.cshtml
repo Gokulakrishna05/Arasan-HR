@@ -50,7 +50,7 @@
 
                     <form>
 
-                      @*  <div class="row">
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -63,7 +63,7 @@
                                 </div>
                             </div>
 
-                        </div>*@
+                        </div>
 
                         <div class="row">
                             <div class="col-md-6">
@@ -71,9 +71,6 @@
 
                                   <br/>  <label for="inputName3" class="col-sm-4 control-label">Doc ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                        @Html.HiddenFor(C => C.ID)
-                                        @Html.HiddenFor(C => C.user)
-                                        @Html.HiddenFor(C => C.Branch)
                                         @Html.TextBoxFor(C => C.Docid, new { @id = "txtDocid", @class = "form-control", @TabIndex = 1 ,@readonly=true  })
 
                                     </div>
@@ -92,21 +89,6 @@
                             </div>
                         </div>
                         <div class="row">
-                             <div class="col-md-6">
-                                <div class="form-group">
-                                  <br/>  <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
-
-                                    <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.WorkId, Model.Worklst," -- Please Select -- ", new { @id = "txtWorkId", @Class = "form-control _select", @TabIndex = 4 ,onchange = "changeWC(this.value)"})
-                                                                              @*  @Html.TextBoxFor(C => C.WorkId, new { @id = "txtWorkId", @class = "form-control", @TabIndex = 1 ,@readonly=true  })*@
-                                        @Html.HiddenFor(C => C.Work, new { @id = "txtWork" })
-                                        @Html.HiddenFor(C => C.basic, new { @id = "txtbasic" })
-                                        @Html.HiddenFor(C => C.toloc, new { @id = "txttoloc" })
-                                        @Html.HiddenFor(C => C.tothrs, new { @id = "tothrs" })
-
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -116,18 +98,32 @@
                                     </div>
                                 </div>
                             </div>
-                           
-                        </div>
-                        <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Packing Note.Dt<label class="Mandatory"></label></label>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Packing Note.Dt<label class="Mandatory"></label></label>
 
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.NoteDate, new { @id = "txtNoteDate", @class = "form-control", @TabIndex = 1 ,@readonly=true  })
-                                        </div>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.NoteDate, new { @id = "txtNoteDate", @class = "form-control", @TabIndex = 1 ,@readonly=true  })
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                  <br/>  <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.WorkId, Model.Worklst," -- Please Select -- ", new { @id = "txtWorkId", @Class = "form-control _select", @TabIndex = 4 } )
+                                                                               @* @Html.TextBoxFor(C => C.WorkId, new { @id = "txtWorkId", @class = "form-control", @TabIndex = 1 ,@readonly=true  })*@
+                                        @Html.HiddenFor(C => C.Work, new { @id = "txtWork" })
+                                        @Html.HiddenFor(C => C.basic, new { @id = "txtbasic" })
+                                        @Html.HiddenFor(C => C.toloc, new { @id = "txttoloc" })
+                                        @Html.HiddenFor(C => C.tothrs, new { @id = "tothrs" })
+
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -146,7 +142,20 @@
                                     </div>
                                 </div>
                             </div>
-                          
+                            @*<div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Prod.Log ID<label class="Mandatory"></label></label>
+
+
+                                    <div class="col-sm-8">
+                                        <input class="form-control" size="30" type="text" value="">
+                                    </div>
+
+
+
+                                </div>
+                            </div>*@
                         </div>
 
                        
@@ -215,7 +224,15 @@
                                     </div>
                                 </div>
                             </div>
-                          
+                          @*  <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Pack Drum  Qty<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.DrumQty, new { @id = "txtDrumQty", @class = "form-control", @TabIndex = 1  , onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                    </div>
+                                </div>
+                            </div>*@
                         </div>
 
                         <div style="height:30px;"></div>
@@ -228,7 +245,7 @@
                                         <li><a href="#tab-2" data-toggle="tab">Packing Material </a></li>
                                         <li><a href="#tab-3" data-toggle="tab">Employee Details </a></li>
                                         <li><a href="#tab-4" data-toggle="tab">Other Consumables</a></li>
-                                      @*  <li><a href="#tab-5" data-toggle="tab">Machine Deatil</a></li>*@
+                                        <li><a href="#tab-5" data-toggle="tab">Machine Deatil</a></li>
                                     </ul>
                                     <div class="tab-content">
                                         <div class="tab-pane active" id="tab-1">
@@ -489,7 +506,7 @@
                                                        
                                             <!-- 4th tab  -->
                                         </div>
-                                       @* <div class="tab-pane" id="tab-5">
+                                        <div class="tab-pane" id="tab-5">
                                             <!-- 5th tab  -->
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -545,7 +562,7 @@
                                                                 </div>
                                                          
                                             <!-- 5th tab  -->
-                                        </div>*@
+                                        </div>
                                     </div>
                                 </div>
 
@@ -744,7 +761,7 @@
             type: "GET",
             success: function (result) {
                 
-                @*document.getElementById("txtWorkId").value = result.work;*@
+              @*  document.getElementById("txtWorkId").value = result.work;*@
               
                 document.getElementById("txtWork").value = result.workid;
                 document.getElementById("txtSheNo").value = result.shedule;

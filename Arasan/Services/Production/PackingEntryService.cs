@@ -18,17 +18,38 @@ namespace Arasan.Services
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public DataTable GetPackNote()
+        public DataTable GetPackNote(string wcid)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PACKNOTEBASICID,DOCID from PACKNOTEBASIC";
+            SvSql = @"Select  Distinct B.PackNoteBasicID, B.DocID, B.DocDate,i.itemid , Decode(I.Purcat,'NAMCO CONVERSION',B.PACKCONSYN,'Yes') PAckCons
+From PackNoteBasic B, PackNoteInpDetail D,itemmaster i,WcBasic W
+Where B.PackNoteBasicID = D.PackNoteBasicID
+and b.oitemid=i.itemmasterid
+And B.WCID=W.WCBASICID
+AND B.WCBASICID = '" + wcid + "'";
+            SvSql += @"And B.PACKNOTEBASICID not in (Select packingnote from packbasic) Order By 3,2 Desc";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GETWC()
+        {
+            string SvSql = string.Empty;
+            SvSql = @"Select W.WCBasicID, W.WCID, W.ILocation, W.RLocation, W.QCLocation, W.RejLocation , L.LocationType , w.Cost
+From WCBasic W , LocDetails L
+Where W.WCType = 'INTERNAL'
+And W.ILocation = L.LocDetailsID
+And L.LocationType = 'PACKING'
+order by W.wcid";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        
         public DataTable GetNoteDetail(string Note)
         {
             string SvSql = string.Empty;
@@ -64,7 +85,7 @@ namespace Arasan.Services
         public DataTable GetItem()
         {
             string SvSql = string.Empty; 
-            SvSql = "select ITEMMASTERID,ITEMID from ITEMMASTER WHERE IGROUP IN ('Other Consumables','Consumables')";
+            SvSql = "Select ItemMasterID , ItemID, ItemDesc, U.UnitID, ItemMasterID, ItemAcc, ValMethod, LotYN From ItemMaster I, UnitMast U Where I.PriUnit = U.UnitMastID And I.Igroup='PACKING MATERIALS' And I.Subcategory='PACK DRUM' Order By ItemID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
