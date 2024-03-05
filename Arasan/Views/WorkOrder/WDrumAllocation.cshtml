@@ -316,10 +316,10 @@
                                                                             {
                                                                                 <tr id="trBook_@(i)_@(j)" class="chkitemlst@(i)" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                                     <td>@Html.CheckBoxFor(o => o.Worklst[i].drumlst[j].drumselect, new { @id = "drumslect_" + i + "_" + j ,@onclick = "checkfunc("+ i +");"})@Html.HiddenFor(o => o.Worklst[i].drumlst[j].invid, new { @id = "invid_" + i + "_" + j }) </td>
-                                                                                    <td>@Html.DisplayFor(o => o.Worklst[i].drumlst[j].lotno)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.Worklst[i].drumlst[j].lotno)@Html.HiddenFor(o => o.Worklst[i].drumlst[j].lotno)</td>
                                                                                     <td>@Html.DisplayFor(o => o.Worklst[i].drumlst[j].drumno)@Html.HiddenFor(o => o.Worklst[i].drumlst[j].drumno, new { @id = "drumno_" + i + "_" + j })</td>
                                                                                     <td>@Html.DisplayFor(o => o.Worklst[i].drumlst[j].qty)@Html.HiddenFor(o => o.Worklst[i].drumlst[j].qty, new { @id = "qty_" + i + "_" + j })</td>
-                                                                                    <td>@Html.DisplayFor(o => o.Worklst[i].drumlst[j].rate)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.Worklst[i].drumlst[j].rate)@Html.HiddenFor(o => o.Worklst[i].drumlst[j].rate)</td>
                                                                                 </tr>
 
                                                                                 j = j + 1;

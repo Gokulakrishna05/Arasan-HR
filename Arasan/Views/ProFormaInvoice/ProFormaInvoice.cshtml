@@ -187,9 +187,9 @@
                                                            @* <th> Itro Discount </th>*@
                                                             <th> Cash Discount </th>
                                                            @* <th> Trade Discount </th>
-                                                            <th> Additional Discount </th>*@
+                                                            <th> Additional Discount </th>
                                                             <th> Special Discount </th>
-                                                             <th> Frieght </th>
+                                                             <th> Frieght </th>*@
                                                           @*  <th> Tariff Id. </th>*@
                                                            <th>CGSTP</th>
                                                             <th>SGSTP</th>
@@ -580,7 +580,7 @@
                    var index = $("#tbBooks").children("tr").length;
                    //alert(item.batch);
                     var Item = "<td><input class='form-control' id='txtItem" + index + "' name='ProFormalst[" + index + "].itemid'  style='width: 100px;' type='text'  readonly='True'  value=" + item.itemid + " /></td>";
-                            var drum = "<td><div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("ProFormaInvoice","DrumSelectionView")?id="+ItemId+"&rowid='index'' class='fancybox' data-fancybox-type='iframe' id='hdrumselection" + index + "'><img src='../Images/view_icon.png'></a></div> <input  id='hddrumid" + index + "' name='Depotlst[" + index + "].DrumIds' type='hidden'> </td>";
+                            var drum = "<td><div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("DrumSelectionView","ProFormaInvoice")?id="+ItemId+"&rowid="+index+"' class='fancybox' data-fancybox-type='iframe' id='hdrumselection" + index + "'><img src='../Images/view_icon.png'></a></div> <input  id='hddrumid" + index + "' name='Depotlst[" + index + "].DrumIds' type='hidden'> </td>";
 
                     var ItemDes = "<td><input class='form-control' id='txtitemdes" + index + "' name='ProFormalst[" + index + "].itemdes'  style='width: 100px;' type='text'  readonly='True'  value=" + item.itemdes + " /></td>";
 
@@ -599,7 +599,7 @@
 
                     var ItroDiscount = "<td><input class='form-control' id='txtitrodis" + index + "' name='ProFormalst[" + index + "].itrodis'  style='width: 100px;' type='text'    readonly='True'   onkeyup = 'changeQty(this," + index + ")' /></td>";
 
-                    var CashDiscount = "<td><input class='form-control' id='txtcashdisc" + index + "' name='ProFormalst[" + index + "].cashdisc'  style='width: 100px;' type='text'   readonly='True'   onkeyup = 'changeQty(this," + index + ")' /></td>";
+                    var CashDiscount = "<td><input class='form-control' id='txtcashdisc" + index + "' name='ProFormalst[" + index + "].cashdisc'  style='width: 100px;' type='text'       onkeyup = 'changeQty(this," + index + ")' /></td>";
 
                    var TradeDiscount = "<td><input class='form-control' id='txttradedis" + index + "' name='ProFormalst[" + index + "].tradedis'  style='width: 100px;' type='text'   readonly='True'   onkeyup = 'changeQty(this," + index + ")'   /></td>";
 
@@ -613,11 +613,11 @@
 
                     var Tariff = "<td><input class='form-control' id='txttariff" + index + "' name='ProFormalst[" + index + "].tariff'  style='width: 100px;' type='text'    /></td>";
 
-                    var CGSTP = "<td><input class='form-control' id='txtCGSTP" + index + "' name='ProFormalst[" + index + "].cgstp'  style='width: 100px;' type='text' value=" + item.cgstp + "   onkeyup = 'changeQty(this," + index + ")'  /></td>";
+                    var CGSTP = "<td><input class='form-control' id='txtCGSTP" + index + "' name='ProFormalst[" + index + "].cgstp'  style='width: 100px;' type='text' readonly='True' value=" + item.cgstp + "   onkeyup = 'changeQty(this," + index + ")'  /></td>";
 
-                    var SGSTP = "<td><input class='form-control' id='txtSGSTP" + index + "' name='ProFormalst[" + index + "].sgstp'  style='width: 100px;' type='text' value=" + item.sgstp + " onkeyup = 'changeQty(this," + index + ")'  /></td>";
+                    var SGSTP = "<td><input class='form-control' id='txtSGSTP" + index + "' name='ProFormalst[" + index + "].sgstp'  style='width: 100px;' type='text' readonly='True' value=" + item.sgstp + " onkeyup = 'changeQty(this," + index + ")'  /></td>";
 
-                    var IGSTP = "<td><input class='form-control' id='txtIGSTP" + index + "' name='ProFormalst[" + index + "].igstp'  style='width: 100px;' type='text' value=" + item.igstp + "  onkeyup = 'changeQty(this," + index + ")'   /></td>";
+                    var IGSTP = "<td><input class='form-control' id='txtIGSTP" + index + "' name='ProFormalst[" + index + "].igstp'  style='width: 100px;' type='text' readonly='True' value=" + item.igstp + "  onkeyup = 'changeQty(this," + index + ")'   /></td>";
 
                     var CGST = "<td><input class='form-control' id='txtCGST" + index + "' name='ProFormalst[" + index + "].cgst'  style='width: 100px;' type='text' readonly='True'  onkeyup = 'changeQty(this," + index + ")'  /></td>";
 
@@ -631,7 +631,7 @@
                     var removeCell = "<td><input id='Isvalid" + index + "' name='ProFormalst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='ProFormalst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
-                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Item + drum + ItemDes + Unit + Qty + Rate + Amount + Discount + CashDiscount  + Specialdiscount + Frieght + CGSTP + SGSTP + IGSTP + CGST + SGST + IGST + TotAmount + removeCell + "</tr>";
+                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Item + drum + ItemDes + Unit + Qty + Rate + Amount + Discount + CashDiscount  + CGSTP + SGSTP + IGSTP + CGST + SGST + IGST + TotAmount + removeCell + "</tr>";
 
                     $("#tbBooks").append(newRow);
                      changeQty(0,index);
@@ -669,35 +669,50 @@
             var totfrieght = 0;
             var totamt = 0;
             var totamount = 0;
-
+             var totcgst = 0;
+                var totsgst = 0;
+                var totigst = 0;
+                 var totdiscount = 0;
+            var totcashdiscount = 0;
             var up = document.getElementById("txtamount" + i).value;
 
-            var frieght = document.getElementById("txtfrieght" + i).value;
+           // var frieght = document.getElementById("txtfrieght" + i).value;
             var IGST = document.getElementById("txtIGSTP" + i).value;
 
             var CGST = document.getElementById("txtCGSTP" + i).value;
-
+             var qty = document.getElementById("txtqty" + i).value;
             var SGST = document.getElementById("txtSGSTP" + i).value;
             var Disount = document.getElementById("txtdiscount" + i).value;
             //var ItroDiscount = document.getElementById("txtitrodis" + i).value;
-            //var CashDiscount = document.getElementById("txttradedis" + i).value;
+            var CashDiscount = document.getElementById("txtcashdisc" + i).value;
            
             //var AdditionalDiscount = document.getElementById("txtadditionaldis" + i).value;
             //var Specialdiscount = document.getElementById("txtdis" + i).value;
-
-
+            if(CGST!=0 && SGST!=0)
+            {
+                  document.getElementById("CGSTDISP").innerHTML = CGST;
+                    document.getElementById("SGSTDISP").innerHTML = SGST;
+                    document.getElementById("IGSTDISP").innerHTML = "";
+            }
+            else
+            {
+                document.getElementById("CGSTDISP").innerHTML = "";
+                    document.getElementById("SGSTDISP").innerHTML = "";
+                    document.getElementById("IGSTDISP").innerHTML = IGST;
+            }
+             
             if (up == "")
                 up = 0;
 
             if (Disount == "")
                 Disount = 0;
+                   if (CashDiscount == "")
+                CashDiscount = 0;
 
           @*  if (ItroDiscount == "")
                 ItroDiscount = 0;
 
-                if (CashDiscount == "")
-                CashDiscount = 0;
-
+             
                 if (TradeDiscount == "")
                 TradeDiscount = 0;
 
@@ -721,8 +736,8 @@
 
 
 
-            if (frieght == "")
-                frieght = 0;
+           @* if (frieght == "")
+                frieght = 0;*@
 
             var tot = eval(up);
             //document.getElementById("txtamount" + i).value = tot.toFixed(2);
@@ -739,9 +754,10 @@
             document.getElementById("txtIGST" + i).value = igstperc.toFixed(2);
             //document.getElementById("txtdiscount" + i).value = discountperc.toFixed(2);
 
-
-            var tottax = eval(tot) + eval(igstperc) + eval(cgstperc) + eval(sgstperc) + eval(frieght);
-            var totdisc = eval(tottax) - eval(Disount) ;
+              var cashdiscamt = eval(CashDiscount) * eval(qty);
+                var qtydiscamt = eval(Disount) * eval(qty);
+            var tottax = eval(tot) + eval(igstperc) + eval(cgstperc) + eval(sgstperc);
+            var totdisc = eval(tottax) - eval(cashdiscamt)-eval(qtydiscamt) ;
 
 
             document.getElementById("txttotamount" + i).value = totdisc.toFixed(2);
@@ -750,27 +766,68 @@
 
             $('tr.chkitemlst').each(function () {
                 if ($(this).css('display') !== 'none') {
-                    frieght = $(this).find('#txtfrieght' + j.toString()).val();
+                   @* frieght = $(this).find('#txtfrieght' + j.toString()).val();
                     if (frieght == "")
-                        frieght = 0;
+                        frieght = 0;*@
                     var amt = $(this).find('#txtamount' + j.toString()).val();
                     if (amt == "")
                         amt = 0;
 
                     totamt += eval(amt);
-                    totfrieght += eval(frieght);
+                   // totfrieght += eval(frieght);
                     var tamt = $(this).find('#txttotamount' + j.toString()).val();
                     if (tamt == "")
                         tamt = 0;
 
                     totamount += eval(tamt);
+                    var qtys = $(this).find('#txtqty' + j.toString()).val();
+                        if (qtys == "")
+                            qtys = 0;
+                    var totdisc = $(this).find('#txtdiscount' + j.toString()).val();
+                    if (totdisc == "")
+                        totdisc = 0;
 
+                        totdiscount += eval(totdisc) * eval(qtys);
+
+                    var cashdisc = $(this).find('#txtcashdisc' + j.toString()).val();
+                    if (cashdisc == "")
+                        cashdisc = 0;
+
+                        totcashdiscount += eval(cashdisc) * eval(qtys);
+                         var totcgstamt = $(this).find('#txtCGST' + j.toString()).val();
+                        if (totcgstamt == "")
+                            totcgstamt = 0;
+
+                        totcgst += eval(totcgstamt);
+
+                        var sgstdisc = $(this).find('#txtSGST' + j.toString()).val();
+                        if (sgstdisc == "")
+                            sgstdisc = 0;
+
+                        totsgst += eval(sgstdisc);
+
+                        var igstdisc = $(this).find('#txtIGST' + j.toString()).val();
+                        if (igstdisc == "")
+                            igstdisc = 0;
+
+                        totigst += eval(igstdisc);
                 }
                 j += 1;
             });
+             var roundamount = Math.ceil(totamount);
 
+            var round = eval(roundamount) - eval(totamount);
+
+            var totaldiscount = eval(totdiscount) + eval(totcashdiscount);
+
+            
+             document.getElementById("txtRound").value = round.toFixed(2);
+              document.getElementById("txtDiscount").value = totaldiscount.toFixed(2);
+                 document.getElementById("txtcgst").value = totcgst.toFixed(2);
+                document.getElementById("txtsgst").value = totsgst.toFixed(2);
+                document.getElementById("txtigst").value = totigst.toFixed(2);
             document.getElementById("txtGross").value = totamt.toFixed(2);
-            document.getElementById("txtNet").value = totamount.toFixed(2);
+            document.getElementById("txtNet").value = roundamount.toFixed(2);
 
         }
         catch (ex) {
