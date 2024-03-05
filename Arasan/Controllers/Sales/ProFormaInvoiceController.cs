@@ -275,7 +275,7 @@ namespace Arasan.Controllers.Sales
                         tda.itemdes = dtt.Rows[i]["ITEMDESC"].ToString();
                         tda.unit = dtt.Rows[i]["UNITID"].ToString();
                         tda.qty = dtt.Rows[i]["qty"].ToString();
-                        tda.rate = dtt.Rows[i]["RATE"].ToString();
+                        tda.rate =(dtt.Rows[i]["RATE"].ToString() == "" ? "0" : dtt.Rows[0]["RATE"].ToString());
                         double rate = Convert.ToDouble(tda.rate);
                         double quatity = Convert.ToDouble(tda.qty);
                         double amt= quatity * rate;
@@ -559,8 +559,10 @@ namespace Arasan.Controllers.Sales
             ViewDrumdetailstable ca = new ViewDrumdetailstable();
             List<DDrumdetailsView> TData = new List<DDrumdetailsView>();
             DDrumdetailsView tda = new DDrumdetailsView();
+            string detid = datatrans.GetDataString("select JODRUMALLOCATIONBASICID FROM JODRUMALLOCATIONBASIC WHERE JOPID='" + id + "'");
+
             DataTable dtEnq = new DataTable();
-            dtEnq = ProFormaInvoiceService.GetDrumDetails(id);
+            dtEnq = ProFormaInvoiceService.GetDrumDetails(detid);
             for (int i = 0; i < dtEnq.Rows.Count; i++)
             {
                 tda = new DDrumdetailsView();

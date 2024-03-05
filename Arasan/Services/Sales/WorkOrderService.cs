@@ -250,12 +250,14 @@ namespace Arasan.Services.Sales
                                 objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ca.drumno;
                                 objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = ca.qty; 
                                 objCmds.Parameters.Add("LOTNO", OracleDbType.NVarchar2).Value =ca.lotno; 
+                                objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value =ca.rate; 
                                 objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                 objCmds.ExecuteNonQuery();
+                                string svql = "Update PLSTOCKVALUE SET  IS_LOCK='Y' WHERE PLSTOCKVALUEID='" + ca.invid + "'";
+                                OracleCommand objCmdss = new OracleCommand(svql, objConn);
+                                objCmdss.ExecuteNonQuery();
                             }
-                            string Sql = "Update PLSTOCKVALUE SET  IS_LOCK='Y' WHERE SHEDNUMBER='" + ca.lotno + "'";
-                            OracleCommand objCmdss = new OracleCommand(Sql, objConn);
-                            objCmdss.ExecuteNonQuery();
+                           
                         }
                     }
 
