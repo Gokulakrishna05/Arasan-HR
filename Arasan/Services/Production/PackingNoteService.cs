@@ -376,7 +376,12 @@ namespace Arasan.Services
         public DataTable GetWorkCenter()
         {
             string SvSql = string.Empty;
-            SvSql = "Select WCID,WCBASICID from WCBASIC ";
+            SvSql = @"Select W.WCBasicID, W.WCID, W.ILocation, W.RLocation, W.QCLocation, W.RejLocation , L.LocationType , w.Cost
+From WCBasic W , LocDetails L
+Where W.WCType = 'INTERNAL'
+And W.ILocation = L.LocDetailsID
+And L.LocationType = 'PACKING'
+order by W.wcid";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -403,16 +408,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        //public DataTable GetDrumLocation()
-        //{
-        //    string SvSql = string.Empty;
-        //    SvSql = "select LOCDETAILS.LOCID,NPRODBASICID,TOLOCATION,NPRODOUTDETID from NPRODOUTDET left outer join LOCDETAILS on LOCDETAILSID = NPRODOUTDET.TOLOCATION ";
-        //    DataTable dtt = new DataTable();
-        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-        //    adapter.Fill(dtt);
-        //    return dtt;
-        //}
+        public DataTable GetToLocation()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select LOCID,LOCDETAILSID from LOCDETAILS where LOCATIONTYPE='FG GODOWN' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetDrumLocation()
         {
             string SvSql = string.Empty;
@@ -439,7 +444,7 @@ namespace Arasan.Services
         public DataTable GetItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select I.ITEMID,L.ITEMID as item from  LOTMAST LT,ITEMMASTER I,LSTOCKVALUE L    where LT.LOTNO=L.LOTNO AND I.ITEMMASTERID =L.ITEMID AND  L.LOCID= '" + id + "' and LT.INSFLAG='1' GROUP BY I.ITEMID,L.ITEMID";
+            SvSql = "select I.ITEMID,L.ITEMID as item from  LOTMAST LT,ITEMMASTER I,LSTOCKVALUE L    where LT.LOTNO=L.LOTNO AND I.ITEMMASTERID =L.ITEMID AND  L.LOCID= '" + id + "' and LT.INSFLAG='1' HAVING SUM(L.PLUSQTY-L.MINUSQTY) > 0 GROUP BY I.ITEMID,L.ITEMID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

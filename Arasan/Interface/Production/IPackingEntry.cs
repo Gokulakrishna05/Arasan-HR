@@ -6,7 +6,7 @@ namespace Arasan.Interface
 {
     public interface IPackingEntry
     {
-        DataTable  GetPackNote();
+        DataTable  GetPackNote(string wcid);
         DataTable GetItem();
         DataTable GetMachine();
         DataTable GetNoteDetail(string Note);
@@ -20,7 +20,7 @@ namespace Arasan.Interface
         DataTable GetPackMac(string Note);
         DataTable GetPackingDetail(string Note);
         //DataTable GetConstkqty(string Note);
-
+        DataTable GETWC();
         string PackingEntryCRUD(PackingEntry cy);
         DataTable GetAllPackingentry(string strStatus);
 

@@ -10,6 +10,7 @@ namespace Arasan.Models
             this.Worklst = new List<SelectListItem>();
             this.Shiftlst = new List<SelectListItem>();
             this.DrumLoclst = new List<SelectListItem>();
+            this.ToLoclst = new List<SelectListItem>();
             this.RecList = new List<SelectListItem>();
             this.Itemlst = new List<SelectListItem>();
             this.Schlst = new List<SelectListItem>();
@@ -34,12 +35,13 @@ namespace Arasan.Models
         public List<SelectListItem> Shiftlst;
         public List<SelectListItem> RecList;
         public List<SelectListItem> DrumLoclst;
+        public List<SelectListItem> ToLoclst;
         public string Enterd { get; set; }
         public string Remark { get; set; }
         public string LotNo { get; set; }
         public string PackYN { get; set; }
         public List<DrumDetail> DrumDetlst { get; set; }
-
+       
     }
     public class DrumDetail
     {

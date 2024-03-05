@@ -22,8 +22,8 @@ namespace Arasan.Interface
 
        
         DataTable GetDrumDetailsdd(string id,string item);
-        
 
+        DataTable GetToLocation();
         DataTable GetBatch(string id);
         DataTable GetPackingNote(string id);
         //DataTable GetItemDet(string id); 

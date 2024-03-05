@@ -43,7 +43,7 @@
 
                         <form>
                             <div class="row">
-                                <div class="col-md-6">
+                               @* <div class="col-md-6">
                                     <div class="form-group">
                                             <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
@@ -53,22 +53,23 @@
                                             @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })<br />
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
                               
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                     <label for="inputName3" class="col-sm-4 control-label">Doc No<label class="mandatory">*</label></label>
                                                 <div class="col-sm-8">
-
+                                                    @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Enterd)
+                                            @Html.HiddenFor(C => C.WorkId,new{@id="workid"})
+                                            @Html.HiddenFor(C => C.Branch)
                                                 @Html.TextBoxFor(C => C.DocId, new { @id = "DocId", @class = "form-control", @TabIndex = 1,@readonly="readonly" })<br />
 
 
                                                 </div>
                                             </div>
                                         </div>
-                                </div>
-                                <div class="row">
-                                <div class="col-md-6">
+                                          <div class="col-md-6">
                                     <div class="form-group">
 
                                             <label for="inputName3" class="col-sm-4 control-label">DOC Date<label class="mandatory">*</label></label>
@@ -83,8 +84,9 @@
                                     </div>
 
                                 </div>
-                        
-                                
+                                </div>
+                                <div class="row">
+                              
                                <div class="col-md-6">
                                         <div class="form-group">
 
@@ -94,9 +96,9 @@
 
                                             </div>
                                         </div>
-                                    </div>       </div>
-                                     <div class="row">
-                                  <div class="col-md-6">
+                                    </div>  
+                                    
+                                     <div class="col-md-6">
                                         <div class="form-group">
 
                                             <label for="inputName3" class="col-sm-4 control-label">Packing Item<label class="mandatory">*</label></label>
@@ -107,12 +109,26 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div style="height:15px;"></div>
+                                     <div class="row">
+                                  <div class="col-md-6">
+                                        <div class="form-group">
+
+                                              <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
+                                            <div class="col-sm-8">
+                                                @Html.DropDownListFor(C => C.WorkId, Model.Worklst, " -- Please Select -- ",new { @id = "ddlFrWC", @Class = "form-control _select", @TabIndex = 1  })<br />
+
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-6">
                                         <div class="form-group">
 
                                               <label for="inputName3" class="col-sm-4 control-label">To Location<label class="mandatory">*</label></label>
                                             <div class="col-sm-8">
-                                                @Html.DropDownListFor(C => C.toloc, Model.DrumLoclst, " -- Please Select -- ",new { @id = "ddlToDrumLoc", @Class = "form-control _select", @TabIndex = 1  })<br />
+                                                @Html.DropDownListFor(C => C.toloc, Model.ToLoclst, " -- Please Select -- ",new { @id = "ddlToDrumLoc", @Class = "form-control _select", @TabIndex = 1  })<br />
 
                                             </div>
                                         </div>
@@ -443,7 +459,7 @@
              type: "GET",
              success: function(result) {
                 
-                 document.getElementById("workid").value = result.wcid;
+               @*  document.getElementById("workid").value = result.wcid;*@
                  var $procde = $("#ddlProdSchNo").select2();
                  $procde.val(result.proc).trigger("change");
                     
