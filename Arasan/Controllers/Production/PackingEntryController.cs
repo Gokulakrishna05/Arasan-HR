@@ -712,5 +712,12 @@ namespace Arasan.Controllers
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindItemlst());
         }
+        public JsonResult GetPackJSON(string wcid)
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindPackNote(wcid));
+        }
+        
     }
 }
