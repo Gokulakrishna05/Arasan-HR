@@ -41,12 +41,15 @@
             datafields: [
                 { name: 'enqno', type: 'string' },
                 { name: 'date', type: 'string' },
-                { name: 'type', type: 'string' },
+                { name: 'quono', type: 'string' },
+                { name: 'supplier', type: 'string' },
                 { name: 'sendmail', type: 'string' },
                 { name: 'followup', type: 'string' },
+                { name: 'move', type: 'string' },
                 { name: 'generate', type: 'string' },
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
+                
 
             ],
             id: 'id',
@@ -82,9 +85,11 @@
                 columns: [
                     { text: 'Quotation No', filtertype: 'input', datafield: 'enqno', width: 150 },
                     { text: 'Quotation Date', datafield: 'date', width: 150, align: 'center' },
-                    { text: 'Quotation Type', filtertype: 'checkedlist', datafield: 'type', width: 200 },
+                    { text: 'Enquiry No', filtertype: 'checkedlist', datafield: 'quono', width: 200 },
+                    { text: 'Customer Name', filtertype: 'checkedlist', datafield: 'supplier', width: 200 },
                     { text: 'Send Mail', datafield: 'sendmail', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 80 },
                     { text: 'Follow Up', datafield: 'followup', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 80 },
+                    { text: 'Move To WorkOrder', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
                     { text: 'Generate SQ', datafield: 'generate', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 120 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },

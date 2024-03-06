@@ -46,6 +46,10 @@ namespace Arasan.Interface.Sales
         Task<IEnumerable<SQuoItemDetail>> GetSQuoItem(string id);
         DataTable GetAllListSalesQuotationItems(string strStatus);
         string StatusDeleteMR(string tag, int id);
+        DataTable GetSalesQuotationByName(string id);
+        DataTable GetSalesQuotationItem(string id);
+
+        string SalesQuotationWorkOrder(string QuoId);
 
     }
 }
