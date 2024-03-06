@@ -132,6 +132,7 @@ namespace Arasan.Controllers.Sales
                             tda.rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
                         }
                         tda.quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString());
                         toaamt = tda.rate * tda.quantity;
                         total += toaamt;
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());

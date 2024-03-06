@@ -410,6 +410,7 @@ namespace Arasan.Controllers
                 ca.PinCode = dt.Rows[0]["PINCODE"].ToString();
                 ca.Address = dt.Rows[0]["ADDRESS"].ToString();
                 ca.ContactPerson = dt.Rows[0]["CONTACT_PERSON"].ToString();
+                ca.Mobile = dt.Rows[0]["CONTACT_PERSON_MOBILE"].ToString();
                 ca.City = dt.Rows[0]["CITY"].ToString();
                 ca.ID = id;
 
@@ -428,8 +429,10 @@ namespace Arasan.Controllers
                         tda.Des = dtt.Rows[i]["ITEM_DESCRIPTION"].ToString();
                         tda.Unit = dtt.Rows[i]["UNIT"].ToString();
                         tda.Qty = dtt.Rows[i]["QUANTITY"].ToString();
+                        tda.Amount = dtt.Rows[i]["AMOUNT"].ToString();
+                        tda.Rate = dtt.Rows[i]["RATE"].ToString();
                         tda.ID = id;
-                        // tot += tda.TotalAmount;
+                        //tot += tda.TotalAmount;
                         Data.Add(tda);
                     }
                 }
