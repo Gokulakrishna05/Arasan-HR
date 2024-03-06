@@ -40,7 +40,7 @@
                         @Html.AntiForgeryToken()
               <form>
 			  <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
@@ -51,7 +51,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                         <div class="col-md-6">
+                                         <div class="col-md-4">
                                             <div class="form-group">
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry Type<label class="mandatory">*</label></label>
@@ -65,9 +65,9 @@
                                         </div>
                                     </div>
 									
-									@*<div style="height:30px;"></div>*@
+									
 									 <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
 
                                         <br />
@@ -79,14 +79,9 @@
                                         </div>
                                     </div>
                                     </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                        <br> <label for="inputName3" class="col-sm-4 control-label">Enquiry Date<label class="mandatory">*</label></label>
-                                         @* <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                        @Html.TextBoxFor(C => C.EnqDate, new { @id = "EnqDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                    </div>
-                                    <input type="hidden" id="dtp_input2" value="" />*@
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.EnqDate, new { @id = "EnqDate", @class = "form-control", @TabIndex = 2,@size="30",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -94,34 +89,20 @@
                                         </div>
 								            </div>
                                         </div>
-                                @*<div class="col-md-6">
-                                   <div class="form-group">
-
-                                        <br />
-                                       
-                                                  <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control _select", @TabIndex = 1 })
-                                            
+
                                         </div>
                                     </div>
-
-
-                                   </div>*@
                                 </div>
-                                 <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control _select", @TabIndex = 1 })
-
-                                        </div>
+                            
                                 </div>
-                            </div>
-                            </div>
+                               
                          <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
 
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Customer Type<label class="mandatory">*</label></label>
@@ -132,20 +113,17 @@
                                     </div>
                                 </div>
                             </div>
-                              <div class="col-md-6">
+                              <div class="col-md-4">
                                             <div class="form-group">
-                                            
-                                               <label for="inputName3" class="col-sm-4 control-label">Customer Name<label class="mandatory">*</label></label>
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Customer Name<label class="mandatory">*</label></label>
                                                 <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Customer, Model.Suplst, "Please Select", new { @id = "ddlCustomer", @Class = "form-control _select", @TabIndex = 1,@onchange = "changeItem(this.value)" })
 
                                                 </div>
                                             </div>
                              </div>
-                         </div>
-                          <div class="row">
-                            
-                            <div class="col-md-6">
+                              <div class="col-md-4">
                                 <div class="form-group">
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Address<label class="Mandatory"></label></label>
 
@@ -156,7 +134,11 @@
 
                                 </div>
                             </div>
-                                <div class="col-md-6">
+                         </div>
+                          <div class="row">
+                            
+                           
+                                <div class="col-md-4">
                                     <div class="form-group">
                                      <br />   <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
 
@@ -167,14 +149,7 @@
 
                                     </div>
                                 </div>
-
-                            </div>
-									
-									@*<div style="height:30px;"></div>*@
-									 <div class="row">
-
-                          
-                            <div class="col-md-6">
+                                  <div class="col-md-4">
                                 <div class="form-group">
                                    <br> <label for="inputName3" class="col-sm-4 control-label">Pin Code<label class="Mandatory"></label></label>
 
@@ -185,7 +160,7 @@
 
                                 </div>
                             </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
 
                                        <br> <label for="inputName3" class="col-sm-4 control-label">Contact Person<label class="Mandatory"></label></label>
@@ -194,12 +169,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                    </div>
+
+                            </div>
+						
 									
 						@*<div style="height:30px;"></div>*@
                         <div class="row">                    
 						
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                            
                                   <br>  <label for="inputName3" class="col-sm-4 control-label">Contact Person Mobile<label class="mandatory">*</label></label>
@@ -213,7 +190,7 @@
                                                
                                 </div>
                             </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
 
                                       <br>  <label for="inputName3" class="col-sm-4 control-label">Priority<label class="Mandatory"></label></label>
@@ -224,28 +201,6 @@
                                     </div>
                                 </div>
                         </div>
-
-                     
-								@*	<div style="height:30px;"></div>
-									 <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                            
-                                                <label for="inputName3" class="col-sm-4 control-label">Enquiry Ref<label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
-                                                    <select class=" _select js-states form-control">
-                       
-                       
-                        <option value="TAAI">Email</option>
-                        <option value="TAAI">Phone</option>
-                        <option value="TAAI">Market Visit</option>
-                        
-                      </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                    </div>*@
 									
 									 <div style="height:30px;"></div>
                             <div style="height:30px;"></div>
@@ -351,7 +306,7 @@
 									
 									 <div style="height:30px;"></div>
 									 <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Lead By<label class="Mandatory"></label></label>
@@ -362,7 +317,7 @@
                                                 </div>
                                             </div>
                                        
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">Assign To<label class="Mandatory"></label></label>
                                               

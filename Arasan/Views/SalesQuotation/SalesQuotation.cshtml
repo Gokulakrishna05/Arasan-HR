@@ -40,29 +40,26 @@
               <form>
 
                    <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <br />  <label for="inputName3" class="col-sm-4 control-label">New / Existing Quote <label class="mandatory">*</label></label>
+                                                    <br />  <label for="inputName3" class="col-sm-4 control-label">New / Existing Quote <label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.QuoteFormatId, Model.QuoteFormatList,"--Please select--",new { @id = "ddlQuoteFormat", @Class = "form-control _select", @TabIndex = 1, @onchange = "QuoteFormat(this.value);" })
+                                                        @Html.DropDownListFor(C => C.QuoteFormatId, Model.QuoteFormatList,"--Please select--",new { @id = "ddlQuoteFormat", @Class = "form-control _select",@TabIndex = 1, @onchange = "QuoteFormat(this.value);" })
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group" id="EnquiryQuote" style="display:none;">
-                                                    <br />  <label for="inputName3" class="col-sm-4 control-label">From Enquiry <label class="mandatory">*</label></label>
+                                                    <br />  <label for="inputName3" class="col-sm-4 control-label">From Enquiry <label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.EnquiryId, Model.EnquiryList,"--Please select--", new { @id = "ddlEnquiry", @Class = "form-control  _select", @style = "width:350px; " ,@onchange = "changeItem(this.value);" })
+                                            @Html.DropDownListFor(C => C.EnquiryId, Model.EnquiryList,"--Please select--", new { @id = "ddlEnquiry", @Class = "form-control  _select" ,@TabIndex = 1,@onchange = "changeItem(this.value);" })
                                                     </div>
                                                 </div>
                                             </div>
-                   </div>
-                             <div class="row">
-                                      
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
 
-                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Quotation Type<label class="mandatory">*</label></label>
+                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Quotation Type<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.EnqType, Model.Enqlst,"--Please select--", new { @id = "ddlQuoType", @Class = "form-control  _select", @TabIndex = 1 })
                                             @Html.HiddenFor(C => C.ID)
@@ -71,12 +68,9 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-                                  
-                             </div>
+                   </div>
                               <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
 
                                                 <br /> <label for="inputName3" class="col-sm-4 control-label">Quotation No<label class="Mandatory"></label></label>
@@ -86,9 +80,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                     <div class="col-md-6">
+                                     <div class="col-md-4">
                                             <div class="form-group">
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Quotation Date<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Quotation Date<label class="mandatory"></label></label>
 
 
                                                       <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
@@ -97,9 +91,7 @@
                                     </div>
                                     </div>
                                         </div>
-                                  </div>
-                                  <div class="row">
-                                        <div class="col-md-6">
+                                         <div class="col-md-4">
                                             <div class="form-group">
 
                                                 <br /> <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
@@ -109,10 +101,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    <div class="col-md-6">
+                              </div>
+                                  <div class="row">
+                                       
+                                    <div class="col-md-4">
                                       <div class="form-group">
 
-                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Customer Type<label class="mandatory">*</label></label>
+                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Customer Type<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.CustomerType, Model.Typelst,"--Please select--", new { @id = "ddlCustomerType", @Class = "form-control  _select", @TabIndex = 1 })
                                             @Html.HiddenFor(C => C.ID)
@@ -120,63 +115,61 @@
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
-                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
 
-                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Customer Name<label class="mandatory">*</label></label>
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Customer Name<label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Customer, Model.Suplst,"--Please Select--" ,new { @id = "ddlCustomer", @Class = "form-control _select", @TabIndex = 1,onchange = "changeItem1(this.value)" })
                                               @Html.HiddenFor(C => C.ID)
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <br />  <label for="inputName3" class="col-sm-4 control-label">Address<label class="Mandatory"></label></label>
 
                                                       <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Address, new { @id = "txtAddress", @class = "form-control", @TabIndex = 1,@readonly=true })
 
-                                        </div>
+                                                      </div>
 
                                             </div>
                                         </div>
-                                    </div>
-                                     <div class="row">
-                                        <div class="col-md-6">
+                                  </div>
+                             <div class="row">
+                                        <div class="col-md-4">
                                             <div class="form-group">
 
-                                                 <br /><label for="inputName3" class="col-sm-4 control-label">Mobile No<label class="mandatory">*</label></label>
+                                                 <br /><label for="inputName3" class="col-sm-4 control-label">Mobile No<label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                     @Html.TextBoxFor(C => C.Mobile, new { @id = "txtMobile", @class = "form-control", @TabIndex = 1 })
+                                                     @Html.TextBoxFor(C => C.Mobile, new { @id = "txtMobile", @class = "form-control", @TabIndex = 1,@readonly=true })
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                  <br /> <label for="inputName3" class="col-sm-4 control-label">Email Id<label class="Mandatory"></label></label>
 
                                                       <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Gmail, new { @id = "txtGmail", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextBoxFor(C => C.Gmail, new { @id = "txtGmail", @class = "form-control", @TabIndex = 1,@readonly=true })
                                                 </div>
 
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                               <br /><label for="inputName3" class="col-sm-4 control-label">PinCode<label class="Mandatory"></label></label>
+                                            <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.PinCode, new { @id = "txtPinCode", @class = "form-control", @TabIndex = 2,@readonly=true})
+                                            </div>
+                                            </div>
+                                        </div>
+                             </div>
                            
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                     <br />     <label for="inputName3" class="col-sm-4 control-label">PinCode<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.PinCode, new { @id = "txtPinCode", @class = "form-control", @TabIndex = 2,@readonly=true})
-                                        </div>
-                                    </div>
-                                </div>
-                                  <div class="col-md-6">
+                                
+                                  <div class="col-md-4">
                                     <div class="form-group">
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
 
@@ -187,36 +180,30 @@
 
                                     </div>
                                 </div>
-                                
-                            </div>
-                                    
-                                    
-                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <div class="form-group">
 
-                                                 <br /> <label for="inputName3" class="col-sm-4 control-label">Country Of Shipment<label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Country Of Shipment<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Country, Model.cuntylst,"--Please Select--", new { @id = "ddlCountry", @Class = "form-control _select", @TabIndex = 1 })
 
-                                                </div>
-                                            </div>
                                         </div>
-                                     <div class="col-md-6">
-                                         <div class="form-group">
-                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Priority<label class="Mandatory"></label></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Priority<label class="Mandatory"></label></label>
 
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Pro, Model.Prilst,"--Please Select--", new { @id = "ddlPro", @Class = "form-control  _select", @TabIndex = 1 })
 
                                         </div>
 
-                                           </div>
-                                     </div>
                                     </div>
+                                </div>
+                            </div>
 
-                                    
-                                 <div style="height:30px;"></div>
+                                <div style="height:30px;"></div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="btn-group">
@@ -225,9 +212,8 @@
                                     </div>
                                 </div>
 
-
-                            <div class="row">
-                                <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                <div class="row">
+                   <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
 
                                     @* <div class="ibox float-e-margins">*@
 
@@ -346,33 +332,28 @@
                   </div>
                 </div>
               
-                                      <div class="row">
-                                        <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
                                             <div class="form-group">
 
                                                  <br /><label for="inputName3" class="col-sm-4 control-label">Gross <label class="mandatory">*</label></label>
                                                 <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.gross, new { @id = "txtGross", @class = "form-control", @TabIndex = 1 ,@onkeyup = "changeAmount(this," + i + ")" })
+                                            @Html.TextBoxFor(C => C.gross, new { @id = "txtGross", @class = "form-control", @TabIndex = 1 ,@readonly=true})
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                  <br /> <label for="inputName3" class="col-sm-4 control-label">Net <label class="Mandatory"></label></label>
 
                                                       <div class="col-sm-8">
                                             <input type="hidden" id="hidnet" />
-                                            @Html.TextBoxFor(C => C.net, new { @id = "txtNet", @class = "form-control", @TabIndex = 1, @onkeyup = "changeAmount(this," + i + ")" })
+                                            @Html.TextBoxFor(C => C.net, new { @id = "txtNet", @class = "form-control", @TabIndex = 1,@readonly=true })
                                                 </div>
 
                                             </div>
                                         </div>
-                                    </div>
-
-                                     @*<div style="height:30px;"></div>*@
-                                     <div class="row">
-                                        
-                                        <div class="col-md-6">
+                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <br />  <label for="inputName3" class="col-sm-4 control-label">Assign To<label class="Mandatory"></label></label>
 
@@ -384,70 +365,15 @@
                                             </div>
                                         </div>
                                     </div>
-                        @*<div style="height:30px;"></div>*@
-                        @* <div class="row">
-                                        <div class="col-md-6">
-                                             <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Followup Date<label class="Mandatory"></label></label>
-
-
-													<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2"
-														data-link-format="yyyy-mm-dd">
-														<input class="form-control" size="32" type="text" value="" readonly>
-														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-													</div>
-													<input type="hidden" id="dtp_input2" value="" />
-													<br/>
-
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Time<label class="Mandatory"></label></label>
-
-                                                      <div class="col-sm-8">
-												  <input class="form-control" id="inputEmail3" placeholder="" type="text">
-												</div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div style="height:30px;"></div>
-									 <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-
-                                                <label for="inputName3" class="col-sm-2 control-label">Followup Details<label class="Mandatory"></label></label>
-                                                <div class="col-sm-10">
-                                                    <textarea class="form-control" id="inputEmail3" type="text" rows="3"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                      </div>*@
-                                       @*  <div style="height:30px;"></div>
-                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-
-                                                <label for="inputName3" class="col-sm-4 control-label">Desp. Through<label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Through, Model.Categorylst, new { @id = "ddlThrough", @Class = "form-control chosen-select", @TabIndex = 1 })
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>*@
                                    
                                      <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-2 control-label">Narration<label class="Mandatory"></label></label>
+                                                <br /> <label for="inputName3" class="col-sm-2 control-label">Narration<label class="Mandatory"></label></label>
                                                 <div class="col-sm-10">
 @*                                                    <textarea class="form-control" id="inputEmail3" type="text" rows="3"></textarea>
-*@                                                          @Html.TextBoxFor(C => C.narration, new { @id = "txtNarration", @class = "form-control", @TabIndex = 1, @onkeyup = "changeAmount(this," + i + ")" })
+*@                                                          @Html.TextAreaFor(C => C.narration, new { @id = "txtNarration", @class = "form-control", @TabIndex = 1 })
 
                                                 </div>
                                             </div>
@@ -951,7 +877,7 @@
             var isValid = true;
 
 
-            if (document.getElementById("ddlQuoteFormat").value == "" || document.getElementById("ddlQuoteFormat").value == 0) {
+           @* if (document.getElementById("ddlQuoteFormat").value == "" || document.getElementById("ddlQuoteFormat").value == 0) {
                 isValid = false;
                 $(ddlQuoteFormat).css({
                     "border": "1px solid red",
@@ -966,8 +892,8 @@
                     "border": "",
                     "background": ""
                 });
-            }
-            if (document.getElementById("ddlEnquiry").value == "" || document.getElementById("ddlEnquiry").value == 0) {
+            }*@
+           @* if (document.getElementById("ddlEnquiry").value == "" || document.getElementById("ddlEnquiry").value == 0) {
                 isValid = false;
                 $(ddlEnquiry).css({
                     "border": "1px solid red",
@@ -982,7 +908,7 @@
                     "border": "",
                     "background": ""
                 });
-            }
+            }*@
             
 
 

@@ -322,7 +322,7 @@ namespace Arasan.Services.Sales
                                         objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
-                                    objCmds.Parameters.Add("SALESQUOTEDETAILID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("SALESQUOTEID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.itemid;
                                     objCmds.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = cp.des;
                                     objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.unit;
@@ -330,7 +330,7 @@ namespace Arasan.Services.Sales
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.quantity;
                                     objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.amount;
-                                    
+                                    objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.totalamount;
                                     objCmds.Parameters.Add("DISC", OracleDbType.NVarchar2).Value = cp.disc;
                                     objCmds.Parameters.Add("DISCAMOUNT", OracleDbType.NVarchar2).Value = cp.discamount;
                                     objCmds.Parameters.Add("IFREIGHTCH", OracleDbType.NVarchar2).Value = cp.frigcharge;
@@ -340,7 +340,6 @@ namespace Arasan.Services.Sales
                                     objCmds.Parameters.Add("CGSTAMT", OracleDbType.NVarchar2).Value = cp.cgst;
                                     objCmds.Parameters.Add("SGSTAMT", OracleDbType.NVarchar2).Value = cp.sgst;
                                     objCmds.Parameters.Add("IGSTAMT", OracleDbType.NVarchar2).Value = cp.igst;
-                                    objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.totalamount;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
@@ -370,7 +369,7 @@ namespace Arasan.Services.Sales
         public DataTable GetSalesQuotation(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SALES_QUOTE.BRANCHID,NEW_EXISTINGQUOTE,FROM_ENQUIRY,SALES_QUOTE.QUOTE_NO,to_char(SALES_QUOTE.QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,QUOTETYPE,SALES_QUOTE.CURRENCY_TYPE,SALES_QUOTE.CUSTOMER,SALES_QUOTE.CUSTOMER_TYPE,SALES_QUOTE.ADDRESS,SALES_QUOTE.CITY,SALES_QUOTE.PINCODE,SALES_QUOTE.CONTACT_PERSON_MAIL,SALES_QUOTE.CONTACT_PERSON_MOBILE,SALES_QUOTE.PRIORITY,COUNTRYSHIPMENT,SALES_QUOTE.ASSIGNED_TO,SALESQUOTEID,SALES_QUOTE.GROSS,SALES_QUOTE.NET,SALES_QUOTE.COUNTRYSHIPMENT,SALES_ENQUIRY.ENQ_NO from SALES_QUOTE LEFT OUTER JOIN  SALES_ENQUIRY ON SALES_ENQUIRY.SALESENQUIRYID=SALES_QUOTE.SALESQUOTEID where SALES_QUOTE.SALESQUOTEID= '" + id + "' ";
+            SvSql = "Select SALES_QUOTE.BRANCHID,NEW_EXISTINGQUOTE,FROM_ENQUIRY,SALES_QUOTE.QUOTE_NO,to_char(SALES_QUOTE.QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,QUOTETYPE,SALES_QUOTE.CURRENCY_TYPE,SALES_QUOTE.CUSTOMER,SALES_QUOTE.CUSTOMER_TYPE,SALES_QUOTE.ADDRESS,SALES_QUOTE.CITY,SALES_QUOTE.PINCODE,SALES_QUOTE.CONTACT_PERSON_MAIL,SALES_QUOTE.CONTACT_PERSON_MOBILE,SALES_QUOTE.PRIORITY,COUNTRYSHIPMENT,SALES_QUOTE.ASSIGNED_TO,SALESQUOTEID,SALES_QUOTE.GROSS,SALES_QUOTE.NET,SALES_QUOTE.COUNTRYSHIPMENT,SALES_QUOTE.ENQ_NO from SALES_QUOTE LEFT OUTER JOIN  SALES_ENQUIRY ON SALES_ENQUIRY.SALESENQUIRYID=SALES_QUOTE.SALESQUOTEID where SALES_QUOTE.SALESQUOTEID= '" + id + "' ";
 
            //SvSql = "Select SALES_QUOTE.BRANCHID,SALES_QUOTE.QUOTE_NO,to_char(SALES_QUOTE.QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,SALES_QUOTE.ENQ_NO,to_char(SALES_QUOTE.ENQ_DATE,'dd-MON-yyyy')ENQ_DATE,SALES_QUOTE.CURRENCY_TYPE,SALES_QUOTE.CUSTOMER,SALES_QUOTE.CUSTOMER_TYPE,SALES_QUOTE.ADDRESS,SALES_QUOTE.CITY,SALES_QUOTE.PINCODE,SALES_QUOTE.CONTACT_PERSON_MAIL,SALES_QUOTE.CONTACT_PERSON_MOBILE,SALES_QUOTE.PRIORITY,SALES_QUOTE.ASSIGNED_TO,SALESQUOTEID,GROSS,NET from SALES_QUOTE  where SALES_QUOTE.SALESQUOTEID= '" + id + "' ";
             DataTable dtt = new DataTable();
@@ -433,7 +432,7 @@ namespace Arasan.Services.Sales
         {
             string SvSql = string.Empty;
             //SvSql = "Select SALESQUOTEDETAIL.QTY,SALESQUOTEDETAIL.SALESQUOTEDETAILID,SALESQUOTEDETAIL.ITEMID,SALESQUOTEDETAIL.UNIT,SALESQUOTEDETAIL.RATE  from SALESQUOTEDETAIL where SALESQUOTEDETAIL.SALESQUOID='" + id + "'";
-            SvSql = "SELECT ITEMID,ITEMDESC,RATE,QTY,CF,UNIT,AMOUNT,DISC,DISCAMOUNT,IFREIGHTCH,TOTAMT,CGSTPER,SGSTPER,IGSTPER,SGSTAMT,IGSTAMT,CGSTAMT ,SALES_ENQUIRY.SALESENQUIRYID,SALESQUOTEDETAIL.SALESQUOTEDETAILID FROM SALESQUOTEDETAIL LEFT OUTER JOIN  SALES_ENQUIRY ON SALES_ENQUIRY.SALESENQUIRYID=SALESQUOTEDETAIL.SALESQUOTEDETAILID WHERE SALESQUOTEDETAIL.SALESQUOTEDETAILID ='" + id + "'";
+            SvSql = "SELECT ITEMID,ITEMDESC,RATE,QTY,CF,UNIT,AMOUNT,DISC,DISCAMOUNT,IFREIGHTCH,TOTAMT,CGSTPER,SGSTPER,IGSTPER,SGSTAMT,IGSTAMT,CGSTAMT,SALESQUOTEID FROM SALESQUOTEDETAIL WHERE SALESQUOTEDETAIL.SALESQUOTEID ='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
