@@ -358,7 +358,7 @@ namespace Arasan.Services
                 }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    svSQL = "Insert into SALES_QUOTE (BRANCHID,ENQ_NO,SALES_ENQ_ID,CURRENCY_TYPE,QUOTE_NO,QUOTE_DATE,CONTACT_PERSON,PRIORITY,ADDRESS,CITY,CUSTOMER_TYPE,CUSTOMER,STATUS) (Select BRANCH_ID,ENQ_NO,'" + QuoteId + "',CURRENCY_TYPE,'" + QUONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "' ,CONTACT_PERSON,PRIORITY,ADDRESS,CITY,CUSTOMER_TYPE,CUSTOMER_NAME,'Active' from SALES_ENQUIRY where SALES_ENQUIRY.SALESENQUIRYID='" + QuoteId + "')";
+                    svSQL = "Insert into SALES_QUOTE (BRANCHID,ENQ_NO,ENQ_DATE,SALES_ENQ_ID,CURRENCY_TYPE,QUOTE_NO,QUOTE_DATE,CONTACT_PERSON,PRIORITY,ADDRESS,CITY,CUSTOMER_TYPE,CUSTOMER,PINCODE,IS_ACTIVE) (Select BRANCH_ID,ENQ_NO,ENQ_DATE,'" + QuoteId + "',CURRENCY_TYPE,'" + QUONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "' ,CONTACT_PERSON,PRIORITY,ADDRESS,CITY,CUSTOMER_TYPE,CUSTOMER_NAME,'Y' from SALES_ENQUIRY where SALES_ENQUIRY.SALESENQUIRYID='" + QuoteId + "')";
                     OracleCommand objCmd = new OracleCommand(svSQL, objConn);
                     try
                     {
@@ -375,7 +375,7 @@ namespace Arasan.Services
                 string quotid = datatrans.GetDataString("Select SALES_QUOTE.SALESQUOTEID from SALES_QUOTE Where SALES_ENQ_ID=" + QuoteId + "");
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    string Sql = "Insert into SALESQUOTEDETAIL (SALESQUOID,ITEMID,ITEMDESC,QTY,UNIT) (Select '" + quotid + "',ITEM_ID,ITEM_DESCRIPTION,QUANTITY,UNIT FROM SALES_ENQ_ITEM WHERE SAL_ENQ_ID=" + QuoteId + ")";
+                    string Sql = "Insert into SALESQUOTEDETAIL (SALESQUOTEID,ITEMID,ITEMDESC,QTY,UNIT) (Select '" + quotid + "',ITEM_ID,ITEM_DESCRIPTION,QUANTITY,UNIT FROM SALES_ENQ_ITEM WHERE SAL_ENQ_ID=" + QuoteId + ")";
                     OracleCommand objCmds = new OracleCommand(Sql, objConnT);
                     try
                     {

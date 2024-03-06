@@ -66,14 +66,27 @@
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.EnqType, Model.Enqlst,"--Please select--", new { @id = "ddlQuoType", @Class = "form-control  _select", @TabIndex = 1 })
                                             @Html.HiddenFor(C => C.ID)
-                                            @Html.HiddenFor(C => C.QuoId)
+                                            @*@Html.HiddenFor(C => C.QuoId)*@
                                             @Html.HiddenFor(C => C.Branch)
                                         </div>
                                     </div>
                                 </div>
 
 
-                                    <div class="col-md-6">
+                                  
+                             </div>
+                              <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Quotation No<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.QuoId, new { @id = "txtQuoId", @class = "form-control", @TabIndex = 1,@readonly=true })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                     <div class="col-md-6">
                                             <div class="form-group">
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Quotation Date<label class="mandatory">*</label></label>
 
@@ -84,7 +97,7 @@
                                     </div>
                                     </div>
                                         </div>
-                             </div>
+                                  </div>
                                   <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
