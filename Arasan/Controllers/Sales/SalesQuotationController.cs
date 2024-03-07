@@ -45,11 +45,16 @@ namespace Arasan.Controllers.Sales
             //ca.CusNamelst = BindCusName();
             ca.QuoteFormatList = BindQuoteFormat();
             ca.EnquiryList = BindEnquiry();
+            DataTable dtv = datatrans.GetSequence("squo");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.QuoId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
             List<QuoItem> TData = new List<QuoItem>();
             QuoItem tda = new QuoItem();
             if (id == null)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tda = new QuoItem();
                     tda.ItemGrouplst = BindItemGrplst();
@@ -127,6 +132,7 @@ namespace Arasan.Controllers.Sales
                             tda.rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
                         }
                         tda.quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString());
                         toaamt = tda.rate * tda.quantity;
                         total += toaamt;
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
@@ -212,40 +218,39 @@ namespace Arasan.Controllers.Sales
                 string Generate = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
+                string MoveToWork = string.Empty;
 
                 SendMail = "<a href=SendMail?id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
                 Followup = "<a href=Followup?id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + "><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a>";
+
+                if (dtUsers.Rows[i]["STATUS"].ToString() == "Generated")
+                {
+                    MoveToWork = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                    EditRow = "";
+                }
+                else
+                {
+
+                    MoveToWork = "<a href=ViewWorkOrder?id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                    EditRow = "<a href=SalesQuotation?id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+                }
                 Generate = "<a href=Print?id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + "><img src='../Images/pdf.png' alt='Generate SQ' width='20' /></a>";
-                EditRow = "<a href=SalesQuotation?id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteMR?id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-
-                //if (dtUsers.Rows[i]["STATUS"].ToString() == "CLOSE")
-                //{
-                //    //Moved = "<img src='../Images/tick.png' alt='Moved to Quote' width='20' />";
-                //    EditRow = "";
-                //    Generate = "";
-                //}
-                //else
-                //{
-                //    //Moved = dtUsers.Rows[i]["STATUS"].ToString();
-                //    Generate = "<a href=ViewQuote?id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-                //    EditRow = "<a href=SalesQuotation?id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-
-
-                //}
-                //DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["SALESQUOTEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new SalesQuotationItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["SALESQUOTEID"].ToString()),
                     enqno = dtUsers.Rows[i]["QUOTE_NO"].ToString(),
                     date = dtUsers.Rows[i]["QUOTE_DATE"].ToString(),
-                    type = dtUsers.Rows[i]["QUOTETYPE"].ToString(),
+                    quono = dtUsers.Rows[i]["ENQ_NO"].ToString(),
+                    supplier = dtUsers.Rows[i]["PARTYID"].ToString(),
                     sendmail = SendMail,
                     followup = Followup,
                     generate = Generate,
                     editrow = EditRow,
                     delrow = DeleteRow,
+                    move = MoveToWork,
 
 
 
@@ -257,6 +262,79 @@ namespace Arasan.Controllers.Sales
                 Reg
             });
 
+        }
+        public IActionResult ViewWorkOrder(string id)
+        {
+            SalesQuotation ca = new SalesQuotation();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+            dt = SalesQuotationService.GetSalesQuotationByName(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Customer = dt.Rows[0]["PARTYNAME"].ToString();
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.QuoId = dt.Rows[0]["QUOTE_NO"].ToString();
+                ca.QuoDate = dt.Rows[0]["QUOTE_DATE"].ToString();
+                ca.EnNo = dt.Rows[0]["ENQ_NO"].ToString();
+                ca.EnqDate = dt.Rows[0]["ENQ_DATE"].ToString();
+                ca.ID = id;
+            }
+            List<QuoItem> Data = new List<QuoItem>();
+            QuoItem tda = new QuoItem();
+            double tot = 0;
+            dtt = SalesQuotationService.GetSalesQuotationItem(id);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new QuoItem();
+                    tda.itemid = dtt.Rows[i]["ITEMID"].ToString();
+                    tda.unit = dtt.Rows[i]["UNIT"].ToString();
+                    tda.quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                    tda.rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString() == "" ? "0" : dtt.Rows[i]["RATE"].ToString());
+                    tda.totalamount = tda.quantity * tda.rate;
+                    tot += tda.totalamount;
+                    Data.Add(tda);
+                }
+            }
+            //ca.Net = tot;
+            ca.QuoLst = Data;
+            return View(ca);
+        }
+        [HttpPost]
+        public ActionResult ViewWorkOrder(SalesQuotation Cy, string id)
+        {
+            try
+            {
+                Cy.ID = id;
+                string Strout = SalesQuotationService.SalesQuotationWorkOrder(Cy.ID);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "WorkOrder Generated Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "WorkOrder Generated Successfully...!";
+                    }
+                    return RedirectToAction("ListSalesQuotation");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit SalesQuotation";
+                    TempData["notice"] = Strout;
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("ListSalesQuotation");
         }
         public ActionResult DeleteMR(string tag, int id)
         {

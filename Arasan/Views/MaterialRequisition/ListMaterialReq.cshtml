@@ -5,6 +5,7 @@
 }
 <partial name="JqxGridPartial" />
 @* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
 
 <script type="text/javascript">
     @if (TempData["notice"] != null)
@@ -69,14 +70,20 @@
                 source: dataAdapter,
                 height: 450,
                 source: source,
+                //autoheight: true,
                 sortable: true,
                 filterable: true,
                 groupable: false,
                 pageable: true,
                 showfilterbar: true,
                 //showfilterrow: true,
-                theme: 'darkblue',
+                theme: 'ui-start',
+                autorowheight: true,
+                filterbarmode: 'simple',
                 enablebrowserselection: true,
+                columnsresize: true,
+                selectionmode: 'multiplerowsextended',
+                keyboardnavigation: false,
                 columns: [
                     { text: 'Item', filtertype: 'checkedlist', datafield: 'item', width: 150 },
                     { text: 'Req Date', filtertype: 'input', datafield: 'docDate', width: 150 },

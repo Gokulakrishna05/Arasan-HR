@@ -64,6 +64,7 @@ namespace Arasan.Models
         public string QuoType { get; set; }
         public string EnNo { get; set; }
         public string EnDate { get; set; }
+        public string EnqDate { get; set; }
 
         public string Customer { get; set; }
         public string Address { get; set; }
@@ -194,5 +195,8 @@ namespace Arasan.Models
         public string generate { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
+        public string move { get; set; }
+        public string quono { get; set; }
+        public string supplier { get; set; }
     }
 }

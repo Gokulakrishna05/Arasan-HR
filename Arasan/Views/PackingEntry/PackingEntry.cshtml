@@ -110,7 +110,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Packing Note<label class="mandatory">*</label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Packing Note<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                         @Html.DropDownListFor(C => C.Packnote, Model.Packlst," -- Please Select -- ", new { @id = "ddlPacknote", @Class = "form-control _select", @TabIndex = 4 ,onchange = "changeItem(this.value)"} )
                                     </div>
@@ -121,7 +121,7 @@
                         <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Packing Note.Dt<label class="Mandatory"></label></label>
+                                       <br/>   <label for="inputName3" class="col-sm-4 control-label">Packing Note.Dt<label class="Mandatory"></label></label>
 
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.NoteDate, new { @id = "txtNoteDate", @class = "form-control", @TabIndex = 1 ,@readonly=true  })
@@ -714,6 +714,22 @@
     </div>
 </div>
 <script>
+   
+    function changeWC(WCID) {
+        $.ajax({
+            url: "GetPackJSON",
+            type: "post",
+            data: { 'wcid': WCID},
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#ddlPacknote", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select WC");
+            }
+        });
+    }
      $(function() {
             $('._select').select2();
         });
