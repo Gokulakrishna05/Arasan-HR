@@ -5,6 +5,7 @@
 }
 <partial name="JqxGridPartial" />
 @* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
 
 <script type="text/javascript">
     @if (TempData["notice"] != null)
@@ -100,18 +101,22 @@
                 {
                     width: '100%',
                     source: dataAdapter,
-                    autorowheight: true,
-                    autoheight: true,
+                    height: 450,
                     source: source,
+                    //autoheight: true,
                     sortable: true,
                     filterable: true,
                     groupable: false,
                     pageable: true,
                     showfilterbar: true,
-                    filterbarmode: 'simple',
                     //showfilterrow: true,
-                    theme: 'darkblue',
+                    theme: 'ui-start',
+                    autorowheight: true,
+                    filterbarmode: 'simple',
                     enablebrowserselection: true,
+                    columnsresize: true,
+                    selectionmode: 'multiplerowsextended',
+                    keyboardnavigation: false,
                     columns: [
                         { text: 'Loc ID', filtertype: 'input', datafield: 'loc', width: 200 },
                         { text: 'Dc Date', filtertype: 'input', datafield: 'dcdate', width: 150 },
