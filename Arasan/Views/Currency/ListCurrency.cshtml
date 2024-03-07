@@ -1,7 +1,7 @@
 @model Arasan.Models.Currency
 
 @{
-    ViewData["Title"] = "Currency Master";
+    ViewData["Title"] = "Currency";
     string query = ViewContext.HttpContext.Request.Query["status"];
     string Qid = string.Empty;
     if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
