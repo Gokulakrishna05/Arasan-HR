@@ -84,9 +84,11 @@ namespace Arasan.Services.Sales
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-                string currency = datatrans.GetDataString("Select CURRENCYID from CURRENCY where MAINCURR='" + cy.Currency + "' ");
-                string party = datatrans.GetDataString("Select ID from PARTYRCODE where PARTY='" + cy.Party + "' ");
-                string partyid = datatrans.GetDataString("Select PARTYMASTID from PARTYMAST where PARTYNAME='" + party + "' ");
+                string currencys = datatrans.GetDataString("Select SYMBOL from CURRENCY where CURRENCYID='" + cy.Currency + "' ");
+                 
+                DataTable partyid = datatrans.GetData("Select PARTYMASTID,ACCOUNTNAME,MOBILE,GSTNO from PARTYMAST where PARTYNAME='" + cy.Party + "' ");
+                
+                string narr = "Pro-forma Invoice To " + cy.Party;
                 if (cy.ID == null)
                 {
                     datatrans = new DataTransactions(_connectionString);
@@ -133,10 +135,10 @@ namespace Arasan.Services.Sales
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.RefNo;
                     objCmd.Parameters.Add("REFDATE", OracleDbType.NVarchar2).Value = cy.RefDate;
                     objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
-                    objCmd.Parameters.Add("SYMBOL", OracleDbType.NVarchar2).Value = cy.Currency;
+                    objCmd.Parameters.Add("SYMBOL", OracleDbType.NVarchar2).Value = currencys;
                     objCmd.Parameters.Add("EXRATE", OracleDbType.NVarchar2).Value = cy.ExRate;
-                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Party;
-                    objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = cy.Currency;
+                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = partyid.Rows[0]["PARTYMASTID"].ToString(); ;
+                    objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = cy.Party;
                     //objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = party;
                     objCmd.Parameters.Add("SALVAL", OracleDbType.NVarchar2).Value = cy.SalesValue;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.Gross;
@@ -145,9 +147,13 @@ namespace Arasan.Services.Sales
                     objCmd.Parameters.Add("BANK", OracleDbType.NVarchar2).Value = cy.BankName;
                     objCmd.Parameters.Add("ACNO", OracleDbType.NVarchar2).Value = cy.AcNo;
                     objCmd.Parameters.Add("SHIPADDRESS", OracleDbType.NVarchar2).Value = cy.Address;
-                    objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Active";
-                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = narr;
+                    objCmd.Parameters.Add("JOPID", OracleDbType.NVarchar2).Value = cy.WorkCenter;
+                    objCmd.Parameters.Add("CUSTACC", OracleDbType.NVarchar2).Value = partyid.Rows[0]["ACCOUNTNAME"].ToString(); ;
+                    objCmd.Parameters.Add("RNDOFF", OracleDbType.NVarchar2).Value = cy.Round;
+                    objCmd.Parameters.Add("MOBILE", OracleDbType.NVarchar2).Value = partyid.Rows[0]["MOBILE"].ToString(); ;
+                    objCmd.Parameters.Add("GSTNO", OracleDbType.NVarchar2).Value = partyid.Rows[0]["GSTNO"].ToString(); ;
+                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
                     {
@@ -202,7 +208,7 @@ namespace Arasan.Services.Sales
                         }
 
 
-                    }
+                    } 
                     catch (Exception ex)
                     {
                         //System.Console.WriteLine("Exception: {0}", ex.ToString());
