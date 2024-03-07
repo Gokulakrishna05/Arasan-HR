@@ -428,6 +428,28 @@ namespace Arasan.Services.Sales
             }
             return "";
         }
+        public string StatusStockRelease(string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE PLSTOCKVALUE SET IS_LOCK ='' WHERE PLSTOCKVALUEID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+        }
         public DataTable GetAllListWorkOrderItems(string strStatus)
         {
             string SvSql = string.Empty;
