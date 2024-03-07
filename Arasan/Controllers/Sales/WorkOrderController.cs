@@ -173,9 +173,12 @@ namespace Arasan.Controllers.Sales
                 string Close = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
+                string Drum = string.Empty;
 
                 Close = "<a href=/WorkOrderShortClose/WorkOrderShortClose?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/close_icon.png' alt='close' /></a>";
                 EditRow = "<a href=WorkOrder?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                Drum = "<a href=/WorkOrder/WDrumAllocation?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Allocate' /></a>";
+
                 DeleteRow = "<a href=DeleteMR?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 
@@ -190,6 +193,7 @@ namespace Arasan.Controllers.Sales
                     clo = Close,
                     editrow = EditRow,
                     delrow = DeleteRow,
+                    drum = Drum,
 
 
 
@@ -470,10 +474,10 @@ namespace Arasan.Controllers.Sales
             {
 
                 string View = string.Empty;
-                string Approve = string.Empty;
+                string deactive = string.Empty;
 
                 View = "<a href=/WorkOrder/ViewDrumAllocation?id=" + dtUsers.Rows[i]["JODRUMALLOCATIONBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe' ><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                Approve = "<a href=/ProFormaInvoice/ProFormaInvoice?id=" + dtUsers.Rows[i]["JODRUMALLOCATIONBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Waiting for approval' width='20' /></a>";
+                deactive = "<a href=StockRelease?id=" + dtUsers.Rows[i]["JODRUMALLOCATIONBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
 
                 Reg.Add(new ListWDrumAlloItems
@@ -485,7 +489,7 @@ namespace Arasan.Controllers.Sales
                     docid = dtUsers.Rows[i]["DOCID"].ToString(),
                     docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     view = View,
-                    approve = Approve,
+                    deactive = deactive,
 
 
 
@@ -497,6 +501,30 @@ namespace Arasan.Controllers.Sales
                 Reg
             });
 
+        }
+        public ActionResult StockRelease(string id)
+        {
+            DataTable lot = datatrans.GetData("SELECT PLSTOCKID FROM JODRUMALLOCATIONDETAIL WHERE JODRUMALLOCATIONDETAILID='"+ id +"'");
+            string flag = "";
+            if (lot.Rows.Count > 0)
+            {
+                for(int i=0;i<lot.Rows.Count;i++)
+                {
+                    string lotno = lot.Rows[i]["PLSTOCKID"].ToString();
+                    flag = WorkOrderService.StatusStockRelease(lotno);
+                }
+            }
+            
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListWDrumAllo");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListWDrumAllo");
+            }
         }
         public IActionResult ListWDrumAllo()
         {

@@ -47,7 +47,7 @@
                 { name: 'docid', type: 'string' },
                 { name: 'docdate', type: 'string' },
                 { name: 'view', type: 'string' },
-                { name: 'approve', type: 'string' },
+                { name: 'deactive', type: 'string' },
 
             ],
             id: 'id',
@@ -88,7 +88,7 @@
                     { text: 'Doc Id', filtertype: 'checkedlist', datafield: 'docid', width: 120 },
                     { text: 'Doc Date', filtertype: 'checkedlist', datafield: 'docdate', width: 120 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 80 },
-                    { text: 'Approve', datafield: 'approve', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 80 },
+                    { text: 'Release', datafield: 'deactive', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 80 },
                 ]
             });
         $("#ddlStatus").change(function () {
