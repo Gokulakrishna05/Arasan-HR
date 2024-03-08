@@ -115,10 +115,11 @@ namespace Arasan.Services
                     throw ex;
                 }
                 cy.DocId = docid;
-                if(cy.ID!=null)
-                {
-                    cy.ID = null;
-                }
+                //if(cy.ID!=null)
+                //{
+                //    cy.ID = null;
+                //}
+                string narr = "Order From Customer short closed ";
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("WORKSHORTCLOSEPROC", objConn);
@@ -144,7 +145,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("REFDT", OracleDbType.NVarchar2).Value = cy.RefDate;
 
                     
-                    objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narr;
+                    objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = narr;
 
                  
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -170,7 +171,7 @@ namespace Arasan.Services
 
                                     if (cp.Isvalid == "Y" && cp.ItemId != "0")
                                     {
-                                        svSQL = "Insert into JOCLDETAIL (JOCLBASICID,ORDQTY,PENDQTY,PRECLQTY,RATE,UNIT,ITEMID) VALUES ('" + Pid + "','" + cp.orderqty + "','" + cp.PendQty + "','" + cp.clQty + "','" + cp.rate + "','" + cp.UnitId + "','" + cp.ItemId + "')";
+                                        svSQL = "Insert into JOCLDETAIL (JOCLBASICID,ORDQTY,PENDQTY,PRECLQTY,RATE,UNIT,ITEMID) VALUES ('" + Pid + "','" + cp.orderqty + "','" + cp.orderqty + "','" + cp.orderqty + "','" + cp.rate + "','" + cp.UnitId + "','" + cp.ItemId + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                     }
@@ -203,10 +204,25 @@ namespace Arasan.Services
                     {
                         //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
-                    svSQL = "UPDATE JOBASIC SET STATUS ='IS_ACTIVE' WHERE DOCID='" + cy.JopId + "'";
+                    svSQL = "UPDATE JOBASIC SET STATUS ='Close' WHERE DOCID='" + cy.JopId + "'";
                     OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
 
                     objCmdss.ExecuteNonQuery();
+                   string basic = datatrans.GetDataString("SELECT JODRUMALLOCATIONBASICID FROM JODRUMALLOCATIONBASIC WHERE JOPID='" + cy.ID + "'");
+                    DataTable lot = datatrans.GetData("SELECT PLSTOCKID FROM JODRUMALLOCATIONDETAIL WHERE JODRUMALLOCATIONBASICID='" + basic + "'");
+
+                    if (lot.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < lot.Rows.Count; i++)
+                        {
+                            string lotno = lot.Rows[i]["PLSTOCKID"].ToString();
+                            svSQL = "UPDATE JOBASIC SET STATUS ='Close' WHERE DOCID='" + cy.JopId + "'";
+                            objCmdss = new OracleCommand(svSQL, objConn);
+
+                            objCmdss.ExecuteNonQuery();
+                        }
+                    }
+                    
                     objConn.Close();
                     
                      

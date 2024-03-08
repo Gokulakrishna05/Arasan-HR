@@ -674,7 +674,7 @@
                 var totigst = 0;
                  var totdiscount = 0;
             var totcashdiscount = 0;
-            var up = document.getElementById("txtamount" + i).value;
+            var up = document.getElementById("txtrate" + i).value;
 
            // var frieght = document.getElementById("txtfrieght" + i).value;
             var IGST = document.getElementById("txtIGSTP" + i).value;
@@ -739,8 +739,8 @@
            @* if (frieght == "")
                 frieght = 0;*@
 
-            var tot = eval(up);
-            //document.getElementById("txtamount" + i).value = tot.toFixed(2);
+            var tot = eval(qty)*eval(up);
+            document.getElementById("txtamount" + i).value = tot.toFixed(2);
             var igstperc = (eval(tot) / 100) * eval(IGST);
             var cgstperc = (eval(tot) / 100) * eval(CGST);
             var sgstperc = (eval(tot) / 100) * eval(SGST);
