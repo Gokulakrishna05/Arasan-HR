@@ -31,6 +31,7 @@ namespace Arasan.Controllers
             //ca.Curlst = BindCurrency();
             //ca.Loc = BindLocation();
             //ca.Qolst = BindQuotation();
+           
             ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
             DataTable dtv = datatrans.GetSequence("OfcCl");
             if (dtv.Rows.Count > 0)
@@ -49,7 +50,7 @@ namespace Arasan.Controllers
                 ca.ID = id;
                 ca.Location = dt.Rows[0]["LOCID"].ToString();
                 ca.LocationId = dt.Rows[0]["loc"].ToString();
-                ca.OrderType = dt.Rows[0]["ORDTYPE"].ToString();
+                ca.OrderType = "Order Closing";
                 ca.JopId = dt.Rows[0]["DOCID"].ToString();
                 
                

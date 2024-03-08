@@ -26,7 +26,7 @@ namespace Arasan.Interface.Sales
 
         IEnumerable<WDrumAllocation> GetAllWDrumAll();
         string StatusDeleteMR(string tag, string id);
-        string StatusStockRelease(string id);
+        string StatusStockRelease(string id, string jid,string bid);
         DataTable GetAllListWorkOrderItems(string strStatus);
         DataTable GetAllListWDrumAllocationItems();
         DataTable GetAllListWDrumAlloItems();

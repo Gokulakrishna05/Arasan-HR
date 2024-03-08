@@ -142,11 +142,11 @@ namespace Arasan.Models
     }
     public class ListWDrumAlloItems
     {
-        public long id { get; set; }
+        public string id { get; set; }
         //public string branch { get; set; }
         public string jobid { get; set; }
         public string location { get; set; }
-        public string Customername { get; set; }
+        public string customername { get; set; }
         public string docid { get; set; }
         public string docdate { get; set; }
         public string view { get; set; }

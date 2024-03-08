@@ -176,8 +176,17 @@ namespace Arasan.Controllers.Sales
                 string Drum = string.Empty;
 
                 Close = "<a href=/WorkOrderShortClose/WorkOrderShortClose?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/close_icon.png' alt='close' /></a>";
-                EditRow = "<a href=WorkOrder?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                Drum = "<a href=/WorkOrder/WDrumAllocation?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Allocate' /></a>";
+                if(dtUsers.Rows[i]["IS_ALLOCATE"].ToString()=="Y")
+                {
+                    EditRow = "";
+                    Drum = "";
+                }
+                else
+                {
+                    EditRow = "<a href=WorkOrder?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    Drum = "<a href=/WorkOrder/WDrumAllocation?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Allocate' /></a>";
+                }
+              
 
                 DeleteRow = "<a href=DeleteMR?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
@@ -404,7 +413,7 @@ namespace Arasan.Controllers.Sales
                         {
                             TempData["notice"] = "DrumAllocation Updated Successfully...!";
                         }
-                        return RedirectToAction("ListWDrumAllocation");
+                        return RedirectToAction("ListWDrumAllo");
                     }
 
                     else
@@ -483,9 +492,10 @@ namespace Arasan.Controllers.Sales
                 Reg.Add(new ListWDrumAlloItems
                 {
                     
+                    id = dtUsers.Rows[i]["JODRUMALLOCATIONBASICID"].ToString(),
                     jobid = dtUsers.Rows[i]["jobid"].ToString(),
                     location = dtUsers.Rows[i]["LOCID"].ToString(),
-                    Customername = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    customername = dtUsers.Rows[i]["PARTYNAME"].ToString(),
                     docid = dtUsers.Rows[i]["DOCID"].ToString(),
                     docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     view = View,
@@ -504,14 +514,15 @@ namespace Arasan.Controllers.Sales
         }
         public ActionResult StockRelease(string id)
         {
-            DataTable lot = datatrans.GetData("SELECT PLSTOCKID FROM JODRUMALLOCATIONDETAIL WHERE JODRUMALLOCATIONDETAILID='"+ id +"'");
+            DataTable lot = datatrans.GetData("SELECT PLSTOCKID FROM JODRUMALLOCATIONDETAIL WHERE JODRUMALLOCATIONBASICID='" + id +"'");
+            string joid = datatrans.GetDataString("SELECT JOPID FROM JODRUMALLOCATIONBASIC WHERE JODRUMALLOCATIONBASICID='" + id + "'");
             string flag = "";
             if (lot.Rows.Count > 0)
             {
                 for(int i=0;i<lot.Rows.Count;i++)
                 {
                     string lotno = lot.Rows[i]["PLSTOCKID"].ToString();
-                    flag = WorkOrderService.StatusStockRelease(lotno);
+                    flag = WorkOrderService.StatusStockRelease(lotno,joid, id);
                 }
             }
             

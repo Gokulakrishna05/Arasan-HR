@@ -276,10 +276,10 @@ namespace Arasan.Controllers.Sales
                         tda.unit = dtt.Rows[i]["UNITID"].ToString();
                         tda.qty = dtt.Rows[i]["qty"].ToString();
                         tda.rate =(dtt.Rows[i]["RATE"].ToString() == "" ? "0" : dtt.Rows[0]["RATE"].ToString());
-                        double rate = Convert.ToDouble(tda.rate);
-                        double quatity = Convert.ToDouble(tda.qty);
-                        double amt= quatity * rate;
-                        tda.amount = amt ;
+                        //double rate = Convert.ToDouble(tda.rate);
+                        //double quatity = Convert.ToDouble(tda.qty);
+                        //double amt= quatity * rate;
+                        //tda.amount = amt ;
 
 
                        
