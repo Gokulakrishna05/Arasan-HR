@@ -180,17 +180,19 @@ namespace Arasan.Controllers.Sales
                 {
                     EditRow = "";
                     Drum = "";
+                    DeleteRow = "";
                 }
                 else
                 {
                     EditRow = "<a href=WorkOrder?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     Drum = "<a href=/WorkOrder/WDrumAllocation?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Allocate' /></a>";
+                    DeleteRow = "<a href=DeleteMR?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
                 }
-              
 
-                DeleteRow = "<a href=DeleteMR?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
-                
+
+
                 Reg.Add(new WorkOrderItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["JOBASICID"].ToString()),
