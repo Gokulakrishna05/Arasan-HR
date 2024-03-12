@@ -55,7 +55,7 @@ namespace Arasan.Controllers
             {
                 tda1 = new PackMat();
                
-                tda1.Itemlst = BindItemlst();
+                tda1.Itemlst = BindPackItemlst();
                 tda1.Isvalid = "Y";
                 Data1.Add(tda1);
             }
@@ -70,7 +70,7 @@ namespace Arasan.Controllers
             for (int i = 0; i < 1; i++)
             {
                 tda3 = new Packothcon();
-                tda3.Itemlst = BindItemlst();
+                tda3.Itemlst = BindItemlst("");
                 tda3.Isvalid = "Y";
                 Data3.Add(tda3);
             }
@@ -118,7 +118,7 @@ namespace Arasan.Controllers
             {
                 tda1 = new PackMat();
 
-                tda1.Itemlst = BindItemlst();
+                tda1.Itemlst = BindPackItemlst();
                 tda1.Isvalid = "Y";
                 Data1.Add(tda1);
             }
@@ -133,7 +133,7 @@ namespace Arasan.Controllers
             for (int i = 0; i < 1; i++)
             {
                 tda3 = new Packothcon();
-                tda3.Itemlst = BindItemlst();
+                tda3.Itemlst = BindItemlst("");
                 tda3.Isvalid = "Y";
                 Data3.Add(tda3);
             }
@@ -241,11 +241,11 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindItemlst()
+        public List<SelectListItem> BindPackItemlst()
         {
             try
             {
-                DataTable dtDesg = Pack.GetItem();
+                DataTable dtDesg = Pack.GetPackItem();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -258,11 +258,11 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindconsItemlst()
+        public List<SelectListItem> BindItemlst(string locid)
         {
             try
             {
-                DataTable dtDesg = Pack.GetItem();
+                DataTable dtDesg = Pack.GetItem(locid);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -275,6 +275,23 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        //public List<SelectListItem> BindconsItemlst()
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = Pack.GetItem();
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         public List<SelectListItem> BindEmplst()
         {
             try
@@ -283,7 +300,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPNAME"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -336,6 +353,7 @@ namespace Arasan.Controllers
                 string tothrs = "";
                 double totamt = '0';
                 double totrate = '0';
+                string location = "";
                 dt = Pack.GetNoteDetail(Note);
                 if (dt.Rows.Count > 0)
                 {
@@ -357,7 +375,7 @@ namespace Arasan.Controllers
                     endtime = dt.Rows[0]["ENDTIME"].ToString();
                     toloc = dt.Rows[0]["TOLOCDETAILSID"].ToString();
                     tothrs = dt.Rows[0]["TOTHRS"].ToString();
-                  
+                    location=dt.Rows[0]["ILOCATION"].ToString();
                     DataTable ap = datatrans.GetData("Select SUM(IQTY) as qty,SUM(IRATE) as rate from PACKNOTEINPDETAIL where PACKNOTEBASICID='" + basic + "'  ");
                     qty = ap.Rows[0]["qty"].ToString();
                     totrate = Convert.ToDouble(ap.Rows[0]["rate"].ToString());
@@ -368,7 +386,7 @@ namespace Arasan.Controllers
                     enddatime = endda + "-" + endtime;
                 }
 
-                var result = new { work = work, workid = workid, shedule = shedule, sheduleid = sheduleid, item = item, itemid = itemid, padate = padate, packyn = packyn, shift = shift, shiftid = shiftid , qty = qty, basic= basic  , toloc = toloc, tothrs= tothrs, totamt= totamt };
+                var result = new { work = work, workid = workid, shedule = shedule, sheduleid = sheduleid, item = item, itemid = itemid, padate = padate, packyn = packyn, shift = shift, shiftid = shiftid , qty = qty, basic= basic  , toloc = toloc, tothrs= tothrs, totamt= totamt, location= location };
                 return Json(result);
             }
             catch (Exception ex)
@@ -460,7 +478,7 @@ namespace Arasan.Controllers
                 DataTable dt1 = new DataTable();
 
                 string unit = "";
-                string CF = "";
+                string lot = "";
                 string price = "";
                 dt = datatrans.GetItemDetails(ItemId);
 
@@ -469,11 +487,11 @@ namespace Arasan.Controllers
 
                     unit = dt.Rows[0]["UNITID"].ToString();
                     price = dt.Rows[0]["LATPURPRICE"].ToString();
-                    
-                    
+                    lot= dt.Rows[0]["LOTYN"].ToString();
+
                 }
 
-                var result = new { unit = unit , price = price };
+                var result = new { unit = unit , price = price , lot = lot };
                 return Json(result);
             }
             catch (Exception ex)
@@ -481,13 +499,13 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public ActionResult GetConsItemDetail(string ItemId)
+        public ActionResult GetConsItemDetail(string ItemId,string loc)
         {
             try
             {
                 DataTable dt = new DataTable();
                 DataTable dt1 = new DataTable();
-
+                string Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
                 string unit = "";
                 string val = "";
                 string price = "";
@@ -498,20 +516,14 @@ namespace Arasan.Controllers
                 {
 
                     unit = dt.Rows[0]["UNITID"].ToString();
-                    price = dt.Rows[0]["LATPURPRICE"].ToString();
-                    val = dt.Rows[0]["VALMETHDES"].ToString();
-                    //dt1 = Pack.GetConstkqty(ItemId);
-                    //if (dt1.Rows.Count > 0)
-                    //{
-                    //    stk = dt1.Rows[0]["QTY"].ToString();
-                    //}
-                    //if (stk == "")
-                    //{
-                    //    stk = "0";
-                    //}
-                }
+                   // price = dt.Rows[0]["LATPURPRICE"].ToString();
+                    val = dt.Rows[0]["VALMETHOD"].ToString();
 
-                var result = new { unit = unit, val = val, price = price };
+                    price = datatrans.GetDataString("SELECT ROUND(AVG(S.STOCKVALUE/S.QTY),2) as rate FROM STOCKVALUE S WHERE ITEMID='" + ItemId + "' and LOCID='" + loc + "'");
+                }
+                stk = datatrans.GetDataString("SELECT SUM(DECODE(s.PLUSORMINUS,'p',s.QTY,-s.QTY)) qty from Stockvalue S WHERE S.DOCDATE<='"+ Docdate + "'  And S.LOCID='"+ loc + "' AND s.ITEMID='"+ ItemId + "'");
+
+                var result = new { unit = unit, val = val, price = price , stk = stk };
                 return Json(result);
             }
             catch (Exception ex)
@@ -625,7 +637,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dt1.Rows.Count; i++)
                 {
                     tda1 = new PackMat();
-                    tda1.Itemlst = BindItemlst();
+                    tda1.Itemlst = BindPackItemlst();
                     tda1.item = dt1.Rows[i]["ITEMID"].ToString();
                     tda1.unit = dt1.Rows[i]["CUNIT"].ToString();
                     tda1.lotyn = dt1.Rows[i]["LOTYN"].ToString();
@@ -649,7 +661,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dt3.Rows.Count; i++)
                 {
                     tda3 = new Packothcon();
-                    tda3.Itemlst = BindItemlst();
+                    tda3.Itemlst = BindItemlst(dt.Rows[0]["LOCDETAILSID"].ToString());
                     tda3.item = dt3.Rows[i]["ITEMID"].ToString();
                     tda3.unit = dt3.Rows[i]["COUNIT"].ToString();
                     tda3.clstk = Convert.ToDouble(dt3.Rows[i]["CONSSTK"].ToString());
@@ -690,6 +702,37 @@ namespace Arasan.Controllers
             }
             return View(ca);
         }
+        public ActionResult GetEmployeeDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string code = "";
+                string dept = "";
+                string empcost = "";
+                string othrs = "";
+
+                dt = Pack.GetEmployeeDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    code = dt.Rows[0]["EMPID"].ToString();
+                    dept = dt.Rows[0]["DEPTNAME"].ToString();
+                    empcost = dt.Rows[0]["EMPCOST"].ToString();
+                    othrs = dt.Rows[0]["OTPERHR"].ToString();
+
+                }
+
+                var result = new { code = code, dept = dept, empcost = empcost, othrs = othrs };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public ActionResult DeleteItem(string tag, string id)
         {
@@ -706,11 +749,17 @@ namespace Arasan.Controllers
             }
 
         }
-        public JsonResult GetItemJSON()
+        public JsonResult GetItemJSON(string locid)
         {
             //EnqItem model = new EnqItem();
             //  model.ItemGrouplst = BindItemGrplst(value);
-            return Json(BindItemlst());
+            return Json(BindItemlst(locid));
+        }
+        public JsonResult GetPackItemJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindPackItemlst());
         }
         public JsonResult GetPackJSON(string wcid)
         {
@@ -718,6 +767,9 @@ namespace Arasan.Controllers
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindPackNote(wcid));
         }
-        
+        public JsonResult GetEmpJSON()
+        {
+           return Json(BindEmplst());
+        }
     }
 }

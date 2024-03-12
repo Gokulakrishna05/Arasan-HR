@@ -103,7 +103,7 @@
                                         @Html.HiddenFor(C => C.basic, new { @id = "txtbasic" })
                                         @Html.HiddenFor(C => C.toloc, new { @id = "txttoloc" })
                                         @Html.HiddenFor(C => C.tothrs, new { @id = "tothrs" })
-
+                                            @Html.HiddenFor(C => C.Loc, new { @id = "hdLoc" })
                                     </div>
                                 </div>
                             </div>
@@ -289,8 +289,8 @@
                                                                                    
                                                                                     <th>Item Id</th>
                                                                                     <th> Unit </th>
-                                                                                     
-                                                                                    <th> Lot Y/N </th>
+
+                                                                    @*<th> Lot Y/N </th>*@
                                                                                     <th>Consumed.Qty  </th>
                                                                                     <th>Rate  </th>
                                                                                     <th>Amount  </th>
@@ -315,12 +315,12 @@
                                                                             @Html.TextBoxFor(o => o.Matlst[j].unit, new { @id = "txtUnit" + j, @class = "form-control", style = "width: 120px;" ,@readonly="readonly"})
                                                                         </td>
                                                                         
-                                                                         <td>
+                                                                        @* <td>
                                                                           @Html.RadioButtonFor(o => o.Matlst[j].lotyn, "YES", new { @id = "txtlotyn" +j,@TabIndex = 2 })
                                                             <label id="mt-radio">Yes</label>
                                                                             @Html.RadioButtonFor(o => o.Matlst[j].lotyn, "NO", new { @id = "txtlotyn" + j,@TabIndex = 3 })
                                                             <label id="mt-radio">No</label>
-                                                                        </td>
+                                                                </td>*@
                                                                          <td>
                                                                             @Html.TextBoxFor(o => o.Matlst[j].consqty, new { @id = "txtconsqty" + j, @class = "form-control", style = "width: 120px;" , @onkeyup = "changePackConsQty(this," + j + ")"})
                                                                         </td>
@@ -329,6 +329,7 @@
                                                                         </td>
                                                                          <td>
                                                                             @Html.TextBoxFor(o => o.Matlst[j].conamount, new { @id = "txtconamount" + j, @class = "form-control", style = "width: 120px;" ,@readonly="readonly"})
+                                                                                @Html.HiddenFor(o => o.Matlst[j].lotyn, new { @id = "hdlot" + j })
                                                                         </td>
                                                                         <td>
                                                                             @Html.HiddenFor(o => o.Matlst[j].Isvalid, new { @id = "IsInvalid" + j })
@@ -385,10 +386,10 @@
                                                                         <td>
                                                                                 @Html.DropDownListFor(o => o.Emplst[k].empname, Model.Emplst[k].Emplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlEmployee" + k, style = "width: 170px;",onchange = "changeEmployeeItem(this.value," + k + ")" })
                                                                         </td>
-                                                                        <td>@Html.TextBoxFor(o => o.Emplst[k].empcode, new { @id = "txtempcode" +k, @class = "form-control" , style = "width: 100px; "  })</td>
-                                                                        <td>@Html.TextBoxFor(o => o.Emplst[k].department, new { @id = "txtdepartment" + k, @class = "form-control" , style = "width: 120px; "  })</td>
+                                                                        <td>@Html.TextBoxFor(o => o.Emplst[k].empcode, new { @id = "txtempcode" +k, @class = "form-control" , style = "width: 100px; "  , @readonly="ReadOnly"})</td>
+                                                                            <td>@Html.TextBoxFor(o => o.Emplst[k].department, new { @id = "txtdepartment" + k, @class = "form-control" , style = "width: 120px; ", @readonly="ReadOnly"  })</td>
 
-                                                                                                                                               <td>@Html.TextBoxFor(o => o.Emplst[k].empcost, new { @id = "txtempcost" + k, @class = "form-control" , style = "width: 120px; "  })</td>
+                                                                            <td>@Html.TextBoxFor(o => o.Emplst[k].empcost, new { @id = "txtempcost" + k, @class = "form-control" , style = "width: 120px; " , @readonly="ReadOnly" })</td>
 
 
                                                                         <td>
@@ -457,16 +458,16 @@
                                                                                         <td>
 
 
-                                                                            @Html.TextBoxFor(o => o.oconlst[g].value, new { @id = "txtvalue" + g, @class = "form-control", style = "width: 120px;" })
+                                                                            @Html.TextBoxFor(o => o.oconlst[g].value, new { @id = "txtvalue" + g, @class = "form-control", style = "width: 120px;" , @readonly="ReadOnly"})
                                                                                         </td>
                                                                                         <td>
-                                                                                            @Html.TextBoxFor(o => o.oconlst[g].clstk, new { @id = "txtclstk" +g, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                                                            @Html.TextBoxFor(o => o.oconlst[g].clstk, new { @id = "txtclstk" +g, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly="ReadOnly"})
                                                                                         </td>
                                                                                         <td>
                                                                                             @Html.TextBoxFor(o => o.oconlst[g].conqty, new { @id = "txtconqty" + g, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeConsQty(this," + g + ")" })
                                                                                         </td>
                                                                                         <td>
-                                                                                            @Html.TextBoxFor(o => o.oconlst[g].conrate, new { @id = "txtCconrate" +g, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                                                @Html.TextBoxFor(o => o.oconlst[g].conrate, new { @id = "txtCconrate" +g, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly="ReadOnly"})
                                                                                         </td>
                                                                                         <td>
                                                                                             @Html.TextBoxFor(o => o.oconlst[g].conamount, new { @id = "txtCconamount" + g, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly="readonly" })
@@ -778,6 +779,32 @@
                 document.getElementById("txttoloc").value = result.toloc;
                 document.getElementById("tothrs").value = result.tothrs;
                 document.getElementById("txttotalinpamt").value = result.totamt;
+               document.getElementById("hdLoc").value = result.location; 
+                var locid=result.location;
+        var j = 0;
+            $('tr.chkitemlstoth').each(function () {
+            if ($(this).css('display') !== 'none') {
+                     (function (index) {
+        $.ajax({
+            url: "GetItemJSON",
+            type: "post",
+            data: { 'locid': locid },
+            cache: false,
+            success: function (response) {
+                        PopulateDropDowntest("#ddlOItem" + index, response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Item Group");
+            }
+        });
+         })(j);
+                j += 1;
+            }
+
+        });
+
+
             },
             error: function () {
                 alert("Data Not Found");
@@ -871,6 +898,8 @@
             }
         });
 
+
+
     }
      function changePackItemDetail(ItemId, i) {
         $.ajax({
@@ -878,11 +907,9 @@
             data: { "ItemId": ItemId },
             type: "GET",
             success: function (result) {
-
                 document.getElementById("txtUnit" + i).value = result.unit;
-
                 document.getElementById("txtconrate" + i).value = result.price;
-
+                document.getElementById("hdlot" + i).value = result.lot;
             },
             error: function () {
                 alert("Data Not Found");
@@ -890,16 +917,34 @@
         });
     }
      function changeConItemDetail(ItemId, i) {
+         var loc=document.getElementById("hdLoc").value;
         $.ajax({
             url: 'GetConsItemDetail',
-            data: { "ItemId": ItemId },
+                data: { "ItemId": ItemId ,"loc": loc },
             type: "GET",
             success: function (result) {
 
                 document.getElementById("txtOUnit" + i).value = result.unit;
-
+                 document.getElementById("txtclstk" + i).value = result.stk;
                 document.getElementById("txtCconrate" + i).value = result.price;
                 document.getElementById("txtvalue" + i).value = result.val;
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+    function changeEmployeeItem(ItemId, i) {
+        $.ajax({
+            url: 'GetEmployeeDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtempcost" + i).value = result.empcost;
+                document.getElementById("txtdepartment" + i).value = result.dept;
+                document.getElementById("txtempcode" + i).value = result.code;
 
             },
             error: function () {
@@ -1123,7 +1168,20 @@
         }
     }
     
-   function PopulateDropDown(dropDownId, list) {
+   function PopulateDropDowntest(dropDownId, list) {
+      @* alert(dropDownId);
+       alert("hgjfdk");*@
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                @*alert(this['text']);*@
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
+    function PopulateDropDown(dropDownId, list) {
         //alert(list);
         $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
         if (list != null && list.length > 0) {
@@ -1134,7 +1192,6 @@
         }
         $(dropDownId).trigger("liszt:updated");
     }
-
     function removeRow1(id) {
         var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
@@ -1232,11 +1289,50 @@
             alert("Cannot delete all the rows.")
         }
     }
+    
+    function AddoutRow() {
+        var locid=document.getElementById('hdLoc').value
+       var opt = "";
+       $.ajax({
+           type: "POST",
+            url: 'GetItemJSON',
+               data: { 'locid': locid },
+            cache: false,
+          success: function (data) {
+
+               $.each(data, function () {
+                   opt += "<option value=" + this.value + ">" + this.text + "</option>";
+               });
+               AppendoutRow(opt);
+          }
+       })
+   }
+   function AppendoutRow(opt) {
+       var index = $("#tbBooksoth").children("tr").length;
+
+             var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlOItem" + index + "' name='oconlst[" + index + "].item' onchange = 'changeConItemDetail(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+  
+               var Unit = "<td><input class='form-control' id='txtOUnit" + index + "' name='oconlst[" + index + "].unit'  style='width: 120px;' type='text' readonly='True'  /></td>";
+
+ var vmethod = "<td><input class='form-control' id='txtvalue" + index + "' name='oconlst[" + index + "].value'  style='width: 120px;' type='text' readonly='True'  /></td>";
+ var stock = "<td><input class='form-control' id='txtclstk" + index + "' name='oconlst[" + index + "].clstk'  style='width: 120px;' type='text' readonly='True'  /></td>";
+ var qty = "<td><input class='form-control' id='txtconqty" + index + "' name='oconlst[" + index + "].conqty'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)' onkeyup = 'changeConsQty(this," + index + ")'  /></td>";
+ var rate = "<td><input class='form-control' id='txtCconrate" + index + "' name='oconlst[" + index + "].conrate'  style='width: 120px;' type='text' readonly='True'  /></td>";
+ var amt = "<td><input class='form-control' id='txtCconamount" + index + "' name='oconlst[" + index + "].conamount'  style='width: 120px;' type='text' readonly='True'  /></td>";
+
+      var removeCell = "<td><input id='IsOutvalid" + index + "' name='oconlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOutRow(" + index + ");'  style='cursor:pointer' /><input name='oconlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+
+        var newRow = "<tr class='chkitemlstoth'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookout" + index + "'>" + Item + Unit + vmethod +  stock + qty + rate + amt + removeCell + "</tr>";
+       $("#tbBooksoth").append(newRow);
+
+        $('._select').select2();
+   }
    function AddRow() {
        var opt = "";
        $.ajax({
            type: "POST",
-           url: 'GetItemJSON',
+            url: 'GetPackItemJSON',
           success: function (data) {
 
                $.each(data, function () {
@@ -1254,22 +1350,53 @@
 
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Matlst[" + index + "].Unit'  style='width: 120px;' type='text' readonly='True'  /></td>";
-        var lot = "<td><input id='txtlotyn" + index + "' name='Matlst[" + index + "].lotyn'  type='radio' value='YES'> <label id='mt-radio'>Yes</label><input  id='txtlotyn" + index + "' name='Matlst[" + index + "].lotyn'  type = 'radio' value='NO'> <label id='mt-radio'>No</label></td>";
-       var Qty = "<td><input class='form-control' id='txtconsqty" + index + "' name='Matlst[" + index + "].consqty'  style='width: 120px;' type='text'  onkeyup = 'changePackConsQty(this," + index + ")'  /></td>";
+@*        var lot = "<td><input id='txtlotyn" + index + "' name='Matlst[" + index + "].lotyn'  type='radio' value='YES'> <label id='mt-radio'>Yes</label><input  id='txtlotyn" + index + "' name='Matlst[" + index + "].lotyn'  type = 'radio' value='NO'> <label id='mt-radio'>No</label></td>";
+*@       var Qty = "<td><input class='form-control' id='txtconsqty" + index + "' name='Matlst[" + index + "].consqty'  style='width: 120px;' type='text'  onkeyup = 'changePackConsQty(this," + index + ")'  /></td>";
        var Rate = "<td><input class='form-control' id='txtconrate" + index + "' name='Matlst[" + index + "].conrate'  style='width: 120px;' type='text' readonly='True'  /></td>";
 
-        var Amount = "<td><input class='form-control' id='txtconamount" + index + "' name='Matlst[" + index + "].conamount'  style='width: 120px;' type='text' readonly='True'   /></td>";
+        var Amount = "<td><input class='form-control' id='txtconamount" + index + "' name='Matlst[" + index + "].conamount'  style='width: 120px;' type='text' readonly='True'   /><input id='hdlot" + index + "' name='Matlst[" + index + "].lotyn' type='hidden' ></td>";
 
 
 
         var removeCell = "<td><input id='IsInvalid" + index + "' name='Matlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='Matlst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
-        var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + Item + Unit + lot + Qty + Rate + Amount + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + Item + Unit + @*lot + *@ Qty + Rate + Amount + removeCell + "</tr>";
        //alert(Packing);
        $("#tbBooks1").append(newRow);
 
         $('._select').select2();
+    }
+    function AddEmpRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetEmpJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendEmpRow(opt);
+            }
+        })
+    }
+
+    function AppendEmpRow(opt) {
+        var index = $("#tbBooksEmp").children("tr").length;
+        var empname = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlEmployee" + index + "' name='EmpLst[" + index + "].Employee' onchange = 'changeEmployeeItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
+        var code = "<td><input class='form-control'  id='txtempcode" + index + "' name='EmpLst[" + index + "].empcode' style='width: 100px;'   value=''  readonly='True'></td>";
+        var Department = "<td><input class='form-control'  id='txtdepartment" + index + "' name='EmpLst[" + index + "].department' style='width: 120px;'   value=''  readonly='True'></td>";
+        var empcost = "<td><input class='form-control'  id='txtempcost" + index + "' name='EmpLst[" + index + "].empcost' style='width: 120px;'   value=''  readonly='True'></td>";
+
+        var removeCell = "<td><input id='IsEmpvalid" + index + "' name='EmpLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeEmpRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
+        var newRow = "<tr class='chkEmpitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookEmp" + index + "'>" + empname + code + Department + empcost + removeCell + "</tr>";
+        $("#tbBooksEmp").append(newRow);
+
+
+        $(function () {
+            $('._select').select2();
+        });
+
     }
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
