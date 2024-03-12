@@ -42,7 +42,7 @@ namespace Arasan.Models
         public string Shift { get; set; }
         public string Shiftid { get; set; }
         public string user { get; set; }
-       
+        public string Loc { get; set; }
         public List<SelectListItem> Packlst;
         public List<SelectListItem> DrumLoclst;
         public string NoteDate { get; set; }

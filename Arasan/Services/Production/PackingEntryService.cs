@@ -2,6 +2,7 @@
  
 using Arasan.Models;
 using Microsoft.Extensions.Configuration;
+using NuGet.Protocol;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
@@ -53,7 +54,7 @@ order by W.wcid";
         public DataTable GetNoteDetail(string Note)
         {
             string SvSql = string.Empty;
-            SvSql = "Select to_char(PACKNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,to_char(PACKNOTEBASIC.STARTDATE,'dd-MON-yyyy')STARTDATE,to_char(PACKNOTEBASIC.ENDDATE,'dd-MON-yyyy')ENDDATE,STARTTIME,ENDTIME,TOLOCDETAILSID,TOTHRS,PACKNOTEBASIC.OITEMID,PACKNOTEBASIC.WCID as work,PSBASIC.DOCID,WCBASIC.WCID,ITEMMASTER.ITEMID,PACKNOTEBASIC.SHIFT,SHIFTMAST.SHIFTNO,PACKNOTEBASIC.PSCHNO,PACKCONSYN,PACKNOTEBASICID from PACKNOTEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=PACKNOTEBASIC.OITEMID LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKNOTEBASIC.WCID LEFT OUTER JOIN PSBASIC ON PSBASICID=PACKNOTEBASIC.PSCHNO LEFT OUTER JOIN SHIFTMAST ON SHIFTMASTID=PACKNOTEBASIC.SHIFT WHERE PACKNOTEBASICID='" + Note +"'";
+            SvSql = "Select to_char(PACKNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,to_char(PACKNOTEBASIC.STARTDATE,'dd-MON-yyyy')STARTDATE,to_char(PACKNOTEBASIC.ENDDATE,'dd-MON-yyyy')ENDDATE,STARTTIME,ENDTIME,TOLOCDETAILSID,TOTHRS,PACKNOTEBASIC.OITEMID,PACKNOTEBASIC.WCID as work,PSBASIC.DOCID,WCBASIC.WCID,ITEMMASTER.ITEMID,PACKNOTEBASIC.SHIFT,SHIFTMAST.SHIFTNO,PACKNOTEBASIC.PSCHNO,PACKCONSYN,PACKNOTEBASICID,WCBASIC.ILOCATION from PACKNOTEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=PACKNOTEBASIC.OITEMID LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKNOTEBASIC.WCID LEFT OUTER JOIN PSBASIC ON PSBASICID=PACKNOTEBASIC.PSCHNO LEFT OUTER JOIN SHIFTMAST ON SHIFTMASTID=PACKNOTEBASIC.SHIFT WHERE PACKNOTEBASICID='" + Note +"'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -82,10 +83,17 @@ order by W.wcid";
             return dtt;
         }
 
-        public DataTable GetItem()
+        public DataTable GetItem(string locid)
         {
-            string SvSql = string.Empty; 
-            SvSql = "Select ItemMasterID , ItemID, ItemDesc, U.UnitID, ItemMasterID, ItemAcc, ValMethod, LotYN From ItemMaster I, UnitMast U Where I.PriUnit = U.UnitMastID And I.Igroup='PACKING MATERIALS' And I.Subcategory='PACK DRUM' Order By ItemID";
+            string SvSql = string.Empty;
+            string Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            SvSql = @"SELECT I.ITEMMASTERID,I.ITEMID,SUM(DECODE(s.PLUSORMINUS,'p',s.QTY,-s.QTY)) qty,I.VALMETHOD ,I.ITEMACC ,U.UNITID
+FROM Stockvalue S,Itemmaster I,UnitMast U WHERE s.ITEMID=i.ITEMMASTERID AND S.DOCDATE<='" + Docdate + "' ";
+            SvSql += @" AND I.IGROUP IN ('PACKING MATERIALS') And S.LOCID='"+ locid + "' And U.Unitmastid=I.PRIUNIT ";
+ SvSql += @" And I.Sncategory='PACKING CONSUMABLES'
+GROUP BY I.ITEMMASTERID,I.ITEMID,I.VALMETHOD,I.ITEMACC,U.UNITID  
+Having SUM(DECODE(s.PLUSORMINUS,'p',s.QTY,-s.QTY))>0
+Order by 2";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -517,7 +525,7 @@ order by W.wcid";
         public DataTable GetPacking(string Note)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHMAST.BRANCHID,to_char(PACKBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PACKBASIC.DOCID,WCBASIC.WCID,PACKBASIC.WCBASICID,to_char(PACKBASIC.PNDATE,'dd-MON-yyyy')PNDATE,PSBASIC.DOCID as prod,PACKBASIC.PSCHNO,SHIFTMAST.SHIFTNO,ITEMMASTER.ITEMID,to_char(PACKBASIC.STARTDATE,'dd-MON-yyyy')STARTDATE,to_char(PACKBASIC.ENDDATE,'dd-MON-yyyy')ENDDATE,PACKBASIC.STARTTIME, PACKBASIC.ENDTIME,PACKBASIC.LOCDETAILSID,PACKBASIC.TOTISSQTY,PACKBASIC.ISSRATE,PACKBASIC.ISSAMT,PACKBASIC.TOTOPQTY,PACKBASIC.OPRATE,PACKBASIC.OPAMOUNT,PACKNOTEBASIC.DOCID as packnote,PACKINGNOTE,PACKBASIC.ENTEREDBY,PACKBASIC.REMARKS,PACKBASIC.TOTALCAMOUNT,PACKBASIC.PSBASICID,PACKBASIC.TOTALIAMOUNT,PACKBASIC.PACKCONSYN,PACKBASIC.TOLOCDETAILSID,PACKBASIC.TOTHRS from PACKBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=PACKBASIC.OITEMID LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKBASIC.WCID LEFT OUTER JOIN PSBASIC ON PSBASIC.PSBASICID=PACKBASIC.PSCHNO LEFT OUTER JOIN SHIFTMAST ON SHIFTMASTID=PACKBASIC.SHIFT LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PACKBASIC.BRANCH LEFT OUTER JOIN PACKNOTEBASIC ON PACKNOTEBASICID=PACKBASIC.PACKINGNOTE\r\n WHERE PACKBASICID='" + Note + "'";
+            SvSql = "Select BRANCHMAST.BRANCHID,to_char(PACKBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PACKBASIC.DOCID,WCBASIC.WCID,PACKBASIC.WCBASICID,to_char(PACKBASIC.PNDATE,'dd-MON-yyyy')PNDATE,PSBASIC.DOCID as prod,PACKBASIC.PSCHNO,SHIFTMAST.SHIFTNO,ITEMMASTER.ITEMID,to_char(PACKBASIC.STARTDATE,'dd-MON-yyyy')STARTDATE,to_char(PACKBASIC.ENDDATE,'dd-MON-yyyy')ENDDATE,PACKBASIC.STARTTIME, PACKBASIC.ENDTIME,PACKBASIC.LOCDETAILSID,PACKBASIC.TOTISSQTY,PACKBASIC.ISSRATE,PACKBASIC.ISSAMT,PACKBASIC.TOTOPQTY,PACKBASIC.OPRATE,PACKBASIC.OPAMOUNT,PACKNOTEBASIC.DOCID as packnote,PACKINGNOTE,PACKBASIC.ENTEREDBY,PACKBASIC.REMARKS,PACKBASIC.TOTALCAMOUNT,PACKBASIC.PSBASICID,PACKBASIC.TOTALIAMOUNT,PACKBASIC.PACKCONSYN,PACKBASIC.TOLOCDETAILSID,PACKBASIC.TOTHRS from PACKBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=PACKBASIC.OITEMID LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKBASIC.WCID LEFT OUTER JOIN PSBASIC ON PSBASIC.PSBASICID=PACKBASIC.PSCHNO LEFT OUTER JOIN SHIFTMAST ON SHIFTMASTID=PACKBASIC.SHIFT LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PACKBASIC.BRANCH LEFT OUTER JOIN PACKNOTEBASIC ON PACKNOTEBASICID=PACKBASIC.PACKINGNOTE WHERE PACKBASICID='" + Note + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -534,10 +542,35 @@ order by W.wcid";
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetEmployeeDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select EMPID,EMPNAME,EMPMASTID,EMPDEPT, DDBASIC.DEPTNAME,EMPCOST,OTPERHR from EMPMAST LEFT OUTER JOIN DDBASIC ON DDBASICID=EMPMAST.EMPDEPT where EMPMASTID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetPackMat(string Note)
         {
             string SvSql = string.Empty;
             SvSql = "  Select PACKBASICID,ITEMMASTER.ITEMID,CUNIT,PACKCONSDETAIL.LOTYN,SUBQTY,CONSQTY,CONSRATE,CONSAMOUNT from PACKCONSDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=PACKCONSDETAIL.CITEMID  WHERE PACKBASICID='" + Note + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPackItem()
+        {
+            string SvSql = string.Empty;
+            SvSql = @" Select ItemMasterID , ItemID, ItemDesc, U.UnitID, ItemMasterID, ItemAcc, ValMethod, LotYN
+From ItemMaster I, UnitMast U
+Where I.PriUnit = U.UnitMastID
+And I.Igroup='PACKING MATERIALS'
+And I.Subcategory='PACK DRUM'
+Order By ItemID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
