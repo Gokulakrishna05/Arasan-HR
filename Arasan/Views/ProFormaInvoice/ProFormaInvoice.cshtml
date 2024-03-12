@@ -38,7 +38,7 @@
                             @Html.AntiForgeryToken()
                     <form>
                         <div class="row">
-                            <div class="col-md-6">
+                            @*<div class="col-md-6">
                                 <div class="form-group">
 
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
@@ -47,7 +47,7 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -92,6 +92,7 @@
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.RefNo, new { @id = "txtRefNo", @class = "form-control", @TabIndex = 1  })
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Branch)
                                     </div>
                                 </div>
                             </div>

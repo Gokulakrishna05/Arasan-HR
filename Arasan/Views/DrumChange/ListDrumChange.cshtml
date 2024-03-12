@@ -1,7 +1,7 @@
-﻿@model Arasan.Models.PackingNote
+﻿@model Arasan.Models.DrumChange
 
 @{
-    ViewData["Title"] = "Packing Note";
+    ViewData["Title"] = "Drum Change/UnPacking";
     string strfrom = ViewContext.HttpContext.Request.Query["strfrom"];
     string strTo = ViewContext.HttpContext.Request.Query["strTo"];
 }
@@ -28,7 +28,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Production</a> </li>
-            <li class="active"> <strong>Packing Note</strong> </li>
+            <li class="active"> <strong>Drum Change/UnPacking</strong> </li>
         </ol>
     </div>
 </div>
@@ -37,7 +37,7 @@
     $(document).ready(function () {
         var source =
         {
-            url: "/PackingNote/MyListPackinggrid",
+            url: "/DrumChange/MyListdrumchangegrid",
             data: {
                 strfrom: "@strfrom ",
                 strTo: "@strTo",
@@ -51,8 +51,9 @@
                 { name: 'doc', type: 'string' },
                 { name: 'date', type: 'string' },
                 { name: 'loc', type: 'string' },
-                { name: 'work', type: 'string' },
+             
                 { name: 'item', type: 'string' },
+                { name: 'type', type: 'string' },
                 { name: 'viewrow', type: 'string' },
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
@@ -87,9 +88,9 @@
                 columns: [
                     { text: 'Doc No', filtertype: 'input', datafield: 'doc', width: 150 },
                     { text: 'DocDate', filtertype: 'input', datafield: 'date', width: 150 },
-                    { text: 'Drum Location', filtertype: 'input', datafield: 'loc', width: 150 },
-                    { text: 'Work Centre', filtertype: 'checkedlist', datafield: 'work', width: 200 },
-                    { text: 'Item', filtertype: 'checkedlist', datafield: 'item', width: 200, align: 'center' },
+                    { text: 'Type', filtertype: 'input', datafield: 'type', width: 150 },
+                    { text: 'Location', filtertype: 'input', datafield: 'loc', width: 150 },
+                     { text: 'Item', filtertype: 'checkedlist', datafield: 'item', width: 200, align: 'center' },
                     { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
@@ -156,7 +157,7 @@
 
                             <div class="col-md-9 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("PackingNote", "PackingNote")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add PackingNote</a>
+                                    <a href="@Url.Action("DrumChange", "DrumChange")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Drum Change/UnPacking</a>
                                     <br>
                                 </div>
 
@@ -190,7 +191,7 @@
         var dtto = document.getElementById("SEnd").value;
         //var strsech = document.getElementById("txtprosearch").value;
 
-        var url = 'ListPackingNote?strfrom=' + dtfrom + '&strTo=' + dtto;
+        var url = 'ListDrumChange?strfrom=' + dtfrom + '&strTo=' + dtto;
         window.location.href = url;
 
         //source.data = {
