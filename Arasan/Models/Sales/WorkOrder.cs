@@ -128,6 +128,7 @@ namespace Arasan.Models
         public string clo { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
+        public string drum { get; set; }
     }
     public class ListWDrumAllocationItems
     {
@@ -141,14 +142,14 @@ namespace Arasan.Models
     }
     public class ListWDrumAlloItems
     {
-        public long id { get; set; }
+        public string id { get; set; }
         //public string branch { get; set; }
         public string jobid { get; set; }
         public string location { get; set; }
-        public string Customername { get; set; }
+        public string customername { get; set; }
         public string docid { get; set; }
         public string docdate { get; set; }
         public string view { get; set; }
-        public string approve { get; set; }
+        public string deactive { get; set; }
     }
 }

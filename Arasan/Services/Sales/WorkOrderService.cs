@@ -134,7 +134,7 @@ namespace Arasan.Services.Sales
 					objCmd.Parameters.Add("ORDTYPE", OracleDbType.NVarchar2).Value = cy.OrderType;
 					objCmd.Parameters.Add("RATETYPE", OracleDbType.NVarchar2).Value = cy.RateType;
 					objCmd.Parameters.Add("RATECODE", OracleDbType.NVarchar2).Value = cy.RateCode;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value ="ACTIVE";
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value ="Active";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 					objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 					try
@@ -260,8 +260,10 @@ namespace Arasan.Services.Sales
                            
                         }
                     }
-
-                            objConn.Close();
+                    string allocate = "Update JOBASIC SET  IS_ALLOCATE='Y' WHERE JOBASICID='" + cy.JOId + "'";
+                    OracleCommand objCmdssa = new OracleCommand(allocate, objConn);
+                    objCmdssa.ExecuteNonQuery();
+                    objConn.Close();
                 }
             }
             catch (Exception ex)
@@ -428,16 +430,47 @@ namespace Arasan.Services.Sales
             }
             return "";
         }
+        public string StatusStockRelease(string id,string jid,string bid)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    objConnT.Open();
+                    svSQL = "UPDATE PLSTOCKVALUE SET IS_LOCK ='' WHERE PLSTOCKVALUEID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    
+                    objCmds.ExecuteNonQuery();
+                    svSQL = "UPDATE JOBASIC SET IS_ALLOCATE ='N' WHERE JOBASICID='" + jid + "'";
+                    objCmds = new OracleCommand(svSQL, objConnT);
+
+                    objCmds.ExecuteNonQuery();
+                    svSQL = "UPDATE JODRUMALLOCATIONBASIC  SET IS_ALLOCATE ='N' WHERE JODRUMALLOCATIONBASICID='" + jid + "'";
+                    objCmds = new OracleCommand(svSQL, objConnT);
+
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+        }
         public DataTable GetAllListWorkOrderItems(string strStatus)
         {
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID WHERE JOBASIC.IS_ACTIVE='Y' ORDER BY JOBASIC.JOBASICID DESC";
+                SvSql = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS,JOBASIC.IS_ALLOCATE from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID WHERE JOBASIC.IS_ACTIVE='Y' AND STATUS='Active' ORDER BY JOBASIC.JOBASICID DESC";
             }
             else
             {
-                SvSql = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID WHERE JOBASIC.IS_ACTIVE='N' ORDER BY JOBASIC.JOBASICID DESC";
+                SvSql = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS,JOBASIC.IS_ALLOCATE from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID WHERE JOBASIC.IS_ACTIVE='N' AND STATUS='Active' ORDER BY JOBASIC.JOBASICID DESC";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -459,7 +492,7 @@ namespace Arasan.Services.Sales
         public DataTable GetAllListWDrumAlloItems()
         {
             string SvSql = string.Empty;
-            SvSql = "Select jodrumallocationbasic.DOCID,to_char(jodrumallocationbasic.DOCDATE,'dd-MON-yyyy')DOCDATE,jobasic.DOCID as jobid,PARTYMAST.PARTYNAME ,LOCDETAILS.LOCID,JODRUMALLOCATIONBASICID from jodrumallocationbasic  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=jodrumallocationbasic.LOCID  LEFT OUTER JOIN  PARTYMAST on jodrumallocationbasic.CUSTOMERID=PARTYMAST.PARTYMASTID left outer join jobasic on jobasic.jobasicid= jodrumallocationbasic.JOPID";
+            SvSql = "Select jodrumallocationbasic.DOCID,to_char(jodrumallocationbasic.DOCDATE,'dd-MON-yyyy')DOCDATE,jobasic.DOCID as jobid,PARTYMAST.PARTYNAME ,LOCDETAILS.LOCID,JODRUMALLOCATIONBASICID,JODRUMALLOCATIONBASIC.IS_ALLOCATE from jodrumallocationbasic  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=jodrumallocationbasic.LOCID  LEFT OUTER JOIN  PARTYMAST on jodrumallocationbasic.CUSTOMERID=PARTYMAST.PARTYMASTID left outer join jobasic on jobasic.jobasicid= jodrumallocationbasic.JOPID WHERE jodrumallocationbasic.IS_ALLOCATE ='Y' ORDER BY jodrumallocationbasicid DESC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

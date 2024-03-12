@@ -163,8 +163,8 @@
                                                             <th>Item ID</th>
                                                             <th> Unit </th>
                                                             <th>  Ord.Qty </th>
-                                                            <th> Pend.Qty </th>
-                                                            <th> Short Cl.Qty </th>
+                                                            @*<th> Pend.Qty </th>
+                                                            <th> Short Cl.Qty </th>*@
                                                             <th> Rate </th>
 
                                                         </tr>
@@ -189,12 +189,12 @@
                                                         <td>
                                                                 @Html.TextBoxFor(o => o.Closelst[i].orderqty, new { @id = "txtorderqty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)",ReadOnly="readonly",value="item.orderqty"})
                                                         </td>
-                                                        <td>
+                                                       @* <td>
                                                                 @Html.TextBoxFor(o => o.Closelst[i].PendQty, new { @id = "txtPendQty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)",value="item.PendQty",onkeyup = "changeQty(this.value," + i + ")"})
                                                         </td>
                                                         <td>
                                                                 @Html.TextBoxFor(o => o.Closelst[i].clQty, new { @id = "txtclQty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)",value="item.clQty"})
-                                                        </td>
+                                                        </td>*@
                                                         <td>
                                                                 @Html.TextBoxFor(o => o.Closelst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 130px;",onkeydown = "return isNumeric2(event.keyCode,this.value)",value="item.rate"})
                                                         </td>
@@ -219,7 +219,7 @@
 
 
                         <div style="height:30px;"></div>
-                        <div class="row">
+                       @* <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
 
@@ -230,7 +230,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div>*@
                             <div style="height:30px;"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListWorkOrder", "WorkOrder")'">Cancel</button>
