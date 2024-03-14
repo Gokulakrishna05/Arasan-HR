@@ -5,25 +5,28 @@ using Arasan.Interface;
 using Arasan.Interface.Sales;
 using Arasan.Models;
 using Arasan.Services.Sales;
+using AspNetCore.Reporting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 
-namespace Arasan.Controllers.Sales
+namespace Arasan.Controllers 
 {
     public class WorkOrderController : Controller
     {
         IWorkOrderService WorkOrderService;
         IConfiguration? _configuratio;
         private string? _connectionString;
-
+        private readonly IWebHostEnvironment _WebHostEnvironment;
         DataTransactions datatrans;
 
-        public WorkOrderController(IWorkOrderService _WorkOrderService, IConfiguration _configuratio)
+        public WorkOrderController(IWorkOrderService _WorkOrderService, IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
         {
             WorkOrderService = _WorkOrderService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
+            this._WebHostEnvironment = WebHostEnvironment;
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
         public IActionResult WorkOrder(string id)
         {
@@ -174,6 +177,7 @@ namespace Arasan.Controllers.Sales
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
                 string Drum = string.Empty;
+                string report = string.Empty;
 
                 Close = "<a href=/WorkOrderShortClose/WorkOrderShortClose?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/close_icon.png' alt='close' /></a>";
                 if(dtUsers.Rows[i]["IS_ALLOCATE"].ToString()=="Y")
@@ -189,6 +193,8 @@ namespace Arasan.Controllers.Sales
                     DeleteRow = "<a href=DeleteMR?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 }
+              
+                report = "<a href=Print?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
 
 
 
@@ -205,6 +211,7 @@ namespace Arasan.Controllers.Sales
                     editrow = EditRow,
                     delrow = DeleteRow,
                     drum = Drum,
+                    report = report,
 
 
 
@@ -486,7 +493,7 @@ namespace Arasan.Controllers.Sales
 
                 string View = string.Empty;
                 string deactive = string.Empty;
-
+               
                 View = "<a href=/WorkOrder/ViewDrumAllocation?id=" + dtUsers.Rows[i]["JODRUMALLOCATIONBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe' ><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 deactive = "<a href=StockRelease?id=" + dtUsers.Rows[i]["JODRUMALLOCATIONBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
@@ -502,7 +509,7 @@ namespace Arasan.Controllers.Sales
                     docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     view = View,
                     deactive = deactive,
-
+                    
 
 
                 });
@@ -685,6 +692,27 @@ namespace Arasan.Controllers.Sales
             return Json(model.Worklst);
 
         }
-       
+        public async Task<IActionResult> Print(string id)
+        {
+
+            string mimtype = "";
+            int extension = 1;
+            //string DrumID = datatrans.GetDataString("Select PARTYID from POBASIC where POBASICID='" + id + "' ");
+
+            System.Data.DataSet ds = new System.Data.DataSet();
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\WorkOrder.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+            //  Parameters.Add("rp1", " Hi Everyone");
+           // var Poitem = await PoService.GetPOItem(id, DrumID);
+
+            AspNetCore.Reporting.LocalReport localReport = new AspNetCore.Reporting.LocalReport(path);
+           // localReport.AddDataSource("DataSet1", Poitem);
+            //localReport.AddDataSource("DataSet1_DataTable1", po);
+
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+
+            return File(result.MainStream, "application/Pdf");
+           
+        }
     }
 }
