@@ -78,7 +78,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.8" />
     <PackageReference Include="NEST" Version="7.17.5" />
     <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
-    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.100" />
+    <PackageReference Include="Oracle.ManagedDataAccess" Version="21.13.0" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.130" />
     <PackageReference Include="PdfSharp" Version="1.50.5147" />
     <PackageReference Include="System.CodeDom" Version="7.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
@@ -135,6 +136,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DataSet9.xsd</DependentUpon>
     </Compile>
+    <Compile Update="JOBasic.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JOBasic.xsd</DependentUpon>
+    </Compile>
     <Compile Update="Pyro.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -174,6 +180,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SubMatDet.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="workdetail.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>workdetail.xsd</DependentUpon>
     </Compile> 
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +198,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\Reports\SQuotationReport.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Reports\WorkOrder.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -232,6 +246,10 @@
        <Generator>MSDataSetGenerator</Generator>
        <LastGenOutput>DataSet9.Designer.cs</LastGenOutput>
      </None>
+     <None Update="JOBasic.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>JOBasic.Designer.cs</LastGenOutput>
+     </None>
      <None Update="Pyro.xsd">
        <Generator>MSDataSetGenerator</Generator>
        <LastGenOutput>Pyro.Designer.cs</LastGenOutput>
@@ -263,6 +281,10 @@
      <None Update="SubMatDet.xsd">
        <Generator>MSDataSetGenerator</Generator>
        <LastGenOutput>SubMatDet.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="workdetail.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>workdetail.Designer.cs</LastGenOutput>
      </None>
    </ItemGroup>
 

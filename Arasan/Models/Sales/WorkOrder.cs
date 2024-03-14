@@ -129,6 +129,7 @@ namespace Arasan.Models
         public string editrow { get; set; }
         public string delrow { get; set; }
         public string drum { get; set; }
+        public string report { get; set; }
     }
     public class ListWDrumAllocationItems
     {
@@ -151,5 +152,6 @@ namespace Arasan.Models
         public string docdate { get; set; }
         public string view { get; set; }
         public string deactive { get; set; }
+         
     }
 }

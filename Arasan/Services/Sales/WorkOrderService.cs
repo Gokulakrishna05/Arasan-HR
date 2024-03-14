@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
-namespace Arasan.Services.Sales
+namespace Arasan.Services 
 {
     public class WorkOrderService : IWorkOrderService
     {
