@@ -40,5 +40,35 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetAllStockReconcilationDeatils(string strStatus, string strfrom, string strTo)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select  DOCID, to_char(DSADDBASIC.DOCDATE,'dd-MM-yyyy')DOCDATE ,DSADDBASICID,REASON,LOCDETAILS.LOCID   from DSADDBASIC   LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DSADDBASIC.LOCID   WHERE DSADDBASIC.IS_ACTIVE='Y' ORDER BY  DSADDBASICID DESC";
+            }
+            else
+            {
+                SvSql = "Select  DOCID, to_char(DSADDBASIC.DOCDATE,'dd-MM-yyyy')DOCDATE ,DSADDBASICID,REASON,LOCDETAILS.LOCID   from DSADDBASIC   LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DSADDBASIC.LOCID   WHERE DSADDBASIC.IS_ACTIVE='N' ORDER BY  DSADDBASICID DESC";
+
+            }
+            if (strfrom == null && strTo == null)
+            {
+                SvSql = "Select  DOCID, to_char(DSADDBASIC.DOCDATE,'dd-MM-yyyy')DOCDATE ,DSADDBASICID,REASON,LOCDETAILS.LOCID   from DSADDBASIC   LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DSADDBASIC.LOCID   WHERE DSADDBASIC.IS_ACTIVE='Y' ORDER BY  DSADDBASICID DESC";
+            }
+            else
+            {
+                SvSql = "Select  DOCID, to_char(DSADDBASIC.DOCDATE,'dd-MM-yyyy')DOCDATE ,DSADDBASICID,REASON,LOCDETAILS.LOCID   from DSADDBASIC   LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DSADDBASIC.LOCID   WHERE DSADDBASIC.IS_ACTIVE='Y' ORDER BY  DSADDBASICID DESC";
+                if (strfrom != null && strTo != null)
+                {
+                    SvSql += " WHERE DSADDBASIC.DOCDATE BETWEEN '" + strfrom + "' AND '" + strTo + "'";
+                }
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
