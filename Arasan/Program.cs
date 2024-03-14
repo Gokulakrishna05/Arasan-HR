@@ -227,6 +227,7 @@ internal class Program
         builder.Services.TryAddSingleton<IBatchReportService, BatchReportService>();
         builder.Services.TryAddSingleton<IDrumChange, DrumChangeService>();
         builder.Services.TryAddSingleton<IStockReconcilation, StockReconcilationService>();
+        builder.Services.TryAddSingleton<IMaterialSplit, MaterialSplitService>();
 
 
 

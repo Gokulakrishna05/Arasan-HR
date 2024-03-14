@@ -102,11 +102,11 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public JsonResult GetItemJSON(string itemid)
+        public JsonResult GetItemJSON(string loc)
         {
             //BatchItem model = new BatchItem();
             //model.Processidlst = BindProcessid(itemid);
-            return Json(BindItem(itemid));
+            return Json(BindItem(loc));
 
         }
         public JsonResult GetDrumJSON(string itemid, string loc)
@@ -154,6 +154,49 @@ namespace Arasan.Controllers
 
             var result = new { batch = batch, stock = stock };
             return Json(result);
+
+        }
+        public IActionResult ListStockReconcilation()
+        {
+            return View();
+        }
+        public ActionResult MyListStockReconcilationgrid(string strStatus, string strfrom, string strTo)
+        {
+            List<PackingListItem> Reg = new List<PackingListItem>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = stock.GetAllStockReconcilationDeatils(strStatus, strfrom, strTo);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string View = string.Empty;
+                string Edit = string.Empty;
+
+                View = "<a href=ApprovePacking?id=" + dtUsers.Rows[i]["DSADDBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View' /></a>";
+                Edit = "<a href=PackingNote?id=" + dtUsers.Rows[i]["DSADDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["DSADDBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate'  /></a>";
+
+                Reg.Add(new PackingListItem
+                {
+                    id = dtUsers.Rows[i]["DSADDBASICID"].ToString(),
+                    doc = dtUsers.Rows[i]["DOCID"].ToString(),
+                    date = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    loc = dtUsers.Rows[i]["LOCID"].ToString(),
+                    type = dtUsers.Rows[i]["REASON"].ToString(),
+
+                    
+                    viewrow = View,
+                    editrow = Edit,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
 
         }
     }
