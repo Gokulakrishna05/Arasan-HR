@@ -940,7 +940,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>= Rownumber(Nothing)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>times New Roman</FontFamily>
                               </Style>
@@ -962,7 +962,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -1377,7 +1376,7 @@
         <DataSetName>DataSet1</DataSetName>
         <Top>3.60313cm</Top>
         <Height>1.77354cm</Height>
-        <Width>16.94873cm</Width>
+        <Width>16.94874cm</Width>
         <ZIndex>5</ZIndex>
         <Style>
           <Border>
