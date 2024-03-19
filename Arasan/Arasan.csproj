@@ -135,6 +135,21 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DataSet9.xsd</DependentUpon>
     </Compile>
+    <Compile Update="JOBASIC.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JOBASIC.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="JobDetail.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JobDetail.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="JobOrder.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JobOrder.xsd</DependentUpon>
+    </Compile>
     <Compile Update="Pyro.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -177,6 +192,9 @@
     </Compile> 
   </ItemGroup>
   <ItemGroup>
+    <Content Update="wwwroot\Reports\JobOrder.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\Reports\Production.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -231,6 +249,18 @@
      <None Update="DataSet9.xsd">
        <Generator>MSDataSetGenerator</Generator>
        <LastGenOutput>DataSet9.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="JOBASIC.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>JOBASIC.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="JobDetail.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>JobDetail.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="JobOrder.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>JobOrder.Designer.cs</LastGenOutput>
      </None>
      <None Update="Pyro.xsd">
        <Generator>MSDataSetGenerator</Generator>
