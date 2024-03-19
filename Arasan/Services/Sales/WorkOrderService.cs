@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
+using Dapper;
+
 namespace Arasan.Services.Sales
 {
     public class WorkOrderService : IWorkOrderService
@@ -62,10 +64,10 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetTax()
+        public DataTable GetTax(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select TAX,PERCENTAGE,TAXMASTID from TAXMAST ";
+            SvSql = "select TARIFFMASTER.TARIFFID from HSNROW LEFT OUTER JOIN TARIFFMASTER ON TARIFFMASTERID=HSNROW.TARIFFID WHERE HSNCODEID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -158,7 +160,7 @@ namespace Arasan.Services.Sales
 
                                     if (cp.Isvalid == "Y" && cp.itemid != "0")
                                     {
-                                        svSQL = "Insert into JODETAIL (JOBASICID,QTY,MATSUPP,ITEMID,DCQTY,RATE,AMOUNT,UNIT,ITEMSPEC,PACKSPEC,DISCOUNT,FREIGHTAMT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,FREIGHT,TAXTYPE) VALUES ('" + Pid + "','" + cp.orderqty + "','" + cp.matsupply + "','" + cp.itemid + "','" + cp.disqty + "','" + cp.rate + "','" + cp.amount + "','" + UnitId + "','" + cp.itemspec + "','" + cp.packind + "','" + cp.discount + "','" + cp.freightamt + "','" + cp.qtydis + "','" + cp.cashdis + "','" + cp.introdis + "','" + cp.tradedis + "','" + cp.additiondis + "','" + cp.spldis + "','" + cp.freight + "','" + cp.taxtype + "')";
+                                        svSQL = "Insert into JODETAIL (JOBASICID,QTY,MATSUPP,ITEMID,DCQTY,RATE,AMOUNT,UNIT,ITEMSPEC,PACKSPEC,DISCOUNT,FREIGHTAMT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,FREIGHT,TAXTYPE) VALUES ('" + Pid + "','" + cp.orderqty + "','OWN','" + cp.itemid + "','" + cp.disqty + "','" + cp.rate + "','" + cp.amount + "','" + UnitId + "','" + cp.itemspec + "','" + cp.packind + "','" + cp.discount + "','" + cp.freightamt + "','" + cp.qtydis + "','" + cp.cashdis + "','" + cp.introdis + "','" + cp.tradedis + "','" + cp.additiondis + "','" + cp.spldis + "','" + cp.freight + "','" + cp.taxtype + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                     }
@@ -338,7 +340,28 @@ namespace Arasan.Services.Sales
         public DataTable GetLocation(string id)
         {
             string SvSql = string.Empty;
-            SvSql = " select locdetails.LOCID ,EMPLOYEELOCATION.LOCID loc from EMPLOYEELOCATION  left outer join locdetails on locdetails.locdetailsid=EMPLOYEELOCATION.LOCID where EMPID='" + id + "' ";
+           // SvSql = " select locdetails.LOCID ,EMPLOYEELOCATION.LOCID loc from EMPLOYEELOCATION  left outer join locdetails on locdetails.locdetailsid=EMPLOYEELOCATION.LOCID where EMPID='" + id + "' ";
+            SvSql = " select LOCID,LOCDETAILSID as loc  from LOCDETAILS";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select I.ITEMID,L.ITEMID as item from  PLOTMAST LT,ITEMMASTER I,PLSTOCKVALUE L    where LT.LOTNO=L.LOTNO AND I.ITEMMASTERID =L.ITEMID AND  L.LOCID= '" + id + "' and LT.INSFLAG='1' HAVING SUM(L.PLUSQTY-L.MINUSQTY) > 0 GROUP BY I.ITEMID,L.ITEMID";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetParty( )
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PARTYNAME,PARTYMASTID from PARTYMAST where TYPE IN('Customer','BOTH') ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -498,6 +521,20 @@ namespace Arasan.Services.Sales
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+        public async Task<IEnumerable<OrderItemDetail>> GetOrderItem(string id )
+        {
+            using (OracleConnection db = new OracleConnection(_connectionString))
+            {
+                return await db.QueryAsync<OrderItemDetail>(" SELECT JOBASICID , DOCID, to_char(JOBASIC.DOCDATE,'dd-MM-yyyy')DOCDATE, JOBASIC.PARTYNAME, JOBASIC.PARTYID, TRANSID, SENDSMS, ADOCID, ADOCDATE, ORDERNO, ORDERBASICID, REFNO, BRANCHID, TEMPID, MAINCURRENCY, SYMBOL, EXRATE, SALESREP, USERID,    ASSIGNTO, RECDBY, FOLLOWDT , FOLLOWUPTIME, PARENTACTIVITYID, ORGANISERID, PARENTJOBSID, ACTIVITYDONE, ORDTYPE, NARRATION, DESPTHROUGH, TEST, TEBY, TABY, ENTEREDBY, APPROVEDBY, APPROVEDYN, ODAMOUNT, OSAMOUNT, TRANSAMOUNT, CRLIMIT, BALAMOUNT, AITEMSPEC, RATETYPE, LOCID , JOBASIC.ADD1||''||JOBASIC.ADD2||''||JOBASIC.ADD3||''||JOBASIC.CITY||'-'||JOBASIC.PINCODE as ADDRESS , NET, LIMITQ, SEPDISC, BSGST, BCGST, BIGST, BDISC, GROSS,PARTYMAST.GSTNO,PARTYMAST.STATE FROM TAAIERP.JOBASIC INNER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = JOBASIC.PARTYID where JOBASIC.JOBASICID='" + id + "'", commandType: CommandType.Text);
+            }
+        }
+        public async Task<IEnumerable<OrderDetail>> GetOrderItemDetail(string id)
+        {
+            using (OracleConnection db = new OracleConnection(_connectionString))
+            {
+                return await db.QueryAsync<OrderDetail>(" SELECT JODETAILID, JODETAIL.JOBASICID, QTY, DUEDATE, MATSUPP, ITEMMASTER.ITEMID, DCQTY, RATE, EXCISEQTY, PRECLQTY, MRPQTY, MRPID, BLOCKQTY, PARTYCTRL, POQTY, PEQTY, REWORKQTY, REJQTY, AMOUNT, INVQTY, JODETAILROW, UNIT, ITEMSPEC, PACKSPEC, DISCOUNT, FREIGHTAMT, QDISC, CDISC, IDISC, TDISC, ADISC, SDISC, FREIGHT, BED, TAXTYPE, TOSUBGRID, SUBQTY, TCSCTRL, ORDQTY, ACCESSAMT, SPRATE, ORDCLBY, ORDCLON, ETARIFFID, SGSTP, CGSTP, IGSTP, SGST, CGST, IGST, HSNGP,JOSCHEDULE.SCHNO,to_char(JOSCHEDULE.SCHDATE,'dd-MM-yyyy')SCHDATE FROM  JODETAIL  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=JODETAIL.ITEMID INNER JOIN JOSCHEDULE ON JOSCHEDULE.PARENTRECORDID = JODETAIL.JODETAILID where JODETAIL.JOBASICID='" + id + "' AND JOSCHEDULE.JOBASICID='" + id + "'", commandType: CommandType.Text);
+            }
         }
     }
 }

@@ -49,6 +49,7 @@
                 { name: 'editrow', type: 'string' },
                 { name: 'drum', type: 'string' },
                 { name: 'delrow', type: 'string' },
+                { name: 'recept', type: 'string' },
 
             ],
             id: 'id',
@@ -87,6 +88,7 @@
                     { text: 'Doc Date', datafield: 'date', width: 120, align: 'center' },
                     { text: 'Party Name', filtertype: 'checkedlist', datafield: 'customer', width: 210 },
                     { text: 'Location Name', filtertype: 'checkedlist', datafield: 'loc', width: 210 },
+                    { text: 'Report', datafield: 'recept', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 90 },
                     { text: 'Short Close', datafield: 'clo', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 90 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Drum Allocate', datafield: 'drum', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
@@ -122,7 +124,7 @@
                             </div>
                             <div class="col-md-9 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("WorkOrder", "WorkOrder")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add WorkOrder</a>
+                                    <a href="@Url.Action("DirectWorkOrder", "WorkOrder")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add WorkOrder</a>
                                     <br>
                                 </div>
 

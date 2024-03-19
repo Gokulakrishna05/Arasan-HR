@@ -5,6 +5,7 @@ using Arasan.Interface;
 using Arasan.Interface.Sales;
 using Arasan.Models;
 using Arasan.Services.Sales;
+using AspNetCore.Reporting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -16,14 +17,16 @@ namespace Arasan.Controllers.Sales
         IWorkOrderService WorkOrderService;
         IConfiguration? _configuratio;
         private string? _connectionString;
-
+        private readonly IWebHostEnvironment _WebHostEnvironment;
         DataTransactions datatrans;
 
-        public WorkOrderController(IWorkOrderService _WorkOrderService, IConfiguration _configuratio)
+        public WorkOrderController(IWorkOrderService _WorkOrderService, IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
         {
+            this._WebHostEnvironment = WebHostEnvironment;
             WorkOrderService = _WorkOrderService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
         public IActionResult WorkOrder(string id)
         {
@@ -48,7 +51,7 @@ namespace Arasan.Controllers.Sales
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new WorkItem();
-                    tda.taxlst = BindTax();
+                    tda.taxlst = BindTax("");
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -174,6 +177,9 @@ namespace Arasan.Controllers.Sales
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
                 string Drum = string.Empty;
+                string recept = string.Empty;
+
+                recept = "<a href=Print?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
 
                 Close = "<a href=/WorkOrderShortClose/WorkOrderShortClose?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/close_icon.png' alt='close' /></a>";
                 if(dtUsers.Rows[i]["IS_ALLOCATE"].ToString()=="Y")
@@ -205,6 +211,7 @@ namespace Arasan.Controllers.Sales
                     editrow = EditRow,
                     delrow = DeleteRow,
                     drum = Drum,
+                    recept = recept,
 
 
 
@@ -249,15 +256,15 @@ namespace Arasan.Controllers.Sales
                     throw ex;
                 }
             }
-        public List<SelectListItem> BindTax()
+        public List<SelectListItem> BindTax(string id)
         {
             try
             {
-                DataTable dtDesg = WorkOrderService.GetTax();
+                DataTable dtDesg = WorkOrderService.GetTax(id);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TAX"].ToString(), Value = dtDesg.Rows[i]["TAXMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TARIFFID"].ToString(), Value = dtDesg.Rows[i]["TARIFFID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -685,6 +692,215 @@ namespace Arasan.Controllers.Sales
             return Json(model.Worklst);
 
         }
-       
+        public async Task<IActionResult> Print(string id)
+        {
+
+            string mimtype = "";
+            int extension = 1;
+            string DrumID = datatrans.GetDataString("Select PARTYID from POBASIC where POBASICID='" + id + "' ");
+
+            System.Data.DataSet ds = new System.Data.DataSet();
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\JobOrder.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+            //  Parameters.Add("rp1", " Hi Everyone");
+          var order = await WorkOrderService.GetOrderItem(id);
+          var orderDetail = await WorkOrderService.GetOrderItemDetail(id);
+
+            AspNetCore.Reporting.LocalReport localReport = new AspNetCore.Reporting.LocalReport(path);
+            localReport.AddDataSource("workorderbasic", order);
+            localReport.AddDataSource("JobDetail", orderDetail);
+            //localReport.AddDataSource("DataSet1_DataTable1", po);
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+
+            return File(result.MainStream, "application/Pdf");
+           
+        }
+
+        public IActionResult DirectWorkOrder(string id)
+        {
+            WorkOrder ca = new WorkOrder();
+            ca.Branch = Request.Cookies["BranchId"];
+            ca.Curlst = BindCurrency();
+
+            ca.Qolst = BindQuotation();
+            ca.partylst = Bindparty();
+            ca.JopDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            ca.Location = Request.Cookies["LocationId"];
+            ca.Emp = Request.Cookies["UserId"];
+            ca.Loc = BindLocation(ca.Emp);
+            DataTable dtv = datatrans.GetSequence("er");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.JopId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
+            }
+            List<WorkItem> TData = new List<WorkItem>();
+            WorkItem tda = new WorkItem();
+            if (id == null)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    tda = new WorkItem();
+                    tda.taxlst = BindTax("");
+                    tda.itemlst = BindItem("");
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+            else
+            {
+                DataTable dt = new DataTable();
+
+                dt = WorkOrderService.GetWorkOrder(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.JopDate = dt.Rows[0]["DOCDATE"].ToString();
+
+                    ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
+
+                    ca.CusNo = dt.Rows[0]["CREFNO"].ToString();
+                    ca.Customer = dt.Rows[0]["PARTYNAME"].ToString();
+                    ca.ID = id;
+                    ca.Location = dt.Rows[0]["LOCID"].ToString();
+                    ca.OrderType = dt.Rows[0]["ORDTYPE"].ToString();
+                    ca.TransAmount = dt.Rows[0]["TRANSAMOUNT"].ToString();
+                    ca.CreditLimit = dt.Rows[0]["CRLIMIT"].ToString();
+                    ca.RateCode = dt.Rows[0]["RATECODE"].ToString();
+                    ca.RateType = dt.Rows[0]["RATETYPE"].ToString();
+                    //ca.Quo = dt.Rows[0]["QUOID"].ToString();
+                    ca.JopId = dt.Rows[0]["DOCID"].ToString();
+                    ca.Cusdate = dt.Rows[0]["CREFDATE"].ToString();
+                    ca.ExRate = dt.Rows[0]["EXRATE"].ToString();
+                    ViewBag.Quo = id;
+                }
+                DataTable dtt1 = new DataTable();
+                dtt1 = WorkOrderService.GetWorkOrderDetails(id);
+                if (dtt1.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt1.Rows.Count; i++)
+                    {
+                        tda = new WorkItem();
+                        tda.items = dtt1.Rows[i]["ITEMID"].ToString();
+                        tda.itemid = dtt1.Rows[i]["item"].ToString();
+                        tda.unit = dtt1.Rows[i]["UNITID"].ToString();
+                        tda.orderqty = dtt1.Rows[i]["QTY"].ToString();
+
+                        tda.rate = dtt1.Rows[i]["RATE"].ToString();
+                        tda.amount = dtt1.Rows[i]["AMOUNT"].ToString();
+                        tda.discount = dtt1.Rows[i]["DISCOUNT"].ToString();
+                        tda.taxtype = dtt1.Rows[i]["TAXTYPE"].ToString();
+                        tda.tradedis = dtt1.Rows[i]["TDISC"].ToString();
+                        tda.qtydis = dtt1.Rows[i]["QDISC"].ToString();
+                        tda.additiondis = dtt1.Rows[i]["ADISC"].ToString();
+
+                        tda.itemspec = dtt1.Rows[i]["ITEMSPEC"].ToString();
+                        tda.freight = dtt1.Rows[i]["FREIGHT"].ToString();
+                        tda.freightamt = dtt1.Rows[i]["FREIGHTAMT"].ToString();
+                        tda.disqty = dtt1.Rows[i]["DCQTY"].ToString();
+                        tda.packind = dtt1.Rows[i]["PACKSPEC"].ToString();
+                        tda.matsupply = dtt1.Rows[i]["MATSUPP"].ToString();
+                        tda.Isvalid = "Y";
+                        tda.introdis = dtt1.Rows[i]["IDISC"].ToString();
+                        tda.cashdis = dtt1.Rows[i]["CDISC"].ToString();
+                        tda.spldis = dtt1.Rows[i]["SDISC"].ToString();
+
+                        TData.Add(tda);
+                    }
+                }
+
+            }
+            ca.Worklst = TData;
+            return View(ca);
+        }
+        public List<SelectListItem> Bindparty()
+        {
+            try
+            {
+                DataTable dtDesg = WorkOrderService.GetParty();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindItem(string id)
+        {
+            try
+            {
+                DataTable dtDesg = WorkOrderService.GetItem(id);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["item"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public JsonResult GetItemJSON(string loc)
+        {
+            //BatchItem model = new BatchItem();
+            //model.Processidlst = BindProcessid(itemid);
+            return Json(BindItem(loc));
+
+        }
+        public JsonResult GetTaxJSON(string ItemId)
+        {
+            string hsnid = "";
+
+            string hsn = "";
+            string sgstp = "";
+            string cgstp = "";
+            string igstp = "";
+            double cgsta = 0;
+            double sgsta = 0;
+            double igsta = 0;
+            double pers = 0;
+            string gst = "";
+             hsn = datatrans.GetDataString("select HSN from ITEMMASTER WHERE ITEMMASTERID = '" + ItemId + "'");
+
+            hsnid = datatrans.GetDataString("select HSNCODEID from HSNCODE WHERE HSNCODE='" + hsn + "'");
+ 
+            return Json(BindTax(hsnid));
+
+        }
+        public ActionResult GetItemDetail(string ItemId, string loc,string party)
+        {
+            try
+            {
+                string unit = "";
+                string desc = "";
+                
+                DataTable d1 = datatrans.GetItemDetails(ItemId);
+                if (d1.Rows.Count > 0)
+                {
+                    unit = d1.Rows[0]["UNITID"].ToString();
+                    desc = d1.Rows[0]["ITEMDESC"].ToString();
+                }
+
+                string rate = datatrans.GetDataString("SELECT ROUND(AVG(RATE),2) as rate FROM PLSTOCKVALUE WHERE LOCID ='"+loc+"' AND ITEMID ='"+ ItemId + "'");
+                string oldrate = datatrans.GetDataString("SELECT ED.RATE FROM EXINVBASIC E,EXINVDETAIL ED WHERE E.PARTYID ='" + party + "' AND ED.ITEMID ='"+ ItemId + "' ORDER BY DOCDATE DESC fetch  first 1 rows only");
+                //if (plstock.Rows.Count > 0)
+                //{
+                //    rate = plstock.Rows[0]["rate"].ToString();
+                     
+                //}
+                var result = new { unit = unit, desc= desc , rate = rate, oldrate= oldrate };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

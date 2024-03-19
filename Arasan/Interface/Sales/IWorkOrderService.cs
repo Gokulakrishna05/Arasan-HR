@@ -17,8 +17,10 @@ namespace Arasan.Interface.Sales
         DataTable GetSatesQuoDetails(string id);
         DataTable GetWorkOrder(string id);
         DataTable GetWorkOrderDetails(string id);
-        DataTable GetTax();
+        DataTable GetTax(string id);
+        DataTable GetParty();
         DataTable GetWorkOrderByID(string id);
+        DataTable GetItem(string id);
         DataTable GetDrumAllByID(string id);
         DataTable GetDrumAllDetails(string id);
         DataTable GetAllocationDrumDetails(string id);
@@ -30,5 +32,7 @@ namespace Arasan.Interface.Sales
         DataTable GetAllListWorkOrderItems(string strStatus);
         DataTable GetAllListWDrumAllocationItems();
         DataTable GetAllListWDrumAlloItems();
+        Task<IEnumerable<OrderItemDetail>> GetOrderItem(string id );
+        Task<IEnumerable<OrderDetail>> GetOrderItemDetail(string id );
     }
 }
