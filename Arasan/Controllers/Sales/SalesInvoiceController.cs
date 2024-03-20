@@ -435,7 +435,7 @@ namespace Arasan.Controllers
                     id = Convert.ToInt64(dtUsers.Rows[i]["EXINVBASICID"].ToString()),
                     docno = dtUsers.Rows[i]["INVNO"].ToString(),
                     currency = dtUsers.Rows[i]["MAINCURR"].ToString(),
-                    date = dtUsers.Rows[i]["INVDAT"].ToString(),
+                    date = dtUsers.Rows[i]["INVDATE"].ToString(),
                     party = dtUsers.Rows[i]["PARTYID"].ToString(),
                     jsonrow = jsonRow
 
