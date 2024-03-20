@@ -71,4 +71,30 @@ namespace Arasan.Models
         public string delete { get; set; }
         public string view { get; set; }
     }
+    public class Custcompl
+    {
+        public string docid { get; set; }
+        public string docdate { get; set; }
+        public List<SelectListItem> Custlst { get; set; }
+        public string custname { get; set; }
+        public string CCIRNO { get; set; }
+        public string investigatedby { get; set; }
+        public List<SelectListItem> invemplst { get; set; }
+        public string investigatedate{ get; set; }
+        public List<SelectListItem> invlst { get; set; }
+        public string[] invoiceno { get; set; }
+        public string Compbrief { get;set; }
+        public bool Ifsamplerec { get; set; }
+        public string sampledate { get; set; }
+        public string sampleqc { get; set; }
+        public List<custcomplreviewer> EmplLst { get; set; }
+    }
+    public class custcomplreviewer
+    {
+        public List<SelectListItem> Employeelst { get; set; }
+        public string reviewername { get; set; }
+        public string EmpCode { get; set; }
+        public string Depart { get; set; }
+        public string Isvalid { get; set; }
+    }
 }

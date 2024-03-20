@@ -148,7 +148,7 @@ internal class Program
         builder.Services.TryAddSingleton<ISalesReturn, SalesReturnService>();
 
         builder.Services.TryAddSingleton<IDesignation, DesignationService>();
-
+        builder.Services.TryAddSingleton<ISalesInvoiceService, SalesInvoiceService>();
         builder.Services.TryAddSingleton<IDepotInvoiceService, DepotInvoiceService>();
 		builder.Services.TryAddSingleton<IAPProductionEntry, APProductionentryService>();
 
