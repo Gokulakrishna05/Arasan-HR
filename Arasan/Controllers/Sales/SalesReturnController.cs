@@ -78,6 +78,30 @@ namespace Arasan.Controllers.Sales
             
             return View(SR);
         }
+        public ActionResult Custcompl()
+        {
+            Custcompl c = new Custcompl();
+            List<custcomplreviewer> TTData2 = new List<custcomplreviewer>();
+            custcomplreviewer tda2 = new custcomplreviewer();
+            DataTable dtv = datatrans.GetSequence("CCIR");
+            if (dtv.Rows.Count > 0)
+            {
+                c.docid = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
+            }
+            c.docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            c.Custlst = Bindcustomer();
+            c.invlst = BindEmpty();
+            c.invemplst = BindEmployee();
+            for (int i = 0; i < 3; i++)
+            {
+                tda2 = new custcomplreviewer();
+                tda2.Employeelst = BindEmployee();
+                tda2.Isvalid = "Y";
+                TTData2.Add(tda2);
+            }
+            c.EmplLst= TTData2;
+            return View(c);
+        }
         [HttpPost]
         public ActionResult SalesReturn(SalesReturn Cy, string id)
         {
@@ -181,6 +205,36 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
+        public List<SelectListItem> BindEmployee()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindEmpty()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+               //lstdesg.Add(new SelectListItem() { Text = "0", Value = "Please Select" });
+             return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindInvoice()
         {
             try
@@ -192,6 +246,63 @@ namespace Arasan.Controllers.Sales
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["PINVBASICID"].ToString() });
                 }
                 return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindInvoiceparty(string partyid)
+        {
+            try
+            {
+                DataTable dtDesg = SRInterface.GetInvParty(partyid);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["EXINVBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public JsonResult GetInvJSON(string partyid)
+        {
+            return Json(BindInvoiceparty(partyid));
+
+        }
+        public JsonResult GetEmpJSON()
+        {
+            return Json(BindEmployee());
+
+        }
+        
+        public ActionResult GetEmployeeDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string code = "";
+                string dept = "";
+               
+
+                dt = SRInterface.GetEmployeeDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    code = dt.Rows[0]["EMPID"].ToString();
+                    dept = dt.Rows[0]["DEPTNAME"].ToString();
+                 
+
+                }
+
+                var result = new { code = code, dept = dept };
+                return Json(result);
             }
             catch (Exception ex)
             {
@@ -215,7 +326,23 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
-
+        public List<SelectListItem> Bindcustomer()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetCustomer();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult GetInvoice(string id )
         {
             try

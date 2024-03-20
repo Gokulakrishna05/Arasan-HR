@@ -179,6 +179,16 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetInvParty(string partyid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select EXINVBASICID,DOCID from ExINVbasic where PARTYID='"+ partyid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
         public DataTable GetInvoiceDetails(string invoiceid)
         {
@@ -190,7 +200,16 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetEmployeeDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select EMPID,EMPNAME,EMPMASTID,EMPDEPT, DDBASIC.DEPTNAME,EMPCOST,OTPERHR from EMPMAST LEFT OUTER JOIN DDBASIC ON DDBASICID=EMPMAST.EMPDEPT where EMPMASTID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetInvoiceItem(string invoiceid)
         {
             string SvSql = string.Empty;

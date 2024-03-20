@@ -1,0 +1,409 @@
+﻿@model Arasan.Models.Custcompl
+
+@{
+    ViewData["Title"] = "Customer complaint";
+}
+<style>
+
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+
+    div.scroll {
+        width: 100 %;
+        height: 400px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        /* text-align: center;*/
+        /*padding: 20px;*/
+    }
+
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Sales</a> </li>
+            <li class="active"> <strong>Customer Complaint</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Customer Complaint</h5>
+                    <hr>
+                    @using (Html.BeginForm("Custcompl", "SalesReturn", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.docid, new { @id = "txtdocid", @class = "form-control", @TabIndex = 1,@readonly=true })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.docdate, new { @id = "docdate", @class = "form-control", @TabIndex = 2,@size="31" , @readonly=true})
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                <div class="form-group">
+
+                                  <br />  <label for="inputName3" class="col-sm-4 control-label">Customer Name<label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.custname, Model.Custlst,"--Please Select--", new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1,@onchange="loadinvoice(this.value)" })
+                                          
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Invoice<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.ListBoxFor(C => C.invoiceno, Model.invlst, new { @class = "listbox" ,@id = "ddlinv"})
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">CCIRNO<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.CCIRNO, new { @id = "txtCCIRNO", @class = "form-control", @TabIndex = 1})
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Investigated  by<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                             @Html.DropDownListFor(C => C.investigatedby, Model.invemplst,"--Please Select--", new { @id = "ddlinvestigation", @Class = "form-control _select", @TabIndex = 1 })
+                                        </div>
+                                    </div>
+                                </div>
+                          </div>
+                           <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-2 control-label">Complaint brief<label class="mandatory">*</label></label>
+                                        <div class="col-sm-10">
+                                                  @Html.TextAreaFor(C => C.Compbrief, new { @id = "txtCompbrief", @class = "form-control", @TabIndex = 1 })
+                                        </div>
+                                    </div>
+                                </div>
+                               </div>
+                                <div class="row">
+                                      <div class="col-md-6">
+                                <div class="form-group">
+
+                              <br />      <label for="inputName3" class="col-sm-4 control-label">If Sample received?<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                @Html.CheckBoxFor(model => model.Ifsamplerec,new{value="Yes",onchange = "changesample(this.value)",@id="chkcmp"})
+                                          
+                                                    </div><br />
+                                    </div>
+
+                                </div>
+                            </div>
+                                    </div>
+                                     <div class="row" id="divsample" style="display:none;">
+                                         <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Sample Grade<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.sampleqc, new { @id = "txtsampleqc", @class = "form-control", @TabIndex = 1})
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Sample date<label class="mandatory"></label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.docdate, new { @id = "docdate", @class = "form-control", @TabIndex = 2,@size="31" , @readonly=true})
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                       </div>
+                                     <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-group">
+                                                            <input type="button" value="Add Row" onclick="AddEmpRow()" class="btn sbold green" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+
+                                                        <table class="table table-striped table-hover" id="dataTableEmp">
+
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th>Emp Name</th>
+                                                                    <th>Emp Code</th>
+                                                                    <th>Department </th>
+                                                                  
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooksEmp">
+                                                                @{
+
+                                                                    int k = 0;
+                                                                    foreach (var item in Model.EmplLst.ToList())
+                                                                    {
+                                                                                                                                <tr id="trBookEmp@(k)" class="chkEmpitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+
+
+                                                                                                                                    <td>
+                                                                                                                                        @Html.DropDownListFor(o => o.EmplLst[k].reviewername, Model.EmplLst[k].Employeelst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlEmployee" + k, style = "width: 170px;",onchange = "changeEmployeeItem(this.value," + k + ")" })
+                                                                                                                                        </td>
+                                                                                                                                    <td>@Html.TextBoxFor(o => o.EmplLst[k].EmpCode, new { @id = "txtEmpCode" +k, @class = "form-control" , style = "width: 100px; " ,@readonly="readonly" })</td>
+                                                                                                                                    <td>@Html.TextBoxFor(o => o.EmplLst[k].Depart, new { @id = "txtDepart" + k, @class = "form-control" , style = "width: 120px; " ,@readonly="readonly" })</td>
+
+                                                                                                                                    
+
+                                                                                                                                    <td>
+                                                                                                                                        @Html.HiddenFor(o => o.EmplLst[k].Isvalid, new { @id = "EmpIsvalid" + k})
+                                                                                                                                        <img onclick="removeEmpRow(@(k));" src="../Images/delete.png" style="cursor:pointer" />
+                                                                                                                                    </td>
+
+
+                                                                                                                                </tr>
+
+                                                                        k = k + 1;
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                            <div style="height:30px;"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("Custcompl", "SalesReturn")'">Cancel</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<link href="@Url.Content("~/assets/js/bootstrap-multiselect.css")" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap.multiselect.js")"></script>
+<script>
+    $(function () {
+        $('._select').select2();
+    });
+    function PopulateDropDown(dropDownId, list) {
+      
+        if (list != null && list.length > 0) {
+            $.each(list, function () {
+                var htm='<option value=' + this['value'] +'>' + this['text'] + '</option>';
+              
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+                $('.multiselect-container').append(htm);
+
+            });
+        }
+    //    $('#chkcmp').multiselect({
+    //  enableClickableOptGroups: true
+    //});
+         $('.listbox').multiselect('rebuild');
+    }
+    $(".chosen-select").chosen();
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+       function changeEmployeeItem(ItemId, i) {
+        $.ajax({
+            url: 'GetEmployeeDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+                document.getElementById("txtEmpCode" + i).value = result.code;
+                 document.getElementById("txtDepart" + i).value = result.dept;
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+         function changesample(typeid) {
+                if ($('#chkcmp').prop('checked') == true) {
+                    document.getElementById("divsample").style.display = "block";
+                }
+                else{
+                    document.getElementById("divsample").style.display = "none";
+                }
+    }
+    $(function () {
+        $('.listbox').multiselect({
+            includeSelectAllOption: true
+        });
+    });
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("ddlEmp").value == "") {
+                isValid = false;
+                $(ddlEmp).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Employee");
+                return false;
+            }
+            else {
+                $(ddlEmp).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlLoc").value == "") {
+                isValid = false;
+                $(ddlLoc).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Location");
+                return false;
+            }
+            else {
+                $(ddlLoc).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+    function loadinvoice(custid){
+         //var $select = $("#chkcmp").multiselect();//apply the plugin
+   /* $select.multiselect('disable'); *///disable it initially
+         $.ajax({
+            url: "GetInvJSON",
+            type: "post",
+            data: { 'partyid': custid },
+            cache: false,
+            success: function (response) {
+                //var newlist;
+                //newlist = response.Ilst;
+                PopulateDropDown("#ddlinv", response);
+                 //$select.multiselect('enable');
+                 //   $("#chkcmp").empty().append('<option value="0">Please select</option>');
+                 //   $.each(response, function () {
+                 //       $("#chkcmp").append($("<option></option>").val(this['Value']).html(this['Text']));
+                 //   });
+                 //   $("#chkcmp").val(valueselected);
+                 //   $("#chkcmp").multiselect('refresh');
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Item Group");
+            }
+        });
+    }
+     function AddEmpRow() {
+            var opt = "";
+            $.ajax({
+                type: "POST",
+                url: 'GetEmpJSON',
+                success: function (data) {
+                    $.each(data, function () {
+                        opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                    });
+                    AppendEmpRow(opt);
+                }
+            })
+        }
+        function AppendEmpRow(opt) {
+        var index = $("#tbBooksEmp").children("tr").length;
+        var empname = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlEmployee" + index + "' name='EmpLst[" + index + "].Employee' onchange = 'changeEmployeeItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
+
+        var code = "<td><input class='form-control'  id='txtEmpCode" + index + "' name='EmpLst[" + index + "].EmpCode' style='width: 100px;'   value=''  readonly='True'><input class='form-control'  id='txtEAPID" + index + "' name='EmpLst[" + index + "].APID' style='width: 100px;'   value='' type='hidden'></td>";
+
+        var Department = "<td><input class='form-control'  id='txtDepart" + index + "' name='EmpLst[" + index + "].Depart' style='width: 120px;'   value=''  readonly='True'></td>";
+
+       var removeCell = "<td><input id='IsEmpvalid" + index + "' name='EmpLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeEmpRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
+        var newRow = "<tr class='chkEmpitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookEmp" + index + "'>" + empname + code + Department + removeCell + "</tr>";
+        $("#tbBooksEmp").append(newRow);
+
+
+        $(function () {
+            $('._select').select2();
+        });
+
+    }
+      function removeEmpRow(id) {
+         var table = document.getElementById("dataTableEmp");
+         var rowCount = table.rows.length;
+         var row = document.getElementById('trBookEmp' + id);
+         var j = 0;
+         $('tr.chkEmpitemlst').each(function () {
+             if ($(this).css('display') !== 'none') {
+                 j += 1;
+             }
+         });
+         if (j > 1) {
+             row.style.display = "none";
+             document.getElementById('EmpIsvalid' + id).value = "N";
+         }
+         else {
+             alert("Cannot delete all the rows.")
+         }
+     }
+</script>
