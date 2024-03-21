@@ -49,6 +49,12 @@
                 { name: 'edit', type: 'string' },
                 { name: 'delrow', type: 'string' },
                 { name: 'jsonrow', type: 'string' },
+                { name: 'viewrow', type: 'string' },
+                { name: 'gross', type: 'string' },
+                { name: 'net', type: 'string' },
+                { name: 'cgst', type: 'string' },
+                { name: 'igst', type: 'string' },
+                { name: 'sgst', type: 'string' },
             ],
             id: 'id',
         };
@@ -66,7 +72,7 @@
                 source: dataAdapter,
                 height: 450,
                 source: source,
-                //autoheight: true,
+                autoheight: true,
                 sortable: true,
                 filterable: true,
                 groupable: false,
@@ -84,11 +90,15 @@
                     //{ text: 'Branch', filtertype: 'input', datafield: 'branch', width: 160 },
                     { text: 'Doc No.', filtertype: 'input', datafield: 'docno', width: 120 },
                     { text: 'Doc Date', filtertype: 'checkedlist', datafield: 'date', width: 100 },
-                    { text: 'Currency', filtertype: 'input', datafield: 'currency', width: 100 },
                     { text: 'Party Name', filtertype: 'checkedlist', datafield: 'party', width: 300 },
-                    { text: 'Edit', datafield: 'edit', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
-                    //{ text: 'JSON', datafield: 'jsonrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
+                    { text: 'Currency', filtertype: 'input', datafield: 'currency', width: 100 },
+                    { text: 'GROSS', filtertype: 'input', datafield: 'gross', width: 100 },
+                    { text: 'NET', filtertype: 'input', datafield: 'net', width: 100 },
+                    { text: 'CGST', filtertype: 'input', datafield: 'cgst', width: 100 },
+                    { text: 'SGST', filtertype: 'input', datafield: 'sgst', width: 100 },
+                    { text: 'IGST', filtertype: 'input', datafield: 'igst', width: 100 },
+                    { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
+                 
                 ]
             });
         $("#ddlStatus").change(function () {
@@ -162,11 +172,8 @@
         $(".fancybox").fancybox({
             width: '80%',
             height: '10%',
-            arrows: false,
-            afterClose: function () {
-                location.reload();
-                return;
-            }
+            arrows: false
+            
         });
         fancybox123 = $.fancybox;
     });
@@ -179,5 +186,6 @@
             arrows: false,
         });
         $(".fancybox1").eq(0).trigger('click');
+    }
    
 </script>

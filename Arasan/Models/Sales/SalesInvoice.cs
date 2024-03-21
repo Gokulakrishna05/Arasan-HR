@@ -20,7 +20,7 @@ namespace Arasan.Models
             this.Voclst = new List<SelectListItem>();
             this.Tranlst = new List<SelectListItem>();
             this.Tnamelst = new List<SelectListItem>();
-
+            this.Joblst=new List<SelectListItem>();
         }
         public List<SelectListItem> Tranlst;
         public string Trans { get; set; }
@@ -39,8 +39,8 @@ namespace Arasan.Models
         public double Round { get; set; }
         public double Gross { get; set; }
         public double TotalAccess { get; set; }
-
-
+        public string WorkCenter { get; set; }
+        public List<SelectListItem> Joblst { get; set; }
         public double Discount { get; set; }
         public double cgst { get; set; }
         public double sgst { get; set; }
@@ -114,7 +114,7 @@ namespace Arasan.Models
         public string FrightYN { get; set; }
         public string ddlStatus { get; set; }
         public List<TermsItem> TermsItemlst { get; set; }
-        public List<DepotInvoiceItem> Depotlst { get; set; }
+        public List<SalesInvoiceItem> SIlst { get; set; }
         public List<AreaItem> AreaItemlst { get; set; }
     }
     public class SalesInvoiceItem
@@ -125,9 +125,9 @@ namespace Arasan.Models
         public string HSN { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
 
-        public List<SelectListItem> ItemGrouplst { get; set; }
+        public List<SelectListItem> jobschlst { get; set; }
 
-        public string ItemGroupId { get; set; }
+        public string jobschid { get; set; }
         public string DrumIds { get; set; }
         public double FrigCharge { get; set; }
         public string ConFac { get; set; }
@@ -179,7 +179,12 @@ namespace Arasan.Models
         public string currency { get; set; }
         public string edit { get; set; }
         public string jsonrow { get; set; }
-
+        public string viewrow { get; set; }
+        public string gross { get; set; }
+        public string net { get;set; }
+        public string cgst { get; set; }
+        public string sgst { get; set; }    
+        public string igst { get; set; }
     }
     public class Jsonexport
     {

@@ -69,7 +69,7 @@ AND IP.UNITTYPE = 'Sales' AND B.EXINVBASICID='" + SIID + "'";
         public DataTable GetSalesInvoiceDeatils(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select BRANCHID,INVTYPE,DOCID,to_char(DEPINVBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,to_char(DEPINVBASIC.REFDATE,'dd-MON-yyyy')REFDATE,PARTYID,VTYPE,CUSTPO,ORDERSAMPLE,SALVAL,RECDBY,DESPBY,INSPBY,TRANSMODE,VNO,INVDESC,TRANSP,TRANSNAME,TRANSLIMIT,DOCTHORUGH,PACKING,RNDOFF,GROSS,NET,AMTWORDS,SERNO,NARRATION FROM DEPINVBASIC Where DEPINVBASICID='" + id + "' ";
+            SvSql = "select BRANCHID,INVTYPE,DOCID,to_char(EXINVBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,to_char(EXINVBASIC.REFDATE,'dd-MON-yyyy')REFDATE,PARTYID,VTYPE,CUSTPO,SALVAL,RECDBY,DESPBY,INSPBY,TRANSMODE,VNO,INVDESC,TRANSP,TRANSLIMIT,DOCTHORUGH,RNDOFF,GROSS,NET,AMTWORDS,SERNO,NARRATION FROM EXINVBASIC Where EXINVBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -80,6 +80,16 @@ AND IP.UNITTYPE = 'Sales' AND B.EXINVBASICID='" + SIID + "'";
         {
             string SvSql = string.Empty;
             SvSql = "Select DEPINVDETAIL.QTY,DEPINVDETAIL.DEPINVDETAILID,DEPINVDETAIL.ITEMID,UNITMAST.UNITID,CF,QTY,RATE,AMOUNT,DISCOUNT,IDISC,CDISC,TDISC,ADISC,SDISC,FREIGHT,CGSTP,SGSTP,IGSTP,CGST,SGST,IGST,TOTAMT  from DEPINVDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DEPINVDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=DEPINVDETAIL.UNIT  where DEPINVDETAIL.DEPINVBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable Getjobdetails(string jobid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT P.PARTYID, A.JOBASICID,L.LOCID FROM JOBASIC A,PARTYMAST P,LOCDETAILS L WHERE P.PARTYMASTID=A.PARTYID AND L.LOCDETAILSID=A.LOCID AND A.JOBASICID='" + jobid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -116,7 +126,15 @@ AND IP.UNITTYPE = 'Sales' AND B.EXINVBASICID='" + SIID + "'";
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetJob()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select JOBASICID,DOCID From JOBASIC";
+            DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetDrumDetails(string Itemid, string locid)
         {
             string SvSql = string.Empty;
@@ -261,9 +279,9 @@ AND IP.UNITTYPE = 'Sales' AND B.EXINVBASICID='" + SIID + "'";
                 double totdis = 0;
                 double totqtydis = 0;
                 double totcashdisc = 0;
-                if (cy.Depotlst != null)
+                if (cy.SIlst != null)
                 {
-                    foreach (DepotInvoiceItem cp in cy.Depotlst)
+                    foreach (SalesInvoiceItem cp in cy.SIlst)
                     {
                         if (cp.Isvalid == "Y")
                         {
@@ -310,11 +328,11 @@ AND IP.UNITTYPE = 'Sales' AND B.EXINVBASICID='" + SIID + "'";
                                 command.Parameters.Clear();
 
 
-                                if (cy.Depotlst != null)
+                                if (cy.SIlst != null)
                                 {
                                     int rc = 1;
-                                    int totrow = cy.Depotlst.Count;
-                                    foreach (DepotInvoiceItem cp in cy.Depotlst)
+                                    int totrow = cy.SIlst.Count;
+                                    foreach (SalesInvoiceItem cp in cy.SIlst)
                                     {
                                         string detailid = "0";
                                         int n = 1;
@@ -692,6 +710,17 @@ Select t2.T2VCHDT, t2.MID, t1.VCHSTATUS EMODE, t1.MSTATUS MSTATUS, t1.MONTHNO MO
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetSchedule(string id)
+        {
+            string SvSql = string.Empty;
+            //  996519 -frieght
+            SvSql = "select SCHNO,JOSCHEDULEID from JOSCHEDULE where JOBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetGSTDetails(string id)
         {
             string SvSql = string.Empty;
@@ -725,7 +754,7 @@ Select t2.T2VCHDT, t2.MID, t1.VCHSTATUS EMODE, t1.MSTATUS MSTATUS, t1.MONTHNO MO
         public DataTable ViewDepot(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select  BRANCHMAST.BRANCHID,INVTYPE,DOCID,to_char(DEPINVOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,LOCDETAILS.LOCID,VTYPE,EORDTYPE,SALVAL,RECDBY,DESPBY,INSPBY,DOCTHORUGH,RNDOFF,GROSS,NET,AMTWORDS,SERNO,NARRATION,BSGST,BCGST,BIGST,BFREIGHT,BDISCOUNT ,TRANSMODE,VNO,INVDESC,TRANSP,TRANSLIMIT FROM DEPINVOBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=DEPINVOBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID =DEPINVOBASIC.LOCID LEFT OUTER JOIN  PARTYMAST on DEPINVOBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where  DEPINVOBASICID='" + id + "' ";
+            SvSql = "select  BRANCHMAST.BRANCHID,INVTYPE,DOCID,to_char(EXINVBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,LOCDETAILS.LOCID,VTYPE,EORDTYPE,SALVAL,RECDBY,DESPBY,INSPBY,DOCTHORUGH,RNDOFF,GROSS,NET,AMTWORDS,SERNO,NARRATION,BSGST,BCGST,BIGST,BFREIGHT,BDISCOUNT ,TRANSMODE,VNO,INVDESC,TRANSP,TRANSLIMIT FROM EXINVBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=EXINVBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID =EXINVBASIC.LOCID LEFT OUTER JOIN  PARTYMAST on EXINVBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where  EXINVBASICID='" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -736,7 +765,7 @@ Select t2.T2VCHDT, t2.MID, t1.VCHSTATUS EMODE, t1.MSTATUS MSTATUS, t1.MONTHNO MO
         public DataTable Depotdetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = " Select DEPINVODETAIL.QTY,DEPINVOBASICID,DEPINVODETAIL.DEPINVODETAILID,ITEMMASTER.ITEMID,DEPINVODETAIL.PRIUNIT,BINBASIC.BINID,DEPINVODETAIL.RATE,DEPINVODETAIL.AMOUNT,DEPINVODETAIL.DISCOUNT,CDISC,DEPINVODETAIL.FREIGHT,CGSTP,SGSTP,IGSTP,CGST,SGST,IGST,DEPINVODETAIL.TOTAMT,ITEMTYPE,ITEMSPEC  from DEPINVODETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DEPINVODETAIL.ITEMID LEFT OUTER JOIN BINBASIC ON BINBASIC.BINBASICID=DEPINVODETAIL.BINID    where DEPINVODETAIL.DEPINVOBASICID='" + id + "'";
+            SvSql = " Select EXINVDETAIL.QTY,EXINVBASICID,EXINVDETAIL.EXINVDETAILID,ITEMMASTER.ITEMID,EXINVDETAIL.PRIUNIT,BINBASIC.BINID,EXINVDETAIL.RATE,EXINVDETAIL.AMOUNT,EXINVDETAIL.DISCOUNT,CDISC,EXINVDETAIL.FREIGHT,CGSTP,SGSTP,IGSTP,CGST,SGST,IGST,EXINVDETAIL.TOTAMT,ITEMTYPE,ITEMSPEC  from EXINVDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=EXINVDETAIL.ITEMID LEFT OUTER JOIN BINBASIC ON BINBASIC.BINBASICID=EXINVDETAIL.BINID    where EXINVDETAIL.EXINVBASICID='" + id + "'";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -747,7 +776,7 @@ Select t2.T2VCHDT, t2.MID, t1.VCHSTATUS EMODE, t1.MSTATUS MSTATUS, t1.MONTHNO MO
         public DataTable TermsDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select TANDCDETAIL.TANDC from DEPINVOTANDC left outer join TANDCDETAIL ON TANDCDETAIL.TANDCDETAILID=DEPINVOTANDC.TERMSANDCONDITION  WHERE DEPINVOBASICID='" + id + "'";
+            SvSql = "select TANDCDETAIL.TANDC from EXINVTANDC left outer join TANDCDETAIL ON TANDCDETAIL.TANDCDETAILID=EXINVTANDC.TERMSANDCONDITION  WHERE EXINVBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -757,7 +786,7 @@ Select t2.T2VCHDT, t2.MID, t1.VCHSTATUS EMODE, t1.MSTATUS MSTATUS, t1.MONTHNO MO
         public DataTable AreaDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select DEPINVOBASICID,STYPE,SNAME,SADD1,SADD2,SADD3,SSTATE,SCITY,SPINCODE,SPHONE,SFAX,SEMAIL from DEPINVOSADD WHERE DEPINVOBASICID='" + id + "'";
+            SvSql = "select EXINVBASICID,STYPE,SNAME,SADD1,SADD2,SADD3,SSTATE,SCITY,SPINCODE,SPHONE,SFAX,SEMAIL from EXINVSADD WHERE EXINVBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
