@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.Json;
 using Nest;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Arasan.Controllers
 {
@@ -44,9 +45,10 @@ namespace Arasan.Controllers
             ca.Voclst = BindVocher();
             ca.Tranlst = BindTrans();
             ca.Tnamelst = Tname();
+            ca.Joblst = BindJob();
             ca.enterdby = Request.Cookies["Username"];
-            List<DepotInvoiceItem> TData = new List<DepotInvoiceItem>();
-            DepotInvoiceItem tda = new DepotInvoiceItem();
+            List<SalesInvoiceItem> TData = new List<SalesInvoiceItem>();
+            SalesInvoiceItem tda = new SalesInvoiceItem();
             List<TermsItem> TData1 = new List<TermsItem>();
             TermsItem tda1 = new TermsItem();
             List<AreaItem> TData2 = new List<AreaItem>();
@@ -75,7 +77,214 @@ namespace Arasan.Controllers
                 }
                 for (int i = 0; i < 1; i++)
                 {
-                    tda = new DepotInvoiceItem();
+                    tda = new SalesInvoiceItem();
+                    tda.jobschlst = Bindempty();
+                    tda.Itemlst = BindItemlst("");
+                    tda.binlst = BindBin();
+                    //tda.FrieghtItemId = "Frieght Charges";
+                    //tda.FriQty = "1";
+                    //tda.HSNcode = "996519";
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda1 = new TermsItem();
+
+                    tda1.Termslst = BindTerms();
+                    tda1.Isvalid = "Y";
+                    TData1.Add(tda1);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda2 = new AreaItem();
+
+                    tda2.Arealst = BindArea("");
+                    tda2.Isvalid = "Y";
+                    TData2.Add(tda2);
+                }
+            }
+            else
+            {
+
+                // ca = directPurchase.GetDirectPurById(id);
+
+
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = SalesInvoiceService.GetSalesInvoiceDeatils(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.InvoType = dt.Rows[0]["INVTYPE"].ToString();
+                    ca.InvNo = dt.Rows[0]["DOCID"].ToString();
+                    ca.InvDate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.ID = id;
+                    ca.RefNo = dt.Rows[0]["REFNO"].ToString();
+                    ca.RefDate = dt.Rows[0]["REFDATE"].ToString();
+                    ca.Party = dt.Rows[0]["PARTYID"].ToString();
+                    ca.Vocher = dt.Rows[0]["VTYPE"].ToString();
+                    ca.Customer = dt.Rows[0]["CUSTPO"].ToString();
+                    ca.Ordsam = dt.Rows[0]["ORDERSAMPLE"].ToString();
+                    ca.Sales = dt.Rows[0]["SALVAL"].ToString();
+                    ca.RecBy = dt.Rows[0]["RECDBY"].ToString();
+                    ca.Dis = dt.Rows[0]["DESPBY"].ToString();
+                    ca.Inspect = dt.Rows[0]["INSPBY"].ToString();
+                    ca.Trans = dt.Rows[0]["TRANSMODE"].ToString();
+                    ca.Vno = dt.Rows[0]["VNO"].ToString();
+                    ca.InvoiceD = dt.Rows[0]["INVDESC"].ToString();
+                    ca.TranCharger = dt.Rows[0]["TRANSP"].ToString();
+                    ca.Tname = dt.Rows[0]["TRANSNAME"].ToString();
+                    ca.Distance = dt.Rows[0]["TRANSLIMIT"].ToString();
+                    ca.Doc = dt.Rows[0]["DOCTHORUGH"].ToString();
+                    ca.AinWords = dt.Rows[0]["AMTWORDS"].ToString();
+                    ca.Serial = dt.Rows[0]["SERNO"].ToString();
+                    ca.Narration = dt.Rows[0]["NARRATION"].ToString();
+                    ca.Round = Convert.ToDouble(dt.Rows[0]["RNDOFF"].ToString() == "" ? "0" : dt.Rows[0]["RNDOFF"].ToString());
+                    ca.Packing = Convert.ToDouble(dt.Rows[0]["PACKING"].ToString() == "" ? "0" : dt.Rows[0]["PACKING"].ToString());
+                    ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+                    ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+
+                }
+                DataTable dt2 = new DataTable();
+                dt2 = SalesInvoiceService.GetEditItemDetails(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new SalesInvoiceItem();
+                        double toaamt = 0;
+                        //tda.ItemGrouplst = BindItemGrplst();
+                        //DataTable dt3 = new DataTable();
+                        //dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        //if (dt3.Rows.Count > 0)
+                        //{
+                        //    tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        //}
+                        tda.Itemlst = BindItemlst("");
+                        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+
+                        DataTable dt4 = new DataTable();
+                        dt4 = datatrans.GetItemDetails(tda.ItemId);
+                        if (dt4.Rows.Count > 0)
+                        {
+
+                            tda.ConFac = dt4.Rows[0]["CF"].ToString();
+                            tda.rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
+                        }
+                        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        toaamt = tda.rate * tda.Quantity;
+                        total += toaamt;
+                        //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        tda.Amount = toaamt;
+                        tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                        tda.FrigCharge = Convert.ToDouble(dt2.Rows[i]["FREIGHT"].ToString() == "" ? "0" : dt2.Rows[i]["FREIGHT"].ToString());
+                        tda.DiscAmount = Convert.ToDouble(dt2.Rows[i]["DISCOUNT"].ToString() == "" ? "0" : dt2.Rows[i]["DISCOUNT"].ToString());
+                        tda.CGSTP = Convert.ToDouble(dt2.Rows[i]["CGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTP"].ToString());
+                        tda.SGSTP = Convert.ToDouble(dt2.Rows[i]["SGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTP"].ToString());
+                        tda.IGSTP = Convert.ToDouble(dt2.Rows[i]["IGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTP"].ToString());
+                        tda.CGST = Convert.ToDouble(dt2.Rows[i]["CGST"].ToString() == "" ? "0" : dt2.Rows[i]["CGST"].ToString());
+                        tda.SGST = Convert.ToDouble(dt2.Rows[i]["SGST"].ToString() == "" ? "0" : dt2.Rows[i]["SGST"].ToString());
+                        tda.IGST = Convert.ToDouble(dt2.Rows[i]["IGST"].ToString() == "" ? "0" : dt2.Rows[i]["IGST"].ToString());
+                        tda.IntroDiscount = Convert.ToDouble(dt2.Rows[i]["IDISC"].ToString() == "" ? "0" : dt2.Rows[i]["IDISC"].ToString());
+                        tda.CashDiscount = Convert.ToDouble(dt2.Rows[i]["CDISC"].ToString() == "" ? "0" : dt2.Rows[i]["CDISC"].ToString());
+                        tda.TradeDiscount = Convert.ToDouble(dt2.Rows[i]["TDISC"].ToString() == "" ? "0" : dt2.Rows[i]["TDISC"].ToString());
+                        tda.AddDiscount = Convert.ToDouble(dt2.Rows[i]["ADISC"].ToString() == "" ? "0" : dt2.Rows[i]["ADISC"].ToString());
+                        tda.SpecDiscount = Convert.ToDouble(dt2.Rows[i]["SDISC"].ToString() == "" ? "0" : dt2.Rows[i]["SDISC"].ToString());
+                        tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
+
+
+
+
+
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
+                }
+
+            }
+            ca.SIlst = TData;
+            ca.TermsItemlst = TData1;
+            ca.AreaItemlst = TData2;
+            return View(ca);
+        }
+        public ActionResult GetWO(string jobid)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string location = "";
+                string party = "";
+              
+                    dt = SalesInvoiceService.Getjobdetails(jobid);
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        party = dt.Rows[0]["PARTYID"].ToString();
+                       location = dt.Rows[0]["LOCID"].ToString();
+                    }
+
+
+                var result = new { party = party, location = location };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public IActionResult SalesInvoiceS(string id)
+        {
+            SalesInvoice ca = new SalesInvoice();
+            ca.Brlst = BindBranch();
+            ca.Curlst = BindCurrency();
+            ca.Currency = "1";
+            ca.Loclst = GetLoc();
+            ca.Invlst = BindInVoiceType();
+            ca.Suplst = BindSupplier();
+            ca.Typelst = BindType();
+            ca.Orderlst = BindOrder();
+            ca.Dislst = BindDispatchType();
+            ca.Inspelst = BindInspect();
+            ca.Doclst = BindDocument();
+            ca.Voclst = BindVocher();
+            ca.Tranlst = BindTrans();
+            ca.Tnamelst = Tname();
+            ca.enterdby = Request.Cookies["Username"];
+            List<SalesInvoiceItem> TData = new List<SalesInvoiceItem>();
+            SalesInvoiceItem tda = new SalesInvoiceItem();
+            List<TermsItem> TData1 = new List<TermsItem>();
+            TermsItem tda1 = new TermsItem();
+            List<AreaItem> TData2 = new List<AreaItem>();
+            AreaItem tda2 = new AreaItem();
+
+            if (id == null)
+            {
+                ca.Doc = "BY HAND";
+                ca.Ordsam = "ORDER";
+                ca.Dis = "Road";
+                ca.Inspect = "OWN";
+                ca.RecBy = "OWN";
+                ca.Vocher = "R";
+                ca.Branch = "10001000000001";
+                ca.Location = "12418000000423";
+                //ca.Narration = "Invoice to";
+                string loc = ca.Location;
+                ViewBag.locdisp = ca.Location;
+                ca.InvDate = DateTime.Now.ToString("dd-MMM-yyyy");
+                ca.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
+                ca.ExRate = "1";
+                DataTable dtv = datatrans.GetSequence("Deinv", loc);
+                if (dtv.Rows.Count > 0)
+                {
+                    ca.InvNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["LASTNO"].ToString();
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new SalesInvoiceItem();
                     //tda.ItemGrouplst = BindItemGrplst();
                     tda.Itemlst = BindItemlst("");
                     tda.binlst = BindBin();
@@ -150,7 +359,7 @@ namespace Arasan.Controllers
                 {
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
-                        tda = new DepotInvoiceItem();
+                        tda = new SalesInvoiceItem();
                         double toaamt = 0;
                         //tda.ItemGrouplst = BindItemGrplst();
                         //DataTable dt3 = new DataTable();
@@ -202,7 +411,7 @@ namespace Arasan.Controllers
                 }
 
             }
-            ca.Depotlst = TData;
+            ca.SIlst = TData;
             ca.TermsItemlst = TData1;
             ca.AreaItemlst = TData2;
             return View(ca);
@@ -383,6 +592,23 @@ namespace Arasan.Controllers
                 return builder.ToString().ToLower();
             return builder.ToString();
         }
+        public List<SelectListItem> BindJob()
+        {
+            try
+            {
+                DataTable dtDesg = SalesInvoiceService.GetJob();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["JOBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult MyListSIGrid(string strStatus)
         {
             List<ListSIItems> Reg = new List<ListSIItems>();
@@ -392,23 +618,29 @@ namespace Arasan.Controllers
             string EditRow = string.Empty;
             string DeleteRow = string.Empty;
             string jsonRow = string.Empty;
+            string viewrow=string.Empty;
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
                 //EditRow = "<a href=ProFormaInvoice?id=" + dtUsers.Rows[i]["PINVBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 //DeleteRow = "<a href=CloseQuote?id=" + dtUsers.Rows[i]["PINVBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 jsonRow = "<a href=Jsonexport?id=" + dtUsers.Rows[i]["EXINVBASICID"].ToString() + "><img src='../Images/json.png' alt='Edit' /></a>";
-
+                viewrow = "<a href=ViewSI?id=" + dtUsers.Rows[i]["EXINVBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View' /></a>";
                 Reg.Add(new ListSIItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["EXINVBASICID"].ToString()),
                     docno = dtUsers.Rows[i]["INVNO"].ToString(),
                     currency = dtUsers.Rows[i]["MAINCURR"].ToString(),
-                    date = dtUsers.Rows[i]["INVDAT"].ToString(),
+                    date = dtUsers.Rows[i]["INVDATE"].ToString(),
                     party = dtUsers.Rows[i]["PARTYID"].ToString(),
                     edit = EditRow,
                     delrow = DeleteRow,
-                    jsonrow= jsonRow
-
+                    jsonrow= jsonRow,
+                    viewrow= viewrow,
+                    gross= dtUsers.Rows[i]["GROSS"].ToString(),
+                    net= dtUsers.Rows[i]["NET"].ToString(),
+                    cgst= dtUsers.Rows[i]["BCGST"].ToString(),
+                    igst= dtUsers.Rows[i]["BIGST"].ToString(),
+                    sgst = dtUsers.Rows[i]["BSGST"].ToString(),
                 });
             }
 
@@ -417,6 +649,121 @@ namespace Arasan.Controllers
                 Reg
             });
 
+        }
+        public ActionResult ViewSI(string id)
+        {
+            SalesInvoice ca = new SalesInvoice();
+            DataTable dt = SalesInvoiceService.ViewDepot(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.InvoType = dt.Rows[0]["INVTYPE"].ToString();
+                ca.InvNo = dt.Rows[0]["DOCID"].ToString();
+                ca.InvDate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.ID = id;
+                ca.Location = dt.Rows[0]["LOCID"].ToString();
+                ca.Party = dt.Rows[0]["PARTYNAME"].ToString();
+                ca.Vocher = dt.Rows[0]["VTYPE"].ToString();
+
+                ca.Ordsam = dt.Rows[0]["EORDTYPE"].ToString();
+                ca.Sales = dt.Rows[0]["SALVAL"].ToString();
+                ca.RecBy = dt.Rows[0]["RECDBY"].ToString();
+                ca.Dis = dt.Rows[0]["DESPBY"].ToString();
+                ca.Inspect = dt.Rows[0]["INSPBY"].ToString();
+                ca.Doc = dt.Rows[0]["DOCTHORUGH"].ToString();
+                ca.AinWords = dt.Rows[0]["AMTWORDS"].ToString();
+                ca.Serial = dt.Rows[0]["SERNO"].ToString();
+                ca.Narration = dt.Rows[0]["NARRATION"].ToString();
+                ca.Round = Convert.ToDouble(dt.Rows[0]["RNDOFF"].ToString() == "" ? "0" : dt.Rows[0]["RNDOFF"].ToString());
+                //ca.Packing = Convert.ToDouble(dt.Rows[0]["PACKING"].ToString() == "" ? "0" : dt.Rows[0]["PACKING"].ToString());
+                ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+                ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+                ca.cgst = Convert.ToDouble(dt.Rows[0]["BCGST"].ToString() == "" ? "0" : dt.Rows[0]["BCGST"].ToString());
+                ca.sgst = Convert.ToDouble(dt.Rows[0]["BSGST"].ToString() == "" ? "0" : dt.Rows[0]["BSGST"].ToString());
+                ca.igst = Convert.ToDouble(dt.Rows[0]["BIGST"].ToString() == "" ? "0" : dt.Rows[0]["BIGST"].ToString());
+                ca.Discount = Convert.ToDouble(dt.Rows[0]["BDISCOUNT"].ToString() == "" ? "0" : dt.Rows[0]["BDISCOUNT"].ToString());
+                ca.FrightCharge = Convert.ToDouble(dt.Rows[0]["BFREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["BFREIGHT"].ToString());
+                ca.Trans = dt.Rows[0]["TRANSMODE"].ToString();
+                ca.Distance = dt.Rows[0]["TRANSLIMIT"].ToString();
+
+                //ca.Tname = dt.Rows[0]["TRANSNAME"].ToString();
+                ca.Vno = dt.Rows[0]["VNO"].ToString();
+                ca.InvoiceD = dt.Rows[0]["INVDESC"].ToString();
+                ca.TranCharger = dt.Rows[0]["TRANSP"].ToString();
+
+            }
+            List<SalesInvoiceItem> TData = new List<SalesInvoiceItem>();
+            SalesInvoiceItem tda = new SalesInvoiceItem();
+            DataTable dtproin = SalesInvoiceService.Depotdetail(id);
+            if (dtproin.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtproin.Rows.Count; i++)
+                {
+                    tda = new SalesInvoiceItem();
+                    tda.ItemId = dtproin.Rows[i]["ITEMID"].ToString();
+                    tda.ItemType = dtproin.Rows[i]["ITEMTYPE"].ToString();
+                    tda.ItemSpec = dtproin.Rows[i]["ITEMSPEC"].ToString();
+                    tda.Quantity = dtproin.Rows[i]["QTY"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["QTY"].ToString()) : 0;
+                    tda.CashDiscount = dtproin.Rows[i]["CDISC"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["CDISC"].ToString()) : 0;
+                    tda.FrigCharge = dtproin.Rows[i]["FREIGHT"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["FREIGHT"].ToString()) : 0;
+                    tda.CGST = dtproin.Rows[i]["CGST"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["CGST"].ToString()) : 0;
+                    tda.SGST = dtproin.Rows[i]["SGST"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["SGST"].ToString()) : 0;
+                    tda.IGST = dtproin.Rows[i]["IGST"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["IGST"].ToString()) : 0;
+                    tda.DiscAmount = dtproin.Rows[i]["DISCOUNT"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["DISCOUNT"].ToString()) : 0;
+                    tda.Unit = dtproin.Rows[i]["PRIUNIT"].ToString();
+                    //tda.ConFac = dtproin.Rows[i]["CF"].ToString();
+                    //tda.CurrentStock = dtproin.Rows[i]["IQTY"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["IQTY"].ToString()) : 0;
+                    tda.binid = dtproin.Rows[i]["BINID"].ToString();
+                    tda.rate = dtproin.Rows[i]["RATE"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["RATE"].ToString()) : 0;
+                    tda.Amount = dtproin.Rows[i]["AMOUNT"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["AMOUNT"].ToString()) : 0;
+                    tda.TotalAmount = dtproin.Rows[i]["TOTAMT"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["TOTAMT"].ToString()) : 0;
+                    TData.Add(tda);
+                }
+            }
+            List<TermsItem> TData1 = new List<TermsItem>();
+            TermsItem tda1 = new TermsItem();
+            DataTable dtProInCons = SalesInvoiceService.TermsDetail(id);
+            if (dtProInCons.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtProInCons.Rows.Count; i++)
+                {
+                    tda1 = new TermsItem();
+                    tda1.Terms = dtProInCons.Rows[i]["TANDC"].ToString();
+
+                    TData1.Add(tda1);
+                }
+            }
+            List<AreaItem> TData2 = new List<AreaItem>();
+            AreaItem tda2 = new AreaItem();
+            DataTable dtproOut = SalesInvoiceService.AreaDetail(id);
+            if (dtproOut.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtproOut.Rows.Count; i++)
+                {
+                    tda2 = new AreaItem();
+                    tda2.Areaid = dtproOut.Rows[i]["STYPE"].ToString();
+                    tda2.Add1 = dtproOut.Rows[i]["SADD1"].ToString();
+                    tda2.Add2 = dtproOut.Rows[i]["SADD2"].ToString();
+                    tda2.Add3 = dtproOut.Rows[i]["SADD3"].ToString();
+                    tda2.State = dtproOut.Rows[i]["SSTATE"].ToString();
+                    tda2.City = dtproOut.Rows[i]["SCITY"].ToString();
+                    tda2.Phone = dtproOut.Rows[i]["SPHONE"].ToString();
+                    tda2.PinCode = dtproOut.Rows[i]["SPINCODE"].ToString();
+                    tda2.Email = dtproOut.Rows[i]["SEMAIL"].ToString();
+                    tda2.Receiver = dtproOut.Rows[i]["SNAME"].ToString();
+                    tda2.Fax = dtproOut.Rows[i]["SFAX"].ToString();
+
+
+                    TData2.Add(tda2);
+                }
+            }
+
+            ca.SIlst = TData;
+            ca.TermsItemlst = TData1;
+            ca.AreaItemlst = TData2;
+
+
+            return View(ca);
         }
         public ActionResult MyListSIJSONGrid(string strStatus)
         {
@@ -625,6 +972,10 @@ namespace Arasan.Controllers
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindTerms());
         }
+        public JsonResult GetjobschJSON(string jobid)
+        {
+            return Json(BindJobSch(jobid));
+        }
         public List<SelectListItem> BindTerms()
         {
             try
@@ -634,6 +985,23 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TANDC"].ToString(), Value = dtDesg.Rows[i]["TANDCDETAILID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindJobSch(string jobid)
+        {
+            try
+            {
+                DataTable dtDesg = SalesInvoiceService.GetSchedule(jobid);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SCHNO"].ToString(), Value = dtDesg.Rows[i]["JOSCHEDULEID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -757,19 +1125,17 @@ namespace Arasan.Controllers
             ca.Drumlst = TData;
             return View(ca);
         }
-        public JsonResult GetItemGrpJSON()
-        {
-            //EnqItem model = new EnqItem();
-            //  model.ItemGrouplst = BindItemGrplst(value);
-            return Json(BindItemGrplst());
-        }
-
+        
         public JsonResult GetBinJSON()
         {
-            //EnqItem model = new EnqItem();
-            //  model.ItemGrouplst = BindItemGrplst(value);
-            return Json(BindBin());
+           return Json(BindBin());
         }
+        public List<SelectListItem> Bindempty()
+        {
+            List<SelectListItem> lstdesg = new List<SelectListItem>();
+            return lstdesg;
+        }
+            
         public List<SelectListItem> BindItemlst(string locid)
         {
             try
@@ -1250,121 +1616,7 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public IActionResult ViewDepotInvoice(string id)
-        {
-            DepotInvoice ca = new DepotInvoice();
-            DataTable dt = SalesInvoiceService.ViewDepot(id);
-            if (dt.Rows.Count > 0)
-            {
-                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
-                ca.InvoType = dt.Rows[0]["INVTYPE"].ToString();
-                ca.InvNo = dt.Rows[0]["DOCID"].ToString();
-                ca.InvDate = dt.Rows[0]["DOCDATE"].ToString();
-                ca.ID = id;
-                ca.Location = dt.Rows[0]["LOCID"].ToString();
-                ca.Party = dt.Rows[0]["PARTYNAME"].ToString();
-                ca.Vocher = dt.Rows[0]["VTYPE"].ToString();
-
-                ca.Ordsam = dt.Rows[0]["EORDTYPE"].ToString();
-                ca.Sales = dt.Rows[0]["SALVAL"].ToString();
-                ca.RecBy = dt.Rows[0]["RECDBY"].ToString();
-                ca.Dis = dt.Rows[0]["DESPBY"].ToString();
-                ca.Inspect = dt.Rows[0]["INSPBY"].ToString();
-                ca.Doc = dt.Rows[0]["DOCTHORUGH"].ToString();
-                ca.AinWords = dt.Rows[0]["AMTWORDS"].ToString();
-                ca.Serial = dt.Rows[0]["SERNO"].ToString();
-                ca.Narration = dt.Rows[0]["NARRATION"].ToString();
-                ca.Round = Convert.ToDouble(dt.Rows[0]["RNDOFF"].ToString() == "" ? "0" : dt.Rows[0]["RNDOFF"].ToString());
-                //ca.Packing = Convert.ToDouble(dt.Rows[0]["PACKING"].ToString() == "" ? "0" : dt.Rows[0]["PACKING"].ToString());
-                ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
-                ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
-                ca.cgst = Convert.ToDouble(dt.Rows[0]["BCGST"].ToString() == "" ? "0" : dt.Rows[0]["BCGST"].ToString());
-                ca.sgst = Convert.ToDouble(dt.Rows[0]["BSGST"].ToString() == "" ? "0" : dt.Rows[0]["BSGST"].ToString());
-                ca.igst = Convert.ToDouble(dt.Rows[0]["BIGST"].ToString() == "" ? "0" : dt.Rows[0]["BIGST"].ToString());
-                ca.Discount = Convert.ToDouble(dt.Rows[0]["BDISCOUNT"].ToString() == "" ? "0" : dt.Rows[0]["BDISCOUNT"].ToString());
-                ca.FrightCharge = Convert.ToDouble(dt.Rows[0]["BFREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["BFREIGHT"].ToString());
-                ca.Trans = dt.Rows[0]["TRANSMODE"].ToString();
-                ca.Distance = dt.Rows[0]["TRANSLIMIT"].ToString();
-
-                //ca.Tname = dt.Rows[0]["TRANSNAME"].ToString();
-                ca.Vno = dt.Rows[0]["VNO"].ToString();
-                ca.InvoiceD = dt.Rows[0]["INVDESC"].ToString();
-                ca.TranCharger = dt.Rows[0]["TRANSP"].ToString();
-
-            }
-            List<DepotInvoiceItem> TData = new List<DepotInvoiceItem>();
-            DepotInvoiceItem tda = new DepotInvoiceItem();
-            DataTable dtproin = SalesInvoiceService.Depotdetail(id);
-            if (dtproin.Rows.Count > 0)
-            {
-                for (int i = 0; i < dtproin.Rows.Count; i++)
-                {
-                    tda = new DepotInvoiceItem();
-                    tda.ItemId = dtproin.Rows[i]["ITEMID"].ToString();
-                    tda.ItemType = dtproin.Rows[i]["ITEMTYPE"].ToString();
-                    tda.ItemSpec = dtproin.Rows[i]["ITEMSPEC"].ToString();
-                    tda.Quantity = dtproin.Rows[i]["QTY"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["QTY"].ToString()) : 0;
-                    tda.CashDiscount = dtproin.Rows[i]["CDISC"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["CDISC"].ToString()) : 0;
-                    tda.FrigCharge = dtproin.Rows[i]["FREIGHT"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["FREIGHT"].ToString()) : 0;
-                    tda.CGST = dtproin.Rows[i]["CGST"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["CGST"].ToString()) : 0;
-                    tda.SGST = dtproin.Rows[i]["SGST"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["SGST"].ToString()) : 0;
-                    tda.IGST = dtproin.Rows[i]["IGST"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["IGST"].ToString()) : 0;
-                    tda.DiscAmount = dtproin.Rows[i]["DISCOUNT"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["DISCOUNT"].ToString()) : 0;
-                    tda.Unit = dtproin.Rows[i]["PRIUNIT"].ToString();
-                    //tda.ConFac = dtproin.Rows[i]["CF"].ToString();
-                    //tda.CurrentStock = dtproin.Rows[i]["IQTY"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["IQTY"].ToString()) : 0;
-                    tda.binid = dtproin.Rows[i]["BINID"].ToString();
-                    tda.rate = dtproin.Rows[i]["RATE"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["RATE"].ToString()) : 0;
-                    tda.Amount = dtproin.Rows[i]["AMOUNT"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["AMOUNT"].ToString()) : 0;
-                    tda.TotalAmount = dtproin.Rows[i]["TOTAMT"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["TOTAMT"].ToString()) : 0;
-                    TData.Add(tda);
-                }
-            }
-            List<TermsItem> TData1 = new List<TermsItem>();
-            TermsItem tda1 = new TermsItem();
-            DataTable dtProInCons = SalesInvoiceService.TermsDetail(id);
-            if (dtProInCons.Rows.Count > 0)
-            {
-                for (int i = 0; i < dtProInCons.Rows.Count; i++)
-                {
-                    tda1 = new TermsItem();
-                    tda1.Terms = dtProInCons.Rows[i]["TANDC"].ToString();
-
-                    TData1.Add(tda1);
-                }
-            }
-            List<AreaItem> TData2 = new List<AreaItem>();
-            AreaItem tda2 = new AreaItem();
-            DataTable dtproOut = SalesInvoiceService.AreaDetail(id);
-            if (dtproOut.Rows.Count > 0)
-            {
-                for (int i = 0; i < dtproOut.Rows.Count; i++)
-                {
-                    tda2 = new AreaItem();
-                    tda2.Areaid = dtproOut.Rows[i]["STYPE"].ToString();
-                    tda2.Add1 = dtproOut.Rows[i]["SADD1"].ToString();
-                    tda2.Add2 = dtproOut.Rows[i]["SADD2"].ToString();
-                    tda2.Add3 = dtproOut.Rows[i]["SADD3"].ToString();
-                    tda2.State = dtproOut.Rows[i]["SSTATE"].ToString();
-                    tda2.City = dtproOut.Rows[i]["SCITY"].ToString();
-                    tda2.Phone = dtproOut.Rows[i]["SPHONE"].ToString();
-                    tda2.PinCode = dtproOut.Rows[i]["SPINCODE"].ToString();
-                    tda2.Email = dtproOut.Rows[i]["SEMAIL"].ToString();
-                    tda2.Receiver = dtproOut.Rows[i]["SNAME"].ToString();
-                    tda2.Fax = dtproOut.Rows[i]["SFAX"].ToString();
-
-
-                    TData2.Add(tda2);
-                }
-            }
-
-            ca.Depotlst = TData;
-            ca.TermsItemlst = TData1;
-            ca.AreaItemlst = TData2;
-
-
-            return View(ca);
-        }
+        
 
         public ActionResult GetDocidDetail(string ItemId, string ordtype)
         {

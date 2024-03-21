@@ -31,5 +31,8 @@ namespace Arasan.Interface
         DataTable GetSIITEMDetails(string SIID);
         DataTable GetNarr(string id);
         DataTable GetAllListSalesInvoiceItems();
+        DataTable GetJob();
+        DataTable Getjobdetails(string jobid);
+        DataTable GetSchedule(string jobid);
     }
 }
