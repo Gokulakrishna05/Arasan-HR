@@ -87,63 +87,108 @@ namespace Arasan.Services.Sales
         public string WorkOrderCRUD(WorkOrder cy)
         {
 			string msg = "";
+			string Pid = "";
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
                 datatrans = new DataTransactions(_connectionString);
 
 
+                 
 
-                
-                string party = datatrans.GetDataString("Select PARTYNAME from PARTYMAST where PARTY='" + cy.Customer + "' ");
-                string partyid = datatrans.GetDataString("Select PARTYMASTID from PARTYMAST where PARTYNAME='" + party + "' ");
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'JOB#' AND ACTIVESEQUENCE = 'T'  ");
+                string DocId = string.Format("{0}{1}", "JOB#", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='JOB#' AND ACTIVESEQUENCE ='T'  ";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                cy.JopId = DocId;
 
 
-                string currency = datatrans.GetDataString("Select CURRENCYID from CURRENCY where MAINCURR='" + cy.Currency + "' ");
-                string symbol = datatrans.GetDataString("Select SYMBOL from CURRENCY where MAINCURR='" + cy.Currency + "' ");
+                DataTable party = datatrans.GetData("Select PARTYNAME,RATECODE,ADD1,ADD2,ADD3,PINCODE,EMAIL,CITY,STATE,ACCOUNTNAME,CSTNO,SSTNO,MOBILE,CONCODE,PARTYGROUP from PARTYMAST where PARTYMASTID='" + cy.Customer + "' ");
+ 
+
+                 string symbol = datatrans.GetDataString("Select SYMBOL from CURRENCY where CURRENCY='" + cy.Currency + "' ");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
 				{
-					OracleCommand objCmd = new OracleCommand("WORKORDERPROC", objConn);
-					/*objCmd.Connection = objConn;
-                    objCmd.CommandText = "PURQUOPROC";*/
+                    objConn.Open();
+     //               OracleCommand objCmd = new OracleCommand("WORKORDERPROC", objConn);
+					///*objCmd.Connection = objConn;
+     //               objCmd.CommandText = "PURQUOPROC";*/
 
-					objCmd.CommandType = CommandType.StoredProcedure;
-					
-						StatementType = "Update";
-						objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-					
+					//objCmd.CommandType = CommandType.StoredProcedure;
+
+                    if (cy.ID == null)
+                    {
+                        string SvSqlo = "Insert into JOBASIC (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,DOCID,DOCDATE,PARTYNAME,CREFNO,CREFDATE,SMSDATE,PARTYID,TRANSID,SENDSMS,REFNO,BRANCHID,MAINCURRENCY,SYMBOL,EXRATE,USERID,RATECODE,TYPE,ORDTYPE,ENTEREDBY,AITEMSPEC,RATETYPE,LOCID,ADD1,ADD2,ADD3,CITY,STATE,PARTYACC,EMAIL,PINCODE,CSTNO,SSTNO,MOBILE,COUNTRYCODE,TRANSAMOUNT,CRLIMIT,PGROUP,NET,BSGST,BCGST,BIGST,BDISC,GROSS,STATUS)" +
+                        " VALUES ('0','0','F','0','0' ,'" + cy.JopId + "','"+cy.JopDate+"','" + party.Rows[0]["PARTYNAME"].ToString() + "','" + cy.CusNo + "','"+ cy.Cusdate + "','" + cy.Cusdate + "','"+cy.Customer+ "','jo','NO','NONE','" + cy.Branch + "','" + cy.Currency + "','"+symbol+"','"+cy.ExRate+ "','" + cy.user + "','" + party.Rows[0]["RATECODE"].ToString() + "','STANDARD','"+cy.OrderType+"','"+cy.Emp+ "','STD','OUTRIGHT','"+cy.Location+ "','" + party.Rows[0]["ADD1"].ToString() + "','" + party.Rows[0]["ADD2"].ToString() + "','" + party.Rows[0]["ADD3"].ToString() + "','" + party.Rows[0]["STATE"].ToString() + "','" + party.Rows[0]["CITY"].ToString() + "','" + party.Rows[0]["ACCOUNTNAME"].ToString() + "','" + party.Rows[0]["EMAIL"].ToString() + "','" + party.Rows[0]["PINCODE"].ToString() + "','" + party.Rows[0]["CSTNO"].ToString() + "','" + party.Rows[0]["SSTNO"].ToString() + "','" + party.Rows[0]["MOBILE"].ToString() + "','" + party.Rows[0]["CONCODE"].ToString() + "','"+cy.TransAmount+"','"+cy.CreditLimit+ "','" + party.Rows[0]["PARTYGROUP"].ToString() + "','"+cy.Net+ "','" + cy.sgst + "','" + cy.cgst + "','" + cy.igst + "','" + cy.Discount + "','" + cy.Gross + "','Active') RETURNING JOBASICID INTO :OUTID";
+                        OracleCommand objCmdso = new OracleCommand(SvSqlo, objConn);
+                        objCmdso.Parameters.Add("OUTID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                        objCmdso.ExecuteNonQuery();
+                         Pid = objCmdso.Parameters["OUTID"].Value.ToString();
+                    }
+                    //else
+                    //{
+                    //    StatementType = "Update";
+                    //    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+
+                    //}
+
 
 
                     //objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                    objCmd.Parameters.Add("QUOID", OracleDbType.NVarchar2).Value = cy.Quo;
-                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.JopId;
-                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
-					objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
-                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = partyid;
-                    objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = party;
+     //               objCmd.Parameters.Add("QUOID", OracleDbType.NVarchar2).Value = cy.Quo;
+     //               objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.JopId;
+     //               objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
+					//objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
+     //               objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Customer,
+     //               objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = party.Rows[0]["PARTYNAME"].ToString();
 
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.JopDate;
-					objCmd.Parameters.Add("CREFNO", OracleDbType.NVarchar2).Value = cy.CusNo;
-                    objCmd.Parameters.Add("CREFDATE", OracleDbType.NVarchar2).Value = cy.Cusdate;
+     //               objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.JopDate;
+					//objCmd.Parameters.Add("CREFNO", OracleDbType.NVarchar2).Value = cy.CusNo;
+     //               objCmd.Parameters.Add("CREFDATE", OracleDbType.NVarchar2).Value = cy.Cusdate;
 
-                    objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = currency;
-                    objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = symbol;
-                    objCmd.Parameters.Add("EXRATE", OracleDbType.NVarchar2).Value = cy.ExRate;
+     //               objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
+     //               objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = symbol;
+     //               objCmd.Parameters.Add("EXRATE", OracleDbType.NVarchar2).Value = cy.ExRate;
 
-                    objCmd.Parameters.Add("TRANSAMOUNT", OracleDbType.NVarchar2).Value = cy.TransAmount;
-					objCmd.Parameters.Add("CRLIMIT", OracleDbType.NVarchar2).Value = cy.CreditLimit;
-					//objCmd.Parameters.Add("CONTACT_PERSON_MOBILE", OracleDbType.NVarchar2).Value = cy.SalesValue;
-					objCmd.Parameters.Add("ORDTYPE", OracleDbType.NVarchar2).Value = cy.OrderType;
-					objCmd.Parameters.Add("RATETYPE", OracleDbType.NVarchar2).Value = cy.RateType;
-					objCmd.Parameters.Add("RATECODE", OracleDbType.NVarchar2).Value = cy.RateCode;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value ="Active";
-                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-					objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+     //               objCmd.Parameters.Add("TRANSAMOUNT", OracleDbType.NVarchar2).Value = cy.TransAmount;
+					//objCmd.Parameters.Add("CRLIMIT", OracleDbType.NVarchar2).Value = cy.CreditLimit;
+					////objCmd.Parameters.Add("CONTACT_PERSON_MOBILE", OracleDbType.NVarchar2).Value = cy.SalesValue;
+					//objCmd.Parameters.Add("ORDTYPE", OracleDbType.NVarchar2).Value = cy.OrderType;
+					//objCmd.Parameters.Add("RATETYPE", OracleDbType.NVarchar2).Value = cy.RateType;
+					//objCmd.Parameters.Add("RATECODE", OracleDbType.NVarchar2).Value = party.Rows[0]["RATECODE"].ToString();
+					//objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = party.Rows[0]["ADD1"].ToString();
+					//objCmd.Parameters.Add("ADD2", OracleDbType.NVarchar2).Value = party.Rows[0]["ADD2"].ToString();
+					//objCmd.Parameters.Add("ADD3", OracleDbType.NVarchar2).Value = party.Rows[0]["ADD3"].ToString();
+					//objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = party.Rows[0]["PINCODE"].ToString();
+					//objCmd.Parameters.Add("EMAIL", OracleDbType.NVarchar2).Value = party.Rows[0]["EMAIL"].ToString();
+					//objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = party.Rows[0]["CITY"].ToString();
+					//objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = party.Rows[0]["STATE"].ToString();
+					//objCmd.Parameters.Add("PARTYACC", OracleDbType.NVarchar2).Value = party.Rows[0]["ACCOUNTNAME"].ToString();
+					//objCmd.Parameters.Add("CSTNO", OracleDbType.NVarchar2).Value = party.Rows[0]["CSTNO"].ToString();
+					//objCmd.Parameters.Add("SSTNO", OracleDbType.NVarchar2).Value = party.Rows[0]["SSTNO"].ToString();
+					//objCmd.Parameters.Add("MOBILE", OracleDbType.NVarchar2).Value = party.Rows[0]["MOBILE"].ToString();
+     //               objCmd.Parameters.Add("COUNTRYCODE", OracleDbType.NVarchar2).Value = party.Rows[0]["CONCODE"].ToString();
+     //               objCmd.Parameters.Add("PGROUP", OracleDbType.NVarchar2).Value = party.Rows[0]["PARTYGROUP"].ToString();
+     //                    objCmd.Parameters.Add("BSGST", OracleDbType.NVarchar2).Value = cy.sgst;
+     //               objCmd.Parameters.Add("BCGST", OracleDbType.NVarchar2).Value = cy.cgst;
+     //               objCmd.Parameters.Add("BIGST", OracleDbType.NVarchar2).Value = cy.igst;
+     //               objCmd.Parameters.Add("BDISC", OracleDbType.NVarchar2).Value = cy.Discount;
+     //               objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.Gross;
+     //               objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.Net;
+     //               objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+					//objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 					try
 					{
-                        objConn.Open();
-                        objCmd.ExecuteNonQuery();
-                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        
+                       
                         //string Pid = "0";
                         if (cy.ID != null)
                         {
@@ -155,14 +200,42 @@ namespace Arasan.Services.Sales
                             {
                                 foreach (WorkItem cp in cy.Worklst)
                                 {
-                                     
+
                                     string UnitId = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.unit + "' ");
+
 
                                     if (cp.Isvalid == "Y" && cp.itemid != "0")
                                     {
-                                        svSQL = "Insert into JODETAIL (JOBASICID,QTY,MATSUPP,ITEMID,DCQTY,RATE,AMOUNT,UNIT,ITEMSPEC,PACKSPEC,DISCOUNT,FREIGHTAMT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,FREIGHT,TAXTYPE) VALUES ('" + Pid + "','" + cp.orderqty + "','OWN','" + cp.itemid + "','" + cp.disqty + "','" + cp.rate + "','" + cp.amount + "','" + UnitId + "','" + cp.itemspec + "','" + cp.packind + "','" + cp.discount + "','" + cp.freightamt + "','" + cp.qtydis + "','" + cp.cashdis + "','" + cp.introdis + "','" + cp.tradedis + "','" + cp.additiondis + "','" + cp.spldis + "','" + cp.freight + "','" + cp.taxtype + "')";
+                                        svSQL = "Insert into JODETAIL (JOBASICID,QTY,MATSUPP,ITEMID,RATE,AMOUNT,UNIT,ITEMSPEC,PACKSPEC,DISCOUNT,FREIGHTAMT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,FREIGHT,TAXTYPE,SGSTP,CGSTP,IGSTP,SGST,CGST,IGST) " +
+                                            "VALUES ('" + Pid + "','" + cp.orderqty + "','OWN','" + cp.itemid + "','" + cp.rate + "','" + cp.amount + "','" + UnitId + "','" + cp.itemspec + "','" + cp.packind + "','" + cp.discount + "','" + cp.freightamt + "','" + cp.qtydis + "','" + cp.cashdis + "','" + cp.introdis + "','" + cp.tradedis + "','" + cp.additiondis + "','" + cp.spldis + "','" + cp.freight + "','" + cp.taxtype + "','" + cp.sgstp + "','" + cp.cstp + "','" + cp.igstp + "','" + cp.sgst + "','" + cp.cgst + "','" + cp.igst + "') RETURNING JOBASICID INTO :OUTID";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.Parameters.Add("OUTID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                         objCmds.ExecuteNonQuery();
+                                        string did = objCmds.Parameters["OUTID"].Value.ToString();
+
+
+
+                                        string[] sqty = cp.schqty.Split('/');
+                                        string[] sdate = cp.schdate.Split('/');
+                                        int r = 1;
+
+
+                                        for (int i = 0; i < sqty.Length; i++)
+                                        {
+                                            string itemname = datatrans.GetDataString("Select ITEMID from ITEMMASTER where ITEMMASTERID='" + cp.itemid + "' ");
+
+                                            string schno = cy.JopId + " - " + itemname + " - " + r;
+                                            string ssqty = sqty[i];
+                                            string scdate = sdate[i];
+
+
+
+                                            svSQL = "Insert into JOSCHEDULE(JOBASICID,PARENTRECORDID,JOSCHEDULEROW,SCHNO,SCHQTY,SCHDATE,SCHSUPPQTY,PARENTROW,SCHITEMID,SCHPRECLQTY,USCHDATE) VALUES ('" + Pid + "','" + did + "','" + r + "','" + schno + "','" + ssqty + "','" + scdate + "','" + ssqty + "','" + r + "','" + cp.itemid + "','0','" + scdate + "')";
+                                            objCmds = new OracleCommand(svSQL, objConn);
+                                            objCmds.ExecuteNonQuery();
+
+                                            r++;
+                                        }
                                     }
                                 }
                             }
@@ -173,7 +246,7 @@ namespace Arasan.Services.Sales
                                 objCmdd.ExecuteNonQuery();
                                 foreach (WorkItem cp in cy.Worklst)
                                 {
-                                   
+
                                     string UnitId = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.unit + "' ");
                                     if (cp.Isvalid == "Y" && cp.itemid != "0")
                                     {
@@ -289,7 +362,7 @@ namespace Arasan.Services.Sales
         public DataTable GetWorkOrderByID(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS,JOBASIC.LOCID as LOCMASTERID,JOBASIC.PARTYID as CUSTOMERID,JOBASIC.JOBASICID from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID WHERE  JOBASICID='" + id + "' ";
+            SvSql = "Select J.DOCID,to_char(J.DOCDATE,'dd-MON-yyyy')DOCDATE,J.PARTYNAME,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JS.JOBASICID,J.STATUS,J.LOCID as LOCMASTERID,J.PARTYID as CUSTOMERID,J.JOBASICID,JS.SCHNO,to_char(JS.SCHDATE,'dd-MON-yyyy')SCHDATE from JOSCHEDULE JS, JOBASIC J left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=J.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=J.BRANCHID  WHERE J.JOBASICID =JS.JOBASICID AND  JS.JOSCHEDULEID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -309,7 +382,7 @@ namespace Arasan.Services.Sales
         public DataTable GetWorkOrderDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select JOBASICID,QTY,MATSUPP,JODETAIL.ITEMID as item,ITEMMASTER.ITEMID,DCQTY,RATE,AMOUNT,UNITMAST.UNITID,ITEMSPEC,PACKSPEC,DISCOUNT,FREIGHTAMT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,FREIGHT,TAXTYPE,JODETAIL.JODETAILID from JODETAIL left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID=JODETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT Where JOBASICID='" + id + "' ";
+            SvSql = "select JD.JOBASICID,JD.QTY,JS.SCHQTY,JD.ITEMID as item,ITEMMASTER.ITEMID,DCQTY,RATE,AMOUNT,UNITMAST.UNITID,ITEMSPEC,PACKSPEC,DISCOUNT,FREIGHTAMT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,FREIGHT,TAXTYPE,JD.JODETAILID from JODETAIL JD left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID=JD.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT,JOSCHEDULE JS  Where JD.JODETAILID =JS.PARENTRECORDID AND JOSCHEDULEID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -516,6 +589,17 @@ namespace Arasan.Services.Sales
         {
             string SvSql = string.Empty;
             SvSql = "Select jodrumallocationbasic.DOCID,to_char(jodrumallocationbasic.DOCDATE,'dd-MON-yyyy')DOCDATE,jobasic.DOCID as jobid,PARTYMAST.PARTYNAME ,LOCDETAILS.LOCID,JODRUMALLOCATIONBASICID,JODRUMALLOCATIONBASIC.IS_ALLOCATE from jodrumallocationbasic  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=jodrumallocationbasic.LOCID  LEFT OUTER JOIN  PARTYMAST on jodrumallocationbasic.CUSTOMERID=PARTYMAST.PARTYMASTID left outer join jobasic on jobasic.jobasicid= jodrumallocationbasic.JOPID WHERE jodrumallocationbasic.IS_ALLOCATE ='Y' ORDER BY jodrumallocationbasicid DESC";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetAllListWorkScheduleItems()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select JS.JOSCHEDULEID,JS.SCHNO,JS.SCHQTY,J.DOCID,J.PARTYNAME,to_char(JS.SCHDATE,'dd-MON-yyyy')SCHDATE,to_char(J.DOCDATE,'dd-MON-yyyy')DOCDATE,JD.QTY from JOSCHEDULE JS,JOBASIC J,JODETAIL JD    WHERE J.JOBASICID =JS.JOBASICID AND JS.PARENTRECORDID =JD.JODETAILID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

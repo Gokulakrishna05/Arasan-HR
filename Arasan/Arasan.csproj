@@ -150,6 +150,21 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>JobOrder.xsd</DependentUpon>
     </Compile>
+    <Compile Update="Pinvbasic.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Pinvbasic.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="PinvDetail.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PinvDetail.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="pinvtandc.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>pinvtandc.xsd</DependentUpon>
+    </Compile>
     <Compile Update="Pyro.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -193,6 +208,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Update="wwwroot\Reports\JobOrder.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Reports\Pro-Forma.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\Reports\Production.rdlc">
@@ -261,6 +279,18 @@
      <None Update="JobOrder.xsd">
        <Generator>MSDataSetGenerator</Generator>
        <LastGenOutput>JobOrder.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="Pinvbasic.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>Pinvbasic.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="PinvDetail.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>PinvDetail.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="pinvtandc.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>pinvtandc.Designer.cs</LastGenOutput>
      </None>
      <None Update="Pyro.xsd">
        <Generator>MSDataSetGenerator</Generator>

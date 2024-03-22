@@ -346,10 +346,11 @@ namespace Arasan.Controllers.Sales
                 ca.Location= dt.Rows[0]["LOCID"].ToString();
                 ca.JobId= dt.Rows[0]["DOCID"].ToString();
                 ca.JobDate= dt.Rows[0]["DOCDATE"].ToString();
-                ca.Customername= dt.Rows[0]["PARTY"].ToString();
+                ca.Customername= dt.Rows[0]["PARTYNAME"].ToString();
                 ca.CustomerId = dt.Rows[0]["CUSTOMERID"].ToString();
                 ca.Locid = dt.Rows[0]["LOCMASTERID"].ToString();
-                ca.JOId = dt.Rows[0]["JOBASICID"].ToString();
+                ca.Schno = dt.Rows[0]["SCHNO"].ToString();
+                ca.Schdate = dt.Rows[0]["SCHDATE"].ToString();
             }
             ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
             DataTable dtv = datatrans.GetSequence("er");
@@ -368,7 +369,7 @@ namespace Arasan.Controllers.Sales
                     tda = new WorkItem();
                     tda.itemid = dtt.Rows[i]["item"].ToString();
                     tda.items= dtt.Rows[i]["ITEMID"].ToString();
-                    tda.orderqty= dtt.Rows[i]["QTY"].ToString();
+                    tda.orderqty= dtt.Rows[i]["SCHQTY"].ToString();
                     tda.Jodetailid = dtt.Rows[i]["JODETAILID"].ToString();
                     List<Drumdetails> tlstdrum = new List<Drumdetails>();
                     Drumdetails tdrum = new Drumdetails();
@@ -509,6 +510,57 @@ namespace Arasan.Controllers.Sales
                     docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     view = View,
                     deactive = deactive,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public IActionResult ListWorkSchedule()
+        {
+            //IEnumerable<WorkOrder> cmp = WorkOrderService.GetAllWorkOrder(status);
+            return View();
+        }
+        public ActionResult MyListWorkScheduleGrid()
+        {
+            List<ListWSchItems> Reg = new List<ListWSchItems>();
+            DataTable dtUsers = new DataTable();
+            //strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)WorkOrderService.GetAllListWorkScheduleItems();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string View = string.Empty;
+                string deactive = string.Empty;
+                string Drum = string.Empty;
+                Drum = "<a href=/WorkOrder/WDrumAllocation?id=" + dtUsers.Rows[i]["JOSCHEDULEID"].ToString() + "><img src='../Images/checklist.png' alt='Allocate' /></a>";
+
+                View = "<a href=/WorkOrder/ViewDrumAllocation?id=" + dtUsers.Rows[i]["JOSCHEDULEID"].ToString() + " class='fancybox' data-fancybox-type='iframe' ><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                deactive = "<a href=StockRelease?id=" + dtUsers.Rows[i]["JOSCHEDULEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+
+                Reg.Add(new ListWSchItems
+                {
+
+                    id = dtUsers.Rows[i]["JOSCHEDULEID"].ToString(),
+                    jobid = dtUsers.Rows[i]["DOCID"].ToString(),
+                    schid = dtUsers.Rows[i]["SCHNO"].ToString(),
+                    qty = dtUsers.Rows[i]["QTY"].ToString(),
+                
+                    customername = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    schdate = dtUsers.Rows[i]["SCHDATE"].ToString(),
+                    schqty = dtUsers.Rows[i]["SCHQTY"].ToString(),
+                    
+                    docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    view = View,
+                    deactive = deactive,
+                    drum = Drum,
 
 
 
@@ -697,8 +749,7 @@ namespace Arasan.Controllers.Sales
 
             string mimtype = "";
             int extension = 1;
-            string DrumID = datatrans.GetDataString("Select PARTYID from POBASIC where POBASICID='" + id + "' ");
-
+ 
             System.Data.DataSet ds = new System.Data.DataSet();
             var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\JobOrder.rdlc";
             Dictionary<string, string> Parameters = new Dictionary<string, string>();
@@ -727,6 +778,7 @@ namespace Arasan.Controllers.Sales
             ca.JopDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Location = Request.Cookies["LocationId"];
             ca.Emp = Request.Cookies["UserId"];
+            ca.user = Request.Cookies["UserName"];
             ca.Loc = BindLocation(ca.Emp);
             DataTable dtv = datatrans.GetSequence("er");
             if (dtv.Rows.Count > 0)
@@ -853,7 +905,7 @@ namespace Arasan.Controllers.Sales
             return Json(BindItem(loc));
 
         }
-        public JsonResult GetTaxJSON(string ItemId)
+        public JsonResult GetTaxJSON(string ItemId,string party)
         {
             string hsnid = "";
 
@@ -869,8 +921,40 @@ namespace Arasan.Controllers.Sales
              hsn = datatrans.GetDataString("select HSN from ITEMMASTER WHERE ITEMMASTERID = '" + ItemId + "'");
 
             hsnid = datatrans.GetDataString("select HSNCODEID from HSNCODE WHERE HSNCODE='" + hsn + "'");
- 
-            return Json(BindTax(hsnid));
+
+             gst = datatrans.GetDataString("select TARIFFMASTER.TARIFFID from HSNROW LEFT OUTER JOIN TARIFFMASTER ON TARIFFMASTERID=HSNROW.TARIFFID WHERE HSNCODEID='" + hsnid + "' ");
+           
+           
+
+            DataTable per = datatrans.GetData("Select PERCENTAGE from TARIFFMASTER where TARIFFID='" + gst + "'  ");
+            pers = Convert.ToDouble(per.Rows[0]["PERCENTAGE"].ToString());
+
+            string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
+            string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYMASTID='" + party + "'");
+            if (cmpstate == partystate)
+            {
+                double sgst = pers / 2;
+                double cgst = pers / 2;
+                sgstp = sgst.ToString();
+                cgstp = cgst.ToString();
+            }
+            else
+            {
+                double igst = pers;
+                igstp = igst.ToString();
+            }
+            if (igstp == "")
+            {
+                igstp = "0";
+            }
+            if (sgstp == "" && cgstp =="")
+            {
+                cgstp = "0";
+                sgstp = "0";
+            }
+            var result = new { gst= gst, sgstp = sgstp, cgstp = cgstp, igstp = igstp };
+            return Json(result);
+           // return Json(BindTax(hsnid));
 
         }
         public ActionResult GetItemDetail(string ItemId, string loc,string party)
@@ -888,7 +972,7 @@ namespace Arasan.Controllers.Sales
                 }
 
                 string rate = datatrans.GetDataString("SELECT ROUND(AVG(RATE),2) as rate FROM PLSTOCKVALUE WHERE LOCID ='"+loc+"' AND ITEMID ='"+ ItemId + "'");
-                string oldrate = datatrans.GetDataString("SELECT ED.RATE FROM EXINVBASIC E,EXINVDETAIL ED WHERE E.PARTYID ='" + party + "' AND ED.ITEMID ='"+ ItemId + "' ORDER BY DOCDATE DESC fetch  first 1 rows only");
+                string oldrate = datatrans.GetDataString("SELECT ED.RATE FROM EXINVBASIC E,EXINVDETAIL ED WHERE E.EXINVBASICID=ED.EXINVBASICID AND E.PARTYID ='" + party + "' AND ED.ITEMID ='"+ ItemId + "' ORDER BY DOCDATE DESC fetch  first 1 rows only");
                 //if (plstock.Rows.Count > 0)
                 //{
                 //    rate = plstock.Rows[0]["rate"].ToString();
@@ -901,6 +985,70 @@ namespace Arasan.Controllers.Sales
             {
                 throw ex;
             }
+        }
+        public ActionResult GetgstDetail(string ItemId , string party)
+        {
+            try
+            {
+                
+             
+                double pers = '0';
+                double sgst = '0';
+                double cgst = '0';
+                double igst = '0';
+                
+                DataTable per = datatrans.GetData("Select PERCENTAGE from TARIFFMASTER where TARIFFID='" + ItemId + "'  ");
+                pers = Convert.ToDouble(per.Rows[0]["PERCENTAGE"].ToString());
+
+                string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
+                string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYNAME='" + party + "'");
+                if(cmpstate== partystate)
+                {
+                    sgst = pers / 2;
+                    cgst = pers / 2;
+                }
+                else
+                {
+                    igst = pers;
+                }
+                 if(igst>0)
+                {
+                    igst = '0';
+                }
+                if (sgst > 0 && cgst > 0)
+                {
+                    cgst = '0';
+                    sgst = '0';
+                }
+                var result = new { sgst = sgst, cgst = cgst, igst = igst };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public IActionResult ScheduleCreate(string Itemid,string qty,string rowid)
+        {
+            WorkOrder ca = new WorkOrder();
+            string itemname = datatrans.GetDataString("SELECT ITEMID FROM ITEMMASTER WHERE ITEMMASTERID='"+Itemid+"'");
+            ca.item = itemname;
+            ca.qty = qty;
+           
+            List<SchItem> TData = new List<SchItem>();
+            SchItem tda = new SchItem();
+           
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new SchItem();
+                    
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+
+
+            ca.schlst = TData;
+            return View(ca);
         }
     }
 }
