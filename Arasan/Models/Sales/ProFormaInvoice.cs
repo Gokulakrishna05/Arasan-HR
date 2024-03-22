@@ -158,6 +158,48 @@ namespace Arasan.Models
         public string delrow { get; set; }
         public string refno { get; set; }
         public string edit { get; set; }
+        public string pdf { get; set; }
+
+    }
+    public class PinvBasicItem
+    {
+        
+        //public string branch { get; set; }
+        public string DOCID { get; set; }
+        public string DOCDATE { get; set; }
+        public string PARTYNAME { get; set; }
+        public string ADDRESS { get; set; }
+        public string GSTNO { get; set; }
+        public double IGST { get; set; }
+        public double SGST { get; set; }
+        public double CGST { get; set; }
+        public double GROSS { get; set; }
+        public double NET { get; set; }
+        public double DISCOUNT { get; set; }
+        public string BANK { get; set; }
+        public string ACNO { get; set; }
+        public string AMTWORDS { get; set; }
+
+    }
+    public class PinvDetailitem
+    {
+       
+        //public string branch { get; set; }
+        public string ITEMID { get; set; }
+        public double QTY { get; set; }
+        public double RATE { get; set; }
+        public double AMOUNT { get; set; }
+        public string HSN { get; set; }
+    
+
+    }
+    public class PinvTermsitem
+    {
+
+        //public string branch { get; set; }
+        public string TERMS { get; set; }
+        
+
 
     }
 }

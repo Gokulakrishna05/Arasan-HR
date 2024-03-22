@@ -6,6 +6,7 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using Dapper;
 
 namespace Arasan.Services.Sales
 {
@@ -367,6 +368,28 @@ namespace Arasan.Services.Sales
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+        public async Task<IEnumerable<PinvBasicItem>> GetBasicItem(string id)
+        {
+            using (OracleConnection db = new OracleConnection(_connectionString))
+            {
+                return await db.QueryAsync<PinvBasicItem>("  SELECT PINVBASIC.PINVBASICID, DOCID, to_char(DOCDATE,'dd-MON-yyyy')DOCDATE, REFNO, REFDATE, MAINCURRENCY, SYMBOL, EXRATE, PINVBASIC.PARTYID, PINVBASIC.PARTYNAME,  GROSS, NET, NARRATION, BANK, ACNO, AMTWORDS, ROFF, SALVAL, BTCS, PARTYMAST.GSTNO,PARTYMAST.ADD1||''||PARTYMAST.ADD2||''||PARTYMAST.ADD3||''||PARTYMAST.CITY||'-'||PARTYMAST.PINCODE||','||PARTYMAST.STATE as ADDRESS ,SUM(CGST) as CGST,SUM(SGST) as SGST,SUM(IGST) as IGST,SUM(DISCOUNT) as DISCOUNT FROM TAAIERP.PINVBASIC  INNER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=PINVBASIC.PARTYID INNER JOIN PINVDETAIL ON PINVDETAIL.PINVBASICID=PINVBASIC.PINVBASICID  where PINVBASIC.PINVBASICID='" + id + "' GROUP BY PINVBASIC.PINVBASICID, DOCID,DOCDATE, REFNO, REFDATE, MAINCURRENCY, SYMBOL, EXRATE, PINVBASIC.PARTYID, PINVBASIC.PARTYNAME,  GROSS, NET, NARRATION, BANK, ACNO, AMTWORDS, ROFF, SALVAL, BTCS, PARTYMAST.GSTNO ,PARTYMAST.ADD1,PARTYMAST.ADD2,PARTYMAST.ADD3,PARTYMAST.CITY,PARTYMAST.PINCODE,PARTYMAST.STATE", commandType: CommandType.Text);
+            }
+        }
+        public async Task<IEnumerable<PinvDetailitem>> GetPinvItemDetail(string id)
+        {
+            using (OracleConnection db = new OracleConnection(_connectionString))
+            {
+                return await db.QueryAsync<PinvDetailitem>(" SELECT PINVDETAILID, PINVBASICID, ITEMMASTER.ITEMID, UNIT, RATE, AMOUNT, BASERATE, BASEAMOUNT, COSTRATE, BEDPER, BEDAMT, CESSPER, CESSAMT, SHECESSAMT, AEDPER, AEDAMT, SEDPER, SEDAMT, BCDPER, BCDAMT, TOTAMT, TOTEXAMT, QTY, SL, FREIGHTPER, FREIGHT, DISCPER, DISCOUNT, OTHERCHAR, AMT, SGSTP, CGSTP, IGSTP, SGST, CGST, IGST,ITEMMASTER.HSN FROM TAAIERP.PINVDETAIL INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PINVDETAIL.ITEMID where PINVDETAIL.PINVBASICID='" + id + "'", commandType: CommandType.Text);
+            }
+        }
+        public async Task<IEnumerable<PinvTermsitem>> GetPinvtermsDetail(string id)
+        {
+            using (OracleConnection db = new OracleConnection(_connectionString))
+            {
+                return await db.QueryAsync<PinvTermsitem>(" SELECT PINVTANDCID, PINVBASICID, PINVTANDCROW, TERMSANDCONDITION,TANDCDETAIL.TANDC as TERMS FROM TAAIERP.PINVTANDC LEFT OUTER JOIN TANDCDETAIL ON TANDCDETAILID=PINVTANDC.TERMSANDCONDITION where PINVTANDC.PINVBASICID='" + id + "'", commandType: CommandType.Text);
+            }
         }
     }
 }

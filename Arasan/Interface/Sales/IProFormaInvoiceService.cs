@@ -23,5 +23,9 @@ namespace Arasan.Interface.Sales
         DataTable GetArea(string custid);
         DataTable GetTerms();
         DataTable GetAllListProFormaInvoiceItems(string strStatus);
+
+        Task<IEnumerable<PinvBasicItem>> GetBasicItem(string id);
+        Task<IEnumerable<PinvDetailitem>> GetPinvItemDetail(string id);
+        Task<IEnumerable<PinvTermsitem>> GetPinvtermsDetail(string id);
     }
 }

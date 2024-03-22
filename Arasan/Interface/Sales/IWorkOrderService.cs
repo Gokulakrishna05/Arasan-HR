@@ -32,6 +32,7 @@ namespace Arasan.Interface.Sales
         DataTable GetAllListWorkOrderItems(string strStatus);
         DataTable GetAllListWDrumAllocationItems();
         DataTable GetAllListWDrumAlloItems();
+        DataTable GetAllListWorkScheduleItems();
         Task<IEnumerable<OrderItemDetail>> GetOrderItem(string id );
         Task<IEnumerable<OrderDetail>> GetOrderItemDetail(string id );
     }

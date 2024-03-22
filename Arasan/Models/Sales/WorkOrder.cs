@@ -26,6 +26,7 @@ namespace Arasan.Models
         public List<SelectListItem> partylst;
         public string Quo { get; set; }
         public string Emp { get; set; }
+        public string user { get; set; }
         public string Customer { get; set; }
         public string CusNo { get; set; }
         public string Cusdate { get; set; }
@@ -39,6 +40,8 @@ namespace Arasan.Models
         public string TransAmount { get; set; }
         public string OrderType { get; set; }
         public string RateCode { get; set; }
+        public string item { get; set; }
+        public string qty { get; set; }
         public string Narr { get; set; }
         public string ddlStatus { get; set; }
         public string Gross { get; set; }
@@ -50,6 +53,7 @@ namespace Arasan.Models
         public string igst { get; set; }
         public string Round { get; set; }
         public List<WorkItem> Worklst { get; set; }
+        public List<SchItem> schlst { get; set; }
     }
     public class WorkItem
     {
@@ -67,6 +71,8 @@ namespace Arasan.Models
         public string rate { get; set; }
         public string amount { get; set; }
         public string itemid { get; set; }
+        public string schqty { get; set; }
+        public string schdate { get; set; }
         public string qtydis { get; set; }
 
         public string spldis { get; set; }
@@ -94,6 +100,7 @@ namespace Arasan.Models
         public bool selectall { get; set; }
         public string search { get; set; }
         public string Totamt { get; set; }
+        public string DueDate { get; set; }
         public string Isvalid { get; set; }
         public string cstp { get; set; }
         public string sgstp { get; set; }
@@ -124,6 +131,8 @@ namespace Arasan.Models
         public List<WorkItem> Worklst { get; set; }
 
         public string Locid { get; set; }
+        public string Schno { get; set; }
+        public string Schdate { get; set; }
         //public List<Drumdetails> drumlst { get; set; }
     }
     public class Drumdetails
@@ -171,6 +180,23 @@ namespace Arasan.Models
         public string view { get; set; }
         public string deactive { get; set; }
     }
+    public class ListWSchItems
+    {
+        public string id { get; set; }
+        //public string branch { get; set; }
+        public string jobid { get; set; }
+        public string location { get; set; }
+        public string schid { get; set; }
+        public string qty { get; set; }
+        public string customername { get; set; }
+        public string docid { get; set; }
+        public string docdate { get; set; }
+        public string schdate { get; set; }
+        public string schqty { get; set; }
+        public string view { get; set; }
+        public string deactive { get; set; }
+        public string drum { get; set; }
+    }
 
     public class OrderItemDetail
     {
@@ -201,5 +227,18 @@ namespace Arasan.Models
         public double AMOUNT { get; set; }
         public double DISCOUNT { get; set; }
         public string SCHDATE { get; set; }
+    }
+
+    public class SchItem
+    {
+        public string ID { get; set; }
+        public string item { get; set; }
+ 
+        public string schdate { get; set; }
+        public string schqty { get; set; }
+  
+        public string Isvalid { get; set; }
+       
+
     }
 }

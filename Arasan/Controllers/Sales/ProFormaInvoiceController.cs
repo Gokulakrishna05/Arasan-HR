@@ -9,6 +9,7 @@ using Arasan.Services.Sales;
 using Arasan.Interface;
 using Arasan.Services.Master;
 using Arasan.Services;
+using AspNetCore.Reporting;
 
 namespace Arasan.Controllers.Sales
 {
@@ -18,11 +19,14 @@ namespace Arasan.Controllers.Sales
         IConfiguration? _configuratio;
         private string? _connectionString;
         DataTransactions datatrans;
-        public ProFormaInvoiceController(IProFormaInvoiceService _ProFormaInvoiceService, IConfiguration _configuratio)
+        private readonly IWebHostEnvironment _WebHostEnvironment;
+        public ProFormaInvoiceController(IProFormaInvoiceService _ProFormaInvoiceService, IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
         {
             ProFormaInvoiceService = _ProFormaInvoiceService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
+            this._WebHostEnvironment = WebHostEnvironment;
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
         public IActionResult ProFormaInvoice(string id ,int tag)
         {
@@ -403,6 +407,7 @@ namespace Arasan.Controllers.Sales
 
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
+                string pdf = string.Empty;
 
                 //if (dtUsers.Rows[i]["STATUS"].ToString() == "INACTIVE")
                 //{
@@ -411,6 +416,8 @@ namespace Arasan.Controllers.Sales
                 //}
                 //else
                 //{
+                pdf = "<a href=Print?id=" + dtUsers.Rows[i]["PINVBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
+
                 EditRow = "<a href=ProFormaInvoice?id=" + dtUsers.Rows[i]["PINVBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=CloseQuote?id=" + dtUsers.Rows[i]["PINVBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
@@ -425,6 +432,7 @@ namespace Arasan.Controllers.Sales
                     date = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     party = dtUsers.Rows[i]["PARTYNAME"].ToString(),
                     edit = EditRow,
+                    pdf = pdf,
                     delrow = DeleteRow,
 
 
@@ -594,5 +602,30 @@ namespace Arasan.Controllers.Sales
         //        throw ex;
         //    }
         //}
+
+        public async Task<IActionResult> Print(string id)
+        {
+
+            string mimtype = "";
+            int extension = 1;
+
+            System.Data.DataSet ds = new System.Data.DataSet();
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\Pro-Forma.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+            //  Parameters.Add("rp1", " Hi Everyone");
+            var basic = await ProFormaInvoiceService.GetBasicItem(id);
+            var Detail = await ProFormaInvoiceService.GetPinvItemDetail(id);
+            var terms = await ProFormaInvoiceService.GetPinvtermsDetail(id);
+
+            AspNetCore.Reporting.LocalReport localReport = new AspNetCore.Reporting.LocalReport(path);
+            localReport.AddDataSource("PinvBasic", basic);
+            localReport.AddDataSource("PinvDetail", Detail);
+            localReport.AddDataSource("PinvTandC", terms);
+             
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+
+            return File(result.MainStream, "application/Pdf");
+
+        }
     }
 }
