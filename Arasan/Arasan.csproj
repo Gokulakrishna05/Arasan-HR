@@ -135,6 +135,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DataSet9.xsd</DependentUpon>
     </Compile>
+    <Compile Update="Exinvbasic.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Exinvbasic.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="ExinvDetail.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ExinvDetail.xsd</DependentUpon>
+    </Compile>
     <Compile Update="JOBASIC.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -225,6 +235,9 @@
     <Content Update="wwwroot\Reports\SQuotationReport.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\Reports\TaxInvoice.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -267,6 +280,14 @@
      <None Update="DataSet9.xsd">
        <Generator>MSDataSetGenerator</Generator>
        <LastGenOutput>DataSet9.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="Exinvbasic.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>Exinvbasic.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="ExinvDetail.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>ExinvDetail.Designer.cs</LastGenOutput>
      </None>
      <None Update="JOBASIC.xsd">
        <Generator>MSDataSetGenerator</Generator>

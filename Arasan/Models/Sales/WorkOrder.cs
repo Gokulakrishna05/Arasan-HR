@@ -208,6 +208,7 @@ namespace Arasan.Models
         public string STATE { get; set; }
          
         public string ADDRESS { get; set; }
+        public string CREFNO { get; set; }
         public double BSGST { get; set; }
     
         public double BCGST { get; set; }
