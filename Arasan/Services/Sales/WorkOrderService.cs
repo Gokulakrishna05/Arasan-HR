@@ -284,6 +284,25 @@ namespace Arasan.Services.Sales
             {
                 string StatementType = string.Empty; string svSQL = "";
                 datatrans = new DataTransactions(_connectionString);
+                 
+
+
+
+
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'JODA#' AND ACTIVESEQUENCE = 'T'  ");
+                string DocId = string.Format("{0}{1}", "JODA#", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='JODA#' AND ACTIVESEQUENCE ='T'  ";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                cy.DOCId = DocId;
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DRUMALLOPROC", objConn);
@@ -300,6 +319,7 @@ namespace Arasan.Services.Sales
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Locid;
                     objCmd.Parameters.Add("JOPID", OracleDbType.NVarchar2).Value = cy.JOId;
                     objCmd.Parameters.Add("CUSTOMERID", OracleDbType.NVarchar2).Value = cy.CustomerId;
+                    objCmd.Parameters.Add("JOSCHEDULEID", OracleDbType.NVarchar2).Value = cy.ID;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     objConn.Open();
@@ -337,6 +357,9 @@ namespace Arasan.Services.Sales
                     }
                     string allocate = "Update JOBASIC SET  IS_ALLOCATE='Y' WHERE JOBASICID='" + cy.JOId + "'";
                     OracleCommand objCmdssa = new OracleCommand(allocate, objConn);
+                    objCmdssa.ExecuteNonQuery();
+                     allocate = "Update JOSCHEDULE SET  IS_ALLOCATE='Y' WHERE JOSCHEDULEID='" + cy.ID + "'";
+                     objCmdssa = new OracleCommand(allocate, objConn);
                     objCmdssa.ExecuteNonQuery();
                     objConn.Close();
                 }
@@ -599,7 +622,7 @@ namespace Arasan.Services.Sales
         public DataTable GetAllListWorkScheduleItems()
         {
             string SvSql = string.Empty;
-            SvSql = "Select JS.JOSCHEDULEID,JS.SCHNO,JS.SCHQTY,J.DOCID,J.PARTYNAME,to_char(JS.SCHDATE,'dd-MON-yyyy')SCHDATE,to_char(J.DOCDATE,'dd-MON-yyyy')DOCDATE,JD.QTY from JOSCHEDULE JS,JOBASIC J,JODETAIL JD    WHERE J.JOBASICID =JS.JOBASICID AND JS.PARENTRECORDID =JD.JODETAILID";
+            SvSql = "Select JS.JOSCHEDULEID,JS.SCHNO,JS.SCHQTY,J.DOCID,J.PARTYNAME,to_char(JS.SCHDATE,'dd-MON-yyyy')SCHDATE,to_char(J.DOCDATE,'dd-MON-yyyy')DOCDATE,JD.QTY,JS.IS_ALLOCATE from JOSCHEDULE JS,JOBASIC J,JODETAIL JD    WHERE J.JOBASICID =JS.JOBASICID AND JS.PARENTRECORDID =JD.JODETAILID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -610,7 +633,7 @@ namespace Arasan.Services.Sales
         {
             using (OracleConnection db = new OracleConnection(_connectionString))
             {
-                return await db.QueryAsync<OrderItemDetail>(" SELECT JOBASICID , DOCID, to_char(JOBASIC.DOCDATE,'dd-MM-yyyy')DOCDATE, JOBASIC.PARTYNAME, JOBASIC.PARTYID, TRANSID, SENDSMS, ADOCID, ADOCDATE, ORDERNO, ORDERBASICID, REFNO, BRANCHID, TEMPID, MAINCURRENCY, SYMBOL, EXRATE, SALESREP, USERID,    ASSIGNTO, RECDBY, FOLLOWDT , FOLLOWUPTIME, PARENTACTIVITYID, ORGANISERID, PARENTJOBSID, ACTIVITYDONE, ORDTYPE, NARRATION, DESPTHROUGH, TEST, TEBY, TABY, ENTEREDBY, APPROVEDBY, APPROVEDYN, ODAMOUNT, OSAMOUNT, TRANSAMOUNT, CRLIMIT, BALAMOUNT, AITEMSPEC, RATETYPE, LOCID , JOBASIC.ADD1||''||JOBASIC.ADD2||''||JOBASIC.ADD3||''||JOBASIC.CITY||'-'||JOBASIC.PINCODE as ADDRESS , NET, LIMITQ, SEPDISC, BSGST, BCGST, BIGST, BDISC, GROSS,PARTYMAST.GSTNO,PARTYMAST.STATE FROM TAAIERP.JOBASIC INNER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = JOBASIC.PARTYID where JOBASIC.JOBASICID='" + id + "'", commandType: CommandType.Text);
+                return await db.QueryAsync<OrderItemDetail>(" SELECT JOBASICID , DOCID, to_char(JOBASIC.DOCDATE,'dd-MM-yyyy')DOCDATE, JOBASIC.PARTYNAME, JOBASIC.PARTYID, TRANSID, SENDSMS, ADOCID, ADOCDATE, ORDERNO, ORDERBASICID, REFNO, BRANCHID,CREFNO, TEMPID, MAINCURRENCY, SYMBOL, EXRATE, SALESREP, USERID,    ASSIGNTO, RECDBY, FOLLOWDT , FOLLOWUPTIME, PARENTACTIVITYID, ORGANISERID, PARENTJOBSID, ACTIVITYDONE, ORDTYPE, NARRATION, DESPTHROUGH, TEST, TEBY, TABY, ENTEREDBY, APPROVEDBY, APPROVEDYN, ODAMOUNT, OSAMOUNT, TRANSAMOUNT, CRLIMIT, BALAMOUNT, AITEMSPEC, RATETYPE, LOCID , JOBASIC.ADD1||''||JOBASIC.ADD2||''||JOBASIC.ADD3||''||JOBASIC.CITY||'-'||JOBASIC.PINCODE as ADDRESS , NET, LIMITQ, SEPDISC, BSGST, BCGST, BIGST, BDISC, GROSS,PARTYMAST.GSTNO,PARTYMAST.STATE FROM TAAIERP.JOBASIC INNER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = JOBASIC.PARTYID where JOBASIC.JOBASICID='" + id + "'", commandType: CommandType.Text);
             }
         }
         public async Task<IEnumerable<OrderDetail>> GetOrderItemDetail(string id)

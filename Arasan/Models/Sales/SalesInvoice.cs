@@ -180,6 +180,7 @@ namespace Arasan.Models
         public string edit { get; set; }
         public string jsonrow { get; set; }
         public string viewrow { get; set; }
+        public string pdf { get; set; }
         public string gross { get; set; }
         public string net { get;set; }
         public string cgst { get; set; }
@@ -332,5 +333,38 @@ namespace Arasan.Models
         public string RndOffAmt { get; set; }
         public string TotInvVal { get; set; }
         public string TotInvValFc { get; set; }
+    }
+    public class ExinvBasicItem
+    {
+        public string DOCID { get; set; }
+        public string DOCDATE { get; set; }
+        public string PARTYNAME { get; set; }
+        public string ADDRESS { get; set; }
+        public string TRANSPORTGST { get; set; }
+        public string TRANSPORT { get; set; }
+        public string CUSTPO { get; set; }
+        public string TRANSMODE { get; set; }
+        public string AMTWORDS { get; set; }
+        public string STATE { get; set; }
+        public string GSTNO { get; set; }
+        public string VNO { get; set; }
+        public double GROSS { get; set; }
+        public double NET { get; set; }
+        public double BSGST { get; set; }
+        public double BCGST { get; set; }
+        public double BIGST { get; set; }
+        public double TDIST { get; set; }
+    }
+    public class ExinvDetailitem
+    {
+        public string ITEMID { get; set; }
+        public string HSN { get; set; }
+        public string DRUMDESC { get; set; }
+        public double SDNO { get; set; }
+        public double ASDNO { get; set; }
+        public double QTY { get; set; }
+        public double RATE { get; set; }
+        public double AMOUNT { get; set; }
+     
     }
 }

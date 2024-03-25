@@ -13,6 +13,7 @@ using System.Text.Json;
 using Nest;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Wordprocessing;
+using AspNetCore.Reporting;
 
 namespace Arasan.Controllers
 {
@@ -22,11 +23,15 @@ namespace Arasan.Controllers
         IConfiguration? _configuratio;
         private string? _connectionString;
         DataTransactions datatrans;
-        public SalesInvoiceController(ISalesInvoiceService _SalesInvoiceService, IConfiguration _configuratio)
+
+        private readonly IWebHostEnvironment _WebHostEnvironment;
+        public SalesInvoiceController(ISalesInvoiceService _SalesInvoiceService, IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
         {
             SalesInvoiceService = _SalesInvoiceService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
+            this._WebHostEnvironment = WebHostEnvironment;
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
         public IActionResult SalesInvoice(string id)
         {
@@ -619,10 +624,13 @@ namespace Arasan.Controllers
             string DeleteRow = string.Empty;
             string jsonRow = string.Empty;
             string viewrow=string.Empty;
+            string pdf = string.Empty;
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
                 //EditRow = "<a href=ProFormaInvoice?id=" + dtUsers.Rows[i]["PINVBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 //DeleteRow = "<a href=CloseQuote?id=" + dtUsers.Rows[i]["PINVBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                pdf = "<a href=Print?id=" + dtUsers.Rows[i]["EXINVBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
+
                 jsonRow = "<a href=Jsonexport?id=" + dtUsers.Rows[i]["EXINVBASICID"].ToString() + "><img src='../Images/json.png' alt='Edit' /></a>";
                 viewrow = "<a href=ViewSI?id=" + dtUsers.Rows[i]["EXINVBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View' /></a>";
                 Reg.Add(new ListSIItems
@@ -636,6 +644,7 @@ namespace Arasan.Controllers
                     delrow = DeleteRow,
                     jsonrow= jsonRow,
                     viewrow= viewrow,
+                    pdf = pdf,
                     gross= dtUsers.Rows[i]["GROSS"].ToString(),
                     net= dtUsers.Rows[i]["NET"].ToString(),
                     cgst= dtUsers.Rows[i]["BCGST"].ToString(),
@@ -1706,6 +1715,31 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListSalesInvoice");
             }
+        }
+
+        public async Task<IActionResult> Print(string id)
+        {
+
+            string mimtype = "";
+            int extension = 1;
+
+            System.Data.DataSet ds = new System.Data.DataSet();
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\TaxInvoice.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+            //  Parameters.Add("rp1", " Hi Everyone");
+            var basic = await SalesInvoiceService.GetBasicItem(id);
+            var Detail = await SalesInvoiceService.GetExinvItemDetail(id);
+            //var terms = await ProFormaInvoiceService.GetPinvtermsDetail(id);
+
+            AspNetCore.Reporting.LocalReport localReport = new AspNetCore.Reporting.LocalReport(path);
+            localReport.AddDataSource("ExinvBasic", basic);
+            localReport.AddDataSource("ExinvDetail", Detail);
+           // localReport.AddDataSource("PinvTandC", terms);
+
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+
+            return File(result.MainStream, "application/Pdf");
+
         }
     }
 }

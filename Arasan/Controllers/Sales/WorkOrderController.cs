@@ -185,13 +185,13 @@ namespace Arasan.Controllers.Sales
                 if(dtUsers.Rows[i]["IS_ALLOCATE"].ToString()=="Y")
                 {
                     EditRow = "";
-                    Drum = "";
+                   // Drum = "";
                     DeleteRow = "";
                 }
                 else
                 {
                     EditRow = "<a href=WorkOrder?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    Drum = "<a href=/WorkOrder/WDrumAllocation?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Allocate' /></a>";
+                   // Drum = "<a href=/WorkOrder/WDrumAllocation?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Allocate' /></a>";
                     DeleteRow = "<a href=DeleteMR?id=" + dtUsers.Rows[i]["JOBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 }
@@ -210,7 +210,7 @@ namespace Arasan.Controllers.Sales
                     clo = Close,
                     editrow = EditRow,
                     delrow = DeleteRow,
-                    drum = Drum,
+                   // drum = Drum,
                     recept = recept,
 
 
@@ -351,9 +351,10 @@ namespace Arasan.Controllers.Sales
                 ca.Locid = dt.Rows[0]["LOCMASTERID"].ToString();
                 ca.Schno = dt.Rows[0]["SCHNO"].ToString();
                 ca.Schdate = dt.Rows[0]["SCHDATE"].ToString();
+                ca.JOId=dt.Rows[0]["JOBASICID"].ToString();
             }
             ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
-            DataTable dtv = datatrans.GetSequence("er");
+            DataTable dtv = datatrans.GetSequence("Joda");
             if (dtv.Rows.Count > 0)
             {
                 ca.DOCId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
@@ -539,10 +540,20 @@ namespace Arasan.Controllers.Sales
                 string View = string.Empty;
                 string deactive = string.Empty;
                 string Drum = string.Empty;
-                Drum = "<a href=/WorkOrder/WDrumAllocation?id=" + dtUsers.Rows[i]["JOSCHEDULEID"].ToString() + "><img src='../Images/checklist.png' alt='Allocate' /></a>";
+                if (dtUsers.Rows[i]["IS_ALLOCATE"].ToString() == "Y")
+                {
+                    Drum = "";
+                    View = "<a href=/WorkOrder/ViewDrumAllocation?id=" + dtUsers.Rows[i]["JOSCHEDULEID"].ToString() + " class='fancybox' data-fancybox-type='iframe' ><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                    deactive = "<a href=StockRelease?id=" + dtUsers.Rows[i]["JOSCHEDULEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
-                View = "<a href=/WorkOrder/ViewDrumAllocation?id=" + dtUsers.Rows[i]["JOSCHEDULEID"].ToString() + " class='fancybox' data-fancybox-type='iframe' ><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                deactive = "<a href=StockRelease?id=" + dtUsers.Rows[i]["JOSCHEDULEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+                    Drum = "<a href=/WorkOrder/WDrumAllocation?id=" + dtUsers.Rows[i]["JOSCHEDULEID"].ToString() + "><img src='../Images/checklist.png' alt='Allocate' /></a>";
+                    View = "";
+                    deactive = "";
+                }
+
 
 
                 Reg.Add(new ListWSchItems
@@ -577,6 +588,7 @@ namespace Arasan.Controllers.Sales
         {
             DataTable lot = datatrans.GetData("SELECT PLSTOCKID FROM JODRUMALLOCATIONDETAIL WHERE JODRUMALLOCATIONBASICID='" + id +"'");
             string joid = datatrans.GetDataString("SELECT JOPID FROM JODRUMALLOCATIONBASIC WHERE JODRUMALLOCATIONBASICID='" + id + "'");
+            string joschid = datatrans.GetDataString("SELECT JODRUMALLOCATIONBASICID FROM JODRUMALLOCATIONBASIC WHERE JOSCHEDULEID='" + id + "'");
             string flag = "";
             if (lot.Rows.Count > 0)
             {
