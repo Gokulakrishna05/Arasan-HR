@@ -499,6 +499,8 @@ namespace Arasan {
             
             private global::System.Data.DataColumn columnTRANSPORTGST;
             
+            private global::System.Data.DataColumn columnSTATE;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public EXINVBASICDataTable() {
@@ -1414,6 +1416,14 @@ namespace Arasan {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn STATEColumn {
+                get {
+                    return this.columnSTATE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1559,7 +1569,8 @@ namespace Arasan {
                         double LIMITQ, 
                         string ADDRESS, 
                         string TRANSPORT, 
-                        string TRANSPORTGST) {
+                        string TRANSPORTGST, 
+                        string STATE) {
                 EXINVBASICRow rowEXINVBASICRow = ((EXINVBASICRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         EXINVBASICID,
@@ -1671,7 +1682,8 @@ namespace Arasan {
                         LIMITQ,
                         ADDRESS,
                         TRANSPORT,
-                        TRANSPORTGST};
+                        TRANSPORTGST,
+                        STATE};
                 rowEXINVBASICRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowEXINVBASICRow);
                 return rowEXINVBASICRow;
@@ -1811,6 +1823,7 @@ namespace Arasan {
                 this.columnADDRESS = base.Columns["ADDRESS"];
                 this.columnTRANSPORT = base.Columns["TRANSPORT"];
                 this.columnTRANSPORTGST = base.Columns["TRANSPORTGST"];
+                this.columnSTATE = base.Columns["STATE"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2036,6 +2049,8 @@ namespace Arasan {
                 base.Columns.Add(this.columnTRANSPORT);
                 this.columnTRANSPORTGST = new global::System.Data.DataColumn("TRANSPORTGST", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTRANSPORTGST);
+                this.columnSTATE = new global::System.Data.DataColumn("STATE", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSTATE);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnEXINVBASICID}, true));
                 this.columnEXINVBASICID.AllowDBNull = false;
@@ -3980,6 +3995,22 @@ namespace Arasan {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string STATE {
+                get {
+                    try {
+                        return ((string)(this[this.tableEXINVBASIC.STATEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'STATE\' in table \'EXINVBASIC\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableEXINVBASIC.STATEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsPROFITDOCNull() {
                 return this.IsNull(this.tableEXINVBASIC.PROFITDOCColumn);
             }
@@ -5284,6 +5315,18 @@ namespace Arasan {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetTRANSPORTGSTNull() {
                 this[this.tableEXINVBASIC.TRANSPORTGSTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsSTATENull() {
+                return this.IsNull(this.tableEXINVBASIC.STATEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetSTATENull() {
+                this[this.tableEXINVBASIC.STATEColumn] = global::System.Convert.DBNull;
             }
         }
         

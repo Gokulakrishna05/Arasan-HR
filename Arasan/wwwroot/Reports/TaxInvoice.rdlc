@@ -2347,7 +2347,7 @@
             <DataSetName>ExinvDetail</DataSetName>
             <Top>7.25821cm</Top>
             <Height>1.77354cm</Height>
-            <Width>16.99863cm</Width>
+            <Width>16.99864cm</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -3159,7 +3159,6 @@
           </Textbox>
           <Line Name="Line8">
             <Top>14.2551cm</Top>
-            <Left>0cm</Left>
             <Height>0cm</Height>
             <Width>16.99863cm</Width>
             <ZIndex>13</ZIndex>
@@ -3527,6 +3526,23 @@
             </Style>
           </Textbox>
           <Rectangle Name="Rectangle18">
+            <ReportItems>
+              <Image Name="Image3">
+                <Source>Database</Source>
+                <Value>=First(Fields!Image.Value, "QRCode")</Value>
+                <MIMEType>image/bmp</MIMEType>
+                <Sizing>FitProportional</Sizing>
+                <Top>0.46387cm</Top>
+                <Left>0.3175cm</Left>
+                <Height>4.00685cm</Height>
+                <Width>3.43146cm</Width>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                </Style>
+              </Image>
+            </ReportItems>
             <KeepTogether>true</KeepTogether>
             <Top>9.42837cm</Top>
             <Left>6.87599cm</Left>
@@ -3543,7 +3559,7 @@
         </ReportItems>
         <KeepTogether>true</KeepTogether>
         <Height>17.37121cm</Height>
-        <Width>16.99863cm</Width>
+        <Width>16.99864cm</Width>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -3554,7 +3570,7 @@
     <Height>6.83906in</Height>
     <Style />
   </Body>
-  <Width>6.69237in</Width>
+  <Width>6.69238in</Width>
   <Page>
     <PageHeader>
       <Height>3.25438cm</Height>
@@ -3818,6 +3834,13 @@
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
       <rd:DataSourceID>05fb87a4-4447-4806-a38c-c21922be61ae</rd:DataSourceID>
+    </DataSource>
+    <DataSource Name="Qrcode">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>11d8e76e-28de-4dc1-a88f-c580fa7bed1c</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
@@ -4635,6 +4658,26 @@
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
         <rd:TableAdapterName>EXINVDETAILTableAdapter</rd:TableAdapterName>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="QRCode">
+      <Query>
+        <DataSourceName>Qrcode</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Image">
+          <DataField>Image</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>Qrcode</rd:DataSetName>
+        <rd:SchemaPath>D:\Gokul\Arasan\Repose\ArasanAluminium\Arasan\Qrcode.xsd</rd:SchemaPath>
+        <rd:TableName>QRCODE</rd:TableName>
+        <rd:TableAdapterFillMethod />
+        <rd:TableAdapterGetDataMethod />
+        <rd:TableAdapterName />
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

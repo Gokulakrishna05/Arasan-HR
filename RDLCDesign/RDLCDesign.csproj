@@ -25,6 +25,11 @@
     <Compile Update="Form1.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="Qrcode.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Qrcode.xsd</DependentUpon>
+    </Compile>
     <Compile Update="ReceiptDataSet.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -51,6 +56,10 @@
     <None Update="DataSet4.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet4.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Qrcode.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Qrcode.Designer.cs</LastGenOutput>
     </None>
     <None Update="ReceiptDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
