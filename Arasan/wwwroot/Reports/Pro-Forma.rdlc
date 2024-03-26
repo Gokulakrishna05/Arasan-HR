@@ -1800,10 +1800,10 @@
                 <Top>1.43491cm</Top>
                 <Left>0.11553cm</Left>
                 <Height>1.14374cm</Height>
-                <Width>5.7095cm</Width>
+                <Width>5.70951cm</Width>
                 <ZIndex>5</ZIndex>
                 <Visibility>
-                  <Hidden>=IIF(First(Fields!CGST.Value, "PinvBasic")&gt;0,False,True)</Hidden>
+                  <Hidden>=IIF(First(Fields!SGST.Value, "PinvBasic")&gt;0,False,True)</Hidden>
                 </Visibility>
                 <Style>
                   <Border>

@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -68,6 +69,7 @@
     <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
     <PackageReference Include="ClosedXML" Version="0.102.2" />
     <PackageReference Include="Dapper" Version="2.0.143" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.3" />
     <PackageReference Include="jsTree" Version="3.1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
@@ -80,6 +82,7 @@
     <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.100" />
     <PackageReference Include="PdfSharp" Version="1.50.5147" />
+    <PackageReference Include="QRCoder" Version="1.4.1" />
     <PackageReference Include="System.CodeDom" Version="7.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
@@ -179,6 +182,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Pyro.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="Qrcode.Designer.cs">
+      <DependentUpon>Qrcode.xsd</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Update="Return.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -316,6 +324,11 @@
      <None Update="Pyro.xsd">
        <Generator>MSDataSetGenerator</Generator>
        <LastGenOutput>Pyro.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="Qrcode.xsd">
+       <SubType>Designer</SubType>
+       <LastGenOutput>Qrcode.Designer.cs</LastGenOutput>
+       <Generator>MSDataSetGenerator</Generator>
      </None>
      <None Update="Return.xsd">
        <Generator>MSDataSetGenerator</Generator>

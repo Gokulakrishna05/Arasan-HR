@@ -2377,6 +2377,9 @@
                     <Left>0.04785cm</Left>
                     <Height>0.53264cm</Height>
                     <Width>2.45839cm</Width>
+                    <Visibility>
+                      <Hidden>=IIF(First(Fields!BIGST.Value, "workorderbasic")&gt;0,False,True)</Hidden>
+                    </Visibility>
                     <Style>
                       <Border>
                         <Style>None</Style>
@@ -2411,6 +2414,9 @@
                     <Height>0.48345cm</Height>
                     <Width>2.56423cm</Width>
                     <ZIndex>1</ZIndex>
+                    <Visibility>
+                      <Hidden>=IIF(First(Fields!BIGST.Value, "workorderbasic")&gt;0,False,True)</Hidden>
+                    </Visibility>
                     <Style>
                       <Border>
                         <Style>None</Style>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Qrcode" targetNamespace="http://tempuri.org/Qrcode.xsd" xmlns:mstns="http://tempuri.org/Qrcode.xsd" xmlns="http://tempuri.org/Qrcode.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="Qrcode" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="Qrcode" msprop:Generator_DataSetName="Qrcode">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="QRCODE" msprop:Generator_RowEvHandlerName="QRCODERowChangeEventHandler" msprop:Generator_RowDeletedName="QRCODERowDeleted" msprop:Generator_RowDeletingName="QRCODERowDeleting" msprop:Generator_RowEvArgName="QRCODERowChangeEvent" msprop:Generator_TablePropName="QRCODE" msprop:Generator_RowChangedName="QRCODERowChanged" msprop:Generator_RowChangingName="QRCODERowChanging" msprop:Generator_TableClassName="QRCODEDataTable" msprop:Generator_RowClassName="QRCODERow" msprop:Generator_TableVarName="tableQRCODE" msprop:Generator_UserTableName="QRCODE">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Image" msprop:Generator_ColumnPropNameInRow="Image" msprop:Generator_ColumnPropNameInTable="ImageColumn" msprop:Generator_ColumnVarNameInTable="columnImage" msprop:Generator_UserColumnName="Image" type="xs:unsignedByte" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
