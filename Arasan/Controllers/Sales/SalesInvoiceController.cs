@@ -72,7 +72,7 @@ namespace Arasan.Controllers
                 ca.RecBy = "OWN";
                 ca.Vocher = "R";
                 ca.Branch = "10001000000001";
-                ca.Location = "12418000000423";
+                ca.Location = "12423000000238";
                 //ca.Narration = "Invoice to";
                 string loc = ca.Location;
                 ViewBag.locdisp = ca.Location;
@@ -87,6 +87,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 1; i++)
                 {
                     tda = new SalesInvoiceItem();
+                    tda.worklst = Bindempty();
                     tda.jobschlst = Bindempty();
                     tda.Itemlst = BindItemlst("");
                     tda.binlst = BindBin();
@@ -985,6 +986,10 @@ namespace Arasan.Controllers
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindTerms());
         }
+        public JsonResult GetWoJSON(string partyid)
+        {
+            return Json(Bindworkorder(partyid));
+        }
         public JsonResult GetjobschJSON(string jobid)
         {
             return Json(BindJobSch(jobid));
@@ -1023,6 +1028,25 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
+        public List<SelectListItem> Bindworkorder(string partyid)
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetWOParty(partyid);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["JOBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<SelectListItem> BindTrans()
         {
             try
@@ -1041,7 +1065,7 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public ActionResult GetItemDetail(string ItemId, string locid)
+        public ActionResult GetItemDetail(string schid, string locid)
         {
             try
             {
@@ -1053,6 +1077,10 @@ namespace Arasan.Controllers
                 string price = "";
                 string binno = "";
                 string binname = "";
+                string itemname = "";
+                string rate = datatrans.GetDataString("select D.RATE from JODETAIL D,JOSCHEDULE S where S.PARENTRECORDID=D.JODETAILID AND S.JOSCHEDULEID='" + schid + "'");
+                string qty= datatrans.GetDataString("select S.SCHQTY from JOSCHEDULE S where  S.JOSCHEDULEID='" + schid + "'");
+                string ItemId = datatrans.GetDataString("select SCHITEMID from JOSCHEDULE WHERE JOSCHEDULEID='"+ schid + "'");
                 dt = datatrans.GetItemDetails(ItemId);
                 string stock = SalesInvoiceService.GetDrumStock(ItemId, locid);
                 if (dt.Rows.Count > 0)
@@ -1060,16 +1088,17 @@ namespace Arasan.Controllers
 
                     unit = dt.Rows[0]["UNITID"].ToString();
                     price = dt.Rows[0]["LATPURPRICE"].ToString();
-                    binno = dt.Rows[0]["BINNO"].ToString();
-                    binname = datatrans.GetDataString("select BINID from BINBASIC where BINBASICId='" + dt.Rows[0]["BINNO"].ToString() + "'"); ;
+                    //binno = dt.Rows[0]["BINNO"].ToString();
+                    //binname = datatrans.GetDataString("select BINID from BINBASIC where BINBASICId='" + dt.Rows[0]["BINNO"].ToString() + "'"); ;
                     dt1 = SalesInvoiceService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
                     if (dt1.Rows.Count > 0)
                     {
                         CF = dt1.Rows[0]["CF"].ToString();
                     }
+                    itemname= dt.Rows[0]["ITEMID"].ToString();
                 }
 
-                var result = new { unit = unit, CF = CF, price = price, binno = binno, binname = binname, stock = stock };
+                var result = new { unit = unit, CF = CF, price = price, stock = stock , itemname = itemname, itemid= ItemId, rate= rate, qty= qty };
                 return Json(result);
             }
             catch (Exception ex)
@@ -1118,13 +1147,13 @@ namespace Arasan.Controllers
                 EnqChkItem
             });
         }
-        public ActionResult DrumSelection(string itemid, string rowid, string locid)
+        public ActionResult DrumSelection(string schid, string rowid)
         {
             Drumdetailstable ca = new Drumdetailstable();
             List<DDrumdetails> TData = new List<DDrumdetails>();
             DDrumdetails tda = new DDrumdetails();
             DataTable dtEnq = new DataTable();
-            dtEnq = SalesInvoiceService.GetDrumDetails(itemid, locid);
+            dtEnq = SalesInvoiceService.GetDrumDetails(schid);
             for (int i = 0; i < dtEnq.Rows.Count; i++)
             {
                 tda = new DDrumdetails();
@@ -1132,7 +1161,7 @@ namespace Arasan.Controllers
                 tda.drumno = dtEnq.Rows[i]["DRUMNO"].ToString();
                 tda.qty = dtEnq.Rows[i]["QTY"].ToString();
                 tda.rate = dtEnq.Rows[i]["RATE"].ToString();
-                tda.invid = dtEnq.Rows[i]["PLotmastID"].ToString();
+                //tda.invid = dtEnq.Rows[i]["PLotmastID"].ToString();
                 TData.Add(tda);
             }
             ca.Drumlst = TData;
@@ -1241,7 +1270,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = datatrans.GetSupplier();
+                DataTable dtDesg = datatrans.GetCustomer();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {

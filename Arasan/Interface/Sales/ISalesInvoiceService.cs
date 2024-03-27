@@ -34,8 +34,7 @@ namespace Arasan.Interface
         DataTable GetJob();
         DataTable Getjobdetails(string jobid);
         DataTable GetSchedule(string jobid);
-
-
+        DataTable GetDrumDetails(string id);
         Task<IEnumerable<ExinvBasicItem>> GetBasicItem(string id);
         Task<IEnumerable<ExinvDetailitem>> GetExinvItemDetail(string id);
     }

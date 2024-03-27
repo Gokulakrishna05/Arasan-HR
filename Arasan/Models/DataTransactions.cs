@@ -447,6 +447,17 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetWOParty(string partyid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select J.DOCID,J.JOBASICID from JOSCHEDULE S,JOBASIC J WHERE  J.JOBASICID=S.JOBASICID AND S.JOSCHEDULEID NOT IN (select E.JOSCHEDULEID from EXINVDETAIL E,JOSCHEDULE S WHERE S.JOSCHEDULEID=E.JOSCHEDULEID) AND J.PARTYID='"+ partyid + "' AND S.IS_ALLOCATE='Y' GROUP BY J.DOCID,J.JOBASICID ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        
         public DataTable GetAccType(string id)
         {
             string SvSql = string.Empty;
