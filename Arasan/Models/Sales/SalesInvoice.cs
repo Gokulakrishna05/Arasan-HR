@@ -124,9 +124,9 @@ namespace Arasan.Models
         public string saveItemId { get; set; }
         public string HSN { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
-
+        public List<SelectListItem> worklst { get; set; }
         public List<SelectListItem> jobschlst { get; set; }
-
+        public string workid { get; set; }
         public string jobschid { get; set; }
         public string DrumIds { get; set; }
         public double FrigCharge { get; set; }

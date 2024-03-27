@@ -149,7 +149,7 @@ AND IP.UNITTYPE = 'Sales' AND B.EXINVBASICID='" + SIID + "'";
         public string GetDrumStock(string Itemid, string locid)
         {
             string SvSql = string.Empty;
-            SvSql = "select SUM(PLUSQTY)-SUM(MINUSQTY) as QTY from plstockvalue where ITEMID='" + Itemid + "' AND LOCID='" + locid + "' ";
+            SvSql = "select sum(PLUSQTY-MINUSQTY) as QTY from plstockvalue where ITEMID='" + Itemid + "' AND LOCID='" + locid + "' having sum(PLUSQTY-MINUSQTY)>0";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -711,11 +711,21 @@ Select t2.T2VCHDT, t2.MID, t1.VCHSTATUS EMODE, t1.MSTATUS MSTATUS, t1.MONTHNO MO
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetDrumDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DRUMNO,QTY,RATE,LOTNO,JODRUMALLOCATIONDETAILID from JODRUMALLOCATIONDETAIL D,JODRUMALLOCATIONBASIC B where B.JODRUMALLOCATIONBASICID=D.JODRUMALLOCATIONBASICID AND B.JOSCHEDULEID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetSchedule(string id)
         {
             string SvSql = string.Empty;
             //  996519 -frieght
-            SvSql = "select SCHNO,JOSCHEDULEID from JOSCHEDULE where JOBASICID='" + id + "'";
+            SvSql = "Select SCHNO,JOSCHEDULEID from JOSCHEDULE S WHERE  S.JOSCHEDULEID NOT IN (select E.JOSCHEDULEID from EXINVDETAIL E,JOSCHEDULE S WHERE S.JOSCHEDULEID=E.JOSCHEDULEID AND S.JOBASICID='"+ id +"') AND S.JOBASICID='"+ id +"' AND S.IS_ALLOCATE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
