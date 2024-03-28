@@ -18,6 +18,9 @@ using Microsoft.Reporting.WebForms;
 using QRCoder;
 using System.Drawing.Imaging;
 using System.Drawing;
+using ZXing;
+using ZXing.Common;
+using Intuit.Ipp.ReportService;
 
 namespace Arasan.Controllers
 {
@@ -1749,39 +1752,7 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListSalesInvoice");
             }
         }
-        //private byte[] GenerateQRCode(string data, int size)
-        //{
-        //    QRCodeGenerator qrGenerator = new QRCodeGenerator();
-        //    QRCodeData qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
-        //    QRCode qrCode = new QRCode(qrCodeData);
-        //    Bitmap qrCodeImage = qrCode.GetGraphic(size);
-
-        //    using (MemoryStream stream = new MemoryStream())
-        //    {
-        //        qrCodeImage.Save(stream, ImageFormat.Png);
-        //        return stream.ToArray();
-        //    }
-        //}
-
-        //// Call this function to set QR Code image in RDLC report
-        //private void SetQRCodeImage(string data, ReportDataSource reportDataSource)
-        //{
-        //    byte[] qrCodeBytes = GenerateQRCode(data, 200); // Adjust size as needed
-        //    reportDataSource.Value = qrCodeBytes;
-        //}
-        public byte[] GenerateQRCodeImage(string data)
-        {
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
-            QRCode qrCode = new QRCode(qrCodeData);
-            Bitmap qrCodeImage = qrCode.GetGraphic(20); // Adjust size as needed
-            using (MemoryStream stream = new MemoryStream())
-            {
-                qrCodeImage.Save(stream, ImageFormat.Png);
-                
-                return stream.ToArray();
-            }
-        }
+    
         public async Task<IActionResult> Print(string id)
         {
 
@@ -1795,24 +1766,61 @@ namespace Arasan.Controllers
             var basic = await SalesInvoiceService.GetBasicItem(id);
             var Detail = await SalesInvoiceService.GetExinvItemDetail(id);
             //var terms = await ProFormaInvoiceService.GetPinvtermsDetail(id);
-            string qrCodeData = "Your QR Code Data";
-
-            // Set QR Code image in the report
-            byte[] qrCodeBytes = GenerateQRCodeImage(qrCodeData);
-            string ima = Convert.ToBase64String(qrCodeBytes);
+          
+          
             AspNetCore.Reporting.LocalReport localReport = new AspNetCore.Reporting.LocalReport(path);
             localReport.AddDataSource("ExinvBasic", basic);
             localReport.AddDataSource("ExinvDetail", Detail);
 
-            localReport.AddDataSource("QRCode", ima);
-            //ReportParameter qrCodeParam = new ReportParameter("QRCodeParameter", Convert.ToBase64String(qrCodeBytes));
-            // Parameters.Add("QRCodeParameter", Convert.ToBase64String(qrCodeBytes));
-            // localReport.AddDataSource("PinvTandC", terms);
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            string data = "QR Code";
+            var qrCodeImage = GenerateQRCode(data);
+            Parameters.Add("QRCodeImage", ConvertImageToBase64(qrCodeImage));
 
             var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
 
             return File(result.MainStream, "application/Pdf");
 
         }
-    }
+
+        public Bitmap GenerateQRCode(string data)
+        {
+            int width = 20; int height = 20;
+            var barcodeWriter = new BarcodeWriterPixelData
+            {
+                Format = BarcodeFormat.QR_CODE,
+                Options = new EncodingOptions
+                {
+                    Height = height,
+                    Width = width
+                }
+            };
+
+            var pixelData = barcodeWriter.Write(data);
+            using (var bitmap = new Bitmap(pixelData.Width, pixelData.Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb))
+            {
+                var bitmapData = bitmap.LockBits(new Rectangle(0, 0, pixelData.Width, pixelData.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+                try
+                {
+                    System.Runtime.InteropServices.Marshal.Copy(pixelData.Pixels, 0, bitmapData.Scan0, pixelData.Pixels.Length);
+                }
+                finally
+                {
+                    bitmap.UnlockBits(bitmapData);
+                }
+                return bitmap;
+            }
+        }
+
+        private string ConvertImageToBase64(Bitmap image)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    image.Save(ms, ImageFormat.Png);
+                    byte[] byteImage = ms.ToArray();
+                    return Convert.ToBase64String(byteImage);
+                }
+            }
+
+        }
 }

@@ -82,6 +82,7 @@ namespace Arasan.Models
     public class GRNItem
     {
         public string id { get; set; }
+        public string detid { get; set; }
         public string Docid { get; set; }
         public string Docdate { get; set; }
         public string Party { get; set; }

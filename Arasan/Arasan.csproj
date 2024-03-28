@@ -69,6 +69,7 @@
     <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
     <PackageReference Include="ClosedXML" Version="0.102.2" />
     <PackageReference Include="Dapper" Version="2.0.143" />
+    <PackageReference Include="IppDotNetSdkForQuickBooksApiV3" Version="14.6.3.6" />
     <PackageReference Include="iTextSharp" Version="5.5.13.3" />
     <PackageReference Include="jsTree" Version="3.1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
@@ -85,6 +86,7 @@
     <PackageReference Include="QRCoder" Version="1.4.1" />
     <PackageReference Include="System.CodeDom" Version="7.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+    <PackageReference Include="ZXing.Net" Version="0.16.9" />
   </ItemGroup>
 
   <ItemGroup>

@@ -757,8 +757,8 @@
                                                                         <tr>
                                                                             <th>Doc ID</th>
                                                                             <th>Doc Date</th>
-                                                                            <th>Party Name</th>
-                                                                            <th>Currency</th>
+                                                                            <th>Item Name</th>
+                                                                            
                                                                             <th>GoTo QC Testing</th>
                                                                         </tr>
                                                                     </thead>
@@ -773,8 +773,8 @@
                                                                                 <td>@Html.DisplayFor(o => o.Grnplst[a].Docid)</td>
                                                                                 <td>@Html.DisplayFor(o => o.Grnplst[a].Docdate)</td>
                                                                                 <td>@Html.DisplayFor(o => o.Grnplst[a].Party)</td>
-                                                                                <td>@Html.DisplayFor(o => o.Grnplst[a].Cur)</td>
-                                                                                <td> <a class="nav-link" href="@Url.Action("QCTesting", "QCTesting",new { id=item.id ,tag=1})"> <img src='../Images/exam.png' width='20' /> </a></td>
+                                                                                
+                                                                                <td> <a class="nav-link" href="@Url.Action("QCTesting", "QCTesting",new { id=item.detid ,tag=1})"> <img src='../Images/exam.png' width='20' /> </a></td>
                                                                             </tr>
                                                                             a = a + 1;
 
@@ -854,7 +854,7 @@
                                                                     <td>@Html.DisplayFor(o => o.APOutlist[g].Time)</td>
                                                                     <td>@Html.DisplayFor(o => o.APOutlist[g].TotalQty)</td>
                                                                     <td>@Html.DisplayFor(o => o.APOutlist[g].ApId)</td>
-                                                                    @if (item.Fin == item.id)
+                                                                    @if (item.Fin == item.apoutid)
                                                                     {
                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewQCVEntry", "QCTestValueEntry",new { id=item.id})" class='fancybox' data-fancybox-type='#iframe'><img src='../Images/view_icon.png' /></a></div></td>
                                              
@@ -997,10 +997,17 @@
                                                         </div>
                                                         </div>
                                                         </div>
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                                                        </div>
 
 </form>
 
-                                   
+                                
  
 
 
