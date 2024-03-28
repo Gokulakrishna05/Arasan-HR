@@ -279,7 +279,7 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetAPOutDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select WCID,SHIFT,to_char(APPRODUCTIONBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE from APPRODUCTIONBASIC WHERE APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select WCID,SHIFT,to_char(BPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE from BPRODBASIC WHERE BPRODBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -290,7 +290,7 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetAPOutItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,APPRODOUTDET.ITEMID as item,DRUMMAST.DRUMNO,APPRODUCTIONBASICID from APPRODOUTDET  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=APPRODOUTDET.ITEMID  LEFT OUTER JOIN DRUMMAST ON DRUMMASTID=APPRODOUTDET.DRUMNO WHERE APPRODOUTDETID='" + id + "' ";
+            SvSql = "select ITEMMASTER.ITEMID,BPRODOUTDET.OITEMID ,OCDRUMNO,BPRODBASICID,BPRODOUTDETID from BPRODOUTDET  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=BPRODOUTDET.OITEMID   WHERE BPRODOUTDETID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -37,7 +37,7 @@ namespace Arasan.Controllers.Qualitycontrol
             DataTable dtv = datatrans.GetSequence("QTVE");
             if (dtv.Rows.Count > 0)
             {
-                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
             }
             List<QCTestValueEntryItem> TData = new List<QCTestValueEntryItem>();
             QCTestValueEntryItem tda = new QCTestValueEntryItem();
@@ -113,11 +113,11 @@ namespace Arasan.Controllers.Qualitycontrol
                     dtt1 = QCTestValueEntryService.GetAPOutItemDetails(id);
                     if (dtt1.Rows.Count > 0)
                     {
-                        ca.Drum = dtt1.Rows[0]["DRUMNO"].ToString();
+                        ca.Drum = dtt1.Rows[0]["OCDRUMNO"].ToString();
                         //ca.Sampletime = dtt1.Rows[0]["FROMTIME"].ToString();
                         ca.Item = dtt1.Rows[0]["ITEMID"].ToString();
-                        ca.ItemId = dtt1.Rows[0]["item"].ToString();
-                        ca.APID = dtt1.Rows[0]["APPRODUCTIONBASICID"].ToString();
+                        ca.ItemId = dtt1.Rows[0]["OITEMID"].ToString();
+                        ca.APID = dtt1.Rows[0]["BPRODOUTDETID"].ToString();
                         ViewBag.Item = dtt1.Rows[0]["ITEMID"].ToString();
                     }
                     DataTable dt1 = new DataTable();

@@ -100,30 +100,30 @@ namespace Arasan.Controllers
                     tdao1.Time = Outdt.Rows[i]["STIME"].ToString();
                     tdao1.TotalQty = Outdt.Rows[i]["OQTY"].ToString();
                     DataTable Outdt1 = new DataTable();
-                    Outdt1 = QcDashboardService.GetAPout1(tdao1.id);
+                    Outdt1 = QcDashboardService.GetAPout1(tdao1.apoutid);
                     if (Outdt1.Rows.Count > 0)
                     {
                         tdao1.ApId = Outdt1.Rows[0]["Ap"].ToString();
                     }
                     DataTable DIS = new DataTable();
-                    DIS = QcDashboardService.GetDis(tdao1.id);
+                    DIS = QcDashboardService.GetDis(tdao1.apoutid);
                     if (DIS.Rows.Count > 0)
                     {
                         for (int j = 0; j < DIS.Rows.Count; j++)
                         {
 
-                            tdao1.dis = DIS.Rows[j]["APPROID"].ToString();
+                            tdao1.Fin = DIS.Rows[j]["APPROID"].ToString();
 
                         }
                     }
                     DataTable FIN = new DataTable();
-                    FIN = QcDashboardService.GetFinal(tdao1.id);
+                    FIN = QcDashboardService.GetFinal(tdao1.apoutid);
                     if (FIN.Rows.Count > 0)
                     {
                         for (int k = 0; k < FIN.Rows.Count; k++)
                         {
 
-                            tdao1.Fin = DIS.Rows[k]["APPROID"].ToString();
+                            tdao1.Fin = FIN.Rows[k]["APPROID"].ToString();
 
                         }
                     }
@@ -152,16 +152,17 @@ namespace Arasan.Controllers
             GRNItem tda3 = new GRNItem();
             DataTable dt1 = new DataTable();
             dt1 = QcDashboardService.GetGRNItem();
-            if (dt.Rows.Count > 0)
+            if (dt1.Rows.Count > 0)
             {
-                for (int i = 0; i < dt.Rows.Count; i++)
+                for (int i = 0; i < dt1.Rows.Count; i++)
                 {
                     tda3 = new GRNItem();
                     tda3.id = dt1.Rows[i]["GRNBLBASICID"].ToString();
+                    tda3.detid = dt1.Rows[i]["GRNBLDETAILID"].ToString();
                     tda3.Docid = dt1.Rows[i]["DOCID"].ToString();
                     tda3.Docdate = dt1.Rows[i]["DOCDATE"].ToString();
-                    tda3.Party = dt1.Rows[i]["PARTYNAME"].ToString();
-                    tda3.Cur = dt1.Rows[i]["MAINCURR"].ToString();
+                    tda3.Party = dt1.Rows[i]["ITEMID"].ToString();
+                   // tda3.Cur = dt1.Rows[i]["MAINCURR"].ToString();
                     TDatak1.Add(tda3);
                 }
             }

@@ -269,10 +269,12 @@ namespace Arasan.Services.Qualitycontrol
 
                                 }
                             }
-                            updateCMd = " UPDATE QCNOTIFICATION SET IS_COMPLETED ='YES' , FINALRESULT='" + cy.FResult + "' WHERE DOCID ='" + cy.ProNo + "' ";
+                          updateCMd = " UPDATE QCNOTIFICATION SET IS_COMPLETED ='YES' , FINALRESULT='" + cy.FResult + "' WHERE DOCID ='" + cy.ProNo + "' ";
                             datatrans.UpdateStatus(updateCMd);
+                        svSQL = "Update BPRODOUTDET SET QCRESULT='" + cy.FResult + "'  WHERE BPRODOUTDETID='" + cy.ApId + "'";
+                        OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        objCmdd.ExecuteNonQuery();
 
-                       
                     }
                     catch (Exception ex)
                     {
