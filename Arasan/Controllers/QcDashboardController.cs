@@ -32,7 +32,10 @@ namespace Arasan.Controllers
             Notify tda1 = new Notify();
             List<APOut> TDatao1 = new List<APOut>();
             APOut tdao1 = new APOut();
+            List<POut> TDatao2 = new List<POut>();
+            POut tdao2 = new POut();
             DataTable dt2 = new DataTable();
+
             dt2 = QcDashboardService.IsQCNotify();
             if (dt2.Rows.Count > 0)
             {
@@ -95,6 +98,8 @@ namespace Arasan.Controllers
                     tdao1 = new APOut();
                     tdao1.id = Outdt.Rows[i]["BPRODBASICID"].ToString();
                     tdao1.apoutid = Outdt.Rows[i]["BPRODOUTDETID"].ToString();
+                    tdao1.docid = Outdt.Rows[i]["DOCID"].ToString();
+                    tdao1.docdate = Outdt.Rows[i]["DOCDATE"].ToString();
                     tdao1.ItemName = Outdt.Rows[i]["ITEMID"].ToString();
                     tdao1.Drum = Outdt.Rows[i]["DRUMNO"].ToString();
                     tdao1.Time = Outdt.Rows[i]["STIME"].ToString();
@@ -112,7 +117,7 @@ namespace Arasan.Controllers
                         for (int j = 0; j < DIS.Rows.Count; j++)
                         {
 
-                            tdao1.Fin = DIS.Rows[j]["APPROID"].ToString();
+                            tdao1.dis = DIS.Rows[j]["BPRODOUTDETID"].ToString();
 
                         }
                     }
@@ -131,7 +136,54 @@ namespace Arasan.Controllers
                 }
                
             }
-            List<APOutItem> TDatak = new List<APOutItem>();
+            DataTable POutdt = new DataTable();
+            POutdt = QcDashboardService.GetPout();
+            if (POutdt.Rows.Count > 0)
+            {
+                for (int i = 0; i < POutdt.Rows.Count; i++)
+                {
+                    tdao2 = new POut();
+                    tdao2.id = POutdt.Rows[i]["NPRODBASICID"].ToString();
+                    tdao2.poutid = POutdt.Rows[i]["NPRODOUTDETID"].ToString();
+                    tdao2.docid = POutdt.Rows[i]["DOCID"].ToString();
+                    tdao2.docdate = POutdt.Rows[i]["DOCDATE"].ToString();
+                    tdao2.ItemName = POutdt.Rows[i]["ITEMID"].ToString();
+                    tdao2.Drum = POutdt.Rows[i]["OCDRUMNO"].ToString();
+                    tdao2.Time = POutdt.Rows[i]["STIME"].ToString();
+                    tdao2.TotalQty = POutdt.Rows[i]["OQTY"].ToString();
+                    
+                    DataTable tcount = datatrans.GetData("SELECT NPRODOUTDETID, COUNT(*) as Ap FROM QTVEBASIC WHERE NPRODOUTDETID ='" + tdao2.poutid + "' GROUP BY NPRODOUTDETID");
+                    if (tcount.Rows.Count > 0)
+                    {
+                        tdao2.pId = tcount.Rows[0]["Ap"].ToString();
+                        tdao2.detid = tcount.Rows[0]["NPRODOUTDETID"].ToString();
+                    }
+                    //DataTable DIS = new DataTable();
+                    //DIS = QcDashboardService.GetDis(tdao1.apoutid);
+                    //if (DIS.Rows.Count > 0)
+                    //{
+                    //    for (int j = 0; j < DIS.Rows.Count; j++)
+                    //    {
+
+                    //        tdao1.Fin = DIS.Rows[j]["APPROID"].ToString();
+
+                    //    }
+                    //}
+                    //DataTable FIN = new DataTable();
+                    //FIN = QcDashboardService.GetFinal(tdao1.apoutid);
+                    //if (FIN.Rows.Count > 0)
+                    //{
+                    //    for (int k = 0; k < FIN.Rows.Count; k++)
+                    //    {
+
+                    //        tdao1.Fin = FIN.Rows[k]["APPROID"].ToString();
+
+                    //    }
+                    //}
+                    TDatao2.Add(tdao2);
+                }
+            }
+                List<APOutItem> TDatak = new List<APOutItem>();
             APOutItem tda2 = new APOutItem();
             DataTable dt = new DataTable();
             dt = QcDashboardService.GetAPoutItem();
@@ -215,6 +267,7 @@ namespace Arasan.Controllers
             H.qcNotifies = TData;
             H.Notifies = TData1;
             H.APOutlist = TDatao1;
+            H.POutlist = TDatao2;
             //H.Materialnotification = TDatan;
             H.Aplast = TDatak;
             H.Grnplst = TDatak1;

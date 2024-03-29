@@ -29,6 +29,8 @@ namespace Arasan.Controllers.Qualitycontrol
             QCTestValueEntry ca = new QCTestValueEntry();
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
+            ca.userId = Request.Cookies["UserName"];
+
             ca.assignList = BindEmp();
             ca.Worklst = BindWorkCenter();
             ca.itemlst = BindItem();
@@ -41,6 +43,8 @@ namespace Arasan.Controllers.Qualitycontrol
             }
             List<QCTestValueEntryItem> TData = new List<QCTestValueEntryItem>();
             QCTestValueEntryItem tda = new QCTestValueEntryItem();
+            List<QCTestPre> TData1 = new List<QCTestPre>();
+            QCTestPre tda1 = new QCTestPre();
             if (id == null)
             {
                 for (int i = 0; i < 3; i++)
@@ -107,7 +111,7 @@ namespace Arasan.Controllers.Qualitycontrol
                         }
                     }
                 }
-                else
+                if(tag=="BPE")
                 {
                     DataTable dtt1 = new DataTable();
                     dtt1 = QCTestValueEntryService.GetAPOutItemDetails(id);
@@ -135,8 +139,7 @@ namespace Arasan.Controllers.Qualitycontrol
 
                     }
                     DataTable dtt = new DataTable();
-                    List<QCTestValueEntryItem> Data = new List<QCTestValueEntryItem>();
-                    QCTestValueEntryItem tda1 = new QCTestValueEntryItem();
+                    
                     //string itemid = datatrans.GetDataString(" SELECT ITEMMASTERID FROM ITEMMASTER WHERE ITEMID='" + ca.ItemId + "'");
                     string temp = datatrans.GetDataString(" SELECT TEMPLATEID FROM ITEMMASTER WHERE ITEMMASTERID='" + ca.ItemId + "'");
                     dtt = QCTestValueEntryService.GetItemDetail(temp);
@@ -144,22 +147,85 @@ namespace Arasan.Controllers.Qualitycontrol
                     {
                         for (int i = 0; i < dtt.Rows.Count; i++)
                         {
-                            tda1 = new QCTestValueEntryItem();
+                            tda = new QCTestValueEntryItem();
 
-                            tda1.description = dtt.Rows[i]["TESTDESC"].ToString();
-                            tda1.value = dtt.Rows[i]["VALUEORMANUAL"].ToString();
-                            tda1.unit = dtt.Rows[i]["UNITID"].ToString();
-                            tda1.startvalue = dtt.Rows[i]["STARTVALUE"].ToString();
-                            tda1.endvalue = dtt.Rows[i]["ENDVALUE"].ToString();
+                            tda.description = dtt.Rows[i]["TESTDESC"].ToString();
+                            tda.value = dtt.Rows[i]["VALUEORMANUAL"].ToString();
+                            tda.unit = dtt.Rows[i]["UNITID"].ToString();
+                            tda.startvalue = dtt.Rows[i]["STARTVALUE"].ToString();
+                            tda.endvalue = dtt.Rows[i]["ENDVALUE"].ToString();
 
-                            Data.Add(tda1);
+                            TData.Add(tda);
                         }
                     }
-                    ca.QCTestLst = Data;
+
+                    DataTable qcp = datatrans.GetData("select QTVEBASIC.CDRUMNO,QTVEDETAIL.TDESC,QTVEDETAIL.TESTVALUE,QTVEDETAIL.TESTRESULT from QTVEBASIC,QTVEDETAIL      WHERE QTVEBASIC.QTVEBASICID=QTVEDETAIL.QTVEBASICID AND BPRODOUTDETID = '" + id + "' ");
+                    if (qcp.Rows.Count > 0)
+                    {
+                         for(int i=0;i< qcp.Rows.Count;i++)
+                        {
+                            tda1 = new QCTestPre();
+
+                            tda1.drum = qcp.Rows[i]["CDRUMNO"].ToString();
+                            tda1.desc = qcp.Rows[i]["TDESC"].ToString();
+                            tda1.value = qcp.Rows[i]["TESTVALUE"].ToString();
+                            tda1.result = qcp.Rows[i]["TESTRESULT"].ToString();
+                             
+
+                            TData1.Add(tda1);
+                        }
+
+
+                    }
+
+                    //ca.QCTestLst = Data;
+                }
+                else
+                {
+                    DataTable dtt1 = new DataTable();
+                    dtt1 = datatrans.GetData("select ITEMMASTER.ITEMID,NPRODBASIC.WCID,SHIFT,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE, NPRODOUTDET.OITEMID, OCDRUMNO, NPRODOUTDET.NPRODBASICID, NPRODOUTDETID from NPRODOUTDET LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID = NPRODOUTDET.OITEMID,NPRODBASIC    WHERE NPRODOUTDET.NPRODBASICID=NPRODBASIC.NPRODBASICID AND NPRODOUTDETID = '" + id + "' ");
+                    if (dtt1.Rows.Count > 0)
+                    {
+                        ca.Drum = dtt1.Rows[0]["OCDRUMNO"].ToString();
+                        //ca.Sampletime = dtt1.Rows[0]["FROMTIME"].ToString();
+                        ca.Item = dtt1.Rows[0]["ITEMID"].ToString();
+                        ca.ItemId = dtt1.Rows[0]["OITEMID"].ToString();
+                        ca.PID = dtt1.Rows[0]["NPRODOUTDETID"].ToString();
+                        ViewBag.Item = dtt1.Rows[0]["ITEMID"].ToString();
+
+
+                        ca.Work = dtt1.Rows[0]["WCID"].ToString();
+                        ca.Shift = dtt1.Rows[0]["SHIFT"].ToString();
+                        ca.Prodate = dtt1.Rows[0]["DOCDATE"].ToString();
+
+
+                    }
+                    
+                    DataTable dtt = new DataTable();
+                   
+                    //string itemid = datatrans.GetDataString(" SELECT ITEMMASTERID FROM ITEMMASTER WHERE ITEMID='" + ca.ItemId + "'");
+                    string temp = datatrans.GetDataString(" SELECT TEMPLATEID FROM ITEMMASTER WHERE ITEMMASTERID='" + ca.ItemId + "'");
+                    dtt = QCTestValueEntryService.GetItemDetail(temp);
+                    if (dtt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dtt.Rows.Count; i++)
+                        {
+                            tda = new QCTestValueEntryItem();
+
+                            tda.description = dtt.Rows[i]["TESTDESC"].ToString();
+                            tda.value = dtt.Rows[i]["VALUEORMANUAL"].ToString();
+                            tda.unit = dtt.Rows[i]["UNITID"].ToString();
+                            tda.startvalue = dtt.Rows[i]["STARTVALUE"].ToString();
+                            tda.endvalue = dtt.Rows[i]["ENDVALUE"].ToString();
+
+                            TData.Add(tda);
+                        }
+                    }
                 }
 
             }
             ca.QCTestLst = TData;
+            ca.QCPTestLst = TData1;
             return View(ca);
         }
         [HttpPost]

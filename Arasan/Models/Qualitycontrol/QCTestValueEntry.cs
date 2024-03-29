@@ -19,6 +19,7 @@ namespace Arasan.Models
 
         public List<SelectListItem> Brlst;
         public string Branch { get; set; }
+        public string userId { get; set; }
 
         public List<SelectListItem> assignList;
 
@@ -37,6 +38,7 @@ namespace Arasan.Models
         public string Sampletime { get; set; }
         public string Item { get; set; }
         public string ItemId { get; set; }
+        public string PID { get; set; }
         public string Rate { get; set; }
         public string Nozzle { get; set; }
         public string Air { get; set; }
@@ -48,6 +50,7 @@ namespace Arasan.Models
       
 
         public List<QCTestValueEntryItem> QCTestLst { get; set; }
+        public List<QCTestPre> QCPTestLst { get; set; }
         public List<ViewAPOut> ViewAPOutlist { get; set; }
     }
     public class QCTestValueEntryItem
@@ -74,6 +77,16 @@ namespace Arasan.Models
         public string id { get; set; }
         public string Proid { get; set; }
         //public string ApId { get; set; }
+
+    }
+    public class QCTestPre
+    {
+
+        public string drum { get; set; }
+        public string desc { get; set; }
+        public string value { get; set; }
+        public string result { get; set; }
+         
 
     }
     public class ViewAPOut

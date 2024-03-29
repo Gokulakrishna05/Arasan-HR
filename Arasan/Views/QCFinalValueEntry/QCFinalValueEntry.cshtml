@@ -32,20 +32,7 @@
                         {
                             @Html.AntiForgeryToken()
                     <form>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                       <br />  <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
-                                    <div class="col-sm-8">
-                                           @Html.HiddenFor(C => C.ID)
-                                            @Html.HiddenFor(C => C.APID)
-                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
-                                           
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -53,7 +40,10 @@
                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                           @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1,@readonly="readonly" })
-                                    </div>
+                                    @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.APID)
+                                            @Html.HiddenFor(C => C.Enterd)
+                                      </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -105,7 +95,7 @@
                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Batch<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                          @Html.TextBoxFor(C => C.Batch, new { @id = "txtBatch", @class = "form-control", @TabIndex = 1 })
+                                          @Html.TextBoxFor(C => C.Batch, new { @id = "txtBatch", @class = "form-control", @TabIndex = 1 ,@readonly="readonly"})
                                     </div>
                                 </div>
                             </div>
@@ -118,7 +108,7 @@
                                     <div class="col-sm-8">
                                           @*  @Html.DropDownListFor(C => C.BatchNo, Model.Batchlst," -- Please Select -- " ,new { @id = "ddlBatchNo", @Class = "form-control _select", @TabIndex = 1 })*@
 
-                                            @Html.TextBoxFor(C => C.BatchNo, new { @id = "txtBatchNo", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextBoxFor(C => C.BatchNo, new { @id = "txtBatchNo", @class = "form-control", @TabIndex = 1,@readonly="readonly" })
 
                                     </div>
                                 </div>
@@ -141,22 +131,10 @@
 
                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Prod No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                               @Html.TextBoxFor(C => C.ProNo, new { @id = "txtProNo", @class = "form-control", @TabIndex = 1 })
+                                               @Html.TextBoxFor(C => C.ProNo, new { @id = "txtProNo", @class = "form-control", @TabIndex = 1,@readonly="readonly" })
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Rate/Hr<label class="mandatory">*</label></label>
-
-                                    <div class="col-sm-8">
-                                              @Html.TextBoxFor(C => C.Rate, new { @id = "txtRate", @class = "form-control", @TabIndex = 1 })
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -165,6 +143,19 @@
                                             @Html.TextBoxFor(C => C.ProDate, new { @id = "ProDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly="readonly" })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Rate/Hr<label class="mandatory">*</label></label>
+
+                                    <div class="col-sm-8">
+                                              @Html.TextBoxFor(C => C.Rate, new { @id = "txtRate", @class = "form-control", @TabIndex = 1 })
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -214,7 +205,7 @@
 
                                      <br />  <label for="inputName3" class="col-sm-4 control-label">Sample Time<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Stime, new { @id = "txtStime", @class = "form-control", @TabIndex = 1 ,@readonly="readonly"})
+                                            @Html.TextBoxFor(C => C.Stime, new { @id = "txtStime", @class = "form-control", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
@@ -503,7 +494,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                          @*  <div class="col-md-6">
                                 <div class="form-group">
 
                                         <br />   <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
@@ -511,7 +502,7 @@
                                             @Html.DropDownListFor(C => C.Enterd, Model.RecList, new { @id = "ddlEnterd", @Class = "form-control _select", @TabIndex = 1 })
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                        
                             <div class="col-md-6">
                                 <div class="form-group">
