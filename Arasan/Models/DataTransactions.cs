@@ -138,7 +138,7 @@ namespace Arasan.Models
         {
             string SvSql = string.Empty;
             //SvSql = "select PREFIX,LASTNO from sequence where TRANSTYPE='" + vtype  + "' AND ACTIVESEQUENCE='T'";
-            SvSql = " select PREFIX, LASTNO, PREFIX || '' || LASTNO  as doc from sequence where TRANSTYPE = 'Deinv' and Locid = '" + locid + "'";
+            SvSql = " select PREFIX, LASTNO, PREFIX || '' || LASTNO  as doc from sequence where TRANSTYPE = '"+ vtype + "' and Locid = '" + locid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -447,10 +447,10 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetWOParty(string partyid)
+        public DataTable GetWOParty(string partyid, string locid)
         {
             string SvSql = string.Empty;
-            SvSql = "Select J.DOCID,J.JOBASICID from JOSCHEDULE S,JOBASIC J WHERE  J.JOBASICID=S.JOBASICID AND S.JOSCHEDULEID NOT IN (select E.JOSCHEDULEID from EXINVDETAIL E,JOSCHEDULE S WHERE S.JOSCHEDULEID=E.JOSCHEDULEID) AND J.PARTYID='"+ partyid + "' AND S.IS_ALLOCATE='Y' GROUP BY J.DOCID,J.JOBASICID ";
+            SvSql = "Select J.DOCID,J.JOBASICID from JOSCHEDULE S,JOBASIC J WHERE  J.JOBASICID=S.JOBASICID AND S.JOSCHEDULEID NOT IN (select E.JOSCHEDULEID from EXINVDETAIL E,JOSCHEDULE S WHERE S.JOSCHEDULEID=E.JOSCHEDULEID) AND J.PARTYID='"+ partyid + "' AND J.LOCID='"+ locid + "' AND S.IS_ALLOCATE='Y' GROUP BY J.DOCID,J.JOBASICID ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

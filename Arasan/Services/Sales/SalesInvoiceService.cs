@@ -198,12 +198,8 @@ AND IP.UNITTYPE = 'Sales' AND B.EXINVBASICID='" + SIID + "'";
             {
                 string StatementType = string.Empty; string svSQL = "";
                 string Pid = "0";
-                //datatrans.GetDataString("select ACCOUNTNAME from PARTYMAST where PARTYMASTID='" + cy.Party + "'");
                 DataTable dtacc = new DataTable();
-                //DataTable dtParty = datatrans.GetData("select CREDITDAYS,GSTNO,PARTYNAME,ACCOUNTNAME,PANNO from PARTYMAST where PARTYMASTID='" + cy.Party + "'");
-                //string mid = dtParty.Rows[0]["ACCOUNTNAME"].ToString();
-
-
+               
                 DataTable dtParty = datatrans.GetData("select distinct P.CREDITDAYS,P.GSTNO,P.PARTYNAME,P.ACCOUNTNAME,P.PartyGroup,A.ratecode,a.limit,P.PANNO,P.CREDITLIMIT,P.TRANSLMT from PARTYMAST P,PartyAdvDisc A Where P.PartyMastID =A.PartyMastID(+) and P.PARTYMASTID='" + cy.Party + "'");
                 string mid = dtParty.Rows[0]["ACCOUNTNAME"].ToString();
                 cy.partyarc = dtParty.Rows[0]["ratecode"].ToString();
@@ -321,7 +317,7 @@ AND IP.UNITTYPE = 'Sales' AND B.EXINVBASICID='" + SIID + "'";
                                 //////////////////////////////Begin transaction
                                 string splrate = cy.limit > 0 ? "Yes" : "No";
                                 double totaccamt = cy.Gross + cy.FrightCharge;
-                                command.CommandText = "Insert into DEPINVOBASIC (LOCDETAILSID,BRANCHID,INVTYPE,DOCID,DOCDATE,REFNO,REFDATE,PARTYID,VTYPE,CUSTPO,SALVAL,RECDBY,DESPBY,INSPBY,TRANSMODE,VNO,INVDESC,TRANSP,TEMPID,TRANSLIMIT,DOCTHORUGH,RNDOFF,GROSS,NET,AMTWORDS,NARRATION,BSGST,BCGST,BIGST,BFREIGHT,BDISCOUNT,CANCEL,LOCID,MAINCURRENCY,SYMBOL,EXRATE,PARTYMASTID,PARTYNAME,ADSCHEME,CUSTACC,EORDTYPE,CREDITDAYS,GSTNO,TYPE,PANNO,TDIST,BDRUMS,BTOTQTY,RATECODE,ROFF,BQDISCA,BQDISC,PARTYGROUP,SALLIMIT,ASALVAL,TOTACCESAMOUNT,BTOTACCAMT,BTOTAMT,CREDITLIMIT,DUEDATE,CRATECODE,PARTYBALANCE) VALUES ('" + cy.Location + "','" + cy.Branch + "','" + INvtype + "','" + cy.InvNo + "','" + cy.InvDate + "','" + cy.RefNo + "','" + cy.RefDate + "','" + cy.Party + "','R','" + cy.Customer + "','" + cy.Sales + "','" + cy.RecBy + "','" + cy.Dis + "','" + cy.Inspect + "','" + cy.Trans + "','" + cy.Vno + "','" + cy.InvoiceD + "','" + cy.Tname + "','" + cy.Tname + "','" + dtParty.Rows[0]["TRANSLMT"].ToString() + "','" + cy.Doc + "','" + cy.Round + "','" + cy.Gross + "','" + cy.Net + "','" + cy.AinWords + "','" + cy.Narration + "','" + cy.sgst + "','" + cy.cgst + "','" + cy.igst + "','" + cy.FrightCharge + "','" + cy.Discount + "','T','" + cy.Location + "','1','Rs','1','" + cy.Party + "','" + dtParty.Rows[0]["PARTYNAME"].ToString() + "','" + dtacc.Rows[0]["ADCOMPHID"].ToString() + "','" + mid + "','" + cy.Ordsam + "','" + dtParty.Rows[0]["CREDITDAYS"].ToString() + "','" + dtParty.Rows[0]["GSTNO"].ToString() + "','Sales','" + dtParty.Rows[0]["PANNO"].ToString() + "','" + cy.Distance + "','" + totdrums + "','" + totqty + "','" + cy.arc + "','" + cy.Round + "','" + totcashdisc + "','" + totqtydis + "','" + cy.PartyG + "','" + cy.limit + "','" + cy.asale + "','" + totacssamt + "','" + totaccamt + "','" + cy.Gross + "','" + dtParty.Rows[0]["CREDITLIMIT"].ToString() + "','" + duedate.ToString("dd-MMM-yyyy") + "','" + cy.arc + "','" + PartyB + "')  RETURNING DEPINVOBASICID INTO :LASTCID";
+                                command.CommandText = "Insert into EXINVBASIC (LOCDETAILSID,BRANCHID,INVTYPE,DOCID,DOCDATE,REFNO,REFDATE,PARTYID,VTYPE,CUSTPO,SALVAL,RECDBY,DESPBY,INSPBY,TRANSMODE,VNO,INVDESC,TRANSP,TEMPID,TRANSLIMIT,DOCTHORUGH,RNDOFF,GROSS,NET,AMTWORDS,NARRATION,BSGST,BCGST,BIGST,BFREIGHT,BDISCOUNT,CANCEL,LOCID,MAINCURRENCY,SYMBOL,EXRATE,PARTYMASTID,PARTYNAME,ADSCHEME,CUSTACC,EORDTYPE,CREDITDAYS,GSTNO,TYPE,PANNO,TDIST,BDRUMS,BTOTQTY,RATECODE,ROFF,PARTYGROUP,SALLIMIT,ASALVAL,TOTACCESAMOUNT,BTOTACCAMT,BTOTAMT,CREDITLIMIT,DUEDATE,CRATECODE,PARTYBALANCE) VALUES ('" + cy.Location + "','" + cy.Branch + "','" + INvtype + "','" + cy.InvNo + "','" + cy.InvDate + "','" + cy.RefNo + "','" + cy.RefDate + "','" + cy.Party + "','R','" + cy.Customer + "','" + cy.Sales + "','" + cy.RecBy + "','" + cy.Dis + "','" + cy.Inspect + "','" + cy.Trans + "','" + cy.Vno + "','" + cy.InvoiceD + "','" + cy.Tname + "','" + cy.Tname + "','" + dtParty.Rows[0]["TRANSLMT"].ToString() + "','" + cy.Doc + "','" + cy.Round + "','" + cy.Gross + "','" + cy.Net + "','" + cy.AinWords + "','" + cy.Narration + "','" + cy.sgst + "','" + cy.cgst + "','" + cy.igst + "','" + cy.FrightCharge + "','" + cy.Discount + "','T','" + cy.Location + "','1','Rs','1','" + cy.Party + "','" + dtParty.Rows[0]["PARTYNAME"].ToString() + "','" + dtacc.Rows[0]["ADCOMPHID"].ToString() + "','" + mid + "','" + cy.Ordsam + "','" + dtParty.Rows[0]["CREDITDAYS"].ToString() + "','" + dtParty.Rows[0]["GSTNO"].ToString() + "','Sales','" + dtParty.Rows[0]["PANNO"].ToString() + "','" + cy.Distance + "','" + totdrums + "','" + totqty + "','" + cy.arc + "','" + cy.Round + "','" + cy.PartyG + "','" + cy.limit + "','" + cy.asale + "','" + totacssamt + "','" + totaccamt + "','" + cy.Gross + "','" + dtParty.Rows[0]["CREDITLIMIT"].ToString() + "','" + duedate.ToString("dd-MMM-yyyy") + "','" + cy.arc + "','" + PartyB + "')  RETURNING EXINVBASICID INTO :LASTCID";
                                 command.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                 command.ExecuteNonQuery();
                                 Pid = command.Parameters["LASTCID"].Value.ToString();
@@ -368,12 +364,12 @@ AND IP.UNITTYPE = 'Sales' AND B.EXINVBASICID='" + SIID + "'";
                                                 string drumids = cp.DrumIds;
                                                 drumidlist = drumids.Split(",");
                                                 totdrumscount = drumidlist.Length;
-                                                crate = datatrans.GetDataString("SELECT ROUND((SUM(PL.Amount) / SUM(PL.QTY)),2) as CRATE  FROM plotmaSt PL,plstockvalue ps WHERE ps.lotno=pl.lotno AND PL.PLotmastID IN (" + cp.DrumIds + ")");
+                                                crate = datatrans.GetDataString("SELECT ROUND((SUM(PL.Amount) / SUM(PL.QTY)),2) as CRATE  FROM plotmaSt PL,plstockvalue ps WHERE ps.lotno=pl.lotno AND ps.plstockvalueID IN (" + cp.DrumIds + ")");
 
                                                 Crate1 = Convert.ToDouble(crate);
                                                 Camount = Crate1 * cp.Quantity;
                                             }
-                                            command.CommandText = "Insert into DEPINVODETAIL (DEPINVOBASICID,ITEMID,ITEMTYPE,ITEMSPEC,UNIT,SRATE,BINID,LOTYN,SERIALYN,TOSUBGRID,SUBQTY,EXCISEQTY,PRIUNIT,QTY,RATE,AMOUNT,DISCOUNT,IDISC,CDISC,TDISC,ADISC,SDISC,FREIGHT,CGSTP,SGSTP,IGSTP,CGST,SGST,IGST,TOTAMT,DRUMDESC,EXCISETYPE,TARIFFID,HSN,Accesamount,baserate,baseamount,unitc,Qdisca,Cdisca,DEPINVDETAILROW,SL,TOTEXAMT,Qdisc,SDNO,CRATE,CAMOUNT,ASDQTY,RCODE,SPLRATE) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.ItemType + "','" + cp.ItemSpec + "','" + UnitId + "','" + cp.rate + "','" + cp.binid + "','YES','NO','" + cp.Quantity + "','" + cp.Quantity + "','" + cp.Quantity + "','" + cp.Unit + "','" + cp.Quantity + "','" + cp.rate + "','" + (cp.Quantity * cp.rate) + "','" + totdisc + "','" + cp.IntroDiscount + "','" + cp.CashDiscount + "','" + cp.TradeDiscount + "','" + cp.AddDiscount + "','" + cp.SpecDiscount + "','" + cp.FrigCharge + "','" + cp.CGSTP + "','" + cp.SGSTP + "','" + cp.IGSTP + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "','" + cp.TotalAmount + "','" + cp.Drumsdesc + "','INPUTS','" + cp.tarrifid + "','" + cp.HSN + "','" + acssamt + "','" + brate + "','" + acssamt + "','" + cp.Unit + "','" + cp.DiscountAmount + "','" + cdisca + "','" + rc + "','" + rc + "','" + totaltaxamt + "','" + cp.DiscAmount + "','" + totdrumscount + "','" + crate + "','" + Camount + "','" + asdqty + "','" + cy.arc + "','" + splrate + "') RETURNING DEPINVODETAILID INTO :LASTDID";
+                                            command.CommandText = "Insert into EXINVDETAIL (EXINVBASICID,ITEMID,ITEMTYPE,ITEMSPEC,UNIT,SRATE,BINID,LOTYN,SERIALYN,TOSUBGRID,SUBQTY,EXCISEQTY,PRIUNIT,QTY,RATE,AMOUNT,DISCOUNT,IDISC,CDISC,TDISC,ADISC,SDISC,FREIGHT,CGSTP,SGSTP,IGSTP,CGST,SGST,IGST,TOTAMT,DRUMDESC,EXCISETYPE,TARIFFID,HSN,Accesamount,baserate,baseamount,unitc,Qdisca,Cdisca,EXINVDETAILROW,SL,TOTEXAMT,Qdisc,SDNO,CRATE,CAMOUNT,ASDQTY,RCODE,SPLRATE) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.ItemType + "','" + cp.ItemSpec + "','" + UnitId + "','" + cp.rate + "','" + cp.binid + "','YES','NO','" + cp.Quantity + "','" + cp.Quantity + "','" + cp.Quantity + "','" + cp.Unit + "','" + cp.Quantity + "','" + cp.rate + "','" + (cp.Quantity * cp.rate) + "','" + totdisc + "','" + cp.IntroDiscount + "','" + cp.CashDiscount + "','" + cp.TradeDiscount + "','" + cp.AddDiscount + "','" + cp.SpecDiscount + "','" + cp.FrigCharge + "','" + cp.CGSTP + "','" + cp.SGSTP + "','" + cp.IGSTP + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "','" + cp.TotalAmount + "','" + cp.Drumsdesc + "','INPUTS','" + cp.tarrifid + "','" + cp.HSN + "','" + acssamt + "','" + brate + "','" + acssamt + "','" + cp.Unit + "','" + cp.DiscountAmount + "','" + cdisca + "','" + rc + "','" + rc + "','" + totaltaxamt + "','" + cp.DiscAmount + "','" + totdrumscount + "','" + crate + "','" + Camount + "','" + asdqty + "','" + cy.arc + "','" + splrate + "') RETURNING EXINVDETAILID INTO :LASTDID";
                                             command.Parameters.Add("LASTDID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                             command.ExecuteNonQuery();
                                             detailid = command.Parameters["LASTDID"].Value.ToString();
@@ -387,7 +383,7 @@ AND IP.UNITTYPE = 'Sales' AND B.EXINVBASICID='" + SIID + "'";
                                                 foreach (string drumid in drumidlist)
                                                 {
                                                     long plstockvalue = datatrans.GetDataIdlong("select LASTNO from NEWSEQUENCE where NAME='plstockvalue'");
-                                                    DataTable dt = datatrans.GetData("SELECT PL.PLOTMASTID,PL.RATE as LOTRATE,ps.PLUSQTY,ps.DRUMNO,ps.RATE,ps.LOTNO,PL.Amount FROM plotmaSt PL,plstockvalue ps WHERE ps.lotno=pl.lotno AND PL.PLotmastID='" + drumid + "'");
+                                                    DataTable dt = datatrans.GetData("SELECT PL.PLOTMASTID,PL.RATE as LOTRATE,ps.PLUSQTY,ps.DRUMNO,ps.RATE,ps.LOTNO,PL.Amount FROM plotmaSt PL,plstockvalue ps WHERE ps.lotno=pl.lotno ps.plstockvalueID='" + drumid + "'");
                                                     //command.CommandText = "Insert into plstockvalue (T1SOURCEID,DOCID,DOCDATE,LOTNO,MINUSQTY,DRUMNO,RATE,STOCKVALUE,ITEMID,LOCID,STOCKTRANSTYPE) VALUES ('" + Pid + "','" + cy.InvNo + "','" + cy.InvDate + "','" + dt.Rows[0]["LOTNO"].ToString() + "','" + dt.Rows[0]["PLUSQTY"].ToString() + "','" + dt.Rows[0]["DRUMNO"].ToString() + "','" + dt.Rows[0]["RATE"].ToString() + "','" + cp.CurrentStock + "','" + cp.ItemId + "','" + cy.Location + "','Ex.Invoice')";
                                                     //OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
                                                     //command.ExecuteNonQuery();
@@ -395,7 +391,7 @@ AND IP.UNITTYPE = 'Sales' AND B.EXINVBASICID='" + SIID + "'";
                                                     //DataTable dt2 = datatrans.GetData("SELECT PL.PLOTMASTID,PL.RATE FROM plotmaSt PL,plstockvalue ps WHERE ps.lotno=pl.lotno AND ps.PLSTOCKVALUEID='"+ plstockvalue + "'");
                                                     double amt = Convert.ToDouble(dt.Rows[0]["LOTRATE"].ToString()) * Convert.ToDouble(dt.Rows[0]["PLUSQTY"].ToString());
                                                     double amt12 = Convert.ToDouble(dt.Rows[0]["RATE"].ToString()) * Convert.ToDouble(dt.Rows[0]["PLUSQTY"].ToString());
-                                                    command.CommandText = "Insert into DEPINVOLOT (DEPINVOBASICID,DEPINVOLOTROW,DRUMNO,LDNO,LITEMID,LITEMMASTERID,LOTNO,LOTSTOCK,LQTY,LRATE,SLRATE,LAMOUNT,PORL,TLOT,PARENTRECORDID) VALUES ('" + Pid + "','" + n + "','" + dt.Rows[0]["DRUMNO"].ToString() + "','1','" + cp.ItemId + "','" + cp.ItemId + "','" + dt.Rows[0]["PLOTMASTID"].ToString() + "','" + dt.Rows[0]["PLUSQTY"].ToString() + "','" + dt.Rows[0]["PLUSQTY"].ToString() + "','" + dt.Rows[0]["LOTRATE"].ToString() + "','" + dt.Rows[0]["RATE"].ToString() + "','" + amt + "','" + amt12 + "','" + dt.Rows[0]["LOTNO"].ToString() + "','" + detailid + "')";
+                                                    command.CommandText = "Insert into EXINVLOT (EXINVBASICID,EXINVLOTROW,DRUMNO,LDNO,LITEMID,LITEMMASTERID,LOTNO,LOTSTOCK,LQTY,LRATE,SLRATE,LAMOUNT,PORL,TLOT,PARENTRECORDID) VALUES ('" + Pid + "','" + n + "','" + dt.Rows[0]["DRUMNO"].ToString() + "','1','" + cp.ItemId + "','" + cp.ItemId + "','" + dt.Rows[0]["PLOTMASTID"].ToString() + "','" + dt.Rows[0]["PLUSQTY"].ToString() + "','" + dt.Rows[0]["PLUSQTY"].ToString() + "','" + dt.Rows[0]["LOTRATE"].ToString() + "','" + dt.Rows[0]["RATE"].ToString() + "','" + amt + "','" + amt12 + "','" + dt.Rows[0]["LOTNO"].ToString() + "','" + detailid + "')";
                                                     //OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
                                                     command.ExecuteNonQuery();
 
@@ -430,7 +426,7 @@ AND IP.UNITTYPE = 'Sales' AND B.EXINVBASICID='" + SIID + "'";
                                     {
                                         if (cp.Isvalid == "Y" && cp.Terms != "0")
                                         {
-                                            command.CommandText = "Insert into DEPINVOTANDC (DEPINVOBASICID,TERMSANDCONDITION) VALUES ('" + Pid + "','" + cp.Terms + "')";
+                                            command.CommandText = "Insert into EXINVTANDC (EXINVBASICID,TERMSANDCONDITION) VALUES ('" + Pid + "','" + cp.Terms + "')";
                                             //OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                             command.ExecuteNonQuery();
 
@@ -445,7 +441,7 @@ AND IP.UNITTYPE = 'Sales' AND B.EXINVBASICID='" + SIID + "'";
                                     {
                                         if (cp.Isvalid == "Y" && cp.Areaid != "0")
                                         {
-                                            command.CommandText = "Insert into DEPINVOSADD (DEPINVOBASICID,STYPE,SNAME,SADD1,SADD2,SADD3,SSTATE,SCITY,SPINCODE,SPHONE,SFAX,SEMAIL) VALUES ('" + Pid + "','" + cp.Areaid + "','" + cp.Receiver + "','" + cp.Add1 + "','" + cp.Add2 + "','" + cp.Add3 + "','" + cp.State + "','" + cp.City + "','" + cp.PinCode + "','" + cp.Phone + "','" + cp.Fax + "','" + cp.Email + "')";
+                                            command.CommandText = "Insert into EXINVSADD (EXINVBASICID,STYPE,SNAME,SADD1,SADD2,SADD3,SSTATE,SCITY,SPINCODE,SPHONE,SFAX,SEMAIL) VALUES ('" + Pid + "','" + cp.Areaid + "','" + cp.Receiver + "','" + cp.Add1 + "','" + cp.Add2 + "','" + cp.Add3 + "','" + cp.State + "','" + cp.City + "','" + cp.PinCode + "','" + cp.Phone + "','" + cp.Fax + "','" + cp.Email + "')";
                                             command.ExecuteNonQuery();
                                         }
                                     }
@@ -585,18 +581,18 @@ AND IP.UNITTYPE = 'Sales' AND B.EXINVBASICID='" + SIID + "'";
 
                                 /////////////////////Accounts entry/////////////////////////////
 
-                                int idc = datatrans.GetDataId("select LASTNO from sequence where TRANSTYPE = 'Deinv' and Locid = '" + cy.Location + "' and optionname='" + cy.Ordsam + "' ");
-                                string updateCMd = " UPDATE sequence SET LASTNO ='" + (idc + 1).ToString() + "' where TRANSTYPE = 'Deinv' and Locid = '" + cy.Location + "' and optionname='" + cy.Ordsam + "'";
+                                int idc = datatrans.GetDataId("select LASTNO from sequence where TRANSTYPE = 'exinv' and Locid = '" + cy.Location + "' ");
+                                string updateCMd = " UPDATE sequence SET LASTNO ='" + (idc + 1).ToString() + "' where TRANSTYPE = 'exinv' and Locid = '" + cy.Location + "' ";
                                 datatrans.UpdateStatus(updateCMd);
 
                                 command.CommandText = "delete from dailytrans where t2vchdt='" + DateTime.Now.ToString("dd-MMM-yyyy") + "'";
                                 command.ExecuteNonQuery();
 
 
-                                command.CommandText = "delete from gstpri where ptype='Deinv'";
+                                command.CommandText = "delete from gstpri where ptype='exinv'";
                                 command.ExecuteNonQuery();
 
-                                command.CommandText = "insert into gstpri(pdocid,ptype) values('" + cy.InvNo + "','Deinv')";
+                                command.CommandText = "insert into gstpri(pdocid,ptype) values('" + cy.InvNo + "','exinv')";
                                 command.ExecuteNonQuery();
 
                                 command.CommandText = @"insert into dailytrans 
@@ -714,7 +710,7 @@ Select t2.T2VCHDT, t2.MID, t1.VCHSTATUS EMODE, t1.MSTATUS MSTATUS, t1.MONTHNO MO
         public DataTable GetDrumDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select DRUMNO,QTY,RATE,LOTNO,JODRUMALLOCATIONDETAILID from JODRUMALLOCATIONDETAIL D,JODRUMALLOCATIONBASIC B where B.JODRUMALLOCATIONBASICID=D.JODRUMALLOCATIONBASICID AND B.JOSCHEDULEID= '" + id + "'";
+            SvSql = "select DRUMNO,QTY,RATE,LOTNO,JODRUMALLOCATIONDETAILID,PLSTOCKID from JODRUMALLOCATIONDETAIL D,JODRUMALLOCATIONBASIC B where B.JODRUMALLOCATIONBASICID=D.JODRUMALLOCATIONBASICID AND B.JOSCHEDULEID= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

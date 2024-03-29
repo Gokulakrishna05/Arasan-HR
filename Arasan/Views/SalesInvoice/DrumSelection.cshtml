@@ -43,7 +43,7 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10">
                                     <div style="margin-top: 10px;float:right;">
-                                        <input id="button" type="button" value="OK" class="btn btn-success" />
+                                       @* <input id="button" type="button" value="OK" class="btn btn-success" />*@
                                         <input type="button" onClick="window.parent.jQuery.fancybox.close();" value="Close" class="btn btn-danger" />
                                     </div>
                                 </div>
@@ -55,7 +55,7 @@
                                     <table class="table table-striped table-hover" id="dataTable">
                                         <thead>
                                             <tr>
-                                                <th> @Html.CheckBoxFor(P => P.selectall, new { @id = "Selectallchk" , @onclick = "enableAllrepview();" })</th>
+                                               @* <th> @Html.CheckBoxFor(P => P.selectall, new { @id = "Selectallchk" , @onclick = "enableAllrepview();" })</th>*@
                                                 <th>BATCH NO</th>
                                                 <th>DRUM NO</th>
                                                 <th>QTY</th>
@@ -73,7 +73,7 @@
                                                 foreach (var item in Model.Drumlst.ToList())
                                                 {
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                        <td>@Html.CheckBoxFor(o => o.Drumlst[i].drumselect, new { @id = "drumslect" + i })@Html.HiddenFor(o => o.Drumlst[i].invid, new { @id = "invid" + i }) </td>
+                                                        @*<td>@Html.CheckBoxFor(o => o.Drumlst[i].drumselect, new { @id = "drumslect" + i })@Html.HiddenFor(o => o.Drumlst[i].invid, new { @id = "invid" + i }) </td>*@
                                                         <td>@Html.DisplayFor(o => o.Drumlst[i].lotno)</td>
                                                         <td>@Html.DisplayFor(o => o.Drumlst[i].drumno)@Html.HiddenFor(o => o.Drumlst[i].drumno, new { @id = "drumno" + i })</td>
                                                         <td>@Html.DisplayFor(o => o.Drumlst[i].qty)@Html.HiddenFor(o => o.Drumlst[i].qty, new { @id = "qty" + i })</td>
