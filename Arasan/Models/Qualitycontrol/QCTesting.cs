@@ -17,6 +17,9 @@ namespace Arasan.Models
         public List<SelectListItem> Supplst;
         public string ItemId { get; set; }
         public string Item { get; set; }
+        public string detid { get; set; }
+        public string basicid { get; set; }
+        public string temp { get; set; }
         public string ID { get; set; }
         public string Type { get; set; }
         public List<SelectListItem> lst;

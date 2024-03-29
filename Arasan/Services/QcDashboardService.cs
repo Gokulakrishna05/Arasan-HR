@@ -72,18 +72,27 @@ namespace Arasan.Services
         public DataTable GetAPout()
         {
             string SvSql = string.Empty;
-            SvSql = "select BPRODBASICID,ITEMMASTER.ITEMID,OITEMID,DRUMMAST.DRUMNO,ODRUMNO,STIME,OQTY,ETIME,OXQTY,BPRODOUTDETID,BPRODOUTDET.STATUS,IS_ACCOUNTED,OSTOCK,TOLOCATION,OCDRUMNO,UNITMAST.UNITID from BPRODOUTDET INNER JOIN ITEMMASTER on ITEMMASTERID=BPRODOUTDET.OITEMID LEFT OUTER  JOIN UNITMAST on UNITMASTID=ITEMMASTER.PRIUNIT LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=BPRODOUTDET.OITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=BPRODOUTDET.ODRUMNO   where BPRODOUTDET.STATUS='COMPLETED' and INSFLAGCTRL='0' ";
+            SvSql = "select BPRODOUTDET.BPRODBASICID,BPRODBASIC.DOCID,to_char(BPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,ITEMMASTER.ITEMID,OITEMID,DRUMMAST.DRUMNO,ODRUMNO,STIME,OQTY,ETIME,OXQTY,BPRODOUTDETID,BPRODOUTDET.STATUS,IS_ACCOUNTED,OSTOCK,TOLOCATION,OCDRUMNO,UNITMAST.UNITID from BPRODOUTDET INNER JOIN BPRODBASIC on BPRODBASIC.BPRODBASICID=BPRODOUTDET.BPRODBASICID  INNER JOIN ITEMMASTER on ITEMMASTERID=BPRODOUTDET.OITEMID LEFT OUTER  JOIN UNITMAST on UNITMASTID=ITEMMASTER.PRIUNIT  LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=BPRODOUTDET.ODRUMNO   where BPRODOUTDET.STATUS='COMPLETED' and INSFLAGCTRL='0' AND BPRODBASIC.DOCDATE > sysdate-50  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetPout()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select NPRODOUTDET.NPRODBASICID,NPRODBASIC.DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,ITEMMASTER.ITEMID,OITEMID,ODRUMNO,STIME,OQTY,ETIME,OXQTY,NPRODOUTDETID,NPRODOUTDET.STATUS,OSTOCK,TOLOCATION,OCDRUMNO,UNITMAST.UNITID from NPRODOUTDET INNER JOIN NPRODBASIC on NPRODBASIC.NPRODBASICID=NPRODOUTDET.NPRODBASICID  INNER JOIN ITEMMASTER on ITEMMASTERID=NPRODOUTDET.OITEMID LEFT OUTER  JOIN UNITMAST on UNITMASTID=ITEMMASTER.PRIUNIT   where NPRODOUTDET.STATUS='COMPLETED' and INSFLAGCTRL='0' AND NPRODBASIC.DOCDATE > sysdate-50  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetAPout1(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT APPROID, COUNT(*) as Ap FROM QTVEBASIC WHERE APPROID ='" +id+"' GROUP BY APPROID";
+            SvSql = "SELECT BPRODOUTDETID, COUNT(*) as Ap FROM QTVEBASIC WHERE BPRODOUTDETID ='" + id+ "' GROUP BY BPRODOUTDETID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -105,7 +114,7 @@ namespace Arasan.Services
         public DataTable GetDis(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select APPROID from FQTVEBASIC where APPROID='" + id + "'";
+            SvSql = "Select BPRODOUTDETID from QTVEBASIC where BPRODOUTDETID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -116,7 +125,7 @@ namespace Arasan.Services
         public DataTable GetGRNItem()
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT GRNBLBASICID,DOCID,DOCDATE,PARTYNAME,CURRENCY.MAINCURR FROM GRNBLBASIC LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY";
+            SvSql = "SELECT GD.GRNBLBASICID,GB.DOCID,to_char(GB.DOCDATE,'dd-MON-yyyy')DOCDATE,GB.PARTYNAME,ITEMMASTER.ITEMID,GD.GRNBLDETAILID FROM GRNBLDETAIL GD LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=GD.ITEMID,GRNBLBASIC GB  WHERE GD.GRNBLBASICID=GB.GRNBLBASICID AND GD.QCYN='YES' AND GD.QCTESTFLAG='0'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

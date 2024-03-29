@@ -23,6 +23,7 @@ namespace Arasan.Models
         //public int EnqFollowcunt { get; set; }
         //public int SalesQuoteFollowcunt { get; set; }
         public List<APOut> APOutlist { get; set; }
+        public List<POut> POutlist { get; set; }
         public List<APOutItem> Aplast { get; set; }
         public List<GRNItem> Grnplst { get; set; }
     }
@@ -49,11 +50,29 @@ namespace Arasan.Models
     {
         public string id { get; set; }
         public string apoutid { get; set; }
+        public string docid { get; set; }
+        public string docdate { get; set; }
         public string Drum { get; set; }
         public string ItemName { get; set; }
         public string TotalQty { get; set; }
         public string Time { get; set; }
         public string ApId { get; set; }
+        public string dis { get; set; }
+        public string Fin { get; set; }
+
+    }
+    public class POut
+    {
+        public string id { get; set; }
+        public string poutid { get; set; }
+        public string Drum { get; set; }
+        public string ItemName { get; set; }
+        public string TotalQty { get; set; }
+        public string docid { get; set; }
+        public string docdate { get; set; }
+        public string Time { get; set; }
+        public string pId { get; set; }
+        public string detid { get; set; }
         public string dis { get; set; }
         public string Fin { get; set; }
 
@@ -82,6 +101,7 @@ namespace Arasan.Models
     public class GRNItem
     {
         public string id { get; set; }
+        public string detid { get; set; }
         public string Docid { get; set; }
         public string Docdate { get; set; }
         public string Party { get; set; }

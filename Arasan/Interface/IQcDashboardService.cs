@@ -14,6 +14,7 @@ namespace Arasan.Interface
         //DataTable GetMaterialnot();
         DataTable GetAPout();
         DataTable GetAPout1(string id);
+        DataTable GetPout();
         DataTable GetDis(string id);
         DataTable GetAPoutItem();
         DataTable GetGRNItem();

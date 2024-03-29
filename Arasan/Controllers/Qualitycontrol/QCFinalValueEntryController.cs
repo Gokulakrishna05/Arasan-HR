@@ -30,7 +30,7 @@ namespace Arasan.Controllers.Qualitycontrol
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
             ca.Worklst = BindWorkCenter();
-            ca.Enterd = Request.Cookies["UserId"];
+            ca.Enterd = Request.Cookies["UserName"];
             ca.RecList = BindEmp();
             ca.Processlst = BindProcess("");
             ca.drumlst = Binddrum();
@@ -178,29 +178,32 @@ namespace Arasan.Controllers.Qualitycontrol
                         }
                     }
                 }
-                if(tag!=null)
+                if (tag == "BPE")
                 {
                     DataTable dt1 = new DataTable();
                     dt1 = QCFinalValueEntryService.GetAPOutDetails(id);
                     if (dt1.Rows.Count > 0)
                     {
                         ca.WorkCenter = dt1.Rows[0]["WCID"].ToString();
-                        ca.DocDate = dt1.Rows[0]["DOCDATE"].ToString();
+                        ca.ProDate = dt1.Rows[0]["DOCDATE"].ToString();
+                        ca.ProNo = dt1.Rows[0]["DOCID"].ToString();
+                        ca.Batch = dt1.Rows[0]["BATCH"].ToString();
+
                         ca.APID = id;
                         DataTable dtt1 = new DataTable();
                         dtt1 = QCFinalValueEntryService.GetAPOutItemDetails(id);
                         if (dtt1.Rows.Count > 0)
                         {
-                            ca.DrumNo = dtt1.Rows[0]["DRUMNO"].ToString();
-                            ca.Stime = dtt1.Rows[0]["FROMTIME"].ToString();
+                            ca.DrumNo = dtt1.Rows[0]["OCDRUMNO"].ToString();
+                            //ca.Stime = dtt1.Rows[0]["STIME"].ToString();
                             ca.Itemid = dtt1.Rows[0]["ITEMID"].ToString();
-                            ca.Item = dtt1.Rows[0]["item"].ToString();
+                            ca.Item = dtt1.Rows[0]["OITEMID"].ToString();
+                            ca.BatchNo = dtt1.Rows[0]["NBATCHNO"].ToString();
                             ViewBag.Itemid = dtt1.Rows[0]["ITEMID"].ToString();
                         }
                     }
                     DataTable dtt = new DataTable();
-                    List<QCFinalValueEntryItem> Datan = new List<QCFinalValueEntryItem>();
-                    QCFinalValueEntryItem tdan = new QCFinalValueEntryItem();
+
                     //string itemid = datatrans.GetDataString(" SELECT ITEMMASTERID FROM ITEMMASTER WHERE ITEMID='" + ca.ItemId + "'");
                     string temp = datatrans.GetDataString(" SELECT TEMPLATEID FROM ITEMMASTER WHERE ITEMMASTERID='" + ca.Item + "'");
                     dtt = QCFinalValueEntryService.GetItemDetail(temp);
@@ -208,26 +211,79 @@ namespace Arasan.Controllers.Qualitycontrol
                     {
                         for (int i = 0; i < dtt.Rows.Count; i++)
                         {
-                            tdan = new QCFinalValueEntryItem();
+                            tda = new QCFinalValueEntryItem();
 
-                            tdan.des = dtt.Rows[i]["TESTDESC"].ToString();
-                            tdan.value = dtt.Rows[i]["VALUEORMANUAL"].ToString();
-                            tdan.unit = dtt.Rows[i]["UNITID"].ToString();
-                            tdan.sta = dtt.Rows[i]["STARTVALUE"].ToString();
-                            tdan.en = dtt.Rows[i]["ENDVALUE"].ToString();
-                            tdan.Isvalid = "Y";
-                            Datan.Add(tdan);
+                            tda.des = dtt.Rows[i]["TESTDESC"].ToString();
+                            tda.value = dtt.Rows[i]["VALUEORMANUAL"].ToString();
+                            tda.unit = dtt.Rows[i]["UNITID"].ToString();
+                            tda.sta = dtt.Rows[i]["STARTVALUE"].ToString();
+                            tda.en = dtt.Rows[i]["ENDVALUE"].ToString();
+                            tda.Isvalid = "Y";
+                            TData.Add(tda);
                         }
                     }
-                    ca.QCFlst = Datan;
-                }
-                for (int i = 0; i < 1; i++)
-                {
-                    tda1 = new QCFVItemDeatils();
-                    tda1.Isvalid = "Y";
-                    TData1.Add(tda1);
-                }
 
+
+
+                    for (int i = 0; i < 1; i++)
+                    {
+                        tda1 = new QCFVItemDeatils();
+                        tda1.Isvalid = "Y";
+                        TData1.Add(tda1);
+                    }
+                }
+                else 
+                {
+                    DataTable dtt1 = new DataTable();
+                    dtt1 = datatrans.GetData("select ITEMMASTER.ITEMID,NPRODBASIC.WCID,SHIFT,NPRODBASIC.DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE, NPRODOUTDET.OITEMID,NPRODOUTDET.NBATCHNO, OCDRUMNO, NPRODOUTDET.NPRODBASICID, NPRODOUTDETID from NPRODOUTDET LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID = NPRODOUTDET.OITEMID,NPRODBASIC    WHERE NPRODOUTDET.NPRODBASICID=NPRODBASIC.NPRODBASICID AND NPRODOUTDETID = '" + id + "' ");
+
+                    if (dtt1.Rows.Count > 0)
+                    {
+                        ca.WorkCenter = dtt1.Rows[0]["WCID"].ToString();
+                        ca.ProDate = dtt1.Rows[0]["DOCDATE"].ToString();
+                        ca.ProNo = dtt1.Rows[0]["DOCID"].ToString();
+                       
+
+                        ca.APID = id;
+                        
+                            ca.DrumNo = dtt1.Rows[0]["OCDRUMNO"].ToString();
+                            //ca.Stime = dtt1.Rows[0]["STIME"].ToString();
+                            ca.Itemid = dtt1.Rows[0]["ITEMID"].ToString();
+                            ca.Item = dtt1.Rows[0]["OITEMID"].ToString();
+                            ca.BatchNo = dtt1.Rows[0]["NBATCHNO"].ToString();
+                            ViewBag.Itemid = dtt1.Rows[0]["ITEMID"].ToString();
+                        
+                    }
+                    DataTable dtt = new DataTable();
+
+                    //string itemid = datatrans.GetDataString(" SELECT ITEMMASTERID FROM ITEMMASTER WHERE ITEMID='" + ca.ItemId + "'");
+                    string temp = datatrans.GetDataString(" SELECT TEMPLATEID FROM ITEMMASTER WHERE ITEMMASTERID='" + ca.Item + "'");
+                    dtt = QCFinalValueEntryService.GetItemDetail(temp);
+                    if (dtt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dtt.Rows.Count; i++)
+                        {
+                            tda = new QCFinalValueEntryItem();
+
+                            tda.des = dtt.Rows[i]["TESTDESC"].ToString();
+                            tda.value = dtt.Rows[i]["VALUEORMANUAL"].ToString();
+                            tda.unit = dtt.Rows[i]["UNITID"].ToString();
+                            tda.sta = dtt.Rows[i]["STARTVALUE"].ToString();
+                            tda.en = dtt.Rows[i]["ENDVALUE"].ToString();
+                            tda.Isvalid = "Y";
+                            TData.Add(tda);
+                        }
+                    }
+
+
+
+                    for (int i = 0; i < 1; i++)
+                    {
+                        tda1 = new QCFVItemDeatils();
+                        tda1.Isvalid = "Y";
+                        TData1.Add(tda1);
+                    }
+                }
 
             }
             ca.QCFlst = TData;

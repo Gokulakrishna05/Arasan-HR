@@ -95,8 +95,21 @@ namespace Arasan.Controllers
                 }
                 else
                 {
+                    DataTable dtt1 = new DataTable();
+                    dtt1 = QCTestingService.GetGrnItemDetails(id);
+                    if (dtt1.Rows.Count > 0)
+                    {
+                        ca.GRNProd = dtt1.Rows[0]["QTY"].ToString();
+                        ca.ItemId = dtt1.Rows[0]["ITEMID"].ToString();
+                        ca.Item = dtt1.Rows[0]["item"].ToString();
+                        ca.detid = dtt1.Rows[0]["GRNBLDETAILID"].ToString();
+                        ca.basicid = dtt1.Rows[0]["GRNBLBASICID"].ToString();
+                        string template = datatrans.GetDataString(" SELECT TEMPLATEID FROM ITEMMASTER WHERE ITEMMASTERID='" + ca.Item + "'");
+                        ca.temp = datatrans.GetDataString(" SELECT TEMPLATEID FROM TESTTBASIC WHERE TESTTBASICID='" + template + "'");
+                        ViewBag.ItemId = dtt1.Rows[0]["ITEMID"].ToString();
+                    }
                     DataTable dt1 = new DataTable();
-                    dt1 = QCTestingService.GetGrnDetails(id);
+                    dt1 = QCTestingService.GetGrnDetails(ca.basicid);
                     if (dt1.Rows.Count > 0)
                     {
                         ca.GRNNo = dt1.Rows[0]["DOCID"].ToString();
@@ -104,15 +117,7 @@ namespace Arasan.Controllers
                         ca.Party = dt1.Rows[0]["PARTYNAME"].ToString();
                         ca.Partyid = dt1.Rows[0]["PARTYID"].ToString();
                         ca.APID = id;
-                        DataTable dtt1 = new DataTable();
-                        dtt1 = QCTestingService.GetGrnItemDetails(id);
-                        if (dtt1.Rows.Count > 0)
-                        {
-                            ca.GRNProd = dtt1.Rows[0]["QTY"].ToString();
-                            ca.ItemId = dtt1.Rows[0]["ITEMID"].ToString();
-                            ca.Item = dtt1.Rows[0]["item"].ToString();
-                            ViewBag.ItemId = dtt1.Rows[0]["ITEMID"].ToString();
-                        }
+                       
 
                     }
                     DataTable dtt = new DataTable();
