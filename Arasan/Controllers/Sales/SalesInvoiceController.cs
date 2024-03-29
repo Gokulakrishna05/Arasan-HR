@@ -18,6 +18,7 @@ using Microsoft.Reporting.WebForms;
 using QRCoder;
 using System.Drawing.Imaging;
 using System.Drawing;
+using DocumentFormat.OpenXml.Drawing;
 
 namespace Arasan.Controllers
 {
@@ -79,7 +80,7 @@ namespace Arasan.Controllers
                 ca.InvDate = DateTime.Now.ToString("dd-MMM-yyyy");
                 ca.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
                 ca.ExRate = "1";
-                DataTable dtv = datatrans.GetSequence("Deinv", loc);
+                DataTable dtv = datatrans.GetSequence("exinv", loc);
                 if (dtv.Rows.Count > 0)
                 {
                     ca.InvNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["LASTNO"].ToString();
@@ -218,6 +219,40 @@ namespace Arasan.Controllers
             ca.TermsItemlst = TData1;
             ca.AreaItemlst = TData2;
             return View(ca);
+        }
+        [HttpPost]
+        public ActionResult SalesInvoice(SalesInvoice Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = SalesInvoiceService.DirectPurCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "SalesInvoice Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "SalesInvoice Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListSalesInvoice");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit SalesInvoice";
+                    TempData["notice"] = Strout;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
         }
         public ActionResult GetWO(string jobid)
         {
@@ -986,9 +1021,9 @@ namespace Arasan.Controllers
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindTerms());
         }
-        public JsonResult GetWoJSON(string partyid)
+        public JsonResult GetWoJSON(string partyid,string locid)
         {
-            return Json(Bindworkorder(partyid));
+            return Json(Bindworkorder(partyid, locid));
         }
         public JsonResult GetjobschJSON(string jobid)
         {
@@ -1029,11 +1064,11 @@ namespace Arasan.Controllers
             }
         }
 
-        public List<SelectListItem> Bindworkorder(string partyid)
+        public List<SelectListItem> Bindworkorder(string partyid,string locid)
         {
             try
             {
-                DataTable dtDesg = datatrans.GetWOParty(partyid);
+                DataTable dtDesg = datatrans.GetWOParty(partyid, locid);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -1507,6 +1542,27 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public ActionResult Getdrumdetails(string schid)
+        {
+            try
+            {
+                string drumid = "";
+               DataTable dtEnq = SalesInvoiceService.GetDrumDetails(schid);
+                for (int i = 0; i < dtEnq.Rows.Count; i++)
+                {
+                   string dmid=dtEnq.Rows[i]["PLSTOCKID"].ToString();
+                    drumid = String.Format("{0},{1}", dmid, drumid);
+                }
+                drumid = drumid.TrimEnd(',');
+
+                var result = new { drumid = drumid };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult GetTrefficDetail(string ItemId)
         {
             try
@@ -1660,7 +1716,7 @@ namespace Arasan.Controllers
         }
         
 
-        public ActionResult GetDocidDetail(string ItemId, string ordtype)
+        public ActionResult GetDocidDetail(string locid, string ordtype)
         {
             try
             {
@@ -1669,7 +1725,7 @@ namespace Arasan.Controllers
 
                 string doc = "";
 
-                dt = datatrans.GetSequence("Deinv", ItemId, ordtype);
+                dt = datatrans.GetSequence("exinv", locid);
                 if (dt.Rows.Count > 0)
                 {
                     doc = dt.Rows[0]["doc"].ToString();

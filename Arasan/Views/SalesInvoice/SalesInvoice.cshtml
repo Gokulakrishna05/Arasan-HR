@@ -689,35 +689,32 @@
     function locchange(locid){
           var e=document.getElementById("ddlOrdsam");
          var ordtype=e.options[e.selectedIndex].text;
-             var selloc=document.getElementById("ddlLoc").value;
-                $.ajax({
-                    url: "GetItemJSON",
-                    type: "post",
-                    data: { 'locid': selloc },
-                    cache: false,
-                    success: function (response) {
-                        var newlist;
-                        newlist = response.Itemlst;
-
-                var i = 0;
-                $('tr.chkitemlst').each(function () {
-                    if ($(this).css('display') !== 'none') {
-                        PopulateDropDown("#ddlItem" + i, response);
-                        i += 1;
-
-                    }
-
-                });
-                    },
-                    error: function () {
-                        debugger;
-                       
-                    }
-                });
+            var partyid=document.getElementById("ddlParty").value;
+var i = 0;
+ $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+            (function (index) {
+                
+                    $.ajax({
+                        url: 'GetWoJSON',
+                        data: { "partyid": partyid,"locid" : locid},
+                        type: "GET",
+                        success: function (response) {
+                             PopulateDropDown("#ddlwork" + index, response);
+                        },
+                        error: function () {
+                            alert("Data Not Found");
+                        }
+                    });
+ 
+            })(i);
+                i += 1;
+        }
+        });
 
                   $.ajax({
                     url: 'GetDocidDetail',
-                            data: { "ItemId": selloc,'ordtype':ordtype },
+                                data: { "locid": locid,'ordtype':ordtype },
                 type: "GET",
                 success: function (result) {
 
@@ -749,7 +746,7 @@
                             alert("Data Not Found");
                         }
                     });
-
+var locid=document.getElementById("ddlLoc").value;
 var i = 0;
  $('tr.chkitemlst').each(function () {
             if ($(this).css('display') !== 'none') {
@@ -757,7 +754,7 @@ var i = 0;
                 
                     $.ajax({
                         url: 'GetWoJSON',
-                        data: { "partyid": cutid},
+                        data: { "partyid": cutid,"locid" : locid},
                         type: "GET",
                         success: function (response) {
                              PopulateDropDown("#ddlwork" + index, response);
@@ -1419,6 +1416,20 @@ if(ItemId=="1"){
     }else{
           var url = "/SalesInvoice/DrumSelection?schid=" + schid + "&rowid=" + i;
             document.getElementById("hdrumselection" + i).href = url;
+
+
+            $.ajax({
+                url: 'Getdrumdetails',
+                data: { "schid": schid },
+                type: "GET",
+                success: function (result) {
+                    document.getElementById("hddrumid" + i).value = result.drumid;
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+
 }
 
 
