@@ -31,7 +31,15 @@ namespace Arasan.Models
         public List<MatNotifys> Materialnotification { get; set; }
 
     }
-
+    public class salesdash { 
+       public List<topsellpro> topsellpros { get; set; }
+}
+    public class topsellpro
+    {
+        public int sno { get; set;}
+        public string itemname { get; set;}
+        public double per { get; set;}
+    }
      public class MatNotifys
     {
         public string Date { get; set; }

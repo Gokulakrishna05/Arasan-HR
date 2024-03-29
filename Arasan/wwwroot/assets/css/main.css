@@ -3322,7 +3322,7 @@ Progress Bar
 }
 
 .progress-mini, .progress-mini .progress-bar {
-    height: 5px;
+    height: 15px;
     margin-bottom: 5px;
 }
 
