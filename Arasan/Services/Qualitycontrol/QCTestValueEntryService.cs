@@ -92,13 +92,9 @@ namespace Arasan.Services.Qualitycontrol
 
             try
             {
-                if (cy.ID != null)
-                {
-                    cy.ID = null;
-                }
+                
                 string StatementType = string.Empty; string svSQL = "";
-                if (cy.ID == null)
-                {
+               
                     datatrans = new DataTransactions(_connectionString);
 
 
@@ -115,8 +111,7 @@ namespace Arasan.Services.Qualitycontrol
                         throw ex;
                     }
                     cy.DocId = Doc;
-                }
-
+                
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("QTVEBASICPROC", objConn);
@@ -124,16 +119,10 @@ namespace Arasan.Services.Qualitycontrol
                     objCmd.CommandText = "STATEPROC";*/
 
                     objCmd.CommandType = CommandType.StoredProcedure;
-                    if (cy.ID == null)
-                    {
+                  
                         StatementType = "Insert";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                    }
+                   
 
                     objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
@@ -151,9 +140,11 @@ namespace Arasan.Services.Qualitycontrol
                     objCmd.Parameters.Add("AIRPRESS", OracleDbType.NVarchar2).Value = cy.Air;
                     objCmd.Parameters.Add("ADDCH", OracleDbType.NVarchar2).Value = cy.AddCharge;
                     objCmd.Parameters.Add("BCT", OracleDbType.NVarchar2).Value = cy.Ctemp;
-                    objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Entered;
+                    objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.userId;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remarks;
-                    objCmd.Parameters.Add("APPROID", OracleDbType.NVarchar2).Value = cy.APID;
+                    objCmd.Parameters.Add("BPRODBASICID", OracleDbType.NVarchar2).Value = cy.APID;
+                    objCmd.Parameters.Add("NPRODBASICID", OracleDbType.NVarchar2).Value = cy.PID;
+                   
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -168,8 +159,7 @@ namespace Arasan.Services.Qualitycontrol
                         }
                         if (cy.QCTestLst != null)
                         {
-                            if (cy.ID == null)
-                            {
+                           
                                 foreach (QCTestValueEntryItem cp in cy.QCTestLst)
                                 {
                                     if (cp.Isvalid == "Y" && cp.description != "0")
@@ -187,26 +177,26 @@ namespace Arasan.Services.Qualitycontrol
 
                                 }
 
-                            }
-                            else
-                            {
-                                svSQL = "Delete QTVEDETAIL WHERE QTVEBASICID='" + cy.ID + "'";
-                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
-                                objCmdd.ExecuteNonQuery();
-                                foreach (QCTestValueEntryItem cp in cy.QCTestLst)
-                                {
+                           
+                            //else
+                            //{
+                            //    svSQL = "Delete QTVEDETAIL WHERE QTVEBASICID='" + cy.ID + "'";
+                            //    OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                            //    objCmdd.ExecuteNonQuery();
+                            //    foreach (QCTestValueEntryItem cp in cy.QCTestLst)
+                            //    {
 
-                                    if (cp.Isvalid == "Y" && cp.description != "0")
-                                    {
+                            //        if (cp.Isvalid == "Y" && cp.description != "0")
+                            //        {
 
-                                        svSQL = "Insert into QTVEDETAIL (QTVEBASICID,TDESC,VALUEORMANUAL,UNIT,STARTVALUE,ENDVALUE,TESTVALUE,MANUALVALUE,ACTTESTVALUE,TESTRESULT) VALUES ('" + Pid + "','" + cp.description + "','" + cp.value + "','" + cp.unit + "','" + cp.startvalue + "','" + cp.endvalue + "','" + cp.test + "','" + cp.manual + "','" + cp.actual + "','" + cp.testresult + "')";
-                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                        objCmds.ExecuteNonQuery();
+                            //            svSQL = "Insert into QTVEDETAIL (QTVEBASICID,TDESC,VALUEORMANUAL,UNIT,STARTVALUE,ENDVALUE,TESTVALUE,MANUALVALUE,ACTTESTVALUE,TESTRESULT) VALUES ('" + Pid + "','" + cp.description + "','" + cp.value + "','" + cp.unit + "','" + cp.startvalue + "','" + cp.endvalue + "','" + cp.test + "','" + cp.manual + "','" + cp.actual + "','" + cp.testresult + "')";
+                            //            OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                            //            objCmds.ExecuteNonQuery();
 
 
-                                    }
-                                }
-                            }
+                            //        }
+                            //    }
+                            //}
 
                         }
                     }
