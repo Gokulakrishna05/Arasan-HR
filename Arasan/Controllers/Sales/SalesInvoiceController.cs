@@ -19,7 +19,7 @@ using QRCoder;
 using System.Drawing.Imaging;
 using System.Drawing;
 
-using DocumentFormat.OpenXml.Drawing;
+//using DocumentFormat.OpenXml.Drawing;
 
 using ZXing;
 using ZXing.Common;

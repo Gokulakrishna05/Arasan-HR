@@ -1,0 +1,110 @@
+﻿@model Arasan.Models.salesdash
+@{
+    ViewData["Title"] = "Sales Dashboard";
+    string sdate = ViewContext.HttpContext.Request.Query["st"];
+    string edate = ViewContext.HttpContext.Request.Query["ed"];
+}
+
+<div class="row">
+    <div class="col-lg-6 top15">
+        <div class="col-lg-4">
+            <div class="widget box-shadow green-bg">
+                <div class="row vertical-align">
+                    <div class="col-xs-3">
+                        <i class="fa fa-user fa-2x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <span>Total Suppliers</span>
+                        <h2 class="font-bold">320</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- begin col-2 -->
+        <div class="col-lg-4">
+            <div class="widget box-shadow aqua-bg">
+                <div class="row vertical-align">
+                    <div class="col-xs-3">
+                        <i class="fa fa-shopping-cart fa-2x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <span>Total Products</span>
+                        <h2 class="font-bold">10</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="widget box-shadow red-bg">
+                <div class="row vertical-align">
+                    <div class="col-xs-3">
+                        <i class="fa fa-user fa-2x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <span>Total Customes</span>
+                        <h2 class="font-bold">610</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 top15">
+        </div>
+
+    <div class="col-lg-6">
+        <div class="row">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title">
+                    <h5>Top 5 Selling Products</h5>
+                </div>
+                <div class="ibox-content collapse in" >
+                    <div class="widgets-container">
+                       
+                    <table id="proList" class="table table-hover responsive nowrap table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">
+                                   #
+                                </th>
+                                <th class="text-center">Item Name</th>
+                                <th>Progress</th>
+                                <th class="text-center">Sales</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+
+                                int i = 0;
+
+                                foreach (var item in Model.topsellpros.ToList())
+                                {
+                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;">
+                                        <td>@Html.DisplayFor(o => o.topsellpros[i].sno)</td>
+                                        <td>@Html.DisplayFor(o => o.topsellpros[i].itemname)</td>
+                                        <td>
+                                            <div class="progress progress-mini">
+                                                <div class="progress-bar bg-info" role="progressbar" style="width: @Model.topsellpros[i].per%" aria-valuenow="@Model.topsellpros[i].per" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </td>
+                                            <td><div class="btn green btn-outline btn-xs">@Html.DisplayFor(o => o.topsellpros[i].per) %</div></td>
+                                    </tr>
+
+                                    i = i + 1;
+                                }
+                            }
+                        </tbody>
+                        </table>
+                        
+                        </div>
+                    </div>
+
+                </div>
+
+        </div>
+    
+</div>
+</div>
+
+           

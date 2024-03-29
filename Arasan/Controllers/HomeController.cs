@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using NuGet.Protocol.Plugins;
 using System.Xml.Linq;
 using Org.BouncyCastle.Ocsp;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace Arasan.Controllers
 {
@@ -23,7 +24,38 @@ namespace Arasan.Controllers
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
+        public IActionResult SalesDash()
+        {
+            salesdash S =new salesdash();
+            DataTable dt = new DataTable();
+            dt = datatrans.GetData("select I.ITEMID,SUM(D.QTY) as QTY from EXINVBASIC E,EXINVDETAIL D,ITEMMASTER I where E.EXINVBASICID=D.EXINVBASICID AND I.ITEMMASTERID=D.ITEMID AND I.IGROUP='FINISHED' AND I.RAWMATCAT IN('AP POWDER','DUST POWDER') AND E.DOCDATE BETWEEN '01-APR-2021' AND  '31-MAR-2022' GROUP BY I.ITEMID order by SUM(D.QTY) DESC FETCH FIRST 5 ROWS ONLY");
+            List<topsellpro> Tdata = new List<topsellpro>();
+            topsellpro tda = new topsellpro();
+            double totqty = 0;
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    totqty += Convert.ToDouble(dt.Rows[i]["QTY"].ToString());
+                }
+            }
 
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    double qty= Convert.ToDouble(dt.Rows[i]["QTY"].ToString()=="" ? 0 : dt.Rows[i]["QTY"].ToString());
+                    double per =Math.Round(((qty / totqty) * 100),0);
+                    tda = new topsellpro();
+                    tda.itemname = dt.Rows[i]["ITEMID"].ToString();
+                    tda.sno = (i + 1);
+                    tda.per = per;
+                    Tdata.Add(tda);
+                }
+            }
+            S.topsellpros = Tdata;
+                    return View(S);
+        }
         public IActionResult PurchaseDash( )
         {
             Home H = new Home();
