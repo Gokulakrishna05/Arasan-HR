@@ -153,10 +153,10 @@ namespace Arasan.Services.Qualitycontrol
                         objCmd.ExecuteNonQuery();
                         Object Pid = objCmd.Parameters["OUTID"].Value;
                         //string Pid = "0";
-                        if (cy.ID != null)
-                        {
-                            Pid = cy.ID;
-                        }
+                        //if (cy.ID != null)
+                        //{
+                        //    Pid = cy.ID;
+                        //}
                         if (cy.QCTestLst != null)
                         {
                            
@@ -405,7 +405,23 @@ namespace Arasan.Services.Qualitycontrol
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetQCTestValueGrid(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select BRANCH,DOCID,to_char(QTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,SHIFTNO,PROCESSLOTNO,DRUMNO,PRODDATE,DSAMPLE,DSAMPLETIME,ITEMID,ENTEREDBY,QTVEBASIC.REMARKS,QTVEBASICID from QTVEBASIC left outer join WCBASIC on WCBASIC.WCBASICID=QTVEBASIC.WCID WHERE QTVEBASIC.ISACTIVE='Y'  order by QTVEBASICID desc  ";
+            }
+            else
+            {
+                SvSql = "Select BRANCH,DOCID,to_char(QTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,SHIFTNO,PROCESSLOTNO,DRUMNO,PRODDATE,DSAMPLE,DSAMPLETIME,ITEMID,ENTEREDBY,QTVEBASIC.REMARKS,QTVEBASICID from QTVEBASIC left outer join WCBASIC on WCBASIC.WCBASICID=QTVEBASIC.WCID WHERE QTVEBASIC.ISACTIVE='N' order by QTVEBASICID desc  ";
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         //public DataTable GetResultItemDeatils(string id)
         //{
         //    string SvSql = string.Empty;

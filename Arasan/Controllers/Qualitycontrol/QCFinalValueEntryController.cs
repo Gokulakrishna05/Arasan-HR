@@ -327,10 +327,53 @@ namespace Arasan.Controllers.Qualitycontrol
 
             return View(Cy);
         }
-        public IActionResult ListQCFinalValueEntry(string st, string ed)
+        public IActionResult ListQCFinalValueEntry( )
         {
-            IEnumerable<QCFinalValueEntry> cmp = QCFinalValueEntryService.GetAllQCFinalValueEntry(st,ed);
-            return View(cmp);
+             return View( );
+        }
+        public ActionResult MyListQCFinalValueGrid(string strStatus)
+        {
+            List<qcfinalItem> Reg = new List<qcfinalItem>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)QCFinalValueEntryService.GetQCFinalValueGrid(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+                string view = string.Empty;
+
+                view = "<a href=ViewQCFinalValueEntry?id=" + dtUsers.Rows[i]["FQTVEBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Edit' /></a>";
+                // EditRow = "<a href=BatchCreation?id=" + dtUsers.Rows[i]["BCPRODBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["FQTVEBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+
+                Reg.Add(new qcfinalItem
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["FQTVEBASICID"].ToString()),
+                    work = dtUsers.Rows[i]["WCID"].ToString(),
+                    item = dtUsers.Rows[i]["ITEMID"].ToString(),
+                    doc = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    drum = dtUsers.Rows[i]["CDRUMNO"].ToString(),
+                    process = dtUsers.Rows[i]["PROCESSID"].ToString(),
+
+
+                    view = view,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
         //public JsonResult GetGRNItemJSON(string supid)
         //{
@@ -542,7 +585,10 @@ namespace Arasan.Controllers.Qualitycontrol
             DataTable dt = new DataTable();
             DataTable dtt = new DataTable();
             DataTable dtt1 = new DataTable();
-
+            List<QCFVItemDeatils> DData = new List<QCFVItemDeatils>();
+            QCFVItemDeatils tda1 = new QCFVItemDeatils();
+            List<QCFinalValueEntryItem> Data = new List<QCFinalValueEntryItem>();
+            QCFinalValueEntryItem tda = new QCFinalValueEntryItem();
             dt = QCFinalValueEntryService.GetViewQCFVDeatil(id);
             if (dt.Rows.Count > 0)
             {
@@ -572,8 +618,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 ca.Reamarks = dt.Rows[0]["REMARKS"].ToString();
                 ca.ID = id;
 
-                List<QCFinalValueEntryItem> Data = new List<QCFinalValueEntryItem>();
-                QCFinalValueEntryItem tda = new QCFinalValueEntryItem();
+             
                 //double tot = 0;
 
                 dtt = QCFinalValueEntryService.GetViewQCFVResultDetail(id);
@@ -581,6 +626,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 {
                     for (int i = 0; i < dtt.Rows.Count; i++)
                     {
+                        tda = new QCFinalValueEntryItem();
                         tda.des = dtt.Rows[0]["TDESC"].ToString();
                         tda.value = dtt.Rows[0]["VALUEORMANUAL"].ToString();
                         tda.unit = dtt.Rows[0]["UNIT"].ToString();
@@ -596,8 +642,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 }
 
 
-                List<QCFVItemDeatils> DData = new List<QCFVItemDeatils>();
-                QCFVItemDeatils tda1 = new QCFVItemDeatils();
+
                 //double tot = 0;
 
                 dtt1 = QCFinalValueEntryService.GetViewQCFVGasDetail(id);
@@ -605,6 +650,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 {
                     for (int i = 0; i < dtt1.Rows.Count; i++)
                     {
+                        tda1 = new QCFVItemDeatils();
                         tda1.Time = dtt1.Rows[0]["MINS"].ToString();
                         tda1.Vol = dtt1.Rows[0]["VOL25C"].ToString();
                         tda1.Volat = dtt1.Rows[0]["VOL35C"].ToString();
@@ -614,10 +660,11 @@ namespace Arasan.Controllers.Qualitycontrol
                         DData.Add(tda1);
                     }
                 }
-                ca.QCFlst = Data;
-               ca.QCFVDLst = DData;
+               
 
             }
+            ca.QCFlst = Data;
+            ca.QCFVDLst = DData;
             return View(ca);
         }
     }

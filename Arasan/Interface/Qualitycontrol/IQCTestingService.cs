@@ -19,11 +19,12 @@ namespace Arasan.Interface
         DataTable GetQCDetail(string id);
         DataTable GetParty(string id);
         DataTable GetPOParty(string id);
+        DataTable GetQCTestingGrid(string id);
         string QCTestingCRUD(QCTesting cy);
         string POQCTestingCRUD(QCTesting cy);
         //DataTable GetPO(string id);
         DataTable GetQCTesting(string id);
-        IEnumerable<QCTesting> GetAllQCTesting(string st, string ed);
+    
 
         string StatusChange(string tag, int id);
         DataTable GetPoQcTesting(string id);

@@ -24,6 +24,7 @@ namespace Arasan.Interface.Qualitycontrol
         DataTable GetGRNDetails(string itemId);
         DataTable GetGRN();
         DataTable GetQCResultDetail(string id);
+        DataTable GetQCResultGrid(string id);
         DataTable GetViewQCResult(string id);
         DataTable GetViewQCResultDetail(string id);
         DataTable GetGRNItemDetails(string itemId);

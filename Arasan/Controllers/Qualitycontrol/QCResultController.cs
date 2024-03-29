@@ -134,11 +134,53 @@ namespace Arasan.Controllers.Qualitycontrol
 
             return View(Cy);
         }
-        public IActionResult ListQCResult(string st,string ed)
+        public IActionResult ListQCResult( )
         {
+ 
+            return View();
+        }
+        public ActionResult MyListQCResultGrid(string strStatus)
+        {
+            List<qcresultItem> Reg = new List<qcresultItem>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)QCResultService.GetQCResultGrid(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
 
-            IEnumerable<QCResult> cmp = QCResultService.GetAllQCResult(st,ed);
-            return View(cmp);
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+                string view = string.Empty;
+
+                view = "<a href=ViewQCResult?id=" + dtUsers.Rows[i]["QCRESULTBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Edit' /></a>";
+                // EditRow = "<a href=BatchCreation?id=" + dtUsers.Rows[i]["BCPRODBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["QCRESULTBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+
+                Reg.Add(new qcresultItem
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["QCRESULTBASICID"].ToString()),
+                    party = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    
+                    doc = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    grn = dtUsers.Rows[i]["GRN"].ToString(),
+                    loc = dtUsers.Rows[i]["LOCID"].ToString(),
+
+                    view = view,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
         public List<SelectListItem> BindGRNlist()
         {
@@ -371,7 +413,8 @@ namespace Arasan.Controllers.Qualitycontrol
             QCResult ca = new QCResult();
             DataTable dt = new DataTable();
             DataTable dtt = new DataTable();
-
+            List<QCResultItem> Data = new List<QCResultItem>();
+            QCResultItem tda = new QCResultItem();
             dt = QCResultService.GetViewQCResult(id);
             if (dt.Rows.Count > 0)
             {
@@ -388,8 +431,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 ca.ID = id;
 
 
-                List<QCResultItem> Data = new List<QCResultItem>();
-                QCResultItem tda = new QCResultItem();
+               
                 //double tot = 0;
 
                 dtt = QCResultService.GetViewQCResultDetail(id);
@@ -397,6 +439,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 {
                     for (int i = 0; i < dtt.Rows.Count; i++)
                     {
+                        tda = new QCResultItem();
                         tda.ItemId = dtt.Rows[0]["ITEMID"].ToString();
                         tda.GrnQty = dtt.Rows[0]["GRNQTY"].ToString();
                         tda.RejQty = dtt.Rows[0]["REJQTY"].ToString();
@@ -406,8 +449,9 @@ namespace Arasan.Controllers.Qualitycontrol
                     }
                 }
 
-                ca.QResLst = Data;
+                
             }
+            ca.QResLst = Data;
             return View(ca);
         }
 

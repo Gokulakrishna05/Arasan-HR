@@ -18,81 +18,81 @@ namespace Arasan.Services
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-        public IEnumerable<QCTesting> GetAllQCTesting(string st, string ed)
-        {
-            List<QCTesting> cmpList = new List<QCTesting>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-                if (st != null && ed != null)
-                {
-                    using (OracleCommand cmd = con.CreateCommand())
-                    {
-                        con.Open();
-                        cmd.CommandText = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYMAST.PARTYNAME,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS, QCVALUEBASIC.STATUS,QCVALUEBASIC.GRNPROD,QCVALUEBASIC.TESTPROCEDURE from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  WHERE QCVALUEBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' and QCVALUEBASIC.STATUS ='ACTIVE' order by QCVALUEBASICID desc";
-                        OracleDataReader rdr = cmd.ExecuteReader();
-                        while (rdr.Read())
-                        {
-                            QCTesting cmp = new QCTesting
-                            {
-                                ID = rdr["QCVALUEBASICID"].ToString(),
-                                DocId = rdr["DOCID"].ToString(),
-                                GRNNo = rdr["GRNNO"].ToString(),
-                                GRNDate = rdr["GRNDATE"].ToString(),
-                                DocDate = rdr["DOCDATE"].ToString(),
-                                ClassCode = rdr["CLASSCODE"].ToString(),
-                                SNo = rdr["SLNO"].ToString(),
-                                LotNo = rdr["LOTSERIALNO"].ToString(),
-                                Party = rdr["PARTYNAME"].ToString(),
-                                ItemId = rdr["ITEMID"].ToString(),
-                                TestResult = rdr["TESTRESULT"].ToString(),
-                                TestBy = rdr["TESTBY"].ToString(),
-                                Remarks = rdr["REMARKS"].ToString(),
-                                Stat = rdr["STATUS"].ToString(),
-                                GRNProd = rdr["GRNPROD"].ToString(),
-                                Procedure = rdr["TESTPROCEDURE"].ToString()
+        //public IEnumerable<QCTesting> GetAllQCTesting(string st, string ed)
+        //{
+        //    List<QCTesting> cmpList = new List<QCTesting>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
+        //        if (st != null && ed != null)
+        //        {
+        //            using (OracleCommand cmd = con.CreateCommand())
+        //            {
+        //                con.Open();
+        //                cmd.CommandText = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYMAST.PARTYNAME,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS, QCVALUEBASIC.STATUS,QCVALUEBASIC.GRNPROD,QCVALUEBASIC.TESTPROCEDURE from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  WHERE QCVALUEBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' and QCVALUEBASIC.STATUS ='ACTIVE' order by QCVALUEBASICID desc";
+        //                OracleDataReader rdr = cmd.ExecuteReader();
+        //                while (rdr.Read())
+        //                {
+        //                    QCTesting cmp = new QCTesting
+        //                    {
+        //                        ID = rdr["QCVALUEBASICID"].ToString(),
+        //                        DocId = rdr["DOCID"].ToString(),
+        //                        GRNNo = rdr["GRNNO"].ToString(),
+        //                        GRNDate = rdr["GRNDATE"].ToString(),
+        //                        DocDate = rdr["DOCDATE"].ToString(),
+        //                        ClassCode = rdr["CLASSCODE"].ToString(),
+        //                        SNo = rdr["SLNO"].ToString(),
+        //                        LotNo = rdr["LOTSERIALNO"].ToString(),
+        //                        Party = rdr["PARTYNAME"].ToString(),
+        //                        ItemId = rdr["ITEMID"].ToString(),
+        //                        TestResult = rdr["TESTRESULT"].ToString(),
+        //                        TestBy = rdr["TESTBY"].ToString(),
+        //                        Remarks = rdr["REMARKS"].ToString(),
+        //                        Stat = rdr["STATUS"].ToString(),
+        //                        GRNProd = rdr["GRNPROD"].ToString(),
+        //                        Procedure = rdr["TESTPROCEDURE"].ToString()
 
 
-                            };
-                            cmpList.Add(cmp);
-                        }
-                    }
-                }
-                else
-                {
-                    using (OracleCommand cmd = con.CreateCommand())
-                    {
-                        con.Open();
+        //                    };
+        //                    cmpList.Add(cmp);
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            using (OracleCommand cmd = con.CreateCommand())
+        //            {
+        //                con.Open();
 
-                        cmd.CommandText = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYMAST.PARTYNAME,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS, QCVALUEBASIC.IS_ACTIVE from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  WHERE QCVALUEBASIC.DOCDATE > sysdate-30 and QCVALUEBASIC.IS_ACTIVE ='Y' order by QCVALUEBASICID desc";
+        //                cmd.CommandText = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYMAST.PARTYNAME,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS, QCVALUEBASIC.IS_ACTIVE from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  WHERE QCVALUEBASIC.DOCDATE > sysdate-30 and QCVALUEBASIC.IS_ACTIVE ='Y' order by QCVALUEBASICID desc";
 
-                        OracleDataReader rdr = cmd.ExecuteReader();
-                        while (rdr.Read())
-                        {
-                            QCTesting cmp = new QCTesting
-                            {
+        //                OracleDataReader rdr = cmd.ExecuteReader();
+        //                while (rdr.Read())
+        //                {
+        //                    QCTesting cmp = new QCTesting
+        //                    {
 
-                                ID = rdr["QCVALUEBASICID"].ToString(),
-                                DocId = rdr["DOCID"].ToString(),
-                                GRNNo = rdr["GRNNO"].ToString(),
-                                GRNDate = rdr["GRNDATE"].ToString(),
-                                DocDate = rdr["DOCDATE"].ToString(),
-                                ClassCode = rdr["CLASSCODE"].ToString(),
-                                SNo = rdr["SLNO"].ToString(),
-                                LotNo = rdr["LOTSERIALNO"].ToString(),
-                                Party = rdr["PARTYNAME"].ToString(),
-                                ItemId = rdr["ITEMID"].ToString(),
-                                TestResult = rdr["TESTRESULT"].ToString(),
-                                TestBy = rdr["TESTBY"].ToString(),
-                                Remarks = rdr["REMARKS"].ToString()
+        //                        ID = rdr["QCVALUEBASICID"].ToString(),
+        //                        DocId = rdr["DOCID"].ToString(),
+        //                        GRNNo = rdr["GRNNO"].ToString(),
+        //                        GRNDate = rdr["GRNDATE"].ToString(),
+        //                        DocDate = rdr["DOCDATE"].ToString(),
+        //                        ClassCode = rdr["CLASSCODE"].ToString(),
+        //                        SNo = rdr["SLNO"].ToString(),
+        //                        LotNo = rdr["LOTSERIALNO"].ToString(),
+        //                        Party = rdr["PARTYNAME"].ToString(),
+        //                        ItemId = rdr["ITEMID"].ToString(),
+        //                        TestResult = rdr["TESTRESULT"].ToString(),
+        //                        TestBy = rdr["TESTBY"].ToString(),
+        //                        Remarks = rdr["REMARKS"].ToString()
 
-                            };
-                            cmpList.Add(cmp);
-                        }
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //                    };
+        //                    cmpList.Add(cmp);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
         public string QCTestingCRUD(QCTesting cy)
         {
             string msg = "";
@@ -575,6 +575,24 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "select TESTDESC,UNITMAST.UNITID,VALUEORMANUAL,STARTVALUE,ENDVALUE,TESTTDETAILID from TESTTDETAIL left outer join UNITMAST ON UNITMASTID =TESTTDETAIL.UNIT   WHERE TESTTBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetQCTestingGrid(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYMAST.PARTYNAME,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS, QCVALUEBASIC.IS_ACTIVE from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  WHERE   QCVALUEBASIC.IS_ACTIVE ='Y' order by QCVALUEBASICID desc ";
+            }
+            else
+            {
+                SvSql = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYMAST.PARTYNAME,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS, QCVALUEBASIC.IS_ACTIVE from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  WHERE  QCVALUEBASIC.IS_ACTIVE ='N' order by QCVALUEBASICID desc ";
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

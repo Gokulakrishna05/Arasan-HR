@@ -16,6 +16,7 @@ namespace Arasan.Interface.Qualitycontrol
         IEnumerable<QCTestValueEntry> GetAllQCTestValueEntry(string st, string ed);
         DataTable GetQCTestValueEntryDetails(string id);
         DataTable GetQCTestDetails(string id);
+        DataTable GetQCTestValueGrid(string id);
         DataTable GetAPOutDetails(string id);
         DataTable GetItemDetail(string id);
         DataTable GetAPOutItemDetails(string id);
