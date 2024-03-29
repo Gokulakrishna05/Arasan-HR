@@ -26,8 +26,10 @@ namespace Arasan.Models
         public string DocId { get; set; }
         public string TotalQty { get; set; }
         public string dis { get; set; }
+        
         public string id { get; set; }
         public string Docdate { get; set; }
+        public string ddlStatus { get; set; }
         public string Work { get; set; }
         public string Shift { get; set; }
         public string Process { get; set; }
@@ -99,5 +101,25 @@ namespace Arasan.Models
         public string ApId { get; set; }
         public string dis { get; set; }
 
+    }
+    public class qctestItem
+    {
+        public long id { get; set; }
+        public string doc { get; set; }
+        public string item { get; set; }
+        
+        public string party { get; set; }
+        public string work { get; set; }
+        public string process { get; set; }
+        public string schno { get; set; }
+        public string docDate { get; set; }
+        public string test { get; set; }
+
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        public string view { get; set; }
+        public string Accrow { get; set; }
+        //public string Status { get; set; }
+        //public string Account { get; set; }
     }
 }

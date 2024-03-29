@@ -15,6 +15,7 @@ namespace Arasan.Interface.Qualitycontrol
         DataTable BatchDeatils(string id);
         DataTable GetItemDetail(string id);
         DataTable GetItem(string value);
+        DataTable GetQCFinalValueGrid(string value);
         DataTable GetQCFVDeatil(string id);
         DataTable GetQCFVResultDetail(string id);
         DataTable GetQCFVGasDetail(string id);

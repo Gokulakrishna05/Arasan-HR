@@ -147,10 +147,13 @@ namespace Arasan.Models
     {
         public long id { get; set; }
         public string doc { get; set; }
+        public string item { get; set; }
+        public string party { get; set; }
         public string work { get; set; }
         public string process { get; set; }
         public string schno { get; set; }
         public string docDate { get; set; }
+        public string test { get; set; }
 
         public string editrow { get; set; }
         public string delrow { get; set; }

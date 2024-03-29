@@ -185,11 +185,53 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListQCTesting(string st, string ed)
+        public IActionResult ListQCTesting( )
         {
 
-            IEnumerable<QCTesting> cmp = QCTestingService.GetAllQCTesting(st,ed);
-            return View(cmp);
+            //IEnumerable<QCTesting> cmp = QCTestingService.GetAllQCTesting(st,ed);
+            return View();
+        }
+        public ActionResult MyListQCTestingGrid(string strStatus)
+        {
+            List<qcItem> Reg = new List<qcItem>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)QCTestingService.GetQCTestingGrid(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+                string view = string.Empty;
+
+                view = "<a href=ViewQCTesting?id=" + dtUsers.Rows[i]["QCVALUEBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Edit' /></a>";
+               // EditRow = "<a href=BatchCreation?id=" + dtUsers.Rows[i]["BCPRODBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["QCVALUEBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                
+                Reg.Add(new qcItem
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["QCVALUEBASICID"].ToString()),
+                    party = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    item = dtUsers.Rows[i]["ITEMID"].ToString(),
+                    doc = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    test = dtUsers.Rows[i]["TESTRESULT"].ToString(),
+
+                    view = view,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
         public IActionResult POQcTesting(string id)
         {
@@ -660,7 +702,8 @@ namespace Arasan.Controllers
             QCTesting ca = new QCTesting();
             DataTable dt = new DataTable();
             DataTable dtt = new DataTable();
-
+            List<QCItem> Data = new List<QCItem>();
+            QCItem tda = new QCItem();
             dt = QCTestingService.GetViewQCTesting(id);
             if (dt.Rows.Count > 0)
             {
@@ -683,8 +726,7 @@ namespace Arasan.Controllers
                 ca.Procedure = dt.Rows[0]["TESTPROCEDURE"].ToString();
 
 
-                List<QCItem> Data = new List<QCItem>();
-                QCItem tda = new QCItem();
+              
                 //double tot = 0;
 
                 dtt = QCTestingService.GetViewQCDetail(id);
@@ -692,6 +734,7 @@ namespace Arasan.Controllers
                 {
                     for (int i = 0; i < dtt.Rows.Count; i++)
                     {
+                        tda = new QCItem();
                         tda.TestDec = dtt.Rows[0]["TESTDESC"].ToString();
                         tda.TestValue = dtt.Rows[0]["TESTVALUE"].ToString();
                         tda.Result = dtt.Rows[0]["RESULT"].ToString();
@@ -702,8 +745,9 @@ namespace Arasan.Controllers
                     }
                 }
 
-                ca.QCLst = Data;
+             
             }
+            ca.QCLst = Data;
             return View(ca);
         }
     }

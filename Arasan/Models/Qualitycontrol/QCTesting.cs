@@ -26,6 +26,7 @@ namespace Arasan.Models
         public string POGRN { get; set; }
         public string GRN { get; set; }
         public string Party { get; set; }
+        public string ddlStatus { get; set; }
         public string GRNNo { get; set; }
         public string DocId { get; set; }
         public string DocDate { get; set; }
@@ -105,5 +106,23 @@ namespace Arasan.Models
         public string Isvalid { get; set; }
         public string apid { get; set; }
     }
+    public class qcItem
+    {
+        public long id { get; set; }
+        public string doc { get; set; }
+        public string item { get; set; }
+        public string party { get; set; }
+        public string work { get; set; }
+        public string process { get; set; }
+        public string schno { get; set; }
+        public string docDate { get; set; }
+        public string test { get; set; }
 
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        public string view { get; set; }
+        public string Accrow { get; set; }
+        //public string Status { get; set; }
+        //public string Account { get; set; }
+    }
 }

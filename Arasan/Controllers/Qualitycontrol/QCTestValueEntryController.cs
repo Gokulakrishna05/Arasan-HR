@@ -221,6 +221,25 @@ namespace Arasan.Controllers.Qualitycontrol
                             TData.Add(tda);
                         }
                     }
+                    DataTable qcp = datatrans.GetData("select QTVEBASIC.CDRUMNO,QTVEDETAIL.TDESC,QTVEDETAIL.TESTVALUE,QTVEDETAIL.TESTRESULT from QTVEBASIC,QTVEDETAIL      WHERE QTVEBASIC.QTVEBASICID=QTVEDETAIL.QTVEBASICID AND NPRODOUTDETID = '" + id + "' ");
+                    if (qcp.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < qcp.Rows.Count; i++)
+                        {
+                            tda1 = new QCTestPre();
+
+                            tda1.drum = qcp.Rows[i]["CDRUMNO"].ToString();
+                            tda1.desc = qcp.Rows[i]["TDESC"].ToString();
+                            tda1.value = qcp.Rows[i]["TESTVALUE"].ToString();
+                            tda1.result = qcp.Rows[i]["TESTRESULT"].ToString();
+
+
+                            TData1.Add(tda1);
+                        }
+
+
+                    }
+
                 }
 
             }
@@ -265,10 +284,52 @@ namespace Arasan.Controllers.Qualitycontrol
 
             return View(Cy);
         }
-        public IActionResult ListQCTestValueEntry(string st, string ed)
+        public IActionResult ListQCTestValueEntry( )
         {
-            IEnumerable<QCTestValueEntry> sta = QCTestValueEntryService.GetAllQCTestValueEntry(st, ed);
-            return View(sta);
+            
+            return View();
+        }
+        public ActionResult MyListQCTestValueGrid(string strStatus)
+        {
+            List<qctestItem> Reg = new List<qctestItem>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)QCTestValueEntryService.GetQCTestValueGrid(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+                string view = string.Empty;
+
+                view = "<a href=ViewQCTestValueEntry?id=" + dtUsers.Rows[i]["QTVEBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Edit' /></a>";
+                // EditRow = "<a href=BatchCreation?id=" + dtUsers.Rows[i]["BCPRODBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["QTVEBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+
+                Reg.Add(new qctestItem
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["QTVEBASICID"].ToString()),
+                    work = dtUsers.Rows[i]["WCID"].ToString(),
+                    item = dtUsers.Rows[i]["ITEMID"].ToString(),
+                    doc = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                   
+
+                    view = view,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
         public IActionResult ViewQCVEntry(string id)
         {
@@ -482,7 +543,8 @@ namespace Arasan.Controllers.Qualitycontrol
             QCTestValueEntry ca = new QCTestValueEntry();
             DataTable dt = new DataTable();
             DataTable dtt = new DataTable();
-
+            List<QCTestValueEntryItem> Data = new List<QCTestValueEntryItem>();
+            QCTestValueEntryItem tda = new QCTestValueEntryItem();
             dt = QCTestValueEntryService.GetViewQCTestValueEntry(id);
             if (dt.Rows.Count > 0)
             {
@@ -508,8 +570,7 @@ namespace Arasan.Controllers.Qualitycontrol
 
 
 
-                List<QCTestValueEntryItem> Data = new List<QCTestValueEntryItem>();
-                QCTestValueEntryItem tda = new QCTestValueEntryItem();
+               
                 //double tot = 0;
 
                 dtt = QCTestValueEntryService.GetViewQCTestDetails(id);
@@ -517,6 +578,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 {
                     for (int i = 0; i < dtt.Rows.Count; i++)
                     {
+                        tda = new QCTestValueEntryItem();
                         tda.description = dtt.Rows[i]["TDESC"].ToString();
                         tda.value = dtt.Rows[i]["VALUEORMANUAL"].ToString();
                         tda.unit = dtt.Rows[i]["UNIT"].ToString();
@@ -531,8 +593,9 @@ namespace Arasan.Controllers.Qualitycontrol
                     }
                 }
 
-                ca.QCTestLst = Data;
+              
             }
+            ca.QCTestLst = Data;
             return View(ca);
         }
 
