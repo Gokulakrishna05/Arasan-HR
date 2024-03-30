@@ -9,7 +9,7 @@ namespace Arasan.Models
         {
             this.Brlst = new List<SelectListItem>();
             //this.Curlst = new List<SelectListItem>();
-            //this.Suplst = new List<SelectListItem>();
+            this.Suplst = new List<SelectListItem>();
             this.Joblst = new List<SelectListItem>();
 
         }
@@ -51,6 +51,11 @@ namespace Arasan.Models
         public List<ProFormaInvoiceDetail> ProFormalst { get; set; }
         public List<PAreaItem> AreaItemlst { get; set; }
         public List<PTermsItem> TermsItemlst { get; set; }
+        public string statetype { get; set; }
+        public string PartyG { get; set; }
+        public string limit { get; set; }
+        public List<SelectListItem> Loclst { get; set; }
+        public string Location { get; set; }
     }
     public class ProFormaInvoiceDetail
     {
