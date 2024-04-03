@@ -151,12 +151,12 @@
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                         <td>
-                                                            @Html.DropDownListFor(o => o.Targetlst[i].PartyId, Model.Targetlst[i].Partylst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlParty" + i, style = "width: 200px;"})
+                                                            @Html.DropDownListFor(o => o.Targetlst[i].PartyId, Model.Targetlst[i].Partylst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlParty" + i, style = "width: 350px;"})
                                                             @Html.HiddenFor(o => o.Targetlst[i].savePartyId)
 
                                                         </td>
                                                         <td>
-                                                            @Html.DropDownListFor(o => o.Targetlst[i].ItemId, Model.Targetlst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
+                                                            @Html.DropDownListFor(o => o.Targetlst[i].ItemId, Model.Targetlst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 350px;", onchange = "changeItem(this.value," + i + ")" })
                                                             @Html.HiddenFor(o => o.Targetlst[i].saveItemId)
 
                                                         </td>
@@ -403,9 +403,9 @@
     function AppendRow(opt, remopt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var Party = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlParty" + index + "' name='Targetlst[" + index + "].PartyId'><option value=''>Please select</option>" + opt + "</select></td>";
+        var Party = "<td><select style = 'width: 350px;' class='form-control _select newcss' id='ddlParty" + index + "' name='Targetlst[" + index + "].PartyId'><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Targetlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + remopt + "</select></td>";
+        var Item = "<td><select style = 'width: 350px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Targetlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + remopt + "</select></td>";
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Targetlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 

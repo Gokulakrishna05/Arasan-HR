@@ -50,6 +50,51 @@ namespace Arasan.Services.Sales
             }
             return cmpList;
         }
+        public DataTable GetTrefficDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select TARIFFID from ITEMMASTER WHERE ITEMMASTERID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetFGItem(string locid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select I.ITEMID,I.ITEMMASTERID,sum(S.Plusqty-S.Minusqty) Qty from ITEMMASTER I,PLSTOCKVALUE S,Locdetails L Where S.ItemID=I.ItemmasterID and S.locid=L.LocdetailsID and S.docdate<='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' and L.LocdetailsID='" + locid + "' group by I.ITEMID,I.ITEMMASTERID having sum(S.Plusqty-S.Minusqty)>0  UNION select 'Frieght Chrages',1,0 from dual";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetItemCF(string ItemId, string unitid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select CF from itemmasterpunit where ITEMMASTERID='" + ItemId + "' AND UNIT='" + unitid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public string GetDrumStock(string Itemid, string locid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select SUM(PLUSQTY)-SUM(MINUSQTY) as QTY from plstockvalue where ITEMID='" + Itemid + "' AND LOCID='" + locid + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            string stk = "0";
+            if (dtt.Rows.Count > 0)
+            {
+                stk = dtt.Rows[0]["Qty"].ToString();
+            }
+            return stk;
+        }
         public DataTable GetBranch()
         {
             string SvSql = string.Empty;
@@ -170,15 +215,15 @@ namespace Arasan.Services.Sales
                         {
                             if (cy.ID == null)
                             {
-                                foreach (ProFormaInvoiceDetail cp in cy.ProFormalst)
+                                foreach (ProformaInvoiceItem cp in cy.ProFormalst)
                                 {
-                                    string UnitId = datatrans.GetDataString("Select  UNITMASTID from UNITMAST where UNITID='" + cp.unit + "' ");
-                                    string ItemId = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cp.itemid + "' ");
+                                    string UnitId = datatrans.GetDataString("Select  UNITMASTID from UNITMAST where UNITID='" + cp.Unit + "' ");
+                                    string ItemId = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cp.ItemId + "' ");
 
                                     if (cp.Isvalid == "Y")
                                     {
 
-                                        svSQL = "Insert into SPINVDETAIL (SPINVBASICID,ITEMID,ITEMSPEC,UNIT,QTY,RATE,AMOUNT,DISCOUNT,IDISC,CDISC,TDISC,ADISC,SDISC,FREIGHT,TARIFFID,CGST,SGST,IGST,TOTEXAMT) VALUES ('" + Pid + "','" + ItemId + "','" + cp.itemdes + "','" + UnitId + "','" + cp.qty + "','" + cp.rate + "','" + cp.amount + "','" + cp.discount + "','" + cp.itrodis + "''" + cp.cashdisc + "','" + cp.tradedis + "','" + cp.additionaldis + "','" + cp.dis + "','" + cp.frieght + "','" + cp.tariff + "','" + cp.cgst + "','" + cp.sgst + "','" + cp.igst + "','" + cp.totamount + "')";
+                                        svSQL = "Insert into SPINVDETAIL (SPINVBASICID,ITEMID,ITEMSPEC,UNIT,QTY,RATE,AMOUNT,QDISC,CDISC,FREIGHT,TARIFFID,CGST,SGST,IGST,TOTAMT,CGSTP,SGSTP,IGSTP) VALUES ('" + Pid + "','" + ItemId + "','" + cp.ItemSpec + "','" + UnitId + "','" + cp.Quantity + "','" + cp.rate + "','" + cp.Amount + "','" + cp.DiscountAmount + "''" + cp.CashAmount + "','" + cp.Frieght + "','" + cp.tarrifid + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "','" + cp.TotalAmount + "','" + cp.CGSTP + "','" + cp.SGSTP + "','" + cp.IGSTP + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -192,16 +237,18 @@ namespace Arasan.Services.Sales
                                 svSQL = "Delete SPINVDETAIL WHERE SPINVBASICID='" + cy.ID + "'";
                                 OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
                                 objCmdd.ExecuteNonQuery();
-                                foreach (ProFormaInvoiceDetail cp in cy.ProFormalst)
+                                foreach (ProformaInvoiceItem cp in cy.ProFormalst)
                                 {
-                                    string UnitId = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.unit + "' ");
-                                    string ItemId = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cp.itemid + "' ");
+                                    string UnitId = datatrans.GetDataString("Select  UNITMASTID from UNITMAST where UNITID='" + cp.Unit + "' ");
+                                    string ItemId = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cp.ItemId + "' ");
 
                                     if (cp.Isvalid == "Y")
                                     {
-                                        svSQL = "Insert into SPINVDETAIL (SPINVBASICID,ITEMID,ITEMSPEC,UNIT,QTY,RATE,AMOUNT,DISCOUNT,IDISC,CDISC,TDISC,ADISC,SDISC,FREIGHT,TARIFFID,CGST,SGST,IGST,TOTEXAMT) VALUES ('" + Pid + "','" + ItemId + "','" + cp.itemdes + "','" + UnitId + "','" + cp.qty + "','" + cp.rate + "','" + cp.amount + "','" + cp.discount + "','" + cp.itrodis + "''" + cp.cashdisc + "','" + cp.tradedis + "','" + cp.additionaldis + "','" + cp.dis + "','" + cp.frieght + "','" + cp.tariff + "','" + cp.cgst + "','" + cp.sgst + "','" + cp.igst + "','" + cp.totamount + "')";
+
+                                        svSQL = "Insert into SPINVDETAIL (SPINVBASICID,ITEMID,ITEMSPEC,UNIT,QTY,RATE,AMOUNT,QDISC,CDISC,FREIGHT,TARIFFID,CGST,SGST,IGST,TOTAMT,CGSTP,SGSTP,IGSTP) VALUES ('" + Pid + "','" + ItemId + "','" + cp.ItemSpec + "','" + UnitId + "','" + cp.Quantity + "','" + cp.rate + "','" + cp.Amount + "','" + cp.DiscountAmount + "''" + cp.CashAmount + "','" + cp.Frieght + "','" + cp.tarrifid + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "','" + cp.TotalAmount + "','" + cp.CGSTP + "','" + cp.SGSTP + "','" + cp.IGSTP + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
+
 
                                     }
                                 }
