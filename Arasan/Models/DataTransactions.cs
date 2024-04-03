@@ -605,6 +605,37 @@ and (Select max(eddt) from EBBLBASIC) AND eM.CompID='The Arasan Aluminium Indust
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetHsn(string id)
+        {
+            string SvSql = string.Empty;
+            //  996519 -frieght
+            SvSql = "select HSN,ITEMMASTERID from ITEMMASTER WHERE ITEMMASTERID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetGSTDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select GSTP from HSNMAST WHERE HSCODE='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetNarr(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PARTYNAME from PARTYMAST WHERE PARTYMASTID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string GetDataString(String sql)
         {
             DataTable _dt = new DataTable();

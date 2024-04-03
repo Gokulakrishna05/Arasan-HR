@@ -36,24 +36,27 @@ namespace Arasan.Controllers.Sales
             ca.Curlst = BindCurrency();
             ca.Suplst = BindSupplier();
             ca.Joblst = BindJob();
+            ca.Loclst = GetLoc();
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             DataTable dtv = datatrans.GetSequence("PInv");
             if (dtv.Rows.Count > 0)
             {
                 ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
             }
-            List<ProFormaInvoiceDetail> TData = new List<ProFormaInvoiceDetail>();
-            ProFormaInvoiceDetail tda = new ProFormaInvoiceDetail();
+            List<ProformaInvoiceItem> TData = new List<ProformaInvoiceItem>();
+            ProformaInvoiceItem tda = new ProformaInvoiceItem();
             List<PTermsItem> TData1 = new List<PTermsItem>();
             PTermsItem tda1 = new PTermsItem();
             List<PAreaItem> TData2 = new List<PAreaItem>();
             PAreaItem tda2 = new PAreaItem();
             if (id == null)
             {
+                ca.Currency = "1";
+                ca.ExRate = "1";
                 for (int i = 0; i < 1; i++)
                 {
-                    tda = new ProFormaInvoiceDetail();
-
+                    tda = new ProformaInvoiceItem();
+                    tda.Itemlst = BindEmpty();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -78,21 +81,22 @@ namespace Arasan.Controllers.Sales
                 {
                     for (int i = 0; i < dtt.Rows.Count; i++)
                     {
-                        tda = new ProFormaInvoiceDetail();
-                        tda.itemid = dtt.Rows[i]["ITEMID"].ToString();
-                        tda.item = dtt.Rows[i]["item"].ToString();
-                        DataTable dtt1 = new DataTable();
-                        dtt1 = datatrans.GetItemDetails(tda.item);
-                        if (dtt1.Rows.Count > 0)
-                        {
+                        tda = new ProformaInvoiceItem();
+                        tda.Itemlst = BindEmpty();
+                        //tda.itemid = dtt.Rows[i]["ITEMID"].ToString();
+                        //tda.item = dtt.Rows[i]["item"].ToString();
+                        //DataTable dtt1 = new DataTable();
+                        //dtt1 = datatrans.GetItemDetails(tda.item);
+                        //if (dtt1.Rows.Count > 0)
+                        //{
                   
-                            tda.unit = dtt1.Rows[0]["UNITID"].ToString();
-                            tda.itemdes = dtt1.Rows[i]["ITEMDESC"].ToString();
-                        }
-                            tda.qty = dtt.Rows[i]["totqty"].ToString();
-                        tda.rate = dtt.Rows[i]["totrate"].ToString();
-                        //tda.amount = dtt.Rows[i]["REFNO"].ToString();
-                        tda.BaID = id;
+                        //    tda.unit = dtt1.Rows[0]["UNITID"].ToString();
+                        //    tda.itemdes = dtt1.Rows[i]["ITEMDESC"].ToString();
+                        //}
+                        //    tda.qty = dtt.Rows[i]["totqty"].ToString();
+                        //tda.rate = dtt.Rows[i]["totrate"].ToString();
+                       
+                        //tda.BaID = id;
                         tda.Isvalid = "Y";
                         TData.Add(tda);
                       
@@ -385,9 +389,71 @@ namespace Arasan.Controllers.Sales
                     }
                 }
             }
-            model.ProFormalst = Data;
-            return Json(model.ProFormalst);
+            model.ProFormavlst = Data;
+            return Json(model.ProFormavlst);
 
+        }
+        public ActionResult GetItemDetail(string ItemId, string locid)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+
+                string unit = "";
+                string CF = "";
+                string price = "";
+                string binno = "";
+                string binname = "";
+                string spec = "";
+                dt = datatrans.GetItemDetails(ItemId);
+                string stock = ProFormaInvoiceService.GetDrumStock(ItemId, locid);
+                if (dt.Rows.Count > 0)
+                {
+
+                    unit = dt.Rows[0]["UNITID"].ToString();
+                    price = dt.Rows[0]["LATPURPRICE"].ToString();
+                    //binno = dt.Rows[0]["BINNO"].ToString();
+                    //binname = datatrans.GetDataString("select BINID from BINBASIC where BINBASICId='" + dt.Rows[0]["BINNO"].ToString() + "'"); ;
+                    dt1 = ProFormaInvoiceService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
+                    if (dt1.Rows.Count > 0)
+                    {
+                        CF = dt1.Rows[0]["CF"].ToString();
+                    }
+                    spec= dt.Rows[0]["ITEMDESC"].ToString();
+                }
+
+                var result = new { unit = unit, CF = CF, price = price, binno = binno, binname = binname, stock = stock ,spec=spec};
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetTrefficDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+
+                string treffic = "";
+
+                dt = ProFormaInvoiceService.GetTrefficDetails(ItemId);
+                if (dt.Rows.Count > 0)
+                {
+                    treffic = dt.Rows[0]["TARIFFID"].ToString();
+                }
+
+
+                var result = new { treffic = treffic };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public IActionResult ListProFormaInvoice(string status)
         {
@@ -446,17 +512,72 @@ namespace Arasan.Controllers.Sales
             });
 
         }
+        public JsonResult GetItemJSON(string locid)
+        {
+            return Json(BindItemlst(locid));
+
+        }
+        public List<SelectListItem> BindItemlst(string locid)
+        {
+            try
+            {
+                DataTable dtDesg = ProFormaInvoiceService.GetFGItem(locid);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindSupplier()
         {
             try
             {
-                DataTable dtDesg = datatrans.GetSupplier();
+                DataTable dtDesg = datatrans.GetCustomer();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
                 }
                 return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindEmpty()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+               lstdesg.Add(new SelectListItem() { Text = "", Value = "" });
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> GetLoc()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetLocation();
+
+
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
+                }
+                return lstdesg;
+
             }
             catch (Exception ex)
             {
@@ -602,7 +723,136 @@ namespace Arasan.Controllers.Sales
         //        throw ex;
         //    }
         //}
+        public ActionResult GetAdvDetails(string custid)
+        {
+            try
+            {
+                DepotInvoice cy = new DepotInvoice();
+                DataTable dtParty = datatrans.GetData("select distinct P.CREDITDAYS,P.CREDITLIMIT,P.GSTNO,P.PARTYNAME,P.ACCOUNTNAME,P.PartyGroup,A.ratecode,a.limit from PARTYMAST P,PartyAdvDisc A Where P.PartyMastID =A.PartyMastID(+) and A.active = 'Yes' and P.PARTYMASTID='" + custid + "' union select distinct P.CREDITDAYS,P.CREDITLIMIT,P.GSTNO,P.PARTYNAME,P.ACCOUNTNAME,P.PartyGroup,A.Bratecode,0 from PARTYMAST P,PartymastBRCode A Where P.PartyMastID =A.PartyMastID(+) and P.PARTYMASTID='" + custid + "' and 0=(select count(A.ratecode) from PARTYMAST P,PartyAdvDisc A Where P.PartyMastID =A.PartyMastID(+) and A.active = 'Yes' and P.PARTYMASTID='" + custid + "')");
+                cy.arc = dtParty.Rows[0]["ratecode"].ToString();
+                cy.crlimit = (long)Convert.ToDouble(dtParty.Rows[0]["CREDITLIMIT"].ToString());
+                cy.crd = (long)Convert.ToDouble(dtParty.Rows[0]["CREDITDAYS"].ToString());
+                cy.PartyG = dtParty.Rows[0]["PartyGroup"].ToString();
+                cy.limit = (long)Convert.ToDouble(dtParty.Rows[0]["limit"].ToString());
+                if (cy.limit > 0)
+                {
+                    DataTable psaledt = datatrans.GetData("Select nvl(sum(net),0) nets from ( Select sum(net) net from exinvbasic e, partymast p,partyadvdisc d where e.docdate between D.SD and D.ED and e.RateCode ='" + cy.arc + "' and e.partyid = P.PARTYMASTID and(P.PARTYMASTID = '" + custid + "' or(P.PARTYGROUP ='" + cy.PartyG + "' and 'None' <> '" + cy.PartyG + "')) and D.RATECODE = E.RATECODE and D.PARTYMASTID = P.PARTYMASTID  and e.EORDTYPE='ORDER' Union All Select sum(net) net from Depinvbasic e, partymast p,partyadvdisc d where e.docdate between D.SD and D.ED and e.RateCode = '" + cy.arc + "' and e.partyid = P.PARTYMASTID and(P.PARTYMASTID ='" + custid + "' or(P.PARTYGROUP = '" + cy.PartyG + "' and 'None' <> '" + cy.PartyG + "')) and D.RATECODE = E.RATECODE and D.PARTYMASTID = P.PARTYMASTID  and e.EORDTYPE='ORDER')");
+                    cy.asale = (long)Convert.ToDouble(psaledt.Rows[0]["nets"].ToString());
+                }
+                else cy.asale = 0;
 
+                var result = new { arc = cy.arc, partyg = cy.PartyG, limit = cy.limit, asale = cy.asale };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetGSTDetail(string ItemId, string custid)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+
+                string sgst = "";
+
+                string hsn = "";
+                if (ItemId == "1")
+                {
+                    hsn = "996519";
+                }
+                else
+                {
+                    dt = datatrans.GetHsn(ItemId);
+                    if (dt.Rows.Count > 0)
+                    {
+                        hsn = dt.Rows[0]["HSN"].ToString();
+                    }
+                }
+                if (ItemId == "1")
+                {
+                    sgst = "18";
+                }
+                else
+                {
+                    dt1 = datatrans.GetGSTDetails(hsn);
+                    if (dt1.Rows.Count > 0)
+                    {
+
+                        sgst = dt1.Rows[0]["GSTP"].ToString();
+
+
+                    }
+                }
+
+                string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
+
+                string type = "";
+
+                string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYMASTID='" + custid + "'");
+                if (partystate == cmpstate)
+                {
+                    type = "GST";
+                }
+                else
+                {
+                    type = "IGST";
+                }
+
+                var result = new { sgst = sgst, type = type, hsn = hsn };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetItemRate(string ItemId, string custid, string ratec)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                string price = datatrans.GetDataString("Select nvl(sum(rate),0) rate , 1 AS SNO from (SELECT D.RATE FROM RATEBASIC B, RATEDETAIL D, ITEMMASTER I WHERE D.RCODE = '" + ratec + "' AND I.ITEMMASTERID = '" + ItemId + "'  AND D.ITEMID = I.ITEMMASTERID AND B.RATEBASICID = D.RATEBASICID ANd B.VALIDFROM = (Select max(Validfrom) from Ratebasic R1 Where R1.RATECODE = '" + ratec + "' ANd R1.VALIDFROM <='" + DateTime.Now.ToString("dd-MMM-yyyy") + "') Union SELECT(-disc) FROM PARTYADVDISC WHERE PARTYMASTID ='" + custid + "' and active = 'Yes' and RATECODE = '" + ratec + "')");
+
+
+                var result = new { price = price };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public JsonResult GetPartyaddrJSON(string custid)
+        {
+                       return Json(BindArea(custid));
+        }
+        public ActionResult GetNarrDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+
+                string narr = "";
+                string narr1 = "";
+                dt = datatrans.GetNarr(ItemId);
+                if (dt.Rows.Count > 0)
+                {
+                    narr = dt.Rows[0]["PARTYNAME"].ToString();
+                }
+                narr1 = "Invoiced To " + narr;
+
+                var result = new { narr1 = narr1 };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task<IActionResult> Print(string id)
         {
 

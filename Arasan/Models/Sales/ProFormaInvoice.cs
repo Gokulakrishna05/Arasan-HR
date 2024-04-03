@@ -48,7 +48,10 @@ namespace Arasan.Models
         public string ddlStatus { get; set; }
 
         public List<SelectListItem> Joblst;
-        public List<ProFormaInvoiceDetail> ProFormalst { get; set; }
+        public List<ProformaInvoiceItem> ProFormalst { get; set; }
+
+        public List<ProFormaInvoiceDetail> ProFormavlst { get; set; }
+
         public List<PAreaItem> AreaItemlst { get; set; }
         public List<PTermsItem> TermsItemlst { get; set; }
         public string statetype { get; set; }
@@ -56,6 +59,59 @@ namespace Arasan.Models
         public string limit { get; set; }
         public List<SelectListItem> Loclst { get; set; }
         public string Location { get; set; }
+        public string arc { get; set; }
+    }
+    public class ProformaInvoiceItem
+    {
+        public string ID { get; set; }
+        public string ItemId { get; set; }
+        public string saveItemId { get; set; }
+        public string HSN { get; set; }
+        public List<SelectListItem> Itemlst { get; set; }
+
+        public List<SelectListItem> ItemGrouplst { get; set; }
+
+        public string ItemGroupId { get; set; }
+        public string DrumIds { get; set; }
+        public double FrigCharge { get; set; }
+        public string ConFac { get; set; }
+        public string Unit { get; set; }
+        public string Isvalid { get; set; }
+        public double Quantity { get; set; }
+        public double rate { get; set; }
+        public double Amount { get; set; }
+        public string ItemType { get; set; }
+        public string ItemSpec { get; set; }
+        public string binid { get; set; }
+        public List<SelectListItem> binlst { get; set; }
+        public double Disc { get; set; }
+        public double DiscAmount { get; set; }
+        public double DiscountAmount { get; set; }
+        public double CashAmount { get; set; }
+        public double CGSTPe { get; set; }
+        public double SGSTCGST { get; set; }
+        public double SGSTPe { get; set; }
+        public double IGSTPe { get; set; }
+        public double CGSTP { get; set; }
+        public double SGSTP { get; set; }
+        public double IGSTP { get; set; }
+        public double CGST { get; set; }
+        public double SGST { get; set; }
+        public double IGST { get; set; }
+        public double IntroDiscount { get; set; }
+        public double CashDiscount { get; set; }
+        public double TradeDiscount { get; set; }
+        public double AddDiscount { get; set; }
+        public double SpecDiscount { get; set; }
+        public double TotalAmount { get; set; }
+        public double CurrentStock { get; set; }
+        public string Drumsdesc { get; set; }
+        public string tarrifid { get; set; }
+        public string FrieghtItemId { get; set; }
+        public string HSNcode { get; set; }
+        public string Frieght { get; set; }
+        public string FriQty { get; set; }
+        public string FrieghtAmount { get; set; }
     }
     public class ProFormaInvoiceDetail
     {
