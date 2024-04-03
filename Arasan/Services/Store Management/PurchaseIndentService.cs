@@ -203,7 +203,7 @@ namespace Arasan.Services
         public DataTable GetIndentItemSuppEnq(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,SUM(PINDDETAIL.QTY) as QTY,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,UNITMAST.UNITMASTID from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL AND PINDDETAIL.ITEMID='" + id + "' GROUP BY ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,UNITMAST.UNITMASTID";
+            SvSql = "Select PINDBASICID,ITEMMASTER.ITEMID,SUM(PINDDETAIL.QTY) as QTY,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,UNITMAST.UNITMASTID from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL AND PINDDETAIL.ITEMID='" + id + "' GROUP BY ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,UNITMAST.UNITMASTID,PINDBASICID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -354,6 +354,7 @@ namespace Arasan.Services
                         {
                             string EnquiryQty = "";
                             string Unit = "";
+                            string basicid = "";
 
                             DataTable dr = new DataTable();
                             dr = GetIndentItemSuppEnq(itemid);
@@ -361,6 +362,7 @@ namespace Arasan.Services
                             {
                                 EnquiryQty = dr.Rows[0]["QTY"].ToString();
                                 Unit = dr.Rows[0]["UNITMASTID"].ToString();
+                            basicid = dr.Rows[0]["PINDBASICID"].ToString();
                             }
                            
                                     string Sql = string.Empty;
@@ -380,8 +382,10 @@ namespace Arasan.Services
                                 for (int i = 0; i < dt.Rows.Count; i++)
                                 {
                                     bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED2='YES',APPROVAL2U='SRRAJAN',APP2DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PURENQDETAILID='"+ EnqId + "' Where PINDDETAILID='" + dt.Rows[i]["PINDDETAILID"].ToString() + "'");
-                                }
+                                bool result1 = datatrans.UpdateStatus("UPDATE PURENQBASIC SET PINDBASICID='"+ basicid + "' Where PURENQBASICID='" + Pid + "'");
+
                             }
+                        }
 
                            
 

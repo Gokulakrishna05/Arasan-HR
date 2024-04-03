@@ -4,7 +4,18 @@
     string sdate = ViewContext.HttpContext.Request.Query["st"];
     string edate = ViewContext.HttpContext.Request.Query["ed"];
 }
-
+<script src="~/assets/js/vendor/amcharts/amcharts.js"></script>
+		<script src="~/assets/js/vendor/amcharts/serial.js"></script>
+		<script src="~/assets/js/vendor/amcharts/pie.js"></script>
+		<script src="~/assets/js/vendor/amcharts/gantt.js"></script>
+		<script src="~/assets/js/vendor/amcharts/funnel.js"></script>
+		<script src="~/assets/js/vendor/amcharts/radar.js"></script>
+		 
+		<script src="~/assets/js/vendor/amcharts/ammap.js"></script>
+		<script src="~/assets/js/vendor/amcharts/worldLow.js"></script>
+		<script src="~/assets/js/vendor/amcharts/light.js"></script>
+		 
+		<script type="text/javascript" src="~/assets/js/vendor/amcharts.js"></script>
 <div class="row">
     <div class="col-lg-6 top15">
         <div class="col-lg-4">
@@ -51,7 +62,7 @@
     <div class="col-lg-6 top15">
         </div>
 
-    <div class="col-lg-6">
+    @*<div class="col-lg-6">
         <div class="row">
             <div class="ibox float-e-margins">
 
@@ -80,16 +91,18 @@
 
                                 foreach (var item in Model.topsellpros.ToList())
                                 {
-                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;">
-                                        <td>@Html.DisplayFor(o => o.topsellpros[i].sno)</td>
-                                        <td>@Html.DisplayFor(o => o.topsellpros[i].itemname)</td>
-                                        <td>
-                                            <div class="progress progress-mini">
-                                                <div class="progress-bar bg-info" role="progressbar" style="width: @Model.topsellpros[i].per%" aria-valuenow="@Model.topsellpros[i].per" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </td>
-                                            <td><div class="btn green btn-outline btn-xs">@Html.DisplayFor(o => o.topsellpros[i].per) %</div></td>
-                                    </tr>
+                                            <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;">
+                                                <td>@Html.DisplayFor(o => o.topsellpros[i].sno)</td>
+                                                <td>@Html.DisplayFor(o => o.topsellpros[i].itemname)
+                                                 @Html.HiddenFor(o => o.topsellpros[i].per,new{@id="qty"})
+                                                 @Html.HiddenFor(o => o.topsellpros[i].itemname,new{@id="itemname"})</td>
+                                                <td>
+                                                    <div class="progress progress-mini">
+                                                        <div class="progress-bar bg-danger" role="progressbar" style="width: @Model.topsellpros[i].per%" aria-valuenow="@Model.topsellpros[i].per" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                </td>
+                                                    <td><div class="btn green btn-outline btn-xs">@Html.DisplayFor(o => o.topsellpros[i].per) %</div></td>
+                                            </tr>
 
                                     i = i + 1;
                                 }
@@ -104,7 +117,134 @@
 
         </div>
     
+</div>*@
 </div>
-</div>
+@*<div class="row">
+						<div class="col-lg-12">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>Sales Import </h5>
+									<div class="ibox-tools">
+										<a class="collapse-link" data-toggle="collapse" data-target="#demo4"> <i class="fa fa-chevron-up"></i><i class="fa fa-chevron-down"></i> </a>
+										<a href="#" data-toggle="dropdown" class="dropdown-toggle">
+										<i class="fa fa-wrench"></i> </a>
+										
+									</div>
+								</div>
+								<div class="ibox-content collapse in" id="demo4">
+									<div class="chartdiv-container">
+										<div id="ColumnChart"></div>
+                                       
+										@*<div class="container-fluid">
+											<div class="row text-center" style="overflow:hidden;">
+												<div class="col-sm-3" style="float: none !important;display: inline-block;">
+													<label class="text-left">Angle:</label>
+													<input class="chart-input3" data-property="angle" type="range" min="0" max="89" value="30" step="1" />
+												</div>
+												<div class="col-sm-3" style="float: none !important;display: inline-block;">
+													<label class="text-left">Depth:</label>
+													<input class="chart-input3" data-property="depth3D" type="range" min="1" max="120" value="20" step="1" />
+												</div>
+											</div>
+										</div> 
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>*@
+                    <div class="row">
+						<div class="col-lg-8">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<h5> Simple Pie Chart </h5>
+									<div class="ibox-tools">
+										<a class="collapse-link" data-toggle="collapse" data-target="#demo9"> <i class="fa fa-chevron-up"></i><i class="fa fa-chevron-down"></i> </a>
+										<a href="#" data-toggle="dropdown" class="dropdown-toggle">
+										  </a>
+									</div>
+								</div>
+								<div class="ibox-content collapse in" id="demo9">
+									<div class="chartdiv-container">
+										<div id="simplePieChart"  ></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+                    <script>
+ $(function() {
 
+
+    // 3D Column Chart
+      var ItemId = '@ViewBag.Item';
+     var result = ItemId.replace(/&quot;/g, '"');
+     alert(result);
+    var chart = AmCharts.makeChart("ColumnChart", {
+       
+        "theme": "light",
+        "type": "serial",
+        "startDuration": 2,
+        "dataProvider":[{ "itemname": "CCC-80",  "sales": "51415", "color": "#ff4d4d"  },{ "itemname": "TTT",  "sales": "35060", "color": "##ff9933"  },{ "itemname": "FFF",  "sales": "33775", "color": "#0073e6"  },{ "itemname": "AAA",  "sales": "33425", "color": "#0073e6"  },{ "itemname": "FFF K",  "sales": "14200", "color": "#29a329"  },{ "itemname": "XXX",  "sales": "12150", "color": "#29a329"  },{ "itemname": "DF",  "sales": "11500", "color": "#29a329"  },{ "itemname": "CCC-80 X",  "sales": "8050", "color": "#29a329"  },{ "itemname": "ARASAN -3",  "sales": "7520", "color": "#29a329"  },{ "itemname": "12NL Standard Naptha",  "sales": "7000", "color": "#29a329"  },{ "itemname": "Luxal 30LSuperfine Special",  "sales": "6600", "color": "#29a329"  },{ "itemname": "12L Standard",  "sales": "4725", "color": "#29a329"  },{ "itemname": "DG-80/80",  "sales": "4500", "color": "#29a329"  },{ "itemname": "SSS R",  "sales": "4360", "color": "#29a329"  },{ "itemname": "AAA ANIL",  "sales": "4020", "color": "#29a329"  },{ "itemname": "ARASAN 30/85 MO",  "sales": "4000", "color": "#29a329"  },{ "itemname": "T-90",  "sales": "3580", "color": "#29a329"  }],
+
+        "valueAxes": [{
+            "position": "left",
+            "title": "Sales"
+        }],
+        "graphs": [{
+            "balloonText": "[[category]]: <b>[[value]]</b>",
+            "fillColorsField": "color",
+            "fillAlphas": 1,
+            "lineAlpha": 0.1,
+            "type": "column",
+            "valueField": "sales"
+        }],
+        "depth3D": 20,
+        "angle": 30,
+        "chartCursor": {
+            "categoryBalloonEnabled": false,
+            "cursorAlpha": 0,
+            "zoomable": false
+        },
+        "categoryField": "itemname",
+        "categoryAxis": {
+            "gridPosition": "start",
+            "labelRotation": 90
+        },
+        "export": {
+            "enabled": true
+        }
+
+    });
+    chart.validateData();
+    jQuery('.chart-input3').off().on('input change', function() {
+        var property = jQuery(this).data('property');
+        var target = chart;
+        chart.startDuration = 0;
+
+        if (property == 'topRadius') {
+            target = chart.graphs[0];
+            if (this.value == 0) {
+                this.value = undefined;
+            }
+        }
+
+        target[property] = this.value;
+        chart.validateNow();
+       
+    });
+     var chart = AmCharts.makeChart("simplePieChart", {
+    "type": "pie",
+    "theme": "light",
+    "dataProvider":[{ "itemname": "CCC-80",  "sales": "51415"  },{ "itemname": "TTT",  "sales": "35060"  },{ "itemname": "FFF",  "sales": "33775"  },{ "itemname": "AAA",  "sales": "33425"  },{ "itemname": "FFF K",  "sales": "14200"  },{ "itemname": "XXX",  "sales": "12150"  },{ "itemname": "DF",  "sales": "11500"  },{ "itemname": "CCC-80 X",  "sales": "8050"  },{ "itemname": "ARASAN -3",  "sales": "7520"  },{ "itemname": "12NL Standard Naptha",  "sales": "7000"  },{ "itemname": "Luxal 30LSuperfine Special",  "sales": "6600"  },{ "itemname": "12L Standard",  "sales": "4725", },{ "itemname": "DG-80/80",  "sales": "4500"  },{ "itemname": "SSS R",  "sales": "4360"  },{ "itemname": "AAA ANIL",  "sales": "4020"  },{ "itemname": "ARASAN 30/85 MO",  "sales": "4000"  },{ "itemname": "T-90",  "sales": "3580"  }],
+    "valueField": "sales",
+    "titleField": "itemname",
+    "balloon": {
+        "fixedPosition": true
+    },
+    "export": {
+        "enabled": true
+    }
+});
+});
+</script>
            

@@ -349,9 +349,14 @@ namespace Arasan.Services
                 }
 
                 string quotid = datatrans.GetDataString("Select POBASICID from POBASIC Where QUOTNO=" + QuoteId + "");
+                string indentno = datatrans.GetDataString("select P.DOCID  FROM PINDBASIC P,PINDDETAIL D,PURENQDETAIL PU,PURENQBASIC PA ,PURQUOTBASIC PQ where D.PURENQDETAILID=PU.PURENQDETAILID AND P.PINDBASICID=D.PINDBASICID AND PA.PURENQBASICID=PU.PURENQBASICID AND PQ.ENQNO=PA.PURENQBASICID AND  PQ.PURQUOTBASICID='" + QuoteId + "'");
+                string indentdate = datatrans.GetDataString("select to_char(P.DOCDATE,'dd-MON-yyyy')DOCDATE  FROM PINDBASIC P,PINDDETAIL D,PURENQDETAIL PU,PURENQBASIC PA ,PURQUOTBASIC PQ where D.PURENQDETAILID=PU.PURENQDETAILID AND P.PINDBASICID=D.PINDBASICID AND PA.PURENQBASICID=PU.PURENQBASICID AND PQ.ENQNO=PA.PURENQBASICID AND  PQ.PURQUOTBASICID='" + QuoteId + "'");
+                string indentid = datatrans.GetDataString("select  P.PINDBASICID FROM PINDBASIC P,PINDDETAIL D,PURENQDETAIL PU,PURENQBASIC PA ,PURQUOTBASIC PQ where D.PURENQDETAILID=PU.PURENQDETAILID AND P.PINDBASICID=D.PINDBASICID AND PA.PURENQBASICID=PU.PURENQBASICID AND PQ.ENQNO=PA.PURENQBASICID AND  PQ.PURQUOTBASICID='" + QuoteId + "'");
+                string indentdetid = datatrans.GetDataString("select  D.PINDDETAILID  FROM PINDBASIC P,PINDDETAIL D,PURENQDETAIL PU,PURENQBASIC PA ,PURQUOTBASIC PQ where D.PURENQDETAILID=PU.PURENQDETAILID AND P.PINDBASICID=D.PINDBASICID AND PA.PURENQBASICID=PU.PURENQBASICID AND PQ.ENQNO=PA.PURENQBASICID AND  PQ.PURQUOTBASICID='" + QuoteId + "'");
+
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    string Sql = "Insert into PODETAIL (POBASICID,ITEMID,RATE,QTY,UNIT,CF) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,CF FROM PURQUOTDETAIL WHERE PURQUOTBASICID=" + QuoteId + ")";
+                    string Sql = "Insert into PODETAIL (POBASICID,ITEMID,RATE,QTY,UNIT,CF,INDENTNO,INDENTDT,PINDDETAILID,PINDBASICID) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,CF,'"+ indentno + "','" + indentdate + "','" + indentid + "','" + indentdetid + "' FROM PURQUOTDETAIL WHERE PURQUOTBASICID=" + QuoteId + ")";
                     OracleCommand objCmds = new OracleCommand(Sql, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

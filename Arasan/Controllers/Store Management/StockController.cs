@@ -41,10 +41,10 @@ namespace Arasan.Controllers
                 {
                     //id = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
                     itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
-                    unit = dtEnq.Rows[i]["UNITID"].ToString(),
-                    quantity = Convert.ToDouble(dtEnq.Rows[i]["QTY"].ToString()),
+                     
+                    quantity = Convert.ToDouble(dtEnq.Rows[i]["stk"].ToString()),
                     location = dtEnq.Rows[i]["LOCID"].ToString(),
-                    branchname = dtEnq.Rows[i]["BRANCHID"].ToString(),
+                     
         
                 });
             }

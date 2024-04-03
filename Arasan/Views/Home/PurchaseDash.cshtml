@@ -4,7 +4,20 @@
     string sdate = ViewContext.HttpContext.Request.Query["st"];
     string edate = ViewContext.HttpContext.Request.Query["ed"];
 }
-
+ 
+ <script src="~/assets/js/vendor/amcharts/amcharts.js"></script>
+		<script src="~/assets/js/vendor/amcharts/serial.js"></script>
+		<script src="~/assets/js/vendor/amcharts/pie.js"></script>
+		<script src="~/assets/js/vendor/amcharts/gantt.js"></script>
+		<script src="~/assets/js/vendor/amcharts/funnel.js"></script>
+		<script src="~/assets/js/vendor/amcharts/radar.js"></script>
+		 
+		<script src="~/assets/js/vendor/amcharts/ammap.js"></script>
+		<script src="~/assets/js/vendor/amcharts/worldLow.js"></script>
+		<script src="~/assets/js/vendor/amcharts/light.js"></script>
+		 
+		<script type="text/javascript" src="~/assets/js/vendor/amcharts.js"></script>
+	 
 <div class="row">
     <div class="col-lg-6 top15">
         <div class="col-lg-4">
@@ -111,6 +124,77 @@
 </div>
 </div>
 @*<div class="row">
+						<div class="col-lg-8">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>Indent </h5>
+									<div class="ibox-tools">
+										<a class="collapse-link" data-toggle="collapse" data-target="#demo3"> <i class="fa fa-chevron-up"></i><i class="fa fa-chevron-down"></i> </a>
+										<a href="#" data-toggle="dropdown" class="dropdown-toggle"></a>
+										 
+									</div>
+								</div>
+								<div class="ibox-content collapse in" id="demo3">
+									<div class="chartdiv-container">
+										<div id="cylinderChart"></div>
+										@*<div class="container-fluid">
+											<div class="row text-center" style="overflow:hidden;">
+												<div class="col-sm-3" style="float: none !important;display: inline-block;">
+													<label class="text-left">Top Radius:</label>
+													<input class="chart-input2" data-property="topRadius" type="range" min="0" max="1.5" value="1" step="0.01" />
+												</div>
+												<div class="col-sm-3" style="float: none !important;display: inline-block;">
+													<label class="text-left">Angle:</label>
+													<input class="chart-input2" data-property="angle" type="range" min="0" max="89" value="30" step="1" />
+												</div>
+												<div class="col-sm-3" style="float: none !important;display: inline-block;">
+													<label class="text-left">Depth:</label>
+													<input class="chart-input2" data-property="depth3D" type="range" min="1" max="120" value="40" step="1" />
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+                          <div class="col-lg-4 top15">
+                        <div class="ibox float-e-margins ">
+
+                            <div class="ibox-content top10" id="demo2">
+                                <div class="demo-container">
+                                    <div>
+                                        <canvas id="barChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+					</div>*@
+ <div class="row">
+						<div class="col-lg-12">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>Indent </h5>
+									<div class="ibox-tools">
+										<a class="collapse-link" data-toggle="collapse" data-target="#demo4"> <i class="fa fa-chevron-up"></i><i class="fa fa-chevron-down"></i> </a>
+										<a href="#" data-toggle="dropdown" class="dropdown-toggle">
+										 
+										 </a>
+									</div>
+								</div>
+								<div class="ibox-content collapse in" id="demo4">
+									<div class="chartdiv-container">
+										<div id="ColumnChart"></div>
+										 
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+ 	
+@*<div class="row">
     <div class="col-lg-4 top15">
         <div class="col-xs-4">
             <img src='../Images/new_blink.gif' alt='View Details' width='100' />
@@ -176,19 +260,19 @@
 
                                                 foreach (var item in Model.purlst.ToList())
                                                 {
-                                                    <tr>
+                                                        <tr>
 
 
-                                                        <td>@Html.DisplayFor(o => o.purlst[i].grn)</td>
-                                                        <td>@Html.DisplayFor(o => o.purlst[i].Date)</td>
-                                                        <td>@Html.DisplayFor(o => o.purlst[i].party)</td>
+                                                            <td>@Html.DisplayFor(o => o.purlst[i].grn)</td>
+                                                            <td>@Html.DisplayFor(o => o.purlst[i].Date)</td>
+                                                            <td>@Html.DisplayFor(o => o.purlst[i].party)</td>
 
-                                                        <td>@Html.DisplayFor(o => o.purlst[i].ItemName)</td>
-                                                        <td>@Html.DisplayFor(o => o.purlst[i].qty)</td>
-                                                         
-                                                        <td> <small class="pull-right">@Html.DisplayFor(o => o.purlst[i].days)</small></td>
+                                                            <td>@Html.DisplayFor(o => o.purlst[i].ItemName)</td>
+                                                            <td>@Html.DisplayFor(o => o.purlst[i].qty)</td>
+                                                             
+                                                            <td> <small class="pull-right">@Html.DisplayFor(o => o.purlst[i].days)</small></td>
 
-                                                        </tr>
+                                                            </tr>
                                                         i++;
                                                     }
 
@@ -276,19 +360,19 @@
 
                                                         foreach (var item in Model.penlst.ToList())
                                                         {
-                                                            <tr>
+                                                                <tr>
 
 
-                                                                <td>@Html.DisplayFor(o => o.penlst[k].docid)</td>
-                                                                <td>@Html.DisplayFor(o => o.penlst[k].Date)</td>
-                                                                <td>@Html.DisplayFor(o => o.penlst[k].location)</td>
+                                                                    <td>@Html.DisplayFor(o => o.penlst[k].docid)</td>
+                                                                    <td>@Html.DisplayFor(o => o.penlst[k].Date)</td>
+                                                                    <td>@Html.DisplayFor(o => o.penlst[k].location)</td>
 
-                                                                <td>@Html.DisplayFor(o => o.penlst[k].ItemName)</td>
-                                                                <td>@Html.DisplayFor(o => o.penlst[k].qty)</td>
+                                                                    <td>@Html.DisplayFor(o => o.penlst[k].ItemName)</td>
+                                                                    <td>@Html.DisplayFor(o => o.penlst[k].qty)</td>
 
-                                                                <td> <small class="pull-right">@Html.DisplayFor(o => o.indlst[k].days)</small></td>
+                                                                    <td> <small class="pull-right">@Html.DisplayFor(o => o.indlst[k].days)</small></td>
 
-                                                            </tr>
+                                                                </tr>
                                                             k++;
                                                         }
 
@@ -378,19 +462,19 @@
 
                                                         foreach (var item in Model.indlst.ToList())
                                                         {
-                                                            <tr>
+                                                                <tr>
 
 
-                                                                <td>@Html.DisplayFor(o => o.indlst[j].docid)</td>
-                                                                <td>@Html.DisplayFor(o => o.indlst[j].Date)</td>
-                                                                <td>@Html.DisplayFor(o => o.indlst[j].location)</td>
+                                                                    <td>@Html.DisplayFor(o => o.indlst[j].docid)</td>
+                                                                    <td>@Html.DisplayFor(o => o.indlst[j].Date)</td>
+                                                                    <td>@Html.DisplayFor(o => o.indlst[j].location)</td>
 
-                                                                <td>@Html.DisplayFor(o => o.indlst[j].ItemName)</td>
-                                                                <td>@Html.DisplayFor(o => o.indlst[j].qty)</td>
+                                                                    <td>@Html.DisplayFor(o => o.indlst[j].ItemName)</td>
+                                                                    <td>@Html.DisplayFor(o => o.indlst[j].qty)</td>
 
-                                                                <td> <small class="pull-right">@Html.DisplayFor(o => o.indlst[j].days)</small></td>
+                                                                    <td> <small class="pull-right">@Html.DisplayFor(o => o.indlst[j].days)</small></td>
 
-                                                            </tr>
+                                                                </tr>
                                                             j++;
                                                         }
 
@@ -477,14 +561,14 @@
 
                                                         foreach (var item in Model.Enqlllst.ToList())
                                                         {
-                                                            <tr>
-                                                                <td>@Html.DisplayFor(o => o.Enqlllst[t].displaytext)</td>
+                                                                <tr>
+                                                                    <td>@Html.DisplayFor(o => o.Enqlllst[t].displaytext)</td>
 
-                                                                <td>@Html.DisplayFor(o => o.Enqlllst[t].followedby)</td>
+                                                                    <td>@Html.DisplayFor(o => o.Enqlllst[t].followedby)</td>
 
-                                                                <td>@Html.DisplayFor(o => o.Enqlllst[t].status)</td>
+                                                                    <td>@Html.DisplayFor(o => o.Enqlllst[t].status)</td>
 
-                                                            </tr>
+                                                                </tr>
                                                             t = t + 1;
 
                                                         }
@@ -547,14 +631,14 @@
 
                                                         foreach (var item in Model.Folllst.ToList())
                                                         {
-                                                            <tr>
-                                                                <td>@Html.DisplayFor(o => o.Folllst[e].displaytext)</td>
+                                                                <tr>
+                                                                    <td>@Html.DisplayFor(o => o.Folllst[e].displaytext)</td>
 
-                                                                <td>@Html.DisplayFor(o => o.Folllst[e].followedby)</td>
+                                                                    <td>@Html.DisplayFor(o => o.Folllst[e].followedby)</td>
 
-                                                                <td>@Html.DisplayFor(o => o.Folllst[e].status)</td>
+                                                                    <td>@Html.DisplayFor(o => o.Folllst[e].status)</td>
 
-                                                            </tr>
+                                                                </tr>
                                                             e = e + 1;
 
                                                         }
@@ -574,6 +658,156 @@
 }
 </div>
 <script>
+
+  $(function () {
+      var ItemId = '@ViewBag.Item';
+     var result = ItemId.replace(/&quot;/g, '"');
+     alert(result);
+   @* // 3D Cylinder Chart  
+
+
+      var chart = AmCharts.makeChart("cylinderChart", {
+          "theme": "light",
+          "type": "serial",
+          "startDuration": 2,
+          "dataProvider": [{ "date": "08-MAR-2022", "create": "6", "complete": "0", "pending": "6" }, { "date": "01-MAR-2022", "create": "14", "complete": "0", "pending": "14" }, { "date": "03-MAR-2022", "create": "6", "complete": "0", "pending": "6" }, { "date": "07-MAR-2022", "create": "18", "complete": "0", "pending": "18" }, { "date": "02-MAR-2022", "create": "3", "complete": "0", "pending": "3" }, { "date": "04-MAR-2022", "create": "11", "complete": "2", "pending": "11" }, { "date": "05-MAR-2022", "create": "5", "complete": "0", "pending": "5" }],
+        "valueAxes": [{
+            "position": "left",
+            "axisAlpha": 0,
+            "gridAlpha": 0
+        }],
+        "graphs": [
+        {
+            "balloonText": "Created: <b>[[value]]</b>",
+            "colorField": "color",
+            "fillAlphas": 0.85,
+            "lineAlpha": 0.1,
+            "type": "column",
+            "topRadius": 1,
+            "valueField": "create"
+        },
+              {
+            "balloonText": "Completed: <b>[[value]]</b>",
+            "colorField": "color",
+            "fillAlphas": 0.85,
+            "lineAlpha": 0.1,
+            "type": "column",
+            "topRadius": 1,
+            "valueField": "complete"
+        },
+              {
+            "balloonText": "Pending: <b>[[value]]</b>",
+            "colorField": "color",
+            "fillAlphas": 0.85,
+            "lineAlpha": 0.1,
+            "type": "column",
+            "topRadius": 1,
+            "valueField": "pending"
+        }
+        ],
+        "depth3D": 40,
+        "angle": 30,
+        "chartCursor": {
+            "categoryBalloonEnabled": false,
+            "cursorAlpha": 0,
+            "zoomable": false
+        },
+        "categoryField": "date",
+        "categoryAxis": {
+            "gridPosition": "start",
+            "axisAlpha": 0,
+            "gridAlpha": 0
+
+        },
+        "export": {
+            "enabled": true
+        }
+
+    }, 0);
+
+    jQuery('.chart-input2').off().on('input change', function () {
+        var property = jQuery(this).data('property');
+        var target = chart;
+        chart.startDuration = 0;
+
+        if (property == 'topRadius') {
+            target = chart.graphs[0];
+        }
+
+        target[property] = this.value;
+        chart.validateNow();
+    });*@
+
+
+    var chart = AmCharts.makeChart("ColumnChart", {
+    "theme": "light",
+    "type": "serial",
+    "startDuration": 2,
+     "legend": {
+        "useGraphSettings": true,
+        "markerSize":12,
+        "valueWidth":0,
+        "verticalGap":0
+    },
+       "dataProvider": [{ "date": "08-MAR-2022", "create": "6", "complete": "0", "pending": "6" }, { "date": "01-MAR-2022", "create": "14", "complete": "0", "pending": "14" }, { "date": "03-MAR-2022", "create": "6", "complete": "0", "pending": "6" }, { "date": "07-MAR-2022", "create": "18", "complete": "0", "pending": "18" }, { "date": "02-MAR-2022", "create": "3", "complete": "0", "pending": "3" }, { "date": "04-MAR-2022", "create": "11", "complete": "2", "pending": "9" }, { "date": "05-MAR-2022", "create": "5", "complete": "0", "pending": "5" }
+       ],
+
+    "valueAxes": [{
+        "position": "left",
+        "title": "Count"
+    }],
+    "graphs": [
+        {
+            "balloonText": "[[title]]: <b>[[value]]</b>",
+            "colorField": "color",
+            "fillAlphas": 0.85,
+            "lineAlpha": 0.1,
+            "type": "column",
+            "topRadius": 1,
+            "valueField": "create",
+            "title": "Created"
+         
+        
+        },
+              {
+            "balloonText": "[[title]]: <b>[[value]]</b>",
+            "colorField": "color",
+            "fillAlphas": 0.85,
+            "lineAlpha": 0.1,
+            "type": "column",
+            "topRadius": 1,
+            "valueField": "complete",
+              "title": "Completed"
+        },
+              {
+            "balloonText": "[[title]]: <b>[[value]]</b>",
+            "colorField": "color",
+            "fillAlphas": 0.85,
+            "lineAlpha": 0.1,
+            "type": "column",
+            "topRadius": 1,
+            "valueField": "pending",
+            "title": "Pending"
+        }
+        ],
+    "depth3D": 20,
+    "angle": 30,
+    "chartCursor": {
+        "categoryBalloonEnabled": false,
+        "cursorAlpha": 0,
+        "zoomable": false
+    },    
+    "categoryField": "date",
+    "categoryAxis": {
+        "gridPosition": "end",
+        "labelRotation": 0
+    },
+    "export": {
+        "enabled": true
+     }
+
+});
+});
     $('.to_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
