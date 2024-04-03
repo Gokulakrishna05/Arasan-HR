@@ -742,6 +742,7 @@ ibox class
     border: 1px solid #e7eaec;
     border-bottom: 0;
     display: table;
+    border-radius: 50% 20% / 10% 40%;
 }
 
 .ibox-tools .collapse-link .fa-chevron-down {
@@ -757,12 +758,13 @@ ibox class
 }
 
 .widgets-container {
-    background: #fff none repeat scroll 0 0;
+    background: #ffffff none repeat scroll 0 0;
     border: 1px solid #e7eaec;
     box-sizing: border-box;
     margin: 0 auto 0;
     padding: 15px;
     width: 100%;
+	 border-radius:30px;
 }
 
 
@@ -3310,7 +3312,7 @@ Progress Bar
 -------------------------------------------------*/
 
 .progress-bar {
-    background-color: #44b6ae;
+    background-color: #b1e7ef;
 }
 
 .progress-small, .progress-small .progress-bar {
@@ -3321,10 +3323,11 @@ Progress Bar
     margin-top: 5px;
 }
 
-.progress-mini, .progress-mini .progress-bar {
-    height: 15px;
-    margin-bottom: 5px;
-}
+    .progress-mini, .progress-mini .progress-bar {
+        height: 5px;
+        margin-bottom: 5px;
+        background-color: #beeef5;
+    }
 
 .progress-bar-navy-light {
     background-color: #3dc7ab;
@@ -3335,7 +3338,7 @@ Progress Bar
 }
 
 .progress-bar-info {
-    background-color: #23c6c8;
+    background-color:  #1c84c6;
 }
 
 .progress-bar-warning {

@@ -31,6 +31,8 @@ namespace Arasan.Controllers
             dt = datatrans.GetData("select I.ITEMID,SUM(D.QTY) as QTY from EXINVBASIC E,EXINVDETAIL D,ITEMMASTER I where E.EXINVBASICID=D.EXINVBASICID AND I.ITEMMASTERID=D.ITEMID AND I.IGROUP='FINISHED' AND I.RAWMATCAT IN('AP POWDER','DUST POWDER') AND E.DOCDATE BETWEEN '01-APR-2021' AND  '31-MAR-2022' GROUP BY I.ITEMID order by SUM(D.QTY) DESC FETCH FIRST 5 ROWS ONLY");
             List<topsellpro> Tdata = new List<topsellpro>();
             topsellpro tda = new topsellpro();
+            List<Salespar> Tdata1 = new List<Salespar>();
+            Salespar tda1 = new Salespar();
             double totqty = 0;
             if (dt.Rows.Count > 0)
             {
@@ -53,7 +55,45 @@ namespace Arasan.Controllers
                     Tdata.Add(tda);
                 }
             }
+            DataTable dt1 = datatrans.GetData("select I.ITEMID,SUM(D.QTY) as QTY from EXINVBASIC E,EXINVDETAIL D,ITEMMASTER I where E.EXINVBASICID=D.EXINVBASICID AND I.ITEMMASTERID=D.ITEMID AND I.IGROUP='FINISHED' AND I.RAWMATCAT IN('AP POWDER','DUST POWDER') AND E.DOCDATE BETWEEN '01-MAR-2022' AND  '31-MAR-2022' GROUP BY I.ITEMID order by SUM(D.QTY) DESC FETCH FIRST 17 ROWS ONLY ");
+            string str = "";
+            string color = "";
+            if (dt1.Rows.Count > 0)
+            {
+                 str += "[";
+                for (int i = 0; i < dt1.Rows.Count; i++)
+                {
+                    double qty = Convert.ToDouble(dt1.Rows[i]["QTY"].ToString());
+                    if(qty >= 50000)
+                    {
+                        color = "#ff4d4d";
+                    }
+                    else if(qty >= 35000 && qty < 50000)
+                    {
+                        color = "##ff9933";
+                    }
+                    else if (qty >= 30000 && qty < 35000 && qty < 50000)
+                    {
+                        color = "#0073e6";
+                    }
+                    else if (qty >= 10000 && qty < 30000 && qty < 35000 && qty < 50000)
+                    {
+                        color = "#29a329";
+                    }
+                    str +=  "{"+
+                    " \"itemname\": \"" + dt1.Rows[i]["ITEMID"].ToString() + "\", " +
+                    " \"sales\": \"" + dt1.Rows[i]["QTY"].ToString() + "\"" +
+                    //" \"color\": \"" + color + "\"" +
+                    "  },";
+                    
+                    
+                }
+                str = str.Remove(str.Length - 1);
+                str +="]";
+            }
+            ViewBag.Item = str;
             S.topsellpros = Tdata;
+            S.Salesparlst = Tdata1;
                     return View(S);
         }
         public IActionResult PurchaseDash( )
@@ -224,6 +264,30 @@ namespace Arasan.Controllers
                 Data4.Add(tdas);
 
             }
+            DataTable intent = datatrans.GetData("select count(pindbasicID) as cunt,to_char(PINDBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE from PINDBASIC  where    PINDBASIC.DOCDATE BETWEEN '01-MAR-2022' AND  '8-MAR-2022' GROUP BY DOCDATE  ");
+            string str = "";
+            string color = "";
+            if (intent.Rows.Count > 0)
+            {
+                str += "[";
+                for (int i = 0; i < intent.Rows.Count; i++)
+                {
+                    string intentcom = datatrans.GetDataString("select count(GR.INDENTDT) as cunt  from pindbasic P ,pinddetail PD,GRNBLDETAIL GR,GRNBLBASIC G where   PD.pindbasicID=P.pindbasicID AND GR.INDENTNO=P.DOCID AND    GR.GRNBLBASICID=G.GRNBLBASICID AND GR.INDENTDT ='" + intent.Rows[i]["DOCDATE"].ToString() + "' GROUP BY P.DOCDATE   ");
+                    if (intentcom == "") { intentcom = "0"; }
+                    str += "{" +
+                    " \"date\": \"" + intent.Rows[i]["DOCDATE"].ToString() + "\", " +
+                    " \"create\": \"" + intent.Rows[i]["cunt"].ToString() + "\"," +
+                    " \"complete\": \"" + intentcom + "\"," +
+                    " \"pending\": \""  +intent.Rows[i]["cunt"].ToString()  + "\"" +
+                    //" \"color\": \"" + color + "\"" +
+                    "  },";
+
+
+                }
+                str = str.Remove(str.Length - 1);
+                str += "]";
+            }
+            ViewBag.Item = str;
             H.Folllst = Data3;
             H.Enqlllst = Data4;
             H.purlst = Data;

@@ -33,6 +33,7 @@ namespace Arasan.Models
     }
     public class salesdash { 
        public List<topsellpro> topsellpros { get; set; }
+       public List<Salespar> Salesparlst { get; set; }
 }
     public class topsellpro
     {
@@ -40,7 +41,14 @@ namespace Arasan.Models
         public string itemname { get; set;}
         public double per { get; set;}
     }
-     public class MatNotifys
+    public class Salespar
+    {
+        public int sno { get; set; }
+        public string itemname { get; set; }
+        public string import { get; set; }
+        public double per { get; set; }
+    }
+    public class MatNotifys
     {
         public string Date { get; set; }
         public string LocationName { get; set; }

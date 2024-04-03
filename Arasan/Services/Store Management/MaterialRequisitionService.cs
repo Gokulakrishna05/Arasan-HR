@@ -336,8 +336,8 @@ namespace Arasan.Services
                                 objCmd.Parameters.Add("IndentNo", OracleDbType.NVarchar2).Value = docid;
                                 objCmd.Parameters.Add("IndentDate", OracleDbType.Date).Value = DateTime.Now;
                                 objCmd.Parameters.Add("RefDate", OracleDbType.Date).Value = DateTime.Now;
-                                objCmd.Parameters.Add("Erecation", OracleDbType.NVarchar2).Value = "";
-                                objCmd.Parameters.Add("PurchaseType", OracleDbType.NVarchar2).Value = "";
+                                //objCmd.Parameters.Add("Erecation", OracleDbType.NVarchar2).Value = "";
+                               // objCmd.Parameters.Add("PurchaseType", OracleDbType.NVarchar2).Value = "";
                                 objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value =cy.Entered;
                                 objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                                 objCmd.Parameters.Add("STOREREQID", OracleDbType.NVarchar2).Value = cy.ID;
@@ -349,9 +349,10 @@ namespace Arasan.Services
                                 Object Pid = objCmd.Parameters["OUTID"].Value;
 
                                 OracleCommand objCmds = new OracleCommand("PIDETAILPROC", objConn);
+                                objCmds.CommandType = CommandType.StoredProcedure;
                                 StatementType = "Insert";
                                 objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                objCmds.CommandType = CommandType.StoredProcedure;
+                               
                                 objCmds.Parameters.Add("PIID", OracleDbType.NVarchar2).Value = Pid;
                                 objCmds.Parameters.Add("ITEMIDS", OracleDbType.NVarchar2).Value = cp.ItemId;
                                 objCmds.Parameters.Add("QUANTITY", OracleDbType.NVarchar2).Value = cp.IndQty;

@@ -31,10 +31,10 @@
               },
                 datafields: [
                     { name: 'itemname', type: 'string' },
-                    { name: 'unit', type: 'string' },
+                     
                     { name: 'quantity', type: 'float' },
                     { name: 'location', type: 'string' },
-                    { name: 'branchname', type: 'string' },
+                     
                 ],
             };
               var dataAdapter = new $.jqx.dataAdapter(source,
@@ -68,8 +68,7 @@
                 keyboardnavigation: false,
                  groups: ['location'],
                  columns: [
-                    { text: 'Branch Name', filtertype: 'checkedlist', datafield: 'branchname', width: 200 },
-                    { text: 'Location', filtertype: 'checkedlist', datafield: 'location', width: 200 },
+                     { text: 'Location', filtertype: 'checkedlist', datafield: 'location', width: 200 },
                     { text: 'Item Name', filtertype: 'checkedlist', columntype: 'dropdownlist', datafield: 'itemname', width: 200 },
                     {
                       text: 'Quantity', filtertype: 'input', datafield: 'quantity', aggregates: ["sum"], cellsalign: 'right',
