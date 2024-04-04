@@ -664,7 +664,7 @@ function AddRowT() {
                       //  document.getElementById("txtWholeStock" + i).value = result.totalstock;
                         document.getElementById("txtsaveItem" + i).value = result.item;
                         
-                        document.getElementById("wholestock" + i).innerHTML=" <a class='nav-link' href=WholeStock?id='" + result.item + "' class='fancybox' data-fancybox-type='iframe'>"+ result.totalstock+"</a>";
+                        document.getElementById("wholestock" + i).innerHTML=" <a class='nav-link' href=WholeStock?id=" + result.item + " class='fancybox' data-fancybox-type='iframe'>"+ result.totalstock+"</a>";
                         
                     },
                     error: function () {

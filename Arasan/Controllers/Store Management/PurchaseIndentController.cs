@@ -511,10 +511,22 @@ namespace Arasan.Controllers.Store_Management
                 {
                     stk = dt2.Rows[0]["QTY"].ToString();
                 }
-                DataTable stock = datatrans.GetData("Select SUM(BALANCE_QTY) as qty from INVENTORY_ITEM where ITEM_ID='" + ItemId + "' AND BALANCE_QTY > 0 AND LOCATION_ID NOT IN '" + loc + "' AND BRANCH_ID='" + branch + "'  ");
-                if (stock.Rows.Count > 0)
+                string lot = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER   WHERE ITEMMASTERID='"+ ItemId +"'");
+                DataTable dtt = new DataTable();
+                if (lot == "YES")
                 {
-                    totalstock = stock.Rows[0]["qty"].ToString();
+
+                    dtt = datatrans.GetData("Select  SUM(S.PLUSQTY-S.MINUSQTY) as QTY from  LSTOCKVALUE S  where S.ITEMID=" + ItemId + " AND S.LOCID NOT IN '10001000000827' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0  ");
+
+                }
+                else
+                {
+                    dtt = datatrans.GetData("Select ITEMMASTER.ITEMID,S.ITEMID as item,LOCDETAILS.LOCID,to_char(S.DOCDATE,'dd-MON-yyyy')DOCDATE,SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY from STOCKVALUE S  left outer join ITEMMASTER ON ITEMMASTERID=S.ITEMID left outer join LOCDETAILS ON LOCDETAILSID=S.LOCID where S.ITEMID=" + ItemId + "  AND S.LOCID NOT IN '10001000000827'  HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  ");
+
+                }
+                if (dtt.Rows.Count > 0)
+                {
+                    totalstock = dtt.Rows[0]["QTY"].ToString();
                 }
                 item = ItemId;
                 var result = new { QC = QC, unit = unit, unitid = unitid, indentqty = indentqty, stk = stk , totalstock = totalstock, item= item };
@@ -569,7 +581,19 @@ namespace Arasan.Controllers.Store_Management
             
             List<TotalStockItem> TData = new List<TotalStockItem>();
             TotalStockItem tda = new TotalStockItem();
-            DataTable dtt = datatrans.GetData("Select ITEMMASTER.ITEMID,ITEM_ID,LOCDETAILS.LOCID,INVENTORY_ITEM_ID,LOCATION_ID,to_char(GRN_DATE,'dd-MON-yyyy')GRN_DATE,ITEM_ID,BALANCE_QTY from INVENTORY_ITEM left outer join ITEMMASTER ON ITEMMASTERID=INVENTORY_ITEM.ITEM_ID left outer join LOCDETAILS ON LOCDETAILSID=INVENTORY_ITEM.LOCATION_ID where ITEM_ID=" + id + " AND BALANCE_QTY > 0 AND LOCATION_ID NOT IN '10001000000827' AND BRANCH_ID='10001000000001'  ");
+            string lot = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER WHERE ITEMMASTERID=" + id + "");
+            DataTable dtt = new DataTable();
+            if (lot=="YES")
+            {
+
+                 dtt = datatrans.GetData("Select ITEMMASTER.ITEMID,S.ITEMID as item,LOCDETAILS.LOCID,to_char(S.DOCDATE,'dd-MON-yyyy')DOCDATE,S.LOTNO,SUM(S.PLUSQTY-S.MINUSQTY) as QTY from  LSTOCKVALUE S left outer join ITEMMASTER ON ITEMMASTERID=S.ITEMID left outer join LOCDETAILS ON LOCDETAILSID=S.LOCID where S.ITEMID=" + id + " AND S.LOCID NOT IN '10001000000827' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0  GROUP BY ITEMMASTER.ITEMID,S.LOTNO,S.ITEMID ,LOCDETAILS.LOCID,S.DOCDATE ");
+
+            }
+            else
+            {
+                 dtt = datatrans.GetData("Select ITEMMASTER.ITEMID,S.ITEMID as item,LOCDETAILS.LOCID,to_char(S.DOCDATE,'dd-MON-yyyy')DOCDATE,SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY from STOCKVALUE S  left outer join ITEMMASTER ON ITEMMASTERID=S.ITEMID left outer join LOCDETAILS ON LOCDETAILSID=S.LOCID where S.ITEMID=" + id + "  AND S.LOCID NOT IN '10001000000827'  HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  ");
+
+            }
 
             if (dtt.Rows.Count > 0)
             {
@@ -577,13 +601,13 @@ namespace Arasan.Controllers.Store_Management
                 {
                     tda = new TotalStockItem();
                     tda.item = dtt.Rows[i]["ITEMID"].ToString();
-                    tda.itemid = dtt.Rows[i]["ITEM_ID"].ToString();
-                    tda.invid = dtt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
+                    tda.itemid = dtt.Rows[i]["item"].ToString();
+                    //tda.invid = dtt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
 
                     tda.location = dtt.Rows[i]["LOCID"].ToString();
-                    tda.locationid = dtt.Rows[i]["LOCATION_ID"].ToString();
-                    tda.docDate = dtt.Rows[i]["GRN_DATE"].ToString();
-                    tda.qty = dtt.Rows[i]["BALANCE_QTY"].ToString();
+                   // tda.locationid = dtt.Rows[i]["LOCATION_ID"].ToString();
+                    tda.docDate = dtt.Rows[i]["DOCDATE"].ToString();
+                    tda.qty = dtt.Rows[i][" QTY"].ToString();
 
                     TData.Add(tda);
                 }
