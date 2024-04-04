@@ -23,8 +23,8 @@ namespace Arasan.Interface
         // MaterialRequisition GetMaterialById(string id);
         DataTable GetmaterialReqDetails(string id);
         DataTable GetmaterialReqItemDetails(string id);
-        DataTable Getstkqty(string ItemId, string locid, string brid);
-        DataTable GetItemLot(string ItemId, string locid, string brid);
+        DataTable Getstkqty(string ItemId, string locid );
+        DataTable GetItemLot(string ItemId, string locid );
         DataTable GetMatbyID(string MatId);
         DataTable GetMatItemByID(string MatId);
         DataTable GetIndMatItemByID(string MatId);

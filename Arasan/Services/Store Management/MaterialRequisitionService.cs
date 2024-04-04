@@ -225,20 +225,30 @@ namespace Arasan.Services
             return cmpList;
         }
 
-        public DataTable Getstkqty(string ItemId, string locid, string brid)
+        public DataTable Getstkqty(string ItemId, string locid )
         {
+            string lot = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER WHERE ITEMMASTERID='"+ItemId+"'");
             string SvSql = string.Empty;
-            SvSql = "select SUM(l.PLUSQTY-l.MINUSQTY) as QTY  from LSTOCKVALUE l,LOTMAST lt where l.LOTNO=lt.LOTNO AND lt.INSFLAG='1' AND l.LOCID='" + locid + "' AND l.ITEMID='" + ItemId + "'";
+            if(lot=="YES")
+            {
+                SvSql = "select SUM(S.PLUSQTY-S.MINUSQTY) as QTY  from LSTOCKVALUE S  where S.LOCID='" + locid + "' AND S.ITEMID='" + ItemId + "' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0";
+
+            }
+            else
+            {
+                SvSql = "select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY  from STOCKVALUE S  where S.LOCID='" + locid + "' AND S.ITEMID='" + ItemId + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0";
+
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetItemLot(string ItemId, string locid, string brid)
+        public DataTable GetItemLot(string ItemId, string locid )
         {
             string SvSql = string.Empty;
-            SvSql = "select LOT_NO,BALANCE_QTY,ITEM_ID,ITEMMASTER.ITEMID,INVENTORY_ITEM_ID from INVENTORY_ITEM LEFT OUTER JOIN ITEMMASTER on ITEMMASTERID=INVENTORY_ITEM.ITEM_ID where BALANCE_QTY > 0 AND LOCATION_ID='" + locid + "' AND BRANCH_ID='" + brid + "' AND ITEM_ID='" + ItemId + "'";
+            SvSql = "select S.LOTNO,SUM(S.PLUSQTY-S.MINUSQTY) as QTY,ITEMMASTER.ITEMID ,S.ITEMID as item from LSTOCKVALUE S LEFT OUTER JOIN ITEMMASTER on ITEMMASTERID=S.ITEMID,LOTMAST L  where S.LOTNO=L.LOTNO AND S.LOCID='" + locid + "' AND S.ITEMID='" + ItemId + "' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0  GROUP BY ITEMMASTER.ITEMID,S.LOTNO,S.ITEMID ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -409,6 +419,15 @@ namespace Arasan.Services
                            
                             if (cp.InvQty > 0)
                             {
+
+                               //string SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG,STOCKVALUE) VALUES ('" + cy.ID + "','m','" + cp.ItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.InvQty + "' ,'10001000000827','0','" + rate + "','0','0','0','0','0','BPROD INPUT','" + insflag + "','" + amt + "')RETURNING STOCKVALUEID INTO :STKID";
+                               // OracleCommand objCmdss = new OracleCommand(SvSql1, objConn);
+                               // objCmdss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                               // objCmdss.ExecuteNonQuery();
+                               // string stkid = objCmdss.Parameters["STKID"].Value.ToString();
+                               // string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION) VALUES ('" + stkid + "','" + docid + "','" + narr + "')";
+                               // OracleCommand objCmddts = new OracleCommand(SvSql2, objConn);
+                               // objCmddts.ExecuteNonQuery();
                                 /////////////////////////Inventory Update
                                 DataTable lotnogen = datatrans.GetData("Select LOTYN  FROM ITEMMASTER where LOTYN ='YES' AND ITEMMASTERID='"+cp.ItemId+"'");
                                 string lotnumber = "";

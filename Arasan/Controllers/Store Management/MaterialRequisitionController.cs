@@ -99,7 +99,7 @@ namespace Arasan.Controllers.Store_Management
                         tda.UnitID = dtt.Rows[i]["UNITID"].ToString();
                         MR.Narration = dtt.Rows[i]["NARR"].ToString();
                         tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
-                        DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid, dt.Rows[0]["BRANCHID"].ToString());
+                        DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid );
                         if (dt1.Rows.Count > 0)
                         {
                             tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
@@ -169,7 +169,7 @@ namespace Arasan.Controllers.Store_Management
                     unit = dt.Rows[0]["UNITID"].ToString();
                     unitid = dt.Rows[0]["UNITMASTID"].ToString();
                 }
-                dt1 = materialReq.Getstkqty(ItemId, storeid, branch);
+                dt1 = materialReq.Getstkqty(ItemId, storeid);
                 if (dt1.Rows.Count > 0)
                 {
                     stk = dt1.Rows[0]["QTY"].ToString();
@@ -513,7 +513,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.Storeid = dtt.Rows[i]["STORESREQBASICID"].ToString();
                     tda.Isvalid = "Y";
                     double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString());
-                    DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid, dt.Rows[0]["BRANCHIDS"].ToString());
+                    DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid);
                     if (dt1.Rows.Count > 0)
                     {
                         if (string.IsNullOrEmpty(dt1.Rows[0]["QTY"].ToString()))
@@ -525,11 +525,11 @@ namespace Arasan.Controllers.Store_Management
                             tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
                         }
                     }
-                    DataTable dt2 = materialReq.GetItemLot(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid, dt.Rows[0]["BRANCHIDS"].ToString());
+                    DataTable dt2 = materialReq.GetItemLot(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid);
                     if (dt2.Rows.Count > 0)
                     {
 
-                        tda.lot= dt2.Rows[0]["LOT_NO"].ToString();
+                        tda.lot= dt2.Rows[0]["LOTNO"].ToString();
                     }
                     else
                     {
@@ -604,7 +604,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
                     double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString());
-                    DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid, dt.Rows[0]["BRANCHIDS"].ToString());
+                    DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid );
                     if (dt1.Rows.Count > 0)
                     {
                         if (string.IsNullOrEmpty(dt1.Rows[0]["QTY"].ToString()))
@@ -851,7 +851,7 @@ namespace Arasan.Controllers.Store_Management
             MR.Entered = Request.Cookies["UserId"];
             List<StockItem> TData = new List<StockItem>();
             StockItem tda = new StockItem();
-            DataTable dtt = datatrans.GetData("Select ITEMMASTER.ITEMID,ITEM_ID,LOCDETAILS.LOCID,INVENTORY_ITEM_ID,LOCATION_ID,to_char(GRN_DATE,'dd-MON-yyyy')GRN_DATE,ITEM_ID,BALANCE_QTY from INVENTORY_ITEM left outer join ITEMMASTER ON ITEMMASTERID=INVENTORY_ITEM.ITEM_ID left outer join LOCDETAILS ON LOCDETAILSID=INVENTORY_ITEM.LOCATION_ID where ITEM_ID='" + id + "' AND BALANCE_QTY > 0 AND LOCATION_ID NOT IN '" + storeid + "' AND BRANCH_ID='10001000000001'  ");
+            DataTable dtt = datatrans.GetData("Select ITEMMASTER.ITEMID,ITEM_ID,LOCDETAILS.LOCID,INVENTORY_ITEM_ID,LOCATION_ID,to_char(GRN_DATE,'dd-MON-yyyy')GRN_DATE,ITEM_ID,BALANCE_QTY from INVENTORY_ITEM left outer join ITEMMASTER ON ITEMMASTERID=INVENTORY_ITEM.ITEM_ID left outer join LOCDETAILS ON LOCDETAILSID=INVENTORY_ITEM.LOCATION_ID where ITEM_ID='" + id + "' AND BALANCE_QTY > 0 AND LOCATION_ID NOT IN '" + storeid + "'   ");
 
             if (dtt.Rows.Count > 0)
             {
@@ -921,18 +921,18 @@ namespace Arasan.Controllers.Store_Management
             //    for (int j = 0; j < dtt.Rows.Count; j++)
             //    {
             //        tda.itemid = dtt.Rows[j]["ITEMID"].ToString();
-                    DataTable dt2 = materialReq.GetItemLot(id, storeid, "10001000000001");
+                    DataTable dt2 = materialReq.GetItemLot(id, storeid );
 
                     if (dt2.Rows.Count > 0)
                     {
                         for (int i = 0; i < dt2.Rows.Count; i++)
                         {
                             tda = new ItemLotNo();
-                            tda.invid = dt2.Rows[i]["INVENTORY_ITEM_ID"].ToString();
-                            tda.Lot = dt2.Rows[i]["LOT_NO"].ToString();
-                            tda.qty = dt2.Rows[i]["BALANCE_QTY"].ToString();
+                           // tda.invid = dt2.Rows[i]["LSTOCKVALUEID"].ToString();
+                            tda.Lot = dt2.Rows[i]["LOTNO"].ToString();
+                            tda.qty = dt2.Rows[i]["QTY"].ToString();
                             tda.item = dt2.Rows[i]["ITEMID"].ToString();
-                            tda.itemid = dt2.Rows[i]["ITEM_ID"].ToString();
+                            tda.itemid = dt2.Rows[i]["item"].ToString();
 
 
                             TData.Add(tda);
