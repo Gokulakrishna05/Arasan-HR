@@ -114,7 +114,7 @@ namespace Arasan.Services
         public DataTable GetGRNItembyID(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select GRNBLDETAIL.QTY,GRNBLDETAIL.GRNBLDETAILID,GRNBLDETAIL.GRNBLBASICID,GRNBLDETAIL.ITEMID,UNITMAST.UNITID,GRNBLDETAIL.RATE,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,PURTYPE,DAMAGE_QTY,ITEMMASTER.LOTYN from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GRNBLDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where GRNBLDETAIL.GRNBLBASICID='" + name + "'";
+            SvSql = "Select GRNBLDETAIL.QTY,GRNBLDETAIL.GRNBLDETAILID,GRNBLDETAIL.GRNBLBASICID,GRNBLDETAIL.ITEMID,UNITMAST.UNITID,GRNBLDETAIL.RATE,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,PURTYPE,DAMAGE_QTY,ITEMMASTER.LOTYN,ITEMMASTER.EXPYN,to_char(GRNBLDETAIL.MDATE,'dd-MON-yyyy') MDATE,to_char(GRNBLDETAIL.EDATE,'dd-MON-yyyy') EDATE from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GRNBLDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where GRNBLDETAIL.GRNBLBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -256,6 +256,7 @@ namespace Arasan.Services
             {
                 string StatementType = string.Empty; string svSQL = "";
                 datatrans = new DataTransactions(_connectionString);
+                string loc = "";
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("GRNPROC", objConn);
@@ -308,15 +309,29 @@ namespace Arasan.Services
                         {
                             if (cp.Isvalid == "Y" && cp.saveItemId != "0")
                             {
-                                DataTable lotnogen = datatrans.GetData("Select LOTYN ,QCT,EXPYN,SERIALYN FROM ITEMMASTER where   ITEMMASTERID='" + cp.saveItemId + "'");
+                                DataTable lotnogen = datatrans.GetData("Select LOTYN ,QCT,EXPYN,SERIALYN,SUBCATEGORY FROM ITEMMASTER where   ITEMMASTERID='" + cp.saveItemId + "'");
                                 string itemname = datatrans.GetDataString("select ITEMID from ITEMMASTER where ITEMMASTERID='" + cp.saveItemId + "'");
                                 string lotnumber = "";
+                                string slotno = "";
                                 string ins = "";
                                 if(lotnogen.Rows[0]["QCT"].ToString()=="YES")
                                 {
                                     ins = "0";
                                 }
                                 else { ins = "1"; }
+                                if(lotnogen.Rows[0]["SUBCATEGORY"].ToString() == "INGOTS")
+                                {
+                                    loc = "10036000012390";
+                                }
+                                else
+                                {
+                                    loc = "10001000000827";
+                                }
+
+                                svSQL = "UPDATE ITEMMASTER SET LATPURPRICE='" + cp.rate + "',LATPURDT='"+ cy.GRNdate + "' WHERE ITEMMASTERID='" + cp.saveItemId + "' ";
+                                OracleCommand objCmdsi = new OracleCommand(svSQL, objConn);
+                                objCmdsi.ExecuteNonQuery();
+
                                 if (lotnogen.Rows[0]["LOTYN"].ToString()=="YES")
                                 {
                                     string item = itemname;
@@ -326,12 +341,24 @@ namespace Arasan.Services
                                     lotnumber = string.Format("{0} -- {1} -- {2} -- {3}", item, DocDate, Docid, l.ToString());
                                     l++;
                                 }
+                                else
+                                {
+                                    string item = itemname;
+                                    string Docid = cy.GRNNo;
+                                    string DocDate = cy.GRNdate;
+                                    slotno = string.Format("{0} -- {1} -- {2}", item, DocDate, Docid);
+                                }
                                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                                 {
                                     string Sql = string.Empty;
                                     if (StatementType == "Update")
                                     {
-                                        Sql = "Update GRNBLDETAIL SET  QTY= '" + cp.BillQty + "',RATE= '" + cp.rate + "',CF='" + cp.Conversionfactor + "',AMOUNT='" + cp.Amount + "',DISCPER='" + cp.DiscPer + "',DISC='" + cp.DiscAmt + "',PURTYPE='" + cp.Purtype + "',CGSTP='" + cp.CGSTPer + "',CGST='" + cp.CGSTAmt + "',SGSTP='" + cp.SGSTPer + "',SGST='" + cp.SGSTAmt + "',IGSTP='" + cp.IGSTPer + "',IGST='" + cp.IGSTAmt + "',TOTAMT='" + cp.TotalAmount + "',COSTRATE='" + cp.CostRate + "',ORDQTY='" + cp.Quantity + "',DAMAGE_QTY='" + cp.DamageQty + "',LOT_NO='" + lotnumber + "',QCTESTFLAG='"+ins+ "',LOTYN='"+ lotnogen.Rows[0]["LOTYN"].ToString() + "',QCYN='"+ lotnogen.Rows[0]["QCT"].ToString() + "' where GRNBLBASICID='" + cy.GRNID + "'  AND ITEMID='" + cp.saveItemId + "' ";
+                                        Sql = "Update GRNBLDETAIL SET  QTY= '" + cp.BillQty + "',RATE= '" + cp.rate + "',CF='" + cp.Conversionfactor + "',AMOUNT='" + cp.Amount + "',DISCPER='" + cp.DiscPer + "',DISC='" + cp.DiscAmt + "',PURTYPE='" + cp.Purtype + "',CGSTP='" + cp.CGSTPer + "',CGST='" + cp.CGSTAmt + "',SGSTP='" + cp.SGSTPer + "',SGST='" + cp.SGSTAmt + "',IGSTP='" + cp.IGSTPer + "',IGST='" + cp.IGSTAmt + "',TOTAMT='" + cp.TotalAmount + "',COSTRATE='" + cp.CostRate + "',ORDQTY='" + cp.Quantity + "',DAMAGE_QTY='" + cp.DamageQty + "',LOT_NO='" + lotnumber + "',QCTESTFLAG='" + ins + "',LOTYN='" + lotnogen.Rows[0]["LOTYN"].ToString() + "',QCYN='" + lotnogen.Rows[0]["QCT"].ToString() + "'";
+                                        if (lotnogen.Rows[0]["EXPYN"].ToString() == "YES")
+                                        {
+                                            Sql += ",MDATE='"+ cp.mdate+ "',EDATE='"+ cp.edate +"'";
+                                        }
+                                            Sql += " where GRNBLBASICID='" + cy.GRNID + "'  AND ITEMID='" + cp.saveItemId + "' ";
                                     }
                                     else
                                     {
@@ -341,19 +368,19 @@ namespace Arasan.Services
                                     objConnT.Open();
                                     objCmds.ExecuteNonQuery();
                                     objConnT.Close();
-                                    if (cp.DamageQty > 0)
-                                    {
+                                    //if (cp.DamageQty > 0)
+                                    //{
 
-                                        DateTime currentdate = DateTime.Now;
-                                        DateTime expiry = currentdate.AddDays(10);
-                                        string notifidate= currentdate.ToString("dd-MMM-yyyy");
-                                        string expirydate= expiry.ToString("dd-MMM-yyyy");
+                                    //    DateTime currentdate = DateTime.Now;
+                                    //    DateTime expiry = currentdate.AddDays(10);
+                                    //    string notifidate= currentdate.ToString("dd-MMM-yyyy");
+                                    //    string expirydate= expiry.ToString("dd-MMM-yyyy");
 
-                                        svSQL = "Insert into PURNOTIFICATION (T1SOURCEID,TYPE,NOTIFYDATE,DISPLAY,ACK,EXPIRYDATE) VALUES ('" + cp.grndetid + "','GRN','" + notifidate + "','GRN DAMAGE','N','"+ expirydate + "')";
+                                    //    svSQL = "Insert into PURNOTIFICATION (T1SOURCEID,TYPE,NOTIFYDATE,DISPLAY,ACK,EXPIRYDATE) VALUES ('" + cp.grndetid + "','GRN','" + notifidate + "','GRN DAMAGE','N','"+ expirydate + "')";
 
-                                        objCmds = new OracleCommand(svSQL, objConn);
-                                        objCmds.ExecuteNonQuery();
-                                    }
+                                    //    objCmds = new OracleCommand(svSQL, objConn);
+                                    //    objCmds.ExecuteNonQuery();
+                                    //}
                                 }
 
                                 /////////////////////////Inventory details
@@ -378,7 +405,7 @@ namespace Arasan.Services
                                     objCmdI.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
                                     objCmdI.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                                     objCmdI.Parameters.Add("WASTAGE", OracleDbType.NVarchar2).Value = cp.DamageQty;
-                                    objCmdI.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = "10036000012390";
+                                    objCmdI.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = loc;
                                     objCmdI.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = "0";
                                     objCmdI.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = "0";
                                     objCmdI.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.BranchID;
@@ -412,7 +439,7 @@ namespace Arasan.Services
                                         objCmdIn.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
                                         objCmdIn.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
                                         objCmdIn.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                                        objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = "10036000012390";
+                                        objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = loc;
                                         objCmdIn.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.BranchID;
                                         objCmdIn.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
                                         objCmdIn.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
@@ -439,14 +466,19 @@ namespace Arasan.Services
                                         }
                                         if (itemma.Rows[0]["LOTYN"].ToString() == "YES")
                                         {
-                                            svSQL = "Insert into LOTMAST (T1SOURCEID,ITEMID,PARTYID,RATE,DOCID,DOCDATE,QTY,LOTNO,LOCATION,INSFLAG,RCFLAG,PRODTYPE,QCRELASEFLAG,ESTATUS,COMPFLAG,AMOUNT,PACKFLAG,CURINWFLAG,CUROUTFLAG,PACKINSFLAG,MATCOST,MCCOST,EMPCOST,OTHERCOST,ADMINCOST,GENSETCOST,EBCOST,EBUNITRATE,DIESELRATE,TESTINSFLAG,BINNO,FIDRMS) VALUES ('" + GRNITEMID + "','" + cp.saveItemId + "','" + cy.Supplierid + "','" + cp.rate + "','" + cy.GRNNo + "','" + cy.GRNdate + "','" + cp.ConvQty + "','" + lotnumber + "','10036000012390','" + insflag + "','0','GRN','0','0','0','" + cp.Amount + "','0','0','0','0','0','0','0','0','0','0','0','0','0','0','" + itemma.Rows[0]["BINNO"].ToString() + "','0')";
+                                            svSQL = "Insert into LOTMAST (T1SOURCEID,ITEMID,PARTYID,RATE,DOCID,DOCDATE,QTY,LOTNO,LOCATION,INSFLAG,RCFLAG,PRODTYPE,QCRELASEFLAG,ESTATUS,COMPFLAG,AMOUNT,PACKFLAG,CURINWFLAG,CUROUTFLAG,PACKINSFLAG,MATCOST,MCCOST,EMPCOST,OTHERCOST,ADMINCOST,GENSETCOST,EBCOST,EBUNITRATE,DIESELRATE,TESTINSFLAG,BINNO,FIDRMS) VALUES ('" + GRNITEMID + "','" + cp.saveItemId + "','" + cy.Supplierid + "','" + cp.rate + "','" + cy.GRNNo + "','" + cy.GRNdate + "','" + cp.ConvQty + "','" + lotnumber + "','"+ loc + "','" + insflag + "','0','GRN','0','0','0','" + cp.Amount + "','0','0','0','0','0','0','0','0','0','0','0','0','0','0','" + itemma.Rows[0]["BINNO"].ToString() + "','0')";
                                             OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                             objCmds.ExecuteNonQuery();
-                                            svSQL = "Insert into LSTOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,DOCID,DOCDATE,LOTNO,PLUSQTY,MINUSQTY,RATE,STOCKVALUE,ITEMID,LOCID,BINNO,FROMLOCID) VALUES ('0','0','F','" + GRNITEMID + "','0','" + cy.GRNNo + "','" + cy.GRNdate + "','" + lotnumber + "' ,'"+ cp.ConvQty +"','0','"+ cp.rate +"','"+cp.Amount + "','" + cp.saveItemId + "','10036000012390','" + itemma.Rows[0]["BINNO"].ToString() + "','0')";
+                                            svSQL = "Insert into LSTOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,DOCID,DOCDATE,LOTNO,PLUSQTY,MINUSQTY,RATE,STOCKVALUE,ITEMID,LOCID,BINNO,FROMLOCID) VALUES ('0','0','F','" + GRNITEMID + "','0','" + cy.GRNNo + "','" + cy.GRNdate + "','" + lotnumber + "' ,'"+ cp.ConvQty +"','0','"+ cp.rate +"','"+cp.Amount + "','" + cp.saveItemId + "','"+ loc + "','" + itemma.Rows[0]["BINNO"].ToString() + "','0')";
                                             OracleCommand objCmdsss = new OracleCommand(svSQL, objConn);
                                             objCmdsss.ExecuteNonQuery();
                                         }
-
+                                        else
+                                        {
+                                            svSQL = "Insert into SLOTMAST (T1SOURCEID,ITEMMASTERID,TYPE,LOTNO,MDATE,EDATE,DOCDATE,DOCID,BINNO,RATE,QTY,LOCID) VALUES ('" + GRNITEMID + "','" + cp.saveItemId + "','GRN','" + slotno + "','" + cp.mdate + "','" + cp.edate + "','" + cy.GRNdate + "','" + cy.GRNNo + "','" + itemma.Rows[0]["BINNO"].ToString() + "','"+ cp.rate +"','"+ cp.Quantity + "','"+ loc + "')";
+                                            OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                            objCmds.ExecuteNonQuery();
+                                        }
                                         DataTable lstock = datatrans.GetData("SELECT ITEMID,T1SOURCEID,QTY FROM STOCKVALUE WHERE ITEMID='"+ cp.saveItemId + "' and T1SOURCEID='"+cy.GRNID+"'");
                                         if (lstock.Rows.Count > 0)
                                         {
@@ -458,7 +490,7 @@ namespace Arasan.Services
                                         }
                                         else
                                         {
-                                            svSQL = "Insert into STOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,STOCKVALUE,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG) VALUES ('0','0','F','" + cy.GRNID + "','p','" + cp.saveItemId + "','" + cy.GRNdate + "','" + cp.ConvQty + "','" + cp.Amount + "','10036000012390','" + itemma.Rows[0]["BINNO"].ToString() + "','0','0','0','0','0','0','GRN','" + insflag + "') RETURNING STOCKVALUEID INTO :STKID";
+                                            svSQL = "Insert into STOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,STOCKVALUE,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG) VALUES ('0','0','F','" + cy.GRNID + "','p','" + cp.saveItemId + "','" + cy.GRNdate + "','" + cp.ConvQty + "','" + cp.Amount + "','"+ loc + "','" + itemma.Rows[0]["BINNO"].ToString() + "','0','0','0','0','0','0','GRN','" + insflag + "') RETURNING STOCKVALUEID INTO :STKID";
                                             OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
                                             objCmdss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                             objCmdss.ExecuteNonQuery();
