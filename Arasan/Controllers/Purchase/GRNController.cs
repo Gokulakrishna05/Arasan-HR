@@ -109,6 +109,7 @@ namespace Arasan.Controllers
                         }
                         
                         tda.LOTYN= dt2.Rows[i]["LOTYN"].ToString();
+                        tda.EXPYN= dt2.Rows[i]["EXPYN"].ToString();
                         tda.grndetid= dt2.Rows[i]["GRNBLDETAILID"].ToString();
                         //tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString());
                         tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString() == "" ? "0" : dt2.Rows[i]["RATE"].ToString());
@@ -146,6 +147,8 @@ namespace Arasan.Controllers
                         tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
                         tda.Purtype = dt2.Rows[i]["PURTYPE"].ToString();
                         tda.Lotno = po.party + " LotNo1234";
+                        tda.edate= dt2.Rows[i]["EDATE"].ToString();
+                        tda.mdate= dt2.Rows[i]["MDATE"].ToString();
                         DataTable ap = datatrans.GetData("Select sum(CGST) as cgst,sum(SGST) as sgst,sum(IGST) as igst,sum(DISC) as dis from GRNBLDETAIL  WHERE GRNBLDETAIL.GRNBLBASICID='" + id + "'");
                         if (ap.Rows.Count > 0)
                         {

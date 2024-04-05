@@ -176,6 +176,157 @@ namespace Arasan.Controllers.Master
             ca.unititemlst = TDatau;
             return View(ca);
         }
+        public IActionResult ItemCreate(string id)
+        {
+            ItemName ca = new ItemName();
+            ca.IgLst = BindItemGroup();
+            ca.Iclst = BindItemCategory();
+            ca.Isglst = BindItemSubGroup();
+            ca.Hsn = BindHSNcode();
+            ca.Bin = BindBinID();
+            ca.qclst = BindQCTemp();
+            ca.fqclst = BindQCTemp();
+            ca.Ledgerlst = BindLedger();
+            ca.Itemlst = BindItem();
+            ca.unitlst = BindUnit();
+            ca.createdby = Request.Cookies["UserId"];
+            List<SupItem> TData = new List<SupItem>();
+            SupItem tda = new SupItem();
+
+            List<BinItem> TDatab = new List<BinItem>();
+            BinItem tdaB = new BinItem();
+
+            List<UnitItem> TDatau = new List<UnitItem>();
+            UnitItem tdau = new UnitItem();
+
+            if (id == null)
+
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    tdau = new UnitItem();
+                    tdau.UnitLst = BindUnit();
+                    tdau.Isvalid = "Y";
+                    TDatau.Add(tdau);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new SupItem();
+                    tda.Suplierlst = BindSupplier();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+
+                for (int i = 0; i < 1; i++)
+                {
+                    tdaB = new BinItem();
+                    tdaB.Isvalid = "Y";
+                    TDatab.Add(tdaB);
+                }
+            }
+            else
+            {
+                // ca = ItemNameService.GetSupplierDetailById(id);
+
+                DataTable dt = new DataTable();
+                dt = ItemNameService.GetItemNameDetails(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.ItemG = dt.Rows[0]["IGROUP"].ToString();
+                    ca.ItemSub = dt.Rows[0]["ISUBGROUP"].ToString();
+                    ca.SubCat = dt.Rows[0]["SUBCATEGORY"].ToString();
+
+                    ca.Item = dt.Rows[0]["ITEMID"].ToString();
+                    ca.ItemDes = dt.Rows[0]["ITEMDESC"].ToString();
+                    ca.Reorderqu = dt.Rows[0]["REORDERQTY"].ToString();
+                    ca.Reorderlvl = dt.Rows[0]["REORDERLVL"].ToString();
+
+                    ca.Minlvl = dt.Rows[0]["MINSTK"].ToString();
+
+                    ca.Unit = dt.Rows[0]["PRIUNIT"].ToString();
+                    ca.Hcode = dt.Rows[0]["HSN"].ToString();
+                    ca.Selling = dt.Rows[0]["SELLINGPRICE"].ToString();
+
+                    ca.Expiry = dt.Rows[0]["EXPYN"].ToString();
+                    ca.ValuationMethod = dt.Rows[0]["VALMETHOD"].ToString();
+                    ca.Serial = dt.Rows[0]["SERIALYN"].ToString();
+                    ca.Batch = dt.Rows[0]["BSTATEMENTYN"].ToString();
+                    ca.QCTemp = dt.Rows[0]["TEMPLATEID"].ToString();
+                    ca.QCRequired = dt.Rows[0]["QCCOMPFLAG"].ToString();
+                    ca.Latest = dt.Rows[0]["LATPURPRICE"].ToString();
+
+                    ca.Rejection = dt.Rows[0]["REJRAWMATPER"].ToString();
+                    ca.Percentage = dt.Rows[0]["RAWMATPER"].ToString();
+                    ca.PercentageAdd = dt.Rows[0]["ADD1PER"].ToString();
+                    ca.AddItem = dt.Rows[0]["ADD1"].ToString();
+                    ca.RawMaterial = dt.Rows[0]["RAWMATCAT"].ToString();
+                    ca.Ledger = dt.Rows[0]["LEDGERNAME"].ToString();
+
+
+                    ca.FQCTemp = dt.Rows[0]["PTEMPLATEID"].ToString();
+
+                    //ca.QCTemp = dt.Rows[0]["IQCTEMP"].ToString();
+                    //ca.FQCTemp = dt.Rows[0]["FGQCTEMP"].ToString();
+
+                    ca.Curing = dt.Rows[0]["CURINGDAY"].ToString();
+                    ca.Auto = dt.Rows[0]["AUTOINDENT"].ToString();
+                    ca.createdby = Request.Cookies["UserId"];
+                }
+                DataTable dt2 = new DataTable();
+                dt2 = ItemNameService.GetBinDeatils(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tdaB = new BinItem();
+                        tdaB.BinID = dt2.Rows[0]["BINID"].ToString();
+                        tdaB.BinYN = dt2.Rows[0]["BINYN"].ToString();
+                        tdaB.Isvalid = "Y";
+                        TDatab.Add(tdaB);
+                    }
+                }
+
+                DataTable dtt = new DataTable();
+                dtt = ItemNameService.GetAllSupplier(id);
+
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda = new SupItem();
+                        tda.Suplierlst = BindSupplier();
+                        tda.SupName = dtt.Rows[i]["SUPPLIERID"].ToString();
+                        tda.SupplierPart = dtt.Rows[i]["SUPPLIERPARTNO"].ToString();
+                        tda.PurchasePrice = dtt.Rows[i]["SPURPRICE"].ToString();
+                        tda.Delivery = dtt.Rows[i]["DELDAYS"].ToString();
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
+                }
+                DataTable dtt1 = new DataTable();
+                dtt1 = ItemNameService.GetAllUnit(id);
+
+                if (dtt1.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt1.Rows.Count; i++)
+                    {
+                        tdau = new UnitItem();
+                        tdau.UnitLst = BindUnit();
+                        tdau.Unit = dtt1.Rows[i]["UNIT"].ToString();
+                        tdau.cf = dtt1.Rows[i]["CF"].ToString();
+                        tdau.unittype = dtt1.Rows[i]["UNITTYPE"].ToString();
+                        tdau.uniqid = dtt1.Rows[i]["UNITUNIQUEID"].ToString();
+                        tdau.Isvalid = "Y";
+                        TDatau.Add(tdau);
+                    }
+                }
+
+            }
+            ca.Binlst = TDatab;
+            ca.Suplst = TData;
+            ca.unititemlst = TDatau;
+            return View(ca);
+        }
         public ActionResult GetSupDetail(string SupId)
         {
             try
@@ -457,9 +608,10 @@ namespace Arasan.Controllers.Master
             DataTable dtUsers = new DataTable();
             strStatus = strStatus == "" ? "Y" : strStatus;
             dtUsers = ItemNameService.GetAllItems(strStatus);
+           
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
-
+                string Regenerate = string.Empty;
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
                 if (dtUsers.Rows[i]["ACTIVE"].ToString() == "Y")
@@ -477,6 +629,7 @@ namespace Arasan.Controllers.Master
 
                     DeleteRow = "<a href=DeleteItem?tag=Active&id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/active.png' alt='Activate' /></a>";
                 }
+                Regenerate = "<a href=ItemCreate?id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/Change.png' alt='Edit' /></a>";
 
                 Reg.Add(new ItemList
                 {
@@ -504,7 +657,7 @@ namespace Arasan.Controllers.Master
                     //sellingprice = dtUsers.Rows[i]["SELLINGPRI"].ToString(),
                     editrow = EditRow,
                     delrow = DeleteRow,
-
+                    rrow= Regenerate
                 });
             }
 
