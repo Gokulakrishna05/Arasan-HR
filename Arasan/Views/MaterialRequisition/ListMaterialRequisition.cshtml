@@ -30,97 +30,159 @@
         var source =
         {
             url: "/MaterialRequisition/MyListMaterialRequisitionGrid",
-            //url: "/ItemName/ItemName",
-            data: {
-                strstatus: ""
-            },
             datatype: "json",
             updaterow: function (rowid, rowdata) {
                 // synchronize with the server - send update command
             },
             datafields: [
-                //{ name: 'branch', type: 'string' },
+               //{ name: 'branch', type: 'string' },
+                { name: 'piid', type: 'string' },
                 { name: 'docid', type: 'string' },
                 { name: 'docDate', type: 'string' },
                 { name: 'location', type: 'string' },
-                { name: 'work', type: 'string' },
+                //{ name: 'work', type: 'string' },
                 { name: 'pri', type: 'string' },
                 { name: 'iss', type: 'string' },
                 //{ name: 'follow', type: 'string' },
-                { name: 'move', type: 'string' },
+               // { name: 'move', type: 'string' },
                 //{ name: 'pdf', type: 'string' },
                 { name: 'view', type: 'string' },
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
-
             ],
-            id: 'id',
+           id: 'piid',
         };
         var dataAdapter = new $.jqx.dataAdapter(source,
             { contentType: 'application/json; charset=utf-8' }, {
-            loadComplete: function (data) {
-                  var isPrintColIndex = getGridColumnIndex(jQuery("#grid"), 'isPrinted');
+            loadComplete: function  () {
 
-    //CHANGE COLOR OF PRINTED ARTICLES
-    //NOTE : JSON FORMATs ARE DIFFERENT SO ...HERE WE ARE ADDING CONDITION
-    if (data != null && data.rows != null) {
-        for (var index = 0; index < data.rows.length; index++) {
-
-            if (typeof (data.rows[index].pri) === '1') {
-                //LOAD BY JQGRID API ITSELF
-                if (data.rows[index].isPrinted == 'NO') {
-                    if (data.rows[index].isPrinted == 'NO') {
-                        jQuery("#grid").jqGrid(
-                            'setCell', data.rows[index]._id_, "articleid",
-                            "", {
-                            'background-color': 'red'
-                        });
-                    }
-                }
-            }
-        }
-     
-        }
+          
     }
 }
         );
+        //alert(JSON.stringify(employeesAdapter));
 
+        var ordersSource =
+        {
+            url: "/MaterialRequisition/ListMRItemgrid",
+            datafields: [
+                { name: 'indentid', type: 'string' },
+                { name: 'piid', type: 'string' },
+                { name: 'itemname', type: 'string' },
+                { name: 'unit', type: 'string' },
+                { name: 'quantity', type: 'float' }
+                
+            ],
+
+            datatype: "json",
+
+            async: false
+        };
+        var dataAdapter = new $.jqx.dataAdapter(ordersSource,
+            { contentType: 'application/json; charset=utf-8' }, { autoBind: true }
+        );
+           
+        dataAdapter.dataBind();
+        //var ordersDataAdapter2 = new $.jqx.dataAdapter(ordersSource, { autoBind: true });
+        var orders = dataAdapter.records;
+
+        console.log(dataAdapter);
+
+        var nestedGrids = new Array();
+        // create nested grid.
+        var initrowdetails = function (index, parentElement, gridElement, record) {
+            var id = record.uid.toString();
+            var grid = $($(parentElement).children()[0]);
+            nestedGrids[index] = grid;
+            var filtergroup = new $.jqx.filter();
+            var filter_or_operator = 1;
+            var filtervalue = id;
+            var filtercondition = 'equal';
+            var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+            // fill the orders depending on the id.
+            var ordersbyid = [];
+            for (var m = 0; m < orders.length; m++) {
+                var result = filter.evaluate(orders[m]["piid"]);
+                if (result)
+                    ordersbyid.push(orders[m]);
+            }
+            var orderssource = {
+                datafields: [
+                    
+                    { name: 'piid', type: 'string' },
+                    { name: 'itemname', type: 'string' },
+                    { name: 'unit', type: 'string' },
+                    { name: 'quantity', type: 'int' }
+                   
+                ],
+                id: 'indentid',
+                localdata: ordersbyid
+            }
+            var nestedGridAdapter = new $.jqx.dataAdapter(orderssource);
+            if (grid != null) {
+                grid.jqxGrid({
+                    theme: 'ui-start',
+                    enablebrowserselection: true,
+                    source: nestedGridAdapter, width: 780,
+                    columns: [
+                        { text: 'Item Name', datafield: 'itemname', width: 200 },
+                        { text: 'Unit', datafield: 'unit', width: 80 },
+                        { text: 'Quantity', datafield: 'quantity', width: 150 }
+                       
+                    ]
+                });
+            }
+        }
+        var renderer = function (row, column, value) {
+
+            return '<span style="margin-left: 4px; margin-top: 9px; float: left; ">' + value + '</span>';
+        }
+        //alert(initrowdetails);
+        // creage grid
         $("#grid").jqxGrid(
             {
                 width: '100%',
                 source: dataAdapter,
-                height: 450,
+                height: 365,
                 source: source,
-                //autoheight: true,
-                sortable: true,
-                filterable: true,
-                groupable: false,
                 pageable: true,
+                filterable: true,
+                autoheight: true,
+                sortable: true,
+                rowdetails: true,
                 showfilterbar: true,
-                //showfilterrow: true,
                 theme: 'ui-start',
                 autorowheight: true,
                 filterbarmode: 'simple',
+                rowsheight: 35,
                 enablebrowserselection: true,
+                initrowdetails: initrowdetails,
                 columnsresize: true,
                 selectionmode: 'multiplerowsextended',
                 keyboardnavigation: false,
+                rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
+                //ready: function () {
+                //    $("#grid").jqxGrid('showrowdetails', 1);
+                //},
                 columns: [
-                    //{ text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
+
+                     //{ text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
                     { text: 'Doc Id', filtertype: 'input', datafield: 'docid', width: 150 },
                     { text: 'Doc Date', datafield: 'docDate', width: 100, align: 'center' },
                     { text: 'Location', filtertype: 'checkedlist', datafield: 'location', width: 130 },
-                    { text: 'Work Center', filtertype: 'checkedlist', datafield: 'work', width: 150 },
+                    //{ text: 'Work Center', filtertype: 'checkedlist', datafield: 'work', width: 150 },
                     //{ text: 'Send Mail', datafield: 'mailrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     //{ text: 'Follow Up', datafield: 'follow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Issue Quantity', datafield: 'iss', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
-                    { text: 'Indent Creation', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
+                    //{ text: 'Indent Creation', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
-                ]
+ ]
             });
+   
+ 
         $("#ddlStatus").change(function () {
             var value = "Y";
             if ($(this).val() != "") {

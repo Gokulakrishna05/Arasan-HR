@@ -414,30 +414,31 @@ namespace Arasan.Controllers.Store_Management
 
                 Issuse = "<a href=ApproveMaterial?&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/issue_icon.png' alt='View Details' width='20' /></a>";
                
-                    if (dtUsers.Rows[i]["STATUS"].ToString() == "Indent")
-                    {
-                        MoveToIndent = "<img src='../Images/tick.png' alt='View Details' width='20' />";
-                        EditRow = "";
-                    }
-                    else
-                    {
-                        MoveToIndent = "<a href=IssueToindent?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-                        EditRow = "<a href=MaterialRequisition?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    }
-               
-                
+                    //if (dtUsers.Rows[i]["STATUS"].ToString() == "Indent")
+                    //{
+                    //  //  MoveToIndent = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                    //    EditRow = "";
+                    //}
+                    //else
+                    //{
+                    //   // MoveToIndent = "<a href=IssueToindent?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                    //    EditRow = "<a href=MaterialRequisition?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    //}
+                EditRow = "<a href=MaterialRequisition?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+
                 View = "<a href=MaterialStatus?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new MaterialItem
                 {
-                    id = Convert.ToInt64(dtUsers.Rows[i]["STORESREQBASICID"].ToString()),
+                    piid = Convert.ToInt64(dtUsers.Rows[i]["STORESREQBASICID"].ToString()),
                     branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     docid = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     location = dtUsers.Rows[i]["LOCID"].ToString(),
-                       work = dtUsers.Rows[i]["WCID"].ToString(),
-                       pri = dtUsers.Rows[i]["PRIORITY"].ToString(),
+                    //   work = dtUsers.Rows[i]["WCID"].ToString(),
+                       //pri = dtUsers.Rows[i]["PRIORITY"].ToString(),
                     iss = Issuse,
                     //follow = FollowUp,
                     move = MoveToIndent,
@@ -456,6 +457,29 @@ namespace Arasan.Controllers.Store_Management
                 Reg
             });
 
+        }
+        public ActionResult ListMRItemgrid(string PRID)
+        {
+            List<MRItemBindList> EnqChkItem = new List<MRItemBindList>();
+            DataTable dtEnq = new DataTable();
+            dtEnq = materialReq.GetMRItem(PRID);
+            for (int i = 0; i < dtEnq.Rows.Count; i++)
+            {
+                EnqChkItem.Add(new MRItemBindList
+                {
+                    indentid = Convert.ToInt64(dtEnq.Rows[i]["STORESREQDETAILID"].ToString()),
+                    piid = Convert.ToInt64(dtEnq.Rows[i]["STORESREQBASICID"].ToString()),
+                    itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
+                    unit = dtEnq.Rows[i]["UNITID"].ToString(),
+                    quantity = dtEnq.Rows[i]["QTY"].ToString(),
+                   
+                });
+            }
+
+            return Json(new
+            {
+                EnqChkItem
+            });
         }
         public ActionResult DeleteItem(string tag, string id)
         {
@@ -510,7 +534,10 @@ namespace Arasan.Controllers.Store_Management
 
                     tda.IndQty = Convert.ToDouble(dtt.Rows[i]["PENDING_QTY"].ToString() == "" ? "0" : dtt.Rows[i]["PENDING_QTY"].ToString());
                     tda.indentid = dtt.Rows[i]["STORESREQDETAILID"].ToString();
+
                     tda.Storeid = dtt.Rows[i]["STORESREQBASICID"].ToString();
+                    string binid = datatrans.GetDataString("SELECT BINBASIC.BINID FROM ITEMMASTER LEFT OUTER JOIN BINBASIC ON BINBASICID=ITEMMASTER.BINNO WHERE ITEMMASTERID='"+ tda.ItemId + "'");
+                    tda.bin = binid;
                     tda.Isvalid = "Y";
                     double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString());
                     DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid);

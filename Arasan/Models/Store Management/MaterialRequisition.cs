@@ -51,7 +51,7 @@ namespace Arasan.Models
     }
     public class MaterialItem
     {
-        public long id { get; set; }
+        public long piid { get; set; }
         public string branch { get; set; }
         public string location { get; set; }
         public string work { get; set; }
@@ -66,6 +66,24 @@ namespace Arasan.Models
         public string view { get; set; }
         public string move { get; set; }
         //public string Account { get; set; }
+    }
+    public class MRItemBindList
+    {
+        public long indentid { get; set; }
+        public long piid { get; set; }
+        public string itemname { get; set; }
+        public string unit { get; set; }
+        public string quantity { get; set; }
+        public string location { get; set; }
+        public string itemid { get; set; }
+        public string duedate { get; set; }
+        public string assign { get; set; }
+        public string indentno { get; set; }
+        public string indentdate { get; set; }
+        public string branch { get; set; }
+        public string approval { get; set; }
+        public string disapproval { get; set; }
+
     }
     public class MaterialReqItem
     {
@@ -169,6 +187,7 @@ namespace Arasan.Models
         public double InvQty { get; set; }
         public string Isvalid { get; set; }
         public string Narration { get; set; }
+        public string bin { get; set; }
 
         public string indentid { get; set; }
         public string Storeid { get; set; }
