@@ -49,6 +49,7 @@
                     { name: 'hsncode', type: 'string' },
                     { name: 'editrow', type: 'string' },
                     { name: 'delrow', type: 'string' },
+                    { name: 'rrow', type: 'string' },
                 ],
                 id: 'id',
             };
@@ -64,7 +65,7 @@
                 {
                     width: '100%',
                     source: dataAdapter,
-                    height: 450,
+                    height: 650,
                     source: source,
                     //autoheight: true,
                     sortable: true,
@@ -90,7 +91,8 @@
                        
                       { text: 'HSN Code', datafield: 'hsncode', width: 100, align: 'center' },
                       { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
+                    { text: 'Delete', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                      { text: 'Regenerate', datafield: 'rrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 90 },
                     ]
             });
             $("#ddlStatus").change(function () {
@@ -134,7 +136,7 @@
                         <div class="row">
 
                            
-                            <div class="col-md-10 "> 
+                            <div class="col-md-12 "> 
                                 <div id="grid">
     </div>
 

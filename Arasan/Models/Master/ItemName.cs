@@ -158,6 +158,7 @@ namespace Arasan.Models
         public string delrow { get; set; }
         public string itemcode { get; set; }
         public string itemcate { get; set; } 
+        public string rrow { get; set; }
 
     }
 
