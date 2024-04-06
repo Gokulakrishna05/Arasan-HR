@@ -149,7 +149,7 @@
                                               @*  <th> Item Group</th>*@
                                                 <th> Item </th>
                                                 <th> Unit </th>
-                                                <th> Closing Stock </th>
+                                                <th>  Stock </th>
                                                 <th> Req.Qty </th>
                                             </tr>
 
@@ -177,7 +177,7 @@
 
                                                         <td>
                                                             
-                                                        @Html.TextBoxFor(o => o.MRlst[i].ReqQty, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})</td>
+                                                        @Html.TextBoxFor(o => o.MRlst[i].ReqQty, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@onkeyup = "changeQty(this," + i + ")"})</td>
                                                         <td>
                                                             @Html.HiddenFor(o => o.MRlst[i].Isvalid, new { @id = "Isvalid" + i })
                                                             <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="MRlst.Index" type="hidden" value="@(i)" />
@@ -559,4 +559,80 @@
             document.getElementById("reason").style.display = "none";
         }
     }
+    function changeQty(_this, i) {
+        try {
+            var GTot = 0;
+            var j = 0;
+            var qty = 0;
+            var tot = 0;
+            var totfrieght = 0;
+
+            var totamt = 0;
+            var totamount = 0;
+            var sqty = document.getElementById("txtStock" + i).value;
+            var rqty = document.getElementById("txtQuantity" + i).value;
+           
+            if (sqty == "")
+                sqty = 0;
+
+            if (rqty == "")
+                rqty = 0;
+           
+
+            if (eval(rqty) > eval(sqty)) {
+                document.getElementById("txtQuantity" + i).value = "0";
+                alert("Issue Qty is Greaterthen  Stock");
+                up=0;
+            }
+          
+
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
+    }
+      $("#btnSave").click(function () {
+        var i=0;
+        var cl = document.getElementById("txtStock" + i).value;
+         
+        var isValid = true;
+        if (eval(cl)==0)
+        {
+            alert("Stock is LOW So Indent Create");
+            return false;
+        }
+         try {
+            var GTot = 0;
+            var j = 0;
+            var qty = 0;
+            var tot = 0;
+            var totfrieght = 0;
+
+            var totamt = 0;
+            var totamount = 0;
+            var sqty = document.getElementById("txtStock" + i).value;
+            var rqty = document.getElementById("txtQuantity" + i).value;
+           
+            if (sqty == "")
+                sqty = 0;
+
+            if (rqty == "")
+                rqty = 0;
+           
+
+            if (eval(rqty) > eval(sqty)) {
+                document.getElementById("txtQuantity" + i).value = "0";
+                alert("Issue Qty is Greaterthen  Stock");
+                up=0;
+            }
+          
+
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
+
+
+
+    });
 </script>

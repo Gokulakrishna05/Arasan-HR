@@ -1209,6 +1209,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetMRItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = " Select QTY,ITEMMASTER.ITEMID,STORESREQBASICID,STORESREQDETAILID ,UNITMAST.UNITID from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
         public string MaterialReqGURD(MaterialReq cy)
         {

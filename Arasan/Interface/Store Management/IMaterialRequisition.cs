@@ -43,6 +43,7 @@ namespace Arasan.Interface
         DataTable GetMatStaItemByID(string MatId);
         string StatusChange(string tag, string id);
         DataTable GetAllMaterialRequItems(string strStatus);
+        DataTable GetMRItem(string id);
         DataTable GetAllInventoryReq(string strStatus);
         DataTable GetAllMaterialDetailRequItems(string strStatus);
 
