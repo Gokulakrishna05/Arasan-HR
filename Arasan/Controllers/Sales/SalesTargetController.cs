@@ -139,8 +139,7 @@ namespace Arasan.Controllers.Sales
             SalesTarget ca = new SalesTarget();
             DataTable dt = new DataTable();
             DataTable dtt = new DataTable();
-            dt = SalesTargetService.GetSalesTarget(id)
-;
+            dt = SalesTargetService.GetSalesTarget(id);
             if (dt.Rows.Count > 0)
             {
                 ca.Branch = dt.Rows[0]["BRANCHID"].ToString();

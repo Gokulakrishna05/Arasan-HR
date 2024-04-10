@@ -31,13 +31,15 @@ namespace Arasan.Controllers
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
             ca.Currency = "1";
-            ca.Suplst = BindSupplier();
+            ca.Suplst = BindSupplier("AGAINST PURCHASE INDENT");
             ca.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Curlst = BindCurrency();
             ca.Loclst = GetLoc();
+            ca.putypelst = BindPuType();
             string loc = ca.Location;
             //ViewBag.locdisp = ca.Location;
             ca.Vocherlst = BindVocher();
+            ca.Voucher = "Purchase";
             ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
             DataTable dtv = datatrans.GetSequence1("dp", loc);
             if (dtv.Rows.Count > 0)
@@ -51,7 +53,8 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 1; i++)
                 {
                     tda = new DirItem();
-                    tda.ItemGrouplst = BindItemGrplst();
+                    tda.Indentlst=BindEmpty();
+                    //tda.ItemGrouplst = BindItemGrplst();
                     tda.Itemlst = BindItemlst("");
                     tda.gstlst = Bindgstlst("");
                     tda.Isvalid = "Y";
@@ -433,6 +436,20 @@ namespace Arasan.Controllers
             });
 
         }
+        
+             public List<SelectListItem> BindEmpty()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+               
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindBranch()
         {
             try
@@ -467,16 +484,62 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindSupplier()
+        public List<SelectListItem> BindSupplier(string supid)
         {
             try
             {
-                DataTable dtDesg = datatrans.GetSupplier();
+                DataTable dtDesg = datatrans.GetParty(supid);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYID"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
                 }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindIndent(string puid)
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                DataTable dtDesg = new DataTable();
+                if (puid == "AGAINST PURCHASE INDENT") 
+                {
+                    dtDesg = datatrans.getindent();
+                    for (int i = 0; i < dtDesg.Rows.Count; i++)
+                    {
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["PINDBASICID"].ToString() });
+                    }
+
+                }
+                if (puid == "AGAINST EXCISE INVOICE")
+                {
+                    dtDesg = datatrans.getexinv();
+                    for (int i = 0; i < dtDesg.Rows.Count; i++)
+                    {
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["EXINVBASICID"].ToString() });
+                    }
+
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindPuType()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "AGAINST PURCHASE INDENT", Value = "AGAINST PURCHASE INDENT" });
+                lstdesg.Add(new SelectListItem() { Text = "AGAINST EXCISE INVOICE", Value = "AGAINST EXCISE INVOICE" });
+                lstdesg.Add(new SelectListItem() { Text = "AGAINST CONSUMABLES RETURN", Value = "AGAINST CONSUMABLES RETURN" });
                 return lstdesg;
             }
             catch (Exception ex)
@@ -505,7 +568,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = datatrans.GetLocation();
+                DataTable dtDesg = datatrans.GetFGLOC();
 
                
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
@@ -631,6 +694,15 @@ namespace Arasan.Controllers
             return Json(BindItemlst(itemid));
 
         }
+        public JsonResult GetSupJSON(string puid)
+        {
+            return Json(BindSupplier(puid));
+        }
+        public JsonResult GetIndentJSON(string puid)
+        {
+            return Json(BindIndent(puid));
+        }
+        
         public JsonResult GetItemGrpJSON()
         {
             //EnqItem model = new EnqItem();

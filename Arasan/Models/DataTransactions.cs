@@ -180,7 +180,7 @@ namespace Arasan.Models
         {
             string SvSql = string.Empty;
             //SvSql = "select PREFIX,LASTNO from sequence where TRANSTYPE='" + vtype  + "' AND ACTIVESEQUENCE='T'";
-            SvSql = " select s.PREFIX, s.LASTNO, s.PREFIX || s.LASTNO  as doc from sequence s,locdetails l where s.TRANSTYPE = 'dp' and l.locdetailsid=s.locid  and l.locdetailsid = '" + locid + "'";
+            SvSql = " select s.PREFIX, s.LASTNO, s.PREFIX || s.LASTNO  as doc from sequence s where s.TRANSTYPE = 'dp'  and s.LOCID = '" + locid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -240,6 +240,16 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetFGLOC()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS where LOCATIONTYPE IN('FG GODOWN','STORES') ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetPyroLocation()
         {
             string SvSql = string.Empty;
@@ -278,6 +288,48 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetParty(string putype)
+        {
+            string SvSql = string.Empty;
+            if (putype== "AGAINST PURCHASE INDENT")
+            {
+                SvSql = "select PARTYMASTID,PARTYID from PARTYMAST where PARTYCAT IN ('SUPPLIER','BOTH')";
+            }
+            else if (putype == "AGAINST CONSUMABLES RETURN")
+            {
+                SvSql = "select PARTYMASTID,PARTYID from PARTYMAST where PARTYCAT IN ('CUSTOMER','BOTH')";
+            }
+            else if (putype == "AGAINST EXCISE INVOICE")
+            {
+                SvSql = "select PARTYMASTID,PARTYID from PARTYMAST where PARTYCAT='BRANCH'";
+            }
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            DataTable dtt = new DataTable();
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable getindent()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT PINDBASICID,DOCID from PINDBASIC";
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            DataTable dtt = new DataTable();
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable getexinv()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT E.EXINVBASICID,E.DOCID from EXINVBASIC E,PARTYMAST P where P.PARTYMASTID=E.PARTYID AND P.PARTYCAT='BRANCH'";
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            DataTable dtt = new DataTable();
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        
         public DataTable GetCustomer()
         {
             string SvSql = string.Empty;
@@ -298,6 +350,7 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+       
 
         public DataTable GetEmp()
         {

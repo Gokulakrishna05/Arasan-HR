@@ -35,32 +35,39 @@
 
                     <form>
                         <div class="row">
-                            <div class="col-md-6">
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Purchase Type <label class="mandatory">*</label></label>
+
+                                    <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Purtype, Model.putypelst," -- Please Select -- ", new { @id = "ddlputype", @Class = "form-control _select", @TabIndex = 1 ,@onchange="getputype(this.value)"})
+                                        </div>
+
+                                </div>
+                            </div>
+                             <div class="col-md-4">
+                                <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Supplier <label class="mandatory">*</label></label>
+
+                                    <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst," -- Please Select -- ", new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 1 ,@onchange="getsuptype(this.value)"})
+                                             @Html.HiddenFor(c=>c.statetype,new { @id="hdstate"})
+                                        </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
 
-                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
-
+                                            @Html.DropDownListFor(C => C.Location, Model.Loclst," -- Please Select -- ", new { @id = "ddllocation", @Class = "form-control _select", @TabIndex = 4 ,@onchange="locchange(this.value)"})
                                     </div>
                                 </div>
                             </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Ref. Date<label class="Mandatory"></label></label>
-
-                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @Html.TextBoxFor(C => C.RefDate, new { @id = "RefDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6">
+                            </div>
+                             <div class="row">
+                             <div class="col-md-4">
                                 <div class="form-group">
 
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Doc No<label class="Mandatory"></label></label>
@@ -72,7 +79,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Doc. Date<label class="mandatory">*</label></label>
                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
@@ -83,9 +90,7 @@
 
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
+                              <div class="col-md-4">
                                 <div class="form-group">
 
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Currency<label class="mandatory">*</label></label>
@@ -94,65 +99,47 @@
 
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Voucher Type<label class="mandatory">*</label></label>
-
-                                    <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Voucher, Model.Vocherlst," -- Please Select -- ", new { @id = "ddlVoucher", @Class = "form-control _select", @TabIndex = 1 })
-                                    </div>
-
-                                </div>
-                            </div>
+                            </div>   
                         </div>
-                       
+                        
                         <div class="row">
-                            <div class="col-md-6">
+                             
+                             <div class="col-md-4">
                                 <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory">*</label></label>
-                                    <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Location, Model.Loclst," -- Please Select -- ", new { @id = "ddllocation", @Class = "form-control _select", @TabIndex = 4 ,@onchange="locchange(this.value)"})
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Supplier <label class="mandatory">*</label></label>
-
-                                    <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst," -- Please Select -- ", new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 1 ,@onchange="getnarr(this.value)"})
-                                             @Html.HiddenFor(c=>c.statetype,new { @id="hdstate"})
-                                        </div>
-
-                                </div>
-                            </div>
-                        </div>
-                            @*  <div style="height:30px;"></div>
-                        <div class="row">
-                           <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Ref. No<label class="Mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Ref. No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.RefNo, new { @id = "txtRefNo", @class = "form-control", @TabIndex = 2 })
                                     </div>
                                 </div>
-                            </div>*@
-                            @*<div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Ref. Date<label class="Mandatory"></label></label>
+                            </div>
+                           <div class="col-md-4">
+                                    <div class="form-group">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Ref. Date<label class="Mandatory"></label></label>
 
-                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.RefDate, new { @id = "RefDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                    </div>                                 
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
                                     </div>
 
-                              
-                            </div>
-                        </div>*@
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Voucher Type<label class="mandatory">*</label></label>
+
+                                        <div class="col-sm-8">
+                                             @Html.TextBoxFor(C => C.Voucher, new { @id = "txtVoucher", @class = "form-control", @TabIndex = 2 ,@readonly=true})
+                                           @* @Html.DropDownListFor(C => C.Voucher, Model.Vocherlst," -- Please Select -- ", new { @id = "ddlVoucher", @Class = "form-control _select", @TabIndex = 1 })*@
+                                        </div>
+
+                                    </div>
+                                </div>
+                        </div>
+                      
+                       
+                        
 
                         <div style="height:30px;"></div>
                         <div class="row">
@@ -176,7 +163,7 @@
                                                     <thead>
                                                         <tr>
                                                             
-                                                           <th>Item Group</th>
+                                                          <th>Indent</th>
                                                             <th> Item </th>
                                                             <th> GST </th>
                                                             <th> Unit </th>
@@ -220,7 +207,7 @@
                                                             {
                                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                    <td>
-                                                            @Html.DropDownListFor(o => o.DirLst[i].ItemGroupId, Model.DirLst[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
+                                                            @Html.DropDownListFor(o => o.DirLst[i].IndentId, Model.DirLst[i].Indentlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlIndent" + i, style = "width: 200px;", onchange = "Indent_Change(this.value," + i + ")"})
 
                                                                    </td>
                                                                  <td>
@@ -557,7 +544,7 @@
                 }
             });
     }
-      function getnarr(party){
+     @* function getnarr(party){
          
                   $.ajax({
                     url: 'GetNarrDetail',
@@ -571,7 +558,7 @@
                     alert("Data Not Found");
                 }
             });
-    }
+    }*@
     function Grup_Change(itemid, i) {
         //alert(itemid);
         //debugger;
@@ -590,6 +577,49 @@
                 debugger;
                 alert("Please Select Item Group");
             }
+        });
+    }
+    function getputype(puid){
+        var supid=document.getElementById("ddlSupplier").value;
+         $.ajax({
+            url: "GetSupJSON",
+            type: "post",
+            data: { 'puid': puid },
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#ddlSupplier", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Item Group");
+            }
+        });
+            if(puid=="AGAINST CONSUMABLES RETURN"){
+            document.getElementById('txtVoucher').value ="Credit Note";
+        }
+        else{
+            document.getElementById('txtVoucher').value ="Purchase";
+        }
+        var i = 0;
+ $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+            (function (index) {
+                
+                    $.ajax({
+                        url: 'GetIndentJSON',
+                        data: { "puid": puid},
+                        type: "GET",
+                        success: function (response) {
+                             PopulateDropDown("#ddlIndent" + index, response);
+                        },
+                        error: function () {
+                            alert("Data Not Found");
+                        }
+                    });
+ 
+            })(i);
+                i += 1;
+        }
         });
     }
     function PopulateDropDown(dropDownId, list) {
