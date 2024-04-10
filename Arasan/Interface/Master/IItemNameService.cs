@@ -29,6 +29,7 @@ namespace Arasan.Interface.Master
         DataTable GetItem();
         DataTable GetUnit();
         string StatusChange(string tag, int id);
+        string NewItemCRUD(ItemName ss);
         //DataTable GetItem();
     }
 }

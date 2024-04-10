@@ -264,30 +264,30 @@ namespace Arasan.Controllers
                 Data4.Add(tdas);
 
             }
-            DataTable intent = datatrans.GetData("select count(pindbasicID) as cunt,to_char(PINDBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE from PINDBASIC  where    PINDBASIC.DOCDATE BETWEEN '01-MAR-2022' AND  '8-MAR-2022' GROUP BY DOCDATE  ");
-            string str = "";
-            string color = "";
-            if (intent.Rows.Count > 0)
-            {
-                str += "[";
-                for (int i = 0; i < intent.Rows.Count; i++)
-                {
-                    string intentcom = datatrans.GetDataString("select count(GR.INDENTDT) as cunt  from pindbasic P ,pinddetail PD,GRNBLDETAIL GR,GRNBLBASIC G where   PD.pindbasicID=P.pindbasicID AND GR.INDENTNO=P.DOCID AND    GR.GRNBLBASICID=G.GRNBLBASICID AND GR.INDENTDT ='" + intent.Rows[i]["DOCDATE"].ToString() + "' GROUP BY P.DOCDATE   ");
-                    if (intentcom == "") { intentcom = "0"; }
-                    str += "{" +
-                    " \"date\": \"" + intent.Rows[i]["DOCDATE"].ToString() + "\", " +
-                    " \"create\": \"" + intent.Rows[i]["cunt"].ToString() + "\"," +
-                    " \"complete\": \"" + intentcom + "\"," +
-                    " \"pending\": \""  +intent.Rows[i]["cunt"].ToString()  + "\"" +
-                    //" \"color\": \"" + color + "\"" +
-                    "  },";
+            //DataTable intent = datatrans.GetData("select count(pindbasicID) as cunt,to_char(PINDBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE from PINDBASIC  where    PINDBASIC.DOCDATE BETWEEN '01-MAR-2022' AND  '8-MAR-2022' GROUP BY DOCDATE  ");
+            //string str = "";
+            //string color = "";
+            //if (intent.Rows.Count > 0)
+            //{
+            //    str += "[";
+            //    for (int i = 0; i < intent.Rows.Count; i++)
+            //    {
+            //        string intentcom = datatrans.GetDataString("select count(GR.INDENTDT) as cunt  from pindbasic P ,pinddetail PD,GRNBLDETAIL GR,GRNBLBASIC G where   PD.pindbasicID=P.pindbasicID AND GR.INDENTNO=P.DOCID AND    GR.GRNBLBASICID=G.GRNBLBASICID AND GR.INDENTDT ='" + intent.Rows[i]["DOCDATE"].ToString() + "' GROUP BY P.DOCDATE   ");
+            //        if (intentcom == "") { intentcom = "0"; }
+            //        str += "{" +
+            //        " \"date\": \"" + intent.Rows[i]["DOCDATE"].ToString() + "\", " +
+            //        " \"create\": \"" + intent.Rows[i]["cunt"].ToString() + "\"," +
+            //        " \"complete\": \"" + intentcom + "\"," +
+            //        " \"pending\": \"" + intent.Rows[i]["cunt"].ToString() + "\"" +
+            //        " \"color\": \"" + color + "\"" +
+            //        "  },";
 
 
-                }
-                str = str.Remove(str.Length - 1);
-                str += "]";
-            }
-            ViewBag.Item = str;
+            //    }
+            //    str = str.Remove(str.Length - 1);
+            //    str += "]";
+            //}
+            //ViewBag.Item = str;
             H.Folllst = Data3;
             H.Enqlllst = Data4;
             H.purlst = Data;
