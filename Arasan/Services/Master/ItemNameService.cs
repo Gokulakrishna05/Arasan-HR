@@ -332,6 +332,174 @@ namespace Arasan.Services.Master
 
             return msg;
         }
+        public string NewItemCRUD(ItemName ss)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+               
+                    svSQL = " SELECT Count(ITEMID) as cnt FROM ITEMMASTER WHERE ITEMID =LTRIM(RTRIM('" + ss.Item + "')) and ITEMDESC =LTRIM(RTRIM('" + ss.ItemDes + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Item Already Existed";
+                        return msg;
+                    }
+                
+                string grpid = datatrans.GetDataString("Select ITEMGROUPID from ITEMGROUP where GROUPCODE='" + ss.ItemG + "'");
+                string supid = datatrans.GetDataString("Select ITEMSUBGROUPID from ITEMSUBGROUP where SGCODE='" + ss.ItemSub + "'");
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("ITEMMASTERPROC", objConn);
+                
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                   
+                    StatementType = "Insert";
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                   
+                    objCmd.Parameters.Add("IGROUP", OracleDbType.NVarchar2).Value = ss.ItemG;
+                    objCmd.Parameters.Add("ISUBGROUP", OracleDbType.NVarchar2).Value = ss.ItemSub;
+                    objCmd.Parameters.Add("ITEMGROUP", OracleDbType.NVarchar2).Value = grpid;
+                    objCmd.Parameters.Add("SUBGROUPCODE", OracleDbType.NVarchar2).Value = supid;
+                    objCmd.Parameters.Add("SUBCATEGORY", OracleDbType.NVarchar2).Value = ss.SubCat;
+
+                    objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = ss.Item;
+                    objCmd.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = ss.ItemDes;
+                    objCmd.Parameters.Add("REORDERQTY", OracleDbType.NVarchar2).Value = ss.Reorderqu;
+                    objCmd.Parameters.Add("REORDERLVL", OracleDbType.NVarchar2).Value = ss.Reorderlvl;
+
+                    objCmd.Parameters.Add("MINSTK", OracleDbType.NVarchar2).Value = ss.Minlvl;
+
+                    objCmd.Parameters.Add("PRIUNIT", OracleDbType.NVarchar2).Value = ss.Unit;
+                    objCmd.Parameters.Add("HSN", OracleDbType.NVarchar2).Value = ss.Hcode;
+                    objCmd.Parameters.Add("SELLINGPRICE", OracleDbType.NVarchar2).Value = ss.Selling;
+
+                    objCmd.Parameters.Add("EXPYN", OracleDbType.NVarchar2).Value = ss.Expiry;
+                    objCmd.Parameters.Add("VALMETHOD", OracleDbType.NVarchar2).Value = ss.ValuationMethod;
+                    objCmd.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = ss.Serial;
+                    objCmd.Parameters.Add("BSTATEMENTYN", OracleDbType.NVarchar2).Value = ss.Batch;
+
+                    objCmd.Parameters.Add("TEMPLATEID", OracleDbType.NVarchar2).Value = ss.QCTemp;
+                    objCmd.Parameters.Add("QCCOMPFLAG", OracleDbType.NVarchar2).Value = ss.QCRequired;
+                    objCmd.Parameters.Add("LATPURPRICE", OracleDbType.NVarchar2).Value = ss.Latest;
+
+                    objCmd.Parameters.Add("REJRAWMATPER", OracleDbType.NVarchar2).Value = ss.Rejection;
+                    objCmd.Parameters.Add("RAWMATPER", OracleDbType.NVarchar2).Value = ss.Percentage;
+                    objCmd.Parameters.Add("ADD1PER ", OracleDbType.NVarchar2).Value = ss.PercentageAdd;
+                    objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = ss.AddItem;
+                    objCmd.Parameters.Add("RAWMATCAT", OracleDbType.NVarchar2).Value = ss.RawMaterial;
+                    objCmd.Parameters.Add("LEDGERNAME", OracleDbType.NVarchar2).Value = ss.Ledger;
+
+                    objCmd.Parameters.Add("PTEMPLATEID", OracleDbType.NVarchar2).Value = ss.FQCTemp;
+                    objCmd.Parameters.Add("CURINGDAY", OracleDbType.NVarchar2).Value = ss.Curing;
+                    objCmd.Parameters.Add("AUTOINDENT", OracleDbType.NVarchar2).Value = ss.Auto;
+                    objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.createdby;
+                    objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                   
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //if (ss.ID != null)
+                        //{
+                        //    Pid = ss.ID;
+                        //}
+                        //  foreach (DirItem cp in cy.DirLst)
+                        //{
+                        string latestbin = datatrans.GetDataString("Select BINID from BINMASTER where ITEMID='" + Pid + "' AND ISUPDATED='Y'");
+                        if (latestbin != ss.BinID)
+                        {
+                            bool resultsds = datatrans.UpdateStatus("UPDATE BINMASTER SET ISUPDATED='N' Where ITEMID='" + Pid + "'");
+                            using (OracleConnection objConns = new OracleConnection(_connectionString))
+                            {
+                                OracleCommand objCmds = new OracleCommand("BINMASTEPROC", objConns);
+                                StatementType = "Insert";
+                                objCmds.CommandType = CommandType.StoredProcedure;
+                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = ss.BinID;
+                                objCmds.Parameters.Add("BINYN", OracleDbType.NVarchar2).Value = ss.BinYN;
+                                objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = Pid;
+                                objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                objConns.Open();
+                                objCmds.ExecuteNonQuery();
+                                objConns.Close();
+                            }
+                        }
+                        bool result = datatrans.UpdateStatus("DELETE SUPPLIERPARTNO  Where ITEMMASTERID='" + Pid + "' ");
+                        if (ss.Suplst != null)
+                        {
+                            foreach (SupItem cp in ss.Suplst)
+                            {
+                                if (cp.Isvalid == "Y" && cp.SupName != null)
+                                {
+                                    using (OracleConnection objConnI = new OracleConnection(_connectionString))
+                                    {
+                                        OracleCommand objCmdI = new OracleCommand("SUPPLIERPROC", objConnI);
+
+                                        objCmdI.CommandType = CommandType.StoredProcedure;
+                                        StatementType = "Insert";
+                                        objCmdI.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                        objCmdI.Parameters.Add("SUPPLIERID", OracleDbType.NVarchar2).Value = cp.SupName;
+                                        objCmdI.Parameters.Add("SUPPLIERPARTNO", OracleDbType.NVarchar2).Value = cp.SupplierPart;
+                                        objCmdI.Parameters.Add("SPURPRICE", OracleDbType.NVarchar2).Value = cp.PurchasePrice;
+                                        objCmdI.Parameters.Add("DELDAYS", OracleDbType.NVarchar2).Value = cp.Delivery;
+                                        objCmdI.Parameters.Add("ITEMMASTERID", OracleDbType.NVarchar2).Value = Pid;
+                                        objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                        try
+                                        {
+                                            objConnI.Open();
+                                            objCmdI.ExecuteNonQuery();
+                                            //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                                        }
+
+                                        objConnI.Close();
+                                    }
+
+                                }
+                            }
+
+                        }
+                        if (ss.unititemlst != null)
+                        {
+                           
+                                foreach (UnitItem cp in ss.unititemlst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.Unit != "0")
+                                    {
+                                        int i = 1;
+                                        svSQL = "Insert into ITEMMASTERPUNIT (ITEMMASTERID,ITEMMASTERPUNITROW,UNIT,CF,VALIDROW3,UNITTYPE,UNITUNIQUEID) VALUES ('" + Pid + "','" + i + "','" + cp.Unit + "','" + cp.cf + "','T','" + cp.unittype + "','" + cp.uniqid + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                        i++;
+                                    }
+
+                                }
+                            
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
         public DataTable GetItemNameDetails(string id)
         {
             string SvSql = string.Empty;

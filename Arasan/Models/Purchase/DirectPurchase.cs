@@ -11,6 +11,7 @@ namespace Arasan.Models
             this.Curlst = new List<SelectListItem>();
             this.Loclst = new List<SelectListItem>();
             this.Vocherlst = new List<SelectListItem>();
+            this.putypelst = new List<SelectListItem>();
         }
         public List<SelectListItem> Brlst;
         public List<SelectListItem> Vocherlst;
@@ -20,9 +21,10 @@ namespace Arasan.Models
 
         public string Supplier { get; set; }
         public string statetype { get; set; }
-
+        public string Purtype { get; set; }
         public List<SelectListItem> Suplst;
 
+        public List<SelectListItem> putypelst;
         public string Currency { get; set; }
 
         public List<SelectListItem> Curlst;
@@ -58,7 +60,8 @@ namespace Arasan.Models
         public List<SelectListItem> gstlst { get; set; }
 
         public List<SelectListItem>  ItemGrouplst { get; set; }
-
+        public List<SelectListItem> Indentlst { get; set; }
+        public string IndentId { get; set; }
         public string ItemGroupId { get; set; }
         public double FrigCharge { get; set; }
         public string ConFac { get; set; }

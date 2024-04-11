@@ -573,6 +573,45 @@ namespace Arasan.Controllers.Master
 
             return View(ss);
         }
+
+        [HttpPost]
+        public ActionResult ItemCreate(ItemName ss, string id)
+        {
+
+            try
+            {
+                ss.ID = id;
+                string Strout = ItemNameService.ItemNameCRUD(ss);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (ss.ID == null)
+                    {
+                        TempData["notice"] = " ItemName Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = " ItemName Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListItem");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit ItemName";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(ss);
+        }
         public List<SelectListItem> BindHSNcode()
         {
             try
