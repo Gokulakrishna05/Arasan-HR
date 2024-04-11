@@ -43,7 +43,7 @@ namespace Arasan.Controllers.Store_Management
                 for (int i = 0; i < 1; i++)
                 {
                     tda = new DeductionItem();
-                    tda.ItemGrouplst = BindItemGrplst();
+                   
                     tda.Itemlst = BindItemlst("");
                     tda.Processlst = BindProcess();
                     tda.Isvalid = "Y";
@@ -293,7 +293,7 @@ namespace Arasan.Controllers.Store_Management
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["item"].ToString() });
                 }
                 return lstdesg;
             }
@@ -337,7 +337,7 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public ActionResult GetItemDetail(string ItemId)
+        public ActionResult GetItemDetail(string ItemId,string loc)
         {
             try
             {
@@ -347,8 +347,18 @@ namespace Arasan.Controllers.Store_Management
                 string unit = "";
                 string CF = "";
                 string price = "";
+                string stock = "";
                 dt = datatrans.GetItemDetails(ItemId);
+                string type = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER WHERE ITEMMASTERID='" + ItemId + "'");
 
+                if (type == "YES")
+                {
+                    stock = datatrans.GetDataString("select SUM(S.PLUSQTY-S.MINUSQTY) as QTY  from LSTOCKVALUE S  where S.LOCID='" + loc + "' AND S.ITEMID='" + ItemId + "' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0");
+                }
+                else
+                {
+                    stock = datatrans.GetDataString("select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY  from STOCKVALUE S  where S.LOCID='" + loc + "' AND S.ITEMID='" + ItemId + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  ");
+                }
                 if (dt.Rows.Count > 0)
                 {
 
@@ -361,7 +371,7 @@ namespace Arasan.Controllers.Store_Management
                     }
                 }
 
-                var result = new { unit = unit, CF = CF, price = price };
+                var result = new { unit = unit, CF = CF, price = price, stock= stock };
                 return Json(result);
             }
             catch (Exception ex)
@@ -465,7 +475,13 @@ namespace Arasan.Controllers.Store_Management
             return View(st);
         }
 
+        public JsonResult GetStockItemJSON(string ItemId)
+        {
+            SubContractingItem model = new SubContractingItem();
+            model.Itemlst = BindItemlst(ItemId);
+            return Json(BindItemlst(ItemId));
 
+        }
     }
 }
 

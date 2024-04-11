@@ -67,6 +67,7 @@ namespace Arasan.Models
         //public string serial { get; set; }
         //public string CurrentStock { get; set; }
         public double Quantity { get; set; }
+        public double CurrentStock { get; set; }
         public double rate { get; set; }
         public double Amount { get; set; }
         public double TotalAmount { get; set; }

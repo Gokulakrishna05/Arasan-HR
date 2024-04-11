@@ -531,6 +531,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.UnitID = dtt.Rows[i]["UNIT"].ToString();
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
+                    tda.detid = dtt.Rows[i]["STORESREQDETAILID"].ToString();
 
                     tda.IndQty = Convert.ToDouble(dtt.Rows[i]["PENDING_QTY"].ToString() == "" ? "0" : dtt.Rows[i]["PENDING_QTY"].ToString());
                     tda.indentid = dtt.Rows[i]["STORESREQDETAILID"].ToString();
@@ -960,6 +961,7 @@ namespace Arasan.Controllers.Store_Management
                             tda.qty = dt2.Rows[i]["QTY"].ToString();
                             tda.item = dt2.Rows[i]["ITEMID"].ToString();
                             tda.itemid = dt2.Rows[i]["item"].ToString();
+                             
 
 
                             TData.Add(tda);

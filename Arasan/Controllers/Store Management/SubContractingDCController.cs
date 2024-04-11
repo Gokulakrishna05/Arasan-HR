@@ -195,7 +195,7 @@ namespace Arasan.Controllers.Store_Management
                         View = "<a href=ViewSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                         recept = "<a href=SubConDcRec?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
 
-                        EditRow = "";
+                       // EditRow = "";
                     }
                     else
                     {
@@ -204,7 +204,7 @@ namespace Arasan.Controllers.Store_Management
                         View = "<a href=ViewSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                         recept = "<a href=SubConDcRec?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
 
-                        EditRow = "<a href=SubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                       // EditRow = "<a href=SubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
 
                     }
                 }
@@ -222,7 +222,7 @@ namespace Arasan.Controllers.Store_Management
                     pack = pack,
                     view = View,
                     recept = recept,
-                    editrow = EditRow,
+                   // editrow = EditRow,
                     delrow = DeleteRow,
 
 
@@ -439,22 +439,27 @@ namespace Arasan.Controllers.Store_Management
                 string price = "";
                 string lot = "";
                 string group = "";
-                //string binno = "";
-                //string binname = "";
-                dt = SubContractingDCService.GetItemDetails(ItemId);
-                string stock = datatrans.GetDataString("Select SUM(BALANCE_QTY) from INVENTORY_ITEM where ITEM_ID='" + ItemId + "' AND BALANCE_QTY > 0 AND LOCATION_ID= '" + loc + "'  ");
+                string stock = "";
+               //string binno = "";
+               //string binname = "";
+               dt = SubContractingDCService.GetItemDetails(ItemId);
+                string type = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER WHERE ITEMMASTERID='" + ItemId + "'");
 
+                if (type == "YES")
+                {
+                    stock = datatrans.GetDataString("select SUM(S.PLUSQTY-S.MINUSQTY) as QTY  from LSTOCKVALUE S  where S.LOCID='" + loc + "' AND S.ITEMID='" + ItemId + "' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0");
+                }
+                else
+                {
+                    stock = datatrans.GetDataString("select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY  from STOCKVALUE S  where S.LOCID='" + loc + "' AND S.ITEMID='" + ItemId + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  ");
+                }
                 if (dt.Rows.Count > 0)
                 {
 
                     unit = dt.Rows[0]["UNITID"].ToString();
                     price = dt.Rows[0]["LATPURPRICE"].ToString();
                     lot = dt.Rows[0]["LOTYN"].ToString();
-                    group = dt.Rows[0]["IGROUP"].ToString();
-                    if (group == "SEMI FINISHED GOODS")
-                    {
-                        group = "semi";
-                    }
+                   
                         dt1 = SubContractingDCService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
                     if (dt1.Rows.Count > 0)
                     {
@@ -462,7 +467,7 @@ namespace Arasan.Controllers.Store_Management
                     }
                 }
 
-                var result = new { unit = unit, cf = cf, price = price, lot = lot, stock = stock , group = group };
+                var result = new { unit = unit, cf = cf, price = price, lot = lot, stock = stock  };
                 return Json(result);
             }
             catch (Exception ex)
@@ -482,10 +487,11 @@ namespace Arasan.Controllers.Store_Management
                 string price = "";
                 string lot = "";
                 string group = "";
+                string stock = "";
                 //string binno = "";
                 //string binname = "";
                 dt = SubContractingDCService.GetItemDetails(ItemId);
-                string stock = datatrans.GetDataString("Select SUM(BALANCE_QTY) from INVENTORY_ITEM where ITEM_ID='" + ItemId + "' AND BALANCE_QTY > 0 AND LOCATION_ID= '" + loc + "'  ");
+                 stock = datatrans.GetDataString("Select SUM(BALANCE_QTY) from INVENTORY_ITEM where ITEM_ID='" + ItemId + "' AND BALANCE_QTY > 0 AND LOCATION_ID= '" + loc + "'  ");
 
                 if (dt.Rows.Count > 0)
                 {
@@ -537,21 +543,22 @@ namespace Arasan.Controllers.Store_Management
             List<SubContractDDrumdetails> TData = new List<SubContractDDrumdetails>();
             SubContractDDrumdetails tda = new SubContractDDrumdetails();
             DataTable dtEnq = new DataTable();
-            if (type == "semi")
+            type = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER WHERE ITEMMASTERID='"+itemid+"'");
+            if (type == "YES")
             {
                 dtEnq = SubContractingDCService.GetSubContractDrumDetails(itemid, loc);
                 for (int i = 0; i < dtEnq.Rows.Count; i++)
                 {
                     tda = new SubContractDDrumdetails();
 
-                    tda.drumno = dtEnq.Rows[i]["DRUM_NO"].ToString();
-                    tda.qty = dtEnq.Rows[i]["BALANCE_QTY"].ToString();
-                    tda.reqqty = dtEnq.Rows[i]["BALANCE_QTY"].ToString();
-                    tda.stkid = dtEnq.Rows[i]["DRUM_STOCK_ID"].ToString();
-                    DataTable stock = datatrans.GetData("Select RATE,LOTNO from DRUM_STOCKDET where DRUMSTKID='" + tda.stkid + "'");
+                    tda.drumno = dtEnq.Rows[i]["DRUMNO"].ToString();
+                    tda.qty = dtEnq.Rows[i]["QTY"].ToString();
+                    tda.reqqty = dtEnq.Rows[i]["QTY"].ToString();
+                    //tda.stkid = dtEnq.Rows[i]["DRUM_STOCK_ID"].ToString();
+                    
 
-                    tda.lotno = stock.Rows[0]["LOTNO"].ToString();
-                    tda.rate = stock.Rows[0]["RATE"].ToString();
+                    tda.lotno = dtEnq.Rows[0]["LOTNO"].ToString();
+                    //tda.rate = dtEnq.Rows[0]["RATE"].ToString();
                     //tda.invid = dtEnq.Rows[i]["PLotmastID"].ToString();
                     TData.Add(tda);
                 }
@@ -559,16 +566,16 @@ namespace Arasan.Controllers.Store_Management
             else
             {
                 
-                dtEnq = datatrans.GetData("Select INVENTORY_ITEM_ID,LOT_NO,BALANCE_QTY,RATE,AMOUNT from INVENTORY_ITEM where ITEM_ID='" + itemid + "' and LOCATION_ID='"+loc+"' and BALANCE_QTY>0");
+                dtEnq = datatrans.GetData("Select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY,SS.RATE  from STOCKVALUE S,STOCKVALUE2 SS  where S.STOCKVALUEID=SS.STOCKVALUEID and S.LOCID='" + loc + "' AND S.ITEMID='" + itemid + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 GROUP BY SS.RATE");
                 if (dtEnq.Rows.Count > 0)
                 {
                     for (int i = 0; i < dtEnq.Rows.Count; i++)
                     {
                         tda = new SubContractDDrumdetails();
-                        tda.invid = dtEnq.Rows[i]["INVENTORY_ITEM_ID"].ToString();
-                        tda.lotno = dtEnq.Rows[i]["LOT_NO"].ToString();
-                        tda.qty = dtEnq.Rows[i]["BALANCE_QTY"].ToString();
-                        tda.reqqty = dtEnq.Rows[i]["BALANCE_QTY"].ToString();
+                        //tda.invid = dtEnq.Rows[i]["INVENTORY_ITEM_ID"].ToString();
+                        //tda.lotno = dtEnq.Rows[i]["LOT_NO"].ToString();
+                        tda.qty = dtEnq.Rows[i]["QTY"].ToString();
+                        tda.reqqty = dtEnq.Rows[i]["QTY"].ToString();
                         tda.rate = dtEnq.Rows[i]["RATE"].ToString();
 
 

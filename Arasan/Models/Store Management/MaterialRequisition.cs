@@ -136,6 +136,7 @@ namespace Arasan.Models
         public string reqqty { get; set; }
         public string item { get; set; }
         public string itemid { get; set; }
+        public string rate { get; set; }
         
 
 
@@ -183,6 +184,7 @@ namespace Arasan.Models
         public string ClosingStock { get; set; }
         public string TotalStock { get; set; }
         public string ReqQty { get; set; }
+        public string detid { get; set; }
         public double IndQty { get; set; }
         public double InvQty { get; set; }
         public string Isvalid { get; set; }

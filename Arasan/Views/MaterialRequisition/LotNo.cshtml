@@ -40,6 +40,7 @@
                                                                 <th>Lot No</th>
                                                                  
                                                                 <th>  Stock </th>
+                                                              
                                                                 <th>  Qty </th>
 
 
@@ -58,6 +59,7 @@
                                                                         <td>@Html.DisplayFor(o => o.lotlst[i].item)@Html.HiddenFor(o => o.lotlst[i].itemid)@Html.HiddenFor(o => o.lotlst[i].invid ,new{@id="invid" + i})</td>
                                                                         <td>@Html.DisplayFor(o => o.lotlst[i].Lot)@Html.HiddenFor(o => o.lotlst[i].Lot,new{@id="lotno" + i})</td>
                                                                         <td>@Html.DisplayFor(o => o.lotlst[i].qty)</td>
+                                                                      
                                                                         <td>@Html.TextBoxFor(o => o.lotlst[i].reqqty ,new{@id="reqqty" + i})</td>
 
 
@@ -121,7 +123,7 @@
 
                     ar1 += invid + ",";
                     ar2 += lotno + ",";
-                    ar3 += lotno + " # " + qty   + "-";
+                    ar3 += qty   + "-";
                     tot += eval(qty);
                 }
             }
