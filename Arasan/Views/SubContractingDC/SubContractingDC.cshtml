@@ -192,7 +192,7 @@
                                                                             <td>
                                                                                 @Html.DropDownListFor(o => o.SCDIlst[i].ItemId, Model.SCDIlst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItemDeatils(this.value," + i + ")" })
                                                                                 @Html.HiddenFor(o => o.SCDIlst[i].saveItemId)
-                                                                                @Html.HiddenFor(o => o.SCDIlst[i].group,new{@id="txtgroup" + i})
+                                                                                 
                                                                                 @Html.HiddenFor(o => o.SCDIlst[i].dqty,new{@id="dqty" + i})
                                                                                 @Html.HiddenFor(o => o.SCDIlst[i].drate,new{@id="drate" + i})
                                                                                 @Html.HiddenFor(o => o.SCDIlst[i].Lotno, new { @id = "lotno" + i })
@@ -518,7 +518,7 @@
                 document.getElementById("txtConFac" + i).value = result.cf;
                 document.getElementById("txtrate" + i).value = result.price;
                 
-                document.getElementById("txtgroup" + i).value = result.group;
+                 
                 document.getElementById("txtstock" + i).value = result.stock;
                 },
             error: function () {
@@ -527,7 +527,7 @@
            
         });
 
-        var g = document.getElementById("txtgroup" + i).value;
+        
         
        @* if (g == "semi") {
 
@@ -541,7 +541,7 @@
 
         }
         else {
-            var url = "/SubContractingDC/SubContractDrumSelection?itemid=" + ItemId + "&rowid=" + i + "&loc="+ loc +"&type="+g+"";
+            var url = "/SubContractingDC/SubContractDrumSelection?itemid=" + ItemId + "&rowid=" + i + "&loc="+ loc +"";
             document.getElementById("hdrumselection" + i).href = url;
         }
     }
@@ -750,7 +750,7 @@
 
         var drum = "<td><div class='fa-hover col-md-2 col-sm-4'> <a href='/SubContractingDC/SubContractDrumSelection' class='fancybox' data-fancybox-type='iframe' id='hdrumselection" + index + "'><img src='../Images/view_icon.png' id='im' ></a></div> <input  id='hddrumid" + index + "' name='SCDIlst[" + index + "].DrumIds' type='hidden'> </td>";
 
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='SCDIlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /><input class='form-control' id='txtgroup" + index + "' name='SCDIlst[" + index + "].group' type='hidden' /><input class='form-control' id='dqty" + index + "' name='SCDIlst[" + index + "].dqty' type='hidden' /><input class='form-control' id='lotno" + index + "' name='SCDIlst[" + index + "].Lotno' type='hidden' /><input class='form-control' id='drate" + index + "' name='SCDIlst[" + index + "].drate' type='hidden' /></td>";
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='SCDIlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /><input class='form-control' id='dqty" + index + "' name='SCDIlst[" + index + "].dqty' type='hidden' /><input class='form-control' id='lotno" + index + "' name='SCDIlst[" + index + "].Lotno' type='hidden' /><input class='form-control' id='drate" + index + "' name='SCDIlst[" + index + "].drate' type='hidden' /></td>";
 
         var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='SCDIlst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True'  /></td>";
 

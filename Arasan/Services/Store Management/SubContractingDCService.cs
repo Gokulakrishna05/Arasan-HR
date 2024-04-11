@@ -32,7 +32,7 @@ namespace Arasan.Services.Store_Management
         public DataTable GetSubContractDrumDetails(string Itemid,string loc)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT DRUM_NO,BALANCE_QTY,DRUM_STOCK_ID FROM DRUM_STOCK WHERE ITEMID='" + Itemid + "' and LOCID='"+loc+"' and BALANCE_QTY >0";
+            SvSql = "SELECT S.DRUMNO,SUM(S.PLUSQTY-S.MINUSQTY) as QTY, S.LOTNO  from LSTOCKVALUE S  WHERE S.ITEMID='" + Itemid + "' and S.LOCID='"+loc+ "' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0 GROUP BY  S.DRUMNO,S.LOTNO   ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -42,7 +42,7 @@ namespace Arasan.Services.Store_Management
         public DataTable GetItem(string value)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,ITEM_ID as item FROM INVENTORY_ITEM LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=INVENTORY_ITEM.ITEM_ID  WHERE BALANCE_QTY>0 and LOCATION_ID='" + value+"' UNION select ITEMMASTER.ITEMID,DRUM_STOCK.ITEMID as item FROM DRUM_STOCK LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=DRUM_STOCK.ITEMID  WHERE BALANCE_QTY>0 and LOCID='"+ value+"'";
+            SvSql = "select ITEMMASTER.ITEMID,LSTOCKVALUE.ITEMID as item FROM LSTOCKVALUE LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=LSTOCKVALUE.ITEMID  WHERE LOCID='" + value+ "' HAVING SUM(LSTOCKVALUE.PLUSQTY-LSTOCKVALUE.MINUSQTY) > 0 GROUP BY ITEMMASTER.ITEMID,LSTOCKVALUE.ITEMID UNION select ITEMMASTER.ITEMID,STOCKVALUE.ITEMID as item FROM STOCKVALUE LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=STOCKVALUE.ITEMID  WHERE LOCID='" + value+ "' HAVING SUM(DECODE(STOCKVALUE.PlusOrMinus,'p',STOCKVALUE.qty,-STOCKVALUE.qty)) > 0 GROUP BY ITEMMASTER.ITEMID,STOCKVALUE.ITEMID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -187,6 +187,8 @@ namespace Arasan.Services.Store_Management
                     throw ex;
                 }
                 ss.DocId = DocId;
+                string loc = datatrans.GetDataString("SELECT LOCID FROM LOCDETAILS WHERE LOCDETAILSID='"+ss.Locationid+"'");
+                ss.Narration = "Delivered To " + loc +",";
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("SUBCONTDCBASICPROC", objConn);
@@ -289,104 +291,57 @@ namespace Arasan.Services.Store_Management
                                             objCmds.ExecuteNonQuery();
 
 
+                                        string type = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER WHERE ITEMMASTERID='" + cp.ItemId + "'");
 
-
-                                        if (dddrum == null || dddrum == "")
+                                        if (type == "YES")
                                         {
-                                            DataTable dt = datatrans.GetData("Select INVENTORY_ITEM.BALANCE_QTY,INVENTORY_ITEM.ITEM_ID,INVENTORY_ITEM.LOCATION_ID,INVENTORY_ITEM.BRANCH_ID,INVENTORY_ITEM_ID,GRNID,GRN_DATE,LOT_NO from INVENTORY_ITEM where ITEM_ID='" + cp.ItemId + "' AND LOT_NO='" + ddlot + "' and LOCATION_ID='" + ss.Location + "'");
+                                            string SvSql1 = "Insert into LSTOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,DOCID,DOCDATE,LOTNO,PLUSQTY,MINUSQTY,DRUMNO,RATE,STOCKVALUE,ITEMID,LOCID,BINNO,FROMLOCID,STOCKTRANSTYPE) VALUES ('0','0','F','" + detid + "','754368046','" + ss.DocId + "','" + ss.Docdate + "','" + ddlot + "' ,'0','" + ddqty + "','" + dddrum + "','" + cp.rate + "','" + cp.Amount + "','" + cp.ItemId + "','" + ss.Location + "','0','0','SUB DC' )";
+                                            OracleCommand objCmdss = new OracleCommand(SvSql1, objConn);
+                                            objCmdss.ExecuteNonQuery();
 
 
+                                             SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,DOCTIME,STOCKTRANSTYPE) VALUES ('" + detid + "','m','" + cp.ItemId + "','" + ss.Docdate + "','" + ddqty + "' ,'"+ ss.Location + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','" + DateTime.Now.ToString("hh:mm:ss t") + "','Conversion Issue')RETURNING STOCKVALUEID INTO :STKID";
+                                            OracleCommand objCmdsss = new OracleCommand(SvSql1, objConn);
+                                            objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                                            objCmdsss.ExecuteNonQuery();
+                                             
+                                            string stkid = objCmdsss.Parameters["STKID"].Value.ToString();
+                                            string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE) VALUES ('" + stkid + "','" + ss.DocId + "','" + ss.Narration + "','" + cp.rate + "')";
+                                            OracleCommand objCmddts = new OracleCommand(SvSql2, objConn);
+                                            objCmddts.ExecuteNonQuery();
+                                            string partyloc = datatrans.GetDataString("SELECT ILOCATION FROM WCBASIC  WHERE PARTYID='" + ss.Supplier + "'");
+                                            SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,DOCTIME,STOCKTRANSTYPE) VALUES ('" + detid + "','p','" + cp.ItemId + "','" + ss.Docdate + "','" + ddqty + "' ,'" + partyloc + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','" + DateTime.Now.ToString("hh:mm:ss t") + "','Conv to be Accomplis')RETURNING STOCKVALUEID INTO :STKID";
+                                            objCmdsss = new OracleCommand(SvSql1, objConn);
+                                            objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                                            objCmdsss.ExecuteNonQuery();
 
-                                            if (dt.Rows.Count > 0)
-                                            {
-                                                double rqty = Convert.ToDouble(dt.Rows[0]["BALANCE_QTY"].ToString());
-                                                double dqty = Convert.ToDouble(ddqty); 
-
-
-                                                if (rqty >= dqty)
-                                                {
-                                                    double bqty = rqty - dqty;
-
-                                                    string Sql = string.Empty;
-                                                    Sql = "Update INVENTORY_ITEM SET  BALANCE_QTY='" + bqty + "' WHERE INVENTORY_ITEM_ID='" + dt.Rows[0]["INVENTORY_ITEM_ID"].ToString() + "'";
-                                                    OracleCommand objCmdss = new OracleCommand(Sql, objConn);
-
-                                                    objCmdss.ExecuteNonQuery();
-                                                    OracleCommand objCmdIn = new OracleCommand("INVITEMTRANSPROC", objConn);
-                                                    objCmdIn.CommandType = CommandType.StoredProcedure;
-                                                    objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                                    objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.item;
-                                                    objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = detid;
-                                                    objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                                    objCmdIn.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = dt.Rows[0]["GRNID"].ToString();
-                                                    objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = dt.Rows[0]["INVENTORY_ITEM_ID"].ToString();
-                                                    objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "SubContracting DC";
-                                                    objCmdIn.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "O";
-                                                    objCmdIn.Parameters.Add("TRANS_QTY", OracleDbType.NVarchar2).Value = ddqty;
-                                                    objCmdIn.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "SubContracting DC";
-                                                    objCmdIn.Parameters.Add("TRANS_DATE", OracleDbType.Date).Value = DateTime.Now;
-                                                    objCmdIn.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
-                                                    objCmdIn.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
-                                                    objCmdIn.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                                                    objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = ss.Location;
-                                                    objCmdIn.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = ss.Branch;
-                                                    objCmdIn.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
-                                                    objCmdIn.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
-                                                    objCmdIn.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
-                                                    objCmdIn.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
-                                                    objCmdIn.ExecuteNonQuery();
-
-                                                }
-                                            }
+                                            stkid = objCmdsss.Parameters["STKID"].Value.ToString();
+                                            SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE) VALUES ('" + stkid + "','" + ss.DocId + "','" + ss.Narration + "','" + cp.rate + "')";
+                                            objCmddts = new OracleCommand(SvSql2, objConn);
+                                            objCmddts.ExecuteNonQuery();
                                         }
                                         else
                                         {
-                                            string drum = datatrans.GetDataString("Select DRUMNO from DRUMMAST where DRUMMASTID='" + dddrum + "'");
 
-                                            DataTable dt = datatrans.GetData("Select DRUM_STOCK.BALANCE_QTY,DRUM_STOCK.ITEMID,DRUM_STOCK.LOCID,DRUM_STOCK.DRUM_NO,DRUM_ID,DRUM_STOCK_ID,WCID from DRUM_STOCK where DRUM_STOCK.ITEMID='" + cp.ItemId + "' AND DRUM_STOCK.LOCID='" + ss.Location + "' and DRUM_NO='" + dddrum + "' and BALANCE_QTY!=0 order by DOC_DATE ASC");
-                                            if (dt.Rows.Count > 0)
-                                            {
-                                                double dqty = Convert.ToDouble(ddqty);
-                                                double rqty = Convert.ToDouble(dt.Rows[i]["BALANCE_QTY"].ToString());
+                                           string SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,DOCTIME,STOCKTRANSTYPE) VALUES ('" + detid + "','m','" + cp.ItemId + "','" + ss.Docdate + "','" + ddqty + "' ,'" + ss.Location + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','" + DateTime.Now.ToString("hh:mm:ss t") + "','Conversion Issue')RETURNING STOCKVALUEID INTO :STKID";
+                                            OracleCommand objCmdsss = new OracleCommand(SvSql1, objConn);
+                                            objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                                            objCmdsss.ExecuteNonQuery();
 
-                                                double bqty = rqty - dqty;
+                                            string stkid = objCmdsss.Parameters["STKID"].Value.ToString();
+                                            string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE) VALUES ('" + stkid + "','" + ss.DocId + "','" + ss.Narration + "','" + cp.rate + "')";
+                                            OracleCommand objCmddts = new OracleCommand(SvSql2, objConn);
+                                            objCmddts.ExecuteNonQuery();
+                                            string partyloc = datatrans.GetDataString("SELECT ILOCATION FROM WCBASIC  WHERE PARTYID='" + ss.Supplier + "'");
+                                            SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,DOCTIME,STOCKTRANSTYPE) VALUES ('" + detid + "','p','" + cp.ItemId + "','" + ss.Docdate + "','" + ddqty + "' ,'" + partyloc + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','" + DateTime.Now.ToString("hh:mm:ss t") + "','Conv to be Accomplis')RETURNING STOCKVALUEID INTO :STKID";
+                                            objCmdsss = new OracleCommand(SvSql1, objConn);
+                                            objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                                            objCmdsss.ExecuteNonQuery();
 
-                                                string Sql = string.Empty;
-                                                Sql = "Update DRUM_STOCK SET  BALANCE_QTY='" + bqty + "' WHERE DRUM_STOCK_ID='" + dt.Rows[0]["DRUM_STOCK_ID"].ToString() + "'";
-                                                 objCmds = new OracleCommand(Sql, objConn);
-                                                objCmds.ExecuteNonQuery();
-
-
-
-
-                                                OracleCommand objCmdIn = new OracleCommand("DRUMSTKDETPROC", objConn);
-                                                objCmdIn.CommandType = CommandType.StoredProcedure;
-                                                objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                                objCmdIn.Parameters.Add("DRUMSTKID", OracleDbType.NVarchar2).Value = dt.Rows[0]["DRUM_STOCK_ID"].ToString();
-                                                objCmdIn.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.item;
-                                                objCmdIn.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Now;
-                                                objCmdIn.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = dddrum;
-                                                objCmdIn.Parameters.Add("DRUM", OracleDbType.NVarchar2).Value = drum;
-                                                objCmdIn.Parameters.Add("T1SOURCEID", OracleDbType.NVarchar2).Value = detid;
-                                                objCmdIn.Parameters.Add("T1SOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                                objCmdIn.Parameters.Add("SOURCETYPE", OracleDbType.NVarchar2).Value = "SubContracting DC";
-                                                objCmdIn.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = dt.Rows[0]["LOCID"].ToString();
-                                                objCmdIn.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = dt.Rows[0]["WCID"].ToString();
-
-                                                objCmdIn.Parameters.Add("PLUSQTY", OracleDbType.NVarchar2).Value = "0";
-                                                objCmdIn.Parameters.Add("MINSQTY", OracleDbType.NVarchar2).Value = ddqty;
-                                                objCmdIn.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
-                                                objCmdIn.Parameters.Add("LOTNO", OracleDbType.NVarchar2).Value = ddlot;
-                                                objCmdIn.Parameters.Add("SHEDNO", OracleDbType.NVarchar2).Value = "";
-
-                                                objCmdIn.ExecuteNonQuery();
-
-
-
-
-
-                                            }
-
+                                            stkid = objCmdsss.Parameters["STKID"].Value.ToString();
+                                            SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE) VALUES ('" + stkid + "','" + ss.DocId + "','" + ss.Narration + "','" + cp.rate + "')";
+                                            objCmddts = new OracleCommand(SvSql2, objConn);
+                                            objCmddts.ExecuteNonQuery();
                                         }
 
                                             }
