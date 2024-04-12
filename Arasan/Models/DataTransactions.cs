@@ -319,10 +319,10 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable getexinv()
+        public DataTable getexinv(string supid)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT E.EXINVBASICID,E.DOCID from EXINVBASIC E,PARTYMAST P where P.PARTYMASTID=E.PARTYID AND P.PARTYCAT='BRANCH'";
+            SvSql = "SELECT E.EXINVBASICID,E.DOCID from EXINVBASIC E,PARTYMAST P where P.PARTYMASTID=E.PARTYID AND P.PARTYCAT='BRANCH' AND E.PARTYID='"+ supid + "'";
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             DataTable dtt = new DataTable();
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -463,6 +463,27 @@ namespace Arasan.Models
             string SvSql = string.Empty;
             SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER";
            
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetindItem(string indid,string puid)
+        {
+            string SvSql = string.Empty;
+            if (puid == "AGAINST PURCHASE INDENT")
+            {
+                SvSql = "select I.ITEMID,I.ITEMMASTERID from PINDDETAIL P,ITEMMASTER I where I.ITEMMASTERID=P.ITEMMASTERID AND P.PINDBASICID='"+ indid + "'";
+            }
+            else if (puid == "AGAINST EXCISE INVOICE")
+            {
+                SvSql = "select I.ITEMID,I.ITEMMASTERID from EXINVDETAIL P,ITEMMASTER I where I.ITEMMASTERID=P.ITEMID AND P.EXINVBASICID='"+ indid + "'";
+            }
+            else
+            {
+                SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER where GROUPTYPE='Consumables'";
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
