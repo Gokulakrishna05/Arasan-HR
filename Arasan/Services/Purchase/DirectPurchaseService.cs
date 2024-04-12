@@ -159,11 +159,11 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
                     objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.Gross;
-                    objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.net;
-                    objCmd.Parameters.Add("FREIGHT", OracleDbType.NVarchar2).Value = cy.Frig;
+                    objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.Net;
+                    objCmd.Parameters.Add("FREIGHT", OracleDbType.NVarchar2).Value = cy.Frieghtcharge;
                     objCmd.Parameters.Add("OTHERCH", OracleDbType.NVarchar2).Value = cy.Other;
                     objCmd.Parameters.Add("ROUNDM", OracleDbType.NVarchar2).Value = cy.Round;
-                    objCmd.Parameters.Add("OTHERDISC", OracleDbType.NVarchar2).Value = cy.SpDisc;
+                    objCmd.Parameters.Add("OTHERDISC", OracleDbType.NVarchar2).Value = cy.Disc;
                     objCmd.Parameters.Add("LRCH", OracleDbType.NVarchar2).Value = cy.LRCha;
                     objCmd.Parameters.Add("DELCH", OracleDbType.NVarchar2).Value = cy.DelCh;
                     objCmd.Parameters.Add("NARR", OracleDbType.NVarchar2).Value = cy.Narration;

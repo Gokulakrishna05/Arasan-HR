@@ -55,7 +55,7 @@ namespace Arasan.Controllers
                     tda = new DirItem();
                     tda.Indentlst=BindEmpty();
                     //tda.ItemGrouplst = BindItemGrplst();
-                    tda.Itemlst = BindItemlst("");
+                    tda.Itemlst = BindItemlst("", "AGAINST PURCHASE INDENT");
                     tda.gstlst = Bindgstlst("");
                     tda.Isvalid = "Y";
                     TData.Add(tda);
@@ -85,12 +85,12 @@ namespace Arasan.Controllers
                     ca.LRCha = Convert.ToDouble(dt.Rows[0]["LRCH"].ToString() == "" ? "0" : dt.Rows[0]["LRCH"].ToString());
                     ca.DelCh = Convert.ToDouble(dt.Rows[0]["DELCH"].ToString() == "" ? "0" : dt.Rows[0]["DELCH"].ToString());
                     ca.Other = Convert.ToDouble(dt.Rows[0]["OTHERCH"].ToString() == "" ? "0" : dt.Rows[0]["OTHERCH"].ToString());
-                    ca.Frig = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["FREIGHT"].ToString());
-                    ca.SpDisc = Convert.ToDouble(dt.Rows[0]["OTHERDISC"].ToString() == "" ? "0" : dt.Rows[0]["OTHERDISC"].ToString());
+                    ca.Frieghtcharge = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["FREIGHT"].ToString());
+                    ca.Disc = Convert.ToDouble(dt.Rows[0]["OTHERDISC"].ToString() == "" ? "0" : dt.Rows[0]["OTHERDISC"].ToString());
                     ca.Round = Convert.ToDouble(dt.Rows[0]["ROUNDM"].ToString() == "" ? "0" : dt.Rows[0]["ROUNDM"].ToString());
 
                     ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
-                    ca.net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+                    ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
 
                 }
                 DataTable dt2 = new DataTable();
@@ -108,7 +108,7 @@ namespace Arasan.Controllers
                         {
                             tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
                         }
-                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
+                        //tda.Itemlst = BindItemlst(tda.ItemGroupId);
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
 
@@ -145,7 +145,7 @@ namespace Arasan.Controllers
                         TData.Add(tda);
                     }
                 }
-                ca.net = Math.Round(total, 2);
+                ca.Net = Math.Round(total, 2);
 
             }
             ca.DirLst = TData;
@@ -270,11 +270,11 @@ namespace Arasan.Controllers
                 ca.LRCha = Convert.ToDouble(dt.Rows[0]["LRCH"].ToString() == "" ? "0" : dt.Rows[0]["LRCH"].ToString());
                 ca.DelCh = Convert.ToDouble(dt.Rows[0]["DELCH"].ToString() == "" ? "0" : dt.Rows[0]["DELCH"].ToString());
                 ca.Other = Convert.ToDouble(dt.Rows[0]["OTHERCH"].ToString() == "" ? "0" : dt.Rows[0]["OTHERCH"].ToString());
-                ca.Frig = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["FREIGHT"].ToString());
-                ca.SpDisc = Convert.ToDouble(dt.Rows[0]["OTHERDISC"].ToString() == "" ? "0" : dt.Rows[0]["OTHERDISC"].ToString());
+                ca.Frieghtcharge = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["FREIGHT"].ToString());
+                ca.Disc = Convert.ToDouble(dt.Rows[0]["OTHERDISC"].ToString() == "" ? "0" : dt.Rows[0]["OTHERDISC"].ToString());
                 ca.Round = Convert.ToDouble(dt.Rows[0]["ROUNDM"].ToString() == "" ? "0" : dt.Rows[0]["ROUNDM"].ToString());
                 ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
-                ca.net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+                ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
 
             }
             List<DirItem> TData = new List<DirItem>();
@@ -314,7 +314,7 @@ namespace Arasan.Controllers
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
-                ca.net = Math.Round(total, 2);
+                ca.Net = Math.Round(total, 2);
             }
             //ca.Net = tot;
             ca.DirLst = TData;
@@ -501,7 +501,7 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindIndent(string puid)
+        public List<SelectListItem> BindIndent(string puid, string supid)
         {
             try
             {
@@ -518,7 +518,7 @@ namespace Arasan.Controllers
                 }
                 if (puid == "AGAINST EXCISE INVOICE")
                 {
-                    dtDesg = datatrans.getexinv();
+                    dtDesg = datatrans.getexinv(supid);
                     for (int i = 0; i < dtDesg.Rows.Count; i++)
                     {
                         lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["EXINVBASICID"].ToString() });
@@ -619,11 +619,12 @@ namespace Arasan.Controllers
         //        throw ex;
         //    }
         //}
-        public List<SelectListItem> BindItemlst(string value)
+        public List<SelectListItem> BindItemlst(string value,string puid)
         {
             try
             {
-                DataTable dtDesg = datatrans.GetItem(value);
+                DataTable dtDesg = new DataTable();
+                dtDesg = datatrans.GetindItem(value, puid);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -687,20 +688,17 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public JsonResult GetItemJSON(string itemid)
+        public JsonResult GetItemJSON(string indid, string puid)
         {
-            DirItem model = new DirItem();
-            model.Itemlst = BindItemlst(itemid);
-            return Json(BindItemlst(itemid));
-
+             return Json(BindItemlst(indid, puid));
         }
         public JsonResult GetSupJSON(string puid)
         {
             return Json(BindSupplier(puid));
         }
-        public JsonResult GetIndentJSON(string puid)
+        public JsonResult GetIndentJSON(string puid,string supid)
         {
-            return Json(BindIndent(puid));
+            return Json(BindIndent(puid, supid));
         }
         
         public JsonResult GetItemGrpJSON()

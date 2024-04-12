@@ -79,14 +79,16 @@
                 selectionmode: 'multiplerowsextended',
                 keyboardnavigation: false,
                 columns: [
-                    { text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
-                    { text: 'Supplier', filtertype: 'checkedlist', datafield: 'supplier', width: 250 },
-                    { text: 'Doc No', filtertype: 'input', datafield: 'docNo', width: 300 },
+                    //{ text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
+                    { text: 'Supplier', filtertype: 'checkedlist', datafield: 'supplier', width: 350 },
+                    { text: 'Doc No', filtertype: 'input', datafield: 'docNo', width: 150 },
                     { text: 'Doc Date', datafield: 'docDate', width: 150, align: 'center' },
-                    { text: 'Send Mail', datafield: 'mailrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
+                    { text: 'Doc Date', datafield: 'docDate', width: 150, align: 'center' },
+                    { text: 'Doc Date', datafield: 'docDate', width: 150, align: 'center' },
+                    //{ text: 'Send Mail', datafield: 'mailrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    //{ text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    //{ text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
                 ]
             });
              $("#ddlStatus").change(function () {

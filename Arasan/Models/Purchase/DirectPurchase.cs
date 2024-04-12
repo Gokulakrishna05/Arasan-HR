@@ -37,18 +37,28 @@ namespace Arasan.Models
         public string RefNo { get; set; }
         public string RefDate { get; set; }
         public string DocDate { get; set; }
-        public double net { get; set; }
-        public double Frig { get; set; }
+        public double Net { get; set; }
+        public double Frieghtcharge { get; set; }
         public double Other { get; set; }
         public double Round { get; set; }
-        public double SpDisc { get; set; }
+        public double Disc { get; set; }
         public double LRCha { get; set; }
         public double DelCh { get; set; }
         public string status { get; set; }
         public string Narration { get; set; }
         public string ddlStatus { get; set; }
-
-
+        public string IGST { get; set; }
+        public string IGSTDISP { get; set; }
+        public string SGST { get; set; }
+        public string SGSTDISP { get; set; }
+        public string CGST { get; set; }
+        public string CGSTDISP { get; set; }
+        public string Packingcharges { get; set;}
+        public string truckno { get; set; }
+        public string drivername { get; set; }  
+        public string LRno { get; set; }
+        public string LRdate { get; set; }
+        public string dispatchname { get; set; }
     }
     public class DirItem
     {
