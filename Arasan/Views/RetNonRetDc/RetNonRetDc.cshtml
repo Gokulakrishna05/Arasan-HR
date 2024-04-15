@@ -43,9 +43,19 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Stock Type<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Stock, Model.Stocklst,"--Please select--", new { @id = "ddlStock", @Class = "form-control  _select", @TabIndex = 1 })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Location, Model.Loclst,"--Please select--", new { @id = "ddlLocation", @Class = "form-control  _select", @TabIndex = 1})
+                                            @Html.DropDownListFor(C => C.Location, Model.Loclst,"--Please select--", new { @id = "ddlLocation", @Class = "form-control  _select", @TabIndex = 1 ,@onchange="changeItemDet(this.value)"})
 
 
                                             @Html.HiddenFor(C => C.Branch,new{@id="branch"})
@@ -55,6 +65,19 @@
                                             @Html.HiddenFor(C => C.Branch)
 
                                             @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">D.C Type<label class="mandatory">*</label></label>
+
+
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.DcType, Model.typelst,"--Please select--", new { @id = "ddlDcType", @Class = "form-control  _select", @TabIndex = 1 })
+
                                         </div>
                                     </div>
                                 </div>
@@ -82,31 +105,6 @@
 
                                     </div>
                                 </div>
-
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">D.C Type<label class="mandatory">*</label></label>
-
-
-                                        <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.DcType, Model.typelst,"--Please select--", new { @id = "ddlDcType", @Class = "form-control  _select", @TabIndex = 1 })
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Through<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Through, new { @id = "txtThrough", @class = "form-control", @TabIndex = 1 })
-                                        </div>
-                                    </div>
-                                </div>
-                               
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Party ID<label class="mandatory">*</label></label>
@@ -118,42 +116,11 @@
 
                                     </div>
                                 </div>
+
+                                
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Stock Type<label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Stock, Model.Stocklst,"--Please select--", new { @id = "ddlStock", @Class = "form-control  _select", @TabIndex = 1 })
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Ref No<label class="Mandatory"></label></label>
-
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Ref, new { @id = "txtRef", @class = "form-control", @TabIndex = 1 })
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <br />     <label for="inputName3" class="col-sm-4 control-label">Ref Date<label class="Mandatory"></label></label>
-                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @Html.TextBoxFor(C => C.RefDate, new { @id = "RefDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
+                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Address 1<label class="Mandatory"></label></label>
 
@@ -164,10 +131,7 @@
 
                                     </div>
                                 </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
+                                 <div class="col-md-6">
                                     <div class="form-group">
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Address 2<label class="Mandatory"></label></label>
@@ -177,6 +141,12 @@
                                         </div>
                                     </div>
                                 </div>
+                                
+                               
+                                
+                            </div>
+                              <div class="row">
+                               
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
@@ -188,7 +158,42 @@
 
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Through<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Through, new { @id = "txtThrough", @class = "form-control", @TabIndex = 1 })
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="row">
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Ref No<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Ref, new { @id = "txtRef", @class = "form-control", @TabIndex = 1 })
+                                        </div>
+
+                                    </div>
+                                </div>
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br />     <label for="inputName3" class="col-sm-4 control-label">Ref Date<label class="Mandatory"></label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.RefDate, new { @id = "RefDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                           
+                          
                             <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -220,8 +225,8 @@
                                             <tr>
 
                                                 
-                                                <th> Sub Group </th>
-                                                <th> Item ID </th>
+                                               @* <th> Sub Group </th>*@
+                                                <th> Item </th>
                                                 <th> Unit </th>
                                                 <th> Current Stock </th>
                                                 <th> Qty </th>
@@ -244,10 +249,10 @@
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
 
-                                                        <td>
+                                                       @*  <td>
                                                             @Html.DropDownListFor(o => o.RetLst[i].subgrp, Model.RetLst[i].Sublst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlsubgrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
                                                             @Html.HiddenFor(o => o.RetLst[i].saveItemId)
-                                                        </td>
+                                                        </td>*@
                                                         <td>
                                                             @Html.DropDownListFor(o => o.RetLst[i].item, Model.RetLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeRetItem(this.value," + i + ")" })
                                                         </td>
@@ -375,6 +380,32 @@
     $(function () {
         $('._select').select2();
     });
+    function changeItemDet(ItemId) {
+              var type = document.getElementById("ddlStock").value;
+
+        $.ajax({
+            url: "GetStockItemJSON",
+            type: "post",
+            data: { 'ItemId': ItemId,'type':type },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                var i = 0;
+                $('tr.chkitemlst').each(function () {
+                    if ($(this).css('display') !== 'none') {
+                        PopulateDropDownn("#ddlItem" + i, response);
+                        i += 1;
+                    }
+                });
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Location");
+            }
+        });
+    }
     $(".chosen-select").chosen();
     $('.form_date').datetimepicker({
         //   language:  'fr',
@@ -390,9 +421,12 @@
 
     function AddRow() {
         var opt = "";
+          var ItemId = document.getElementById("ddlLocation" ).value;
+           var type = document.getElementById("ddlStock" ).value;
         $.ajax({
             type: "POST",
-            url: 'GetGrpitemJSON',
+            url: 'GetStockItemJSON',
+             data: { 'ItemId': ItemId,'type':type },
             success: function (data) {
 
                 $.each(data, function () {
@@ -481,7 +515,17 @@
             }
         });
     }
-
+     function PopulateDropDownn(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
      function changeRetItem(ItemId, i) {
          var loc = document.getElementById("ddlLocation" ).value;
         var branch = document.getElementById("branch").value;
@@ -521,10 +565,10 @@
         var SubGrp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlSubGrp" + index + "' name='RetLst[" + index + "].subgrp' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
 
-        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].item' onchange = 'changeRetItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].item' onchange = 'changeRetItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='RetLst[" + index + "].Unit'  style='width: 80px;' type='text'  /></td>";
-        var Current = "<td><input class='form-control' id='txtCurrent" + index + "' name='RetLst[" + index + "].Current'    style='width: 80px;' type='text'  /></td>";
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='RetLst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
+        var Current = "<td><input class='form-control' id='txtCurrent" + index + "' name='RetLst[" + index + "].Current'    style='width: 80px;' type='text'  readonly='True' /></td>";
         var Qty = "<td><input class='form-control' id='txtQty" + index + "' name='RetLst[" + index + "].Qty'  style='width: 80px;' type='text' onkeyup = 'changeQty(this," + index + ")' /></td>";
         var Trans = "<td><input class='form-control' id='txtTrans" + index + "' name='RetLst[" + index + "].Transaction'   style='width: 80px;' type='text'  /></td>";
         var Purrate = "<td><input class='form-control' id='txtPurRate" + index + "' name='RetLst[" + index + "].PurRate'   style='width: 80px;' type='text'  /></td>";
@@ -535,7 +579,7 @@
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='RetLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='RetLst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + SubGrp + Item + Unit + Current + Qty + Trans + Purrate + rate + Amount + purpose+ removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>"  + Item + Unit + Current + Qty  + Purrate + rate + Amount + purpose+ removeCell + "</tr>";
 
         //alert(Packing);
         $("#tbBooks").append(newRow);
@@ -551,7 +595,7 @@
         try {
             var qty = document.getElementById("txtQty" + i).value;
             var pur = document.getElementById("txtRate" + i).value;
-            alert(pur);
+        
             var cl = document.getElementById("txtCurrent" + i).value;
             //alert(qty);
             //alert(pur);
