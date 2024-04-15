@@ -12,7 +12,7 @@ namespace Arasan.Interface
         DataTable GetItemDetails(string ItemId);
         DataTable GetEmp();
         string IndentCRUD(PurchaseIndent cy);
-        DataTable GetIndent();
+        DataTable GetIndent(string strfrom, string strTo);
         DataTable GetIndentItem(string PRID);
         DataTable GetIndentItemApprove();
         DataTable GetIndentItemApproved();
