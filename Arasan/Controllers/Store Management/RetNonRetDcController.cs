@@ -59,7 +59,7 @@ namespace Arasan.Controllers
                 {
                     tda = new RetNonRetDcItem();
                     tda.Sublst = BindSublst();
-                    tda.Itemlst = BindItemlst("");
+                    tda.Itemlst = BindItemlst("","");
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -107,14 +107,8 @@ namespace Arasan.Controllers
                     {
                         tda = new RetNonRetDcItem();
                         double toaamt = 0;
-                        tda.Sublst = BindSublst();
-                        DataTable dt3 = new DataTable();
-                        dt3 = RetNonRetDcService.GetItemSubGroup(tda.item);
-                        if (dt3.Rows.Count > 0)
-                        {
-                            tda.subgrp = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                        }
-                        tda.Itemlst = BindItemlst(tda.subgrp);
+                       
+                       // tda.Itemlst = BindItemlst(tda.subgrp);
                         tda.item = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         DataTable dt4 = new DataTable();
@@ -181,7 +175,13 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
+        public JsonResult GetStockItemJSON(string ItemId,string type)
+        {
+            RetNonRetDcItem model = new RetNonRetDcItem();
+            model.Itemlst = BindItemlst(ItemId, type);
+            return Json(BindItemlst(ItemId, type));
 
+        }
         public List<SelectListItem> BindLoclst()
         {
             try
@@ -302,15 +302,20 @@ namespace Arasan.Controllers
             }
         }
 
-        public List<SelectListItem> BindItemlst(string value)
+        public List<SelectListItem> BindItemlst(string value,string type)
         {
             try
             {
-                DataTable dtDesg = datatrans.GetItem(value);
+                DataTable dtDesg = new DataTable();
+                if(type=="Stock")
+                {
+                    dtDesg = RetNonRetDcService.GetItem(value);
+                }
+                else { dtDesg = RetNonRetDcService.GetAssetItem(value); }
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["item"].ToString() });
                 }
                 return lstdesg;
             }
@@ -319,13 +324,13 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public JsonResult GetItemJSON(string itemid)
-        {
-            RetNonRetDcItem model = new RetNonRetDcItem();
-            model.Itemlst = BindItemlst(itemid);
-            return Json(BindItemlst(itemid));
+        //public JsonResult GetItemJSON(string itemid)
+        //{
+        //    RetNonRetDcItem model = new RetNonRetDcItem();
+        //    model.Itemlst = BindItemlst(itemid);
+        //    return Json(BindItemlst(itemid));
 
-        }
+        //}
       
 
         public JsonResult GetGrpitemJSON()
@@ -426,27 +431,15 @@ namespace Arasan.Controllers
                 }
                 if (type == "Stock")
                 {
-                     stock = datatrans.GetData("Select SUM(BALANCE_QTY) as qty from INVENTORY_ITEM where ITEM_ID='" + ItemId + "' AND BALANCE_QTY > 0 AND LOCATION_ID= '" + loc + "' AND BRANCH_ID='" + branch + "'  ");
-                    totalstock = stock.Rows[0]["qty"].ToString();
+                    totalstock = datatrans.GetDataString("select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY  from STOCKVALUE S  where S.LOCID='" + loc + "' AND S.ITEMID='" + ItemId + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  ");
+                    
                 }
 
                 else
                 {
-                    asseststockp = datatrans.GetDataString("Select SUM(QTY) as qty from ASSTOCKVALUE where ITEMID='" + ItemId + "' AND LOCID= '" + loc + "' AND PLUSORMINUS ='p' ");
+                    totalstock = datatrans.GetDataString("Select SUM(DECODE(ASSTOCKVALUE.PlusOrMinus,'p',ASSTOCKVALUE.qty,-ASSTOCKVALUE.qty)) as qty from ASSTOCKVALUE where ITEMID='" + ItemId + "' AND LOCID= '" + loc + "' HAVING SUM(DECODE(ASSTOCKVALUE.PlusOrMinus,'p',ASSTOCKVALUE.qty,-ASSTOCKVALUE.qty)) > 0 ");
 
-                    asseststockm = datatrans.GetDataString("Select SUM(QTY) as qty from ASSTOCKVALUE where ITEMID='" + ItemId + "' AND LOCID= '" + loc + "' AND PLUSORMINUS ='m' ");
-                    if(asseststockp=="")
-                    {
-                        asseststockp = "0";
-                    }
-                    if (asseststockm == "")
-                    {
-                        asseststockm = "0";
-                    }
-                    double pstock =Convert.ToDouble(asseststockp);
-                    double pmstock =Convert.ToDouble(asseststockm);
-                    double Totpmstock = pstock- pmstock;
-                    totalstock = Totpmstock.ToString();
+                     
                 }
                 if (totalstock=="")
                 {

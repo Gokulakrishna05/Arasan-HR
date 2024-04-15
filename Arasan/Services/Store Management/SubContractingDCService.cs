@@ -323,7 +323,7 @@ namespace Arasan.Services.Store_Management
                                         else
                                         {
 
-                                           string SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,DOCTIME,STOCKTRANSTYPE) VALUES ('" + detid + "','m','" + cp.ItemId + "','" + ss.Docdate + "','" + ddqty + "' ,'" + ss.Location + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','" + DateTime.Now.ToString("hh:mm:ss t") + "','Conversion Issue')RETURNING STOCKVALUEID INTO :STKID";
+                                           string SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,STOCKTRANSTYPE) VALUES ('" + detid + "','m','" + cp.ItemId + "','" + ss.Docdate + "','" + ddqty + "' ,'" + ss.Location + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','Conversion Issue')RETURNING STOCKVALUEID INTO :STKID";
                                             OracleCommand objCmdsss = new OracleCommand(SvSql1, objConn);
                                             objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                             objCmdsss.ExecuteNonQuery();
@@ -333,7 +333,7 @@ namespace Arasan.Services.Store_Management
                                             OracleCommand objCmddts = new OracleCommand(SvSql2, objConn);
                                             objCmddts.ExecuteNonQuery();
                                             string partyloc = datatrans.GetDataString("SELECT ILOCATION FROM WCBASIC  WHERE PARTYID='" + ss.Supplier + "'");
-                                            SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,DOCTIME,STOCKTRANSTYPE) VALUES ('" + detid + "','p','" + cp.ItemId + "','" + ss.Docdate + "','" + ddqty + "' ,'" + partyloc + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','" + DateTime.Now.ToString("hh:mm:ss t") + "','Conv to be Accomplis')RETURNING STOCKVALUEID INTO :STKID";
+                                            SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,STOCKTRANSTYPE) VALUES ('" + detid + "','p','" + cp.ItemId + "','" + ss.Docdate + "','" + ddqty + "' ,'" + partyloc + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','Conv to be Accomplis')RETURNING STOCKVALUEID INTO :STKID";
                                             objCmdsss = new OracleCommand(SvSql1, objConn);
                                             objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                             objCmdsss.ExecuteNonQuery();

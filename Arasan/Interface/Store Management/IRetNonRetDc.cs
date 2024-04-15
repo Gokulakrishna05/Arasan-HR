@@ -15,6 +15,8 @@ namespace Arasan.Interface
         DataTable GetPartyDetails(string id);
         //DataTable GetSubGroup(string id);
         DataTable GetPartyitems(string id);
+        DataTable GetItem(string id);
+        DataTable GetAssetItem(string id);
         DataTable GetRetItemDetail(string id);
         DataTable GetRetItem(string id);
         DataTable GetReturnable(string id);

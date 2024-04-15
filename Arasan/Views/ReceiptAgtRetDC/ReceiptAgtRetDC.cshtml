@@ -457,8 +457,7 @@
             data: { "id": ItemId },
             cache: false,
             success: function (list) {
-                alert(list);
-                list.forEach((item) => {
+                 list.forEach((item) => {
                     alert(item.itemname);
                     var index = $("#tbBooks").children("tr").length;
 
