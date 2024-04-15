@@ -102,12 +102,13 @@ namespace Arasan.Controllers.Store_Management
             return View(Cy);
         }
 
-        public ActionResult MyListIndentgrid()
+        public ActionResult MyListIndentgrid(string strfrom,string strTo)
         {
+           
             List<IndentBindList> Reg = new List<IndentBindList>();
             DataTable dtUsers = new DataTable();
             //strStatus = strStatus == "" ? "Y" : strStatus;
-            dtUsers = PurIndent.GetIndent();
+            dtUsers = PurIndent.GetIndent(strfrom, strTo);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 
@@ -120,7 +121,7 @@ namespace Arasan.Controllers.Store_Management
                 Reg.Add(new IndentBindList
                 {
                     piid = Convert.ToInt64(dtUsers.Rows[i]["PINDBASICID"].ToString()),
-                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    branch = dtUsers.Rows[i]["EMPNAME"].ToString(),
                     indentno = dtUsers.Rows[i]["DOCID"].ToString(),
                     indentdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     EditRow = EditRow,
@@ -478,7 +479,6 @@ namespace Arasan.Controllers.Store_Management
             {
                 DataTable dt = new DataTable();
                 DataTable dt1 = new DataTable();
-                DataTable dt2 = new DataTable();
                 string QC = "";
                 string unit = "";
                 string unitid = "";
@@ -488,7 +488,7 @@ namespace Arasan.Controllers.Store_Management
                 string item = "";
                 dt = PurIndent.GetItemDetails(ItemId);
                 dt1= PurIndent.GetIndetnPlacedDetails(ItemId);
-                dt2 = PurIndent.GetSTKDetails(ItemId, loc, branch);
+                //dt2 = PurIndent.GetSTKDetails(ItemId, loc, branch);
                 if (dt.Rows.Count > 0)
                 {
                     if (dt.Rows[0]["QCYNTEMP"].ToString() == "" || string.IsNullOrEmpty(dt.Rows[0]["QCYNTEMP"].ToString()))
@@ -507,27 +507,21 @@ namespace Arasan.Controllers.Store_Management
                 {
                     indentqty= dt1.Rows[0]["QTY"].ToString();
                 }
-                if (dt2.Rows.Count > 0)
-                {
-                    stk = dt2.Rows[0]["QTY"].ToString();
-                }
+               
                 string lot = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER   WHERE ITEMMASTERID='"+ ItemId +"'");
-                DataTable dtt = new DataTable();
+                //DataTable dtt = new DataTable();
                 if (lot == "YES")
                 {
 
-                    dtt = datatrans.GetData("Select  SUM(S.PLUSQTY-S.MINUSQTY) as QTY from  LSTOCKVALUE S  where S.ITEMID=" + ItemId + " AND S.LOCID NOT IN '10001000000827' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0  ");
-
+                    totalstock = datatrans.GetDataString("Select  SUM(S.PLUSQTY-S.MINUSQTY) as QTY from  LSTOCKVALUE S  where S.ITEMID=" + ItemId + " AND S.LOCID NOT IN '10001000000827' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0  ");
+                    stk= datatrans.GetDataString("Select  SUM(S.PLUSQTY-S.MINUSQTY) as QTY from  LSTOCKVALUE S  where S.ITEMID=" + ItemId + " AND S.LOCID='10001000000827' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0  ");
                 }
                 else
                 {
-                    dtt = datatrans.GetData("Select ITEMMASTER.ITEMID,S.ITEMID as item,LOCDETAILS.LOCID,to_char(S.DOCDATE,'dd-MON-yyyy')DOCDATE,SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY from STOCKVALUE S  left outer join ITEMMASTER ON ITEMMASTERID=S.ITEMID left outer join LOCDETAILS ON LOCDETAILSID=S.LOCID where S.ITEMID=" + ItemId + "  AND S.LOCID NOT IN '10001000000827'  HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  ");
-
+                    totalstock = datatrans.GetDataString("Select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY from STOCKVALUE S  where S.ITEMID=" + ItemId + "  AND S.LOCID NOT IN '10001000000827'  HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  ");
+                    stk= datatrans.GetDataString("Select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY from STOCKVALUE S  where S.ITEMID=" + ItemId + "  AND S.LOCID='10001000000827'  HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  ");
                 }
-                if (dtt.Rows.Count > 0)
-                {
-                    totalstock = dtt.Rows[0]["QTY"].ToString();
-                }
+                
                 item = ItemId;
                 var result = new { QC = QC, unit = unit, unitid = unitid, indentqty = indentqty, stk = stk , totalstock = totalstock, item= item };
                 return Json(result);
@@ -591,7 +585,7 @@ namespace Arasan.Controllers.Store_Management
             }
             else
             {
-                 dtt = datatrans.GetData("Select ITEMMASTER.ITEMID,S.ITEMID as item,LOCDETAILS.LOCID,to_char(S.DOCDATE,'dd-MON-yyyy')DOCDATE,SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY from STOCKVALUE S  left outer join ITEMMASTER ON ITEMMASTERID=S.ITEMID left outer join LOCDETAILS ON LOCDETAILSID=S.LOCID where S.ITEMID=" + id + "  AND S.LOCID NOT IN '10001000000827'  HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  ");
+                 dtt = datatrans.GetData("Select I.ITEMID,S.ITEMID as item,L.LOCID,SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY from STOCKVALUE S,ITEMMASTER I,LOCDETAILS L WHERE I.ITEMMASTERID=S.ITEMID AND LOCDETAILSID=S.LOCID AND S.ITEMID='"+ id + "'  AND S.LOCID NOT IN '10001000000827'  HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 GROUP BY I.ITEMID,S.ITEMID,L.LOCID");
 
             }
 
@@ -606,8 +600,8 @@ namespace Arasan.Controllers.Store_Management
 
                     tda.location = dtt.Rows[i]["LOCID"].ToString();
                    // tda.locationid = dtt.Rows[i]["LOCATION_ID"].ToString();
-                    tda.docDate = dtt.Rows[i]["DOCDATE"].ToString();
-                    tda.qty = dtt.Rows[i][" QTY"].ToString();
+                   // tda.docDate = dtt.Rows[i]["DOCDATE"].ToString();
+                    tda.qty = dtt.Rows[i]["QTY"].ToString();
 
                     TData.Add(tda);
                 }

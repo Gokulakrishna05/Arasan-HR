@@ -89,10 +89,15 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetIndent()
+        public DataTable GetIndent(string strfrom, string strTo)
         {
             string SvSql = string.Empty;
-            SvSql = "select DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,PINDBASICID,BRANCHMAST.BRANCHID from PINDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PINDBASIC.BRANCHID Order by PINDBASIC.DOCDATE DESC fetch  first 5 rows only ";
+            SvSql = "select DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,PINDBASICID,E.EMPNAME,P.STAGE from PINDBASIC P,EMPMAST E WHERE P.ENTEREDBY=E.EMPMASTID ";
+            if (!string.IsNullOrEmpty(strfrom) && !string.IsNullOrEmpty(strTo))
+            {
+                SvSql += " and P.DOCDATE BETWEEN '" + strfrom + "' and '" + strTo + "'";
+            }
+            SvSql += " Order by P.DOCDATE,P.DOCID DESC  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

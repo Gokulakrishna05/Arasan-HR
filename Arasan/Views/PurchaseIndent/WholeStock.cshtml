@@ -36,8 +36,8 @@
                                                                 
                                                                 <th>Item Name</th>
                                                                 <th>Location</th>
-                                                                <th>Date</th>
-                                                                <th>  Stock </th>
+@*                                                                <th>Date</th>
+*@                                                                <th>  Stock </th>
                                                               @*  <th>  Qty </th>*@
 
                                                                
@@ -55,7 +55,7 @@
 
                                                                         <td>@Html.DisplayFor(o => o.stklst[i].item)@Html.HiddenFor(o => o.stklst[i].itemid)@Html.HiddenFor(o => o.stklst[i].locationid)</td>
                                                                         <td>@Html.DisplayFor(o => o.stklst[i].location)@Html.HiddenFor(o => o.stklst[i].invid)</td>
-                                                                        <td>@Html.DisplayFor(o => o.stklst[i].docDate)</td>
+                                                                          @*<td>@Html.DisplayFor(o => o.stklst[i].docDate)</td>*@
                                                                         <td>@Html.DisplayFor(o => o.stklst[i].qty)</td>
                                                                        
 
