@@ -40,7 +40,7 @@ namespace Arasan.Controllers.Store_Management
             MR.assignList = BindEmp();
             MR.Statuslst = BindStatus();
             MR.Branch = Request.Cookies["BranchId"];
-            MR.Entered = Request.Cookies["UserId"];
+            MR.Entered = Request.Cookies["UserName"];
             MR.Location = Request.Cookies["LocationName"];
             MR.Storeid = storeid;
             MR.DocDa = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -386,12 +386,12 @@ namespace Arasan.Controllers.Store_Management
             //IEnumerable<MaterialRequisition> cmp = materialReq.GetAllMaterial(status, st, ed);
             return View();
         }
-        public ActionResult MyListMaterialRequisitionGrid(string strStatus)
+        public ActionResult MyListMaterialRequisitionGrid(string strStatus, string strfrom, string strTo)
         {
             List<MaterialItem> Reg = new List<MaterialItem>();
             DataTable dtUsers = new DataTable();
             strStatus = strStatus == "" ? "Y" : strStatus;
-            dtUsers = (DataTable)materialReq.GetAllMaterialRequItems(strStatus);
+            dtUsers = (DataTable)materialReq.GetAllMaterialRequItems(strStatus, strfrom, strTo);
             
            
              
@@ -437,6 +437,8 @@ namespace Arasan.Controllers.Store_Management
                     docid = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     location = dtUsers.Rows[i]["LOCID"].ToString(),
+                    enter = dtUsers.Rows[i]["ENTBY"].ToString(),
+                    enterdate = dtUsers.Rows[i]["ENTAT"].ToString(),
                     //   work = dtUsers.Rows[i]["WCID"].ToString(),
                        //pri = dtUsers.Rows[i]["PRIORITY"].ToString(),
                     iss = Issuse,
@@ -458,11 +460,11 @@ namespace Arasan.Controllers.Store_Management
             });
 
         }
-        public ActionResult ListMRItemgrid(string PRID)
+        public ActionResult ListMRItemgrid(string strfrom, string strTo)
         {
             List<MRItemBindList> EnqChkItem = new List<MRItemBindList>();
             DataTable dtEnq = new DataTable();
-            dtEnq = materialReq.GetMRItem(PRID);
+            dtEnq = materialReq.GetMRItem(strfrom, strTo);
             for (int i = 0; i < dtEnq.Rows.Count; i++)
             {
                 EnqChkItem.Add(new MRItemBindList
@@ -582,14 +584,21 @@ namespace Arasan.Controllers.Store_Management
                         tda.InvQty = stkqty;
                         tda.IndQty = (reqqty - stkqty);
                     }
-                    
-                     
+
+
                     //tda.Itemlst = BindItemlst();
-                    DataTable stock = datatrans.GetData("Select SUM(BALANCE_QTY) as qty from INVENTORY_ITEM where ITEM_ID='" + tda.ItemId + "' AND BALANCE_QTY > 0 AND LOCATION_ID NOT IN '" + storeid + "' AND BRANCH_ID='" + MR.BranchId + "'  ");
-                    if (stock.Rows.Count > 0)
+                    string lot = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER WHERE ITEMMASTERID='" + tda.ItemId + "'");
+                    if (lot == "YES")
                     {
-                        tda.TotalStock = stock.Rows[0]["qty"].ToString();
+                        tda.TotalStock = datatrans.GetDataString("select SUM(S.PLUSQTY-S.MINUSQTY) as QTY  from LSTOCKVALUE S  where S.LOCATION_ID NOT IN '" + storeid + "' AND S.ITEMID='" + tda.ItemId + "' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0");
+
                     }
+                    else
+                    {
+                        tda.TotalStock = datatrans.GetDataString("select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY  from STOCKVALUE S  where S.LOCATION_ID NOT IN '" + storeid + "' AND S.ITEMID='" + tda.ItemId + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0");
+
+                    }
+                      
                     TData.Add(tda);
                 }
             }
