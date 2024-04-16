@@ -234,6 +234,8 @@ namespace Arasan.Controllers
                     supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
                     docNo = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    gross = dtUsers.Rows[i]["GROSS"].ToString(),
+                    net = dtUsers.Rows[i]["NET"].ToString(),
                     mailrow = MailRow,
                     editrow = EditRow,
                     delrow = DeleteRow,
