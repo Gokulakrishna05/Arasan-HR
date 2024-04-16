@@ -186,7 +186,7 @@ namespace Arasan.Services
         public DataTable GetPurchaseEnq(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMAST.PARTYNAME,PURENQBASICID,PURENQBASIC.STATUS from PURENQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQBASIC.PARTYMASTID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND PURENQBASICID='" + id + "'";
+            SvSql = "Select B.BRANCHID,E.DOCID ENQNO,to_char(DOCDATE,'dd-MON-yyyy') ENQDATE,EXRATE,PARTYREFNO,MAINCURR CURRENCYID,P.PARTYNAME,PURENQBASICID,E.STATUS from PURENQBASIC E,BRANCHMAST B,PARTYMAST P Where  B.BRANCHMASTID=E.BRANCHID  AND  E.PARTYMASTID=P.PARTYMASTID AND PURENQBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -236,7 +236,7 @@ namespace Arasan.Services
         public DataTable GetRegenerateDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHID,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMASTID,PURENQBASICID,PURENQBASIC.STATUS,ENQREF,ASSIGNTO,ENQRECDBY  from PURENQBASIC Where PURENQBASICID='" + id + "'";
+            SvSql = "Select BRANCHID,to_char(DOCDATE,'dd-MON-yyyy') ENQDATE,EXRATE,PARTYREFNO,MAINCURR CURRENCYID,PARTYMASTID,PURENQBASICID,PURENQBASIC.STATUS,ENQREF,ASSIGNTO,ENQRECDBY  from PURENQBASIC Where PURENQBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -256,7 +256,7 @@ namespace Arasan.Services
         public DataTable GetPurchaseEnqFolwDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PURENQBASIC.ENQNO,PARTYMAST.PARTYID from PURENQBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=PURENQBASIC.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND PURENQBASICID='" + id + "'";
+            SvSql = "select E.DOCID ENQNO,P.PARTYID from PURENQBASIC E,PARTYMAST P WHERE P.PARTYMASTID=E.PARTYMASTID   AND PURENQBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -628,17 +628,23 @@ namespace Arasan.Services
 
 
 
-        public DataTable GetAllPurchaseEnquiryItems(string strStatus)
+        public DataTable GetAllPurchaseEnquiryItems(string strfrom, string strTo,string strStatus)
         {
             string SvSql = string.Empty;
+            SvSql = "Select DOCID,to_char(DOCDATE,'dd-MON-yyyy') ENQDATE,PARTYREFNO,P.PARTYID,E.STATUS,PURENQBASICID from PURENQBASIC E,PARTYMAST P  Where E.PARTYMASTID=P.PARTYMASTID  ";
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMAST.PARTYNAME,PURENQBASIC.STATUS,PURENQBASICID from PURENQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQBASIC.PARTYMASTID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND PURENQBASIC.IS_ACTIVE='Y' order by PURENQBASICID DESC";
+                SvSql +=  " AND E.IS_ACTIVE='Y' ";
             }
             else
             {
-                SvSql = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMAST.PARTYNAME,PURENQBASIC.STATUS,PURENQBASICID from PURENQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQBASIC.PARTYMASTID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND PURENQBASIC.IS_ACTIVE='N' order by PURENQBASICID DESC";
+                SvSql = "  AND E.IS_ACTIVE='N'";
             }
+            if (!string.IsNullOrEmpty(strfrom) && !string.IsNullOrEmpty(strTo))
+            {
+                SvSql += " and E.DOCDATE BETWEEN '" + strfrom + "' and '" + strTo + "'";
+            }
+            SvSql += " order by E.DOCDATE DESC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

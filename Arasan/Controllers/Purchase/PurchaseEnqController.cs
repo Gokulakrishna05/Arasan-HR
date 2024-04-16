@@ -250,7 +250,7 @@ namespace Arasan.Controllers
                     {
                         ca.Cur = "1";
                     }
-                    ca.ExRate = dt.Rows[0]["EXCRATERATE"].ToString();
+                    ca.ExRate = dt.Rows[0]["EXRATE"].ToString();
                     ca.RefNo = dt.Rows[0]["ENQREF"].ToString();
                     ca.Enqassignid = dt.Rows[0]["ASSIGNTO"].ToString();
                     ca.EnqRecid = Request.Cookies["UserId"];
@@ -481,12 +481,12 @@ namespace Arasan.Controllers
             //IEnumerable<PurchaseEnquiry> cmp = PurenqService.GetAllPurenquriy(st,ed);
             return View();
         }
-        public ActionResult MyListPurchaseEnquiryGrid(string strStatus)
+        public ActionResult MyListPurchaseEnquiryGrid(string strfrom, string strTo,string strStatus)
         {
             List<PurchaseEnquiryItems> Reg = new List<PurchaseEnquiryItems>();
             DataTable dtUsers = new DataTable();
             strStatus = strStatus == "" ? "Y" : strStatus;
-            dtUsers = (DataTable)PurenqService.GetAllPurchaseEnquiryItems(strStatus);
+            dtUsers = (DataTable)PurenqService.GetAllPurchaseEnquiryItems(strfrom, strTo,strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
                 string MailRow = string.Empty;
@@ -527,10 +527,10 @@ namespace Arasan.Controllers
                 Reg.Add(new PurchaseEnquiryItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["PURENQBASICID"].ToString()),
-                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
-                    docNo = dtUsers.Rows[i]["ENQNO"].ToString(),
+                  // branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    docNo = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["ENQDATE"].ToString(),
-                    supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    supplier = dtUsers.Rows[i]["PARTYID"].ToString(),
                     mailrow = MailRow,
                     follow = FollowUp,
                     move = MoveToQuo,

@@ -348,7 +348,7 @@ namespace Arasan.Controllers
             PurchaseQuo ca = new PurchaseQuo();
             DataTable dt = new DataTable();
             DataTable dtt = new DataTable();
-            dt = PurquoService.GetPurQuotationName(id);
+            dt = PurquoService.GetPurQuotationByName(id);
             if (dt.Rows.Count > 0)
             {
                 ca.Supplier = dt.Rows[0]["PARTYNAME"].ToString();

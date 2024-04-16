@@ -2,6 +2,34 @@
 
 @{
     ViewData["Title"] = "Purchase Enquiry";
+    var previousDate = DateTime.Now.AddDays(-7);
+
+    string strDate2 = String.Format("{0:dd-MMM-yyyy}", previousDate);
+    string strDate3 = String.Format("{0:dd-MMM-yyyy}", DateTime.Now);
+
+
+    string strfrom1 = ViewContext.HttpContext.Request.Query["strfrom"];
+    string strTo1 = ViewContext.HttpContext.Request.Query["strTo"];
+
+    string strfrom = "";
+    string strTo = "";
+
+    if (strfrom1 == null)
+    {
+        strfrom = strDate2;
+    }
+    else
+    {
+        strfrom = strfrom1;
+    }
+    if (strTo1 == null)
+    {
+        strTo = strDate3;
+    }
+    else
+    {
+        strTo = strTo1;
+    }
 }
 <partial name="JqxGridPartial" />
 @* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
@@ -32,6 +60,8 @@
             url: "/PurchaseEnq/MyListPurchaseEnquiryGrid",
             //url: "/ItemName/ItemName",
             data: {
+                strfrom: "@strfrom ",
+                strTo: "@strTo",
                 strstatus: ""
             },
             datatype: "json",
@@ -103,6 +133,8 @@
                 value = $(this).val();
             }
             source.data = {
+                strfrom: "@strfrom ",
+                strTo: "@strTo",
                 strstatus: value
             };
             $("#grid").jqxGrid({ source: source });
@@ -116,6 +148,37 @@
                 <div class="widgets-container">
 
                     <form>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="inputName3" class="col-sm-3 control-label">From Date  <label class="mandatory"></label></label>
+                               
+                                    <div class="input-group date form_date col-sm-9" data-date="" data-date-format="dd-M-yyyy">
+                                        <input id="SStart" class="form-control" readonly="readonly" value="@strfrom" />
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                   
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <label for="inputName3" class="col-sm-3 control-label"> To date  <label class="mandatory"></label></label>
+                              
+
+                                    <div class="input-group date to_date col-sm-9" data-date="" data-date-format="dd-M-yyyy">
+
+                                        <input id="SEnd" class="form-control" readonly="readonly" value="@strTo" />
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+
+                                    </div>
+                                   
+
+                                
+
+                            </div>
+                            <div class="col-md-2">
+                            <button type="button" class="btn btn-primary  marginright" id="btnSave" value="Run" onclick="loadReport()">Search</button>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-2 ">
                                 @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
@@ -202,4 +265,45 @@
     //    //    }
     //    //});
     //    //window.location.reload();
+</script>
+<script>
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
+    function loadReport() {
+        var dtfrom = document.getElementById("SStart").value;
+        var dtto = document.getElementById("SEnd").value;
+
+        var url = 'ListEnquiry?strfrom=' + dtfrom + '&strTo=' + dtto;
+        window.location.href = url;
+
+    }
+</script>
+<script>
+    $('.to_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    });
+
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('.to_date').datetimepicker('setStartDate', minDate);
+    });
 </script>
