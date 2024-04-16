@@ -300,7 +300,7 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
 
                 MailRow = "<a href=SendMail?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
-                GeneratePO = "<a href=Print?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
+                GeneratePO = "<a href=Print?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
                 if (dtUsers.Rows[i]["STATUS"].ToString() == "GRN Generated")
                 {
                     MoveToGRN = "<img src='../Images/tick.png' alt='View Details' width='20' />";
@@ -876,7 +876,7 @@ namespace Arasan.Controllers
             var Poitem = await PoService.GetPOItem(id, DrumID);
 
             AspNetCore.Reporting.LocalReport localReport = new AspNetCore.Reporting.LocalReport(path);
-            localReport.AddDataSource("DataSet1", Poitem);
+            localReport.AddDataSource("Pobasic", Poitem);
             //localReport.AddDataSource("DataSet1_DataTable1", po);
             var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
 

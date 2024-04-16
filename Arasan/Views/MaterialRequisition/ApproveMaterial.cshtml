@@ -270,9 +270,10 @@
 
          var lot = document.getElementById("lot" + i).value;
         var lotno = document.getElementById("lotno" + i).value;
-      
+      alert(lot);
+      alert(lotno);
         var isValid = true;
-        if (lot !="" && lotno =="")
+        if (lot !="0" && lotno =="")
         {
             alert("Please Select Lot No");
             return false;
