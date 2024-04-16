@@ -2,6 +2,33 @@
 
 @{
     ViewData["Title"] = "Index";
+    var previousDate = DateTime.Now.AddDays(-7);
+    //DateTime firstDay = new DateTime(previousDate.Year, previousDate.Month, 1);
+   // DateTime firstDay = new DateTime(DateTime.getFullYear(), DateTime.getMonth() - 1, 1); 
+    
+    string strDate2 = String.Format("{0:dd-MMM-yyyy}", previousDate);
+    string strDate3 = String.Format("{0:dd-MMM-yyyy}", DateTime.Now);
+
+   
+     string strfrom1 = ViewContext.HttpContext.Request.Query["strfrom"];
+    string strTo1 = ViewContext.HttpContext.Request.Query["strTo"];
+
+    string strfrom = "";
+    string strTo ="" ;
+    
+    if (strfrom1 == null) {
+            strfrom = strDate2;
+        }
+        else {
+            strfrom = strfrom1;
+        }
+        if (strTo1 == null) {
+            strTo = strDate3;
+        }
+        else {
+            strTo = strTo1;
+        }
+     
 }
 <partial name="JqxGridPartial" />
 @* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
@@ -30,6 +57,11 @@
         var source =
         {
             url: "/MaterialRequisition/MyListMaterialRequisitionGrid",
+             data: {
+                strfrom: "@strfrom ",
+                strTo: "@strTo",
+                strstatus: ""
+            },
             datatype: "json",
             updaterow: function (rowid, rowdata) {
                 // synchronize with the server - send update command
@@ -40,6 +72,8 @@
                 { name: 'docid', type: 'string' },
                 { name: 'docDate', type: 'string' },
                 { name: 'location', type: 'string' },
+                { name: 'enter', type: 'string' },
+                { name: 'enterdate', type: 'string' },
                 //{ name: 'work', type: 'string' },
                 { name: 'pri', type: 'string' },
                 { name: 'iss', type: 'string' },
@@ -65,6 +99,11 @@
         var ordersSource =
         {
             url: "/MaterialRequisition/ListMRItemgrid",
+              data: {
+                strfrom: "@strfrom ",
+                strTo: "@strTo",
+                strstatus: ""
+            },
             datafields: [
                 { name: 'indentid', type: 'string' },
                 { name: 'piid', type: 'string' },
@@ -170,12 +209,14 @@
                     { text: 'Doc Id', filtertype: 'input', datafield: 'docid', width: 150 },
                     { text: 'Doc Date', datafield: 'docDate', width: 100, align: 'center' },
                     { text: 'Location', filtertype: 'checkedlist', datafield: 'location', width: 130 },
+                    { text: 'Entered By', filtertype: 'checkedlist', datafield: 'enter', width: 130 },
+                    { text: 'Entered On', filtertype: 'checkedlist', datafield: 'enterdate', width: 180 },
                     //{ text: 'Work Center', filtertype: 'checkedlist', datafield: 'work', width: 150 },
                     //{ text: 'Send Mail', datafield: 'mailrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     //{ text: 'Follow Up', datafield: 'follow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Issue Quantity', datafield: 'iss', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
                     //{ text: 'Indent Creation', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
-                    { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
+                    { text: 'Short Close', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
@@ -202,6 +243,38 @@
                 <div class="widgets-container">
 
                     <form>
+                            <div class="row">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="inputName3" class="col-sm-3 control-label">From Date  <label class="mandatory"></label></label>
+                                    <div class="col-sm-7">
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                            @*@Html.TextBoxFor(C => C.SStart, new { @id = "SStart", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })*@
+                                            <input id="SStart" class="form-control" readonly="readonly" value="@strfrom" />
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            
+                                <div class="col-md-6">
+                                    <label for="inputName3" class="col-sm-3 control-label"> To date  <label class="mandatory"></label></label>
+                                    <div class="col-sm-7">
+
+                                        <div class="input-group date to_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                            <input id="SEnd" class="form-control" readonly="readonly" value="@strTo" />
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+
+                                        </div>
+                                        <button type="button" class="btn btn-primary  marginright" id="btnSave" value="Run" onclick="loadReport()">Search</button>
+
+                                    </div>
+
+                                 </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-2 ">
                                 @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
@@ -240,9 +313,51 @@
     function ConfirmDelete() {
         return confirm("Are you sure you want to delete?");
     }
-   
-</script>
+    function loadReport() {
+        var dtfrom = document.getElementById("SStart").value;
+        var dtto = document.getElementById("SEnd").value;
+        //var strsech = document.getElementById("txtprosearch").value;
 
+        var url = 'ListMaterialRequisition?strfrom=' + dtfrom + '&strTo=' + dtto;
+        window.location.href = url;
+
+        //source.data = {
+        //    strfrom: dtfrom,
+        //    strTo: dtto,
+        //    strProSearch: strsech,
+        //    strstatus: ""
+        //};
+        //$("#grid").jqxGrid({ source: source });
+    }
+</script>
+<script>
+    $('.to_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    });
+
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('.to_date').datetimepicker('setStartDate', minDate);
+    });
+</script>
 
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>

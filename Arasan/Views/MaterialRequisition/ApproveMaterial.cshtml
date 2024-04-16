@@ -117,7 +117,7 @@
                                         <div class="ibox-content collapse in">
                                             <div class="widgets-container">
                                                 <div>
-                                                    <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                    <table id="dataTable" class="display nowrap table  responsive nowrap table-bordered">
                                                         <thead>
                                                             <tr>
 @*                                                                <th>@Html.CheckBoxFor(P => P.selectall, new { @id = "Selectallchk" , @onclick = "enableAllrepview();" })</th>
@@ -163,7 +163,10 @@
                                                                         <td>@Html.TextBoxFor(o => o.MRlst[i].InvQty, new { @id = "InvQty" + i, @class = "form-control" , style = "width: 80px;",@onkeyup = "changeQty(this," + i + ")"})</td>
 
                                                                         <td>@Html.TextBoxFor(o => o.MRlst[i].IndQty, new { @id = "PendingQty" + i, @class = "form-control", style = "width: 80px;color:red;" ,@readonly=true})</td>
-
+                                                                         <td>
+                                                            @Html.HiddenFor(o => o.MRlst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="MRlst.Index" type="hidden" value="@(i)" />
+                                                        </td>
                                                                     </tr>
                                                                     i++;
                                                                 }
@@ -302,6 +305,25 @@
     //        });
     //    }
     //}
+       
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
 </script>
 
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
