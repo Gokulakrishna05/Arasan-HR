@@ -595,7 +595,7 @@ namespace Arasan.Controllers.Store_Management
                     }
                     else
                     {
-                        tda.TotalStock = datatrans.GetDataString("select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY  from STOCKVALUE S  where S.LOCATION_ID NOT IN '" + storeid + "' AND S.ITEMID='" + tda.ItemId + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0");
+                        tda.TotalStock = datatrans.GetDataString("select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY  from STOCKVALUE S  where S.LOCID NOT IN '" + storeid + "' AND S.ITEMID='" + tda.ItemId + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0");
 
                     }
                       

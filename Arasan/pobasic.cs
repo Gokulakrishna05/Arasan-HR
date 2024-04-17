@@ -58,5 +58,34 @@ namespace Arasan
 {
 }
 
-public partial class DataSet1 {
+namespace Arasan
+{
+}
+
+namespace Arasan
+{
+}
+
+namespace Arasan
+{
+}
+
+namespace Arasan
+{
+}
+
+namespace Arasan
+{
+}
+
+namespace Arasan
+{
+}
+
+namespace Arasan
+{
+}
+
+namespace Arasan
+{
 }

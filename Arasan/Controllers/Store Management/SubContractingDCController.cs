@@ -193,7 +193,7 @@ namespace Arasan.Controllers.Store_Management
                     {
                         //approve = "";
                         View = "<a href=ViewSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                        recept = "<a href=SubConDcRec?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
+                        recept = "<a href=SubConDcRec?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "  target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
 
                        // EditRow = "";
                     }

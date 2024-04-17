@@ -90,6 +90,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="adsgef.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>adsgef.xsd</DependentUpon>
+    </Compile>
     <Compile Update="APCShift.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -180,6 +185,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>pinvtandc.xsd</DependentUpon>
     </Compile>
+    <Compile Update="pobasic.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>pobasic.xsd</DependentUpon>
+    </Compile>
     <Compile Update="Pyro.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -251,6 +261,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="adsgef.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>adsgef.Designer.cs</LastGenOutput>
+    </None>
     <None Update="APCShift.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>APCShift.Designer.cs</LastGenOutput>
@@ -322,6 +336,10 @@
      <None Update="pinvtandc.xsd">
        <Generator>MSDataSetGenerator</Generator>
        <LastGenOutput>pinvtandc.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="pobasic.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>pobasic.Designer.cs</LastGenOutput>
      </None>
      <None Update="Pyro.xsd">
        <Generator>MSDataSetGenerator</Generator>

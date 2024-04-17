@@ -463,8 +463,9 @@ namespace Arasan.Services
                                 }
                                 else
                                 {
-                                    double srate = datatrans.GetDataId("select SS.RATE  from STOCKVALUE S,STOCKVALUE2 SS  where S.STOCKVALUEID=SS.STOCKVALUEID AND S.LOCID='"+cy.LocationId+"' AND S.ITEMID='"+cp.ItemId+"' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 GROUP BY  SS.RATE ");
-                                    double amount = cp.InvQty * srate;
+                                    string srate = datatrans.GetDataString("select SS.RATE  from STOCKVALUE S,STOCKVALUE2 SS  where S.STOCKVALUEID=SS.STOCKVALUEID AND S.LOCID='"+cy.LocationId+"' AND S.ITEMID='"+cp.ItemId+"' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 GROUP BY  SS.RATE ");
+                                    double amt = cp.InvQty * Convert.ToDouble(srate);
+                                    double amount = Math.Round(amt, 2);
                                     string SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE) VALUES ('" + cy.ID + "','m','" + cp.ItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.InvQty + "' ,'10001000000827','0','0','0','0','0','0','0','0','" + amount + "')RETURNING STOCKVALUEID INTO :STKID";
                                     OracleCommand objCmdsss = new OracleCommand(SvSql1, objConn);
                                     objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
@@ -936,11 +937,11 @@ namespace Arasan.Services
         public string MaterialCRUD(MaterialRequisition cy)
         {
             string msg = "";
+            string entat = DateTime.Now.ToString("dd\\/MM\\/yyyy hh:mm:ss tt");
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-                if (cy.ID == null)
-                {
+                
                     datatrans = new DataTransactions(_connectionString);
 
 
@@ -948,23 +949,16 @@ namespace Arasan.Services
                     string docid = string.Format("{0}{1}", "SRq-", (idc + 1).ToString());
 
                     string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='SRq-' AND ACTIVESEQUENCE ='T'";
-                    try
-                    {
-                        datatrans.UpdateStatus(updateCMd);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
+                    
                     cy.matno = docid;
-                }
+                
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
 
-
+                   
                     OracleCommand objCmd = new OracleCommand("MATERIALREQPROC", objConn);
-
+                    
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (cy.ID == null)
                     {
@@ -980,18 +974,27 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.matno;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDa;
                     objCmd.Parameters.Add("FROMLOCID", OracleDbType.NVarchar2).Value = cy.Location;
-                    objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkCenter;
-                    objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
-                    objCmd.Parameters.Add("REQTYPE", OracleDbType.NVarchar2).Value = cy.RequestType;
+                    if(string.IsNullOrEmpty(cy.WorkCenter))
+                    {
+                        objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = "0";
+                    }
+                    else { objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkCenter; }
+                    if (string.IsNullOrEmpty(cy.Process))
+                    {
+                        objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = "0";
+                    }
+                    else { objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process; }
+                   
+                    objCmd.Parameters.Add("REQTYPE", OracleDbType.NVarchar2).Value = "Other Issue";
                      objCmd.Parameters.Add("STAUS", OracleDbType.NVarchar2).Value = "OPEN";
                     
                         objCmd.Parameters.Add("ENTBY", OracleDbType.NVarchar2).Value = cy.Entered;
-                        objCmd.Parameters.Add("ENTAT", OracleDbType.Date).Value = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss tt");
+                        objCmd.Parameters.Add("ENTAT", OracleDbType.NVarchar2).Value = entat;
                   
                     objCmd.Parameters.Add("TOLOCID", OracleDbType.NVarchar2).Value = "10001000000827";
                     objCmd.Parameters.Add("LOCIDCONS", OracleDbType.NVarchar2).Value = cy.Location;
                   
-                    objCmd.Parameters.Add("REASON", OracleDbType.NVarchar2).Value = cy.Reason;
+                   
                     if (cy.Reason == "")
                     {
                         objCmd.Parameters.Add("PRIORITY", OracleDbType.NVarchar2).Value = "0";
@@ -1000,10 +1003,20 @@ namespace Arasan.Services
                     {
                         objCmd.Parameters.Add("PRIORITY", OracleDbType.NVarchar2).Value = "1";
                     }
+                    objCmd.Parameters.Add("REASON", OracleDbType.NVarchar2).Value = cy.Reason;
+                     
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     objConn.Open();
                     objCmd.ExecuteNonQuery();
+                    try
+                    {
+                        datatrans.UpdateStatus(updateCMd);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
                     Object reqid = objCmd.Parameters["OUTID"].Value;
                     if (cy.ID == null)
                     {
@@ -1015,9 +1028,10 @@ namespace Arasan.Services
                             if (cp.Isvalid == "Y" && cp.ItemId != "0")
                             {
                                 string unitID = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.UnitID + "' ");
+                                string VALMETHOD = datatrans.GetDataString("Select VALMETHOD from ITEMMASTER where ITEMMASTERID='" + cp.ItemId + "' ");
 
 
-                                svSQL = "Insert into STORESREQDETAIL (STORESREQBASICID,ITEMID,UNIT,QTY,STOCK,NARR,ITEMMASTERID,ITEMDESC,STATUS) VALUES ('" + reqid + "','" + cp.ItemId + "','" + unitID + "','" + cp.ReqQty + "','" + cp.ClosingStock + "','" + cy.Narration + "','" + cp.ItemId + "','" + desc + "','OPEN') RETURNING STORESREQDETAILID INTO :LASTCID";
+                                svSQL = "Insert into STORESREQDETAIL (STORESREQBASICID,ITEMID,UNIT,QTY,STOCK,NARR,ITEMMASTERID,ITEMDESC,STATUS,STORESREQDETAILROW,ISSQTY,SGCODE,TYPE,VALMETHOD) VALUES ('" + reqid + "','" + cp.ItemId + "','" + unitID + "','" + cp.ReqQty + "','" + cp.ClosingStock + "','" + cy.Narration + "','" + cp.ItemId + "','" + desc + "','OPEN','0','" + cp.ReqQty + "','0','Stores Issue','"+ VALMETHOD +"') RETURNING STORESREQDETAILID INTO :LASTCID";
                                 OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                 objCmds.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                 objCmds.ExecuteNonQuery();
