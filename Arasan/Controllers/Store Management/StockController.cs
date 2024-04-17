@@ -113,7 +113,7 @@ namespace Arasan.Controllers
                 //double pm1 = Convert.ToDouble(p);
                 //double pm2 = Convert.ToDouble(m);
                 //double pm = pm1 - pm2;
-                string Approval = string.Empty;
+                string Approval = string.Empty; 
               
                     EnqChkItem.Add(new Asset
                     {
