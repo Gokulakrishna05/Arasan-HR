@@ -36,7 +36,7 @@ namespace Arasan.Models
     {
         public long id { get; set; }
         public string itemname { get; set; }
-        public double quantity { get; set; }
+        public string quantity { get; set; }
         public string plmi { get; set; }
         public string loc { get; set; }
         public string type { get; set; }

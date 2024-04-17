@@ -312,7 +312,7 @@ namespace Arasan.Models
         public DataTable getindent()
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT PINDBASICID,DOCID from PINDBASIC";
+            SvSql = "SELECT PINDBASICID,DOCID from PINDBASIC where  STAGE IS NULL ORDER BY DOCID DESC";
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             DataTable dtt = new DataTable();
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

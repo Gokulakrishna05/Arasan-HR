@@ -100,34 +100,33 @@ namespace Arasan.Controllers
             for (int i = 0; i < dtEnq.Rows.Count; i++)
             {
                  
-                string p = datatrans.GetDataString("Select SUM(QTY) from ASSTOCKVALUE where ITEMID='" + dtEnq.Rows[i]["item"].ToString() + "' AND LOCID='" + dtEnq.Rows[i]["loc"].ToString() + "' and PLUSORMINUS='p' ");
-                string m = datatrans.GetDataString("Select SUM(QTY) from ASSTOCKVALUE where ITEMID='" + dtEnq.Rows[i]["item"].ToString() + "' AND LOCID='" + dtEnq.Rows[i]["loc"].ToString() + "' and PLUSORMINUS='m' ");
-                if(p=="")
-                {
-                    p = "0";
-                }
-                if (m == "")
-                {
-                    m = "0";
-                }
-                double pm1 = Convert.ToDouble(p);
-                double pm2 = Convert.ToDouble(m);
-                double pm = pm1 - pm2;
-                string Approval = string.Empty;
-                if (pm > 0)
-                {
+                string p = datatrans.GetDataString("SELECT SUM(DECODE(s.PLUSORMINUS,'p',S.QTY,-S.QTY)) as QTY from ASSTOCKVALUE S where ITEMID='" + dtEnq.Rows[i]["item"].ToString() + "' AND LOCID='" + dtEnq.Rows[i]["loc"].ToString() + "' ");
+                //string m = datatrans.GetDataString("Select SUM(QTY) from ASSTOCKVALUE where ITEMID='" + dtEnq.Rows[i]["item"].ToString() + "' AND LOCID='" + dtEnq.Rows[i]["loc"].ToString() + "' and PLUSORMINUS='m' ");
+                //if(p=="")
+                //{
+                //    p = "0";
+                //}
+                //if (m == "")
+                //{
+                //    m = "0";
+                //}
+                //double pm1 = Convert.ToDouble(p);
+                //double pm2 = Convert.ToDouble(m);
+                //double pm = pm1 - pm2;
+                string Approval = string.Empty; 
+              
                     EnqChkItem.Add(new Asset
                     {
                         //id = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
                         itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
 
-                        quantity = pm,
+                        quantity = p,
                         loc = dtEnq.Rows[i]["LOCID"].ToString(),
 
 
                     });
                 }
-            }
+          
 
             return Json(new
             {
