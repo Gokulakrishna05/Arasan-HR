@@ -33,6 +33,7 @@ namespace Arasan.Controllers.Store_Management
             ca.EmpLst = BindEmp();
             ca.Branch = Request.Cookies["BranchId"];
             ca.user = Request.Cookies["UserId"];
+            ca.username = Request.Cookies["UserName"];
             ca.IndentDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
             DataTable dtv = datatrans.GetSequence("Pind");

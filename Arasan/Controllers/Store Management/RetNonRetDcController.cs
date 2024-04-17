@@ -38,6 +38,7 @@ namespace Arasan.Controllers
             //ca.Part = Request.Cookies["PARTYNAME"];
             ca.Enteredlst = BindEmp();
             ca.Entered = Request.Cookies["EMPNAME"];
+            ca.user = Request.Cookies["UserName"];
             ca.DDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Partylst = BindParty();
             ca.Stocklst = BindStock();
@@ -354,6 +355,7 @@ namespace Arasan.Controllers
                 string add = "";
                 string address = "";
                 string city = "";
+                string narr = "";
               
 
                 dt = RetNonRetDcService.GetPartyDetails(ItemId);
@@ -366,8 +368,9 @@ namespace Arasan.Controllers
                     city = dt.Rows[0]["CITY"].ToString();
                    
                 }
-
-                var result = new { add = add, address = address , city = city };
+                string partyname = datatrans.GetDataString("SELECT PARTYNAME FROM PARTYMAST WHERE PARTYMASTID='" + ItemId + "'");
+                narr= "Delivered To " + partyname;
+                var result = new { add = add, address = address , city = city, narr= narr , partyname = partyname };
                 return Json(result);
             }
             catch (Exception ex)

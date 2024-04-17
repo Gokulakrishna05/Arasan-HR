@@ -52,6 +52,7 @@
                                     <div class="col-sm-8">
                                         @Html.HiddenFor(C => C.ID)
                                             @Html.HiddenFor(C => C.user)
+                                            @Html.HiddenFor(C => C.username)
                                         @Html.HiddenFor(C => C.Branch,new{@id="branch"})
                                             @Html.DropDownListFor(C => C.SLocation, Model.SLoclst, new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1 })<br />
 
@@ -175,6 +176,7 @@
                                                                                                                             <td>
                                                                                                                                 @Html.DropDownListFor(o => o.PILst[i].ItemId, Model.PILst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
                                                                                                                             @Html.HiddenFor(o=>o.PILst[i].saveItem , new { @id = "txtsaveItem" + i})
+                                                                                                                            @Html.HiddenFor(o=>o.PILst[i].allstock , new { @id = "txtallstock" + i})
                                                                                                                                 </td>
                                                                                     <td>@Html.TextBoxFor(o => o.PILst[i].QC, new { @id = "txtQC" + i, @class = "form-control", style = "width: 50px;", @readonly = "readonly"})</td> 
                                                                                     <td>@Html.TextBoxFor(o => o.PILst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 50px;", @readonly = "readonly"}) 
@@ -663,6 +665,7 @@ function AddRowT() {
                         document.getElementById("txtStock" + i).value = result.stk;
                       //  document.getElementById("txtWholeStock" + i).value = result.totalstock;
                         document.getElementById("txtsaveItem" + i).value = result.item;
+                        document.getElementById("txtallstock" + i).value = result.totalstock;
                         
                         document.getElementById("wholestock" + i).innerHTML=" <a  href=WholeStock?id=" + result.item + " class='fancybox' data-fancybox-type='iframe'>"+ result.totalstock+"</a>";
                         
