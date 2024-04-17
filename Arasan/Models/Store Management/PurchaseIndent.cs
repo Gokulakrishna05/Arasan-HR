@@ -41,6 +41,7 @@ namespace Arasan.Models
 
         public string Purtype { get; set; }
         public string user { get; set; }
+        public string username { get; set; }
 
         public string PreparedBy { get; set; }
 
@@ -53,6 +54,7 @@ namespace Arasan.Models
     {
         public string ItemId { get; set; }
         public string saveItem { get; set; }
+        public string allstock { get; set; }
 
         public List<SelectListItem> Itemlst { get; set; }
 

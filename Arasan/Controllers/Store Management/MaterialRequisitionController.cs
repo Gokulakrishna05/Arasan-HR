@@ -535,7 +535,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
                     tda.detid = dtt.Rows[i]["STORESREQDETAILID"].ToString();
 
-                    tda.IndQty = Convert.ToDouble(dtt.Rows[i]["PENDING_QTY"].ToString() == "" ? "0" : dtt.Rows[i]["PENDING_QTY"].ToString());
+                    tda.InvQty = Convert.ToDouble(dtt.Rows[i]["SCHCLQTY"].ToString() == "" ? "0" : dtt.Rows[i]["SCHCLQTY"].ToString());
                     tda.indentid = dtt.Rows[i]["STORESREQDETAILID"].ToString();
 
                     tda.Storeid = dtt.Rows[i]["STORESREQBASICID"].ToString();
@@ -570,20 +570,20 @@ namespace Arasan.Controllers.Store_Management
                     {
                         stkqty = Convert.ToDouble(tda.ClosingStock);
                     }
-                    if (tda.IndQty > 0)
-                    {
-                        tda.InvQty = tda.IndQty;
-                    }
-                   else if (stkqty > reqqty)
-                    {
-                        tda.InvQty = reqqty;
-                        tda.IndQty = 0;
-                    }
-                    else
-                    {
-                        tda.InvQty = stkqty;
-                        tda.IndQty = (reqqty - stkqty);
-                    }
+                   // if (tda.IndQty > 0)
+                   // {
+                   //     tda.InvQty = tda.IndQty;
+                   // }
+                   //else if (stkqty > reqqty)
+                   // {
+                   //     tda.InvQty = reqqty;
+                   //     tda.IndQty = 0;
+                   // }
+                   // else
+                   // {
+                   //     tda.InvQty = stkqty;
+                   //     tda.IndQty = (reqqty - stkqty);
+                   // }
 
 
                     //tda.Itemlst = BindItemlst();
@@ -888,22 +888,34 @@ namespace Arasan.Controllers.Store_Management
             MR.Entered = Request.Cookies["UserId"];
             List<StockItem> TData = new List<StockItem>();
             StockItem tda = new StockItem();
-            DataTable dtt = datatrans.GetData("Select ITEMMASTER.ITEMID,ITEM_ID,LOCDETAILS.LOCID,INVENTORY_ITEM_ID,LOCATION_ID,to_char(GRN_DATE,'dd-MON-yyyy')GRN_DATE,ITEM_ID,BALANCE_QTY from INVENTORY_ITEM left outer join ITEMMASTER ON ITEMMASTERID=INVENTORY_ITEM.ITEM_ID left outer join LOCDETAILS ON LOCDETAILSID=INVENTORY_ITEM.LOCATION_ID where ITEM_ID='" + id + "' AND BALANCE_QTY > 0 AND LOCATION_ID NOT IN '" + storeid + "'   ");
+            DataTable dtt = new DataTable();
+            string lot = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER WHERE ITEMMASTERID='" + id + "'");
 
+            if(lot=="YES")
+            {
+                dtt = datatrans.GetData("Select ITEMMASTER.ITEMID,S.ITEMID as item,LOCDETAILS.LOCID,to_char(S.DOCDATE,'dd-MON-yyyy')DOCDATE,S.LOTNO,SUM(S.PLUSQTY-S.MINUSQTY) as QTY from  LSTOCKVALUE S left outer join ITEMMASTER ON ITEMMASTERID=S.ITEMID left outer join LOCDETAILS ON LOCDETAILSID=S.LOCID where S.ITEMID=" + id + " AND S.LOCID NOT IN '10001000000827' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0  GROUP BY ITEMMASTER.ITEMID,S.LOTNO,S.ITEMID ,LOCDETAILS.LOCID,S.DOCDATE ");
+
+            }
+            else
+            {
+                dtt = datatrans.GetData("Select I.ITEMID,S.ITEMID as item,L.LOCID,SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY from STOCKVALUE S,ITEMMASTER I,LOCDETAILS L WHERE I.ITEMMASTERID=S.ITEMID AND LOCDETAILSID=S.LOCID AND S.ITEMID='" + id + "'  AND S.LOCID NOT IN '10001000000827'  HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 GROUP BY I.ITEMID,S.ITEMID,L.LOCID");
+
+            }
             if (dtt.Rows.Count > 0)
             {
                 for (int i = 0; i < dtt.Rows.Count; i++)
                 {
                     tda = new StockItem();
                     tda.item = dtt.Rows[i]["ITEMID"].ToString();
-                    tda.itemid = dtt.Rows[i]["ITEM_ID"].ToString();
-                    tda.invid = dtt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
-                  
+                    tda.itemid = dtt.Rows[i]["item"].ToString();
+                    //tda.invid = dtt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
+                    
                     tda.location = dtt.Rows[i]["LOCID"].ToString();
-                    tda.locationid = dtt.Rows[i]["LOCATION_ID"].ToString();
-                    tda.docDate = dtt.Rows[i]["GRN_DATE"].ToString();
-                    tda.qty = dtt.Rows[i]["BALANCE_QTY"].ToString();
-                  
+                    // tda.locationid = dtt.Rows[i]["LOCATION_ID"].ToString();
+                    // tda.docDate = dtt.Rows[i]["DOCDATE"].ToString();
+                    tda.qty = dtt.Rows[i]["QTY"].ToString();
+
+
                     TData.Add(tda);
                 }
             }

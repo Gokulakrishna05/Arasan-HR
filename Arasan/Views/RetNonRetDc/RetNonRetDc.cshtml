@@ -61,8 +61,9 @@
                                             @Html.HiddenFor(C => C.Branch,new{@id="branch"})
 
                                             @Html.HiddenFor(C => C.Entered)
-                                            @Html.HiddenFor(C => C.Part)
+                                            @Html.HiddenFor(C => C.Part,new{@id="partyname"})
                                             @Html.HiddenFor(C => C.Branch)
+                                            @Html.HiddenFor(C => C.user)
 
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
@@ -508,6 +509,8 @@
                 document.getElementById("txtAdd1").value = result.add;
                 document.getElementById("txtAdd2").value = result.address;
                 document.getElementById("txtCity").value = result.city;
+                document.getElementById("txtNarration").value = result.narr;
+                document.getElementById("partyname").value = result.partyname;
 
             },
             error: function () {

@@ -50,9 +50,9 @@ namespace Arasan.Services
                 //string PARTY = datatrans.GetDataString("Select PARTYMASTID from PARTYMAST where PARTYID='" + cy.Party + "' ");
                 //string WID = datatrans.GetDataString("Select WCBASICID from WCBASIC where WCID='" + cy.work + "' ");
 
-                string PART = datatrans.GetDataString("Select PARTYNAME from PARTYMAST where PARTYMASTID='" + cy.Party + "' ");
-                //string ENTER = datatrans.GetDataString("Select EMPNAME from EMPMAST where EMPMASTID='" + cy.Approved + "' ");
+                 //string ENTER = datatrans.GetDataString("Select EMPNAME from EMPMAST where EMPMASTID='" + cy.Approved + "' ");
                 string APPROV = datatrans.GetDataString("Select EMPNAME from EMPMAST where EMPMASTID='" + cy.Approval2 + "' ");
+                 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("RDELPROC", objConn);
@@ -79,12 +79,13 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("REFDATE", OracleDbType.NVarchar2).Value = cy.RefDate;
                     objCmd.Parameters.Add("DELDATE", OracleDbType.NVarchar2).Value = cy.Delivery;
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration;
-                    objCmd.Parameters.Add("APPBY", OracleDbType.NVarchar2).Value = cy.Approved;
-                    objCmd.Parameters.Add("APPBY2", OracleDbType.NVarchar2).Value = APPROV;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = 'Y';
+                    objCmd.Parameters.Add("APPBY", OracleDbType.NVarchar2).Value = "";
+                    objCmd.Parameters.Add("APPBY2", OracleDbType.NVarchar2).Value = "";
+                    
                     objCmd.Parameters.Add("EBY", OracleDbType.NVarchar2).Value = cy.Approved;
-                    objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = PART;
+                    objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = cy.Part;
                     objCmd.Parameters.Add("DCREFID", OracleDbType.NVarchar2).Value ="";
+                    objCmd.Parameters.Add("USERID", OracleDbType.NVarchar2).Value =cy.user;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try

@@ -145,11 +145,11 @@
                                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                         @*<td>@Html.CheckBoxFor(o => o.MRlst[i].select, new { @id = "select" + i }) </td>*@
 
-                                                                        <td>@Html.DisplayFor(o => o.MRlst[i].Item)@Html.HiddenFor(o => o.MRlst[i].ItemId)@Html.HiddenFor(o => o.MRlst[i].invenid,new{@id="inveid" + i})@Html.HiddenFor(o => o.MRlst[i].inventryQty,new{@id="inventryQty" + i})@Html.HiddenFor(o => o.MRlst[i].lotno,new{@id="lotno" + i})@Html.HiddenFor(o => o.MRlst[i].lot,new{@id="lot" + i})</td>
+                                                                        <td>@Html.DisplayFor(o => o.MRlst[i].Item)@Html.HiddenFor(o => o.MRlst[i].ItemId)@Html.HiddenFor(o => o.MRlst[i].invenid,new{@id="inveid" + i})@Html.HiddenFor(o => o.MRlst[i].detid)@Html.HiddenFor(o => o.MRlst[i].inventryQty,new{@id="inventryQty" + i})@Html.HiddenFor(o => o.MRlst[i].lotno,new{@id="lotno" + i})@Html.HiddenFor(o => o.MRlst[i].lot,new{@id="lot" + i})</td>
                                                                         <td>@Html.DisplayFor(o => o.MRlst[i].bin)</td>
                                                                         <td>@Html.TextBoxFor(o => o.MRlst[i].ReqQty,new{@id="reqqty"+ i, @class = "form-control" , style = "width: 80px;",@readonly="readonly" })</td>
                                                                         <td>@Html.DisplayFor(o => o.MRlst[i].ClosingStock)@Html.HiddenFor(o => o.MRlst[i].ClosingStock,new{@id="txtClosingStock"+ i})</td>
-                                                                          <td> <a class="nav-link" href="@Url.Action("WholeStock", "MaterialRequisition",new { id=item.ItemId })" class='fancybox' data-fancybox-type='iframe'> @Html.DisplayFor(o => o.MRlst[i].TotalStock)</a></td>
+                                                                          <td> <a href="@Url.Action("WholeStock", "MaterialRequisition",new { id=item.ItemId })" class='fancybox' data-fancybox-type='iframe'> @Html.DisplayFor(o => o.MRlst[i].TotalStock)</a></td>
                                                                         @if (item.lot != "0")
                                                                         {
                                                                             <td><a href="@Url.Action("LotNo", "MaterialRequisition",new { id=item.ItemId,rowid=i })" class='fancybox' data-fancybox-type='iframe'> <label> Lot No </label></a></td>

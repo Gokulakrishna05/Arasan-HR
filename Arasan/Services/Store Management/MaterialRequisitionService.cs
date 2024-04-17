@@ -131,7 +131,7 @@ namespace Arasan.Services
         public DataTable GetMatItemByID(string MatId)
         {
             string SvSql = string.Empty;
-            SvSql = "Select STORESREQDETAILID,STORESREQBASICID,STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,ITEMMASTER.ITEMID,STORESREQDETAIL.QTY,STORESREQDETAIL.PENDING_QTY from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + MatId + "'";
+            SvSql = "Select STORESREQDETAILID,STORESREQBASICID,STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,SCHCLQTY,UNITMAST.UNITID,ITEMMASTER.ITEMID,STORESREQDETAIL.QTY from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + MatId + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -442,7 +442,7 @@ namespace Arasan.Services
 
                                     double srate = datatrans.GetDataId("select SS.RATE  from STOCKVALUE S,STOCKVALUE2 SS  where S.STOCKVALUEID=SS.STOCKVALUEID AND S.LOCID='" + cy.LocationId + "' AND S.ITEMID='"+cp.ItemId+"' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 GROUP BY  SS.RATE ");
                                     double amount = cp.InvQty * srate;
-                                    string SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE) VALUES ('" + cy.ID + "','m','" + cp.ItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.InvQty + "' ,'10001000000827','0','0','0','0','0','0','0','0','" + amount + "')RETURNING STOCKVALUEID INTO :STKID";
+                                    string SvSql1 = "Insert into STOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE) VALUES ('0','0','F','" + cp.detid + "','749342921','m','" + cp.ItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.InvQty + "' ,'10001000000827','0','0','0','0','0','0','0','0','" + amount + "')RETURNING STOCKVALUEID INTO :STKID";
                                     OracleCommand objCmdsss = new OracleCommand(SvSql1, objConn);
                                     objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                     objCmdsss.ExecuteNonQuery();
@@ -451,7 +451,7 @@ namespace Arasan.Services
                                     string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE) VALUES ('" + stkid + "','" + cy.DocId + "','" + narr + "','"+ srate + "')";
                                     OracleCommand objCmddts = new OracleCommand(SvSql2, objConn);
                                     objCmddts.ExecuteNonQuery();
-                                      SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE) VALUES ('" + cy.ID + "','p','" + cp.ItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.InvQty + "' ,'"+cy.LocationId+"','0','0','0','0','0','0','0','0','" + amount + "')RETURNING STOCKVALUEID INTO :STKID";
+                                      SvSql1 = "Insert into STOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE) VALUES ('0','0','F','" + cp.detid + "','749342921','p','" + cp.ItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.InvQty + "' ,'"+cy.LocationId+"','0','0','0','0','0','0','0','0','" + amount + "')RETURNING STOCKVALUEID INTO :STKID";
                                       objCmdsss = new OracleCommand(SvSql1, objConn);
                                     objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                     objCmdsss.ExecuteNonQuery();
@@ -460,28 +460,37 @@ namespace Arasan.Services
                                       SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE) VALUES ('" + stkid + "','" + cy.DocId + "','" + narr + "','" + srate + "')";
                                       objCmddts = new OracleCommand(SvSql2, objConn);
                                     objCmddts.ExecuteNonQuery();
+
+                                    SvSql2 = "UPDATE STORESREQDETAIL SET SCHCLQTY='"+ cp.IndQty + "' WHERE STORESREQDETAILID='"+ cp.detid +"'";
+                                    objCmddts = new OracleCommand(SvSql2, objConn);
+                                    objCmddts.ExecuteNonQuery();
+
                                 }
                                 else
                                 {
-                                    string srate = datatrans.GetDataString("select SS.RATE  from STOCKVALUE S,STOCKVALUE2 SS  where S.STOCKVALUEID=SS.STOCKVALUEID AND S.LOCID='"+cy.LocationId+"' AND S.ITEMID='"+cp.ItemId+"' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 GROUP BY  SS.RATE ");
+                                    string srate = datatrans.GetDataString("select SS.RATE  from STOCKVALUE S,STOCKVALUE2 SS  where S.STOCKVALUEID=SS.STOCKVALUEID AND S.LOCID='10001000000827' AND S.ITEMID='" + cp.ItemId+"' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 GROUP BY  SS.RATE ");
                                     double amt = cp.InvQty * Convert.ToDouble(srate);
                                     double amount = Math.Round(amt, 2);
-                                    string SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE) VALUES ('" + cy.ID + "','m','" + cp.ItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.InvQty + "' ,'10001000000827','0','0','0','0','0','0','0','0','" + amount + "')RETURNING STOCKVALUEID INTO :STKID";
+                                    string SvSql1 = "Insert into STOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE) VALUES ('0','0','F','" + cp.detid + "','749342921','m','" + cp.ItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.InvQty + "' ,'10001000000827','0','0','0','0','0','0','0','0','" + amount + "') RETURNING STOCKVALUEID INTO :STKID";
                                     OracleCommand objCmdsss = new OracleCommand(SvSql1, objConn);
                                     objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                     objCmdsss.ExecuteNonQuery();
                                     string narr = "Issued to " + cy.Location;
                                     string stkid = objCmdsss.Parameters["STKID"].Value.ToString();
-                                    string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE) VALUES ('" + stkid + "','" + cy.DocId + "','" + narr + "')";
+                                    string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE) VALUES ('" + stkid + "','" + cy.DocId + "','" + narr + "','" + srate + "')";
                                     OracleCommand objCmddts = new OracleCommand(SvSql2, objConn);
                                     objCmddts.ExecuteNonQuery();
-                                    SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE) VALUES ('" + cy.ID + "','p','" + cp.ItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.InvQty + "' ,'" + cy.LocationId + "','0','0','0','0','0','0','0','0','" + amount + "')RETURNING STOCKVALUEID INTO :STKID";
+                                    SvSql1 = "Insert into STOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE) VALUES ('0','0','F','" + cp.detid + "','749342921','p','" + cp.ItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.InvQty + "' ,'" + cy.LocationId + "','0','0','0','0','0','0','0','0','" + amount + "') RETURNING STOCKVALUEID INTO :STKID";
                                     objCmdsss = new OracleCommand(SvSql1, objConn);
                                     objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                     objCmdsss.ExecuteNonQuery();
 
                                     stkid = objCmdsss.Parameters["STKID"].Value.ToString();
                                     SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE) VALUES ('" + stkid + "','" + cy.DocId + "','" + narr + "','" + srate + "')";
+                                    objCmddts = new OracleCommand(SvSql2, objConn);
+                                    objCmddts.ExecuteNonQuery();
+
+                                    SvSql2 = "UPDATE STORESREQDETAIL SET SCHCLQTY='" + cp.IndQty + "',ISSQTY='"+ cp.InvQty + "',SCHISSQTY='"+ cp.InvQty +"' WHERE STORESREQDETAILID='" + cp.detid + "'";
                                     objCmddts = new OracleCommand(SvSql2, objConn);
                                     objCmddts.ExecuteNonQuery();
                                 }
@@ -867,9 +876,9 @@ namespace Arasan.Services
                                     /////////////////////////Inventory Update
                                     if (cp.IndQty > 0)
                                     {
-                                        svSQL = "UPDATE STORESREQDETAIL SET PENDING_QTY ='" + cp.IndQty + "',STATUS='Pending' WHERE STORESREQDETAILID='" + cp.indentid + "'";
-                                        OracleCommand objCmdsa = new OracleCommand(svSQL, objConn);
-                                        objCmdsa.ExecuteNonQuery();
+                                        //svSQL = "UPDATE STORESREQDETAIL SET PENDING_QTY ='" + cp.IndQty + "',STATUS='Pending' WHERE STORESREQDETAILID='" + cp.indentid + "'";
+                                        //OracleCommand objCmdsa = new OracleCommand(svSQL, objConn);
+                                        //objCmdsa.ExecuteNonQuery();
                                        
                                         //ispending = true;
                                         svSQL = "UPDATE STORESREQBASIC SET STATUS ='Pending'  WHERE STORESREQBASICID='" + cy.ID + "'";
@@ -1031,7 +1040,7 @@ namespace Arasan.Services
                                 string VALMETHOD = datatrans.GetDataString("Select VALMETHOD from ITEMMASTER where ITEMMASTERID='" + cp.ItemId + "' ");
 
 
-                                svSQL = "Insert into STORESREQDETAIL (STORESREQBASICID,ITEMID,UNIT,QTY,STOCK,NARR,ITEMMASTERID,ITEMDESC,STATUS,STORESREQDETAILROW,ISSQTY,SGCODE,TYPE,VALMETHOD) VALUES ('" + reqid + "','" + cp.ItemId + "','" + unitID + "','" + cp.ReqQty + "','" + cp.ClosingStock + "','" + cy.Narration + "','" + cp.ItemId + "','" + desc + "','OPEN','0','" + cp.ReqQty + "','0','Stores Issue','"+ VALMETHOD +"') RETURNING STORESREQDETAILID INTO :LASTCID";
+                                svSQL = "Insert into STORESREQDETAIL (STORESREQBASICID,ITEMID,UNIT,QTY,STOCK,NARR,ITEMMASTERID,ITEMDESC,STATUS,STORESREQDETAILROW,ISSQTY,SGCODE,TYPE,VALMETHOD,SCHCLQTY,SCHISSQTY,SCHQTY) VALUES ('" + reqid + "','" + cp.ItemId + "','" + unitID + "','" + cp.ReqQty + "','" + cp.ClosingStock + "','" + cy.Narration + "','" + cp.ItemId + "','" + desc + "','OPEN','0','0','0','Stores Issue','"+ VALMETHOD + "','" + cp.ReqQty + "','0','0') RETURNING STORESREQDETAILID INTO :LASTCID";
                                 OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                 objCmds.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                 objCmds.ExecuteNonQuery();

@@ -33,10 +33,10 @@
                                                     <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                         <thead>
                                                             <tr>
-                                                                <th> </th>
+                                                               @* <th> </th>*@
                                                                 <th>Item Name</th>
                                                                 <th>Location</th>
-                                                                <th>Date</th>
+                                                               @* <th>Date</th>*@
                                                                 <th>  Stock </th>
                                                                 <th>  Qty </th>
 
@@ -52,13 +52,13 @@
                                                                 {
 
                                                                     <tr>
-                                                                                 <td>@Html.CheckBoxFor(o => o.stklst[i].select, new { @id = "select" + i ,@onclick = "checkfunc("+ i +")"}) </td>
+                                                                              @*   <td>@Html.CheckBoxFor(o => o.stklst[i].select, new { @id = "select" + i ,@onclick = "checkfunc("+ i +")"}) </td>*@
 
                                                                         <td>@Html.DisplayFor(o => o.stklst[i].item)@Html.HiddenFor(o => o.stklst[i].itemid)@Html.HiddenFor(o => o.stklst[i].locationid) @Html.HiddenFor(o => o.Entered)</td>
                                                                         <td>@Html.DisplayFor(o => o.stklst[i].location)@Html.HiddenFor(o => o.stklst[i].invid)</td>
-                                                                        <td>@Html.DisplayFor(o => o.stklst[i].docDate)</td>
+                                                                       @* <td>@Html.DisplayFor(o => o.stklst[i].docDate)</td>*@
                                                                         <td>@Html.DisplayFor(o => o.stklst[i].qty)</td>
-                                                                        <td>@Html.TextBoxFor(o => o.stklst[i].reqqty)</td>
+                                                                       @* <td>@Html.TextBoxFor(o => o.stklst[i].reqqty)</td>*@
                                                                        
 
                                                                     </tr>

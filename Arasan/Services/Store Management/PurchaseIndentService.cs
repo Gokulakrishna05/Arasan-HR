@@ -416,6 +416,7 @@ namespace Arasan.Services
         public string IndentCRUD(PurchaseIndent cy)
         {
             string msg = "";
+            string updateCMd = "";
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
@@ -428,15 +429,8 @@ namespace Arasan.Services
                     int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'Ind-' AND ACTIVESEQUENCE = 'T'");
                     string docid = string.Format("{0}{1}", "Ind-", (idc + 1).ToString());
 
-                    string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='Ind-' AND ACTIVESEQUENCE ='T'";
-                    try
-                    {
-                        datatrans.UpdateStatus(updateCMd);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
+                    updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='Ind-' AND ACTIVESEQUENCE ='T'";
+                    
                     cy.IndentId = docid;
                 }
 
@@ -465,27 +459,38 @@ namespace Arasan.Services
                     //objCmd.Parameters.Add("Erecation", OracleDbType.NVarchar2).Value =cy.Erection;
                     //objCmd.Parameters.Add("PurchaseType", OracleDbType.NVarchar2).Value = cy.Purtype;
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.user;
-                    objCmd.Parameters.Add("ENTRYDATE", OracleDbType.Date).Value = DateTime.Now;
+                    objCmd.Parameters.Add("ENTRYDATE", OracleDbType.NVarchar2).Value = DateTime.Now.ToString("dd-MMM-yyyy");
                     objCmd.Parameters.Add("STOREREQID", OracleDbType.NVarchar2).Value ="";
+                    objCmd.Parameters.Add("USERID", OracleDbType.NVarchar2).Value =cy.username;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
+                        try
+                        {
+                            datatrans.UpdateStatus(updateCMd);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
                         Object Pid = objCmd.Parameters["OUTID"].Value;
                         //string Pid = "0";
                          if (cy.ID != null)
                         {
                             Pid = cy.ID;
                         }
-
+                        int r = 1;
                         foreach (PIndentItem cp in cy.PILst)
                         {
                             if (cp.Isvalid == "Y" && cp.ItemId != "0")
                             {
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
+                                    string last = datatrans.GetDataString("SELECT LATPURPRICE FROM ITEMMASTER WHERE ITEMMASTERID='"+cp.ItemId+"'");
+                                    string value = datatrans.GetDataString("SELECT VALMETHOD FROM ITEMMASTER WHERE ITEMMASTERID='" + cp.ItemId+"'");
                                     OracleCommand objCmds = new OracleCommand("PIDETAILPROC", objConns);
                                     if (cy.ID == null)
                                     {
@@ -502,7 +507,12 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cp.Narration;
                                     objCmds.Parameters.Add("DUE_DATE", OracleDbType.Date).Value = DateTime.Parse(cp.Duedate);
                                     objCmds.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cp.LocId;
-                                    objCmds.Parameters.Add("ITEMGROUPID", OracleDbType.NVarchar2).Value = cp.ItemGroupId;
+                                    objCmds.Parameters.Add("ITEMMASTERID", OracleDbType.NVarchar2).Value = cp.ItemId;
+                                    objCmds.Parameters.Add("LATPURPRICE", OracleDbType.NVarchar2).Value =  last;
+                                    objCmds.Parameters.Add("VALMETHOD", OracleDbType.NVarchar2).Value = value;
+                                    objCmds.Parameters.Add("CLSTK", OracleDbType.NVarchar2).Value = cp.Stock;
+                                    objCmds.Parameters.Add("ALLDEPTSTK", OracleDbType.NVarchar2).Value = cp.allstock;
+                                    objCmds.Parameters.Add("PINDDETAILROW", OracleDbType.NVarchar2).Value = r;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
@@ -512,6 +522,7 @@ namespace Arasan.Services
 
 
                                 }
+                            r++;
                         }
                         foreach (PIndentTANDC cp in cy.TANDClst)
                         {
