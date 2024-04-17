@@ -62,9 +62,9 @@
             $("#grid").jqxGrid(
                 {
 
-                    width: '60%',
+                    width: '100%',
                     source: dataAdapter,
-                    height: 450,
+                    height: 550,
                     source: source,
                     //autoheight: true,
                     sortable: true,
@@ -82,7 +82,7 @@
                     keyboardnavigation: false,
                     columns: [
 
-                        { text: ' Item', filtertype: 'checkedlist', datafield: 'itemname', width: 250 },
+                        { text: ' Item', filtertype: 'checkedlist', datafield: 'itemname', width: 350 },
                         { text: 'Location', filtertype: 'checkedlist', datafield: 'loc', width: 200 },
                        
                         { text: 'Qty', datafield: 'quantity', width: 100, align: 'center' },
