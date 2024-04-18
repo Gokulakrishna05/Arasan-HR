@@ -607,7 +607,8 @@ namespace Arasan.Controllers
             DataTable dt = new DataTable();
             DataTable dt1 = new DataTable();
             DataTable dt2 = new DataTable();
-
+            List<RetNonRetDcItem> Data = new List<RetNonRetDcItem>();
+            RetNonRetDcItem tda = new RetNonRetDcItem();
             dt = RetNonRetDcService.ViewGetReturnable(id);
             if (dt.Rows.Count > 0)
             {
@@ -637,8 +638,7 @@ namespace Arasan.Controllers
                 }
                 ca.ID = id;
 
-                List<RetNonRetDcItem> Data = new List<RetNonRetDcItem>();
-                RetNonRetDcItem tda = new RetNonRetDcItem();
+            }
                 //double tot = 0;
 
                 dt2 = RetNonRetDcService.GetReturnableItems(id);
@@ -646,7 +646,7 @@ namespace Arasan.Controllers
                 {
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
-                       
+                    tda = new RetNonRetDcItem();
                         DataTable dt4 = new DataTable();
                         dt4 = RetNonRetDcService.GetRetItemDetail(dt2.Rows[i]["CITEMID"].ToString());
                         if (dt4.Rows.Count > 0)
@@ -668,9 +668,10 @@ namespace Arasan.Controllers
                     }
                 }
 
-                ca.RetLst = Data;
+               
 
-            }
+            
+            ca.RetLst = Data;
             return View(ca);
         }
 

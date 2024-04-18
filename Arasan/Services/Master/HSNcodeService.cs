@@ -181,7 +181,7 @@ namespace Arasan.Services.Master
         public DataTable GetHSNcode(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE where HSNCODEID = '" + id + "' ";
+            SvSql = "Select HSNMASTID,HSCODE,HSDESC,GSTP from HSNMAST where HSNMASTID = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -194,11 +194,11 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select IS_ACTIVE,HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE IS_ACTIVE='Y' Order by HSNCODEID DESC  ";
+                SvSql = "Select IS_ACTIVE,HSNMASTID,HSCODE,HSDESC,GSTP from HSNMAST WHERE IS_ACTIVE='Y' Order by HSNMASTID DESC  ";
             }
             else
             {
-                SvSql = "Select IS_ACTIVE,HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE IS_ACTIVE='N' Order by HSNCODEID DESC  ";
+                SvSql = "Select IS_ACTIVE,HSNMASTID,HSCODE,HSDESC,GSTP from HSNMAST WHERE IS_ACTIVE='N' Order by HSNMASTID DESC  ";
 
             }
             DataTable dtt = new DataTable();
@@ -226,11 +226,11 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "select HSNROW.IS_ACTIVE ,TARIFFMASTER.TARIFFID,HSNROW.HSNCODEID from HSNROW  LEFT OUTER JOIN TARIFFMASTER ON TARIFFMASTER.TARIFFMASTERID = HSNROW.TARIFFID WHERE HSNROW.IS_ACTIVE ='Y' Order by HSNCODEID DESC ";
+                SvSql = "select TARIFFMASTER.TARIFFID,HSNROW.HSNCODEID from HSNROW  LEFT OUTER JOIN TARIFFMASTER ON TARIFFMASTER.TARIFFMASTERID = HSNROW.TARIFFID   Order by HSNCODEID DESC ";
             }
             else
             {
-                SvSql = "select HSNROW.IS_ACTIVE ,TARIFFMASTER.TARIFFID,HSNROW.HSNCODEID from HSNROW  LEFT OUTER JOIN TARIFFMASTER ON TARIFFMASTER.TARIFFMASTERID = HSNROW.TARIFFID WHERE HSNROW.IS_ACTIVE ='N' Order by HSNCODEID DESC ";
+                SvSql = "select TARIFFMASTER.TARIFFID,HSNROW.HSNCODEID from HSNROW  LEFT OUTER JOIN TARIFFMASTER ON TARIFFMASTER.TARIFFMASTERID = HSNROW.TARIFFID   Order by HSNCODEID DESC ";
 
             }
 

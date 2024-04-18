@@ -174,38 +174,38 @@ namespace Arasan.Controllers
                             //}
                             //else
                             //{
-                            dt1 = PoService.GethsnDetails(hsn);
-                            if (dt1.Rows.Count > 0)
-                            {
+                            //dt1 = PoService.GethsnDetails(hsn);
+                            //if (dt1.Rows.Count > 0)
+                            //{
 
-                                hsnid = dt1.Rows[0]["HSNCODEID"].ToString();
+                            //    hsnid = dt1.Rows[0]["HSNCODEID"].ToString();
 
 
-                            }
-                            DataTable trff = new DataTable();
-                            trff = PoService.GetgstDetails(hsnid);
-                            tda.gstlst = bindgst(hsnid);
-                            if (trff.Rows.Count > 0)
-                            {
-                                for (int j = 0; j < trff.Rows.Count; j++)
-                                {
-
-                                    tda.gst = trff.Rows[j]["TARIFFID"].ToString();
-
-                                    DataTable per = datatrans.GetData("Select PERCENTAGE from TARIFFMASTER where TARIFFMASTERID='" + tda.gst + "'  ");
-                                    tda.per = Convert.ToDouble(per.Rows[0]["PERCENTAGE"].ToString());
-                                }
-
-                            }
                             //}
+                            //DataTable trff = new DataTable();
+                            //trff = PoService.GetgstDetails(hsnid);
+                            //tda.gstlst = bindgst(hsnid);
+                            //if (trff.Rows.Count > 0)
+                            //{
+                            //    for (int j = 0; j < trff.Rows.Count; j++)
+                            //    {
 
+                            //        tda.gst = trff.Rows[j]["TARIFFID"].ToString();
+
+                            //        DataTable per = datatrans.GetData("Select PERCENTAGE from TARIFFMASTER where TARIFFMASTERID='" + tda.gst + "'  ");
+                            //        tda.per = Convert.ToDouble(per.Rows[0]["PERCENTAGE"].ToString());
+                            //    }
+
+                            //}
+                            //}
+                            DataTable per = datatrans.GetData("Select GSTP from HSNMAST where HSCODE='" + hsn + "'  ");
+                               tda.per = Convert.ToDouble(per.Rows[0]["GSTP"].ToString());
                             string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
 
                             string type = "";
 
                             string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYMASTID='" + po.Supplier + "'");
-                            if (trff.Rows.Count == 1)
-                            {
+                            
                                 if (partystate == cmpstate)
                                 {
                                     double cgst = tda.per / 2;
@@ -228,7 +228,7 @@ namespace Arasan.Controllers
                                     //po.Net = tda.TotalAmount;
                                 }
 
-                            }
+                             
                         }
                         catch (Exception ex)
                         {

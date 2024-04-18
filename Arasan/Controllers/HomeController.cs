@@ -104,13 +104,13 @@ namespace Arasan.Controllers
                 int enq = datatrans.GetDataId("select count(*) as cunt from PURENQBASIC   where TRUNC(ENQDATE) = TRUNC(SYSDATE)");
                 int quot = datatrans.GetDataId("select count(*) as cunt from PURQUOTBASIC   where TRUNC(DOCDATE) = TRUNC(SYSDATE)");
                 int po = datatrans.GetDataId("select count(*) as cunt from POBASIC   where TRUNC(DOCDATE) = TRUNC(SYSDATE)");
-                int gate = datatrans.GetDataId("select count(*) as cunt from GATE_INWARD   where TRUNC(GATE_IN_DATE) = TRUNC(SYSDATE) ");
+                int direct = datatrans.GetDataId("select count(*) as cunt from DPBASIC   where TRUNC(DOCDATE) = TRUNC(SYSDATE) ");
                 int grn = datatrans.GetDataId("select count(*) as cunt from GRNBLBASIC   where TRUNC(DOCDATE) = TRUNC(SYSDATE) ");
                 H.indent = indent;
                 H.enqury = enq;
                 H.qout = quot;
                 H.po = po;
-                H.gate = gate;
+                H.direct = direct;
                 H.grn = grn;
           
                
@@ -475,12 +475,12 @@ namespace Arasan.Controllers
                 int enq = datatrans.GetDataId("select count(*) as cunt from PURENQBASIC   where ENQDATE BETWEEN '" + st + "'  AND '" + ed + "'");
                 int quot = datatrans.GetDataId("select count(*) as cunt from PURQUOTBASIC   where DOCDATE BETWEEN '" + st + "'  AND '" + ed + "'");
                 int po = datatrans.GetDataId("select count(*) as cunt from POBASIC   where DOCDATE BETWEEN '" + st + "'  AND '" + ed + "'");
-                int gate = datatrans.GetDataId("select count(*) as cunt from GATE_INWARD   where DOCDATE BETWEEN '" + st + "'  AND '" + ed + "' ");
+                int direct = datatrans.GetDataId("select count(*) as cunt from DPBASIC   where DOCDATE BETWEEN '" + st + "'  AND '" + ed + "' ");
                 int grn = datatrans.GetDataId("select count(*) as cunt from GRNBLBASIC   where DOCDATE BETWEEN '" + st + "'  AND '" + ed + "'");
                 
 
 
-                var result = new { indent = indent, enq = enq, quot = quot, po= po, gate= gate , grn = grn };
+                var result = new { indent = indent, enq = enq, quot = quot, po= po, direct = direct, grn = grn };
                 return Json(result);
             }
             catch (Exception ex)

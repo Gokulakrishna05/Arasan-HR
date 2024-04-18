@@ -69,16 +69,16 @@
                                 </div>
                             </div>
                             </div>
-                          @*  <div class="row">
+                           <div class="row">
                                 <div class="col-lg-4"></div>
                                 <div class="col-md-5">
                                     <div class="form-group">
 
-                                        <br />  <label for="inputName3" class="col-sm-4 control-label">CGST%<label class="mandatory"></label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Percentage<label class="mandatory">*</label></label>
                                        
                                         <div class="col-sm-8">
 
-                                            @Html.DropDownListFor(C => C.CGst, Model.CGstlst,"Please Select", new { @id = "ddlCGst", @Class = "form-control _select", @TabIndex = 1 })
+                                             @Html.TextBoxFor(C => C.Per, new { @id = "txtPer", @class = "form-control", @TabIndex = 1,autocomplete="off" })
 
                                            
 
@@ -86,7 +86,7 @@
                                     </div>
                                 </div>
                             </div>
-                              <div class="row">
+                              @* <div class="row">
                                 <div class="col-lg-4"></div>
                                 <div class="col-md-5">
                                     <div class="form-group">

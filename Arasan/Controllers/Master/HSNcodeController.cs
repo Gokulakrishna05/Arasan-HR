@@ -50,8 +50,9 @@ namespace Arasan.Controllers.Master
 
                 if (dt.Rows.Count > 0)
                 {
-                    st.HCode = dt.Rows[0]["HSNCODE"].ToString();
-                    st.Dec = dt.Rows[0]["DESCRIPTION"].ToString();
+                    st.HCode = dt.Rows[0]["HSCODE"].ToString();
+                    st.Dec = dt.Rows[0]["HSDESC"].ToString();
+                    st.Per = dt.Rows[0]["GSTP"].ToString();
 
                 }
                
@@ -243,14 +244,14 @@ namespace Arasan.Controllers.Master
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
 
-                    EditRow = "<a href=HSNcode?id=" + dtUsers.Rows[i]["HSNCODEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["HSNCODEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    EditRow = "<a href=HSNcode?id=" + dtUsers.Rows[i]["HSNMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["HSNMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 }
                 else
                 {
 
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["HSNCODEID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["HSNMASTID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
 
                 }
 
@@ -258,9 +259,10 @@ namespace Arasan.Controllers.Master
 
                 Reg.Add(new HsnList
                 {
-                    id = Convert.ToInt64(dtUsers.Rows[i]["HSNCODEID"].ToString()),
-                    hcode = dtUsers.Rows[i]["HSNCODE"].ToString(),
-                    dec = dtUsers.Rows[i]["DESCRIPTION"].ToString(),
+                    id = Convert.ToInt64(dtUsers.Rows[i]["HSNMASTID"].ToString()),
+                    hcode = dtUsers.Rows[i]["HSCODE"].ToString(),
+                    dec = dtUsers.Rows[i]["HSDESC"].ToString(),
+                    per = dtUsers.Rows[i]["GSTP"].ToString(),
                     editrow = EditRow,
                     delrow = DeleteRow,
 
