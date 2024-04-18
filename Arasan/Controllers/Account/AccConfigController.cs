@@ -314,7 +314,7 @@ namespace Arasan.Controllers
                 
 
 
-                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                if (dtUsers.Rows[i]["ACTIVE"].ToString() == "Yes")
                 {
 
                     ViewRow = "<a href=AccConfig?id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/view_icon.png' alt='View' /></a>";

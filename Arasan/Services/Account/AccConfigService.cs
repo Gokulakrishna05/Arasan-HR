@@ -270,12 +270,12 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select IS_ACTIVE,ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID FROM ADCOMPH WHERE IS_ACTIVE = 'Y' ORDER BY ADCOMPHID ASC";
+                SvSql = "Select ACTIVE,ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID FROM ADCOMPH WHERE ACTIVE = 'Yes' ORDER BY ADCOMPHID ASC";
 
             }
             else
             {
-                SvSql = "Select IS_ACTIVE,ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID FROM ADCOMPH WHERE IS_ACTIVE = 'N' ORDER BY ADCOMPHID ASC";
+                SvSql = "Select ACTIVE,ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID FROM ADCOMPH WHERE ACTIVE = 'No' ORDER BY ADCOMPHID ASC";
 
             }
             DataTable dtt = new DataTable();
