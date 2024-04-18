@@ -207,7 +207,7 @@
                                                             {
                                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                    <td>
-                                                            @Html.DropDownListFor(o => o.DirLst[i].IndentId, Model.DirLst[i].Indentlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlIndent" + i, style = "width: 200px;", onchange = "Indent_Change(this.value," + i + ")"})
+                                                            @Html.DropDownListFor(o => o.DirLst[i].IndentId, Model.DirLst[i].Indentlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlIndent" + i, style = "width: 150px;", onchange = "Indent_Change(this.value," + i + ")"})
 
                                                                    </td>
                                                                  <td>
@@ -215,7 +215,7 @@
                                                                 @Html.HiddenFor(o => o.DirLst[i].saveItemId)
                                                                     </td>
                                                                       <td>
-                                                                 @Html.DropDownListFor(o => o.DirLst[i].gst, Model.DirLst[i].gstlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlgst" + i, style = "width: 170px;", onchange = "changeGst(this.value," + i + ")" })
+                                                                 @Html.DropDownListFor(o => o.DirLst[i].gst, Model.DirLst[i].gstlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlgst" + i, style = "width: 150px;", onchange = "changeGst(this.value," + i + ")" })
 
                                                             </td>
                                                             <td>
@@ -383,7 +383,7 @@
 
                                                             <br /> <label for="inputName3" class="col-sm-2 control-label">Truck No<label class="Mandatory"></label></label>
                                                             <div class="col-sm-10">
-                                                                @Html.TextBoxFor(C => C.truckno, new { @id = "txttruckno", @class = "form-control", @TabIndex = 1,@readonly="true" })
+                                                                @Html.TextBoxFor(C => C.truckno, new { @id = "txttruckno", @class = "form-control", @TabIndex = 1})
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1012,18 +1012,24 @@
         return pad_with_zeros(round_decimals(amt, 0));
     }*@
     function AddRow() {
-        var opt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetItemGrpJSON',
-            success: function (data) {
 
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                AppendRow(opt);
-            }
-        })
+            var puid = document.getElementById("ddlputype").value;
+            var supid = document.getElementById("ddlSupplier").value;
+        var opt = "";
+            $.ajax({
+                url: 'GetIndentJSON',
+                data: { "puid": puid, "supid": supid },
+                type: "POST",
+                success: function (data) {
+                    $.each(data, function () {
+                        opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                    });
+                    AppendRow(opt);
+                }
+               
+            });
+
+       
     }
     $('.form_date').datetimepicker({
         //   language:  'fr',
@@ -1038,9 +1044,11 @@
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var ItemGrp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='DirLst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var ItemGrp = "<td><select style = 'width: 150px;' class='form-control _select newcss' id='ddlIndent" + index + "' name='DirLst[" + index + "].IndentId' onchange = 'Indent_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
         var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+
+        var tarrif = "<td><select style = 'width: 150px;' class='form-control _select newcss' id='ddlgst" + index + "' name='Itemlst[" + index + "].gst' onchange = 'changeGst(this.value," + index + ")'><option value=''>Please select</option></select></td>";
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='DirLst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
@@ -1075,7 +1083,7 @@
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DirLst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + ConFac + Quantity + rate + Amount + Disc + DiscAmount + FrigCharge  + CGSTP + SGSTP + IGSTP + CGST + SGST + IGST +TotalAmount + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + tarrif + Unit + ConFac + Quantity + rate + Amount + Disc + DiscAmount + FrigCharge + CGSTP + SGSTP + IGSTP + CGST + SGST + IGST + TotalAmount + removeCell + "</tr>";
 
         //alert(Packing);
         $("#tbBooks").append(newRow);

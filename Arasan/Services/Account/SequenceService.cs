@@ -137,11 +137,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "T" || strStatus == null)
             {
-                SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID,ACTIVESEQUENCE from SEQUENCE  WHERE SEQUENCE.ACTIVESEQUENCE = 'T' ORDER BY SEQUENCEID DESC";
+                SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDT,'dd-MON-yyyy')STDATE,to_char(EDDT,'dd-MON-yyyy')EDDATE,SEQUENCEID,ACTIVESEQUENCE from SEQUENCE  WHERE SEQUENCE.ACTIVESEQUENCE = 'T' ORDER BY SEQUENCEID DESC";
             }
             else
             {
-                SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID,ACTIVESEQUENCE from SEQUENCE  WHERE SEQUENCE.ACTIVESEQUENCE = 'F' ORDER BY SEQUENCEID DESC";
+                SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDT,'dd-MON-yyyy')STDATE,to_char(EDDT,'dd-MON-yyyy')EDDATE,SEQUENCEID,ACTIVESEQUENCE from SEQUENCE  WHERE SEQUENCE.ACTIVESEQUENCE = 'F' ORDER BY SEQUENCEID DESC";
 
             }
             DataTable dtt = new DataTable();
