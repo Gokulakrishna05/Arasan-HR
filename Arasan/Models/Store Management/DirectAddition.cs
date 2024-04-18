@@ -56,7 +56,7 @@ namespace Arasan.Models
         public string ItemGroupId { get; set; }
         public string ConFac { get; set; }
         public string Unit { get; set; }
-        public double BinID { get; set; }
+        public string BinID { get; set; }
 
         public List<SelectListItem> PURLst;
         public string PurType { get; set; }

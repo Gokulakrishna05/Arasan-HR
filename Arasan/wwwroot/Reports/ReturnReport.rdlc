@@ -1698,6 +1698,17 @@
           </Border>
         </Style>
       </Rectangle>
+      <Rectangle Name="Rectangle3">
+        <KeepTogether>true</KeepTogether>
+        <Height>2.84571in</Height>
+        <Width>6.22153in</Width>
+        <ZIndex>22</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Rectangle>
     </ReportItems>
     <Height>4.33333in</Height>
     <Style>
@@ -1734,7 +1745,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
               <Top>0.17583in</Top>
-              <Left>0.76796in</Left>
+              <Left>0.78722in</Left>
               <Height>0.25in</Height>
               <Width>4.63542in</Width>
               <Style>
@@ -1765,7 +1776,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox2</rd:DefaultName>
               <Top>0.56819in</Top>
-              <Left>0.63236in</Left>
+              <Left>0.65162in</Left>
               <Height>0.18056in</Height>
               <Width>5.17708in</Width>
               <ZIndex>1</ZIndex>
@@ -1781,12 +1792,11 @@
             </Textbox>
           </ReportItems>
           <KeepTogether>true</KeepTogether>
-          <Left>0.01926in</Left>
           <Height>0.74875in</Height>
-          <Width>6.15305in</Width>
+          <Width>6.22153in</Width>
           <Style>
             <Border>
-              <Style>None</Style>
+              <Style>Solid</Style>
             </Border>
           </Style>
         </Rectangle>

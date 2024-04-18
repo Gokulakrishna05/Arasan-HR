@@ -114,7 +114,7 @@ namespace Arasan.Controllers.Store_Management
                         //tda.Serial = dt2.Rows[i]["SERIALYN"].ToString();
                         //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
                         //tda.FromBin = Convert.ToDouble(dt2.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTPER"].ToString());
-                        tda.BinID = Convert.ToDouble(dt2.Rows[i]["BINID"].ToString() == "" ? "0" : dt2.Rows[i]["BINID"].ToString());
+                        tda.BinID = dt2.Rows[i]["BINID"].ToString() ;
                         //tda.Process = Convert.ToDouble(dt2.Rows[i]["PROCESSID"].ToString() == "" ? "0" : dt2.Rows[i]["PROCESSID"].ToString());
                         tda.Processlst = BindProcess();
                         tda.Process = dt2.Rows[i]["PROCESSID"].ToString();
@@ -433,12 +433,12 @@ namespace Arasan.Controllers.Store_Management
                 {
                     for (int i = 0; i < dtt.Rows.Count; i++)
                     {
-
+                        tda = new DeductionItem();
                         //tda.ItemGroupId = dtt.Rows[i]["SGCODE"].ToString();
                         tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
-                        tda.ConFac = dtt.Rows[i]["CONFAC"].ToString();
-                        tda.Unit = dtt.Rows[i]["UNITID"].ToString();
-                        tda.BinID = Convert.ToDouble(dtt.Rows[i]["BINID"].ToString() == "" ? "0" : dtt.Rows[i]["BINID"].ToString());
+                        //tda.ConFac = dtt.Rows[i]["CONFAC"].ToString();
+                        tda.Unit = dtt.Rows[i]["UNIT"].ToString();
+                        tda.BinID = dtt.Rows[i]["BINID"].ToString();
                         tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString());
                         tda.rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString() == "" ? "0" : dtt.Rows[i]["RATE"].ToString());
                         //tda.disc = Convert.ToDouble(dtt.Rows[i]["DISCPER"].ToString());
@@ -457,7 +457,7 @@ namespace Arasan.Controllers.Store_Management
 
  
                         tda.Unit = dtt.Rows[i]["UNIT"].ToString();
-                        tda.BinID = Convert.ToDouble(dtt.Rows[i]["BINID"].ToString());
+                        tda.BinID =  dtt.Rows[i]["BINID"].ToString() ;
                         tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
                         tda.rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString());
                         //tda.disc = Convert.ToDouble(dtt.Rows[i]["DISCPER"].ToString());

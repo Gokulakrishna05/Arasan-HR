@@ -45,7 +45,7 @@
                 { name: 'loc', type: 'string' },
                 { name: 'entby', type: 'string' },
                 { name: 'view', type: 'string' },
-                { name: 'editrow', type: 'string' },
+               // { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
 
             ],
@@ -86,7 +86,7 @@
                     { text: 'Location', filtertype: 'checkedlist', datafield: 'loc', width: 250 },
                     { text: 'Entered By', filtertype: 'input', datafield: 'entby', width: 150 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                   //{ text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
                 ]
@@ -162,10 +162,7 @@
             width: '80%',
             height: '10%',
             arrows: false,
-            afterClose: function () {
-                location.reload();
-                return;
-            }
+            
         });
         fancybox123 = $.fancybox;
     });

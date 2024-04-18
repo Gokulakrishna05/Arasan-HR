@@ -62,7 +62,7 @@ namespace Arasan.Models
         public string Isvalid { get; set; }
         public string ConFac { get; set; }
         public string Unit { get; set; }
-        public double BinID { get; set; }
+        public string BinID { get; set; }
         //public string Batch { get; set; }
         //public string serial { get; set; }
         //public string CurrentStock { get; set; }

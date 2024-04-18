@@ -22,7 +22,7 @@ namespace Arasan.Models
         public int qout { get; set; }
         public int po { get; set; }
         public int grn { get; set; }
-        public int gate { get; set; }
+        public int direct { get; set; }
         public int SalesQuoteFollowcunt { get; set; }
         public List<CurIn> CurInlst { get; set; }
         public List<PurchaseDash> purlst { get; set; }

@@ -16,6 +16,7 @@ namespace Arasan.Models
 
         public string HCode { get; set; }
         public string Dec { get; set; }
+        public string Per { get; set; }
 
 
         public List<SelectListItem> CGstlst;
@@ -47,6 +48,7 @@ namespace Arasan.Models
         public long id { get; set; }
         public string hcode { get; set; }
         public string dec { get; set; }
+        public string per { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
        

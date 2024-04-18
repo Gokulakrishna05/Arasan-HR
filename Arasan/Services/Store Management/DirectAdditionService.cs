@@ -308,7 +308,7 @@ namespace Arasan.Services.Store_Management
         public DataTable GetDirectAdditionItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ADDDETAIL.QTY,ADDDETAIL.ADDDETAILID,ADDDETAIL.ITEMID,UNITMAST.UNITID,RATE,AMOUNT,BINID,PROCESSID,CF  from ADDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=ADDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where ADDDETAIL.ADDBASICID='" + id + "'";
+            SvSql = "Select ADDDETAIL.QTY,ADDDETAIL.ADDDETAILID,ITEMMASTER.ITEMID,UNIT ,RATE,AMOUNT,BINBASIC.BINID,PROCESSID  from ADDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=ADDDETAIL.ITEMID LEFT OUTER JOIN BINBASIC on BINBASIC.BINBASICID=ADDDETAIL.BINID   where ADDDETAIL.ADDBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -41,6 +41,7 @@
                 { name: 'id', type: 'string' },
                 { name: 'hcode', type: 'string' },
                 { name: 'dec', type: 'string' },
+                { name: 'per', type: 'string' },
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
 
@@ -171,8 +172,9 @@
                 },
                 columns: [
 
-                    { text: 'HSN Code', filtertype: 'checkedlist', datafield: 'hcode', width: 250 },
-                    { text: 'Description', datafield: 'dec', width: 150 },
+                    { text: 'HSN Code', filtertype: 'checkedlist', datafield: 'hcode', width: 100 },
+                    { text: 'Description', datafield: 'dec', width: 280 },
+                    { text: 'Percentage', datafield: 'per', width: 150 },
                         { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 60 },
                         { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
 

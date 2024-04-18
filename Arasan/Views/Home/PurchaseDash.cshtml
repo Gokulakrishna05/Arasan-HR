@@ -111,7 +111,7 @@
                             <button type="button" class="btn btn-info m-r-sm"><lable id="po">@Html.DisplayFor(o => o.po )</lable></button> PO
                         </td>
                         <td>
-                            <button type="button" class="btn btn-success m-r-sm"><lable id="gate">@Html.DisplayFor(o => o.gate )</lable></button> Gate Inward
+                            <button type="button" class="btn btn-success m-r-sm"><lable id="direct">@Html.DisplayFor(o => o.direct )</lable></button> Direct Purchase
                         </td>
                         <td>
                             <button type="button" class="btn btn-danger m-r-sm"><lable id="grn">@Html.DisplayFor(o => o.grn )</lable></button> GRN
@@ -671,7 +671,7 @@
                     document.getElementById("enq" ).innerHTML = result.enq;
                     document.getElementById("quot").innerHTML = result.quot;
                     document.getElementById("po").innerHTML = result.po;
-                    document.getElementById("gate").innerHTML = result.gate;
+                    document.getElementById("direct").innerHTML = result.direct;
                     document.getElementById("grn").innerHTML = result.grn;
                     
                 },
