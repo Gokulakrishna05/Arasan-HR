@@ -518,15 +518,15 @@ namespace Arasan.Controllers
                     }
 
                 }
-                if (puid == "AGAINST EXCISE INVOICE")
-                {
-                    dtDesg = datatrans.getexinv(supid);
-                    for (int i = 0; i < dtDesg.Rows.Count; i++)
-                    {
-                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["EXINVBASICID"].ToString() });
-                    }
+                //if (puid == "AGAINST EXCISE INVOICE")
+                //{
+                //    dtDesg = datatrans.getexinv(supid);
+                //    for (int i = 0; i < dtDesg.Rows.Count; i++)
+                //    {
+                //        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["EXINVBASICID"].ToString() });
+                //    }
 
-                }
+                //}
                 return lstdesg;
             }
             catch (Exception ex)
@@ -540,7 +540,7 @@ namespace Arasan.Controllers
             {
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 lstdesg.Add(new SelectListItem() { Text = "AGAINST PURCHASE INDENT", Value = "AGAINST PURCHASE INDENT" });
-                lstdesg.Add(new SelectListItem() { Text = "AGAINST EXCISE INVOICE", Value = "AGAINST EXCISE INVOICE" });
+               // lstdesg.Add(new SelectListItem() { Text = "AGAINST EXCISE INVOICE", Value = "AGAINST EXCISE INVOICE" });
                 lstdesg.Add(new SelectListItem() { Text = "AGAINST CONSUMABLES RETURN", Value = "AGAINST CONSUMABLES RETURN" });
                 return lstdesg;
             }
@@ -639,7 +639,25 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-
+        public List<SelectListItem> BindCItemlst()
+        {
+            try
+            {
+                DataTable dtDesg = new DataTable();
+                dtDesg = datatrans.GetData("select ITEMID,ITEMMASTERID from ITEMMASTER WHERE SUBCATEGORY='PACK DRUM'");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
         public List<SelectListItem> BindItemGrplst()
         {
             try
@@ -693,6 +711,10 @@ namespace Arasan.Controllers
         public JsonResult GetItemJSON(string indid, string puid)
         {
              return Json(BindItemlst(indid, puid));
+        }
+        public JsonResult GetCItemJSON()
+        {
+            return Json(BindCItemlst());
         }
         public JsonResult GetSupJSON(string puid)
         {

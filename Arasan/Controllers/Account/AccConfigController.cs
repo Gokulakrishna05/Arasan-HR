@@ -216,7 +216,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LEDNAME"].ToString(), Value = dtDesg.Rows[i]["LEDGERID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MNAME"].ToString(), Value = dtDesg.Rows[i]["MASTERID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -283,6 +283,7 @@ namespace Arasan.Controllers
                 {
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
+                        tda=new ConfigItem();
                         tda.Type = dt2.Rows[i]["ADTYPE"].ToString();
                         tda.Tname = dt2.Rows[i]["ADNAME"].ToString();
                         tda.Schname = dt2.Rows[i]["ADSCHEMENAME"].ToString();
@@ -317,7 +318,7 @@ namespace Arasan.Controllers
                 if (dtUsers.Rows[i]["ACTIVE"].ToString() == "Yes")
                 {
 
-                    ViewRow = "<a href=AccConfig?id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/view_icon.png' alt='View' /></a>";
+                    ViewRow = "<a href=ViewAccConfig?id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View' /></a>";
                     EditRow = "<a href=AccConfig?id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 }

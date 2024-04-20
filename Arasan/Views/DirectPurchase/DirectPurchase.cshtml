@@ -657,7 +657,7 @@
         });
     }
     function getsuptype(supid){
-        var puid=document.getElementById("ddlputype").value;
+        @*var puid=document.getElementById("ddlputype").value;
           var i = 0;
  $('tr.chkitemlst').each(function () {
             if ($(this).css('display') !== 'none') {
@@ -678,7 +678,7 @@
             })(i);
                 i += 1;
         }
-        });
+        });*@
     }
     function getputype(puid){
         var supid=document.getElementById("ddlSupplier").value;
@@ -697,11 +697,33 @@
         });
             if(puid=="AGAINST CONSUMABLES RETURN"){
             document.getElementById('txtVoucher').value ="Credit Note";
+                    var i = 0;
+ $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+            (function (index) {
+                
+                    $.ajax({
+                        url: 'GetCItemJSON',
+                    
+                        type: "GET",
+                        success: function (response) {
+                             PopulateDropDown("#ddlItem" + index, response);
+                        },
+                        error: function () {
+                            alert("Data Not Found");
+                        }
+                    });
+ 
+            })(i);
+                i += 1;
+        }
+        });
         }
         else{
             document.getElementById('txtVoucher').value ="Purchase";
+                  
         }
-        var i = 0;
+          var j = 0;
  $('tr.chkitemlst').each(function () {
             if ($(this).css('display') !== 'none') {
             (function (index) {
@@ -718,8 +740,8 @@
                         }
                     });
  
-            })(i);
-                i += 1;
+            })(j);
+                j += 1;
         }
         });
     }

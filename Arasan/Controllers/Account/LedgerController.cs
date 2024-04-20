@@ -250,7 +250,7 @@ namespace Arasan.Controllers
             DataTable dt = new DataTable();
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
-                dt = (DataTable)ledger.GetAllListDayBookItems(dtUsers.Rows[i]["MID"].ToString());
+               // dt = (DataTable)ledger.GetAllListDayBookItems(dtUsers.Rows[i]["MID"].ToString());
 
                 Reg.Add(new ListDayItems
                 {
@@ -260,7 +260,7 @@ namespace Arasan.Controllers
                     tratype = dtUsers.Rows[i]["T1TYPE"].ToString(),
                     vocmemo = dtUsers.Rows[i]["T1NARR"].ToString(),
                     vtype = dtUsers.Rows[i]["DBCR"].ToString(),
-                    ledgercode = dt.Rows[0]["LEDNAME"].ToString(),
+                    ledgercode = dtUsers.Rows[i]["MID"].ToString(),
                     debitamount = dtUsers.Rows[i]["DBAMOUNT"].ToString(),
                     creditamount = dtUsers.Rows[i]["CRAMOUNT"].ToString(),
                 });

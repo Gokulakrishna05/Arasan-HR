@@ -65,7 +65,7 @@
             {
                 width: '100%',
                 source: dataAdapter,
-                height: 450,
+                height:550,
                 source: source,
                 //autoheight: true,
                 sortable: true,
@@ -82,14 +82,14 @@
                 selectionmode: 'multiplerowsextended',
                 keyboardnavigation: false,
                 columns: [
-                    { text: 'Vocher No', filtertype: 'checkedlist', datafield: 'vocherno', width: 120 },
+                    { text: 'Vocher No', filtertype: 'checkedlist', datafield: 'vocherno', width: 100 },
                     { text: 'Vocher Date', datafield: 'vocherdate', width: 100, align: 'center' },
                     { text: 'Trans Type', filtertype: 'checkedlist', datafield: 'tratype', align: 'center', width: 80 },
-                    { text: 'Voucher Memo', filtertype: 'input', datafield: 'vocmemo', width: 150, align: 'center' },
+                    { text: 'Voucher Memo', filtertype: 'input', datafield: 'vocmemo', width: 350, align: 'center' },
                     { text: 'Vocher Type', datafield: 'vtype', width: 80, align: 'center' },
                     { text: 'Ledger Code', datafield: 'ledgercode', width: 200, align: 'center' },
-                    { text: 'Debit Amount', datafield: 'debitamount', width: 150, align: 'left' },
-                    { text: 'Credit Amount', datafield: 'creditamount', width: 150, align: 'left' },
+                    { text: 'Debit', datafield: 'debitamount', width: 100, align: 'left' , cellsformat: 'c2', aggregates: ['sum']},
+                    { text: 'Credit', datafield: 'creditamount', width: 100, align: 'left', cellsformat: 'c2', aggregates: ['sum', 'avg'] },
                 ]
             });
         //$("#ddlStatus").change(function () {

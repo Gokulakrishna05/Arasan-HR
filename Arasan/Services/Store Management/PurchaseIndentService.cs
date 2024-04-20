@@ -97,7 +97,7 @@ namespace Arasan.Services
             {
                 SvSql += " and P.DOCDATE BETWEEN '" + strfrom + "' and '" + strTo + "'";
             }
-            SvSql += " Order by P.DOCDATE,P.DOCID DESC  ";
+            SvSql += " Order by P.DOCDATE DESC  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
