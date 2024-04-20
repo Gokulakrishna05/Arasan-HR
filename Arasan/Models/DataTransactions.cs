@@ -299,10 +299,10 @@ namespace Arasan.Models
             {
                 SvSql = "select PARTYMASTID,PARTYID from PARTYMAST where PARTYCAT IN ('CUSTOMER','BOTH')";
             }
-            else if (putype == "AGAINST EXCISE INVOICE")
-            {
-                SvSql = "select PARTYMASTID,PARTYID from PARTYMAST where PARTYCAT='BRANCH'";
-            }
+            //else if (putype == "AGAINST EXCISE INVOICE")
+            //{
+            //    SvSql = "select PARTYMASTID,PARTYID from PARTYMAST where PARTYCAT='BRANCH'";
+            //}
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             DataTable dtt = new DataTable();
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -469,6 +469,7 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+       
         public DataTable GetindItem(string indid,string puid)
         {
             string SvSql = string.Empty;

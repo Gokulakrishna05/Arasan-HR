@@ -177,7 +177,7 @@ namespace Arasan.Services
         public DataTable Getledger()
         {
             string SvSql = string.Empty;
-            SvSql = "select LEDNAME,LEDGERID from ACCLEDGER";
+            SvSql = "select MASTERID,MNAME from master WHERE GROUPORACCOUNT='ACCOUNT'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -257,7 +257,7 @@ namespace Arasan.Services
         public DataTable GetConfigItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ADTYPE,ADNAME,ADSCHEMENAME,ACCLEDGER.LEDNAME from ADCOMPD LEFT OUTER JOIN ACCLEDGER ON ACCLEDGER.LEDGERID = ADCOMPD.ADACCOUNT where ADCOMPD.ADCOMPHID= '" + id + "' ";
+            SvSql = "Select ADTYPE,ADNAME,ADSCHEMENAME,M.MNAME LEDNAME from ADCOMPD A LEFT OUTER JOIN MASTER M ON M.MASTERID = A.ADACCOUNT where A.ADCOMPHID= '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
