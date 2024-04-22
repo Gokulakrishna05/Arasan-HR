@@ -164,7 +164,7 @@
                                                                 <tr>
 
                                                                 <th>Item ID</th>
-                                                               @* <th>Drum Selection</th>*@
+                                                               <th>Drum </th> 
                                                                 <th>Unit</th>
                                                              @*   <th> ConFactor</th>*@
                                                                @* <th> Drums Desc </th>*@
@@ -187,7 +187,10 @@
                                                                             <td>
 
                                                                             @Html.DisplayFor(o => o.SCDIlst[i].ItemId)
+                                                                            @Html.HiddenFor(o => o.SCDIlst[i].detid)
                                                                             </td>
+                                                                                   <td><div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("ViewDrum", "SubContractingDC",new{id= item.detid})' class='fancybox' data-fancybox-type="iframe"><img src='../Images/view_icon.png' /></a></div> </td>
+
                                                                             <td>
 
                                                                             @Html.DisplayFor(o => o.SCDIlst[i].Unit)
@@ -403,10 +406,7 @@
                                 </div>
                             </div>
 
-                            <div style="height:30px;"></div>
-                        <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onclick="location.href='@Url.Action("ListSubContractingDC", "SubContractingDC")'">Submit</button>
-
-                        <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListSubContractingDC", "SubContractingDC")'">Cancel</button>
+                             
                         </form>
                    @* }*@
                 </div>
@@ -415,12 +415,29 @@
 
     </div>
 </div>
-<script>
-    $(function () {
-        $(document).on('click', '.closeFancybox', function () {
-            $.fancybox.close();
-        })
-    })
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false
+        });
+        fancybox123 = $.fancybox;
+    });
 
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
 </script>
 

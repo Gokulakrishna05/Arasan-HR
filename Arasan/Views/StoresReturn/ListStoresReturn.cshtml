@@ -39,12 +39,12 @@
                 // synchronize with the server - send update command
             },
             datafields: [
-                { name: 'branch', type: 'string' },
+                 
                 { name: 'docNo', type: 'string' },
                 { name: 'docDate', type: 'string' },
                 { name: 'location', type: 'string' },
-                { name: 'refno', type: 'string' },
-                { name: 'refdate', type: 'string' },
+                { name: 'toloc', type: 'string' },
+                
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
 
@@ -80,12 +80,12 @@
                 selectionmode: 'multiplerowsextended',
                 keyboardnavigation: false,
                 columns: [
-                    { text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 250 },
+                     
                     { text: 'Doc No', filtertype: 'input', datafield: 'docNo', width: 150 },
                     { text: 'Doc Date', datafield: 'docDate', width: 100, align: 'center' },
-                    { text: 'Location', filtertype: 'checkedlist', datafield: 'location', width: 250 },
-                    { text: 'Ref No', filtertype: 'input', datafield: 'refno', width: 150 },
-                    { text: 'Ref Date', datafield: 'refdate', width: 150, align: 'center' },
+                    { text: 'From Loc', filtertype: 'checkedlist', datafield: 'location', width: 250 },
+                    { text: 'To Loc', filtertype: 'input', datafield: 'toloc', width: 150 },
+                     
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },

@@ -40,10 +40,10 @@
                 // synchronize with the server - send update command
             },
             datafields: [
-                { name: 'branch', type: 'string' },
+                { name: 'party', type: 'string' },
                 { name: 'docNo', type: 'string' },
                 { name: 'docDate', type: 'string' },
-                { name: 'curr', type: 'string' },
+                { name: 'grn', type: 'string' },
                 { name: 'create', type: 'string' },
                 { name: 'view', type: 'string' },
                 { name: 'delrow', type: 'string' },
@@ -80,10 +80,11 @@
                 selectionmode: 'multiplerowsextended',
                 keyboardnavigation: false,
                 columns: [
-                    { text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
+                   
                     { text: 'Doc No', filtertype: 'input', datafield: 'docNo', width: 150 },
                     { text: 'Doc Date', datafield: 'docDate', width: 100, align: 'center' },
-                    { text: 'Currency', filtertype: 'checkedlist', datafield: 'curr', align: 'center', width: 300 },
+                    { text: 'Invoice No', filtertype: 'checkedlist', datafield: 'grn', align: 'center', width: 100 },
+                     { text: 'Party Name', filtertype: 'checkedlist', datafield: 'party', width: 250 },
                     { text: 'Create DN', datafield: 'create', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 100 },
 
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },

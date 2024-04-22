@@ -55,6 +55,7 @@ namespace Arasan.Models
     public class SubContractDDrumdetails
     {
         public string lotno { get; set; }
+        public string item { get; set; }
         public string drumno { get; set; }
         public string qty { get; set; }
         public string reqqty { get; set; }

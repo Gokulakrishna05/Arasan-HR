@@ -80,10 +80,11 @@ namespace Arasan.Models
     public class PurchaseReturnItems
     {
         public long id { get; set; }
-        public string branch { get; set; }
+        public string party { get; set; }
         public string docNo { get; set; }
         public string curr { get; set; }
         public string docDate { get; set; }
+        public string grn { get; set; }
         //public string qcresult { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }

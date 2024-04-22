@@ -101,7 +101,7 @@ namespace Arasan.Controllers
             Home H = new Home();
              
                 int indent = datatrans.GetDataId("select count(*) as cunt from PINDBASIC   where TRUNC(DOCDATE) = TRUNC(SYSDATE)");
-                int enq = datatrans.GetDataId("select count(*) as cunt from PURENQBASIC   where TRUNC(ENQDATE) = TRUNC(SYSDATE)");
+                int enq = datatrans.GetDataId("select count(*) as cunt from PURENQBASIC   where TRUNC(DOCDATE) = TRUNC(SYSDATE)");
                 int quot = datatrans.GetDataId("select count(*) as cunt from PURQUOTBASIC   where TRUNC(DOCDATE) = TRUNC(SYSDATE)");
                 int po = datatrans.GetDataId("select count(*) as cunt from POBASIC   where TRUNC(DOCDATE) = TRUNC(SYSDATE)");
                 int direct = datatrans.GetDataId("select count(*) as cunt from DPBASIC   where TRUNC(DOCDATE) = TRUNC(SYSDATE) ");
@@ -472,7 +472,7 @@ namespace Arasan.Controllers
             try
             {
                 int indent = datatrans.GetDataId("select count(*) as cunt from PINDBASIC   where DOCDATE BETWEEN '" + st + "'  AND '" + ed + "'");
-                int enq = datatrans.GetDataId("select count(*) as cunt from PURENQBASIC   where ENQDATE BETWEEN '" + st + "'  AND '" + ed + "'");
+                int enq = datatrans.GetDataId("select count(*) as cunt from PURENQBASIC   where DOCDATE BETWEEN '" + st + "'  AND '" + ed + "'");
                 int quot = datatrans.GetDataId("select count(*) as cunt from PURQUOTBASIC   where DOCDATE BETWEEN '" + st + "'  AND '" + ed + "'");
                 int po = datatrans.GetDataId("select count(*) as cunt from POBASIC   where DOCDATE BETWEEN '" + st + "'  AND '" + ed + "'");
                 int direct = datatrans.GetDataId("select count(*) as cunt from DPBASIC   where DOCDATE BETWEEN '" + st + "'  AND '" + ed + "' ");

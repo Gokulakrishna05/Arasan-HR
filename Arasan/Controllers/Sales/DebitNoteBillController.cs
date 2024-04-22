@@ -31,11 +31,11 @@ namespace Arasan.Controllers.Sales
             ca.Brlst = BindBranch();
             ca.Partylst = BindGParty();
             ca.Vocherlst = BindVocher();
-            ca.Vocher = "R";
+            ca.Vocher = "7";
             DataTable dtv = datatrans.GetSequence("Dbnot");
             if (dtv.Rows.Count > 0)
             {
-                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
             }
             ca.Location = Request.Cookies["LocationId"];
             ca.Branch = Request.Cookies["BranchId"];
@@ -165,7 +165,7 @@ namespace Arasan.Controllers.Sales
                             //}
 
                             tda.InvNo= dt.Rows[0]["RGRNNO"].ToString();
-                            tda.Invdate= dt.Rows[0]["DOCDAT"].ToString();
+                            tda.Invdate= dt.Rows[0]["DOCDATE"].ToString();
                             tda.Item = dt2.Rows[i]["ITEMID"].ToString();
                             tda.Itemid = dt2.Rows[i]["item"].ToString();
                             tda.Cf = dt2.Rows[i]["CF"].ToString();
