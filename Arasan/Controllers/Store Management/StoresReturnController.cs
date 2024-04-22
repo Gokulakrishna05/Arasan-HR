@@ -187,12 +187,12 @@ namespace Arasan.Controllers.Stores_Management
                 Reg.Add(new ListStoresReturnItem
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["STORESRETBASICID"].ToString()),
-                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                   
                     docNo = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     location = dtUsers.Rows[i]["LOCID"].ToString(),
-                    refno = dtUsers.Rows[i]["REFNO"].ToString(),
-                    refdate = dtUsers.Rows[i]["REFDATE"].ToString(),
+                    toloc = dtUsers.Rows[i]["location"].ToString(),
+                  
                     editrow = EditRow,
                     delrow = DeleteRow,
 
@@ -281,7 +281,7 @@ namespace Arasan.Controllers.Stores_Management
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEM_ID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["item"].ToString() });
                 }
                 return lstdesg;
             }
@@ -323,11 +323,15 @@ namespace Arasan.Controllers.Stores_Management
                         CF = dt1.Rows[0]["CF"].ToString();
                     }
                 }
-                dt2 = StoresReturnService.Getstkqty(ItemId, loc, branch);
-                if (dt2.Rows.Count > 0)
+                string type = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER WHERE ITEMMASTERID='" + ItemId + "'");
+
+                if (type == "YES")
                 {
-                    stk = dt2.Rows[0]["QTY"].ToString();
-                    lot = dt2.Rows[0]["LOT_NO"].ToString();
+                    stk = datatrans.GetDataString("select SUM(S.PLUSQTY-S.MINUSQTY) as QTY  from LSTOCKVALUE S  where S.LOCID='" + loc + "' AND S.ITEMID='" + ItemId + "' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0");
+                }
+                else
+                {
+                    stk = datatrans.GetDataString("select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY  from STOCKVALUE S  where S.LOCID='" + loc + "' AND S.ITEMID='" + ItemId + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  ");
                 }
                 if (stk == "")
                 {

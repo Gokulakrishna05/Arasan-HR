@@ -57,7 +57,7 @@ namespace Arasan.Models
     public class ListStoresReturnItem
     {
         public long id { get; set; }
-        public string branch { get; set; }
+        public string toloc { get; set; }
         public string docNo { get; set; }
         public string location { get; set; }
         public string docDate { get; set; }

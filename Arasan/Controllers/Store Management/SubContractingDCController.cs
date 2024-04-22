@@ -692,6 +692,42 @@ namespace Arasan.Controllers.Store_Management
             st.packlst = TData2;
             return View(st);
         }
+        public IActionResult ViewDrum(string id)
+        {
+            SubContractDDDrumdetailstable ca = new SubContractDDDrumdetailstable();
+            DataTable dt = new DataTable();
+            DataTable dt2 = new DataTable();
+            List<SubContractDDrumdetails> TData = new List<SubContractDDrumdetails>();
+            SubContractDDrumdetails tda = new SubContractDDrumdetails();
+            dt = datatrans.GetData("SELECT TLOT,DRUMNO,BQTY,BRATE,BAMOUNT,ITEMMASTER.ITEMID FROM SUBCONTDCBATCH LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=SUBCONTDCBATCH.BITEMID  WHERE PARENTRECORDID='" + id+"'");
+            //dt2 = SubContractingMaterialReceiptService.GetMaterialReceipt(id);
+            //if (dt2.Rows.Count > 0)
+            //{
+
+            //    ca.item = dt2.Rows[0]["ITEMID"].ToString();
+
+            //    ca.qty = dt2.Rows[0]["MSUBQTY"].ToString();
+
+            //}
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                tda = new SubContractDDrumdetails();
+                tda.drumno = dt.Rows[i]["DRUMNO"].ToString();
+                tda.item = dt.Rows[i]["ITEMID"].ToString();
+                tda.lotno = dt.Rows[i]["TLOT"].ToString();
+
+                tda.qty = dt.Rows[i]["BQTY"].ToString();
+                tda.rate = dt.Rows[i]["BRATE"].ToString();
+                tda.amount = dt.Rows[i]["BAMOUNT"].ToString();
+
+                TData.Add(tda);
+            }
+            ca.SUBDDrumlst = TData;
+
+
+            return View(ca);
+        }
         public IActionResult ApproveSubContractingDC(string id)
         {
             SubContractingDC st = new SubContractingDC();
@@ -974,5 +1010,7 @@ namespace Arasan.Controllers.Store_Management
             return File(result.MainStream, "application/Pdf");
             
         }
+
+
     }
 }

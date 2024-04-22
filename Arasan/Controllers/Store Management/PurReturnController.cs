@@ -646,10 +646,10 @@ namespace Arasan.Controllers
                 Reg.Add(new PurchaseReturnItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["PRETBASICID"].ToString()),
-                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    party = dtUsers.Rows[i]["PARTYNAME"].ToString(),
                     docNo = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
-                    curr = dtUsers.Rows[i]["MAINCURR"].ToString(),
+                    grn = dtUsers.Rows[i]["RGRNNO"].ToString(),
                     create = Create,
                     view = View,
                     //editrow = EditRow,

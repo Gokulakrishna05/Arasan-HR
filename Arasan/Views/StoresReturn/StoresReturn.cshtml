@@ -143,8 +143,9 @@
                                                             <th> Expiry</th>
                                                             <th> Current Stock </th>*@
                                                             <th>Conv.Factor</th>
+                                                               <th> Stock </th>
                                                             <th> Qty </th>
-                                                            <th> Stock </th>
+                                                         
                                                             @*<th>Ret.Qty</th>*@
                                                             <th> Rate </th>
                                                             <th>Amount</th>
@@ -162,52 +163,53 @@
 
                                                 foreach (var item in Model.StrLst.ToList())
                                                             {
-                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                         
-                                                        <td>
-                                                            @Html.DropDownListFor(o => o.StrLst[i].ItemId, Model.StrLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
-                                                            @Html.HiddenFor(o => o.StrLst[i].saveItemId)
-                                                            @Html.HiddenFor(o => o.StrLst[i].lotno,new{@id="txtlot" + i})
-                                                            @Html.HiddenFor(o => o.StrLst[i].Unitid,new{@id="txtUnitid" + i})
-                                                        </td>
-                                                         
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.StrLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.StrLst[i]. FromBin, new { @id = "txtFromBin" + i,@class = "form-control", style = "width: 80px;",@readonly = "readonly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.DropDownListFor(o => o.StrLst[i].ToBin, Model.StrLst[i].Binlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlToBin" + i, style = "width: 200px;"  })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.StrLst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
-                                                        </td>
-                                                         <td>
-                                                            @Html.TextBoxFor(o => o.StrLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.StrLst[i].Stock, new { @id = "txtStock" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")",@readonly = "readonly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.StrLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 80px;",@readonly="readonly",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.HiddenFor(o => o.StrLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                             
+                                                            <td>
+                                                                @Html.DropDownListFor(o => o.StrLst[i].ItemId, Model.StrLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
+                                                                @Html.HiddenFor(o => o.StrLst[i].saveItemId)
+                                                                @Html.HiddenFor(o => o.StrLst[i].lotno,new{@id="txtlot" + i})
+                                                                @Html.HiddenFor(o => o.StrLst[i].Unitid,new{@id="txtUnitid" + i})
+                                                            </td>
+                                                             
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.StrLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.StrLst[i]. FromBin, new { @id = "txtFromBin" + i,@class = "form-control", style = "width: 80px;",@readonly = "readonly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.DropDownListFor(o => o.StrLst[i].ToBin, Model.StrLst[i].Binlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlToBin" + i, style = "width: 200px;"  })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.StrLst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
+                                                            </td>
+                                                             <td>
+                                                                @Html.TextBoxFor(o => o.StrLst[i].Stock, new { @id = "txtStock" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")",@readonly = "readonly" })
+                                                            </td>
+                                                             <td>
+                                                                @Html.TextBoxFor(o => o.StrLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
+                                                            </td>
+                                                           
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.StrLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 80px;",@readonly="readonly",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.HiddenFor(o => o.StrLst[i].Isvalid, new { @id = "Isvalid" + i })
 
-                                                            @Html.TextBoxFor(o => o.StrLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly" })
-                                                        </td>
-                                                        @*<td>
+                                                                @Html.TextBoxFor(o => o.StrLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly" })
+                                                            </td>
+                                                            @*<td>
                                                             @Html.TextBoxFor(o => o.StrLst[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
                                                         </td>*@
 
-                                                        <td>
-                                                            @Html.HiddenFor(o => o.StrLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
-                                                        </td>
+                                                            <td>
+                                                                @Html.HiddenFor(o => o.StrLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
+                                                            </td>
 
-                                                    </tr>
+                                                        </tr>
                                                         
                                                         i = i + 1;
                                                     j = j + 1;
@@ -344,7 +346,7 @@
                 document.getElementById("txtConFac" + i).value = result.cf;
                 document.getElementById("txtrate" + i).value = result.price;
                 document.getElementById("txtStock" + i).value = result.stk;
-                document.getElementById("txtlot" + i).value = result.lot;
+               // document.getElementById("txtlot" + i).value = result.lot;
                 document.getElementById("txtFromBin" + i).value = result.bin;
             },
             error: function () {
@@ -358,6 +360,7 @@
             var qty = document.getElementById("txtQuantity" + i).value;
             var up = document.getElementById("txtrate" + i).value;
             var CF = document.getElementById("txtConFac" + i).value;
+            var stock = document.getElementById("txtStock" + i).value;
             if (qty == "")
                 qty = 0;
 
@@ -388,6 +391,13 @@
                 }
                 j += 1;
             });
+            
+            if(eval(qty) < eval(stock))
+            {
+                document.getElementById("txtQuantity" + i).value = "0";
+                alert("Qty is Greaterthen Stock");
+                up = 0;
+            }
             @*document.getElementById("gross").value = GTot;
             document.getElementById("net").value = GTot;*@
          // document.getElementById('words').value = inWords(GTot);
