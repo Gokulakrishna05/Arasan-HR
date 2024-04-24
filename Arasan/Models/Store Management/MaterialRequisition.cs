@@ -188,6 +188,7 @@ namespace Arasan.Models
         public string ReqQty { get; set; }
         public string detid { get; set; }
         public double IndQty { get; set; }
+        public double issqty { get; set; }
         public double InvQty { get; set; }
         public string Isvalid { get; set; }
         public string Narration { get; set; }

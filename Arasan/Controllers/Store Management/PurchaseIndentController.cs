@@ -115,6 +115,8 @@ namespace Arasan.Controllers.Store_Management
 
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
+                string View = string.Empty;
+                View = "<a href=ViewIndent?id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/close_icon.png' alt='View Details' width='20' /></a>";
 
                 EditRow = "<a href=Purchase_Indent?id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteIndent?tag=Del&id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + " onclick='return confirm(" + "\"Are you sure you want to Disable this record...?\"" + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
@@ -125,6 +127,7 @@ namespace Arasan.Controllers.Store_Management
                     branch = dtUsers.Rows[i]["EMPNAME"].ToString(),
                     indentno = dtUsers.Rows[i]["DOCID"].ToString(),
                     indentdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    view = View,
                     EditRow = EditRow,
                     DelRow = DeleteRow,
 
@@ -137,6 +140,105 @@ namespace Arasan.Controllers.Store_Management
             });
 
         }
+        public IActionResult ViewIndent(string id)
+        {
+            PurchaseIndent MR = new PurchaseIndent();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+            dt = datatrans.GetData("SELECT DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE ,LOCDETAILS.LOCID FROM PINDBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDBASIC.LOCDETAILSID WHERE PINDBASICID='" + id+"'");
+            if (dt.Rows.Count > 0)
+            {
+                MR.IndentId = dt.Rows[0]["DOCID"].ToString();
+                MR.SLocation = dt.Rows[0]["LOCID"].ToString();
+              
+                MR.IndentDate = dt.Rows[0]["DOCDATE"].ToString();
+               
+            }
+            List<PIndentItem> TData = new List<PIndentItem>();
+            PIndentItem tda = new PIndentItem();
+            dtt = datatrans.GetData("Select ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,POQTY,GRNQTY from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT WHERE PINDBASICID='"+ id +"'  ");
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new PIndentItem();
+                    tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
+                     
+                    tda.Unit = dtt.Rows[i]["UNITID"].ToString();
+                    tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString());
+                    tda.dpqty = Convert.ToDouble(dtt.Rows[i]["POQTY"].ToString() == "" ? "0" : dtt.Rows[i]["POQTY"].ToString());
+                    tda.grnqty = Convert.ToDouble(dtt.Rows[i]["GRNQTY"].ToString() == "" ? "0" : dtt.Rows[i]["GRNQTY"].ToString());
+
+                    tda.issqty = tda.dpqty + tda.grnqty;
+                    tda.penqty = tda.Quantity - tda.issqty;
+                    tda.LocId = dtt.Rows[i]["LOCID"].ToString();
+                    tda.Duedate = dtt.Rows[i]["DUEDATE"].ToString();
+                     tda.detid = dtt.Rows[i]["PINDDETAILID"].ToString();
+                    tda.Isvalid = "Y";
+                    //double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                    //DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), dt.Rows[0]["FROMLOCID"].ToString(), dt.Rows[0]["BRANCHIDS"].ToString());
+                    //if (dt1.Rows.Count > 0)
+                    //{
+                    //    tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
+                    //}
+                    //double stkqty = 0;
+                    //if (!string.IsNullOrEmpty(tda.ClosingStock))
+                    //{
+                    //    stkqty = Convert.ToDouble(tda.ClosingStock);
+                    //}
+                    //if (stkqty > reqqty)
+                    //{
+                    //    tda.InvQty = reqqty;
+                    //    tda.IndQty = 0;
+                    //}
+                    //else
+                    //{
+                    //    tda.InvQty = stkqty;
+                    //    tda.IndQty = (reqqty - stkqty);
+                    //}
+                    //tda.Itemlst = BindItemlst();
+
+                    TData.Add(tda);
+                }
+            }
+            MR.PILst = TData;
+            return View(MR);
+        }
+        //[HttpPost]
+        //public IActionResult ViewIndent(PurchaseIndent Cy, string id)
+        //{
+        //    //if (ModelState.IsValid)
+        //    //{
+        //    try
+        //    {
+        //        Cy.ID = id;
+        //        string Strout = PurIndent.IndentCRUD(Cy);
+        //        if (string.IsNullOrEmpty(Strout))
+        //        {
+        //            if (Cy.ID == null)
+        //            {
+        //                TempData["notice"] = "Indent Created Successfully...!";
+        //            }
+        //            else
+        //            {
+        //                TempData["notice"] = "Indent Updated Successfully...!";
+        //            }
+        //            return RedirectToAction("List_Purchase_Indent");
+        //        }
+
+        //        else
+        //        {
+        //            ViewBag.PageTitle = "Edit Indent";
+        //            TempData["notice"] = Strout;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    //}
+        //    return View(Cy);
+        //}
         public ActionResult ListIndentItemgrid(string PRID)
         {
             List<IndentItemBindList> EnqChkItem = new List<IndentItemBindList>();
@@ -447,7 +549,17 @@ namespace Arasan.Controllers.Store_Management
         public ActionResult IndentApproved(string id)
         {
             datatrans = new DataTransactions(_connectionString);
-            bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED1='YES',APPROVAL1U='SRRAJAN',APP1DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id  + "'");
+            string app1 = datatrans.GetDataString("SELECT APPROVED1 FROM PINDDETAIL WHERE  PINDDETAILID='" + id + "'");
+            if(app1=="")
+            {
+                bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED1='YES',APPROVAL1U='NAGES',APP1DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id + "'");
+
+            }
+            else
+            {
+                bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED2='YES',APPROVAL2U='SRRAJAN',APP2DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id + "'");
+
+            }
             return RedirectToAction("List_PI_Approval");
         }
         public ActionResult IndentDisApproved(string id)
