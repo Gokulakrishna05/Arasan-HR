@@ -427,7 +427,7 @@ namespace Arasan.Controllers.Store_Management
                 EditRow = "<a href=MaterialRequisition?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
 
 
-                View = "<a href=MaterialStatus?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                View = "<a href=MaterialStatus?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/close_icon.png' alt='View Details' width='20' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new MaterialItem
@@ -535,7 +535,10 @@ namespace Arasan.Controllers.Store_Management
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
                     tda.detid = dtt.Rows[i]["STORESREQDETAILID"].ToString();
 
-                    tda.InvQty = Convert.ToDouble(dtt.Rows[i]["SCHCLQTY"].ToString() == "" ? "0" : dtt.Rows[i]["SCHCLQTY"].ToString());
+                    tda.InvQty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString());
+                    tda.issqty = Convert.ToDouble(dtt.Rows[i]["ISSQTY"].ToString() == "" ? "0" : dtt.Rows[i]["ISSQTY"].ToString());
+                    double pendqty = tda.InvQty - tda.issqty;
+                    tda.InvQty = pendqty;
                     tda.indentid = dtt.Rows[i]["STORESREQDETAILID"].ToString();
 
                     tda.Storeid = dtt.Rows[i]["STORESREQBASICID"].ToString();
@@ -813,6 +816,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
                     tda.ClosingStock = dtt.Rows[i]["STOCK"].ToString();
+                    tda.detid = dtt.Rows[i]["STORESREQDETAILID"].ToString();
                     tda.Isvalid = "Y";
                     //double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
                     //DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), dt.Rows[0]["FROMLOCID"].ToString(), dt.Rows[0]["BRANCHIDS"].ToString());

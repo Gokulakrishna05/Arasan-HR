@@ -72,6 +72,11 @@ namespace Arasan.Models
         public string UnitID { get; set; }
         public string IndentPlaced { get; set; }
         public double Quantity { get; set; }
+        public double issqty { get; set; }
+        public double penqty { get; set; }
+        public string detid { get; set; }
+        public double dpqty { get; set; }
+        public double grnqty { get; set; }
         public string Narration { get; set; }
         public string Duedate { get; set; }
         public double Stock { get; set; }
@@ -90,6 +95,7 @@ namespace Arasan.Models
         public string SuppName { get; set; }
         public string EditRow { get; set; }
         public string DelRow { get; set; }
+        public string view { get; set; }
         public string indentno { get; set; }
         public string indentdate { get; set; }
         public string branch { get; set; }

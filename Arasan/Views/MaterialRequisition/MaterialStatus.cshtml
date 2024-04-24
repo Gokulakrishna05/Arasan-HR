@@ -117,7 +117,7 @@
                                                             <tr>
                                                                 <th>Item Name</th>
                                                                 <th>Quantity</th>
-                                                                <th>Stock Quantity</th>
+                                                                <th>Stock </th>
                                                                 <th>Unit</th>
                                                               @*  <th>Issue Quantity</th>*@
                                                             </tr>
@@ -132,7 +132,7 @@
 
                                                                     <tr>
                                                                         <td>@Html.DisplayFor(o => o.MRlst[i].Item)</td>
-                                                                        <td>@Html.DisplayFor(o => o.MRlst[i].ReqQty)</td>
+                                                                        <td>@Html.DisplayFor(o => o.MRlst[i].ReqQty) @Html.HiddenFor(o => o.MRlst[i].ReqQty)@Html.HiddenFor(o => o.MRlst[i].detid)</td>
                                                                         <td>@Html.DisplayFor(o => o.MRlst[i].ClosingStock)</td>
                                                                         <td>@Html.DisplayFor(o => o.MRlst[i].Unit)@Html.HiddenFor(o => o.MRlst[i].UnitID)</td>
                                                                        @* <td>@Html.TextBoxFor(o => o.MRlst[i].InvQty, new { @id = "InvQty" + i, @class = "form-control" , style = "width: 80px;"})</td>*@

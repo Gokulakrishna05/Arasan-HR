@@ -131,7 +131,7 @@ namespace Arasan.Services
         public DataTable GetMatItemByID(string MatId)
         {
             string SvSql = string.Empty;
-            SvSql = "Select STORESREQDETAILID,STORESREQBASICID,STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,SCHCLQTY,UNITMAST.UNITID,ITEMMASTER.ITEMID,STORESREQDETAIL.QTY from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + MatId + "'";
+            SvSql = "Select STORESREQDETAILID,STORESREQBASICID,STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,SCHCLQTY,UNITMAST.UNITID,ITEMMASTER.ITEMID,STORESREQDETAIL.QTY,ISSQTY from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + MatId + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1116,6 +1116,14 @@ namespace Arasan.Services
                         OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                         objConnT.Open();
                         objCmds.ExecuteNonQuery();
+                        foreach(MaterialRequistionItem cp in cy.MRlst)
+                        {
+                            svSQL = "UPDATE STORESREQDETAIL SET SCHCLQTY ='"+cp.ReqQty+ "' WHERE STORESREQDETAILID='" + cp.detid + "'";
+                             objCmds = new OracleCommand(svSQL, objConnT);
+
+                            objCmds.ExecuteNonQuery();
+                        }
+                      
                         objConnT.Close();
                     }
 
@@ -1144,7 +1152,7 @@ namespace Arasan.Services
         public DataTable GetMatStaItemByID(string MatId)
         {
             string SvSql = string.Empty;
-            SvSql = "Select STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,ITEMMASTER.ITEMID,STORESREQDETAIL.QTY,STOCK from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + MatId + "'";
+            SvSql = "Select STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,ITEMMASTER.ITEMID,STORESREQDETAIL.QTY,STOCK,STORESREQDETAILID from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + MatId + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

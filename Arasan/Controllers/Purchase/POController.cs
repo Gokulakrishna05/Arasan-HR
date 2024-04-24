@@ -200,6 +200,7 @@ namespace Arasan.Controllers
                             //}
                             DataTable per = datatrans.GetData("Select GSTP from HSNMAST where HSCODE='" + hsn + "'  ");
                                tda.per = Convert.ToDouble(per.Rows[0]["GSTP"].ToString());
+                           
                             string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
 
                             string type = "";
@@ -215,8 +216,10 @@ namespace Arasan.Controllers
 
                                     double cgstperc = tda.Amount / 100 * tda.SGSTPer;
                                     double sgstperc = tda.Amount / 100 * tda.CGSTPer;
-                                    tda.CGSTAmt = cgstperc  ;
-                                    tda.SGSTAmt = sgstperc;
+                                double cstamount = Math.Round(cgstperc, 2);
+                                double sstamount = Math.Round(sgstperc, 2);
+                                tda.CGSTAmt = cstamount;
+                                    tda.SGSTAmt = sstamount;
                                     tda.TotalAmount = tda.CGSTAmt + tda.SGSTAmt + tda.Amount;
                                     //po.Net = tda.TotalAmount;
                                 }

@@ -193,7 +193,7 @@
                         <tr>
                         @* <th>   Item Group</th>*@
                           <th> Item </th>
-                          <th> GST </th>
+                        @*  <th> GST </th>*@
                           <th> Description </th>
                           <th>Unit</th>
                           <th> Conversion. Factor </th>
@@ -235,12 +235,12 @@
                                                             @Html.DropDownListFor(o => o.PoItem[i].ItemId, Model.PoItem[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")",disabled="disabled" })
                                                                                                                                         @Html.HiddenFor(o => o.PoItem[i].saveItemId)
                                                                                                                                             </td>
-                                                                                                                                            <td>
+                                                                                                                                              @*   <td>
 
-                                                            @Html.DropDownListFor(o => o.PoItem[i].gst, Model.PoItem[i].gstlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlgst" + i, style = "width: 170px;", onchange = "changeGst(this.value," + i + ")" })
+                                                       @Html.DropDownListFor(o => o.PoItem[i].gst, Model.PoItem[i].gstlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlgst" + i, style = "width: 170px;", onchange = "changeGst(this.value," + i + ")" })
                                                             @Html.HiddenFor(o => o.PoItem[i].Percentage,new{@id="txtPercentage" +i})
                                                                                                                                          
-                                                                                                                                            </td>
+                                                                                                                                            </td>*@
                                                                                                                                          <td>
                                                                                                                                             @Html.TextBoxFor(o => o.PoItem[i].Desc, new { @id = "txtDesc" + i, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
                                                                                                                                         </td>
