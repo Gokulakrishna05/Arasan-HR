@@ -28,6 +28,7 @@
                                                 <div class="col-sm-8">
                                                     @Html.HiddenFor(C => C.ID)
                                             @Html.HiddenFor(C => C.Recid)
+                                            @Html.HiddenFor(C => C.user)
                                            @Html.DisplayFor(C => C.Branch)
                                                 </div>
                                             </div>
@@ -38,6 +39,7 @@
                                               
                                                       <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.Supplier)
+                                            @Html.HiddenFor(C => C.Supplier)
 												</div>
                                                
                                             </div>
@@ -52,6 +54,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry No.<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
                                            @Html.DisplayFor(C => C.EnqNo)
+                                           @Html.HiddenFor(C => C.EnqNo)
                                                 </div>
                                             </div>
                                         </div>

@@ -60,6 +60,7 @@ namespace Arasan.Models
         public List<SelectListItem> ItemGrouplst { get; set; }
 
         public string saveItemId { get; set; }
+        public string pri { get; set; }
         public string ItemGroupId { get; set; }
         public string Desc { get; set; }
         public string user { get; set; }

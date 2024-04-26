@@ -402,6 +402,7 @@
                                     <ul class="nav nav-tabs">
                                         @*<li class="active"><a href="#tab-1" data-toggle="tab">Despatch Address</a></li>*@
                                         <li class="active"><a href="#tab-1" data-toggle="tab">Despatch Address</a></li>
+                                        <li><a href="#tab-2" data-toggle="tab">Spec</a></li>
 
                                     </ul>
                                     <div class="tab-content">
@@ -526,8 +527,33 @@
                                   
                                     </div>
                                     </div>
-                                     </div>
+                                      
+
+
+                                        <div class="tab-pane " id="tab-2">
+
                                              
+									 
+                                       
+                                    
+									<div style="height:30px;"></div>
+									 <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-2 control-label">Specification<label class="Mandatory"></label></label>
+                                                <div class="col-sm-10">
+                                                    @Html.TextAreaFor(C => C.spec, new { @id = "txtspec", @class = "form-control", @TabIndex = 2 })
+                                                </div>
+                                            </div>
+                                        </div>
+                                      
+                                        
+                                       
+                                  
+                                    </div>
+                                    </div>
+                                     </div> 
                                         </div>
                                     </div>
                             </div>

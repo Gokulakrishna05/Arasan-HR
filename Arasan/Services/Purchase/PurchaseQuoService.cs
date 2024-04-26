@@ -110,7 +110,7 @@ namespace Arasan.Services
         public DataTable GetPurchaseQuo(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PURQUOTBASIC.BRANCHID, PURQUOTBASIC.DOCID,to_char(PURQUOTBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PURQUOTBASIC.PARTYID,PURENQBASIC.DOCID ENQNO,to_char(PURENQBASIC.DOCDATE,'dd-MON-yyyy')ENQDATE,PURQUOTBASIC.MAINCURRENCY,PURQUOTBASIC.ENQNO as enq,PURQUOTBASIC.EXRATE,PURQUOTBASICID from PURQUOTBASIC LEFT OUTER JOIN PURENQBASIC ON PURENQBASIC.PURENQBASICID=PURQUOTBASIC.ENQNO where PURQUOTBASIC.PURQUOTBASICID=" + id + "";
+            SvSql = "Select PURQUOTBASIC.BRANCHID, PURQUOTBASIC.DOCID,to_char(PURQUOTBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PURQUOTBASIC.PARTYID,PURENQBASIC.DOCID ENQNO,to_char(PURENQBASIC.DOCDATE,'dd-MON-yyyy')ENQDATE,PURQUOTBASIC.MAINCURRENCY,PURQUOTBASIC.ENQNO as enq,PURQUOTBASIC.EXRATE,PURQUOTBASICID,SENTBY,RECDBY from PURQUOTBASIC LEFT OUTER JOIN PURENQBASIC ON PURENQBASIC.PURENQBASICID=PURQUOTBASIC.ENQNO where PURQUOTBASIC.PURQUOTBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -262,8 +262,8 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
                     objCmd.Parameters.Add("EXRATE", OracleDbType.NVarchar2).Value = cy.ExRate;
                     objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.user;
-                    objCmd.Parameters.Add("UPDATED_ON", OracleDbType.NVarchar2).Value = DateTime.Now;
-
+                    objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    objCmd.Parameters.Add("SENTBY", OracleDbType.NVarchar2).Value = cy.assignid;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -279,7 +279,7 @@ namespace Arasan.Services
                                     string Sql = string.Empty;
                                     if (StatementType == "Update")
                                     {
-                                        Sql = "Update PURQUOTDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.ConsFa + "'  where PURQUOTBASICID='" + cy.ID + "'  AND ITEMID='" + cp.saveItemId + "' ";
+                                        Sql = "Update PURQUOTDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.ConsFa + "',PRIQTY='"+ cp.pri +"'  where PURQUOTBASICID='" + cy.ID + "'  AND ITEMID='" + cp.saveItemId + "' ";
                                     }
                                     else
                                     {
@@ -311,7 +311,7 @@ namespace Arasan.Services
 
             return msg;
         }
-        public string QuotetoPO(string QuoteId)
+        public string QuotetoPO(PurchaseQuo cy)
         {
             string msg = "";
             try
@@ -324,22 +324,16 @@ namespace Arasan.Services
                 string PONo = string.Format("{0}{1}", "P.o-", (idc + 1).ToString());
 
                 string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='P.o-' AND ACTIVESEQUENCE ='T'";
-                try
-                {
-                    datatrans.UpdateStatus(updateCMd);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    svSQL = "Insert into POBASIC (PARTYID,BRANCHID,QUOTNO,EXRATE,MAINCURRENCY,DOCID,DOCDATE,IS_ACTIVE) (Select PARTYID,BRANCHID,'" + QuoteId + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','Yes' from PURQUOTBASIC where PURQUOTBASICID='" + QuoteId + "')";
+                    svSQL = "Insert into POBASIC (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,TRANSID,SMSDATE,SENDSMS,PARTYID,BRANCHID,QUOTNO,EXRATE,MAINCURRENCY,DOCID,DOCDATE,EMPNAME,USERID,PONO,CONTRACTNO,PONOID,ACTIVE,RECID,ENTRYDATE,CRDBBAL,FREIGHT,JOBNO) (Select '0','0','F','0','0','po','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','NO',PARTYID,BRANCHID,'" + cy.ID + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','"+cy.Recid+"','"+ cy.user + "','0','1','0','0','0','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','0','0','1' from PURQUOTBASIC where PURQUOTBASICID='" + cy.ID + "')";
                     OracleCommand objCmd = new OracleCommand(svSQL, objConn);
                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
+                        datatrans.UpdateStatus(updateCMd);
                     }
                     catch (Exception ex)
                     {
@@ -348,15 +342,15 @@ namespace Arasan.Services
                     objConn.Close();
                 }
 
-                string quotid = datatrans.GetDataString("Select POBASICID from POBASIC Where QUOTNO=" + QuoteId + "");
-                string indentno = datatrans.GetDataString("select P.DOCID  FROM PINDBASIC P,PINDDETAIL D,PURENQDETAIL PU,PURENQBASIC PA ,PURQUOTBASIC PQ where D.PURENQDETAILID=PU.PURENQDETAILID AND P.PINDBASICID=D.PINDBASICID AND PA.PURENQBASICID=PU.PURENQBASICID AND PQ.ENQNO=PA.PURENQBASICID AND  PQ.PURQUOTBASICID='" + QuoteId + "'");
-                string indentdate = datatrans.GetDataString("select to_char(P.DOCDATE,'dd-MON-yyyy')DOCDATE  FROM PINDBASIC P,PINDDETAIL D,PURENQDETAIL PU,PURENQBASIC PA ,PURQUOTBASIC PQ where D.PURENQDETAILID=PU.PURENQDETAILID AND P.PINDBASICID=D.PINDBASICID AND PA.PURENQBASICID=PU.PURENQBASICID AND PQ.ENQNO=PA.PURENQBASICID AND  PQ.PURQUOTBASICID='" + QuoteId + "'");
-                string indentid = datatrans.GetDataString("select  P.PINDBASICID FROM PINDBASIC P,PINDDETAIL D,PURENQDETAIL PU,PURENQBASIC PA ,PURQUOTBASIC PQ where D.PURENQDETAILID=PU.PURENQDETAILID AND P.PINDBASICID=D.PINDBASICID AND PA.PURENQBASICID=PU.PURENQBASICID AND PQ.ENQNO=PA.PURENQBASICID AND  PQ.PURQUOTBASICID='" + QuoteId + "'");
-                string indentdetid = datatrans.GetDataString("select  D.PINDDETAILID  FROM PINDBASIC P,PINDDETAIL D,PURENQDETAIL PU,PURENQBASIC PA ,PURQUOTBASIC PQ where D.PURENQDETAILID=PU.PURENQDETAILID AND P.PINDBASICID=D.PINDBASICID AND PA.PURENQBASICID=PU.PURENQBASICID AND PQ.ENQNO=PA.PURENQBASICID AND  PQ.PURQUOTBASICID='" + QuoteId + "'");
+                string quotid = datatrans.GetDataString("Select POBASICID from POBASIC Where QUOTNO=" + cy.ID + "");
+                string indentno = datatrans.GetDataString("select P.DOCID  FROM PINDBASIC P,PINDDETAIL D,PURENQDETAIL PU,PURENQBASIC PA ,PURQUOTBASIC PQ where D.PURENQDETAILID=PU.PURENQDETAILID AND P.PINDBASICID=D.PINDBASICID AND PA.PURENQBASICID=PU.PURENQBASICID AND PQ.ENQNO=PA.PURENQBASICID AND  PQ.PURQUOTBASICID='" + cy.ID + "'");
+                string indentdate = datatrans.GetDataString("select to_char(P.DOCDATE,'dd-MON-yyyy')DOCDATE  FROM PINDBASIC P,PINDDETAIL D,PURENQDETAIL PU,PURENQBASIC PA ,PURQUOTBASIC PQ where D.PURENQDETAILID=PU.PURENQDETAILID AND P.PINDBASICID=D.PINDBASICID AND PA.PURENQBASICID=PU.PURENQBASICID AND PQ.ENQNO=PA.PURENQBASICID AND  PQ.PURQUOTBASICID='" + cy.ID + "'");
+                string indentid = datatrans.GetDataString("select  P.PINDBASICID FROM PINDBASIC P,PINDDETAIL D,PURENQDETAIL PU,PURENQBASIC PA ,PURQUOTBASIC PQ where D.PURENQDETAILID=PU.PURENQDETAILID AND P.PINDBASICID=D.PINDBASICID AND PA.PURENQBASICID=PU.PURENQBASICID AND PQ.ENQNO=PA.PURENQBASICID AND  PQ.PURQUOTBASICID='" + cy.ID + "'");
+                string indentdetid = datatrans.GetDataString("select  D.PINDDETAILID  FROM PINDBASIC P,PINDDETAIL D,PURENQDETAIL PU,PURENQBASIC PA ,PURQUOTBASIC PQ where D.PURENQDETAILID=PU.PURENQDETAILID AND P.PINDBASICID=D.PINDBASICID AND PA.PURENQBASICID=PU.PURENQBASICID AND PQ.ENQNO=PA.PURENQBASICID AND  PQ.PURQUOTBASICID='" + cy.ID + "'");
 
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    string Sql = "Insert into PODETAIL (POBASICID,ITEMID,RATE,QTY,UNIT,CF,INDENTNO,INDENTDT,PINDDETAILID,PINDBASICID) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,CF,'"+ indentno + "','" + indentdate + "','" + indentid + "','" + indentdetid + "' FROM PURQUOTDETAIL WHERE PURQUOTBASICID=" + QuoteId + ")";
+                    string Sql = "Insert into PODETAIL (POBASICID,ITEMID,RATE,QTY,UNIT,CF,INDENTNO,INDENTDT,PINDDETAILID,PINDBASICID,MRPQTY,REJQTY,INDENTQTY,SHCLQTY,GRNQTY,PUNIT,ACCQTY,ITEMMASTERID) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,CF,'"+ indentno + "','" + indentdate + "','" + indentdetid + "','" + indentid + "','0','0',QTY,'0','0',UNITMAST.UNITID,0,ITEMID FROM PURQUOTDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PURQUOTDETAIL.UNIT WHERE PURQUOTBASICID=" + cy.ID + ")";
                     OracleCommand objCmds = new OracleCommand(Sql, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -365,7 +359,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConnE = new OracleConnection(_connectionString))
                 {
-                    string Sql = "UPDATE PURQUOTBASIC SET STATUS='Generated' where PURQUOTBASICID='" + QuoteId + "'";
+                    string Sql = "UPDATE PURQUOTBASIC SET STATUS='Generated' where PURQUOTBASICID='" + cy.ID + "'";
                     OracleCommand objCmds = new OracleCommand(Sql, objConnE);
                     objConnE.Open();
                     objCmds.ExecuteNonQuery();

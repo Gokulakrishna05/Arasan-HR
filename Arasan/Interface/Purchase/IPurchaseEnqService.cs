@@ -24,7 +24,7 @@ public interface IPurchaseEnqService
         //PurchaseFollowup GetPurchaseFollowupById(string id);
         DataTable GetFolowup(string enqid);
 
-        string EnquirytoQuote(string id);
+        string EnquirytoQuote(PurchaseQuo id);
 
     //DataTable GetFollowupDetail(string id);
     DataTable GetPurchaseEnqDetails(string id);

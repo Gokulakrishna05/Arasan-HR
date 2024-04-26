@@ -197,6 +197,7 @@
                                                                     <td>
                                                             @Html.DropDownListFor(o => o.QoLst[i].ItemId, Model.QoLst[i].Ilst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")",disabled="disabled"})
                                                             @Html.HiddenFor(o => o.QoLst[i].saveItemId)
+                                                              @Html.HiddenFor(o => o.QoLst[i].pri,new{@id="txtpri"+i})
                                                                 </td>
                                                                 <td>
                                                                     @Html.TextBoxFor(o => o.QoLst[i].Desc, new { @id = "txtDesc" + i, @class = "form-control", style = "width: 150px;", @readonly = "readonly"})
@@ -253,8 +254,9 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Quot. Sent By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.assignid, Model.assignList, new { @id = "ddlPosent", @Class = "form-control _select", @TabIndex = 1 })
-
+                                         @Html.TextBoxFor(C => C.assignid, new { @id = "assignid", @class = "form-control", @TabIndex = 2  })
+@*                                            @Html.DropDownListFor(C => C.assignid, Model.assignList, new { @id = "ddlPosent", @Class = "form-control _select", @TabIndex = 1 })
+*@
                                     </div>
                                 </div>
                             </div>
@@ -307,7 +309,9 @@
                 CF = 0;
             if (up > 0) {
                 var tot = eval(qty) * eval(up) * eval(CF);
+                  var pri = eval(qty) * eval(CF);
                 document.getElementById("txtTotalAmount" + i).value = tot.toFixed(2);
+                document.getElementById("txtpri" + i).value = pri.toFixed(2);
             } else {
                 document.getElementById("txtTotalAmount" + i).value = 0;
             }
