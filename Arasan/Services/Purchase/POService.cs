@@ -525,6 +525,10 @@ namespace Arasan.Services
 
 
                         }
+                        string SvSql1 = "Insert into POSPEC (POBASICID,POSPECROW,OTHERSPEC) VALUES ( '" + cy.ID + "','0','" + cy.spec + "')";
+                        OracleCommand objCmdsss = new OracleCommand(SvSql1, objConn);
+                        
+                        objCmdsss.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {

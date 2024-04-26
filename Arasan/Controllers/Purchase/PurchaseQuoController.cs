@@ -58,6 +58,8 @@ namespace Arasan.Controllers
                     ca.Enq = dt.Rows[0]["enq"].ToString();
                     ca.EnqDate= dt.Rows[0]["ENQDATE"].ToString();
                     ca.ExRate = dt.Rows[0]["EXRATE"].ToString();
+                    ca.assignid = dt.Rows[0]["SENTBY"].ToString();
+                    ca.Recid = dt.Rows[0]["RECDBY"].ToString();
                     ca.ID = id;
                     //ca.ParNo = dt.Rows[0]["PARTYREFNO"].ToString();
                     ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
@@ -318,6 +320,8 @@ namespace Arasan.Controllers
                 ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                 ca.EnqNo = dt.Rows[0]["ENQNO"].ToString();
                 ca.EnqDate = dt.Rows[0]["ENQDATE"].ToString();
+                ca.user = Request.Cookies["UserName"];
+                ca.Recid = Request.Cookies["UserId"];
                 ca.ID= id; 
             }
             List<QoItem> Data = new List<QoItem>();
@@ -388,7 +392,7 @@ namespace Arasan.Controllers
             try
             {
                 Cy.ID = id;
-                string Strout = PurquoService.QuotetoPO(Cy.ID);
+                string Strout = PurquoService.QuotetoPO(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (Cy.ID == null)

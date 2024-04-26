@@ -566,7 +566,7 @@ namespace Arasan.Controllers.Store_Management
         {
             string user= Request.Cookies["UserId"];
             datatrans = new DataTransactions(_connectionString);
-            bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED1='NO',MODIFY_BY='"+ user+"',MODIFY_ON='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id + "'");
+            bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED1=' ',MODIFY_BY='"+ user+"',MODIFY_ON='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id + "'");
             return RedirectToAction("List_PI_Approval");
         }
         public List<SelectListItem> BindItemGrplst()

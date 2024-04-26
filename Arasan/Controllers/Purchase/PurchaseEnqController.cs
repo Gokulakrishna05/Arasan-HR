@@ -51,6 +51,7 @@ namespace Arasan.Controllers
                     TData.Add(tda);
                 }
                 ca.Cur = "1";
+                ca.ExRate = "1";
             }
             else
             {
@@ -72,9 +73,9 @@ namespace Arasan.Controllers
                 if(dt.Rows.Count > 0)
                 {
                     ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
-                    ca.Enqdate= dt.Rows[0]["ENQDATE"].ToString();
+                    ca.Enqdate= dt.Rows[0]["DOCDATE"].ToString();
                     ca.Supplier= dt.Rows[0]["PARTYMASTID"].ToString();
-                    ca.EnqNo= dt.Rows[0]["ENQNO"].ToString();
+                    ca.EnqNo= dt.Rows[0]["DOCID"].ToString();
                     ca.ID = id;
                     ca.ParNo= dt.Rows[0]["PARTYREFNO"].ToString();
                     ca.Cur= dt.Rows[0]["CURRENCYID"].ToString();
@@ -147,8 +148,9 @@ namespace Arasan.Controllers
                 //ca.QuoId = dt.Rows[0]["DOCID"].ToString();
                 //ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                 ca.EnqNo = dt.Rows[0]["ENQNO"].ToString();
-                ca.EnqDate = dt.Rows[0]["ENQDATE"].ToString();
+                ca.EnqDate = dt.Rows[0]["DOCDATE"].ToString();
                 ca.Recid = Request.Cookies["UserId"];
+                ca.user = Request.Cookies["UserName"];
                 ca.ID = id;
             }
             List<QoItem> Data = new List<QoItem>();
@@ -187,7 +189,7 @@ namespace Arasan.Controllers
                 //ca.QuoId = dt.Rows[0]["DOCID"].ToString();
                 //ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                 ca.EnqNo = dt.Rows[0]["ENQNO"].ToString();
-                ca.EnqDate = dt.Rows[0]["ENQDATE"].ToString();
+                ca.EnqDate = dt.Rows[0]["DOCDATE"].ToString();
                 ca.ID = id;
             }
             List<QoItem> Data = new List<QoItem>();
@@ -201,7 +203,7 @@ namespace Arasan.Controllers
                     tda = new QoItem();
                     tda.ItemId = dtt.Rows[i]["ITEMNAME"].ToString();
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
-                    tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                    tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString());
                     tda.rate = Convert.ToDouble(dtt.Rows[i]["Rate"].ToString() == "" ? "0" : dtt.Rows[i]["Rate"].ToString());
                     tda.TotalAmount = tda.Quantity * tda.rate;
                     tot += tda.TotalAmount;
@@ -446,7 +448,7 @@ namespace Arasan.Controllers
             try
             {
                 Cy.ID = id;
-                string Strout = PurenqService.EnquirytoQuote(Cy.ID);
+                string Strout = PurenqService.EnquirytoQuote(Cy);
                 //datatrans.UpdateStatus("UPDATE PURENQBASIC SET STATUS = 2 where PURENQBASICID = '" + id + "'");
                 if (string.IsNullOrEmpty(Strout))
                 {
@@ -567,12 +569,12 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public ActionResult MovetoQuote(string id)
-        {
-            EnquiryList el = new EnquiryList();
-            string Strout = PurenqService.EnquirytoQuote(id); 
-            return RedirectToAction("ListEnquiry");
-        }
+        //public ActionResult MovetoQuote(string id)
+        //{
+        //    EnquiryList el = new EnquiryList();
+        //    string Strout = PurenqService.EnquirytoQuote(id); 
+        //    return RedirectToAction("ListEnquiry");
+        //}
             public List<SelectListItem> BindSupplier()
         {
             try

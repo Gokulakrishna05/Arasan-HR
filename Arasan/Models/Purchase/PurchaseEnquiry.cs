@@ -101,6 +101,7 @@ namespace Arasan.Models
     {
         public string ItemId { get;set;}
         public string saveItemId { get; set; }
+        public string pri { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
 
         public List<SelectListItem> ItemGrouplst { get; set; }

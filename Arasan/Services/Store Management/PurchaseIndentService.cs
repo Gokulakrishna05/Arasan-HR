@@ -188,7 +188,7 @@ namespace Arasan.Services
         public DataTable GetIndentItembyItemd(string ItemId)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PINDDETAIL.ITEMID,PINDDETAIL.PINDBASICID,PINDDETAIL.PINDDETAILID  from PINDDETAIL  WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL AND PINDDETAIL.ITEMID='"+ ItemId  + "'";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            SvSql = "Select PINDDETAIL.ITEMID,PINDDETAIL.PINDBASICID,PINDDETAIL.PINDDETAILID  from PINDDETAIL  WHERE PINDDETAIL.APPROVED2 IS NOT NULL AND PINDDETAIL.APPROVED1 IS NOT NULL AND PINDDETAIL.ITEMID='" + ItemId  + "'";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -198,7 +198,7 @@ namespace Arasan.Services
         public DataTable GetIndentItemSupp()
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,SUM(PINDDETAIL.QTY) as QTY,ITEMMASTER.ITEMMASTERID from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID  WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL GROUP BY ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID  ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            SvSql = "Select ITEMMASTER.ITEMID,SUM(PINDDETAIL.QTY) as QTY,ITEMMASTER.ITEMMASTERID from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID  WHERE IS_SUPPALLOCATE='N' AND APPROVED2 IS NOT null GROUP BY ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID  ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -208,7 +208,7 @@ namespace Arasan.Services
         public DataTable GetIndentItemSuppEnq(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PINDBASICID,ITEMMASTER.ITEMID,SUM(PINDDETAIL.QTY) as QTY,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,UNITMAST.UNITMASTID from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL AND PINDDETAIL.ITEMID='" + id + "' GROUP BY ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,UNITMAST.UNITMASTID,PINDBASICID";
+            SvSql = "Select PINDBASICID,ITEMMASTER.ITEMID,SUM(PINDDETAIL.QTY) as QTY,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,UNITMAST.UNITMASTID from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  WHERE PINDDETAIL.APPROVED2 IS NOT NULL AND PINDDETAIL.APPROVED1 IS NOT NULL AND PINDDETAIL.ITEMID='" + id + "' GROUP BY ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,UNITMAST.UNITMASTID,PINDBASICID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -338,9 +338,9 @@ namespace Arasan.Services
                     StatementType = "Insert";
                     objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = "10001000000001";
-                    objCmd.Parameters.Add("ENQNO", OracleDbType.NVarchar2).Value = EnqNo;
+                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = EnqNo;
                     objCmd.Parameters.Add("ENQREF", OracleDbType.NVarchar2).Value = "";
-                    objCmd.Parameters.Add("ENQDATE", OracleDbType.Date).Value = DateTime.Now;
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("EXCRATERATE", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("PARTYREFNO", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = "";
@@ -355,9 +355,11 @@ namespace Arasan.Services
                      objCmd.ExecuteNonQuery();
                         Object Pid = objCmd.Parameters["OUTID"].Value;
                         datatrans = new DataTransactions(_connectionString);
+                    int row = 1;
                         foreach (string itemid in selectedRecord)
                         {
                             string EnquiryQty = "";
+                            string Unitid = "";
                             string Unit = "";
                             string basicid = "";
 
@@ -366,13 +368,14 @@ namespace Arasan.Services
                             if (dr.Rows.Count > 0)
                             {
                                 EnquiryQty = dr.Rows[0]["QTY"].ToString();
-                                Unit = dr.Rows[0]["UNITMASTID"].ToString();
+                                Unit = dr.Rows[0]["UNITID"].ToString();
+                            Unitid = dr.Rows[0]["UNITMASTID"].ToString();
                             basicid = dr.Rows[0]["PINDBASICID"].ToString();
                             }
                            
                                     string Sql = string.Empty;
                                     
-                        Sql = "Insert into PURENQDETAIL (PURENQBASICID,ITEMID,QTY,UNIT) Values ('" + Pid + "','" + itemid + "','" + EnquiryQty + "','" + Unit + "') RETURNING PURENQDETAILID INTO :LASTCID";
+                        Sql = "Insert into PURENQDETAIL (PURENQBASICID,ITEMID,QTY,UNIT,SL,PUNIT) Values ('" + Pid + "','" + itemid + "','" + EnquiryQty + "','" + Unitid + "','"+ row +"','"+ Unit + "') RETURNING PURENQDETAILID INTO :LASTCID";
 
                         OracleCommand objCmds = new OracleCommand(Sql, objConn);
                         objCmds.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
@@ -386,13 +389,13 @@ namespace Arasan.Services
                             {
                                 for (int i = 0; i < dt.Rows.Count; i++)
                                 {
-                                    bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED2='YES',APPROVAL2U='SRRAJAN',APP2DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PURENQDETAILID='"+ EnqId + "' Where PINDDETAILID='" + dt.Rows[i]["PINDDETAILID"].ToString() + "'");
+                                    bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET  PURENQDETAILID='"+ EnqId + "',IS_SUPPALLOCATE='Y' Where PINDDETAILID='" + dt.Rows[i]["PINDDETAILID"].ToString() + "'");
                                 bool result1 = datatrans.UpdateStatus("UPDATE PURENQBASIC SET PINDBASICID='"+ basicid + "' Where PURENQBASICID='" + Pid + "'");
 
                             }
                         }
 
-                           
+                        row++;
 
                          }
 
@@ -489,8 +492,9 @@ namespace Arasan.Services
                             {
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
-                                    string last = datatrans.GetDataString("SELECT LATPURPRICE FROM ITEMMASTER WHERE ITEMMASTERID='"+cp.ItemId+"'");
+                                    string last = datatrans.GetDataString("SELECT LATPURPRICE FROM ITEMMASTER WHERE IlTEMMASTERID='"+cp.ItemId+"'");
                                     string value = datatrans.GetDataString("SELECT VALMETHOD FROM ITEMMASTER WHERE ITEMMASTERID='" + cp.ItemId+"'");
+                                    string mail = datatrans.GetDataString("SELECT EMAIL FROM locdetails WHERE locdetailsID='" + cp.LocId + "'");
                                     OracleCommand objCmds = new OracleCommand("PIDETAILPROC", objConns);
                                     if (cy.ID == null)
                                     {
@@ -513,6 +517,8 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("CLSTK", OracleDbType.NVarchar2).Value = cp.Stock;
                                     objCmds.Parameters.Add("ALLDEPTSTK", OracleDbType.NVarchar2).Value = cp.allstock;
                                     objCmds.Parameters.Add("PINDDETAILROW", OracleDbType.NVarchar2).Value = r;
+                                    objCmds.Parameters.Add("FMAILTO", OracleDbType.NVarchar2).Value = "store@arasanaluminium.com";
+                                    objCmds.Parameters.Add("MAILTO", OracleDbType.NVarchar2).Value = mail;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
