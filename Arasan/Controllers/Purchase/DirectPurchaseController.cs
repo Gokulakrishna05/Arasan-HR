@@ -813,40 +813,20 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public JsonResult GetGSTItemJSON(string itemid)
+        public JsonResult GetGSTItemJSON(string itemid, string custid)
         {
-            DirItem model = new DirItem();
-            string hsn = datatrans.GetDataString("select HSN,ITEMMASTERID from ITEMMASTER WHERE ITEMMASTERID='" + itemid + "'");
-            string hsnid = datatrans.GetDataString("select HSNCODEID from HSNCODE WHERE HSNCODE='" + hsn + "'");
-            
-            model.gstlst = Bindgstlst(hsnid);
-            return Json(Bindgstlst(hsnid));
-
+            return Json(BindTariff(itemid, custid));
         }
-        public ActionResult GetGSTPerDetail(string ItemId, string custid)
+        public List<SelectListItem> BindTariff(string itemid, string custid)
         {
             try
             {
-                DataTable hs = new DataTable();
-                DataTable dt1 = new DataTable();
-                string per = "";
-
-
-                DataTable percentage = datatrans.GetData("Select PERCENTAGE from TARIFFMASTER where TARIFFMASTERID='" + ItemId + "'  ");
-                if (percentage.Rows.Count > 0)
-                {
-                    per = percentage.Rows[0]["PERCENTAGE"].ToString();
-
-
-                }
-                //}
-
-                string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
-
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                DataTable dth = new DataTable();
+                dth = datatrans.GetData("select GSTP from HSNMAST where HSCODE=(SELECT HSN FROM ITEMMASTER WHERE ITEMMASTERID='" + itemid + "')");
                 string type = "";
-
+                string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
                 string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYMASTID='" + custid + "'");
-
                 if (partystate == cmpstate)
                 {
                     type = "GST";
@@ -855,10 +835,57 @@ namespace Arasan.Controllers
                 {
                     type = "IGST";
                 }
+                DataTable dt = new DataTable();
+
+                if (dth.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dth.Rows.Count; i++)
+                    {
+                        string gper = dth.Rows[i]["GSTP"].ToString();
+                        if (type == "GST")
+                        {
+                            dt = datatrans.GetData("select ETARIFFMASTERID,TARIFFID from ETARIFFMASTER where ((SGST)+(CGST))='" + gper + "' AND IS_ACTIVE='Y'");
+                            if(dt.Rows.Count > 0)
+                            {
+                                lstdesg.Add(new SelectListItem() { Text = dt.Rows[0]["TARIFFID"].ToString(), Value = dt.Rows[0]["ETARIFFMASTERID"].ToString() });
+                            }
+                            
+                        }
+                        else
+                        {
+                            dt = datatrans.GetData("select ETARIFFMASTERID,TARIFFID from ETARIFFMASTER where IGST='" + gper + "' AND IS_ACTIVE='Y'");
+                            if (dt.Rows.Count > 0)
+                            {
+                                lstdesg.Add(new SelectListItem() { Text = dt.Rows[0]["TARIFFID"].ToString(), Value = dt.Rows[0]["ETARIFFMASTERID"].ToString() });
+                            }
+                        }
+                    }
+                }
+             
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetGSTPerDetail(string tarriffid)
+        {
+            try
+            {
+                string cgst = "";
+                string sgst = "";
+                string igst = "";
+                DataTable dt = datatrans.GetData("select SGST,CGST,IGST from ETARIFFMASTER where ETARIFFMASTERID='"+ tarriffid + "'");
+               if(dt.Rows.Count > 0)
+                {
+                    cgst = dt.Rows[0]["CGST"].ToString();
+                    sgst = dt.Rows[0]["SGST"].ToString();
+                    igst = dt.Rows[0]["IGST"].ToString();
+                }
 
 
-
-                var result = new { per = per, type = type };
+                var result = new { cgst = cgst, sgst = sgst, igst = igst };
                 return Json(result);
             }
             catch (Exception ex)

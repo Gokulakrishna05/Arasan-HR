@@ -721,8 +721,17 @@
         }
         else{
             document.getElementById('txtVoucher').value ="Purchase";
-                  
-        }
+            var i = 0;
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    (function (index) {
+                        $("#ddlItem" + index).val(null).trigger("change");
+                    })(i);
+                    i += 1;
+                }
+            });
+                 }
+        
           var j = 0;
  $('tr.chkitemlst').each(function () {
             if ($(this).css('display') !== 'none') {
@@ -739,7 +748,7 @@
                             alert("Data Not Found");
                         }
                     });
- 
+                    $("#ddlIndent" + index).val(null).trigger("change");
             })(j);
                 j += 1;
         }
@@ -792,8 +801,8 @@
             }
         });
            var cutid = document.getElementById("ddlSupplier" ).value;
-         
-          $.ajax({
+        @* alert(cutid);*@
+         @* $.ajax({
                         url: 'GetGSTDetail',
                         data: { "ItemId": ItemId, "custid": cutid },
                         type: "GET",
@@ -818,13 +827,13 @@
                         error: function () {
                             alert("Data Not Found");
                         }
-                    });
+                    });*@
 
                       var i = 0;
         $.ajax({
             url: "GetGSTItemJSON",
             type: "post",
-            data: { 'itemid': ItemId },
+            data: { 'itemid': ItemId, "custid": cutid },
             cache: false,
             success: function (response) {
                 var newlist;
@@ -844,29 +853,18 @@
             }
         });
     }
-     function changeGst(ItemId,i) {
+     function changeGst(tarriffid,i) {
 
-          var cutid = document.getElementById("ddlSupplier" ).value;
-         
           $.ajax({
                         url: 'GetGSTPerDetail',
-                        data: { "ItemId": ItemId, "custid": cutid },
+            data: { "tarriffid": tarriffid },
                         type: "GET",
                         success: function (result) {
-                            document.getElementById("hdstate").value = result.type;
-                          
-                            document.getElementById("txtPercentage" + i).value = result.per;
-                            
-                            if (result.type == "GST") {
-                                document.getElementById("txtCGSTP" + i).value = eval(result.per) / 2;
-                                document.getElementById("txtSGSTP" +i).value = eval(result.per) / 2;
-                                document.getElementById("txtIGSTP" + i).value = "0";
-                            }
-                            else {
-                                document.getElementById("txtIGSTP" + i).value = eval(result.per);
-                                document.getElementById("txtCGSTP" + i).value = "0";
-                                document.getElementById("txtSGSTP" +i).value = "0";
-                            }
+
+                document.getElementById("txtCGSTP" + i).value = eval(result.cgst);
+                document.getElementById("txtSGSTP" + i).value = eval(result.sgst) ;
+                document.getElementById("txtIGSTP" + i).value = eval(result.igst) ;
+
                           changeQty(0, i);
 
                         },
@@ -888,7 +886,10 @@
             var qty = 0;
             var tot = 0;
             var totfrieght = 0;
-
+                var cgsttotamt = 0;
+                var sgsttotamt = 0;
+                var igsttotamt = 0;
+                var totdis = 0;
             var totamt = 0;
             var totamount = 0;
             var qty = document.getElementById("txtQuantity" + i).value;
@@ -973,6 +974,33 @@
 
                         totamount += eval(tamt);
 
+
+                        var cgst = $(this).find('#txtCGST' + j.toString()).val();
+                        if (cgst == "")
+                            cgst = 0;
+
+                        cgsttotamt += eval(cgst);
+
+
+                        var sgst = $(this).find('#txtSGST' + j.toString()).val();
+                        if (sgst == "")
+                            sgst = 0;
+
+                        sgsttotamt += eval(sgst);
+
+                        var igst = $(this).find('#txtIGST' + j.toString()).val();
+                        if (igst == "")
+                            igst = 0;
+
+                        igsttotamt += eval(igst);
+
+
+                        var dsf = $(this).find('#txtDiscAmount' + j.toString()).val();
+                        if (dsf == "")
+                            dsf = 0;
+
+                        totdis += eval(dsf);
+
                               }
                         j += 1;
                  });
@@ -981,12 +1009,16 @@
             var round = eval(roundamount) - eval(totamount);
 
 
-            document.getElementById("txtFrig").value = totfrieght.toFixed(2);
-            document.getElementById("gross").value = totamt.toFixed(2);
-            document.getElementById("net").value = totamount.toFixed(2);
-            document.getElementById("hidnet").value = totamount.toFixed(2);
-            document.getElementById("txtRound").value = round.toFixed(2);
-                document.getElementById("hidround").value = round.toFixed(2);
+                document.getElementById("txtFrieghtcharge").value = totfrieght.toFixed(2);
+                document.getElementById("txtGross").value = totamt.toFixed(2);
+                document.getElementById("txtNet").value = roundamount.toFixed(2);
+            document.getElementById("hidnet").value = roundamount.toFixed(2);
+                document.getElementById("txtRound").value = round.toFixed(2);
+              @*document.getElementById("hidround").value = round.toFixed(2);*@
+                    document.getElementById("txtCGST").value = cgsttotamt.toFixed(2);
+                document.getElementById("txtSGST").value = sgsttotamt.toFixed(2);
+                document.getElementById("txtIGST").value = igsttotamt.toFixed(2);
+                document.getElementById("txtDisc").value = totdis.toFixed(2);
 
         }
         catch (ex) {

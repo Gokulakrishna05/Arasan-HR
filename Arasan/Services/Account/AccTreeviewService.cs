@@ -25,6 +25,26 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetParent()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select MASTERID,MNAME,MPARENT from master where MPARENT=0";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable Getchild(string parentid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select MASTERID,MNAME,MPARENT from master where MPARENT='"+ parentid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetAccType(string id)
         {
             string SvSql = string.Empty;
