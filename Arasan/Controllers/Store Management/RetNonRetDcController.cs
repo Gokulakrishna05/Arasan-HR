@@ -39,6 +39,7 @@ namespace Arasan.Controllers
             ca.Enteredlst = BindEmp();
             ca.Entered = Request.Cookies["EMPNAME"];
             ca.user = Request.Cookies["UserName"];
+            ca.userid = Request.Cookies["UserId"];
             ca.DDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Partylst = BindParty();
             ca.Stocklst = BindStock();
@@ -542,7 +543,7 @@ namespace Arasan.Controllers
                 ca.Delivery = dt.Rows[0]["DELDATE"].ToString();
                 ca.Narration = dt.Rows[0]["NARRATION"].ToString();
                 ca.Approved = dt.Rows[0]["EMPNAME"].ToString();
-                ca.Approval2 = dt.Rows[0]["EMPNAME"].ToString();
+                ca.Approval2 = dt.Rows[0]["EMPNAME1"].ToString();
 
                 dt1 = RetNonRetDcService.GetPartyitems(dt.Rows[0]["PARTYID"].ToString());
                 if (dt1.Rows.Count > 0)
