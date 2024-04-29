@@ -61,6 +61,7 @@ namespace Arasan.Models
         public string city { get; set; }
         public string Entered { get; set; }
         public string user { get; set; }
+        public string userid { get; set; }
         public string Part { get; set; }
         public string Narration { get; set; }
         public string ddlStatus { get; set; }

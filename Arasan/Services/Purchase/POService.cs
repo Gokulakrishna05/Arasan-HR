@@ -204,7 +204,7 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public string POtoGRN(string POID)
+        public string POtoGRN(PO cy)
         {
             string msg = "";
             try
@@ -228,8 +228,8 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    string partyname = datatrans.GetDataString("SELECT PARTYMAST.PARTYNAME FROM POBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=POBASIC.PARTYID where POBASICID='" + POID + "'");
-                    svSQL = "Insert into GRNBLBASIC (PARTYID,BRANCHID,POBASICID,EXRATE,MAINCURRENCY,DOCID,DOCDATE,PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET,IS_ACTIVE,AMTINWORDS,PARTYNAME) (Select PARTYID,BRANCHID,'" + POID + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET ,'Y',AMTINWORDS,'"+partyname+"' from POBASIC where POBASICID='" + POID + "')";
+                    DataTable party  = datatrans.GetData("SELECT GSTNO,PANNO FROM PARTYMAST  where PARTYNAME='" + cy.Supplier + "'");
+                    svSQL = "Insert into GRNBLBASIC (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,PARTYID,BRANCHID,POBASICID,EXRATE,MAINCURRENCY,DOCID,DOCDATE,PACKING_CHRAGES,OTHERCH,OTHER_DEDUCTION,RNDOFF,FREIGHT,GROSS,NET,AMTINWORDS,PARTYNAME,USERID,VTYPE,ADSCHEME,GRNTYPE,LOCID,GSTNO,PANNO) (Select '0','0','F','0','0',PARTYID,BRANCHID,'" + cy.ID + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET ,'Y',AMTINWORDS,'"+cy.Supplier+ "','" + cy.user + "','R','Against Purchase Order','10001000000827','"+ party.Rows[0]["GSTNO"].ToString()+"','"+ party.Rows[0]["PANNO"].ToString() +"' from POBASIC where POBASICID='" + cy.ID + "')";
                     OracleCommand objCmd = new OracleCommand(svSQL, objConn);
                     try
                     {
@@ -243,10 +243,10 @@ namespace Arasan.Services
                     objConn.Close();
                 }
 
-                string quotid = datatrans.GetDataString("Select GRNBLBASICID from GRNBLBASIC Where POBASICID=" + POID + "");
+                string quotid = datatrans.GetDataString("Select GRNBLBASICID from GRNBLBASIC Where POBASICID=" + cy.ID + "");
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    string Sql = "Insert into GRNBLDETAIL (GRNBLBASICID,ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,PURTYPE,PODETAILID,INDENTNO,INDENTDT) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISCAMT,PURTYPE,PODETAILID,INDENTNO,INDENTDT FROM PODETAIL WHERE POBASICID=" + POID + ")";
+                    string Sql = "Insert into GRNBLDETAIL (GRNBLBASICID,ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,PURTYPE,PODETAILID,INDENTNO,INDENTDT) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISCAMT,PURTYPE,PODETAILID,INDENTNO,INDENTDT FROM PODETAIL WHERE POBASICID=" + cy.ID + ")";
                     OracleCommand objCmds = new OracleCommand(Sql, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -255,7 +255,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConnE = new OracleConnection(_connectionString))
                 {
-                    string Sql = "UPDATE POBASIC SET STATUS='GRN Generated' where POBASICID='" + POID + "'";
+                    string Sql = "UPDATE POBASIC SET STATUS='GRN Generated' where POBASICID='" + cy.ID + "'";
                     OracleCommand objCmds = new OracleCommand(Sql, objConnE);
                     objConnE.Open();
                     objCmds.ExecuteNonQuery();
@@ -354,41 +354,13 @@ namespace Arasan.Services
                 int cunt = datatrans.GetDataId("Select count(GRNBLBASICID) from GRNBLBASIC Where POBASICID=" + cy.POId + "");
                 if (cunt == 0)
                 {
-                    DateTime theDate = DateTime.Now;
-                    DateTime todate; DateTime fromdate;
-                    string t; string f;
-                    if (DateTime.Now.Month >= 4)
-                    {
-                        todate = theDate.AddYears(1);
-                    }
-                    else
-                    {
-                        todate = theDate;
-                    }
-                    if (DateTime.Now.Month >= 4)
-                    {
-                        fromdate = theDate;
-                    }
-                    else
-                    {
-                        fromdate = theDate.AddYears(-1);
-                    }
-                    t = todate.ToString("yy");
-                    f = fromdate.ToString("yy");
-                    string disp = string.Format("{0}-{1}", f, t);
+                    datatrans = new DataTransactions(_connectionString);
 
-                    int idc = datatrans.GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'GRN' AND IS_ACTIVE = 'Y'");
-                    string PONo = string.Format("{0} - {1} / {2}", "GRN", (idc + 1).ToString(), disp);
 
-                    string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='GRN' AND IS_ACTIVE ='Y'";
-                    try
-                    {
-                        datatrans.UpdateStatus(updateCMd);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
+                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'GR-F' AND ACTIVESEQUENCE = 'T'");
+                    string PONo = string.Format("{0}{1}", "GR-F", (idc + 1).ToString());
+
+                    string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='GR-F' AND ACTIVESEQUENCE ='T'";
 
                     using (OracleConnection objConn = new OracleConnection(_connectionString))
                     {
@@ -398,6 +370,7 @@ namespace Arasan.Services
                         {
                             objConn.Open();
                             objCmd.ExecuteNonQuery();
+                            datatrans.UpdateStatus(updateCMd);
                         }
                         catch (Exception ex)
                         {

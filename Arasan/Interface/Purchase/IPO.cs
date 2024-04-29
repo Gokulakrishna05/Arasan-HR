@@ -21,7 +21,7 @@ namespace Arasan.Interface
         DataTable GethsnDetails(string Poid);
         string PurOrderCRUD(PO Cy);
         string GateInwardCRUD(GateInward Cy);
-        string POtoGRN(string POID);
+        string POtoGRN(PO POID);
         DataTable GetPObySuppID(string supid);
 
         DataTable GetViewGateInward(string Poid);

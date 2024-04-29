@@ -731,6 +731,7 @@ namespace Arasan.Controllers
                 ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
                 ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
                 ca.ID = id;
+                ca.user = Request.Cookies["UserName"];
             }
             List<POItem> Data = new List<POItem>();
             POItem tda = new POItem();
@@ -834,7 +835,7 @@ namespace Arasan.Controllers
             try
             {
                 Cy.ID = id;
-                string Strout = PoService.POtoGRN(Cy.ID);
+                string Strout = PoService.POtoGRN(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (Cy.ID == null)

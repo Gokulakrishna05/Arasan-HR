@@ -30,6 +30,7 @@ namespace Arasan.Models
         public string warrantyterms { get; set; }
         public string ID { get; set; }
         public string Branch { get; set; }
+        public string user { get; set; }
 
         public string PONo { get; set; }
 

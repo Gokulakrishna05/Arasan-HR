@@ -558,7 +558,8 @@ namespace Arasan.Controllers.Store_Management
                     
 
                     tda.lotno = dtEnq.Rows[0]["LOTNO"].ToString();
-                    //tda.rate = dtEnq.Rows[0]["RATE"].ToString();
+                    string lrate = datatrans.GetDataString("SELECT RATE FROM LSTOCKVALUE WHERE LOTNO='" + tda.lotno + "'");
+                    tda.rate = lrate;
                     //tda.invid = dtEnq.Rows[i]["PLotmastID"].ToString();
                     TData.Add(tda);
                 }
