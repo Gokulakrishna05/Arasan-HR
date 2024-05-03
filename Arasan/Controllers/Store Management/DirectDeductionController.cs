@@ -29,6 +29,7 @@ namespace Arasan.Controllers.Store_Management
             st.Loc = BindLocation();
             st.Brlst = BindBranch();
             st.Branch = Request.Cookies["BranchId"];
+            st.user = Request.Cookies["UserName"];
             st.assignList = BindEmp();
             DataTable dtv = datatrans.GetSequence("Ddecu");
             if (dtv.Rows.Count > 0)
@@ -371,7 +372,7 @@ namespace Arasan.Controllers.Store_Management
                     }
                 }
 
-                var result = new { unit = unit, CF = CF, price = price, stock= stock };
+                var result = new { unit = unit, CF = CF, price = price, stock= stock, type= type };
                 return Json(result);
             }
             catch (Exception ex)
@@ -474,7 +475,38 @@ namespace Arasan.Controllers.Store_Management
             }
             return View(st);
         }
+        public ActionResult LotSelection(string ItemId, string rowid, string loc)
+        {
+            DirectDeduction ca = new DirectDeduction();
+            List<Lotdetails> TData = new List<Lotdetails>();
+            Lotdetails tda = new Lotdetails();
+            DataTable dtEnq = new DataTable();
 
+            dtEnq = datatrans.GetData("Select S.LOTNO,SUM(S.PLUSQTY-S.MINUSQTY) as QTY  from  LSTOCKVALUE S  where S.ITEMID=" + ItemId + " AND S.LOCID ='"+loc+ "' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0  GROUP BY S.LOTNO,S.ITEMID  ");
+            for (int i = 0; i < dtEnq.Rows.Count; i++)
+                {
+                    tda = new Lotdetails();
+
+                   
+                    tda.qty = dtEnq.Rows[i]["QTY"].ToString();
+                    tda.reqqty = dtEnq.Rows[i]["QTY"].ToString();
+                    //tda.stkid = dtEnq.Rows[i]["DRUM_STOCK_ID"].ToString();
+
+
+                    tda.lotno = dtEnq.Rows[0]["LOTNO"].ToString();
+                tda.drumno = datatrans.GetDataString("SELECT DRUMNO FROM LSTOCKVALUE WHERE LOTNO='" + tda.lotno + "' AND ITEMID=" + ItemId + " AND LOCID ='" + loc + "' GROUP BY DRUMNO");
+                string lrate = datatrans.GetDataString("SELECT RATE FROM LSTOCKVALUE WHERE LOTNO='" + tda.lotno + "' AND ITEMID=" + ItemId + " AND LOCID ='" + loc + "'");
+                    tda.rate = lrate;
+                    tda.amount = Convert.ToDouble(lrate) * Convert.ToDouble(tda.qty);
+                tda.amount = Math.Round(tda.amount);
+                    //tda.invid = dtEnq.Rows[i]["PLotmastID"].ToString();
+                    TData.Add(tda);
+                }
+             
+            
+            ca.lotlst = TData;
+            return View(ca);
+        }
         public JsonResult GetStockItemJSON(string ItemId)
         {
             SubContractingItem model = new SubContractingItem();

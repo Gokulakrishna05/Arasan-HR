@@ -84,6 +84,8 @@ namespace Arasan.Services.Store_Management
                     throw ex;
                 }
                 ss.DocId = DocId;
+                ss.Narr = "Downward Stock Adjustment owing to :  " + ss.Reason;
+                string ltype = datatrans.GetDataString("SELECT LOCATIONTYPE FROM LOCDETAILS WHERE LOCDETAILSID='" + ss.Location + "'");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DEDBASICPROC", objConn);
@@ -108,11 +110,13 @@ namespace Arasan.Services.Store_Management
                     objCmd.Parameters.Add("REASON", OracleDbType.NVarchar2).Value = ss.Reason;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = ss.Gro;
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = ss.net;
-                    objCmd.Parameters.Add("ENTBY", OracleDbType.NVarchar2).Value = ss.Entered;
+                    objCmd.Parameters.Add("ENTBY", OracleDbType.NVarchar2).Value = ss.user;
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = ss.Narr;
-                    objCmd.Parameters.Add("MATSUPP", OracleDbType.NVarchar2).Value = ss.Material;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    objCmd.Parameters.Add("MATSUPP", OracleDbType.NVarchar2).Value = "OWN";
+                   
                     objCmd.Parameters.Add("NOOFD", OracleDbType.NVarchar2).Value = ss.NoDurms;
+                    objCmd.Parameters.Add("USERID", OracleDbType.NVarchar2).Value = ss.user;
+                    objCmd.Parameters.Add("LTYPE", OracleDbType.NVarchar2).Value = ltype;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -125,12 +129,14 @@ namespace Arasan.Services.Store_Management
                         {
                             Pid = ss.ID;
                         }
+                        int r = 1;
                         foreach (DeductionItem cp in ss.Itlst)
                         {
                             if (cp.Isvalid == "Y" && cp.ItemId != "0")
                             {
-                               
-                                    OracleCommand objCmds = new OracleCommand("DEDDETAILPROC", objConn);
+                                DataTable itemdet = datatrans.GetData("SELECT VALMETHOD,LOTYN,SERIALYN,EXPYN,ITEMACC,DRUMYN,BINNO FROM ITEMMASTER WHERE ITEMMASTERID='" + cp.ItemId + "'");
+
+                                OracleCommand objCmds = new OracleCommand("DEDDETAILPROC", objConn);
                                     if (ss.ID == null)
                                     {
                                         StatementType = "Insert";
@@ -143,17 +149,25 @@ namespace Arasan.Services.Store_Management
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("DEDBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemGroupId;
+                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
                                     //objCmds.Parameters.Add("ITEMACC", OracleDbType.NVarchar2).Value = cp.ItemId;
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
                                     objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
                                     objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
-                                    objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = cp.BinID;
-                                    objCmds.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cp.Process;
-                                    objCmds.Parameters.Add("CONFAC", OracleDbType.NVarchar2).Value = cp.ConFac;
-                                    objCmds.Parameters.Add("ITEMACC", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = itemdet.Rows[0]["BINNO"].ToString();
+                                objCmds.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cp.Process;
+                                objCmds.Parameters.Add("ITEMACC", OracleDbType.NVarchar2).Value = itemdet.Rows[0]["ITEMACC"].ToString();
+
+                                objCmds.Parameters.Add("VALMETHOD", OracleDbType.NVarchar2).Value = itemdet.Rows[0]["VALMETHOD"].ToString();
+                                objCmds.Parameters.Add("LOTYN", OracleDbType.NVarchar2).Value = itemdet.Rows[0]["LOTYN"].ToString();
+                                objCmds.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = itemdet.Rows[0]["SERIALYN"].ToString();
+                                objCmds.Parameters.Add("DRUMYN", OracleDbType.NVarchar2).Value = itemdet.Rows[0]["DRUMYN"].ToString();
+                                objCmds.Parameters.Add("CLSTK", OracleDbType.NVarchar2).Value = cp.CurrentStock;
+                                objCmds.Parameters.Add("AVLSTK", OracleDbType.NVarchar2).Value = cp.CurrentStock;
+                                objCmds.Parameters.Add("DEDDETAILROW", OracleDbType.NVarchar2).Value = r;
+                                objCmds.Parameters.Add("DSNO", OracleDbType.NVarchar2).Value = cp.ddrum;
+                                objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objCmds.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                     objCmds.ExecuteNonQuery();
                                     Object Prid = objCmds.Parameters["OUTID"].Value;
@@ -163,37 +177,72 @@ namespace Arasan.Services.Store_Management
 
                                 if (type == "YES")
                                 {
-                                    //string SvSql1 = "Insert into LSTOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,DOCID,DOCDATE,LOTNO,PLUSQTY,MINUSQTY,DRUMNO,RATE,STOCKVALUE,ITEMID,LOCID,BINNO,FROMLOCID,STOCKTRANSTYPE) VALUES ('0','0','F','" + Prid + "','754368046','" + ss.DocId + "','" + ss.Docdate + "','" + ddlot + "' ,'0','" + ddqty + "','" + dddrum + "','" + cp.rate + "','" + cp.Amount + "','" + cp.ItemId + "','" + ss.Location + "','0','0','SUB DC' )";
-                                    //OracleCommand objCmdss = new OracleCommand(SvSql1, objConn);
-                                    //objCmdss.ExecuteNonQuery();
-
-
-                                  string  SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,STOCKTRANSTYPE) VALUES ('" + Prid + "','m','" + cp.ItemId + "','" + ss.Docdate + "','" + cp.Quantity + "' ,'" + ss.Location + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','Conversion Issue')RETURNING STOCKVALUEID INTO :STKID";
-                                    OracleCommand objCmdsss = new OracleCommand(SvSql1, objConn);
-                                    objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
-                                    objCmdsss.ExecuteNonQuery();
+                                    string[] Ddrum = new string[] { };
+                                    string[] dlot = new string[] { };
+                                    if (cp.ddrum != "" && cp.ddrum != null)
+                                    {
+                                        Ddrum = cp.ddrum.Split(',');
+                                    }
                                     
-                                    string stkid = objCmdsss.Parameters["STKID"].Value.ToString();
-                                    string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE) VALUES ('" + stkid + "','" + ss.DocId + "','" + ss.Narr + "','" + cp.rate + "')";
-                                    OracleCommand objCmddts = new OracleCommand(SvSql2, objConn);
-                                    objCmddts.ExecuteNonQuery();
+                                        dlot = cp.Lotno.Split(',');
+                                    
+                                    string[] Dqty = cp.dqty.Split('-');
+                                    string[] Drate = cp.drate.Split('-');
+                                    string[] Damount = cp.damount.Split('-');
+                                    string[] Dstock = cp.dstock.Split('-');
+                                    int drow = 1;
+                                    for (int i = 0; i < Dqty.Length; i++)
+                                    {
+                                        string dddrum = "";
+                                        if (Ddrum.Length > 0)
+                                        {
+                                            dddrum = Ddrum[i];
+                                        }
+                                        string ddqty = Dqty[i];
+                                        string ddrate = Drate[i];
+                                        string ddamount = Damount[i];
+                                       
+                                            string ddlot = dlot[i];
+                                            string ddstk = Dstock[i];
+
+                                         svSQL = "Insert into DEDBAT(DEDBASICID,PARENTRECORDID,DEDBATROW,BITEMID,BLOCID,BSTOCK,BQTY,BRATE,PARENTROW,DRUMNOID,DRUMNO,BITEMMASTERID,BAMOUNT,TLOT) VALUES ('" + Pid + "','" + Prid + "','" + drow + "','" + cp.ItemId + "','" + ss.Location + "','" + ddstk + "','" + ddqty + "','"+ ddrate + "','" + r + "','0','"+ dddrum + "','" + cp.ItemId + "','" + ddamount + "','" + ddlot + "')";
+                                         objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                        string SvSql1 = "Insert into LSTOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,DOCID,DOCDATE,LOTNO,PLUSQTY,MINUSQTY,DRUMNO,RATE,STOCKVALUE,ITEMID,LOCID,BINNO,FROMLOCID,STOCKTRANSTYPE) VALUES ('0','0','F','" + Prid + "','754368046','" + ss.DocId + "','" + ss.Docdate + "','" + ddlot + "' ,'0','" + ddqty + "','" + dddrum + "','" + cp.rate + "','" + ddamount + "','" + cp.ItemId + "','" + ss.Location + "','0','0','Direct Deduction' )";
+                                        OracleCommand objCmdss = new OracleCommand(SvSql1, objConn);
+                                        objCmdss.ExecuteNonQuery();
+
+
+                                          SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,STOCKTRANSTYPE,DOCTIME,MASTERID) VALUES ('" + Prid + "','m','" + cp.ItemId + "','" + ss.Docdate + "','" + cp.Quantity + "' ,'" + ss.Location + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','DIRECT DEDUCTION','11:00:00 PM','" + itemdet.Rows[0]["ITEMACC"].ToString() + "') RETURNING STOCKVALUEID INTO :STKID";
+                                        OracleCommand objCmdsss = new OracleCommand(SvSql1, objConn);
+                                        objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                                        objCmdsss.ExecuteNonQuery();
+
+                                        string stkid = objCmdsss.Parameters["STKID"].Value.ToString();
+                                        string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE,STOCKTYPE) VALUES ('" + stkid + "','" + ss.DocId + "','" + ss.Narr + "','" + cp.rate + "','" + ss.Reason + "')";
+                                        OracleCommand objCmddts = new OracleCommand(SvSql2, objConn);
+                                        objCmddts.ExecuteNonQuery();
+                                        drow++;
+                                    }
                                     
                                 }
                                 else
                                 {
 
-                                    string SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,STOCKTRANSTYPE) VALUES ('" + Prid + "','m','" + cp.ItemId + "','" + ss.Docdate + "','" + cp.Quantity + "' ,'" + ss.Location + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','Conversion Issue')RETURNING STOCKVALUEID INTO :STKID";
+                                    string SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,STOCKTRANSTYPE,DOCTIME,MASTERID) VALUES ('" + Prid + "','m','" + cp.ItemId + "','" + ss.Docdate + "','" + cp.Quantity + "' ,'" + ss.Location + "','0','0','0','0','0','0','0','0','" + cp.Amount + "',' DIRECT DEDUCTION','11:00:00 PM','"+ itemdet.Rows[0]["ITEMACC"].ToString() +"') RETURNING STOCKVALUEID INTO :STKID";
                                     OracleCommand objCmdsss = new OracleCommand(SvSql1, objConn);
                                     objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                     objCmdsss.ExecuteNonQuery();
 
                                     string stkid = objCmdsss.Parameters["STKID"].Value.ToString();
-                                    string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE) VALUES ('" + stkid + "','" + ss.DocId + "','" + ss.Narr + "','" + cp.rate + "')";
+                                    string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE,STOCKTYPE) VALUES ('" + stkid + "','" + ss.DocId + "','" + ss.Narr + "','" + cp.rate + "','" + ss.Reason + "')";
                                     OracleCommand objCmddts = new OracleCommand(SvSql2, objConn);
                                     objCmddts.ExecuteNonQuery();
                                    
                                 }
                             }
+                            r++;
                                 }
 
                                 //////////////////////////Inventory details

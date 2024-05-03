@@ -32,8 +32,10 @@ namespace Arasan.Models
         public string Through { get; set; }
         public string party { get; set; }
         public string Entered { get; set; }
+        public string user { get; set; }
         public string Recived { get; set; }
         public string TotalQty { get; set; }
+        public string Totrecqty { get; set; }
         public string ddlStatus { get; set; }
         public string NDcNo { get; set; }
         public string dcDate { get; set; }
@@ -61,7 +63,7 @@ namespace Arasan.Models
         public string reqqty { get; set; }
         public string stkid  { get; set; }
         public string rate { get; set; }
-        public string amount { get; set; }
+        public double amount { get; set; }
         public string invid { get; set; }
         public bool drumselect { get; set; }
     }
@@ -76,12 +78,15 @@ namespace Arasan.Models
         public string Unit { get; set; }
         public string detid { get; set; }
         public string ConFac { get; set; }
+        public string dsno { get; set; }
         public string Quantity { get; set; }
         public string rate { get; set; }
         public string Amount { get; set; }
         public string saveItemId { get; set; }
         public string group { get; set; }
         public string Lotno { get; set; }
+        public string dstock { get; set; }
+        public string damount { get; set; }
         public string dqty { get; set; }
         public string drate { get; set; }
         public string DrumIds { get; set; } 

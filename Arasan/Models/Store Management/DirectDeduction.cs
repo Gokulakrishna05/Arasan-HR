@@ -25,8 +25,9 @@ namespace Arasan.Models
 
         public string status { get; set; }
 
-
+        public bool selectall { get; set; }
         public string Branch { get; set; }
+        public string user { get; set; }
 
         public List<SelectListItem> Brlst;
 
@@ -34,6 +35,7 @@ namespace Arasan.Models
         public string Location { get; set; }
         public string ddlStatus { get; set; }
         public List<DeductionItem> Itlst { get; set; }
+        public List<Lotdetails> lotlst { get; set; }
     }
     public class ListDirectDeductionItem
     {
@@ -78,8 +80,30 @@ namespace Arasan.Models
         //public string Bat { get; set; }
 
 
+        public string Lotno { get; set; }
+        public string dqty { get; set; }
+        public string drate { get; set; }
+        public string damount { get; set; }
+        public string dsno { get; set; }
+        public string dstock { get; set; }
+        public string ddrum { get; set; }
 
 
 
+
+    }
+    public class Lotdetails
+    {
+        public string lotno { get; set; }
+        public string item { get; set; }
+        public string drumno { get; set; }
+        public string qty { get; set; }
+        public string reqqty { get; set; }
+        public string stkid { get; set; }
+        public string rate { get; set; }
+       
+        public double amount { get; set; }
+        public string invid { get; set; }
+        public bool drumselect { get; set; }
     }
 }

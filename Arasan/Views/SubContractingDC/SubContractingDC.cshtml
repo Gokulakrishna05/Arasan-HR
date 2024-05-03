@@ -63,9 +63,11 @@
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Doc No<label class="mandatory">*</label></label>
 
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 ,@readonly=true})
+                                            @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2 ,@readonly=true})
                                             @Html.HiddenFor(C => C.ID)
                                             @Html.HiddenFor(C => C.Branch)
+                                            @Html.HiddenFor(C => C.user)
+                                            @Html.HiddenFor(C => C.Entered)
                                         </div>
                                     </div>
                                 </div>
@@ -74,7 +76,7 @@
 
                                         <br />    <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory">*</label></label>
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true  })
+                                            @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 3,@size="31",@readonly=true  })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
 
@@ -87,9 +89,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Party ID<label class="mandatory">*</label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Party  <label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst," -- Please Select -- ", new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 1 ,@onchange="changeItem(this.value)"})
+                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst," -- Please Select -- ", new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 4 ,@onchange="changeItem(this.value)"})
                                         </div>
                                     </div>
                                 </div>
@@ -101,7 +103,7 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Add 1<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Add1, new { @id = "txtAdd1", @class = "form-control", @TabIndex = 1 ,@readonly=true})
+                                            @Html.TextBoxFor(C => C.Add1, new { @id = "txtAdd1", @class = "form-control", @TabIndex = 5 ,@readonly=true})
                                         </div>
                                     </div>
                                 </div>
@@ -110,7 +112,7 @@
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Add 2<label class="Mandatory"></label></label>
 
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Add2, new { @id = "txtAdd2", @class = "form-control", @TabIndex = 1 ,@readonly=true})
+                                            @Html.TextBoxFor(C => C.Add2, new { @id = "txtAdd2", @class = "form-control", @TabIndex = 6 ,@readonly=true})
                                         </div>
                                     </div>
                                 </div>
@@ -121,16 +123,16 @@
 
                                         <br /><label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.City, new { @id = "txtCity", @class = "form-control", @TabIndex = 1 ,@readonly=true})
+                                            @Html.TextBoxFor(C => C.City, new { @id = "txtCity", @class = "form-control", @TabIndex = 7 ,@readonly=true})
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Through<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Through<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Through, new { @id = "txtThrough", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextBoxFor(C => C.Through, new { @id = "txtThrough", @class = "form-control", @TabIndex = 8 })
 
                                         </div>
                                     </div>
@@ -169,8 +171,8 @@
                                                                     <th></th>
                                                                     <th>Unit</th>
                                                                     @* <th>CL.Stock</th>*@
-                                                                    <th> ConFactor</th>
-                                                                    <th> Drums Desc </th>
+                                                                     
+                                                                    <th> Drums SNo </th>
                                                                     <th>Stock</th>
                                                                     <th>Qty</th>
                                                                     @* <th>No.Of.Pages</th>*@
@@ -196,7 +198,10 @@
                                                                                 @Html.HiddenFor(o => o.SCDIlst[i].dqty,new{@id="dqty" + i})
                                                                                 @Html.HiddenFor(o => o.SCDIlst[i].drate,new{@id="drate" + i})
                                                                                 @Html.HiddenFor(o => o.SCDIlst[i].Lotno, new { @id = "lotno" + i })
-                                                                               
+                                                                                @Html.HiddenFor(o => o.SCDIlst[i].dstock, new { @id = "dstock" + i })
+                                                                                @Html.HiddenFor(o => o.SCDIlst[i].damount, new { @id = "damount" + i })
+                                                                                @Html.HiddenFor(o => o.SCDIlst[i].Drumsdesc, new { @id = "txtDrumsdesc" + i })
+                                                                               @Html.HiddenFor(o => o.SCDIlst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
 
                                                                             </td>
                                                                          
@@ -208,15 +213,13 @@
                                                                             <td>
                                                                                 @Html.TextBoxFor(o => o.SCDIlst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
                                                                             </td>
+                                                                            
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.SCDIlst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.SCDIlst[i].Drumsdesc, new { @id = "txtDrumsdesc" + i, @class = "form-control", style = "width: 150px;", @readonly = "readonly"})
+                                                                                @Html.TextBoxFor(o => o.SCDIlst[i].dsno, new { @id = "txtdsno" + i, @class = "form-control", style = "width: 150px;" })
 
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.SCDIlst[i].stock, new { @id = "txtstock" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
+                                                                                @Html.TextBoxFor(o => o.SCDIlst[i].stock, new { @id = "txtstock" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly"})
                                                                             </td>
                                                                             <td>
                                                                                 @Html.TextBoxFor(o => o.SCDIlst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
@@ -363,8 +366,17 @@
 
                                     </div>
                                 </div>
-                            
-                                <div class="col-md-6">
+                             <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Total RecQty <label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Totrecqty, new { @id = "Totrecqty", @class = "form-control", @TabIndex = 1, @readonly = true})
+                                        </div>
+
+                                    </div>
+                                </div>
+                               @* <div class="col-md-6">
                                     <div class="form-group">
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
@@ -372,7 +384,7 @@
                                             @Html.TextAreaFor(C => C.Narration, new { @id = "txtNarration", @class = "form-control", @TabIndex = 1 })
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
                             </div>
 
                             <div style="height:30px;"></div>
@@ -593,21 +605,20 @@
                     $('tr.chkitemlst').each(function () {
                         if ($(this).css('display') !== 'none') {
 
-                            var itemid = $(this).find('#ddlItem' + j.toString()).val();
-                            var amt = $(this).find('#txtAmount' + j.toString()).val();
+                             var amt = $(this).find('#txtQuantity' + j.toString()).val();
                             if (amt == "")
                                 amt = 0;
 
-                            if (itemid == "1") {
+                            
                                 totamt += eval(amt);
-                            }
+                            
     
 
                         }
                         j += 1;
                     });
             
-           var totqtyamount = 0;
+          @* var totqtyamount = 0;
             var qtyt = document.getElementById("txtQuantity" + i).value;
             var qtyt = 0;
 
@@ -629,8 +640,8 @@
                 }
 
 
-            });
-            document.getElementById("TotalQty").value = totqtyamount.toFixed(2);
+            });*@
+            document.getElementById("TotalQty").value = totamt.toFixed(2);
     @*var roundamount = Math.ceil(totamount);
 
                     var round = eval(roundamount) - eval(totamount);*@
@@ -698,7 +709,7 @@
                     j += 1;
                 });
      
-                 document.getElementById("TotalQty").value = totalqty.toFixed(2);
+                 document.getElementById("Totrecqty").value = totalqty.toFixed(2);
                 }
         catch (ex) {
             alert(ex.message);
@@ -750,11 +761,11 @@
 
         var drum = "<td><div class='fa-hover col-md-2 col-sm-4'> <a href='/SubContractingDC/SubContractDrumSelection' class='fancybox' data-fancybox-type='iframe' id='hdrumselection" + index + "'><img src='../Images/view_icon.png' id='im' ></a></div> <input  id='hddrumid" + index + "' name='SCDIlst[" + index + "].DrumIds' type='hidden'> </td>";
 
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='SCDIlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /><input class='form-control' id='dqty" + index + "' name='SCDIlst[" + index + "].dqty' type='hidden' /><input class='form-control' id='lotno" + index + "' name='SCDIlst[" + index + "].Lotno' type='hidden' /><input class='form-control' id='drate" + index + "' name='SCDIlst[" + index + "].drate' type='hidden' /></td>";
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='SCDIlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /><input class='form-control' id='dqty" + index + "' name='SCDIlst[" + index + "].dqty' type='hidden' /><input class='form-control' id='lotno" + index + "' name='SCDIlst[" + index + "].Lotno' type='hidden' /><input class='form-control' id='drate" + index + "' name='SCDIlst[" + index + "].drate' type='hidden' /><input class='form-control' id='txtDrumsdesc" + index + "' name='SCDIlst[" + index + "].Drumsdesc' type='hidden' /><input class='form-control' id='damount" + index + "' name='SCDIlst[" + index + "].damount' type='hidden' /><input class='form-control' id='dstock" + index + "' name='SCDIlst[" + index + "].dstock' type='hidden' /></td>";
 
         var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='SCDIlst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True'  /></td>";
 
-        var drumdesc = "<td><input class='form-control' id='txtDrumsdesc" + index + "' name='SCDIlst[" + index + "].Drumsdesc'  style='width: 150px;' type='text' /></td>";
+        var drumdesc = "<td><input class='form-control' id='txtdsno" + index + "' name='SCDIlst[" + index + "].dsno'  style='width: 150px;' type='text' /></td>";
 
         var Stock = "<td><input class='form-control' id='txtstock" + index + "' name='SCDIlst[" + index + "].stock'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text'   onchange = 'changeQty(this.value," + index + ")' readonly='True' /></td>";
         var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='SCDIlst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text'   onchange = 'changeQty(this.value," + index + ")' /></td>";
@@ -873,6 +884,23 @@
             }
             else {
                 $(Docdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+              
+            if (document.getElementById("txtThrough").value == "") {
+                isValid = false;
+                $(txtThrough).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Through");
+                return false;
+            }
+            else {
+                $(txtThrough).css({
                     "border": "",
                     "background": ""
                 });

@@ -23,6 +23,7 @@ namespace Arasan.Models
             this.assignList = new List<SelectListItem>();
         }
         public string Branch { get; set; }
+        public string user { get; set; }
 
         public List<SelectListItem> Brlst;
 
