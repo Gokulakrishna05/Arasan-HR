@@ -1,0 +1,205 @@
+﻿@model Arasan.Models.Designation
+
+@{
+    ViewData["Title"] = "Designation";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Privileges</a> </li>
+            <li class="active"> <strong> Designation </strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+
+                    <hr>
+                    @using (Html.BeginForm("PDesig", "Designation", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Department Name<label class="mandatory">*</label></label>
+
+
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.DeptName, Model.DeptNamelst,"Please Select", new { @id = "ddlDeptName", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Designation <label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.Design, new { @id = "txtDesignation", @class = "form-control",autocomplete="off" , @TabIndex = 2, @size="30" })<br>
+
+                                            @* for edit & delete*@
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.createby)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Position <label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.Pos, new { @id = "txtPos", @class = "form-control",autocomplete="off" , @TabIndex = 2, @size="30" })<br>
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-8"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ListPDesg", "Designation")">Cancel</a>
+
+
+                        </form>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<script>
+        $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete the row ")
+        }
+</script>
+
+<script>
+
+    $(function () {
+        $('._select').select2();
+    });
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+
+            if (document.getElementById("ddlDeptName").value == "" || document.getElementById("ddlDeptName").value == 0) {
+                isValid = false;
+                $(ddlDeptName).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DepartmentName");
+                return false;
+            }
+            else {
+                $(ddlDeptName).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+            if (document.getElementById("txtDesignation").value == "") {
+                isValid = false;
+                $(txtDesignation).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Designation");
+                return false;
+            }
+            else {
+                $(txtDesignation).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+
+</script>

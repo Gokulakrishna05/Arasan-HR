@@ -16,5 +16,9 @@ namespace Arasan.Interface
         string RemoveChange(string tag, int id);
 
         DataTable GetAllDESIGNATION(string strStatus);
+        DataTable GetPDeptName();
+        DataTable GetPDesignation(string id);
+        DataTable GetAllPDESIGNATION(string strStatus);
+        string PDesignationCRUD(Designation ss);
     }
 }
