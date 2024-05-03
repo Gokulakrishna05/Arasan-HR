@@ -136,6 +136,43 @@ namespace Arasan.Services
 
             return msg;
         }
+        public string PDepartmentCRUD(Department ss)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty;
+                string svSQL = "";
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    objConn.Open();
+                    if (ss.ID == null)
+                    {
+                        svSQL = "Insert into PDEPT (DEPARTMENT,POSITION,CREATEDBY,CREATEDON) VALUES ('" + ss.DepartmentName + "','" + ss.Pos + "','" + ss.createby + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "')";
+                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        objCmds.ExecuteNonQuery();
+                    }
+                    else
+                    {
+                        svSQL = "Update PDEPT SET DEPARTMENT='" + ss.DepartmentName + "',POSITION='" + ss.Pos + "' WHERE  PDEPTID='"+ ss.ID + "'  ";
+                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        objCmds.ExecuteNonQuery();
+                    }
+                    objConn.Close();
+                }
+               
+
+                   
+                   
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
 
         //try
         //{
@@ -202,7 +239,16 @@ namespace Arasan.Services
                     adapter.Fill(dtt);
                     return dtt;
         }
-
+        public DataTable GetPDepartment(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select DEPARTMENT,PDEPTID,POSITION,IS_ACTIVE from PDEPT where PDEPTID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string StatusChange(string tag, int id)
         {
 
@@ -263,6 +309,20 @@ namespace Arasan.Services
                 SvSql = "Select DEPARTMENTMAST.IS_ACTIVE,DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME from DEPARTMENTMAST  WHERE DEPARTMENTMAST.IS_ACTIVE = 'N' ORDER BY DEPARTMENTMASTID DESC";
 
             }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAllPDEPARTMENT(string strStatus)
+        {
+            if (strStatus == null)
+            {
+                strStatus = "Y";
+            }
+            string SvSql = string.Empty;
+            SvSql = "Select DEPARTMENT,PDEPTID,POSITION,IS_ACTIVE from PDEPT where IS_ACTIVE='"+ strStatus + "' ORDER BY PDEPTID DESC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

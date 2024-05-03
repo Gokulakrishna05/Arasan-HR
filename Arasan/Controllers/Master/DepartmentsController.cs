@@ -46,7 +46,35 @@ namespace Arasan.Controllers
             
             return View(Dp);
         }
+
+        public IActionResult PDept(string id)
+        {
+            Department Dp = new Department();
+
+            Dp.createby = Request.Cookies["UserId"];
+
+            if (id == null)
+            {
+
+
+            }
+            else
+            {
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = DepartmentService.GetPDepartment(id);
+                if (dt.Rows.Count > 0)
+                {
+                    Dp.Pos = dt.Rows[0]["POSITION"].ToString();
+                    Dp.DepartmentName = dt.Rows[0]["DEPARTMENT"].ToString();
+                }
+
+            }
+
+            return View(Dp);
+        }
         
+
         [HttpPost]
         public IActionResult Departments(Department Dp, string id)
         {
@@ -85,13 +113,55 @@ namespace Arasan.Controllers
             return View(Dp);
         }
 
+        [HttpPost]
+        public IActionResult PDept(Department Dp, string id)
+        {
+            try
+            {
+                Dp.ID = id;
+                string Strout = DepartmentService.PDepartmentCRUD(Dp);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Dp.ID == null)
+                    {
+                        TempData["notice"] = "Department Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Department Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListPDept");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit Departments";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+
+            return View(Dp);
+        }
+
         public IActionResult ListDepartment()
         {
             
             return View();
         }
+        public IActionResult ListPDept()
+        {
 
-
+            return View();
+        }
+        
         public ActionResult DeleteMR(string tag, int id)
         {
 
@@ -120,6 +190,49 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListDepartment");
             }
+        }
+
+        public ActionResult MyListPDept(string strStatus)
+        {
+            List<Departmentgrid> Reg = new List<Departmentgrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = DepartmentService.GetAllPDEPARTMENT(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
+
+                    EditRow = "<a href=PDept?id=" + dtUsers.Rows[i]["PDEPTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeletePDept?tag=Del&id=" + dtUsers.Rows[i]["PDEPTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+                    EditRow = "";
+                    DeleteRow = "<a href=DeletePDept?tag=Del&id=" + dtUsers.Rows[i]["PDEPTID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+                }
+
+                Reg.Add(new Departmentgrid
+                {
+                    id = dtUsers.Rows[i]["PDEPTID"].ToString(),
+                    pos = dtUsers.Rows[i]["POSITION"].ToString(),
+                    departmentname = dtUsers.Rows[i]["DEPARTMENT"].ToString(),
+                    //description = dtUsers.Rows[i]["DESCRIPTION"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
         public ActionResult MyListItemgrid(string strStatus)
         {

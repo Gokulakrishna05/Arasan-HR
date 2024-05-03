@@ -672,7 +672,27 @@
 		</li>
                     <li class="nav-item">
 
-                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="icon-paper-plane"></i> <span class="title">Reports</span> <span class="arrow"></span> </a>
+                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-gears"></i> <span class="title">Privileges</span> <span class="arrow"></span> </a>
+                        <ul class="sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListPDept", "Departments")"> <span class="title">Department</span> </a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListPDesg", "Designation")">Designation</a></li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Menutree", "Privileges")"> <span class="title">Menu Tree</span> </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListPrivileges", "Privileges")"> <span class="title">Privileges</span> </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-wrench"></i> <span class="title">Reports</span> <span class="arrow"></span> </a>
                         <ul class="sub-menu">
                           @*  <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("PurchaseReport", "PurchaseReport")">Purchase Report</a>

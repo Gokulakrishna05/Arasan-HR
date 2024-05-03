@@ -141,7 +141,7 @@ internal class Program
 
         builder.Services.TryAddSingleton<IProFormaInvoiceService, ProFormaInvoiceService>();
 
-
+        builder.Services.TryAddSingleton<IPrivilegesService, PrivilegesService>();
 
         builder.Services.TryAddSingleton<IWorkOrderShortClose, WorkOrderShortCloseService>();
 

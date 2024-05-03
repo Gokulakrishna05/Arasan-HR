@@ -15,6 +15,8 @@ namespace Arasan.Interface
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
         DataTable GetAllDEPARTMENT(string strStatus);
-
+        DataTable GetAllPDEPARTMENT(string strStatus);
+        DataTable GetPDepartment(string id);
+        string PDepartmentCRUD(Department ss);
     }
 }

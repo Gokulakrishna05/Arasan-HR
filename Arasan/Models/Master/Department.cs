@@ -11,6 +11,7 @@ namespace Arasan.Models
         public string DepartmentName { get; set; }
         public string status { get; set; }
         public string Descrip { get; set; }
+        public string Pos { get; set; }
         public string IsActive { get; set; }
         public string createby { get; set; }
         public string ddlStatus { get; set; }
@@ -26,8 +27,8 @@ namespace Arasan.Models
         public string description { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
-       
-        
+
+        public string pos { get; set; }
     }
  
 }

@@ -13,8 +13,8 @@ namespace Arasan.Models
         public string ID { get; set; }
         
         public string Design { get; set; }
-       
 
+        public string Pos { get; set; }
         public List<SelectListItem> DeptNamelst;
         public string DeptName { get; set; }
         public string createby { get; set; }
