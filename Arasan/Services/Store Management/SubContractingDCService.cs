@@ -32,7 +32,7 @@ namespace Arasan.Services.Store_Management
         public DataTable GetSubContractDrumDetails(string Itemid,string loc)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT S.DRUMNO,SUM(S.PLUSQTY-S.MINUSQTY) as QTY, S.LOTNO   from LSTOCKVALUE S  WHERE S.ITEMID='" + Itemid + "' and S.LOCID='"+loc+ "' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0 GROUP BY  S.DRUMNO,S.LOTNO    ";
+            SvSql = "SELECT  SUM(S.PLUSQTY-S.MINUSQTY) as QTY, S.LOTNO   from LSTOCKVALUE S  WHERE S.ITEMID='" + Itemid + "' and S.LOCID='"+loc+ "' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0 GROUP BY   S.LOTNO    ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -187,8 +187,9 @@ namespace Arasan.Services.Store_Management
                     throw ex;
                 }
                 ss.DocId = DocId;
-                string loc = datatrans.GetDataString("SELECT LOCID FROM LOCDETAILS WHERE LOCDETAILSID='"+ss.Locationid+"'");
-                ss.Narration = "Delivered To " + loc +",";
+                string party = datatrans.GetDataString("SELECT PARTYNAME FROM PARTYMAST WHERE PARTYMASTID='"+ss.Supplier + "'");
+                ss.Narration = "Delivered To " + party ;
+                string toloc = datatrans.GetDataString("SELECT ILOCATION FROM WCBASIC  WHERE PARTYID='" + ss.Supplier + "'");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("SUBCONTDCBASICPROC", objConn);
@@ -217,10 +218,13 @@ namespace Arasan.Services.Store_Management
                     objCmd.Parameters.Add("THROUGH", OracleDbType.NVarchar2).Value = ss.Through;
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = ss.Entered;
                     objCmd.Parameters.Add("TOTQTY", OracleDbType.NVarchar2).Value = ss.TotalQty;
-                    //objCmd.Parameters.Add("EBY", OracleDbType.NVarchar2).Value = ss.Recived;
-                    objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = ss.Narration;
-                    //objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
-                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = ss.Narration;
+                    objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = "0";
+                    objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = "0";
+                    objCmd.Parameters.Add("TOLOCATION", OracleDbType.NVarchar2).Value = toloc;
+                    objCmd.Parameters.Add("EBY", OracleDbType.NVarchar2).Value = ss.user;
+                    objCmd.Parameters.Add("TOTRECQTY", OracleDbType.NVarchar2).Value = ss.Totrecqty;
+                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
                     {
@@ -233,11 +237,12 @@ namespace Arasan.Services.Store_Management
                         {
                             Pid = ss.ID;
                         }
+                        int row = 1;
                         foreach (SubContractingItem cp in ss.SCDIlst)
                         {
                             if (cp.Isvalid == "Y" && cp.ItemId != "0")
                             {
-
+                                DataTable itemdsc = datatrans.GetData("SELECT ITEMDESC,LOTYN,VALMETHOD FROM ITEMMASTER WHERE ITEMMASTERID='" + cp.ItemId+ "'");
                                 OracleCommand objCmds = new OracleCommand("SUBCONTDCDETAILPROC", objConn);
                                 if (ss.ID == null)
                                 {
@@ -258,6 +263,10 @@ namespace Arasan.Services.Store_Management
                                 objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
                                 objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
                                 objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
+                                objCmds.Parameters.Add("SUBCONTDCDETAILROW", OracleDbType.NVarchar2).Value = row;
+                                objCmds.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["ITEMDESC"].ToString();
+                                objCmds.Parameters.Add("LOTYN", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["LOTYN"].ToString();
+                                objCmds.Parameters.Add("DSNO", OracleDbType.NVarchar2).Value = cp.dsno;
                                 objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                 objCmds.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                 objCmds.ExecuteNonQuery();
@@ -272,10 +281,13 @@ namespace Arasan.Services.Store_Management
                                 }
                                 if (cp.Lotno != "" && cp.Lotno != null)
                                 {
-                                    dlot = cp.Lotno.Split('#');
+                                    dlot = cp.Lotno.Split(',');
                                 }
                                 string[] Dqty = cp.dqty.Split('-');
                                     string[] Drate = cp.drate.Split('-');
+                                    string[] Dstock = cp.dstock.Split('-');
+                                    string[] Damount = cp.damount.Split('-');
+                                int brow = 1;
                                     for (int i = 0; i < Dqty.Length; i++)
                                     {
                                     string dddrum = "";
@@ -285,13 +297,18 @@ namespace Arasan.Services.Store_Management
                                     }
                                         string ddqty = Dqty[i];
                                         string ddrate = Drate[i];
-                                        string ddlot = dlot[i];
-
+                                        string ddstock = Dstock[i];
+                                        string ddamount = Damount[i];
+                                    string ddlot = "";
+                                    if (dlot.Length > 0)
+                                    {
+                                         ddlot = dlot[i];
+                                    }
 
                                         if (cp.Isvalid == "Y")
                                         {
 
-                                            svSQL = "Insert into SUBCONTDCBATCH(SUBCONTDCBASICID,PARENTRECORDID,BITEMID,BITEMMASTERID,DRUMNO,BQTY,BRATE,BAMOUNT,BLOCID,TLOT) VALUES ('" + Pid + "','" + detid + "','" + cp.ItemId + "','" + cp.ItemId + "','" + dddrum + "','" + ddqty + "','" + ddrate + "','0','" + ss.Location + "','" + ddlot + "')";
+                                            svSQL = "Insert into SUBCONTDCBATCH(SUBCONTDCBASICID,PARENTRECORDID,BITEMID,BITEMMASTERID,DRUMNO,BQTY,BRATE,BAMOUNT,BLOCID,TLOT,VALMETHOD,SUBCONTDCBATCHROW,BSTOCK,PARENTROW,BAMOUNT) VALUES ('" + Pid + "','" + detid + "','" + cp.ItemId + "','" + cp.ItemId + "','" + dddrum + "','" + ddqty + "','" + ddrate + "','0','" + ss.Location + "','" + ddlot + "','"+ itemdsc.Rows[0]["VALMETHOD"].ToString() +"','"+ brow +"','"+ ddstock +"','"+ row + "','"+ ddamount +"')";
                                             objCmds = new OracleCommand(svSQL, objConn);
                                             objCmds.ExecuteNonQuery();
 
@@ -350,48 +367,51 @@ namespace Arasan.Services.Store_Management
                                         }
 
                                             }
-                                      
+                                    brow = brow + 1;
                                     }
                                 }
 
 
-                            
+                            row++; 
                         }
                         if (ss.RECDlst != null)
                         {
                             if (ss.ID == null)
                             {
+                                int sno = 1;
                                 foreach (ReceiptDetailItem cp in ss.RECDlst)
                                 {
                                     if (cp.Isvalid1 == "Y")
                                     {
-                                        svSQL = "Insert into SUBCONTEDET (SUBCONTDCBASICID,RITEM,RUNIT,ERQTY,ERATE,EAMOUNT) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.Unit + "','" + cp.Quantity + "','" + cp.rate + "','" + cp.Amount + "')";
+                                        DataTable itemdsc = datatrans.GetData("SELECT  LOTYN,VALMETHOD,ITEMACC,LATPURPRICE FROM ITEMMASTER WHERE ITEMMASTERID='" + cp.ItemId + "'");
+
+                                        svSQL = "Insert into SUBCONTEDET (SUBCONTDCBASICID,RITEM,RUNIT,ERQTY,ERATE,EAMOUNT,RVALMETHOD,RITEMACC,RLOTYN,LATPURP,EFRATE,RECQTY,RSUBQTY,SUBCONTEDETROW,RSNO,ECTRL,RITEMMASTERID) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.Unit + "','" + cp.Quantity + "','" + cp.rate + "','" + cp.Amount + "','" + itemdsc.Rows[0]["VALMETHOD"].ToString() + "','" + itemdsc.Rows[0]["ITEMACC"].ToString() + "','" + itemdsc.Rows[0]["LOTYN"].ToString() + "','" + itemdsc.Rows[0]["LATPURPRICE"].ToString() + "','" + cp.rate + "','0','0','"+ sno + "','" + sno + "','T','" + cp.ItemId + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
                                     }
 
-
+                                    sno = sno + 1;
                                 }
                             }
-                            else
-                            {
-                                svSQL = "Delete SUBCONTEDET WHERE SUBCONTDCBASICID='" + ss.ID + "'";
-                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
-                                objCmdd.ExecuteNonQuery();
-                                foreach (ReceiptDetailItem cp in ss.RECDlst)
-                                {
-                                    if (cp.Isvalid1 == "Y")
-                                    {
-                                        svSQL = "Insert into SUBCONTEDET (SUBCONTDCBASICID,RITEM,RUNIT,ERQTY,ERATE,EAMOUNT) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.Unit + "','" + cp.Quantity + "','" + cp.rate + "','" + cp.Amount + "')";
-                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                        objCmds.ExecuteNonQuery();
+                            //else
+                            //{
+                            //    svSQL = "Delete SUBCONTEDET WHERE SUBCONTDCBASICID='" + ss.ID + "'";
+                            //    OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                            //    objCmdd.ExecuteNonQuery();
+                            //    foreach (ReceiptDetailItem cp in ss.RECDlst)
+                            //    {
+                            //        if (cp.Isvalid1 == "Y")
+                            //        {
+                            //            svSQL = "Insert into SUBCONTEDET (SUBCONTDCBASICID,RITEM,RUNIT,ERQTY,ERATE,EAMOUNT) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.Unit + "','" + cp.Quantity + "','" + cp.rate + "','" + cp.Amount + "')";
+                            //            OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                            //            objCmds.ExecuteNonQuery();
 
-                                    }
+                            //        }
 
 
-                                }
-                            }
+                            //    }
+                            //}
                         }
 
                     }

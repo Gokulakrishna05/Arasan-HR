@@ -30,6 +30,7 @@ namespace Arasan.Controllers.Store_Management
             st.Loc = BindLocation();
             st.Brlst = BindBranch();
             st.Branch = Request.Cookies["BranchId"];
+            st.user = Request.Cookies["UserName"];
             st.assignList = BindEmp();
             st.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             DataTable dtv = datatrans.GetSequence("DAdd");

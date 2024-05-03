@@ -80,16 +80,10 @@ namespace Arasan.Services.Store_Management
                 string DocId = string.Format("{0}{1}", "Dad-", (idc + 1).ToString());
 
                 string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='Dad-' AND ACTIVESEQUENCE ='T'  ";
-                try
-                {
-                    datatrans.UpdateStatus(updateCMd);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                
                 ss.DocId = DocId;
                 ss.Narr= "Upward Stock Adjustment owing to : "+ ss.Reason;
+                string ltype = datatrans.GetDataString("SELECT LOCATIONTYPE FROM LOCDETAILS WHERE LOCDETAILSID='" + ss.Location + "'");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ADDBASICPROC", objConn);
@@ -115,27 +109,32 @@ namespace Arasan.Services.Store_Management
                     objCmd.Parameters.Add("REASON", OracleDbType.NVarchar2).Value = ss.Reason;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = ss.Gro;
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = ss.Net;
-                    objCmd.Parameters.Add("ENTBY", OracleDbType.NVarchar2).Value = ss.Entered;
+                    objCmd.Parameters.Add("ENTBY", OracleDbType.NVarchar2).Value = ss.user;
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = ss.Narr;
-                    //objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("LTYPE", OracleDbType.NVarchar2).Value = ltype;
+                    objCmd.Parameters.Add("USERID", OracleDbType.NVarchar2).Value = ss.user;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
+                        datatrans.UpdateStatus(updateCMd);
                         Object Pid = objCmd.Parameters["OUTID"].Value;
                         //string Pid = "0";
                         if (ss.ID != null)
                         {
                             Pid = ss.ID;
                         }
+                        int r = 1;
                         foreach (DirectItem cp in ss.Itlst)
                         {
                             if (cp.Isvalid == "Y" && cp.ItemId != "0")
                             {
-                               
-                                    OracleCommand objCmds = new OracleCommand("ADDDETAILPROC", objConn);
+                                DataTable itemdet = datatrans.GetData("SELECT VALMETHOD,LOTYN,SERIALYN,EXPYN,ITEMACC,DRUMYN,BINNO FROM ITEMMASTER WHERE ITEMMASTERID='" + cp.ItemId + "'");
+
+
+                                OracleCommand objCmds = new OracleCommand("ADDDETAILPROC", objConn);
                                     if (ss.ID == null)
                                     {
                                         StatementType = "Insert";
@@ -156,8 +155,17 @@ namespace Arasan.Services.Store_Management
                                     objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
                                     //objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
-                                    objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = cp.BinID;
+                                    objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = itemdet.Rows[0]["BINNO"].ToString();
                                     objCmds.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cp.Process;
+                                    objCmds.Parameters.Add("ADDDETAILROW", OracleDbType.NVarchar2).Value = r;
+                                    objCmds.Parameters.Add("LOCDETAILSID", OracleDbType.NVarchar2).Value = ss.Location;
+                                    objCmds.Parameters.Add("VALMETHOD", OracleDbType.NVarchar2).Value = itemdet.Rows[0]["VALMETHOD"].ToString();
+                                    objCmds.Parameters.Add("LOTYN", OracleDbType.NVarchar2).Value = itemdet.Rows[0]["LOTYN"].ToString();
+                                    objCmds.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = itemdet.Rows[0]["SERIALYN"].ToString();
+                                    objCmds.Parameters.Add("EXPYN", OracleDbType.NVarchar2).Value = itemdet.Rows[0]["EXPYN"].ToString();
+                                    objCmds.Parameters.Add("ITEMACC", OracleDbType.NVarchar2).Value = itemdet.Rows[0]["ITEMACC"].ToString();
+                                    objCmds.Parameters.Add("DRUMYN", OracleDbType.NVarchar2).Value = itemdet.Rows[0]["DRUMYN"].ToString();
+                                    
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objCmds.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                     objCmds.ExecuteNonQuery();
@@ -205,6 +213,7 @@ namespace Arasan.Services.Store_Management
                                     ////////////////////////Inventory Details
 
                             }
+                            r++;
                         }
                     }
                     catch (Exception ex)

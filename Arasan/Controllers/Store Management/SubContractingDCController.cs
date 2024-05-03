@@ -34,7 +34,8 @@ namespace Arasan.Controllers.Store_Management
             st.Suplst = BindSupplier();
             st.assignList = BindEmp();
             st.Branch = Request.Cookies["BranchId"];
-            st.Entered = Request.Cookies["UserId"];
+            st.Entered = Request.Cookies["UserName"];
+            st.user = Request.Cookies["UserName"];
             st.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             DataTable dtv = datatrans.GetSequence("subdc");
             if (dtv.Rows.Count > 0)
@@ -530,7 +531,7 @@ namespace Arasan.Controllers.Store_Management
                
                 tda.lotno = dtEnq.Rows[0]["TLOT"].ToString();
                 tda.rate = dtEnq.Rows[0]["BRATE"].ToString();
-                tda.amount = dtEnq.Rows[0]["BAMOUNT"].ToString();
+                tda.amount = Convert.ToDouble(dtEnq.Rows[0]["BAMOUNT"].ToString());
                 //tda.invid = dtEnq.Rows[i]["PLotmastID"].ToString();
                 TData.Add(tda);
             }
@@ -551,15 +552,19 @@ namespace Arasan.Controllers.Store_Management
                 {
                     tda = new SubContractDDrumdetails();
 
-                    tda.drumno = dtEnq.Rows[i]["DRUMNO"].ToString();
+                     
                     tda.qty = dtEnq.Rows[i]["QTY"].ToString();
                     tda.reqqty = dtEnq.Rows[i]["QTY"].ToString();
                     //tda.stkid = dtEnq.Rows[i]["DRUM_STOCK_ID"].ToString();
                     
 
-                    tda.lotno = dtEnq.Rows[0]["LOTNO"].ToString();
+                    tda.lotno = dtEnq.Rows[i]["LOTNO"].ToString();
+                    tda.drumno = datatrans.GetDataString("SELECT DRUMNO FROM LSTOCKVALUE WHERE LOTNO='" + tda.lotno + "' AND ITEMID=" + itemid + " AND LOCID ='" + loc + "' GROUP BY DRUMNO");
+
                     string lrate = datatrans.GetDataString("SELECT RATE FROM LSTOCKVALUE WHERE LOTNO='" + tda.lotno + "'");
                     tda.rate = lrate;
+                    tda.amount = Convert.ToDouble(lrate) * Convert.ToDouble(tda.qty);
+                    tda.amount = Math.Round(tda.amount);
                     //tda.invid = dtEnq.Rows[i]["PLotmastID"].ToString();
                     TData.Add(tda);
                 }
@@ -720,7 +725,7 @@ namespace Arasan.Controllers.Store_Management
 
                 tda.qty = dt.Rows[i]["BQTY"].ToString();
                 tda.rate = dt.Rows[i]["BRATE"].ToString();
-                tda.amount = dt.Rows[i]["BAMOUNT"].ToString();
+                tda.amount = Convert.ToDouble(dt.Rows[0]["BAMOUNT"].ToString());
 
                 TData.Add(tda);
             }

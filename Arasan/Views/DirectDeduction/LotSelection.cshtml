@@ -1,8 +1,8 @@
-﻿@model Arasan.Models.SubContractDDDrumdetailstable
+﻿@model Arasan.Models.DirectDeduction
 @{
     Layout = "_PopupLayout";
-    ViewData["Title"] = "SubContract DC";
-    string itemid = ViewContext.HttpContext.Request.Query["itemid"];
+    ViewData["Title"] = "Direct Deduction";
+    string itemid = ViewContext.HttpContext.Request.Query["ItemId"];
     string rowid = ViewContext.HttpContext.Request.Query["rowid"];
 }
 <partial name="JqxGridPartial" />
@@ -35,9 +35,8 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">Drum Stock</h5>
                     <hr>
-                    @using (Html.BeginForm("ApproveProEntry", "ProductionEntry", FormMethod.Post))
-                    {
-                        @Html.AntiForgeryToken()
+                   
+                        
                         <form>
                             <div class="row">
                                 <div class="col-md-1"></div>
@@ -72,24 +71,24 @@
 
                                                 int i = 0;
 
-                                                foreach (var item in Model.SUBDDrumlst.ToList())
+                                                foreach (var item in Model.lotlst.ToList())
                                                 {
                                                         <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                            <td>@Html.CheckBoxFor(o => o.SUBDDrumlst[i].drumselect, new { @id = "drumslect" + i }) @Html.HiddenFor(o => o.SUBDDrumlst[i].invid, new { @id = "invid" + i }) </td>
-                                                            <td>@Html.DisplayFor(o => o.SUBDDrumlst[i].lotno)@Html.HiddenFor(o => o.SUBDDrumlst[i].lotno, new { @id = "lotno" + i })</td>
-                                                            <td>@Html.DisplayFor(o => o.SUBDDrumlst[i].drumno)@Html.HiddenFor(o => o.SUBDDrumlst[i].drumno, new { @id = "drumno" + i })</td>
-                                                            <td>@Html.DisplayFor(o => o.SUBDDrumlst[i].qty)@Html.HiddenFor(o => o.SUBDDrumlst[i].qty, new { @id = "qty" + i })</td>
-                                                            @if (item.drumno != null)
+                                                            <td>@Html.CheckBoxFor(o => o.lotlst[i].drumselect, new { @id = "drumslect" + i }) @Html.HiddenFor(o => o.lotlst[i].invid, new { @id = "invid" + i }) </td>
+                                                            <td>@Html.DisplayFor(o => o.lotlst[i].lotno)@Html.HiddenFor(o => o.lotlst[i].lotno, new { @id = "lotno" + i })</td>
+                                                            <td>@Html.DisplayFor(o => o.lotlst[i].drumno)@Html.HiddenFor(o => o.lotlst[i].drumno, new { @id = "drumno" + i })</td>
+                                                            <td>@Html.DisplayFor(o => o.lotlst[i].qty)@Html.HiddenFor(o => o.lotlst[i].qty, new { @id = "qty" + i })</td>
+                                                            @if (item.drumno != null && item.drumno != "")
                                                         {
-                                                                <td>@Html.TextBoxFor(o => o.SUBDDrumlst[i].reqqty,new{ @id = "reqqty" + i, @class = "form-control",@style = "width: 100px;",@readonly="readonly"})@Html.HiddenFor(o => o.SUBDDrumlst[i].reqqty, new { @id = "reqqty" + i })</td>
+                                                                <td>@Html.TextBoxFor(o => o.lotlst[i].reqqty,new{ @id = "reqqty" + i, @class = "form-control",@style = "width: 100px;",@readonly="readonly"})@Html.HiddenFor(o => o.lotlst[i].reqqty, new { @id = "reqqty" + i })</td>
                                                         }
                                                         else
                                                         {
-                                                                 <td>@Html.TextBoxFor(o => o.SUBDDrumlst[i].reqqty,new{ @id = "reqqty" + i, @class = "form-control",@style = "width: 100px;"})@Html.HiddenFor(o => o.SUBDDrumlst[i].reqqty, new { @id = "reqqty" + i })</td>
+                                                                 <td>@Html.TextBoxFor(o => o.lotlst[i].reqqty,new{ @id = "reqqty" + i, @class = "form-control",@style = "width: 100px;"})@Html.HiddenFor(o => o.lotlst[i].reqqty, new { @id = "reqqty" + i })</td>
  
                                                         }
-                                                            <td>@Html.DisplayFor(o => o.SUBDDrumlst[i].rate)@Html.HiddenFor(o => o.SUBDDrumlst[i].rate, new { @id = "rate" + i })</td>
-                                                            <td>@Html.DisplayFor(o => o.SUBDDrumlst[i].amount)@Html.HiddenFor(o => o.SUBDDrumlst[i].amount, new { @id = "amount" + i })</td>
+                                                            <td>@Html.DisplayFor(o => o.lotlst[i].rate)@Html.HiddenFor(o => o.lotlst[i].rate, new { @id = "rate" + i })</td>
+                                                            <td>@Html.DisplayFor(o => o.lotlst[i].amount)@Html.HiddenFor(o => o.lotlst[i].amount, new { @id = "amount" + i })</td>
                                                         </tr>
 
                                                     i = i + 1;
@@ -100,7 +99,7 @@
                                 </div>
                             </div>
                         </form>
-                    }
+                   
                 </div>
             </div>
         </div>
@@ -179,17 +178,17 @@
                     var invid = document.getElementById('invid' + j).value;
                     var drumno = document.getElementById('drumno' + j).value;
                         var lot = document.getElementById('lotno' + j).value;
-                          rate = document.getElementById('rate' + j).value;
+                         rate = document.getElementById('rate' + j).value;
+                        var amount = document.getElementById('amount' + j).value;
+                        var stock = document.getElementById('qty' + j).value;
                     var qty = document.getElementById('reqqty' + j).value;
-                    var stock = document.getElementById('qty' + j).value;
-                    var amount = document.getElementById('amount' + j).value;
                     ar1 += invid + ",";
                     ar2 += drumno + ",";
                         ar3 += lot + ",";
                         ar4 += qty + "-";
                         ar5 += rate + "-";
-                        ar6 += stock + "-";
-                        ar7 += amount + "-";
+                        ar6 += amount + "-";
+                        ar7 += stock + "-";
                     tot += eval(qty);
                 }
             }
@@ -200,17 +199,17 @@
             var lotno = ar3.substring(0, ar3.length - 1);
             var dqty = ar4.substring(0, ar4.length - 1);
             var drate = ar5.substring(0, ar5.length - 1);
-            var stk = ar6.substring(0, ar6.length - 1);
-            var damount = ar7.substring(0, ar7.length - 1);
+            var amt = ar6.substring(0, ar6.length - 1);
+            var stk = ar7.substring(0, ar7.length - 1);
         window.parent.document.getElementById('txtQuantity' + rowid).value = tot;
-        window.parent.document.getElementById('txtDrumsdesc' + rowid).value = drumname;
-        window.parent.document.getElementById('txtrate' + rowid).value = rate;
-        window.parent.document.getElementById('hddrumid' + rowid).value = drumid;
+        window.parent.document.getElementById('txtRate' + rowid).value = rate;
+        window.parent.document.getElementById('ddrum' + rowid).value = drumname;
+        //window.parent.document.getElementById('hddrumid' + rowid).value = drumid;
             window.parent.document.getElementById('lotno' + rowid).value = lotno;
             window.parent.document.getElementById('dqty' + rowid).value = dqty;
             window.parent.document.getElementById('drate' + rowid).value = drate;
+            window.parent.document.getElementById('damount' + rowid).value = amt;
             window.parent.document.getElementById('dstock' + rowid).value = stk;
-            window.parent.document.getElementById('damount' + rowid).value = damount;
         window.parent.changeQty(0, rowid);
         window.parent.jQuery.fancybox.close();
         }
