@@ -45,13 +45,13 @@ namespace Arasan.Controllers
             ca.Stocklst = BindStock();
             ca.typelst = Bindtype();
             ca.applst = BindEmp();
-            ca.apprlst = BindEmp();
+            ca.apprlst = BindEmp2();
             ca.Loclst = BindLoclst();
-            DataTable dtv = datatrans.GetSequence("RNrDC");
-            if (dtv.Rows.Count > 0)
-            {
-                ca.Did = dtv.Rows[0]["PREFIX"].ToString() + dtv.Rows[0]["last"].ToString();
-            }
+            //DataTable dtv = datatrans.GetSequence("RNrDC");
+            //if (dtv.Rows.Count > 0)
+            //{
+            //    ca.Did = dtv.Rows[0]["PREFIX"].ToString() + dtv.Rows[0]["last"].ToString();
+            //}
 
             List<RetNonRetDcItem> TData = new List<RetNonRetDcItem>();
             RetNonRetDcItem tda = new RetNonRetDcItem();
@@ -209,6 +209,23 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindEmp2()
+        {
+            try
+            {
+                DataTable dtDesg = RetNonRetDcService.GetEmpcode();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["empcode"].ToString(), Value = dtDesg.Rows[i]["empcode"].ToString() });
                 }
                 return lstdesg;
             }
@@ -543,7 +560,7 @@ namespace Arasan.Controllers
                 ca.Delivery = dt.Rows[0]["DELDATE"].ToString();
                 ca.Narration = dt.Rows[0]["NARRATION"].ToString();
                 ca.Approved = dt.Rows[0]["EMPNAME"].ToString();
-                ca.Approval2 = dt.Rows[0]["EMPNAME1"].ToString();
+                ca.Approval2 = dt.Rows[0]["APPBY2"].ToString();
 
                 dt1 = RetNonRetDcService.GetPartyitems(dt.Rows[0]["PARTYID"].ToString());
                 if (dt1.Rows.Count > 0)
@@ -627,7 +644,7 @@ namespace Arasan.Controllers
                 ca.Delivery = dt.Rows[0]["DELDATE"].ToString();
                 ca.Narration = dt.Rows[0]["NARRATION"].ToString();
                 ca.Approved = dt.Rows[0]["EMPNAME"].ToString();
-                ca.Approval2 = dt.Rows[0]["EMPNAME"].ToString();
+                ca.Approval2 = dt.Rows[0]["APPBY2"].ToString();
 
                 dt1 = RetNonRetDcService.GetPartyitems(dt.Rows[0]["PARTYID"].ToString());
                 if (dt1.Rows.Count > 0)
@@ -804,6 +821,51 @@ namespace Arasan.Controllers
              return File(result.MainStream, "application/Pdf");
 
         }
+        public ActionResult GetDocDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
 
+                string seq = "";
+                string sequnce = "";
+                string lasto = "";
+
+
+                if (ItemId == "Returnable DC")
+                {
+
+                    DataTable dtv = datatrans.GetData("SELECT PREFIX,LASTNO +1 as last FROM SEQUENCE WHERE DESCRIPTION='Returnable DC'");
+                    if (dtv.Rows.Count > 0)
+                    {
+                        seq = dtv.Rows[0]["PREFIX"].ToString() + dtv.Rows[0]["last"].ToString();
+                    }
+                }
+                if (ItemId == "Non-Returnable")
+                {
+
+                    DataTable dtv = datatrans.GetData("SELECT PREFIX,LASTNO +1 as last FROM SEQUENCE WHERE DESCRIPTION='Non-Returnable DC'");
+                    if (dtv.Rows.Count > 0)
+                    {
+                        seq = dtv.Rows[0]["PREFIX"].ToString() + dtv.Rows[0]["last"].ToString();
+                    }
+                }
+                if (ItemId == "Condemn")
+                {
+
+                    DataTable dtv = datatrans.GetData("SELECT PREFIX,LASTNO +1 as last FROM SEQUENCE WHERE DESCRIPTION='Condemn Item'");
+                    if (dtv.Rows.Count > 0)
+                    {
+                        seq = dtv.Rows[0]["PREFIX"].ToString() + dtv.Rows[0]["last"].ToString();
+                    }
+                }
+                var result = new { seq = seq };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace Arasan.Interface
     public interface IRetNonRetDc
     {
         DataTable GetBranch();
+        DataTable GetEmpcode();
         DataTable GetParty();
         string RetNonRetDcCRUD(RetNonRetDc cy);
         string ApproveRetNonRetDcCRUD(RetNonRetDc cy);

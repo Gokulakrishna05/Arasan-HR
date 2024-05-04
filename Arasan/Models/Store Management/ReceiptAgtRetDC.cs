@@ -14,6 +14,8 @@ namespace Arasan.Models
             this.Loclst = new List<SelectListItem>();
             this.Enteredlst = new List<SelectListItem>();
             this.Dcnolst = new List<SelectListItem>();
+            this.applst = new List<SelectListItem>();
+            this.apprlst = new List<SelectListItem>();
             //this.branchlst = new List<SelectListItem>();
         }
 
@@ -24,6 +26,8 @@ namespace Arasan.Models
         public List<SelectListItem> Brlst;
         public List<SelectListItem> typelst;
         public List<SelectListItem> Dcnolst;
+        public List<SelectListItem> applst;
+        public List<SelectListItem> apprlst;
         //public List<SelectListItem> branchlst;
         public string Party { get; set; }
 
@@ -31,6 +35,7 @@ namespace Arasan.Models
         public string Stock { get; set; }
         public string ID { get; set; }
         public string Branch { get; set; }
+        public string user { get; set; }
 
         public string Location { get; set; }
         public string Locationid { get; set; }
@@ -44,9 +49,12 @@ namespace Arasan.Models
         public string Ref { get; set; }
         public string RefDate { get; set; }
         public string Entered { get; set; }
+        public string dcey { get; set; }
         public string Narration { get; set; }
         public string ddlStatus { get; set; }
-        
+        public string Approved { get; set; }
+        public string Approval2 { get; set; }
+
 
 
         public List<ReceiptAgtRetDCItem> ReceiptLst { get; set; }

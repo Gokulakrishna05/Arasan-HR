@@ -36,6 +36,8 @@ namespace Arasan.Controllers
            
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
+            ca.user = Request.Cookies["UserName"];
+            ca.Entered = Request.Cookies["UserId"];
             ca.DDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Enteredlst = BindEmp();
             ca.Partylst = BindParty();
@@ -43,6 +45,8 @@ namespace Arasan.Controllers
             ca.typelst = Bindtype();
             ca.Loclst = BindLoclst();
             ca.Dcnolst = BindDcnolst();
+            ca.applst = BindEmp2();
+            ca.apprlst = BindEmp2();
             DataTable dtv = datatrans.GetSequence("RecDC");
             if (dtv.Rows.Count > 0)
             {
@@ -81,6 +85,8 @@ namespace Arasan.Controllers
                     ca.RefDate = dt.Rows[0]["REFDATE"].ToString();
                     ca.Dcno = dt.Rows[0]["DCNO"].ToString();
                     ca.Narration = dt.Rows[0]["NARRATION"].ToString();
+                    ca.Approved = dt.Rows[0]["APPPER"].ToString();
+                    ca.Approval2 = dt.Rows[0]["APPPER2"].ToString();
                     ca.Entered = dt.Rows[0]["EBY"].ToString();
                     ca.typelst = Bindtype();
                     DataTable dtt = new DataTable();
@@ -387,6 +393,23 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public List<SelectListItem> BindEmp2()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("Select EMPNAME||' / '||EMPID as empcode from EMPMAST");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["empcode"].ToString(), Value = dtDesg.Rows[i]["empcode"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult GetDCDetails(string ItemId)
         {
             try
@@ -396,19 +419,25 @@ namespace Arasan.Controllers
                 string dc = "";
                 string part = "";
                 string stock = "";
+                string narr = "";
+                string eby = "";
+                string dceby = "";
 
 
                 dt = ReceiptAgtRetDCService.GetDCDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
                 {
-                    dc = dt.Rows[0]["DELDATE"].ToString();
+                    dc = dt.Rows[0]["DOCDATE"].ToString();
                     part = dt.Rows[0]["PARTYID"].ToString();
                     stock = dt.Rows[0]["STKTYPE"].ToString();
+                    eby = dt.Rows[0]["EBY"].ToString();
+                    dceby = datatrans.GetDataString("Select EMPNAME||' / '||EMPID as empcode from EMPMAST WHERE EMPMASTEID='"+ eby + "'");
+                    narr = "Received from " + part;
 
                 }
 
-                var result = new { dc = dc, part= part,stock = stock };
+                var result = new { dc = dc, part= part,stock = stock , narr = narr, dceby= dceby };
                 return Json(result);
             }
             catch (Exception ex)
@@ -610,7 +639,8 @@ namespace Arasan.Controllers
                 ca.RefDate = dt.Rows[0]["REFDATE"].ToString();
                 ca.Dcno = dt.Rows[0]["DOCID"].ToString();
                 ca.Narration = dt.Rows[0]["NARRATION"].ToString();
-               
+                ca.Approved = dt.Rows[0]["APPPER"].ToString();
+                ca.Approval2 = dt.Rows[0]["APPPER"].ToString();
                 ca.typelst = Bindtype();
                 DataTable dtt = new DataTable();
                 dtt = ReceiptAgtRetDCService.Getviewdctype(ca.Dcno);
@@ -753,6 +783,7 @@ namespace Arasan.Controllers
                    
                     tda.rej = dt2.Rows[i]["QTY"].ToString();
                     tda.rate = dt2.Rows[i]["RATE"].ToString();
+                    tda.detid = dt2.Rows[i]["RDELDETAILID"].ToString();
 
 
                     Data.Add(tda);
@@ -787,6 +818,8 @@ namespace Arasan.Controllers
                 ca.RefDate = dt.Rows[0]["REFDATE"].ToString();
                 ca.Dcno = dt.Rows[0]["DOCID"].ToString();
                 ca.Narration = dt.Rows[0]["NARRATION"].ToString();
+                ca.Approved = dt.Rows[0]["APPPER"].ToString();
+                ca.Approval2 = dt.Rows[0]["APPPER"].ToString();
               
                 ca.typelst = Bindtype();
                 DataTable dtt = new DataTable();

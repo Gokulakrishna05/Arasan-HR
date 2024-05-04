@@ -17,7 +17,25 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-
-
+        public DataTable GetParent()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select TITLE,SITEMAPID,PARENT from SITEMAP Where PARENT=0";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable Getchild(string parentid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select TITLE,SITEMAPID,PARENT from SITEMAP Where PARENT='" + parentid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
