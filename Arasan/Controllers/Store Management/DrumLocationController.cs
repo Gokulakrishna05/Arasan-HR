@@ -61,8 +61,8 @@ namespace Arasan.Controllers
                 //DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 Reg.Add(new DrumItems
                 {
-                    id = Convert.ToInt64(dtUsers.Rows[i]["DRUM_STOCK_ID"].ToString()),
-                    drum = dtUsers.Rows[i]["DRUM_NO"].ToString(),
+                    id = Convert.ToInt64(dtUsers.Rows[i]["LSTOCKVALUEID"].ToString()),
+                    drum = dtUsers.Rows[i]["DRUMNO"].ToString(),
                     item = dtUsers.Rows[i]["ITEMID"].ToString(),
                     loc = dtUsers.Rows[i]["LOCID"].ToString(),
                     //supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),

@@ -208,7 +208,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <br /> <label for="inputName3" class="col-sm-4 control-label">D.C Type<label class="mandatory">*</label></label>
+                                    <br /> <label for="inputName3" class="col-sm-4 control-label">D.C Type<label class="mandatory"></label></label>
 
 
                                     <div class="col-sm-8">
@@ -261,7 +261,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <br /><label for="inputName3" class="col-sm-4 control-label">Stock Type<label class="mandatory">*</label></label>
+                                    <br /><label for="inputName3" class="col-sm-4 control-label">Stock Type<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.DisplayFor(C => C.Stock) @Html.HiddenFor(C => C.Stock)<br>
 
@@ -360,8 +360,28 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Approved By<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.Approved) @Html.HiddenFor(C => C.Approved)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Approval 2<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.Approval2) @Html.HiddenFor(C => C.Approval2)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
 
+                        </div>
                     </form>
                     <div style="height:30px;"></div>
                     @*<div class="col-lg-10"></div>*@

@@ -4,6 +4,7 @@ using Arasan.Interface.Sales;
 using Arasan.Models;
 using Dapper;
 using Microsoft.Extensions.Configuration;
+using Nest;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
@@ -34,18 +35,18 @@ namespace Arasan.Services
                 //    cy.ID = null;
                 //}
 
-                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'Rdc-' AND ACTIVESEQUENCE = 'T'  ");
-                string Did = string.Format("{0}{1}", "Rdc-", (idc + 1).ToString());
+                //int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'Rdc-' AND ACTIVESEQUENCE = 'T'  ");
+                //string Did = string.Format("{0}{1}", "Rdc-", (idc + 1).ToString());
 
-                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='Rdc-' AND ACTIVESEQUENCE ='T'  ";
-                try
-                {
-                    datatrans.UpdateStatus(updateCMd);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                //string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='Rdc-' AND ACTIVESEQUENCE ='T'  ";
+                //try
+                //{
+                //    datatrans.UpdateStatus(updateCMd);
+                //}
+                //catch (Exception ex)
+                //{
+                //    throw ex;
+                //}
 
                 //string PARTY = datatrans.GetDataString("Select PARTYMASTID from PARTYMAST where PARTYID='" + cy.Party + "' ");
                 //string WID = datatrans.GetDataString("Select WCBASICID from WCBASIC where WCID='" + cy.work + "' ");
@@ -99,12 +100,14 @@ namespace Arasan.Services
                         {
                             Pid = cy.ID;
                         }
+                        int r = 1;
                         foreach (RetNonRetDcItem cp in cy.RetLst)
                         {
                             if (cp.Isvalid == "Y" && cp.item != "0")
                             {
                                 string itemname = datatrans.GetDataString("Select ITEMID from ITEMMASTER where ITEMMASTERID='" + cp.item + "' ");
-                              
+                                DataTable itemdsc = datatrans.GetData("SELECT ITEMDESC,LOTYN,VALMETHOD,ITEMACC,SERIALYN,BINBASIC.BINID,SUBCATEGORY FROM ITEMMASTER LEFT OUTER JOIN BINBASIC on BINBASICID=ITEMMASTER.BINNO WHERE ITEMMASTERID='" + cp.item + "'");
+
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
                                     OracleCommand objCmds = new OracleCommand("RDELDETAILPROC", objConns);
@@ -128,6 +131,14 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("PURFTRN", OracleDbType.NVarchar2).Value = cp.Transaction;
                                     objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.Rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
+                                    objCmds.Parameters.Add("RDELDETAILROW", OracleDbType.NVarchar2).Value = r;
+                                    objCmds.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["ITEMDESC"].ToString();
+                                    objCmds.Parameters.Add("LOTYN", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["LOTYN"].ToString();
+                                    objCmds.Parameters.Add("VALMETHOD", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["VALMETHOD"].ToString();
+                                    objCmds.Parameters.Add("ITEMACC", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["ITEMACC"].ToString();
+                                    objCmds.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["SERIALYN"].ToString();
+                                    objCmds.Parameters.Add("FROMBINID", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["BINID"].ToString();
+                                    objCmds.Parameters.Add("ITEMSUBCAT", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["SUBCATEGORY"].ToString();
 
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
@@ -177,6 +188,7 @@ namespace Arasan.Services
                             {
                                 double qty = Convert.ToDouble(cp.Qty);
                                 string type = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER WHERE ITEMMASTERID='" + cp.saveItemId + "'");
+                                string itemacc = datatrans.GetDataString("SELECT ITEMACC FROM ITEMMASTER WHERE ITEMMASTERID='" + cp.saveItemId + "'");
 
                                 if (type == "YES")
                                 {
@@ -185,7 +197,7 @@ namespace Arasan.Services
                                     //objCmdss.ExecuteNonQuery();
 
 
-                                   string SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,STOCKTRANSTYPE) VALUES ('" + cp.detid + "','m','" + cp.saveItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.Qty + "' ,'" + cy.Locationid + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','Conversion Issue')RETURNING STOCKVALUEID INTO :STKID";
+                                   string SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,STOCKTRANSTYPE,MASTERID) VALUES ('" + cp.detid + "','m','" + cp.saveItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.Qty + "' ,'" + cy.Locationid + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','RET-DC','"+ itemacc +"') RETURNING STOCKVALUEID INTO :STKID";
                                     OracleCommand objCmdsss = new OracleCommand(SvSql1, objConn);
                                     objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                     objCmdsss.ExecuteNonQuery();
@@ -199,7 +211,7 @@ namespace Arasan.Services
                                 else
                                 {
 
-                                    string SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,STOCKTRANSTYPE) VALUES ('" + cp.detid + "','m','" + cp.saveItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.Qty + "' ,'" + cy.Locationid + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','Conversion Issue')RETURNING STOCKVALUEID INTO :STKID";
+                                    string SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,STOCKTRANSTYPE,MASTERID) VALUES ('" + cp.detid + "','m','" + cp.saveItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.Qty + "' ,'" + cy.Locationid + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','RET-DC','"+ itemacc +"') RETURNING STOCKVALUEID INTO :STKID";
                                     OracleCommand objCmdsss = new OracleCommand(SvSql1, objConn);
                                     objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                     objCmdsss.ExecuteNonQuery();
@@ -213,12 +225,10 @@ namespace Arasan.Services
                             }
                             else
                             {
-                                DataTable dt = datatrans.GetData("Select ASSTOCKVALUEID,PLUSORMINUS,ITEMID,LOCID,DOCDATE,QTY,STOCKVALUE,DOCTIME,MASTERID from ASSTOCKVALUE where ASSTOCKVALUE.ITEMID ='" + cp.saveItemId + "' AND ASSTOCKVALUE.LOCID='" + cy.Locationid + "'");
-                                if (dt.Rows.Count > 0)
-                                {
+                                 
+                                    string itemacc = datatrans.GetDataString("SELECT ITEMACC FROM ITEMMASTER WHERE ITEMMASTERID='" + cp.saveItemId + "'");
 
-                                  
-                                        svSQL = "Insert into ASSTOCKVALUE (ITEMID,LOCID,QTY,STOCKVALUE,PLUSORMINUS,DOCDATE,DOCTIME,MASTERID,T1SOURCEID,BINID,PROCESSID,FROMLOCID,STOCKTRANSTYPE) VALUES ('" + cp.saveItemId + "','" + cy.Locationid + "','" + cp.Qty + "','" + dt.Rows[0]["STOCKVALUE"].ToString() + "','m','" + cy.ADDate + "','11:00:00 PM','" + dt.Rows[0]["MASTERID"].ToString() + "','"+cp.detid+ "','0','0','0','Returable DC') RETURNING ASSTOCKVALUEID INTO :LASTCID";
+                                    svSQL = "Insert into ASSTOCKVALUE (ITEMID,LOCID,QTY,STOCKVALUE,PLUSORMINUS,DOCDATE,DOCTIME,MASTERID,T1SOURCEID,BINID,PROCESSID,FROMLOCID,STOCKTRANSTYPE) VALUES ('" + cp.saveItemId + "','" + cy.Locationid + "','" + cp.Qty + "','" + cp.Amount + "','m','" + cy.ADDate + "','11:00:00 PM','" + itemacc + "','"+cp.detid+ "','0','0','0','Returable DC') RETURNING ASSTOCKVALUEID INTO :LASTCID";
                                        
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
@@ -226,12 +236,12 @@ namespace Arasan.Services
                                         string detailid = objCmds.Parameters["LASTCID"].Value.ToString();
 
                                         string narr = "Delivered To " + cy.Party;
-                                        svSQL = "Insert into ASSTOCKVALUE2 (ASSTOCKVALUEID,RATE,DOCID,MDCTRL,NARRATION,ALLOWDELETE,ISSCTRL,RECCTRL) VALUES ('" + detailid + "','" + dt.Rows[0]["STOCKVALUE"].ToString() + "','" + cy.Did + "','T','"+ narr+"','T','T','F')";
+                                        svSQL = "Insert into ASSTOCKVALUE2 (ASSTOCKVALUEID,RATE,DOCID,MDCTRL,NARRATION,ALLOWDELETE,ISSCTRL,RECCTRL) VALUES ('" + detailid + "','" + cp.Amount + "','" + cy.Did + "','T','"+ narr+"','T','T','F')";
 
                                         objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                    
-                                }
+                                 
                             }
                         }
                     }
@@ -374,7 +384,7 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
 
-            SvSql = "  SELECT LOCDETAILS.LOCID,FROMLOCID,DOCID,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DELTYPE,THROUGH,PARTYMAST.PARTYID ,STKTYPE,REFNO, to_char(RDELBASIC.REFDATE,'dd-MON-yyyy')REFDATE,to_char(RDELBASIC.DELDATE,'dd-MON-yyyy')DELDATE,NARRATION,EMPMAST.EMPNAME,emp.EMPNAME1 FROM RDELBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY  LEFT OUTER JOIN EMPMAST emp ON emp.EMPMASTID = RDELBASIC.APPBY2 LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RDELBASIC.PARTYID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID = RDELBASIC.FROMLOCID WHERE RDELBASIC.RDELBASICID = '" + id + "' ";
+            SvSql = "  SELECT LOCDETAILS.LOCID,FROMLOCID,DOCID,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DELTYPE,THROUGH,PARTYMAST.PARTYID ,STKTYPE,REFNO, to_char(RDELBASIC.REFDATE,'dd-MON-yyyy')REFDATE,to_char(RDELBASIC.DELDATE,'dd-MON-yyyy')DELDATE,NARRATION,EMPMAST.EMPNAME,APPBY2 FROM RDELBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = RDELBASIC.APPBY   LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RDELBASIC.PARTYID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID = RDELBASIC.FROMLOCID WHERE RDELBASIC.RDELBASICID = '" + id + "' ";
 
            
             DataTable dtt = new DataTable();
@@ -511,6 +521,17 @@ namespace Arasan.Services
             }
 
         }
+        public DataTable GetEmpcode()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select EMPNAME||' / '||EMPID as empcode from EMPMAST";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
 
     }
 }

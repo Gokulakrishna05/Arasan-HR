@@ -25,13 +25,13 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "select DRUM_NO,ITEMMASTER.ITEMID,LOCDETAILS.LOCID from drum_stock LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=drum_stock.ITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=drum_stock.LOCID where BALANCE_QTY > 0 AND DRUM_NO IS NOT NULL";
+                    cmd.CommandText = "select DRUMNO,ITEMMASTER.ITEMID,LOCDETAILS.LOCID from LSTOCKVALUE LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=LSTOCKVALUE.ITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=LSTOCKVALUE.LOCID ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         DrumLocation dl = new DrumLocation
                         {
-                            Drum = rdr["DRUM_NO"].ToString(),
+                            Drum = rdr["DRUMNO"].ToString(),
                             Item = rdr["ITEMID"].ToString(),
                             Location = rdr["LOCID"].ToString(),
                             
@@ -50,7 +50,7 @@ namespace Arasan.Services
         public DataTable GetAllListDrumItem()
         {
             string SvSql = string.Empty;
-            SvSql = "select DRUM_STOCK_ID,DRUM_NO,ITEMMASTER.ITEMID,LOCDETAILS.LOCID from drum_stock LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=drum_stock.ITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=drum_stock.LOCID where BALANCE_QTY > 0 AND DRUM_NO IS NOT NULL";
+            SvSql = "select LSTOCKVALUEID,DRUMNO,ITEMMASTER.ITEMID,LOCDETAILS.LOCID from LSTOCKVALUE LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=LSTOCKVALUE.ITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=LSTOCKVALUE.LOCID ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

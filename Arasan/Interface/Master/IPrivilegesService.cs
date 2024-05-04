@@ -8,5 +8,7 @@ namespace Arasan.Interface
 {
     public interface IPrivilegesService
     {
+        DataTable GetParent();
+        DataTable Getchild(string parentid);
     }
 }

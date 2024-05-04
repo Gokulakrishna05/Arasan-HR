@@ -78,7 +78,7 @@
 
 
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.DcType, Model.typelst,"--Please select--", new { @id = "ddlDcType", @Class = "form-control  _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.DcType, Model.typelst,"--Please select--", new { @id = "ddlDcType", @Class = "form-control  _select", @TabIndex = 1 , onchange = "changedoc(this.value)"})
 
                                         </div>
                                     </div>
@@ -88,7 +88,7 @@
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="mandatory">*</label></label>
 
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Did, new { @id = "txtDid", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextBoxFor(C => C.Did, new { @id = "txtDid", @class = "form-control", @TabIndex = 1,@readonly="readonly" })
                                         </div>
 
                                     </div>
@@ -337,8 +337,8 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Approval 2 <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Approval2, Model.apprlst,"--Please select--", new { @id = "ddlApproval2", @Class = "form-control  _select", @TabIndex = 1 })
-
+                                         @Html.DropDownListFor(C => C.Approval2, Model.apprlst,"--Please select--", new { @id = "ddlApproval2", @Class = "form-control  _select", @TabIndex = 1 })
+ 
                                         </div>
                                    </div>
                                  </div>
@@ -542,6 +542,7 @@
 
                 document.getElementById("txtUnit" + i).value = result.unit;
                 document.getElementById("txtPurRate" + i).value = result.purrate;
+                document.getElementById("txtRate" + i).value = result.purrate;
                 document.getElementById("txtCurrent" + i).value = result.totalstock;
                 
             },
@@ -550,7 +551,23 @@
             }
         });
     }
+    function changedoc(ItemId) {
+        
+        $.ajax({
+            url: 'GetDocDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
 
+                document.getElementById("txtDid").value = result.seq;
+
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
         $('.form_date').datetimepicker({
             //   language:  'fr',
             weekStart: 1,
