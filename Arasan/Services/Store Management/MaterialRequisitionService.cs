@@ -420,6 +420,7 @@ namespace Arasan.Services
                             if (cp.InvQty > 0)
                             {
                                 string lot = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER WHERE ITEMMASTERID='" + cp.ItemId+"'");
+                                string masterid = datatrans.GetDataString("SELECT ITEMACC FROM ITEMMASTER WHERE ITEMMASTERID='" + cp.ItemId+"'");
                                 if(lot=="YES")
                                 {
 
@@ -442,7 +443,7 @@ namespace Arasan.Services
 
                                     double srate = datatrans.GetDataId("select SS.RATE  from STOCKVALUE S,STOCKVALUE2 SS  where S.STOCKVALUEID=SS.STOCKVALUEID AND S.LOCID='" + cy.LocationId + "' AND S.ITEMID='"+cp.ItemId+"' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 GROUP BY  SS.RATE ");
                                     double amount = cp.InvQty * srate;
-                                    string SvSql1 = "Insert into STOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE) VALUES ('0','0','F','" + cp.detid + "','749342921','m','" + cp.ItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.InvQty + "' ,'10001000000827','0','0','0','0','0','0','0','0','" + amount + "')RETURNING STOCKVALUEID INTO :STKID";
+                                    string SvSql1 = "Insert into STOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,MASTERID) VALUES ('0','0','F','" + cp.detid + "','749342921','m','" + cp.ItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.InvQty + "' ,'10001000000827','0','0','0','0','0','0','0','0','" + amount + "','"+ masterid +"')RETURNING STOCKVALUEID INTO :STKID";
                                     OracleCommand objCmdsss = new OracleCommand(SvSql1, objConn);
                                     objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                     objCmdsss.ExecuteNonQuery();
@@ -451,7 +452,7 @@ namespace Arasan.Services
                                     string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE) VALUES ('" + stkid + "','" + cy.DocId + "','" + narr + "','"+ srate + "')";
                                     OracleCommand objCmddts = new OracleCommand(SvSql2, objConn);
                                     objCmddts.ExecuteNonQuery();
-                                      SvSql1 = "Insert into STOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE) VALUES ('0','0','F','" + cp.detid + "','749342921','p','" + cp.ItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.InvQty + "' ,'"+cy.LocationId+"','0','0','0','0','0','0','0','0','" + amount + "')RETURNING STOCKVALUEID INTO :STKID";
+                                      SvSql1 = "Insert into STOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,MASTERID) VALUES ('0','0','F','" + cp.detid + "','749342921','p','" + cp.ItemId + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.InvQty + "' ,'"+cy.LocationId+"','0','0','0','0','0','0','0','0','" + amount + "','" + masterid + "')RETURNING STOCKVALUEID INTO :STKID";
                                       objCmdsss = new OracleCommand(SvSql1, objConn);
                                     objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                     objCmdsss.ExecuteNonQuery();
