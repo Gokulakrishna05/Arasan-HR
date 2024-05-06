@@ -314,6 +314,7 @@ namespace Arasan.Services.Store_Management
 
 
                                         string type = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER WHERE ITEMMASTERID='" + cp.ItemId + "'");
+                                        string masterid = datatrans.GetDataString("SELECT ITEMACC FROM ITEMMASTER WHERE ITEMMASTERID='" + cp.ItemId + "'");
 
                                         if (type == "YES")
                                         {
@@ -322,7 +323,7 @@ namespace Arasan.Services.Store_Management
                                             objCmdss.ExecuteNonQuery();
 
 
-                                             SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,DOCTIME,STOCKTRANSTYPE) VALUES ('" + detid + "','m','" + cp.ItemId + "','" + ss.Docdate + "','" + ddqty + "' ,'"+ ss.Location + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','11:00:00 PM','Conversion Issue') RETURNING STOCKVALUEID INTO :STKID";
+                                             SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,DOCTIME,STOCKTRANSTYPE,MATSREID) VALUES ('" + detid + "','m','" + cp.ItemId + "','" + ss.Docdate + "','" + ddqty + "' ,'"+ ss.Location + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','11:00:00 PM','Conversion Issue','"+ masterid + "') RETURNING STOCKVALUEID INTO :STKID";
                                             OracleCommand objCmdsss = new OracleCommand(SvSql1, objConn);
                                             objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                             objCmdsss.ExecuteNonQuery();

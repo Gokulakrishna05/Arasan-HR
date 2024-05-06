@@ -204,41 +204,27 @@ namespace Arasan.Controllers.Store_Management
             MR.PILst = TData;
             return View(MR);
         }
-        //[HttpPost]
-        //public IActionResult ViewIndent(PurchaseIndent Cy, string id)
-        //{
-        //    //if (ModelState.IsValid)
-        //    //{
-        //    try
-        //    {
-        //        Cy.ID = id;
-        //        string Strout = PurIndent.IndentCRUD(Cy);
-        //        if (string.IsNullOrEmpty(Strout))
-        //        {
-        //            if (Cy.ID == null)
-        //            {
-        //                TempData["notice"] = "Indent Created Successfully...!";
-        //            }
-        //            else
-        //            {
-        //                TempData["notice"] = "Indent Updated Successfully...!";
-        //            }
-        //            return RedirectToAction("List_Purchase_Indent");
-        //        }
-
-        //        else
-        //        {
-        //            ViewBag.PageTitle = "Edit Indent";
-        //            TempData["notice"] = Strout;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //    //}
-        //    return View(Cy);
-        //}
+        [HttpPost]
+        public IActionResult ViewIndent(PurchaseIndent Cy, string id)
+        {
+            //if (ModelState.IsValid)
+            //{
+            try
+            {
+                foreach(PIndentItem cp in Cy.PILst)
+                {
+                    bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET SCHCLQTY='" + cp.penqty + "' Where PINDDETAILID='" + cp.detid + "'");
+                   
+                }
+                return RedirectToAction("List_Purchase_Indent");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //}
+            return View(Cy);
+        }
         public ActionResult ListIndentItemgrid(string PRID)
         {
             List<IndentItemBindList> EnqChkItem = new List<IndentItemBindList>();
