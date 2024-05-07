@@ -37,6 +37,7 @@ namespace Arasan.Models
         public string Amount { get; set; }
         public string Narration { get; set; }
         public string Entered { get; set; }
+        public string EnteredId { get; set; }
         public List<SelectListItem> Statuslst;
         public string status { get; set; }
         public List<SelectListItem> Brlst;

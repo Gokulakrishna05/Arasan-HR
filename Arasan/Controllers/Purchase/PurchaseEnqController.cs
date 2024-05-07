@@ -119,6 +119,7 @@ namespace Arasan.Controllers
                         total += toaamt;
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         tda.Amount = toaamt;
+                        tda.pri = tda.Quantity * Convert.ToDouble(tda.Conversionfactor);
                         tda.Unit = dt2.Rows[i]["UNITID"].ToString();
                         //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
                         tda.Isvalid = "Y";

@@ -41,6 +41,7 @@ namespace Arasan.Controllers.Store_Management
             MR.Statuslst = BindStatus();
             MR.Branch = Request.Cookies["BranchId"];
             MR.Entered = Request.Cookies["UserName"];
+            MR.EnteredId = Request.Cookies["UserId"];
             MR.Location = Request.Cookies["LocationName"];
             MR.Storeid = storeid;
             MR.DocDa = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -538,6 +539,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.InvQty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString());
                     tda.issqty = Convert.ToDouble(dtt.Rows[i]["ISSQTY"].ToString() == "" ? "0" : dtt.Rows[i]["ISSQTY"].ToString());
                     double pendqty = tda.InvQty - tda.issqty;
+                    tda.IndQty = pendqty;
                     tda.InvQty = pendqty;
                     tda.indentid = dtt.Rows[i]["STORESREQDETAILID"].ToString();
 

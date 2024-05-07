@@ -334,6 +334,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("EXRATE", OracleDbType.NVarchar2).Value = cy.ExRate;
                     objCmd.Parameters.Add("PARTYREFNO", OracleDbType.NVarchar2).Value = cy.ParNo;
                     objCmd.Parameters.Add("MAINCURR", OracleDbType.NVarchar2).Value = cy.Cur;
+                    objCmd.Parameters.Add("EXRATE", OracleDbType.NVarchar2).Value = cy.ExRate;
                     objCmd.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = cy.Supplier;
                    
                      
