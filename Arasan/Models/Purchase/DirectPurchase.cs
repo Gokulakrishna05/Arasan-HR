@@ -75,6 +75,7 @@ namespace Arasan.Models
         public string ItemGroupId { get; set; }
         public double FrigCharge { get; set; }
         public string ConFac { get; set; }
+        public string Indqty { get; set; }
         public string Unit { get; set; }
         public List<SelectListItem> PURLst;
 

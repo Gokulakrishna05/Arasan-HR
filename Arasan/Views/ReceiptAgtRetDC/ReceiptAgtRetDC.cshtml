@@ -478,11 +478,16 @@
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
                     
                         });
-
+                        changeitemdetail(opt,ItemId)
                     }
         })
 
-        $.ajax({
+      
+      
+    }
+       function changeitemdetail(opt,ItemId) {
+
+           $.ajax({
             url: 'GetItemgrpDetails',
             type: "post",
             data: { "id": ItemId },
@@ -529,9 +534,7 @@
                 alert("Data Not Found items");
             }
         });
-      
-    }
-
+      }
     function changeDCno(ItemId) {
 
           $.ajax({

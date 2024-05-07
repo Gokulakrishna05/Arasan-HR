@@ -676,7 +676,7 @@ namespace Arasan.Controllers
             }
         }
 
-        public ActionResult GetItemDetail(string ItemId)
+        public ActionResult GetItemDetail(string ItemId,string indent)
         {
             try
             {
@@ -686,6 +686,7 @@ namespace Arasan.Controllers
                 string unit = "";
                 string CF = "";
                 string price = "";
+                string indqty = "";
                 dt = datatrans.GetItemDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
@@ -699,8 +700,8 @@ namespace Arasan.Controllers
                         CF = dt1.Rows[0]["CF"].ToString();
                     }
                 }
-
-                var result = new { unit = unit, CF = CF, price = price };
+                indqty = datatrans.GetDataString("SELECT QTY FROM PINDDETAIL WHERE PINDBASICID='"+indent+"' AND ITEMID='"+ItemId+"'");
+                var result = new { unit = unit, CF = CF, price = price, indqty= indqty };
                 return Json(result);
             }
             catch (Exception ex)
