@@ -115,7 +115,7 @@ namespace Arasan.Models
         public string assign { get; set; }
         public string indentno { get; set; }
         public string indentdate { get; set; }
-        public string branch { get; set; }
+         public string branch { get; set; }
         public string approval { get; set; }
         public string disapproval { get; set; }
 

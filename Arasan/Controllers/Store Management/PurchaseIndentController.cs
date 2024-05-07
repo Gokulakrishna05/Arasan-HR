@@ -273,7 +273,9 @@ namespace Arasan.Controllers.Store_Management
                     duedate = dtEnq.Rows[i]["DUEDATE"].ToString(),
                     indentno = dtEnq.Rows[i]["DOCID"].ToString(),
                     indentdate = dtEnq.Rows[i]["DOCDATE"].ToString(),
-                    approval= Approval,
+                    narr = dtEnq.Rows[i]["NARRATION"].ToString(),
+
+                    approval = Approval,
                     disapproval= DisApproval
                 });
             }

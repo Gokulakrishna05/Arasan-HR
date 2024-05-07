@@ -953,15 +953,16 @@ namespace Arasan.Services
                 string StatementType = string.Empty; string svSQL = "";
                 
                     datatrans = new DataTransactions(_connectionString);
-
-
+                string updateCMd = "";
+                if (cy.ID == null)
+                {
                     int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'SRq-' AND ACTIVESEQUENCE = 'T'");
                     string docid = string.Format("{0}{1}", "SRq-", (idc + 1).ToString());
 
-                    string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='SRq-' AND ACTIVESEQUENCE ='T'";
-                    
+                     updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='SRq-' AND ACTIVESEQUENCE ='T'";
+                    datatrans.UpdateStatus(updateCMd);
                     cy.matno = docid;
-                
+                }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -997,23 +998,35 @@ namespace Arasan.Services
                    
                     objCmd.Parameters.Add("REQTYPE", OracleDbType.NVarchar2).Value = "Other Issue";
                      objCmd.Parameters.Add("STAUS", OracleDbType.NVarchar2).Value = "OPEN";
-                    
+                    if(cy.ID==null)
+                    {
                         objCmd.Parameters.Add("ENTBY", OracleDbType.NVarchar2).Value = cy.Entered;
+                        objCmd.Parameters.Add("CREATEDBY", OracleDbType.NVarchar2).Value = cy.EnteredId;
                         objCmd.Parameters.Add("ENTAT", OracleDbType.NVarchar2).Value = entat;
+                    }
+                    else
+                    {
+                        objCmd.Parameters.Add("ENTBY", OracleDbType.NVarchar2).Value = cy.Entered;
+
+                        objCmd.Parameters.Add("UPDATEDBY", OracleDbType.NVarchar2).Value = cy.EnteredId;
+
+                        objCmd.Parameters.Add("UPDATEDON", OracleDbType.NVarchar2).Value = entat;
+                    }
+                        
                   
                     objCmd.Parameters.Add("TOLOCID", OracleDbType.NVarchar2).Value = "10001000000827";
                     objCmd.Parameters.Add("LOCIDCONS", OracleDbType.NVarchar2).Value = cy.Location;
                   
                    
-                    if (cy.Reason == "")
-                    {
-                        objCmd.Parameters.Add("PRIORITY", OracleDbType.NVarchar2).Value = "0";
-                    }
-                    else
-                    {
-                        objCmd.Parameters.Add("PRIORITY", OracleDbType.NVarchar2).Value = "1";
-                    }
-                    objCmd.Parameters.Add("REASON", OracleDbType.NVarchar2).Value = cy.Reason;
+                    //if (cy.Reason == "")
+                    //{
+                    //    objCmd.Parameters.Add("PRIORITY", OracleDbType.NVarchar2).Value = "0";
+                    //}
+                    //else
+                    //{
+                    //    objCmd.Parameters.Add("PRIORITY", OracleDbType.NVarchar2).Value = "1";
+                    //}
+                    //objCmd.Parameters.Add("REASON", OracleDbType.NVarchar2).Value = cy.Reason;
                      
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -1021,7 +1034,7 @@ namespace Arasan.Services
                     objCmd.ExecuteNonQuery();
                     try
                     {
-                        datatrans.UpdateStatus(updateCMd);
+                       
                     }
                     catch (Exception ex)
                     {
@@ -1079,9 +1092,10 @@ namespace Arasan.Services
                             if (cp.Isvalid == "Y" && cp.ItemId != "0")
                             {
                                 string unitID = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.UnitID + "' ");
+                                string VALMETHOD = datatrans.GetDataString("Select VALMETHOD from ITEMMASTER where ITEMMASTERID='" + cp.ItemId + "' ");
 
 
-                                svSQL = "Insert into STORESREQDETAIL (STORESREQBASICID,ITEMID,UNIT,QTY,STOCK,NARR,ITEMMASTERID,ITEMDESC) VALUES ('" + reqid + "','" + cp.ItemId + "','" + unitID + "','" + cp.ReqQty + "','" + cp.ClosingStock + "','" + cy.Narration + "','" + cp.ItemId + "','" + desc + "','OPEN')";
+                                svSQL = "Insert into STORESREQDETAIL (STORESREQBASICID,ITEMID,UNIT,QTY,STOCK,NARR,ITEMMASTERID,ITEMDESC,STATUS,STORESREQDETAILROW,ISSQTY,SGCODE,TYPE,VALMETHOD,SCHCLQTY,SCHISSQTY,SCHQTY) VALUES ('" + cy.ID + "','" + cp.ItemId + "','" + unitID + "','" + cp.ReqQty + "','" + cp.ClosingStock + "','" + cy.Narration + "','" + cp.ItemId + "','" + desc + "','OPEN','0','0','0','Stores Issue','" + VALMETHOD + "','" + cp.ReqQty + "','0','0')";
                                 OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                 objCmds.ExecuteNonQuery();
 
@@ -1192,16 +1206,16 @@ namespace Arasan.Services
             
             if (strStatus == "Y" || strStatus == null && strfrom==null && strTo == null)
             {
-                SvSql = " Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,LOCDETAILS.LOCID,STORESREQBASIC.PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID,STORESREQBASIC.ENTBY,STORESREQBASIC.ENTAT from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID LEFT OUTER JOIN  WCBASIC on WCBASIC.WCBASICID=STORESREQBASIC.WCID WHERE STORESREQBASIC.DOCDATE >=TRUNC(SYSDATE) - 7  ORDER BY STORESREQBASIC.STORESREQBASICID DESC";
+                SvSql = " Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,LOCDETAILS.LOCID,STORESREQBASIC.PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID,STORESREQBASIC.ENTBY,STORESREQBASIC.ENTAT from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID LEFT OUTER JOIN  WCBASIC on WCBASIC.WCBASICID=STORESREQBASIC.WCID WHERE STORESREQBASIC.DOCDATE >=TRUNC(SYSDATE) - 7  ORDER BY STORESREQBASIC.DOCID DESC";
             }
             else if(strStatus == "Y" || strStatus == null && strfrom != null && strTo != null)
             {
-                SvSql = " Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,LOCDETAILS.LOCID,STORESREQBASIC.PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID,STORESREQBASIC.ENTBY,STORESREQBASIC.ENTAT from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID LEFT OUTER JOIN  WCBASIC on WCBASIC.WCBASICID=STORESREQBASIC.WCID WHERE STORESREQBASIC.DOCDATE between '" + strfrom+"' and '"+ strTo +"' ORDER BY STORESREQBASIC.STORESREQBASICID DESC";
+                SvSql = " Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,LOCDETAILS.LOCID,STORESREQBASIC.PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID,STORESREQBASIC.ENTBY,STORESREQBASIC.ENTAT from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID LEFT OUTER JOIN  WCBASIC on WCBASIC.WCBASICID=STORESREQBASIC.WCID WHERE STORESREQBASIC.DOCDATE between '" + strfrom+"' and '"+ strTo + "' ORDER BY STORESREQBASIC.DOCID DESC";
 
             }
             else
             {
-                SvSql = "Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,LOCDETAILS.LOCID,STORESREQBASIC.PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID,STORESREQBASIC.ENTBY,STORESREQBASIC.ENTAT from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID LEFT OUTER JOIN  WCBASIC on WCBASIC.WCBASICID=STORESREQBASIC.WCID WHERE STORESREQBASIC.IS_ACTIVE='N' AND STORESREQBASIC.STATUS NOT IN ('Issued','CLOSE')  ORDER BY STORESREQBASIC.STORESREQBASICID DESC";
+                SvSql = "Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,LOCDETAILS.LOCID,STORESREQBASIC.PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID,STORESREQBASIC.ENTBY,STORESREQBASIC.ENTAT from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID LEFT OUTER JOIN  WCBASIC on WCBASIC.WCBASICID=STORESREQBASIC.WCID WHERE STORESREQBASIC.IS_ACTIVE='N' AND STORESREQBASIC.STATUS NOT IN ('Issued','CLOSE')  ORDER BY STORESREQBASIC.DOCID DESC";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);

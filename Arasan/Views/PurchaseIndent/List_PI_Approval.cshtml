@@ -44,6 +44,7 @@
                     { name: 'quantity', type: 'float' },
                     { name: 'location', type: 'string' },
                     { name: 'duedate', type: 'string' },
+                    { name: 'narr', type: 'string' },
                     { name: 'approval', type: 'string' },
                     { name: 'disapproval', type: 'string' }
                 ],
@@ -89,14 +90,15 @@
                 keyboardnavigation: false,
 
                 columns: [
-                  { text: 'Indent No.', filtertype: 'checkedlist', datafield: 'indentno',color:'black', width: 100 },
+                  { text: 'Indent No.', filtertype: 'checkedlist', datafield: 'indentno',color:'black', width: 95 },
                   { text: 'Indent Date', datafield: 'indentdate', filtertype: 'input', width: 100 },
-                  { text: 'Item Name', filtertype: 'checkedlist', columntype: 'dropdownlist', datafield: 'itemname', width: 200 },
+                  { text: 'Item Name', filtertype: 'checkedlist', columntype: 'dropdownlist', datafield: 'itemname', width: 170 },
                   { text: 'Due date', datafield: 'duedate', filtertype: 'input', width: 100, cellsalign: 'right' },
-                  { text: 'Location', datafield: 'location', filtertype: 'checkedlist', cellsalign: 'right', width: 200 },
-                  { text: 'Quantity', datafield: 'quantity', filtertype: 'checkedlist', cellsalign: 'center', width: 100 },
-                  { text: 'Approval', datafield: 'approval', cellsalign: 'center', width: 100, cellsrenderer: linkrenderer, align: 'center'},
-                    { text: 'DisApprove', datafield: 'disapproval', cellsalign: 'center', width: 100, cellsrenderer: linkrenderer1, align: 'center' },
+                  { text: 'Location', datafield: 'location', filtertype: 'checkedlist', cellsalign: 'right', width: 70 },
+                  { text: 'Quantity', datafield: 'quantity', filtertype: 'checkedlist', cellsalign: 'center', width: 70 },
+                    { text: 'Narration', datafield: 'narr', filtertype: 'checkedlist', cellsalign: 'center', width: 200 },
+                  { text: 'Approval', datafield: 'approval', cellsalign: 'center', width: 80, cellsrenderer: linkrenderer, align: 'center'},
+                    { text: 'DisApprove', datafield: 'disapproval', cellsalign: 'center', width: 80, cellsrenderer: linkrenderer1, align: 'center' },
                   
                 ]
             });
@@ -113,7 +115,7 @@
                         <div class="row">
 
                              <div class="col-md-1 "> </div>
-                            <div class="col-md-11 "> 
+                            <div class="col-md-12 "> 
                                 <div id="grid">
     </div>
 
