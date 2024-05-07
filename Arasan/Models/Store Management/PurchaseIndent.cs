@@ -111,6 +111,7 @@ namespace Arasan.Models
         public string location { get; set; }
         public string itemid { get; set; }
         public string duedate { get; set; }
+        public string narr { get; set; }
         public string assign { get; set; }
         public string indentno { get; set; }
         public string indentdate { get; set; }

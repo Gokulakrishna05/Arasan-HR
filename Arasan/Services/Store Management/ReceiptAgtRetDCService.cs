@@ -313,7 +313,7 @@ namespace Arasan.Services.Store_Management
          public DataTable Getbin() 
         {
             string SvSql = string.Empty;
-            SvSql = "select BINID,BINBASICID from BINBASIC order by BINBASICID desc";
+            SvSql = "select BINID,BINBASICID from BINBASIC WHERE LOCID='10001000000827' order by BINBASICID desc";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

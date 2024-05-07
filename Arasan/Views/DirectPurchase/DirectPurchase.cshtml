@@ -176,6 +176,7 @@
                                                             <th> Rej Qty </th>
                                                             <th> Gm Qty </th>
                                                             <th>Batch </th>*@
+                                                            <th> Indent Qty </th>
                                                             <th> Qty </th>
                                                             @*<th>Unit [Primary] </th>
                                                             <th> Qty [Primary]</th>*@
@@ -227,6 +228,9 @@
                                                           @*  <td>
                                                             @Html.DropDownListFor(o => o.DirLst[i].PurType, Model.DirLst[i].PURLst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlPurtype" + i, style = "width: 170px;"})                                                        
                                                         </td>*@
+                                                         <td>
+                                                                @Html.TextBoxFor(o => o.DirLst[i].Indqty, new { @id = "txtIndqty" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" ,readonly="true"})
+                                                            </td>
                                                             <td>
                                                                 @Html.TextBoxFor(o => o.DirLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
                                                             </td>
@@ -652,7 +656,7 @@
             },
             error: function () {
                 debugger;
-                alert("Please Select Item Group");
+                alert("Please Select Indent No");
             }
         });
     }
@@ -785,9 +789,10 @@
         }
     }
     function changeItem(ItemId, i) {
+         var indent = document.getElementById("ddlIndent" + i).value;
         $.ajax({
             url: 'GetItemDetail',
-            data: { "ItemId": ItemId },
+            data: { "ItemId": ItemId ,"indent":indent},
             type: "GET",
             success: function (result) {
                 
@@ -795,6 +800,7 @@
               
                 document.getElementById("txtConFac" + i).value = result.cf;
                 document.getElementById("txtrate" + i).value = result.price;
+                document.getElementById("txtIndqty" + i).value = result.indqty;
             },
             error: function () {
                 alert("Data Not Found");

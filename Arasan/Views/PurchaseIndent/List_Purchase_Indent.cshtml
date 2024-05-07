@@ -95,7 +95,8 @@
                 { name: 'unit', type: 'string' },
                 { name: 'quantity', type: 'float' },
                 { name: 'location', type: 'string' },
-                { name: 'duedate', type: 'string' }
+                { name: 'duedate', type: 'string' },
+                { name: 'narr', type: 'string' }
             ],
 
             datatype: "json",
@@ -136,7 +137,8 @@
                     { name: 'unit', type: 'string' },
                     { name: 'quantity', type: 'int' },
                     { name: 'location', type: 'string' },
-                    { name: 'duedate', type: 'string' }
+                    { name: 'duedate', type: 'string' },
+                    { name: 'narr', type: 'string' }
                 ],
                 id: 'indentid',
                 localdata: ordersbyid
@@ -146,13 +148,14 @@
                 grid.jqxGrid({
                     theme: 'ui-start',
                     enablebrowserselection: true,
-                    source: nestedGridAdapter, width: 780,
+                    source: nestedGridAdapter, width: 920,
                     columns: [
                         { text: 'Product Name', datafield: 'itemname', width: 200 },
                         { text: 'Unit', datafield: 'unit', width: 80 },
-                        { text: 'Quantity', datafield: 'quantity', width: 150 },
+                        { text: 'Quantity', datafield: 'quantity', width: 100 },
                         { text: 'Location', datafield: 'location', width: 150 },
-                        { text: 'Due Date', datafield: 'duedate', width: 200 }
+                        { text: 'Due Date', datafield: 'duedate', width: 100 },
+                        { text: 'Narration', datafield: 'narr', width: 200 }
                     ]
                 });
             }

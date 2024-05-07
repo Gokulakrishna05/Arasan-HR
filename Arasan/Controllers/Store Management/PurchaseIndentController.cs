@@ -241,6 +241,7 @@ namespace Arasan.Controllers.Store_Management
                     quantity = dtEnq.Rows[i]["QTY"].ToString(),
                     location= dtEnq.Rows[i]["LOCID"].ToString(),
                     duedate= dtEnq.Rows[i]["DUEDATE"].ToString(),
+                    narr= dtEnq.Rows[i]["NARRATION"].ToString(),
                 });
             }
 
