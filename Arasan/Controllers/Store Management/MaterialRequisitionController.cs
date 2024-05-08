@@ -433,7 +433,7 @@ namespace Arasan.Controllers.Store_Management
 
                 Reg.Add(new MaterialItem
                 {
-                    piid = Convert.ToInt64(dtUsers.Rows[i]["STORESREQBASICID"].ToString()),
+                    piid = dtUsers.Rows[i]["STORESREQBASICID"].ToString(),
                     branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     docid = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
@@ -470,8 +470,8 @@ namespace Arasan.Controllers.Store_Management
             {
                 EnqChkItem.Add(new MRItemBindList
                 {
-                    indentid = Convert.ToInt64(dtEnq.Rows[i]["STORESREQDETAILID"].ToString()),
-                    piid = Convert.ToInt64(dtEnq.Rows[i]["STORESREQBASICID"].ToString()),
+                    indentid = dtEnq.Rows[i]["STORESREQDETAILID"].ToString(),
+                    piid = dtEnq.Rows[i]["STORESREQBASICID"].ToString(),
                     itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
                     unit = dtEnq.Rows[i]["UNITID"].ToString(),
                     quantity = dtEnq.Rows[i]["QTY"].ToString(),

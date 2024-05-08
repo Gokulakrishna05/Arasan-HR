@@ -325,10 +325,10 @@ namespace Arasan.Services
                     {
                         throw ex;
                     }
-                     
-                 
 
 
+
+                string entat = DateTime.Now.ToString("dd\\/MM\\/yyyy hh:mm:ss tt");
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -343,12 +343,14 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("EXRATE", OracleDbType.NVarchar2).Value = "1";
                     objCmd.Parameters.Add("PARTYREFNO", OracleDbType.NVarchar2).Value = "";
-                    objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = "";
+                    objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = "1";
                     objCmd.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = supid;                    
                     objCmd.Parameters.Add("ENQRECDBY", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("ASSIGNTO", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = user;
-                    objCmd.Parameters.Add("CREATED_ON", OracleDbType.NVarchar2).Value = DateTime.Now.ToString("dd\\/MM\\/yyyy hh:mm:ss tt");
+                    objCmd.Parameters.Add("CREATED_ON", OracleDbType.NVarchar2).Value = entat;
+                    objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = "";
+                    objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                      objConn.Open();
