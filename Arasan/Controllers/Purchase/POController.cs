@@ -63,6 +63,10 @@ namespace Arasan.Controllers
             else
             {
                 double total = 0;
+                double net = 0;
+                double cg = 0;
+                double sg = 0;
+                double ig = 0;
                 DataTable dt = new DataTable();
                 dt = PoService.EditPObyID(id);
                 if (dt.Rows.Count > 0)
@@ -184,7 +188,7 @@ namespace Arasan.Controllers
                             //}
                             //DataTable trff = new DataTable();
                             //trff = PoService.GetgstDetails(hsnid);
-                            //tda.gstlst = bindgst(hsnid);
+                            
                             //if (trff.Rows.Count > 0)
                             //{
                             //    for (int j = 0; j < trff.Rows.Count; j++)
@@ -199,39 +203,59 @@ namespace Arasan.Controllers
                             //}
                             //}
                             DataTable per = datatrans.GetData("Select GSTP from HSNMAST where HSCODE='" + hsn + "'  ");
-                               tda.per = Convert.ToDouble(per.Rows[0]["GSTP"].ToString());
-                           
-                            string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
+                            if(per.Rows.Count > 0)
+                            {
+                                tda.per = Convert.ToDouble(per.Rows[0]["GSTP"].ToString());
+                                tda.gstlst = bindgst(per.Rows[0]["GSTP"].ToString());
 
-                            string type = "";
 
-                            string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYMASTID='" + po.Supplier + "'");
+                                if (tda.gstlst.Count == 1)
+                                {
+                                    string traff = datatrans.GetDataString("select ETARIFFMASTERID,TARIFFID from ETARIFFMASTER where ((SGST)+(CGST))='" + tda.per + "' AND IS_ACTIVE='Y'");
+                                    tda.gst = traff;
+
+                                    string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
+
+                                    string type = "";
+
+                                    string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYMASTID='" + po.Supplier + "'");
+
+                                    if (partystate == cmpstate)
+                                    {
+                                        double cgst = tda.per / 2;
+                                        double sgst = tda.per / 2;
+                                        tda.SGSTPer = sgst;
+                                        tda.CGSTPer = cgst;
+
+                                        double cgstperc = tda.Amount / 100 * tda.SGSTPer;
+                                        double sgstperc = tda.Amount / 100 * tda.CGSTPer;
+                                        double cstamount = Math.Round(cgstperc, 2);
+                                        double sstamount = Math.Round(sgstperc, 2);
+                                        tda.CGSTAmt = cstamount;
+                                        tda.SGSTAmt = sstamount;
+                                        cg += tda.CGSTAmt;
+                                        sg += tda.SGSTAmt;
+                                        tda.TotalAmount = tda.CGSTAmt + tda.SGSTAmt + tda.Amount;
+                                        //po.Net = tda.TotalAmount;
+                                        net += tda.TotalAmount;
+                                    }
+                                    else
+                                    {
+                                        tda.IGSTPer = tda.per;
+                                        tda.IGSTAmt = tda.Amount / 100 * tda.IGSTPer;
+                                        tda.TotalAmount = tda.IGSTAmt + tda.Amount;
+                                        //po.Net = tda.TotalAmount;
+                                        net += tda.TotalAmount;
+                                        ig += tda.IGSTAmt;
+                                    }
+                                }
+                            }
+                            else { tda.gstlst = bindgst(""); }
                             
-                                if (partystate == cmpstate)
-                                {
-                                    double cgst = tda.per / 2;
-                                    double sgst = tda.per / 2;
-                                    tda.SGSTPer = sgst;
-                                    tda.CGSTPer = cgst;
 
-                                    double cgstperc = tda.Amount / 100 * tda.SGSTPer;
-                                    double sgstperc = tda.Amount / 100 * tda.CGSTPer;
-                                double cstamount = Math.Round(cgstperc, 2);
-                                double sstamount = Math.Round(sgstperc, 2);
-                                tda.CGSTAmt = cstamount;
-                                    tda.SGSTAmt = sstamount;
-                                    tda.TotalAmount = tda.CGSTAmt + tda.SGSTAmt + tda.Amount;
-                                    //po.Net = tda.TotalAmount;
-                                }
-                                else
-                                {
-                                    tda.IGSTPer = tda.per;
-                                    tda.IGSTAmt = tda.Amount / 100 * tda.IGSTPer;
-                                    tda.TotalAmount = tda.IGSTAmt + tda.Amount;
-                                    //po.Net = tda.TotalAmount;
-                                }
 
-                             
+
+
                         }
                         catch (Exception ex)
                         {
@@ -239,6 +263,11 @@ namespace Arasan.Controllers
                         }
                     }
                 }
+                po.CGST = cg;
+                po.SGST = sg;
+                po.IGST = ig;
+                po.Gross = total;
+                po.Net = net;
                 po.PoItem = TData;
 
             }
@@ -506,7 +535,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TARIFFID"].ToString(), Value = dtDesg.Rows[i]["tariff"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TARIFFID"].ToString(), Value = dtDesg.Rows[i]["ETARIFFMASTERID"].ToString() });
                 }
                 return lstdesg;
             }
