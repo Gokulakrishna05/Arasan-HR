@@ -766,9 +766,9 @@ namespace Arasan.Services.Sales
                                         svSQL = "UPDATE GRNBLDETAIL SET DND='" + cp.disamt + "' WHERE GRNBLBASICID='" + cy.InvNo + "' and ITEMID ='" + cp.itemid + "' ";
                                         objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
-                                        svSQL = "UPDATE GRNBLBASIC SET TDND='" + cy.discount + "' WHERE GRNBLBASICID='" + cy.InvNo + "'  ";
-                                        objCmds = new OracleCommand(svSQL, objConn);
-                                        objCmds.ExecuteNonQuery();
+                                        //svSQL = "UPDATE GRNBLBASIC SET TDND='" + cy.discount + "' WHERE GRNBLBASICID='" + cy.InvNo + "'  ";
+                                        //objCmds = new OracleCommand(svSQL, objConn);
+                                        //objCmds.ExecuteNonQuery();
                                     }
                                 }
                             }
