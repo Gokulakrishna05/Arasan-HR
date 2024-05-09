@@ -633,19 +633,19 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "Select DOCID,to_char(DOCDATE,'dd-MON-yyyy') ENQDATE,PARTYREFNO,P.PARTYID,E.STATUS,PURENQBASICID from PURENQBASIC E,PARTYMAST P  Where E.PARTYMASTID=P.PARTYMASTID  ";
-            if (strStatus == "Y" || strStatus == null)
-            {
-                SvSql +=  " AND E.IS_ACTIVE='Y' ";
-            }
-            else
-            {
-                SvSql = "  AND E.IS_ACTIVE='N'";
-            }
-            if (!string.IsNullOrEmpty(strfrom) && !string.IsNullOrEmpty(strTo))
-            {
-                SvSql += " and E.DOCDATE BETWEEN '" + strfrom + "' and '" + strTo + "'";
-            }
-            SvSql += " order by E.DOCDATE DESC";
+            //if (strStatus == "Y" || strStatus == null)
+            //{
+            //    SvSql +=  " AND E.IS_ACTIVE='Y' ";
+            //}
+            //else
+            //{
+            //    SvSql = "  AND E.IS_ACTIVE='N'";
+            //}
+            //if (!string.IsNullOrEmpty(strfrom) && !string.IsNullOrEmpty(strTo))
+            //{
+            //    SvSql += " and E.DOCDATE BETWEEN '" + strfrom + "' and '" + strTo + "'";
+            //}
+            SvSql += " order by E.DOCID DESC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -111,6 +111,8 @@ namespace Arasan.Models
         public string branch { get; set; }
         public string supplier { get; set; }
         public string damage { get; set; }
+        public string gross { get; set; }
+        public string net { get; set; }
       
         public string enqno { get; set; }
         public string docDate { get; set; }

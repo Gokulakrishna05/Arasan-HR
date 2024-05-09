@@ -388,6 +388,8 @@ namespace Arasan.Controllers
                     enqno = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    gross = dtUsers.Rows[i]["GROSS"].ToString(),
+                    net = dtUsers.Rows[i]["NET"].ToString(),
                     
                     qcresult = dtUsers.Rows[i]["QCSTATUS"].ToString(),
                     grn = GRNStatus,

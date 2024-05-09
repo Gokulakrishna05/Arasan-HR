@@ -1,6 +1,7 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
 using Dapper;
+using Elasticsearch.Net;
 //using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
@@ -117,7 +118,7 @@ namespace Arasan.Services
         public DataTable GetPObyID(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHMAST.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno,to_char(PURQUOTBASIC.DOCDATE,'dd-MON-yyyy') Quotedate,PKNFD PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,POBASIC.FREIGHT,POBASIC.GROSS,POBASIC.NET from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=POBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=POBASIC.MAINCURRENCY  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND POBASIC.POBASICID='" + name + "'";
+            SvSql = "Select BRANCHMAST.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,AMTINWORDS,POBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno,to_char(PURQUOTBASIC.DOCDATE,'dd-MON-yyyy') Quotedate,PKNFD PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,POBASIC.FREIGHT,POBASIC.GROSS,POBASIC.NET from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=POBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=POBASIC.MAINCURRENCY  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND POBASIC.POBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -127,7 +128,7 @@ namespace Arasan.Services
         public DataTable GetPOrderID(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHMAST.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno,to_char(PURQUOTBASIC.DOCDATE,'dd-MON-yyyy') Quotedate,PKNFD PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,POBASIC.FREIGHT,POBASIC.GROSS,POBASIC.NET from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=POBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=POBASIC.MAINCURRENCY  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND POBASIC.POBASICID='" + name + "'";
+            SvSql = "Select BRANCHMAST.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,AMTINWORDS,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno,to_char(PURQUOTBASIC.DOCDATE,'dd-MON-yyyy') Quotedate,PKNFD PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,POBASIC.FREIGHT,POBASIC.GROSS,POBASIC.NET from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=POBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=POBASIC.MAINCURRENCY  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND POBASIC.POBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -147,7 +148,7 @@ namespace Arasan.Services
         public DataTable EditPObyID(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select POBASIC.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,POBASIC.MAINCURRENCY,POBASIC.PARTYID,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno,to_char(PURQUOTBASIC.DOCDATE,'dd-MON-yyyy') Quotedate,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,NARRATION,PAYTERMS,DELTERMS,DESP,WARRTERMS,POBASIC.REFNO,to_char(POBASIC.REFDT,'dd-MON-yyyy') REFDT,POBASIC.FREIGHT,POBASIC.GROSS,POBASIC.NET,AMTINWORDS from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO  Where  POBASIC.POBASICID='" + name + "'";
+            SvSql = "Select POBASIC.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,POBASIC.MAINCURRENCY,POBASIC.PARTYID,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno,to_char(PURQUOTBASIC.DOCDATE,'dd-MON-yyyy') Quotedate,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,NARRATION,PAYTERMS,PKNFD,DELTERMS,DESP,WARRTERMS,POBASIC.REFNO,to_char(POBASIC.REFDT,'dd-MON-yyyy') REFDT,POBASIC.FREIGHT,POBASIC.GROSS,POBASIC.NET,AMTINWORDS from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO  Where  POBASIC.POBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -225,11 +226,17 @@ namespace Arasan.Services
                 {
                     throw ex;
                 }
-
+                 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     DataTable party  = datatrans.GetData("SELECT GSTNO,PANNO FROM PARTYMAST  where PARTYNAME='" + cy.Supplier + "'");
-                    svSQL = "Insert into GRNBLBASIC (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,PARTYID,BRANCHID,POBASICID,EXRATE,MAINCURRENCY,DOCID,DOCDATE,PKNFD,OTHERCH,RNDOFF,FREIGHT,GROSS,NET,AMTINWORDS,PARTYNAME,USERID,VTYPE,ADSCHEME,GRNTYPE,LOCID,GSTNO,PANNO) (Select '0','0','F','0','0',PARTYID,BRANCHID,'" + cy.ID + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PKNFD,OTHER_CHARGES,RNDOFF,FREIGHT,GROSS,NET,AMTINWORDS,'" + cy.Supplier+ "','" + cy.user + "','R','Against Purchase Order','10001000000827','"+ party.Rows[0]["GSTNO"].ToString()+"','"+ party.Rows[0]["PANNO"].ToString() +"' from POBASIC where POBASICID='" + cy.ID + "')";
+                    string due  = datatrans.GetDataString("Select  DUEDATE FROM PODETAIL WHERE POBASICID='" + cy.ID + "'");
+                    
+                    DateTime del = DateTime.Parse(due);
+                    string duedate = del.ToString("dd-MMM-yyyy");
+                    DateTime now = DateTime.Now.Date;
+                    double t1= (del - now).TotalDays;
+                    svSQL = "Insert into GRNBLBASIC (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,PARTYID,BRANCHID,POBASICID,EXRATE,MAINCURRENCY,DOCID,DOCDATE,PKNFD,OTHERCH,RNDOFF,FREIGHT,GROSS,NET,AMTINWORDS,PARTYNAME,USERID,VTYPE,ADSCHEME,GRNTYPE,LOCID,GSTNO,PANNO,DUEDATE,DUEDAYS) (Select '0','0','F','0','0',PARTYID,BRANCHID,'" + cy.ID + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PKNFD,OTHER_CHARGES,RNDOFF,FREIGHT,GROSS,NET,AMTINWORDS,'" + cy.Supplier+ "','" + cy.user + "','R','1','Against Purchase Order','10001000000827','"+ party.Rows[0]["GSTNO"].ToString()+"','"+ party.Rows[0]["PANNO"].ToString() +"','"+ duedate + "','"+ t1 +"' from POBASIC where POBASICID='" + cy.ID + "')";
                     OracleCommand objCmd = new OracleCommand(svSQL, objConn);
                     try
                     {
@@ -246,7 +253,7 @@ namespace Arasan.Services
                 string quotid = datatrans.GetDataString("Select GRNBLBASICID from GRNBLBASIC Where POBASICID=" + cy.ID + "");
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    string Sql = "Insert into GRNBLDETAIL (GRNBLBASICID,ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,PURTYPE,PODETAILID,INDENTNO,INDENTDT) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISCAMT,PURTYPE,PODETAILID,INDENTNO,INDENTDT FROM PODETAIL WHERE POBASICID=" + cy.ID + ")";
+                    string Sql = "Insert into GRNBLDETAIL (GRNBLBASICID,ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,PURTYPE,PODETAILID,INDENTNO,INDENTDT,TARIFFID,IFREIGHTCH,RLOCATION,REFBASICID,REFDATED,MATSUPP) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISCAMT,PURTYPE,PODETAILID,INDENTNO,INDENTDT,TARIFFID,FREIGHTCHGS,'10001000000827','"+cy.PONo+"','"+cy.POdate+"','OWN' FROM PODETAIL WHERE POBASICID=" + cy.ID + ")";
                     OracleCommand objCmds = new OracleCommand(Sql, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -483,7 +490,7 @@ namespace Arasan.Services
                                     string Sql = string.Empty;
                                     if (StatementType == "Update")
                                     {
-                                        Sql = "Update PODETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.Conversionfactor + "',AMOUNT='" + cp.Amount + "',DISCPER='" + cp.DiscPer + "',DISCAMT='" + cp.DiscAmt + "',PURTYPE='" + cp.Purtype + "',FREIGHTCHGS='" + cp.FrieghtAmt + "',CGSTP='" + cp.CGSTPer + "',CGST='" + cp.CGSTAmt + "',SGSTP='" + cp.SGSTPer + "',SGST='" + cp.SGSTAmt + "',IGSTP='" + cp.IGSTPer + "',IGST='" + cp.IGSTAmt + "',TOTAMT='" + cp.TotalAmount + "',DUEDATE='" + cp.Duedate + "' where POBASICID='" + cy.POID + "'  AND ITEMID='" + cp.saveItemId + "' ";
+                                        Sql = "Update PODETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.Conversionfactor + "',AMOUNT='" + cp.Amount + "',DISCPER='" + cp.DiscPer + "',DISCAMT='" + cp.DiscAmt + "',PURTYPE='" + cp.Purtype + "',FREIGHTCHGS='" + cp.FrieghtAmt + "',CGSTP='" + cp.CGSTPer + "',CGST='" + cp.CGSTAmt + "',SGSTP='" + cp.SGSTPer + "',SGST='" + cp.SGSTAmt + "',IGSTP='" + cp.IGSTPer + "',IGST='" + cp.IGSTAmt + "',TOTAMT='" + cp.TotalAmount + "',DUEDATE='" + cp.Duedate + "',TARIFFID='"+cp.gst+"' where POBASICID='" + cy.POID + "'  AND ITEMID='" + cp.saveItemId + "' ";
                                     }
                                     else
                                     {
