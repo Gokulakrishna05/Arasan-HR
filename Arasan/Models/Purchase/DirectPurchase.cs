@@ -18,6 +18,7 @@ namespace Arasan.Models
         public string ID { get; set; }
 
         public string Branch { get; set; }
+        public string user { get; set; }
 
         public string Supplier { get; set; }
         public string statetype { get; set; }
@@ -40,6 +41,7 @@ namespace Arasan.Models
         public double Net { get; set; }
         public double Frieghtcharge { get; set; }
         public double Other { get; set; }
+        public double spldisc { get; set; }
         public double Round { get; set; }
         public double Disc { get; set; }
         public double LRCha { get; set; }
@@ -59,6 +61,7 @@ namespace Arasan.Models
         public string LRno { get; set; }
         public string LRdate { get; set; }
         public string dispatchname { get; set; }
+        public string Amountinwords { get; set; }
     }
     public class DirItem
     {
@@ -66,6 +69,7 @@ namespace Arasan.Models
         public string ItemId { get; set; }
         public string gst { get; set; }
         public string saveItemId { get; set; }
+        public string Inddetid { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
         public List<SelectListItem> gstlst { get; set; }
 
@@ -74,6 +78,11 @@ namespace Arasan.Models
         public string IndentId { get; set; }
         public string ItemGroupId { get; set; }
         public double FrigCharge { get; set; }
+        public double ConvQty { get; set; }
+        public double packn { get; set; }
+        public double otherch { get; set; }
+        public double spldic { get; set; }
+        public double costrate { get; set; }
         public string ConFac { get; set; }
         public string Indqty { get; set; }
         public string Unit { get; set; }
