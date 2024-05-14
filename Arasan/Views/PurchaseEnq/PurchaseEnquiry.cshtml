@@ -100,7 +100,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.ExRate, new { @id = "ExRate", @class = "form-control", @TabIndex = 6 })
+                                            @Html.TextBoxFor(C => C.ExRate, new { @id = "ExRate", @class = "form-control", @TabIndex = 6,@readonly="readonly" })
 												</div>
                                                
                                             </div>
@@ -172,6 +172,13 @@
                                                                     @Html.DropDownListFor(o => o.EnqLst[i].ItemId, Model.EnqLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")",disabled="disabled" })
                                                                                                                     @Html.HiddenFor(o => o.EnqLst[i].saveItemId)
                                                                                                                     @Html.HiddenFor(o => o.EnqLst[i].pri,new{@id="txtpri"+i})
+                                                            @Html.HiddenFor(o => o.EnqLst[i].SGSTPer,new{@id="txtSGSTPer"+i})
+                                                            @Html.HiddenFor(o => o.EnqLst[i].CGSTPer,new{@id="txtCGSTPer"+i})
+                                                            @Html.HiddenFor(o => o.EnqLst[i].IGSTPer,new{@id="txtIGSTPer"+i})
+                                                            @Html.HiddenFor(o => o.EnqLst[i].CGSTAmt,new{@id="txtCGSTAmt"+i})
+                                                            @Html.HiddenFor(o => o.EnqLst[i].SGSTAmt,new{@id="txtSGSTAmt"+i})
+                                                            @Html.HiddenFor(o => o.EnqLst[i].IGSTAmt,new{@id="txtIGSTAmt"+i})
+                                                            @Html.HiddenFor(o => o.EnqLst[i].TotalAmount,new{@id="txtTotalAmount"+i})
                                                                                                                         </td>
                                                                                                                      <td>
                                                                                                                         @Html.TextBoxFor(o => o.EnqLst[i].Desc, new { @id = "txtDesc" + i, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
@@ -227,14 +234,24 @@
                                         </div>*@
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Total Amount<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Gross<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Net, new { @id = "net", @class = "form-control", @TabIndex = 2 , @readonly = "readonly"})
+                                            @Html.TextBoxFor(C => C.Gross, new { @id = "Gross", @class = "form-control", @TabIndex = 2 , @readonly = "readonly"})
                                         </div>
                                                
                                             </div>
                                         </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Net<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Net, new { @id = "net", @class = "form-control", @TabIndex = 2 , @readonly = "readonly"})
+                                        </div>
+
+                                    </div>
+                                </div>
                                     </div>
 									
 									
@@ -381,6 +398,11 @@ function changeItem(ItemId, i) {
                     var qty = document.getElementById("txtQuantity" + i).value;
                     var up = document.getElementById("txtrate" + i).value;
                     var CF = document.getElementById("txtConversionfactor" + i).value;
+            var IGST = document.getElementById("txtIGSTPer" + i).value;
+
+            var CGST = document.getElementById("txtCGSTPer" + i).value;
+
+            var SGST = document.getElementById("txtSGSTPer" + i).value;
                     if (qty == "")
                         qty = 0;
 
@@ -389,21 +411,38 @@ function changeItem(ItemId, i) {
 
                    if (CF == "")
                         CF = 0;
+            if (IGST == "")
+                IGST = 0;
 
+            if (CGST == "")
+                CGST = 0;
+
+            if (SGST == "")
+                SGST = 0;
                     if (up > 0) {
                         var tot = eval(qty) * eval(up) * eval(CF);
                         var pri = eval(qty) * eval(CF);
                         document.getElementById("txtAmount" + i).value = tot.toFixed(2);
                         document.getElementById("txtpri" + i).value = pri;
-                         
+                var igstperc = (eval(tot) / 100) * eval(IGST);
+                var cgstperc = (eval(tot) / 100) * eval(CGST);
+                var sgstperc = (eval(tot) / 100) * eval(SGST);
+                document.getElementById("txtCGSTAmt" + i).value = cgstperc.toFixed(2);
+                document.getElementById("txtSGSTAmt" + i).value = sgstperc.toFixed(2);
+                document.getElementById("txtIGSTAmt" + i).value = igstperc.toFixed(2);
+                var tottax = eval(tot) + eval(igstperc) + eval(cgstperc) + eval(sgstperc);
+                
+                document.getElementById("txtTotalAmount" + i).value = tottax.toFixed(2);
                     } else {
                         document.getElementById("txtAmount" + i).value = 0;
                     }
                     var GTot = 0;
                     var j = 0;
+                    var totamt = 0;
                    $('tr.chkitemlst').each(function () {
                        if ($(this).css('display') !== 'none') {
                            var unit = $(this).find('#txtQuantity' + j.toString()).val();
+                    var unit = $(this).find('#txtTotalAmount' + j.toString()).val();
                            var qtys = $(this).find('#txtrate' + j.toString()).val();
                            var CFs = $(this).find('#txtConversionfactor' + j.toString()).val();
                             if (CFs == "")
@@ -411,12 +450,20 @@ function changeItem(ItemId, i) {
 
                            var tots = eval(qtys) * eval(unit) * eval(CFs);
                            GTot = eval(tots) + eval(GTot);
+
+
+                    var tamt = $(this).find('#txtTotalAmount' + j.toString()).val();
+                    if (tamt == "")
+                        tamt = 0;
+
+                    totamt += eval(tamt);
                        }
                        j += 1;
                    });
                   
                    //document.getElementById("gross").value = GTot;
-                   document.getElementById("net").value = GTot;
+            document.getElementById("Gross").value = GTot.toFixed(2);
+            document.getElementById("net").value = totamt.toFixed(2);
                   // document.getElementById('words').value = inWords(GTot);
 
 

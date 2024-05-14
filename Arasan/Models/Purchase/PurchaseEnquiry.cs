@@ -101,7 +101,15 @@ namespace Arasan.Models
     {
         public string ItemId { get;set;}
         public string saveItemId { get; set; }
-        public string pri { get; set; }
+        public double pri { get; set; }
+        public double per { get; set; }
+        public double CGSTPer { get; set; }
+        public double SGSTPer { get; set; }
+        public double IGSTPer { get; set; }
+        public double CGSTAmt { get; set; }
+        public double SGSTAmt { get; set; }
+        public double IGSTAmt { get; set; }
+        public double TotalAmount { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
 
         public List<SelectListItem> ItemGrouplst { get; set; }
@@ -116,6 +124,7 @@ namespace Arasan.Models
         public double QtyPrim { get; set; }
         public double rate { get; set; }
         public double Amount { get; set; }
+        public double priqty { get; set; }
         public string Isvalid { get; set; }
 
     }

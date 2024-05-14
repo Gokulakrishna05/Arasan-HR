@@ -475,7 +475,7 @@ namespace Arasan.Models
             string SvSql = string.Empty;
             if (puid == "AGAINST PURCHASE INDENT")
             {
-                SvSql = "select I.ITEMID,I.ITEMMASTERID from PINDDETAIL P,ITEMMASTER I where I.ITEMMASTERID=P.ITEMMASTERID AND P.PINDBASICID='"+ indid + "'";
+                SvSql = "select I.ITEMID,I.ITEMMASTERID from PINDDETAIL P,ITEMMASTER I ,PINDBASIC PS where I.ITEMMASTERID=P.ITEMMASTERID AND P.PINDBASICID=PS.PINDBASICID AND PS.DOCID='" + indid + "'";
             }
             else if (puid == "AGAINST EXCISE INVOICE")
             {

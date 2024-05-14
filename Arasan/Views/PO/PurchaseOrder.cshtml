@@ -193,7 +193,7 @@
                         <tr>
                         @* <th>   Item Group</th>*@
                           <th> Item </th>
-                        @*  <th> GST </th>*@
+                         <th> TARIFF </th> 
                           <th> Description </th>
                           <th>Unit</th>
                           <th> Conversion. Factor </th>
@@ -235,12 +235,12 @@
                                                             @Html.DropDownListFor(o => o.PoItem[i].ItemId, Model.PoItem[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")",disabled="disabled" })
                                                                                                                                         @Html.HiddenFor(o => o.PoItem[i].saveItemId)
                                                                                                                                             </td>
-                                                                                                                                              @*   <td>
+                                                                                                                                                 <td>
 
                                                        @Html.DropDownListFor(o => o.PoItem[i].gst, Model.PoItem[i].gstlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlgst" + i, style = "width: 170px;", onchange = "changeGst(this.value," + i + ")" })
                                                             @Html.HiddenFor(o => o.PoItem[i].Percentage,new{@id="txtPercentage" +i})
                                                                                                                                          
-                                                                                                                                            </td>*@
+                                                                                                                                            </td> 
                                                                                                                                          <td>
                                                                                                                                             @Html.TextBoxFor(o => o.PoItem[i].Desc, new { @id = "txtDesc" + i, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
                                                                                                                                         </td>
@@ -340,40 +340,59 @@
                                                     <th>Gross</th>
                                                     <td>
 
-                                                        @Html.TextBoxFor(C => C.Gross, new { @id = "txtGross", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly=true})
+                                                        @Html.TextBoxFor(C => C.Gross, new { @id = "txtGross", @class = "form-control", @TabIndex = 2 ,style = "width: 150px;text-align:right",onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly=true})
                                                     </td>
                                                 </tr>
                                                 <tr>
 
                                                     <th>Packing and Forwarding ( + )</th>
                                                     <td>
-                                                        @Html.TextBoxFor(C => C.Packingcharges, new { @id = "txtPackingcharges", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" , @onkeyup = "changeTot(this)"})
+                                                        @Html.TextBoxFor(C => C.Packingcharges, new { @id = "txtPackingcharges", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)",style = "width: 150px;text-align:right" , @onkeyup = "changeTot(this)"})
                                                     </td>
                                                 </tr>
                                                  <tr>
                                                     <th>DISCOUNT</th>
                                                     <td>
-                                                        @Html.TextBoxFor(o => o. Disc, new { @id = "txtDisc"  , @class = "form-control",@onkeyup = "changeTot(this)"})
+                                                        @Html.TextBoxFor(o => o. Disc, new { @id = "txtDisc"  , @class = "form-control",style = "width: 150px;text-align:right",@onkeyup = "changeTot(this)"})
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <th>Frieght</th>
                                                     <td>
-                                                        @Html.TextBoxFor(C => C.Frieghtcharge, new { @id = "txtFrieghtcharge", @class = "form-control", @TabIndex = 2, onkeydown = "return isNumeric2(event.keyCode,this.value)" , @onkeyup = "changeTot(this)"})
+                                                        @Html.TextBoxFor(C => C.Frieghtcharge, new { @id = "txtFrieghtcharge", @class = "form-control", @TabIndex = 2, onkeydown = "return isNumeric2(event.keyCode,this.value)",style = "width: 150px;text-align:right" , @onkeyup = "changeTot(this)"})
+                                                    </td>
+                                                </tr>
+                                                //<tr>
+                                                //    <th>Other Charge</th>
+                                                //    <td>
+
+                                                //        @Html.TextBoxFor(C => C.Othercharges, new { @id = "txtOthercharges", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)",style = "width: 150px;text-align:right"  , @onkeyup = "changeTot(this)"})
+                                                //    </td>
+                                                //</tr>
+                                                <tr>
+                                                    <th>CGST </th>
+                                                    <td>
+
+                                                        @Html.TextBoxFor(o => o. CGST, new { @id = "txtCGST"  , @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 150px;text-align:right",@readonly="readonly"})
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Other Charge</th>
+                                                    <th>SGST </th>
                                                     <td>
-
-                                                        @Html.TextBoxFor(C => C.Othercharges, new { @id = "txtOthercharges", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)"  , @onkeyup = "changeTot(this)"})
+                                                        @Html.TextBoxFor(o => o. SGST, new { @id = "txtSGST"  , @class = "form-control", style = "width: 150px;text-align:right", @readonly = "readonly" })
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>IGST </th>
+                                                    <td>
+                                                        @Html.TextBoxFor(o => o. IGST, new { @id = "txtIGST"  , @class = "form-control", style = "width: 150px;text-align:right", @readonly = "readonly" })
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <th>Round</th>
                                                     <td>
 
-                                                        @Html.TextBoxFor(C => C.Round, new { @id = "txtRound", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" , @onkeyup = "changeTot(this)"})
+                                                        @Html.TextBoxFor(C => C.Round, new { @id = "txtRound", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)",style = "width: 150px;text-align:right" , @onkeyup = "changeTot(this)"})
                                                     </td>
                                                 </tr>
                                                
@@ -382,7 +401,7 @@
                                                     <th>Net</th>
                                                     <td>
 
-                                                        @Html.TextBoxFor(C => C.Net, new { @id = "txtNet", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" ,@readonly=true})
+                                                        @Html.TextBoxFor(C => C.Net, new { @id = "txtNet", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)",style = "width: 150px;text-align:right" ,@readonly=true})
                                                     </td>
                                                 </tr>
                                                 
@@ -625,7 +644,11 @@
                     var totfrieght = 0;
                     var totamt = 0;
                     var totamount = 0;
+            var cgsttotamt = 0;
+            var sgsttotamt = 0;
+            var igsttotamt = 0;
             var totpackamt = 0;
+            var totdisamt = 0;
                     var qty = document.getElementById("txtQuantity" + i).value;
             
                     var up = document.getElementById("txtrate" + i).value;
@@ -705,6 +728,30 @@
 
                         totpackamt += eval(packamt);
 
+                        
+                          var  disamt = $(this).find('#txtDiscAmt' + j.toString()).val();
+                           if (disamt == "")
+                        disamt = 0;
+
+                        totdisamt += eval(disamt);
+                    var cgst = $(this).find('#txtCGSTAmt' + j.toString()).val();
+                    if (cgst == "")
+                        cgst = 0;
+
+                    cgsttotamt += eval(cgst);
+
+
+                    var sgst = $(this).find('#txtSGSTAmt' + j.toString()).val();
+                    if (sgst == "")
+                        sgst = 0;
+
+                    sgsttotamt += eval(sgst);
+
+                    var igst = $(this).find('#txtIGSTAmt' + j.toString()).val();
+                    if (igst == "")
+                        igst = 0;
+
+                    igsttotamt += eval(igst);
                           var tamt = $(this).find('#txtTotalAmount' + j.toString()).val();
                             if (tamt == "")
                         tamt = 0;
@@ -720,9 +767,13 @@
             var round = eval(roundamount) - eval(totamount);
                   document.getElementById("txtFrieghtcharge").value = totfrieght.toFixed(2);
             document.getElementById("txtPackingcharges").value = totpackamt.toFixed(2);
+            document.getElementById("txtDisc").value = totdisamt.toFixed(2);
                    document.getElementById("txtGross").value = totamt.toFixed(2);
                    document.getElementById("txtNet").value = roundamount.toFixed(2);
             document.getElementById("txtRound").value = round.toFixed(2);
+            document.getElementById("txtCGST").value = cgsttotamt.toFixed(2);
+            document.getElementById("txtSGST").value = sgsttotamt.toFixed(2);
+            document.getElementById("txtIGST").value = igsttotamt.toFixed(2);
               @*   document.getElementById("hidnet").value = totamount.toFixed(2);*@
                 document.getElementById("txtAmount").value = withDecimal(roundamount.toFixed(2));
 
@@ -761,6 +812,7 @@
                 var frieght =document.getElementById("txtFrieghtcharge").value;
                  var packing =document.getElementById("txtPackingcharges").value;
                   var other =document.getElementById("txtOthercharges").value;
+        var disc = document.getElementById("txtDisc").value;
                 
                   
 
@@ -775,15 +827,19 @@
                          if (other == "")
                         other = 0;
 
+        if (disc == "")
+            disc = 0;
+
                         @* if (roundoff == "")
                         roundoff = 0;
 *@
                       
 
                 totamount = eval(frieght) + eval(packing) + eval(other) + eval(netamt) ;
-        var roundamount = Math.ceil(totamount);
+        var totalamt = eval(totamount) - eval(disc);
+        var roundamount = Math.ceil(totalamt);
 
-        var round = eval(roundamount) - eval(totamount);
+        var round = eval(roundamount) - eval(totalamt);
         document.getElementById("txtNet").value = roundamount.toFixed(2);
         document.getElementById("txtRound").value = round.toFixed(2);
         document.getElementById("txtAmount").value = withDecimal(totamount.toFixed(2));
@@ -843,10 +899,49 @@
                 var pcksplit = (eval(packingamt) * eval(itemper)) / 100;
 
                 document.getElementById("txtPackingAmt" + k).value = pcksplit.toFixed(2);
+                totalamt += eval(amt);
+
+                var cgstamt = document.getElementById("txtCGSTAmt" + k).value;
+                var sgstamt = document.getElementById("txtSGSTAmt" + k).value;
+                var igstamt = document.getElementById("txtIGSTAmt" + k).value;
+                if (cgstamt == "")
+                    cgstamt = 0;
+
+                if (sgstamt == "")
+                    sgstamt = 0;
+
+                if (igstamt == "")
+                    igstamt = 0;
+
+                var qty = document.getElementById("txtBillQty" + k).value;
+
+                if (qty == "")
+                    qty = 0;
+
+
+
+                var tot = eval(qty) * eval(rate);
+
+                var tottax = eval(tot) + eval(cgstamt) + eval(sgstamt) + eval(igstamt) + eval(frieghtaplit) + eval(pcksplit);
+                var totdisc = eval(tottax) - eval(discsplit);
+                document.getElementById("txtTotalAmount" + k).value = totdisc.toFixed(2);
+
+                document.getElementById("txtCostRate" + k).value = eval(rate) + eval(frieghtaplit) + eval(pcksplit);
+
+                nettotal += eval(totdisc);
+
 
             }
             k += 1;
         });
+        var roundamount = Math.ceil(nettotal);
+
+        var round = eval(roundamount) - eval(nettotal);
+
+        document.getElementById("txtGross").value = totalamt.toFixed(2);
+        document.getElementById("txtNet").value = roundamount.toFixed(2);
+        document.getElementById("hidnet").value = roundamount.toFixed(2);
+        document.getElementById("txtRound").value = round.toFixed(2);
             }
 
             function roundtorupee(amt) {

@@ -97,7 +97,7 @@ namespace Arasan.Services
             {
                 SvSql += " and P.DOCDATE BETWEEN '" + strfrom + "' and '" + strTo + "'";
             }
-            SvSql += " Order by P.DOCDATE DESC  ";
+            SvSql += " Order by P.DOCID DESC  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -158,7 +158,7 @@ namespace Arasan.Services
         public DataTable GetIndentItemApprove()
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN PINDBASIC ON PINDBASIC.PINDBASICID=PINDDETAIL.PINDBASICID WHERE PINDDETAIL.APPROVED2 IS NULL ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            SvSql = "Select ITEMMASTER.ITEMID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,NARRATION,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN PINDBASIC ON PINDBASIC.PINDBASICID=PINDDETAIL.PINDBASICID WHERE PINDDETAIL.APPROVED2 IS NULL  ORDER BY DOCID DESC";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -178,7 +178,7 @@ namespace Arasan.Services
         public DataTable GetIndentItemSuppDetail()
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN PINDBASIC ON PINDBASIC.PINDBASICID=PINDDETAIL.PINDBASICID WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            SvSql = "Select ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN PINDBASIC ON PINDBASIC.PINDBASICID=PINDDETAIL.PINDBASICID WHERE PINDDETAIL.APPROVED2 ='YES'  ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -325,10 +325,10 @@ namespace Arasan.Services
                     {
                         throw ex;
                     }
-                     
-                 
 
 
+
+                string entat = DateTime.Now.ToString("dd\\/MM\\/yyyy hh:mm:ss tt");
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -341,14 +341,16 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = EnqNo;
                     objCmd.Parameters.Add("ENQREF", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Now;
-                    objCmd.Parameters.Add("EXCRATERATE", OracleDbType.NVarchar2).Value = "";
+                    objCmd.Parameters.Add("EXRATE", OracleDbType.NVarchar2).Value = "1";
                     objCmd.Parameters.Add("PARTYREFNO", OracleDbType.NVarchar2).Value = "";
-                    objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = "";
+                    objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = "1";
                     objCmd.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = supid;                    
                     objCmd.Parameters.Add("ENQRECDBY", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("ASSIGNTO", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = user;
-                    objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    objCmd.Parameters.Add("CREATED_ON", OracleDbType.NVarchar2).Value = entat;
+                    objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = "";
+                    objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                      objConn.Open();
@@ -463,7 +465,7 @@ namespace Arasan.Services
                     //objCmd.Parameters.Add("PurchaseType", OracleDbType.NVarchar2).Value = cy.Purtype;
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.user;
                     objCmd.Parameters.Add("ENTRYDATE", OracleDbType.NVarchar2).Value = DateTime.Now.ToString("dd-MMM-yyyy");
-                    objCmd.Parameters.Add("STOREREQID", OracleDbType.NVarchar2).Value ="";
+                   // objCmd.Parameters.Add("STOREREQID", OracleDbType.NVarchar2).Value ="";
                     objCmd.Parameters.Add("USERID", OracleDbType.NVarchar2).Value =cy.username;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;

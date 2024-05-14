@@ -37,6 +37,7 @@ namespace Arasan.Models
         public string Amount { get; set; }
         public string Narration { get; set; }
         public string Entered { get; set; }
+        public string EnteredId { get; set; }
         public List<SelectListItem> Statuslst;
         public string status { get; set; }
         public List<SelectListItem> Brlst;
@@ -51,7 +52,7 @@ namespace Arasan.Models
     }
     public class MaterialItem
     {
-        public long piid { get; set; }
+        public string piid { get; set; }
         public string branch { get; set; }
         public string location { get; set; }
         public string enterdate { get; set; }
@@ -71,8 +72,8 @@ namespace Arasan.Models
     }
     public class MRItemBindList
     {
-        public long indentid { get; set; }
-        public long piid { get; set; }
+        public string indentid { get; set; }
+        public string piid { get; set; }
         public string itemname { get; set; }
         public string unit { get; set; }
         public string quantity { get; set; }

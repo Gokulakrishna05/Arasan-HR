@@ -41,6 +41,7 @@ namespace Arasan.Controllers.Store_Management
             MR.Statuslst = BindStatus();
             MR.Branch = Request.Cookies["BranchId"];
             MR.Entered = Request.Cookies["UserName"];
+            MR.EnteredId = Request.Cookies["UserId"];
             MR.Location = Request.Cookies["LocationName"];
             MR.Storeid = storeid;
             MR.DocDa = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -432,7 +433,7 @@ namespace Arasan.Controllers.Store_Management
 
                 Reg.Add(new MaterialItem
                 {
-                    piid = Convert.ToInt64(dtUsers.Rows[i]["STORESREQBASICID"].ToString()),
+                    piid = dtUsers.Rows[i]["STORESREQBASICID"].ToString(),
                     branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     docid = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
@@ -469,8 +470,8 @@ namespace Arasan.Controllers.Store_Management
             {
                 EnqChkItem.Add(new MRItemBindList
                 {
-                    indentid = Convert.ToInt64(dtEnq.Rows[i]["STORESREQDETAILID"].ToString()),
-                    piid = Convert.ToInt64(dtEnq.Rows[i]["STORESREQBASICID"].ToString()),
+                    indentid = dtEnq.Rows[i]["STORESREQDETAILID"].ToString(),
+                    piid = dtEnq.Rows[i]["STORESREQBASICID"].ToString(),
                     itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
                     unit = dtEnq.Rows[i]["UNITID"].ToString(),
                     quantity = dtEnq.Rows[i]["QTY"].ToString(),
@@ -538,6 +539,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.InvQty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString());
                     tda.issqty = Convert.ToDouble(dtt.Rows[i]["ISSQTY"].ToString() == "" ? "0" : dtt.Rows[i]["ISSQTY"].ToString());
                     double pendqty = tda.InvQty - tda.issqty;
+                    tda.IndQty = pendqty;
                     tda.InvQty = pendqty;
                     tda.indentid = dtt.Rows[i]["STORESREQDETAILID"].ToString();
 

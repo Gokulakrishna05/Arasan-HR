@@ -63,6 +63,11 @@ namespace Arasan.Controllers
             else
             {
                 double total = 0;
+                double net = 0;
+                double cg = 0;
+                double sg = 0;
+                double ig = 0;
+                double dis = 0;
                 DataTable dt = new DataTable();
                 dt = PoService.EditPObyID(id);
                 if (dt.Rows.Count > 0)
@@ -91,7 +96,7 @@ namespace Arasan.Controllers
                     po.Round = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_PLUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_PLUS"].ToString());
                     po.otherdeduction = Convert.ToDouble(dt.Rows[0]["OTHER_DEDUCTION"].ToString() == "" ? "0" : dt.Rows[0]["OTHER_DEDUCTION"].ToString());
                     po.Othercharges = Convert.ToDouble(dt.Rows[0]["OTHER_CHARGES"].ToString() == "" ? "0" : dt.Rows[0]["OTHER_CHARGES"].ToString());
-                  //  po.Packingcharges = Convert.ToDouble(dt.Rows[0]["PACKING_CHRAGES"].ToString() == "" ? "0" : dt.Rows[0]["PACKING_CHRAGES"].ToString());
+                   po.Packingcharges = Convert.ToDouble(dt.Rows[0]["PKNFD"].ToString() == "" ? "0" : dt.Rows[0]["PKNFD"].ToString());
                     po.Frieghtcharge = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["FREIGHT"].ToString());
 
                     po.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
@@ -126,6 +131,7 @@ namespace Arasan.Controllers
                         }
                         tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         toaamt = tda.rate * tda.Quantity;
+                        toaamt = Math.Round(toaamt,2);
                         total += toaamt;
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         tda.Amount = toaamt;
@@ -140,6 +146,8 @@ namespace Arasan.Controllers
                         tda.IGSTAmt = Convert.ToDouble(dt2.Rows[i]["IGST"].ToString() == "" ? "0" : dt2.Rows[i]["IGST"].ToString());
                         tda.DiscPer = Convert.ToDouble(dt2.Rows[i]["DISCPER"].ToString() == "" ? "0" : dt2.Rows[i]["DISCPER"].ToString());
                         tda.DiscAmt = Convert.ToDouble(dt2.Rows[i]["DISCAMT"].ToString() == "" ? "0" : dt2.Rows[i]["DISCAMT"].ToString());
+                        tda.PackingAmt = po.Packingcharges;
+                        dis += tda.DiscAmt;
                         tda.FrieghtAmt = Convert.ToDouble(dt2.Rows[i]["FREIGHTCHGS"].ToString() == "" ? "0" : dt2.Rows[i]["FREIGHTCHGS"].ToString());
                         tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
                         tda.Purtype = dt2.Rows[i]["PURTYPE"].ToString();
@@ -184,7 +192,7 @@ namespace Arasan.Controllers
                             //}
                             //DataTable trff = new DataTable();
                             //trff = PoService.GetgstDetails(hsnid);
-                            //tda.gstlst = bindgst(hsnid);
+                            
                             //if (trff.Rows.Count > 0)
                             //{
                             //    for (int j = 0; j < trff.Rows.Count; j++)
@@ -199,39 +207,62 @@ namespace Arasan.Controllers
                             //}
                             //}
                             DataTable per = datatrans.GetData("Select GSTP from HSNMAST where HSCODE='" + hsn + "'  ");
-                               tda.per = Convert.ToDouble(per.Rows[0]["GSTP"].ToString());
-                           
-                            string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
+                            if(per.Rows.Count > 0)
+                            {
+                                tda.per = Convert.ToDouble(per.Rows[0]["GSTP"].ToString());
+                                tda.gstlst = bindgst(per.Rows[0]["GSTP"].ToString());
 
-                            string type = "";
 
-                            string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYMASTID='" + po.Supplier + "'");
+                                if (tda.gstlst.Count == 1)
+                                {
+                                    string traff = datatrans.GetDataString("select ETARIFFMASTERID,TARIFFID from ETARIFFMASTER where ((SGST)+(CGST))='" + tda.per + "' AND IS_ACTIVE='Y'");
+                                    tda.gst = traff;
+
+                                    string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
+
+                                    string type = "";
+
+                                    string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYMASTID='" + po.Supplier + "'");
+
+                                    if (partystate == cmpstate)
+                                    {
+                                        double cgst = tda.per / 2;
+                                        double sgst = tda.per / 2;
+                                        tda.SGSTPer = sgst;
+                                        tda.CGSTPer = cgst;
+
+                                        double cgstperc = tda.Amount / 100 * tda.SGSTPer;
+                                        double sgstperc = tda.Amount / 100 * tda.CGSTPer;
+                                        double cstamount = Math.Round(cgstperc, 2);
+                                        double sstamount = Math.Round(sgstperc, 2);
+                                        tda.CGSTAmt = Math.Round(cstamount, 2);
+                                        tda.SGSTAmt = Math.Round(sstamount, 2);
+                                        cg += tda.CGSTAmt;
+                                        sg += tda.SGSTAmt;
+                                        tda.TotalAmount = tda.CGSTAmt + tda.SGSTAmt + tda.Amount;
+                                        tda.TotalAmount = Math.Round(tda.TotalAmount, 2);
+                                        //po.Net = tda.TotalAmount;
+                                        net += tda.TotalAmount;
+                                    }
+                                    else
+                                    {
+                                        tda.IGSTPer = tda.per;
+                                        tda.IGSTAmt = tda.Amount / 100 * tda.IGSTPer;
+                                        tda.IGSTAmt = Math.Round(tda.IGSTAmt, 2);
+                                        tda.TotalAmount = tda.IGSTAmt + tda.Amount;
+                                        tda.TotalAmount = Math.Round(tda.TotalAmount, 2);
+                                        //po.Net = tda.TotalAmount;
+                                        net += tda.TotalAmount;
+                                        ig += tda.IGSTAmt;
+                                    }
+                                }
+                            }
+                            else { tda.gstlst = bindgst(""); }
                             
-                                if (partystate == cmpstate)
-                                {
-                                    double cgst = tda.per / 2;
-                                    double sgst = tda.per / 2;
-                                    tda.SGSTPer = sgst;
-                                    tda.CGSTPer = cgst;
 
-                                    double cgstperc = tda.Amount / 100 * tda.SGSTPer;
-                                    double sgstperc = tda.Amount / 100 * tda.CGSTPer;
-                                double cstamount = Math.Round(cgstperc, 2);
-                                double sstamount = Math.Round(sgstperc, 2);
-                                tda.CGSTAmt = cstamount;
-                                    tda.SGSTAmt = sstamount;
-                                    tda.TotalAmount = tda.CGSTAmt + tda.SGSTAmt + tda.Amount;
-                                    //po.Net = tda.TotalAmount;
-                                }
-                                else
-                                {
-                                    tda.IGSTPer = tda.per;
-                                    tda.IGSTAmt = tda.Amount / 100 * tda.IGSTPer;
-                                    tda.TotalAmount = tda.IGSTAmt + tda.Amount;
-                                    //po.Net = tda.TotalAmount;
-                                }
 
-                             
+
+
                         }
                         catch (Exception ex)
                         {
@@ -239,6 +270,12 @@ namespace Arasan.Controllers
                         }
                     }
                 }
+                po.Disc = Math.Round(dis, 2);
+                po.CGST = Math.Round(cg, 2);
+                po.SGST = Math.Round(sg, 2);
+                po.IGST = Math.Round(ig, 2);
+                po.Gross =Math.Round(total,2);
+                po.Net = Math.Round(net,2);
                 po.PoItem = TData;
 
             }
@@ -506,7 +543,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TARIFFID"].ToString(), Value = dtDesg.Rows[i]["tariff"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TARIFFID"].ToString(), Value = dtDesg.Rows[i]["ETARIFFMASTERID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -720,6 +757,7 @@ namespace Arasan.Controllers
                 ca.PONo = dt.Rows[0]["DOCID"].ToString();
                 ca.POdate = dt.Rows[0]["DOCDATE"].ToString();
                 ca.QuoteNo = dt.Rows[0]["Quotno"].ToString();
+                ca.Amount = dt.Rows[0]["AMTINWORDS"].ToString();
                 ca.QuoteDate = dt.Rows[0]["Quotedate"].ToString();
                 ca.Roundminus = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_MINUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_MINUS"].ToString());
                 ca.Round = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_PLUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_PLUS"].ToString());
@@ -783,6 +821,7 @@ namespace Arasan.Controllers
                 ca.POdate = dt.Rows[0]["DOCDATE"].ToString();
                 ca.QuoteNo = dt.Rows[0]["Quotno"].ToString();
                 ca.QuoteDate = dt.Rows[0]["Quotedate"].ToString();
+                ca.Amount = dt.Rows[0]["AMTINWORDS"].ToString();
                 ca.Roundminus = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_MINUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_MINUS"].ToString());
                 ca.Round = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_PLUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_PLUS"].ToString());
                 ca.otherdeduction = Convert.ToDouble(dt.Rows[0]["OTHER_DEDUCTION"].ToString() == "" ? "0" : dt.Rows[0]["OTHER_DEDUCTION"].ToString());

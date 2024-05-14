@@ -33,6 +33,7 @@ namespace Arasan.Controllers
             DirectPurchase ca = new DirectPurchase();
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
+            ca.user = Request.Cookies["UserName"];
             ca.Currency = "1";
             ca.Suplst = BindSupplier("AGAINST PURCHASE INDENT");
             ca.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -374,7 +375,7 @@ namespace Arasan.Controllers
                 DataTable dt1 = new DataTable();
 
                 string doc = "";
-
+                if(locid== "10001000000827") { locid = "12423000000238"; }
                 dt = datatrans.GetSequences("dp", locid);
                 if (dt.Rows.Count > 0)
                 {
@@ -517,7 +518,7 @@ namespace Arasan.Controllers
                     dtDesg = datatrans.getindent();
                     for (int i = 0; i < dtDesg.Rows.Count; i++)
                     {
-                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["PINDBASICID"].ToString() });
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["DOCID"].ToString() });
                     }
 
                 }
@@ -690,6 +691,7 @@ namespace Arasan.Controllers
                 string CF = "";
                 string price = "";
                 string indqty = "";
+                string inddetid = "";
                 dt = datatrans.GetItemDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
@@ -703,8 +705,10 @@ namespace Arasan.Controllers
                         CF = dt1.Rows[0]["CF"].ToString();
                     }
                 }
-                indqty = datatrans.GetDataString("SELECT QTY FROM PINDDETAIL WHERE PINDBASICID='"+indent+"' AND ITEMID='"+ItemId+"'");
-                var result = new { unit = unit, CF = CF, price = price, indqty= indqty };
+                string ind = datatrans.GetDataString("SELECT PINDBASICID FROM PINDBASIC WHERE DOCID='" + indent + "'");
+                indqty = datatrans.GetDataString("SELECT QTY FROM PINDDETAIL WHERE PINDBASICID='"+ ind + "' AND ITEMID='"+ItemId+"'");
+                inddetid = datatrans.GetDataString("SELECT PINDDETAILID FROM PINDDETAIL WHERE PINDBASICID='" + ind + "' AND ITEMID='"+ItemId+"'");
+                var result = new { unit = unit, CF = CF, price = price, indqty= indqty , inddetid = inddetid };
                 return Json(result);
             }
             catch (Exception ex)
@@ -897,13 +901,13 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public ActionResult GetNarrDetail(string party)
+        public ActionResult GetNarrDetail(string supid)
         {
             try
             {
                 string type = "";
 
-                string partystate = datatrans.GetDataString("select PARTYNAME from PARTYMAST where PARTYMASTID='" + party + "'");
+                string partystate = datatrans.GetDataString("select PARTYNAME from PARTYMAST where PARTYMASTID='" + supid + "'");
 
                 
                     type = "Purchased From " +partystate;

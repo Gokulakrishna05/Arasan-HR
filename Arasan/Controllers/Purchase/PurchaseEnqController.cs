@@ -69,6 +69,7 @@ namespace Arasan.Controllers
 
                 DataTable dt = new DataTable();
                 double total = 0;
+                double TotalAmount = 0;
                 dt = PurenqService.GetPurchaseEnqDetails(id);
                 if(dt.Rows.Count > 0)
                 {
@@ -116,16 +117,81 @@ namespace Arasan.Controllers
                         }
                         tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         toaamt = tda.rate * tda.Quantity;
+                        toaamt = Math.Round(toaamt, 2);
                         total += toaamt;
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         tda.Amount = toaamt;
+                        tda.pri = tda.Quantity * Convert.ToDouble(tda.Conversionfactor);
                         tda.Unit = dt2.Rows[i]["UNITID"].ToString();
                         //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
                         tda.Isvalid = "Y";
+                        try
+                        {
+                            DataTable hs = new DataTable();
+                            DataTable dt1 = new DataTable();
+
+                            string hsnid = "";
+
+                            string hsn = "";
+                            //if (ItemId == "1")
+                            //{
+                            //    hsn = "996519";
+                            //}
+                            //else
+                            //{
+                            hs = datatrans.GetData("select GSTP from HSNMAST where HSCODE=(SELECT HSN FROM ITEMMASTER WHERE ITEMMASTERID='" + tda.ItemId + "')");
+                            if (hs.Rows.Count > 0)
+                            {
+                                tda.per = Convert.ToDouble(hs.Rows[0]["GSTP"].ToString());
+
+                            }
+
+                            //DataTable per = datatrans.GetData("Select GSTP from HSNMAST where HSCODE='" + hsn + "'  ");
+                           
+                            string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
+
+                            string type = "";
+
+                            string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYMASTID='" + ca.Supplier + "'");
+
+                            if (partystate == cmpstate)
+                            {
+                                double cgst = tda.per / 2;
+                                double sgst = tda.per / 2;
+                                tda.SGSTPer = sgst;
+                                tda.CGSTPer = cgst;
+
+                                double cgstperc = tda.Amount / 100 *  tda.SGSTPer;
+                                double sgstperc = tda.Amount / 100 *  tda.CGSTPer;
+                                double cstamount = Math.Round(cgstperc, 2);
+                                double sstamount = Math.Round(sgstperc, 2);
+                                tda.CGSTAmt = cstamount;
+                                tda.SGSTAmt = sstamount;
+                                double tamt = tda.CGSTAmt +tda.SGSTAmt + tda.Amount;
+                                TotalAmount += tamt;
+                                //po.Net = tda.TotalAmount;
+                            }
+                            else
+                            {
+                                tda.IGSTPer = tda.per;
+                                tda.IGSTAmt = tda.Amount / 100 * tda.IGSTPer;
+                                double tamt = tda.IGSTAmt + tda.Amount;
+
+                                TotalAmount += tamt;
+                                //po.Net = tda.TotalAmount;
+                            }
+
+
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
                         TData.Add(tda);
                     }
                 }
-                ca.Net = Math.Round(total, 2);
+                ca.Gross = Math.Round(total, 2);
+                ca.Net = Math.Round(TotalAmount, 2);
 
             //}
           
@@ -285,6 +351,8 @@ namespace Arasan.Controllers
                         }
                         tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         toaamt = tda.rate * tda.Quantity;
+                        
+
                         total += toaamt;
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         tda.Amount = toaamt;

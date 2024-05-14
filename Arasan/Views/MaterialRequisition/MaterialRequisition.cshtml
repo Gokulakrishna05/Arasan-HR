@@ -53,6 +53,7 @@
                                             @Html.HiddenFor(C => C.ID)
                                             @Html.HiddenFor(C => C.Branch ,new {@id="hdbranch"})
                                             @Html.HiddenFor(C => C.Entered)
+                                            @Html.HiddenFor(C => C.EnteredId)
                                             @Html.HiddenFor(C => C.matno  )
                                         </div>
                                     </div>
@@ -293,22 +294,7 @@
                     "background": ""
                 });
             }
-            //if (document.getElementById("txtNarration").value == "") {
-            //    isValid = false;
-            //    $(txtNarration).css({
-            //        "border": "1px solid red",
-            //        "background": "#FFCECE"
-            //    });
-
-            //    alert("Please Enter Narration");
-            //    return false;
-            //}
-            //else {
-            //    $(txtNarration).css({
-            //        "border": "",
-            //        "background": ""
-            //    });
-            //}
+        
             var j = 0;
             $('tr.chkitemlst').each(function () {
                 if ($(this).css('display') !== 'none') {
@@ -598,7 +584,7 @@
         var isValid = true;
         if (eval(cl)==0)
         {
-            alert("Stock is LOW So Indent Create");
+            alert("Stock Null Please Create Indent");
             return false;
         }
          try {

@@ -472,13 +472,22 @@ namespace Arasan.Services
                                             svSQL = "Insert into LSTOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,DOCID,DOCDATE,LOTNO,PLUSQTY,MINUSQTY,RATE,STOCKVALUE,ITEMID,LOCID,BINNO,FROMLOCID) VALUES ('0','0','F','" + GRNITEMID + "','0','" + cy.GRNNo + "','" + cy.GRNdate + "','" + lotnumber + "' ,'"+ cp.ConvQty +"','0','"+ cp.rate +"','"+cp.Amount + "','" + cp.saveItemId + "','"+ loc + "','" + itemma.Rows[0]["BINNO"].ToString() + "','0')";
                                             OracleCommand objCmdsss = new OracleCommand(svSQL, objConn);
                                             objCmdsss.ExecuteNonQuery();
+
+                                            svSQL = "Insert into STOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,STOCKVALUE,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG) VALUES ('0','0','F','" + cy.GRNID + "','p','" + cp.saveItemId + "','" + cy.GRNdate + "','" + cp.ConvQty + "','" + cp.Amount + "','" + loc + "','" + itemma.Rows[0]["BINNO"].ToString() + "','0','0','0','0','0','0','GRN','" + insflag + "') RETURNING STOCKVALUEID INTO :STKID";
+                                            OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                            objCmdss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                                            objCmdss.ExecuteNonQuery();
+                                            string stkid = objCmdss.Parameters["STKID"].Value.ToString();
+                                            string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION) VALUES ('" + stkid + "','" + cy.GRNNo + "','" + narr + "') ";
+                                            OracleCommand objCmddts = new OracleCommand(SvSql2, objConn);
+                                            objCmddts.ExecuteNonQuery();
                                         }
-                                        else
-                                        {
-                                            svSQL = "Insert into SLOTMAST (T1SOURCEID,ITEMMASTERID,TYPE,LOTNO,MDATE,EDATE,DOCDATE,DOCID,BINNO,RATE,QTY,LOCID) VALUES ('" + GRNITEMID + "','" + cp.saveItemId + "','GRN','" + slotno + "','" + cp.mdate + "','" + cp.edate + "','" + cy.GRNdate + "','" + cy.GRNNo + "','" + itemma.Rows[0]["BINNO"].ToString() + "','"+ cp.rate +"','"+ cp.Quantity + "','"+ loc + "')";
-                                            OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                            objCmds.ExecuteNonQuery();
-                                        }
+                                        //else
+                                        //{
+                                        //    svSQL = "Insert into SLOTMAST (T1SOURCEID,ITEMMASTERID,TYPE,LOTNO,MDATE,EDATE,DOCDATE,DOCID,BINNO,RATE,QTY,LOCID) VALUES ('" + GRNITEMID + "','" + cp.saveItemId + "','GRN','" + slotno + "','" + cp.mdate + "','" + cp.edate + "','" + cy.GRNdate + "','" + cy.GRNNo + "','" + itemma.Rows[0]["BINNO"].ToString() + "','"+ cp.rate +"','"+ cp.Quantity + "','"+ loc + "')";
+                                        //    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        //    objCmds.ExecuteNonQuery();
+                                        //}
                                         DataTable lstock = datatrans.GetData("SELECT ITEMID,T1SOURCEID,QTY FROM STOCKVALUE WHERE ITEMID='"+ cp.saveItemId + "' and T1SOURCEID='"+cy.GRNID+"'");
                                         if (lstock.Rows.Count > 0)
                                         {
@@ -606,11 +615,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,QCSTATUS,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,GRNBLBASIC.GRNBLBASICID,GRNBLBASIC.STATUS from GRNBLBASIC  LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY    Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND GRNBLBASIC.IS_ACTIVE='Y' ORDER BY GRNBLBASIC.GRNBLBASICID DESC";
+                SvSql = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,QCSTATUS,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,GRNBLBASIC.GRNBLBASICID,GRNBLBASIC.STATUS,GRNBLBASIC.GROSS,GRNBLBASIC.NET from GRNBLBASIC  LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY    Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND GRNBLBASIC.IS_ACTIVE='Y' ORDER BY GRNBLBASIC.GRNBLBASICID DESC";
             }
             else
             {
-                SvSql = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,QCSTATUS,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,GRNBLBASIC.GRNBLBASICID,GRNBLBASIC.STATUS from GRNBLBASIC  LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY    Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND GRNBLBASIC.IS_ACTIVE='N' ORDER BY GRNBLBASIC.GRNBLBASICID DESC";
+                SvSql = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,QCSTATUS,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,GRNBLBASIC.GRNBLBASICID,GRNBLBASIC.STATUS,GRNBLBASIC.GROSS,GRNBLBASIC.NET from GRNBLBASIC  LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY    Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND GRNBLBASIC.IS_ACTIVE='N' ORDER BY GRNBLBASIC.GRNBLBASICID DESC";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
