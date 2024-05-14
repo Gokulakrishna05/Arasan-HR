@@ -237,9 +237,6 @@
     </Compile> 
   </ItemGroup>
   <ItemGroup>
-    <Content Update="wwwroot\Reports\DirectPurchase.rdlc">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="wwwroot\Reports\JobOrder.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
