@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Account Tree";
+    ViewData["Title"] = "Menu Tree";
 }
 
 <style>
@@ -80,6 +80,8 @@
                         },
 
             "plugins": ["wholerow"],
+        }).bind("loaded.jstree", function (event, data) {
+            $(this).jstree("open_all");
         });
     });
 </script>
