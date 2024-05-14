@@ -5,6 +5,7 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Models;
 using Arasan.Services;
+using AspNetCore.Reporting;
 //using DocumentFormat.OpenXml.Vml;
 //using DocumentFormat.OpenXml.Wordprocessing;
 //using DocumentFormat.OpenXml.Office2010.Excel;
@@ -17,13 +18,15 @@ namespace Arasan.Controllers
         IDirectPurchase directPurchase;
         IConfiguration? _configuratio;
         private string? _connectionString;
-
+        private readonly IWebHostEnvironment _WebHostEnvironment;
         DataTransactions datatrans;
-        public DirectPurchaseController(IDirectPurchase _directPurchase ,IConfiguration _configuratio)
+        public DirectPurchaseController(IDirectPurchase _directPurchase ,IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
         {
             directPurchase = _directPurchase;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
+            this._WebHostEnvironment = WebHostEnvironment;
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
         public IActionResult DirectPurchase(string id)
         {
@@ -915,6 +918,30 @@ namespace Arasan.Controllers
             {
                 throw ex;
             }
+        }
+
+        public async Task<IActionResult> Print(string id)
+        {
+
+            string mimtype = "";
+            int extension = 1;
+            string DrumID = datatrans.GetDataString("Select PARTYID from POBASIC where POBASICID='" + id + "' ");
+
+            System.Data.DataSet ds = new System.Data.DataSet();
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\Basic.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+            //  Parameters.Add("rp1", " Hi Everyone");
+            //var dpitem = await directPurchase.GetdpItem(id);
+            //var dpdetitem = await directPurchase.GetdpdetItem(id);
+
+            AspNetCore.Reporting.LocalReport localReport = new AspNetCore.Reporting.LocalReport(path);
+            //localReport.AddDataSource("Dpbasic", dpitem);
+            //localReport.AddDataSource("Dbdetail", dpdetitem);
+            //localReport.AddDataSource("DataSet1_DataTable1", po);
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+
+            return File(result.MainStream, "application/Pdf");
+          
         }
     }
 }

@@ -10,5 +10,6 @@ namespace Arasan.Interface
     {
         DataTable GetParent();
         DataTable Getchild(string parentid);
+        string privilegesCRUD(PrivilegesModel Cy);
     }
 }
