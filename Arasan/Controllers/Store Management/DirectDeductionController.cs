@@ -200,6 +200,7 @@ namespace Arasan.Controllers.Store_Management
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     loc = dtUsers.Rows[i]["LOCID"].ToString(),
                     entby = dtUsers.Rows[i]["ENTBY"].ToString(),
+                    reason = dtUsers.Rows[i]["REASON"].ToString(),
                     view = View,
                     editrow = EditRow,
                     delrow = DeleteRow,

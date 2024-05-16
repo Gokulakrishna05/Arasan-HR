@@ -124,7 +124,7 @@ namespace Arasan.Services
                         int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE  PREFIX = 'Dpu-'");
                          DocNo = string.Format("{0}{1}", "Dpu-", (idc + 1).ToString());
 
-                         updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE = 'dp'  and LOCID = '" + cy.Location + "'";
+                         updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE = 'dp'  and PREFIX = 'Dpu-'";
                     }
                     else
                     {
@@ -225,8 +225,11 @@ namespace Arasan.Services
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.Parameters.Add("LASTID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                         objCmds.ExecuteNonQuery();
-                                        string dpdetid = objCmds.Parameters["LASTID"].Value.ToString();
 
+                                        string dpdetid = objCmds.Parameters["LASTID"].Value.ToString();
+                                        svSQL = "UPDATE PINDDETAIL SET POQTY='" + cp.ConvQty + "'  WHERE PINDDETAILID='" + cp.Inddetid + "' ";
+                                        OracleCommand objCmdsin = new OracleCommand(svSQL, objConn);
+                                        objCmdsin.ExecuteNonQuery();
                                         string itemname = datatrans.GetDataString("select ITEMID from ITEMMASTER where ITEMMASTERID='" + cp.ItemId + "'");
                                         string lotnumber = "";
                                         string slotno = "";

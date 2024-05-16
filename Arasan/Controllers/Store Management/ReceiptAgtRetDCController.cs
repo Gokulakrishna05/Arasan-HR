@@ -707,7 +707,7 @@ namespace Arasan.Controllers
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
 
-                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() ==  "Y")
                 {
                     if (dtUsers.Rows[i]["STATUS"].ToString() == "Approve")
                     {
@@ -743,7 +743,7 @@ namespace Arasan.Controllers
                     id = dtUsers.Rows[i]["RECDCBASICID"].ToString(),
                     did = dtUsers.Rows[i]["DOCID"].ToString(),
                     ddate = dtUsers.Rows[i]["DOCDATE"].ToString(),
-                    dctype = dtUsers.Rows[i]["DOCID"].ToString(),
+                    dctype = dtUsers.Rows[i]["dcno"].ToString(),
                     party = dtUsers.Rows[i]["PARTYID"].ToString(),
 
 

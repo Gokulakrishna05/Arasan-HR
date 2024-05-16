@@ -190,6 +190,10 @@
                                                 <th> Disc %</th>
                                                 <th> Disc amount</th>
                                                  <th> Freight charges</th>
+                                                   <th> Packing charges</th>
+                                                <th> Other charges</th>
+                                                <th> SplDiscount</th>
+                                              <th> Cost Rate</th>
                                                 @* <th> Cost Rate</th>
                                             <th>Assessable Value</th>
                                                 
@@ -400,113 +404,9 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-md-8">
-                                <div class="tabs-container">
-                                    <ul class="nav nav-tabs">
-                                        @*<li class="active"><a href="#tab-1" data-toggle="tab">Despatch Address</a></li>*@
-                                        <li class="active"><a href="#tab-1" data-toggle="tab">Despatch Address</a></li>
- 
+                           
 
-                                            }
-                                        }
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div style="height:30px;"></div>
-                        <div class="row">
-                            <div class="col-md-4" style="overflow-x:scroll; min-width:300px; min-height:300px;">
-
-                                <table class="table table-striped table-hover" id="dataTable">
-                                    <thead>
-                                    </thead>
-                                    <tbody id="tbBooks">
-                                        @{
-                                            <tr>
-
-                                                <th>GROSS</th>
-                                                <td>
-                                                    @Html.TextBoxFor(o => o.Gross, new { @id = "txtGross"  , @class = "form-control", style = "width: 150px;text-align:right", @readonly = "readonly"})
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>DISCOUNT</th>
-                                                <td>
-                                                    @Html.TextBoxFor(o => o. Disc, new { @id = "txtDisc"  , @class = "form-control", style = "width: 150px;text-align:right" , @onkeyup = "changeTot(this)"})
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>Fright</th>
-                                                <td>
-
-                                                    @Html.TextBoxFor(o => o. Frieghtcharge, new { @id = "txtFrieghtcharge"  , @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 150px;text-align:right", @onkeyup = "changeTot(this)"})
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>Packing and Forwarding ( + )</th>
-                                                <td>
-
-                                                    @Html.TextBoxFor(o => o. Packingcharges, new { @id = "txtPackingcharges"  , @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 150px;text-align:right", @onkeyup = "changeTot(this)"})
-                                                </td>
-                                            </tr>
-                                              <tr>
-                                                <th>Other Charge</th>
-                                                <td>
-
-                                                        @Html.TextBoxFor(o => o. Other, new { @id = "txtOther"  , @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 150px;text-align:right", @onkeyup = "changeTot(this)"})
-                                                </td>
-                                            </tr>
-                                                <tr>
-                                                    <th>SPl Discount</th>
-                                                    <td>
-
-                                                        @Html.TextBoxFor(o => o.spldisc, new { @id = "txtSpDisc"  , @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 150px;text-align:right", @onkeyup = "changeTot(this)"})
-                                                    </td>
-                                                </tr>
-                                            <tr>
-                                                <th>CGST  </th>
-                                                <td>
-
-                                                    @Html.TextBoxFor(o => o. CGST, new { @id = "txtCGST"  , @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 150px;text-align:right",@readonly="readonly"})
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>SGST  </th>
-                                                <td>
-                                                    @Html.TextBoxFor(o => o. SGST, new { @id = "txtSGST"  , @class = "form-control", style = "width: 150px;text-align:right", @readonly = "readonly" })
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>IGST  </th>
-                                                <td>
-                                                    @Html.TextBoxFor(o => o. IGST, new { @id = "txtIGST"  , @class = "form-control", style = "width: 150px;text-align:right", @readonly = "readonly" })
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <th> ROUND OFF</th>
-                                                <td>
-                                                    @Html.TextBoxFor(o => o. Round, new { @id = "txtRound"  , @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 150px;text-align:right"  , @onkeyup = "changeTot(this)"})
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th> TOTAL </th>
-                                                <td>
-                                                    <input type="hidden" id="hidnet" />
-                                                    @Html.TextBoxFor(o => o. Net, new { @id = "txtNet"  , @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 150px;text-align:right",@readonly="readonly"})
-                                                </td>
-
-
-                                            </tr>
-
-                                        }
-
-
-                                    </tbody>
-                                </table>
-                            </div>
+                     
                             <div class="col-md-8">
                                 <div class="tabs-container">
                                     <ul class="nav nav-tabs">
@@ -1172,7 +1072,7 @@
                 document.getElementById("txtTotalAmount" + i).value = totdisc.toFixed(2);
 
 
-                $('tr.chkitemlst').each(function () {
+               @* $('tr.chkitemlst').each(function () {
                     if ($(this).css('display') !== 'none') {
                         frieght = $(this).find('#txtFrigCharge' + j.toString()).val();
                         if (frieght == "")
@@ -1182,7 +1082,7 @@
                             amt = 0;
 
                         totamt += eval(amt);
-                        totfrieght += eval(frieght);
+                        totfrieght += eval(frieght);*@
 
  
                 var tottax = eval(tot) + eval(igstperc) + eval(cgstperc) + eval(sgstperc) + eval(frieght) + eval(otherch) + eval(packnf);
@@ -1287,12 +1187,7 @@
         return pad_with_zeros(round_decimals(amt, 0));
     }
 
- 
-            }
-            catch (ex) {
-                alert(ex.message);
-            }
-        }
+  
     function changeTot(_this) {
 
         var netamt = document.getElementById("hidnet").value;
@@ -1555,11 +1450,11 @@
         var costrate = "<td><input class='form-control' id='txtCostRate" + index + "' name='DirLst[" + index + "].costrate'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' value='0' type='text'  onkeyup = 'changeQty(this.value," + index + ")'  /></td>";
 
 
-        var CGSTP = "<td><input class='form-control' id='txtCGSTP" + index + "' name='DirLst[" + index + "].CGSTP'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value='0' onkeyup = 'changeQty(this.value," + index + ")' /></td>";
+        var CGSTP = "<td><input class='form-control' id='txtCGSTP" + index + "' name='DirLst[" + index + "].CGSTP'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value='0' readonly='True' onkeyup = 'changeQty(this.value," + index + ")' /></td>";
 
-        var SGSTP = "<td><input class='form-control' id='txtSGSTP" + index + "' name='DirLst[" + index + "].SGSTP'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value='0' onkeyup = 'changeQty(this.value," + index + ")'  /></td>";
+        var SGSTP = "<td><input class='form-control' id='txtSGSTP" + index + "' name='DirLst[" + index + "].SGSTP'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value='0' readonly='True' onkeyup = 'changeQty(this.value," + index + ")'  /></td>";
 
-        var IGSTP = "<td><input class='form-control' id='txtIGSTP" + index + "' name='DirLst[" + index + "].IGSTP'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value='0' onkeyup = 'changeQty(this.value," + index + ")'   /></td>";
+        var IGSTP = "<td><input class='form-control' id='txtIGSTP" + index + "' name='DirLst[" + index + "].IGSTP'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value='0' readonly='True' onkeyup = 'changeQty(this.value," + index + ")'   /></td>";
 
         var CGST = "<td><input class='form-control' id='txtCGST" + index + "' name='DirLst[" + index + "].CGST'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value='0' readonly='True'   onkeyup = 'changeQty(this.value," + index + ")' /></td>";
 
