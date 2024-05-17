@@ -25,10 +25,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox6</rd:DefaultName>
-            <Top>0.03528cm</Top>
-            <Left>5.55925cm</Left>
+            <Top>0.05594cm</Top>
+            <Left>10.02581cm</Left>
             <Height>0.74992cm</Height>
-            <Width>4.80941cm</Width>
+            <Width>5.53288cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -41,73 +41,6 @@
           </Textbox>
           <Rectangle Name="Rectangle2">
             <ReportItems>
-              <Textbox Name="Textbox15">
-                <CanGrow>true</CanGrow>
-                <KeepTogether>true</KeepTogether>
-                <Paragraphs>
-                  <Paragraph>
-                    <TextRuns>
-                      <TextRun>
-                        <Value>GST No    :</Value>
-                        <Style>
-                          <FontFamily>Times New Roman</FontFamily>
-                          <FontSize>9pt</FontSize>
-                        </Style>
-                      </TextRun>
-                    </TextRuns>
-                    <Style />
-                  </Paragraph>
-                </Paragraphs>
-                <rd:DefaultName>Textbox9</rd:DefaultName>
-                <Top>1.7413cm</Top>
-                <Left>0.02347cm</Left>
-                <Height>0.40378cm</Height>
-                <Width>1.66738cm</Width>
-                <Style>
-                  <Border>
-                    <Style>None</Style>
-                  </Border>
-                  <PaddingLeft>2pt</PaddingLeft>
-                  <PaddingRight>2pt</PaddingRight>
-                  <PaddingTop>2pt</PaddingTop>
-                  <PaddingBottom>2pt</PaddingBottom>
-                </Style>
-              </Textbox>
-              <Textbox Name="Textbox22">
-                <CanGrow>true</CanGrow>
-                <KeepTogether>true</KeepTogether>
-                <Paragraphs>
-                  <Paragraph>
-                    <TextRuns>
-                      <TextRun>
-                        <Value xml:space="preserve"> </Value>
-                        <Style>
-                          <FontFamily>Times New Roman</FontFamily>
-                          <FontSize>9pt</FontSize>
-                        </Style>
-                      </TextRun>
-                    </TextRuns>
-                    <Style>
-                      <TextAlign>Left</TextAlign>
-                    </Style>
-                  </Paragraph>
-                </Paragraphs>
-                <rd:DefaultName>Textbox21</rd:DefaultName>
-                <Top>1.7413cm</Top>
-                <Left>1.69085cm</Left>
-                <Height>0.40378cm</Height>
-                <Width>3.42941cm</Width>
-                <ZIndex>1</ZIndex>
-                <Style>
-                  <Border>
-                    <Style>None</Style>
-                  </Border>
-                  <PaddingLeft>2pt</PaddingLeft>
-                  <PaddingRight>2pt</PaddingRight>
-                  <PaddingTop>2pt</PaddingTop>
-                  <PaddingBottom>2pt</PaddingBottom>
-                </Style>
-              </Textbox>
               <Textbox Name="Textbox12">
                 <CanGrow>true</CanGrow>
                 <KeepTogether>true</KeepTogether>
@@ -134,7 +67,6 @@
                 <Left>0.04694cm</Left>
                 <Height>0.41479cm</Height>
                 <Width>6.95845cm</Width>
-                <ZIndex>2</ZIndex>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -155,7 +87,6 @@
                         <Value>Name        :</Value>
                         <Style>
                           <FontFamily>Times New Roman</FontFamily>
-                          <FontSize>9pt</FontSize>
                         </Style>
                       </TextRun>
                     </TextRuns>
@@ -163,11 +94,11 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox14</rd:DefaultName>
-                <Top>0.58539cm</Top>
+                <Top>0.55866cm</Top>
                 <Left>0.02347cm</Left>
                 <Height>0.35306cm</Height>
-                <Width>1.66738cm</Width>
-                <ZIndex>3</ZIndex>
+                <Width>1.80849cm</Width>
+                <ZIndex>1</ZIndex>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -185,7 +116,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value xml:space="preserve"> </Value>
+                        <Value>=First(Fields!PARTYNAME.Value, "DpBasic")</Value>
                         <Style>
                           <FontFamily>Times New Roman</FontFamily>
                           <FontSize>9pt</FontSize>
@@ -196,11 +127,11 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox23</rd:DefaultName>
-                <Top>0.62921cm</Top>
-                <Left>1.69085cm</Left>
-                <Height>0.2825cm</Height>
-                <Width>4.25334cm</Width>
-                <ZIndex>4</ZIndex>
+                <Top>0.5584cm</Top>
+                <Left>1.86724cm</Left>
+                <Height>0.33206cm</Height>
+                <Width>10.14688cm</Width>
+                <ZIndex>2</ZIndex>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -228,11 +159,11 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox16</rd:DefaultName>
-                <Top>1.0881cm</Top>
+                <Top>1.76556cm</Top>
                 <Left>0.02347cm</Left>
                 <Height>0.37952cm</Height>
                 <Width>1.77321cm</Width>
-                <ZIndex>5</ZIndex>
+                <ZIndex>3</ZIndex>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -250,7 +181,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value xml:space="preserve"> </Value>
+                        <Value>=First(Fields!ADDRESS.Value, "DpBasic")</Value>
                         <Style>
                           <FontFamily>Times New Roman</FontFamily>
                           <FontSize>9pt</FontSize>
@@ -261,11 +192,11 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox11</rd:DefaultName>
-                <Top>0.99081cm</Top>
+                <Top>1.7923cm</Top>
                 <Left>1.86724cm</Left>
-                <Height>0.47681cm</Height>
-                <Width>5.4019cm</Width>
-                <ZIndex>6</ZIndex>
+                <Height>0.35278cm</Height>
+                <Width>9.6089cm</Width>
+                <ZIndex>4</ZIndex>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -283,7 +214,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>State       : </Value>
+                        <Value>State          : </Value>
                         <Style>
                           <FontFamily>Times New Roman</FontFamily>
                           <FontSize>9pt</FontSize>
@@ -295,10 +226,9 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox26</rd:DefaultName>
                 <Top>2.32147cm</Top>
-                <Left>0cm</Left>
                 <Height>0.4787cm</Height>
-                <Width>1.69085cm</Width>
-                <ZIndex>7</ZIndex>
+                <Width>1.79668cm</Width>
+                <ZIndex>5</ZIndex>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -316,7 +246,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value xml:space="preserve"> </Value>
+                        <Value>=First(Fields!STATE.Value, "DpBasic")</Value>
                         <Style>
                           <FontFamily>Times New Roman</FontFamily>
                           <FontSize>9pt</FontSize>
@@ -328,10 +258,10 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox28</rd:DefaultName>
                 <Top>2.32147cm</Top>
-                <Left>1.72613cm</Left>
+                <Left>1.86724cm</Left>
                 <Height>0.38917cm</Height>
                 <Width>3.22622cm</Width>
-                <ZIndex>8</ZIndex>
+                <ZIndex>6</ZIndex>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -349,7 +279,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>Mobile   : </Value>
+                        <Value>Mobile       : </Value>
                         <Style>
                           <FontFamily>Times New Roman</FontFamily>
                           <FontSize>9pt</FontSize>
@@ -362,8 +292,8 @@
                 <rd:DefaultName>Textbox26</rd:DefaultName>
                 <Top>2.85175cm</Top>
                 <Height>0.4787cm</Height>
-                <Width>1.69085cm</Width>
-                <ZIndex>9</ZIndex>
+                <Width>1.83196cm</Width>
+                <ZIndex>7</ZIndex>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -381,7 +311,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value xml:space="preserve"> </Value>
+                        <Value>=First(Fields!MOBILE.Value, "DpBasic")</Value>
                         <Style>
                           <FontFamily>Times New Roman</FontFamily>
                           <FontSize>9pt</FontSize>
@@ -393,9 +323,77 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox28</rd:DefaultName>
                 <Top>2.85175cm</Top>
-                <Left>1.72613cm</Left>
+                <Left>1.86724cm</Left>
                 <Height>0.38917cm</Height>
                 <Width>3.22622cm</Width>
+                <ZIndex>8</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
+              <Textbox Name="Textbox22">
+                <CanGrow>true</CanGrow>
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>=First(Fields!GSTNO.Value, "DpBasic")</Value>
+                        <Style>
+                          <FontFamily>Times New Roman</FontFamily>
+                          <FontSize>9pt</FontSize>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style>
+                      <TextAlign>Left</TextAlign>
+                    </Style>
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>Textbox21</rd:DefaultName>
+                <Top>1.05283cm</Top>
+                <Left>1.90252cm</Left>
+                <Height>0.40378cm</Height>
+                <Width>3.42941cm</Width>
+                <ZIndex>9</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
+              <Textbox Name="Textbox15">
+                <CanGrow>true</CanGrow>
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>GST No    :</Value>
+                        <Style>
+                          <FontFamily>Times New Roman</FontFamily>
+                          <FontSize>9pt</FontSize>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style />
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>Textbox9</rd:DefaultName>
+                <Top>1.05283cm</Top>
+                <Left>0.05875cm</Left>
+                <Height>0.40378cm</Height>
+                <Width>1.77321cm</Width>
                 <ZIndex>10</ZIndex>
                 <Style>
                   <Border>
@@ -409,9 +407,9 @@
               </Textbox>
             </ReportItems>
             <KeepTogether>true</KeepTogether>
-            <Top>0.88828cm</Top>
+            <Top>0.91169cm</Top>
             <Height>3.44153cm</Height>
-            <Width>7.32206cm</Width>
+            <Width>12.63482cm</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -432,7 +430,6 @@
                         <Value>Bill No        : </Value>
                         <Style>
                           <FontFamily>Times New Roman</FontFamily>
-                          <FontSize>9pt</FontSize>
                         </Style>
                       </TextRun>
                     </TextRuns>
@@ -440,9 +437,10 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox25</rd:DefaultName>
-                <Top>0.72923cm</Top>
+                <Top>0.75597cm</Top>
+                <Left>0.33786cm</Left>
                 <Height>0.54708cm</Height>
-                <Width>1.98488cm</Width>
+                <Width>2.46113cm</Width>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -471,10 +469,10 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox27</rd:DefaultName>
-                <Top>0.72923cm</Top>
-                <Left>2.28084cm</Left>
-                <Height>0.47955cm</Height>
-                <Width>1.95622cm</Width>
+                <Top>0.75597cm</Top>
+                <Left>2.86955cm</Left>
+                <Height>0.54708cm</Height>
+                <Width>2.18162cm</Width>
                 <ZIndex>1</ZIndex>
                 <Style>
                   <Border>
@@ -493,7 +491,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value />
+                        <Value>=First(Fields!DOCID.Value, "DpBasic")</Value>
                         <Style>
                           <FontFamily>Times New Roman</FontFamily>
                           <FontSize>9pt</FontSize>
@@ -506,10 +504,10 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox18</rd:DefaultName>
-                <Top>0.02341cm</Top>
-                <Left>2.28084cm</Left>
+                <Top>0.05015cm</Top>
+                <Left>2.84859cm</Left>
                 <Height>0.52943cm</Height>
-                <Width>1.95622cm</Width>
+                <Width>2.20258cm</Width>
                 <ZIndex>2</ZIndex>
                 <Style>
                   <Border>
@@ -539,7 +537,8 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox8</rd:DefaultName>
-                <Left>4.46999cm</Left>
+                <Top>0.02674cm</Top>
+                <Left>5.2841cm</Left>
                 <Height>0.50328cm</Height>
                 <Width>2.02016cm</Width>
                 <ZIndex>3</ZIndex>
@@ -571,8 +570,8 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox26</rd:DefaultName>
-                <Top>0.79761cm</Top>
-                <Left>4.46999cm</Left>
+                <Top>0.82435cm</Top>
+                <Left>5.2841cm</Left>
                 <Height>0.4787cm</Height>
                 <Width>1.98488cm</Width>
                 <ZIndex>4</ZIndex>
@@ -604,10 +603,10 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox28</rd:DefaultName>
-                <Top>0.88714cm</Top>
-                <Left>6.52542cm</Left>
-                <Height>0.38917cm</Height>
-                <Width>1.95622cm</Width>
+                <Top>0.82435cm</Top>
+                <Left>7.30426cm</Left>
+                <Height>0.4787cm</Height>
+                <Width>3.56136cm</Width>
                 <ZIndex>5</ZIndex>
                 <Style>
                   <Border>
@@ -629,7 +628,6 @@
                         <Value>Inward No   :</Value>
                         <Style>
                           <FontFamily>Times New Roman</FontFamily>
-                          <FontSize>9pt</FontSize>
                         </Style>
                       </TextRun>
                     </TextRuns>
@@ -639,10 +637,46 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox7</rd:DefaultName>
-                <Top>0.02341cm</Top>
+                <Top>0.05015cm</Top>
+                <Left>0.33786cm</Left>
                 <Height>0.52943cm</Height>
-                <Width>1.92865cm</Width>
+                <Width>2.4049cm</Width>
                 <ZIndex>6</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
+              <Textbox Name="Textbox21">
+                <CanGrow>true</CanGrow>
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>=First(Fields!DOCDATE.Value, "DpBasic")</Value>
+                        <Style>
+                          <FontFamily>Times New Roman</FontFamily>
+                          <FontSize>9pt</FontSize>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style>
+                      <TextAlign>Left</TextAlign>
+                    </Style>
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>Textbox20</rd:DefaultName>
+                <Top>0.05015cm</Top>
+                <Left>7.37482cm</Left>
+                <Height>0.50328cm</Height>
+                <Width>3.4908cm</Width>
+                <ZIndex>7</ZIndex>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -655,10 +689,10 @@
               </Textbox>
             </ReportItems>
             <KeepTogether>true</KeepTogether>
-            <Top>0.83234cm</Top>
-            <Left>7.67623cm</Left>
+            <Top>1.22257cm</Top>
+            <Left>13.90987cm</Left>
             <Height>1.52355cm</Height>
-            <Width>8.83377cm</Width>
+            <Width>11.78593cm</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -667,73 +701,41 @@
               <BackgroundColor>White</BackgroundColor>
             </Style>
           </Rectangle>
-          <Textbox Name="Textbox21">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value />
-                    <Style>
-                      <FontFamily>Times New Roman</FontFamily>
-                      <FontSize>9pt</FontSize>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <TextAlign>Left</TextAlign>
-                </Style>
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox20</rd:DefaultName>
-            <Top>0.85575cm</Top>
-            <Left>14.27221cm</Left>
-            <Height>0.50328cm</Height>
-            <Width>1.95622cm</Width>
-            <ZIndex>3</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
           <Tablix Name="Tablix3">
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.69018cm</Width>
+                  <Width>1.02298cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.44982cm</Width>
+                  <Width>2.20324cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.43976cm</Width>
+                  <Width>3.6936cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.88743cm</Width>
+                  <Width>1.51894cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.56652cm</Width>
+                  <Width>1.89343cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.53193cm</Width>
+                  <Width>2.16344cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.36842cm</Width>
+                  <Width>1.86764cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.83022cm</Width>
+                  <Width>1.97831cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.62687cm</Width>
+                  <Width>2.39459cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.39417cm</Width>
+                  <Width>3.88701cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>3.02568cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -891,7 +893,22 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>RequiredQty</Value>
+                                  <Value>Required </Value>
+                                  <Style>
+                                    <FontFamily>times New Roman</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Qty</Value>
                                   <Style>
                                     <FontFamily>times New Roman</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -1062,6 +1079,58 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Accounting</Value>
+                                  <Style>
+                                    <FontFamily>times New Roman</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Qty</Value>
+                                  <Style>
+                                    <FontFamily>times New Roman</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox3</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>MidnightBlue</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox98">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1154,7 +1223,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox107</rd:DefaultName>
@@ -1174,14 +1245,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox93">
+                        <Textbox Name="INDENTDT">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!INDENTDT.Value</Value>
                                   <Style>
                                     <FontFamily>times New Roman</FontFamily>
                                   </Style>
@@ -1190,7 +1261,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox93</rd:DefaultName>
+                          <rd:DefaultName>INDENTDT</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1214,7 +1285,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!ITEMID.Value</Value>
                                   <Style>
                                     <FontFamily>times New Roman</FontFamily>
                                   </Style>
@@ -1247,7 +1318,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!PUNIT.Value</Value>
                                   <Style>
                                     <FontFamily>times New Roman</FontFamily>
                                   </Style>
@@ -1282,7 +1353,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!INDENTQTY.Value</Value>
                                   <Style>
                                     <FontFamily>times New Roman</FontFamily>
                                   </Style>
@@ -1317,7 +1388,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!PUNIT.Value</Value>
                                   <Style>
                                     <FontFamily>times New Roman</FontFamily>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -1346,14 +1417,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="AMOUNT">
+                        <Textbox Name="QTY">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!QTY.Value</Value>
                                   <Style>
                                     <FontFamily>times New Roman</FontFamily>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -1361,11 +1432,11 @@
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Right</TextAlign>
+                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>AMOUNT</rd:DefaultName>
+                          <rd:DefaultName>QTY</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1382,25 +1453,25 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox96">
+                        <Textbox Name="PUNIT1">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!PUNIT.Value</Value>
                                   <Style>
                                     <FontFamily>times New Roman</FontFamily>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Right</TextAlign>
+                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox96</rd:DefaultName>
+                          <rd:DefaultName>PUNIT1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1417,25 +1488,25 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox99">
+                        <Textbox Name="QTY1">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!QTY.Value</Value>
                                   <Style>
                                     <FontFamily>times New Roman</FontFamily>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Right</TextAlign>
+                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox99</rd:DefaultName>
+                          <rd:DefaultName>QTY1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1452,25 +1523,60 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox102">
+                        <Textbox Name="NARRATION">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!NARRATION.Value</Value>
                                   <Style>
                                     <FontFamily>times New Roman</FontFamily>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Right</TextAlign>
+                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox102</rd:DefaultName>
+                          <rd:DefaultName>NARRATION</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#f1f1f1</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="LOCID">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!LOCID.Value</Value>
+                                  <Style>
+                                    <FontFamily>times New Roman</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>LOCID</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1631,7 +1737,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Sum(Fields!INDENTQTY.Value)</Value>
                                   <Style>
                                     <FontFamily>times New Roman</FontFamily>
                                   </Style>
@@ -1700,7 +1806,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Sum(Fields!QTY.Value)</Value>
                                   <Style>
                                     <FontFamily>times New Roman</FontFamily>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -1708,7 +1814,7 @@
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Right</TextAlign>
+                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1747,6 +1853,40 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox97</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox6">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!QTY.Value)</Value>
+                                  <Style>
+                                    <FontFamily>times New Roman</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox6</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1844,6 +1984,7 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -1859,11 +2000,12 @@
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <Top>5.18278cm</Top>
+            <DataSetName>DpDetail</DataSetName>
+            <Top>5.20619cm</Top>
             <Left>0.04694cm</Left>
             <Height>1.93229cm</Height>
-            <Width>16.78531cm</Width>
-            <ZIndex>4</ZIndex>
+            <Width>25.64886cm</Width>
+            <ZIndex>3</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1879,6 +2021,7 @@
                   <TextRun>
                     <Value> Goods Received in Store</Value>
                     <Style>
+                      <FontSize>11pt</FontSize>
                       <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
@@ -1887,11 +2030,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox17</rd:DefaultName>
-            <Top>4.5062cm</Top>
-            <Left>6.1554cm</Left>
+            <Top>4.49432cm</Top>
+            <Left>10.02581cm</Left>
             <Height>0.53548cm</Height>
-            <Width>4.51036cm</Width>
-            <ZIndex>5</ZIndex>
+            <Width>5.33057cm</Width>
+            <ZIndex>4</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1919,10 +2062,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox17</rd:DefaultName>
-            <Top>7.22091cm</Top>
+            <Top>7.24432cm</Top>
             <Height>0.53548cm</Height>
             <Width>2.86994cm</Width>
-            <ZIndex>6</ZIndex>
+            <ZIndex>5</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1940,7 +2083,19 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value xml:space="preserve"> </Value>
+                    <Value>Rs.</Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value>=First(Fields!GROSS.Value, "DpBasic")</Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value>  - </Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value>=First(Fields!AMTINWORDS.Value, "DpBasic")</Value>
                     <Style>
                       <FontFamily>Times New Roman</FontFamily>
                     </Style>
@@ -1950,11 +2105,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox17</rd:DefaultName>
-            <Top>7.82694cm</Top>
-            <Left>0.69018cm</Left>
+            <Top>7.85035cm</Top>
+            <Left>2.62546cm</Left>
             <Height>0.53548cm</Height>
-            <Width>12.44786cm</Width>
-            <ZIndex>7</ZIndex>
+            <Width>15.01432cm</Width>
+            <ZIndex>6</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1988,9 +2143,9 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox28</rd:DefaultName>
                 <Top>2.61354cm</Top>
-                <Left>12.78774cm</Left>
+                <Left>19.1705cm</Left>
                 <Height>0.83896cm</Height>
-                <Width>3.69879cm</Width>
+                <Width>4.61576cm</Width>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -2022,7 +2177,7 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox28</rd:DefaultName>
                 <Top>2.61354cm</Top>
-                <Left>8.91968cm</Left>
+                <Left>12.76065cm</Left>
                 <Height>0.38917cm</Height>
                 <Width>3.22622cm</Width>
                 <ZIndex>1</ZIndex>
@@ -2057,7 +2212,7 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox28</rd:DefaultName>
                 <Top>2.61354cm</Top>
-                <Left>4.44822cm</Left>
+                <Left>5.96109cm</Left>
                 <Height>0.38917cm</Height>
                 <Width>3.22622cm</Width>
                 <ZIndex>2</ZIndex>
@@ -2092,9 +2247,9 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox28</rd:DefaultName>
                 <Top>2.61354cm</Top>
-                <Left>0.02347cm</Left>
+                <Left>0.29104cm</Left>
                 <Height>0.38917cm</Height>
-                <Width>3.22622cm</Width>
+                <Width>2.95865cm</Width>
                 <ZIndex>3</ZIndex>
                 <Style>
                   <Border>
@@ -2127,7 +2282,7 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox28</rd:DefaultName>
                 <Top>1.01573cm</Top>
-                <Left>13.26031cm</Left>
+                <Left>19.86734cm</Left>
                 <Height>0.38917cm</Height>
                 <Width>3.22622cm</Width>
                 <ZIndex>4</ZIndex>
@@ -2162,7 +2317,7 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox28</rd:DefaultName>
                 <Top>1.01573cm</Top>
-                <Left>8.91968cm</Left>
+                <Left>12.76065cm</Left>
                 <Height>0.38917cm</Height>
                 <Width>3.22622cm</Width>
                 <ZIndex>5</ZIndex>
@@ -2197,7 +2352,7 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox28</rd:DefaultName>
                 <Top>1.01573cm</Top>
-                <Left>4.44822cm</Left>
+                <Left>5.96109cm</Left>
                 <Height>0.38917cm</Height>
                 <Width>3.22622cm</Width>
                 <ZIndex>6</ZIndex>
@@ -2231,9 +2386,9 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox28</rd:DefaultName>
                 <Top>1.01573cm</Top>
-                <Left>0.02347cm</Left>
+                <Left>0.29104cm</Left>
                 <Height>0.38917cm</Height>
-                <Width>3.22622cm</Width>
+                <Width>2.93518cm</Width>
                 <ZIndex>7</ZIndex>
                 <Style>
                   <Border>
@@ -2248,7 +2403,7 @@
               <Line Name="Line1">
                 <Top>1.77271cm</Top>
                 <Height>0cm</Height>
-                <Width>16.78531cm</Width>
+                <Width>25.67233cm</Width>
                 <ZIndex>8</ZIndex>
                 <Style>
                   <Border>
@@ -2258,7 +2413,7 @@
                 </Style>
               </Line>
               <Line Name="Line2">
-                <Left>3.59815cm</Left>
+                <Left>4.26887cm</Left>
                 <Height>3.4525cm</Height>
                 <Width>0cm</Width>
                 <ZIndex>9</ZIndex>
@@ -2270,7 +2425,7 @@
                 </Style>
               </Line>
               <Line Name="Line3">
-                <Left>8.41613cm</Left>
+                <Left>10.8539cm</Left>
                 <Height>3.4525cm</Height>
                 <Width>0cm</Width>
                 <ZIndex>10</ZIndex>
@@ -2282,7 +2437,7 @@
                 </Style>
               </Line>
               <Line Name="Line4">
-                <Left>12.61135cm</Left>
+                <Left>17.67431cm</Left>
                 <Height>3.4525cm</Height>
                 <Width>0cm</Width>
                 <ZIndex>11</ZIndex>
@@ -2295,11 +2450,11 @@
               </Line>
             </ReportItems>
             <KeepTogether>true</KeepTogether>
-            <Top>8.58031cm</Top>
+            <Top>8.60372cm</Top>
             <Left>0.02347cm</Left>
             <Height>3.4525cm</Height>
-            <Width>16.80878cm</Width>
-            <ZIndex>8</ZIndex>
+            <Width>25.67233cm</Width>
+            <ZIndex>7</ZIndex>
             <Style>
               <Border>
                 <Color>Silver</Color>
@@ -2308,11 +2463,11 @@
             </Style>
           </Rectangle>
           <Line Name="Line5">
-            <Top>4.47092cm</Top>
+            <Top>4.49433cm</Top>
             <Left>0.04694cm</Left>
             <Height>0cm</Height>
-            <Width>16.78531cm</Width>
-            <ZIndex>9</ZIndex>
+            <Width>25.64886cm</Width>
+            <ZIndex>8</ZIndex>
             <Style>
               <Border>
                 <Color>Silver</Color>
@@ -2321,10 +2476,10 @@
             </Style>
           </Line>
           <Line Name="Line6">
-            <Top>0.83234cm</Top>
+            <Top>0.85575cm</Top>
             <Height>0cm</Height>
-            <Width>16.78531cm</Width>
-            <ZIndex>10</ZIndex>
+            <Width>25.6958cm</Width>
+            <ZIndex>9</ZIndex>
             <Style>
               <Border>
                 <Color>Silver</Color>
@@ -2334,8 +2489,8 @@
           </Line>
         </ReportItems>
         <KeepTogether>true</KeepTogether>
-        <Height>12.03281cm</Height>
-        <Width>16.83225cm</Width>
+        <Height>12.05622cm</Height>
+        <Width>25.6958cm</Width>
         <Style>
           <Border>
             <Color>Silver</Color>
@@ -2344,10 +2499,10 @@
         </Style>
       </Rectangle>
     </ReportItems>
-    <Height>5.47158in</Height>
+    <Height>5.4808in</Height>
     <Style />
   </Body>
-  <Width>6.62687in</Width>
+  <Width>10.11646in</Width>
   <Page>
     <PageHeader>
       <Height>2.09277cm</Height>
@@ -2378,7 +2533,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
           <Top>0.06747cm</Top>
-          <Left>1.39825cm</Left>
+          <Left>5.98456cm</Left>
           <Height>0.73363cm</Height>
           <Width>13.2968cm</Width>
           <Style>
@@ -2411,8 +2566,8 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox2</rd:DefaultName>
-          <Top>1.28644cm</Top>
-          <Left>1.39825cm</Left>
+          <Top>1.14533cm</Top>
+          <Left>5.98456cm</Left>
           <Height>0.40569cm</Height>
           <Width>12.97648cm</Width>
           <ZIndex>1</ZIndex>
@@ -2446,8 +2601,8 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox4</rd:DefaultName>
-          <Top>1.65152cm</Top>
-          <Left>2.59116cm</Left>
+          <Top>1.51041cm</Top>
+          <Left>7.17747cm</Left>
           <Height>0.44125cm</Height>
           <Width>11.57522cm</Width>
           <ZIndex>2</ZIndex>
@@ -2469,8 +2624,8 @@
         </Border>
       </Style>
     </PageHeader>
-    <PageHeight>29.7cm</PageHeight>
-    <PageWidth>21cm</PageWidth>
+    <PageHeight>42cm</PageHeight>
+    <PageWidth>29.7cm</PageWidth>
     <LeftMargin>2cm</LeftMargin>
     <RightMargin>2cm</RightMargin>
     <TopMargin>2cm</TopMargin>
@@ -2479,6 +2634,712 @@
     <Style />
   </Page>
   <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DpBasic">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>2505ba11-9080-47a7-80a4-2c80c72f4c12</rd:DataSourceID>
+    </DataSource>
+    <DataSource Name="DpDetail">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>a207cebd-2ffd-41ef-a91a-e054e1ae357a</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DpBasic">
+      <Query>
+        <DataSourceName>DpBasic</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PROFITDOC">
+          <DataField>PROFITDOC</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="APPROVAL">
+          <DataField>APPROVAL</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="APPROVALSTATUS">
+          <DataField>APPROVALSTATUS</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MAXAPPROVED">
+          <DataField>MAXAPPROVED</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="CANCEL">
+          <DataField>CANCEL</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="T1SOURCEID">
+          <DataField>T1SOURCEID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="LATEMPLATEID">
+          <DataField>LATEMPLATEID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="BRANCHID">
+          <DataField>BRANCHID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="LOCID">
+          <DataField>LOCID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ADSCHEME">
+          <DataField>ADSCHEME</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DOCID">
+          <DataField>DOCID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DOCDATE">
+          <DataField>DOCDATE</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="REFDT">
+          <DataField>REFDT</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="PARTYID">
+          <DataField>PARTYID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PARTYNAME">
+          <DataField>PARTYNAME</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CRACC">
+          <DataField>CRACC</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ADTGMCONTROL">
+          <DataField>ADTGMCONTROL</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RNDOFF">
+          <DataField>RNDOFF</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="LOCDETAILID">
+          <DataField>LOCDETAILID</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="EXCISEAPP">
+          <DataField>EXCISEAPP</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="APPDATE">
+          <DataField>APPDATE</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="GROSS">
+          <DataField>GROSS</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="NET">
+          <DataField>NET</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="NARR">
+          <DataField>NARR</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QCFLAG">
+          <DataField>QCFLAG</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="VTYPE">
+          <DataField>VTYPE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TERMSTEMPLATE">
+          <DataField>TERMSTEMPLATE</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="USERID">
+          <DataField>USERID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DPBASICID">
+          <DataField>DPBASICID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXCHANGERATE">
+          <DataField>EXCHANGERATE</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MAINCURRENCY">
+          <DataField>MAINCURRENCY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ETYPE">
+          <DataField>ETYPE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RPCTRL">
+          <DataField>RPCTRL</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DUEDAYS">
+          <DataField>DUEDAYS</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="DUEDATE">
+          <DataField>DUEDATE</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="MID">
+          <DataField>MID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DELCH">
+          <DataField>DELCH</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="BINYN">
+          <DataField>BINYN</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="VOUCHER">
+          <DataField>VOUCHER</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TEMPDESC">
+          <DataField>TEMPDESC</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TAXABLEAMOUNT">
+          <DataField>TAXABLEAMOUNT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="FREIGHT">
+          <DataField>FREIGHT</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="QCCHECK">
+          <DataField>QCCHECK</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PARTYCAT">
+          <DataField>PARTYCAT</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LRNO">
+          <DataField>LRNO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LRDT">
+          <DataField>LRDT</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="LRCH">
+          <DataField>LRCH</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="TRNSPNAME">
+          <DataField>TRNSPNAME</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EXINVNO">
+          <DataField>EXINVNO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EXINVDT">
+          <DataField>EXINVDT</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="EXINVBASICID">
+          <DataField>EXINVBASICID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PURCHTYPE">
+          <DataField>PURCHTYPE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FPFLAG">
+          <DataField>FPFLAG</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CSTCH">
+          <DataField>CSTCH</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PURBLSTATUS">
+          <DataField>PURBLSTATUS</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="MCATEGORY">
+          <DataField>MCATEGORY</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RPAMOUNT">
+          <DataField>RPAMOUNT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MDCTRL">
+          <DataField>MDCTRL</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TRANSITLOCID">
+          <DataField>TRANSITLOCID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DECLID">
+          <DataField>DECLID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DECLYN">
+          <DataField>DECLYN</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DESPTHRU">
+          <DataField>DESPTHRU</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EXSTATUS">
+          <DataField>EXSTATUS</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="PURCHASEYN">
+          <DataField>PURCHASEYN</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ENTBY">
+          <DataField>ENTBY</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CSTVATCH">
+          <DataField>CSTVATCH</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="TRUCKNO">
+          <DataField>TRUCKNO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PKNFDCH">
+          <DataField>PKNFDCH</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="SPLDISCF">
+          <DataField>SPLDISCF</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ROUNDM">
+          <DataField>ROUNDM</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="OTHERCH">
+          <DataField>OTHERCH</DataField>
+          <rd:TypeName>System.Single</rd:TypeName>
+        </Field>
+        <Field Name="PARTYBILL">
+          <DataField>PARTYBILL</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OTHERDISC">
+          <DataField>OTHERDISC</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="REFNO">
+          <DataField>REFNO</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="FINYR">
+          <DataField>FINYR</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AMTINWORDS">
+          <DataField>AMTINWORDS</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ENTAT">
+          <DataField>ENTAT</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="IS_ACTIVE">
+          <DataField>IS_ACTIVE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="STATUS">
+          <DataField>STATUS</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ADDRESS">
+          <DataField>ADDRESS</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MOBILE">
+          <DataField>MOBILE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="STATE">
+          <DataField>STATE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="GSTNO">
+          <DataField>GSTNO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>DpBasic</rd:DataSetName>
+        <rd:SchemaPath>D:\Gokul\Arasan\Repose\ArasanAluminium\Arasan\DpBasic.xsd</rd:SchemaPath>
+        <rd:TableName>DPBASIC</rd:TableName>
+        <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
+        <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
+        <rd:TableAdapterName>DPBASICTableAdapter</rd:TableAdapterName>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="DpDetail">
+      <Query>
+        <DataSourceName>DpDetail</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ITEMID">
+          <DataField>ITEMID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="RETQTY">
+          <DataField>RETQTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="QTY">
+          <DataField>QTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="RATE">
+          <DataField>RATE</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="AMOUNT">
+          <DataField>AMOUNT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="SHECESSAMT">
+          <DataField>SHECESSAMT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="SEDPER">
+          <DataField>SEDPER</DataField>
+          <rd:TypeName>System.Single</rd:TypeName>
+        </Field>
+        <Field Name="SEDAMT">
+          <DataField>SEDAMT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="AEDPER">
+          <DataField>AEDPER</DataField>
+          <rd:TypeName>System.Single</rd:TypeName>
+        </Field>
+        <Field Name="AEDAMT">
+          <DataField>AEDAMT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="BCDPER">
+          <DataField>BCDPER</DataField>
+          <rd:TypeName>System.Single</rd:TypeName>
+        </Field>
+        <Field Name="BCDAMT">
+          <DataField>BCDAMT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="TOTAMT">
+          <DataField>TOTAMT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="TOTEXAMT">
+          <DataField>TOTEXAMT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="TARIFFID">
+          <DataField>TARIFFID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="REJQTY">
+          <DataField>REJQTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="UNIT">
+          <DataField>UNIT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PRIQTY">
+          <DataField>PRIQTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ITEMACC">
+          <DataField>ITEMACC</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DPBASICID">
+          <DataField>DPBASICID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DPDETAILID">
+          <DataField>DPDETAILID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="QCYN">
+          <DataField>QCYN</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CF">
+          <DataField>CF</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="GRNQTY">
+          <DataField>GRNQTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ACCQTY">
+          <DataField>ACCQTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PUNIT">
+          <DataField>PUNIT</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QCLOCID">
+          <DataField>QCLOCID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="COSTRATE">
+          <DataField>COSTRATE</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="LOTYN">
+          <DataField>LOTYN</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LOTQTY">
+          <DataField>LOTQTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="BRATE">
+          <DataField>BRATE</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="BAMOUNT">
+          <DataField>BAMOUNT</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ACCDQTY">
+          <DataField>ACCDQTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="SERIALYN">
+          <DataField>SERIALYN</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="INDENTNO">
+          <DataField>INDENTNO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="INDENTDT">
+          <DataField>INDENTDT</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="INDENTQTY">
+          <DataField>INDENTQTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PENDQTY">
+          <DataField>PENDQTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PINDDETAILID">
+          <DataField>PINDDETAILID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXPYN">
+          <DataField>EXPYN</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DPDETAILROW">
+          <DataField>DPDETAILROW</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="REJLOCID">
+          <DataField>REJLOCID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DEPTCODE">
+          <DataField>DEPTCODE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QCTESTFLAG">
+          <DataField>QCTESTFLAG</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="BINID">
+          <DataField>BINID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DISC">
+          <DataField>DISC</DataField>
+          <rd:TypeName>System.Single</rd:TypeName>
+        </Field>
+        <Field Name="DISCAMOUNT">
+          <DataField>DISCAMOUNT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ASSESSABLEVALUE">
+          <DataField>ASSESSABLEVALUE</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="BEDPER">
+          <DataField>BEDPER</DataField>
+          <rd:TypeName>System.Single</rd:TypeName>
+        </Field>
+        <Field Name="CESSPER">
+          <DataField>CESSPER</DataField>
+          <rd:TypeName>System.Single</rd:TypeName>
+        </Field>
+        <Field Name="SHECESSPER">
+          <DataField>SHECESSPER</DataField>
+          <rd:TypeName>System.Single</rd:TypeName>
+        </Field>
+        <Field Name="IBINYN">
+          <DataField>IBINYN</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BEDAMT">
+          <DataField>BEDAMT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CESSAMT">
+          <DataField>CESSAMT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DRUMYN">
+          <DataField>DRUMYN</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PURTYPE">
+          <DataField>PURTYPE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MINRATE">
+          <DataField>MINRATE</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="MAXRATE">
+          <DataField>MAXRATE</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="IFREIGHTCH">
+          <DataField>IFREIGHTCH</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="IDELCH">
+          <DataField>IDELCH</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ILRCH">
+          <DataField>ILRCH</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="LATPURDT">
+          <DataField>LATPURDT</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="COSTAMOUNT">
+          <DataField>COSTAMOUNT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="STKCTRLCONS">
+          <DataField>STKCTRLCONS</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ICSTVATCH">
+          <DataField>ICSTVATCH</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="IPKNFDCH">
+          <DataField>IPKNFDCH</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ISPLDISCF">
+          <DataField>ISPLDISCF</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ICSTCH">
+          <DataField>ICSTCH</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="IOTHERCH">
+          <DataField>IOTHERCH</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ISPCDISC">
+          <DataField>ISPCDISC</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="INDUNIT">
+          <DataField>INDUNIT</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MAILTO">
+          <DataField>MAILTO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="IFREIGHT">
+          <DataField>IFREIGHT</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="CGSTP">
+          <DataField>CGSTP</DataField>
+          <rd:TypeName>System.Single</rd:TypeName>
+        </Field>
+        <Field Name="SGSTP">
+          <DataField>SGSTP</DataField>
+          <rd:TypeName>System.Single</rd:TypeName>
+        </Field>
+        <Field Name="IGSTP">
+          <DataField>IGSTP</DataField>
+          <rd:TypeName>System.Single</rd:TypeName>
+        </Field>
+        <Field Name="SGST">
+          <DataField>SGST</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="CGST">
+          <DataField>CGST</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="IGST">
+          <DataField>IGST</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="NARRATION">
+          <DataField>NARRATION</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LOCID">
+          <DataField>LOCID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>DpDetail</rd:DataSetName>
+        <rd:SchemaPath>D:\Gokul\Arasan\Repose\ArasanAluminium\Arasan\DpDetail.xsd</rd:SchemaPath>
+        <rd:TableName>DPDETAIL</rd:TableName>
+        <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
+        <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
+        <rd:TableAdapterName>DPDETAILTableAdapter</rd:TableAdapterName>
+      </rd:DataSetInfo>
+    </DataSet>
+  </DataSets>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>e3cf6dbf-0437-4ffa-8c7a-8f18895666ba</rd:ReportID>
 </Report>
