@@ -39,10 +39,11 @@
                 // synchronize with the server - send update command
             },
             datafields: [
-                { name: 'branch', type: 'string' },
+               // { name: 'branch', type: 'string' },
                 { name: 'docNo', type: 'string' },
                 { name: 'docDate', type: 'string' },
                 { name: 'loc', type: 'string' },
+                { name: 'reason', type: 'string' },
                 { name: 'entby', type: 'string' },
                 { name: 'view', type: 'string' },
                 //{ name: 'editrow', type: 'string' },
@@ -80,10 +81,11 @@
                 selectionmode: 'multiplerowsextended',
                 keyboardnavigation: false,
                 columns: [
-                    { text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
+                    //{ text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
                     { text: 'Doc No', filtertype: 'input', datafield: 'docNo', width: 150 },
                     { text: 'Doc Date', datafield: 'docDate', width: 100, align: 'center' },
                     { text: 'Location', filtertype: 'checkedlist', datafield: 'loc', width: 250 },
+                    { text: 'Reason', filtertype: 'checkedlist', datafield: 'reason', width: 250 },
                     { text: 'Entered By', filtertype: 'input', datafield: 'entby', width: 150 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     //{ text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },

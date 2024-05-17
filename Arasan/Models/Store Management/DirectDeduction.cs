@@ -48,6 +48,7 @@ namespace Arasan.Models
         public string editrow { get; set; }
         public string delrow { get; set; }
         public string entby { get; set; }
+        public string reason { get; set; }
         public string view { get; set; }
 
     }

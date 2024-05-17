@@ -1,5 +1,6 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
+using Dapper;
 //using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
@@ -124,7 +125,7 @@ namespace Arasan.Services
                         int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE  PREFIX = 'Dpu-'");
                          DocNo = string.Format("{0}{1}", "Dpu-", (idc + 1).ToString());
 
-                         updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE = 'dp'  and LOCID = '" + cy.Location + "'";
+                         updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE = 'dp'  and PREFIX = 'Dpu-'";
                     }
                     else
                     {
@@ -225,8 +226,11 @@ namespace Arasan.Services
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.Parameters.Add("LASTID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                         objCmds.ExecuteNonQuery();
-                                        string dpdetid = objCmds.Parameters["LASTID"].Value.ToString();
 
+                                        string dpdetid = objCmds.Parameters["LASTID"].Value.ToString();
+                                        svSQL = "UPDATE PINDDETAIL SET POQTY='" + cp.ConvQty + "'  WHERE PINDDETAILID='" + cp.Inddetid + "' ";
+                                        OracleCommand objCmdsin = new OracleCommand(svSQL, objConn);
+                                        objCmdsin.ExecuteNonQuery();
                                         string itemname = datatrans.GetDataString("select ITEMID from ITEMMASTER where ITEMMASTERID='" + cp.ItemId + "'");
                                         string lotnumber = "";
                                         string slotno = "";
@@ -530,6 +534,21 @@ namespace Arasan.Services
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+        public async Task<IEnumerable<DpItemDetail>> GetdpItem(string id )
+        {
+            using (OracleConnection db = new OracleConnection(_connectionString))
+            {
+                return await db.QueryAsync<DpItemDetail>(" SELECT DOCID, to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE, REFDT, DPBASIC.PARTYNAME, CRACC, ADTGMCONTROL, RNDOFF, LOCDETAILID, EXCISEAPP, APPDATE, GROSS, NET, NARR, QCFLAG, VTYPE, TERMSTEMPLATE, USERID, DPBASICID, EXCHANGERATE, MAINCURRENCY, ETYPE, RPCTRL, DUEDAYS, DUEDATE, MID, DELCH, BINYN, VOUCHER, TEMPDESC, TAXABLEAMOUNT, FREIGHT, QCCHECK, LRNO, LRDT, LRCH, TRNSPNAME, EXINVNO, EXINVDT, EXINVBASICID, PURCHTYPE, FPFLAG, CSTCH, PURBLSTATUS, MCATEGORY, RPAMOUNT, MDCTRL, TRANSITLOCID, DECLID, DECLYN, DESPTHRU, EXSTATUS, PURCHASEYN, ENTBY, CSTVATCH, TRUCKNO, PKNFDCH, SPLDISCF, ROUNDM, OTHERCH, PARTYBILL, OTHERDISC, REFNO, FINYR, AMTINWORDS,PARTYMAST.STATE,PARTYMAST.MOBILE,PARTYMAST.GSTNO,PARTYMAST.ADD1||''||PARTYMAST.ADD2||''||PARTYMAST.ADD2||''||PARTYMAST.PINCODE as ADDRESS FROM TAAIERP.DPBASIC INNER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=DPBASIC.PARTYID where DPBASIC.DPBASICID='" + id + "'", commandType: CommandType.Text);
+            }
+        }
+        public async Task<IEnumerable<DpDetItemDetail>> GetdpdetItem(string supid )
+        {
+            using (OracleConnection db = new OracleConnection(_connectionString))
+            {
+                return await db.QueryAsync<DpDetItemDetail>(" SELECT ITEMMASTER.ITEMID, DPDETAIL.RETQTY, DPDETAIL.QTY, RATE, AMOUNT, SHECESSAMT, SEDPER, SEDAMT, AEDPER, AEDAMT, BCDPER, BCDAMT, TOTAMT, TOTEXAMT, REJQTY, DPDETAIL.UNIT, PRIQTY, DPBASICID, DPDETAILID, CF, DPDETAIL.GRNQTY, ACCQTY, PUNIT, COSTRATE, LOTQTY, BRATE, BAMOUNT, ACCDQTY, INDENTNO, to_char(INDENTDT,'dd-MON-yyyy')INDENTDT, INDENTQTY, PENDQTY, DPDETAIL.PINDDETAILID, DPDETAILROW, REJLOCID, QCTESTFLAG, BINID, DISC, DISCAMOUNT, ASSESSABLEVALUE, BEDPER, CESSPER, IBINYN, BEDAMT, CESSAMT, PURTYPE, MINRATE, MAXRATE, IFREIGHTCH, IDELCH, ILRCH, COSTAMOUNT, STKCTRLCONS, ICSTVATCH, IPKNFDCH, ISPLDISCF, ICSTCH, IOTHERCH, ISPCDISC, INDUNIT, IFREIGHT, CGSTP, SGSTP, IGSTP, SGST, CGST, IGST,PINDDETAIL.NARRATION,LOCDETAILS.LOCID FROM TAAIERP.DPDETAIL INNER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=DPDETAIL.ITEMID INNER JOIN PINDDETAIL ON PINDDETAIL.PINDDETAILID=DPDETAIL.PINDDETAILID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT  where DPDETAIL.DPBASICID='" + supid + "'", commandType: CommandType.Text);
+            }
         }
     }
 }

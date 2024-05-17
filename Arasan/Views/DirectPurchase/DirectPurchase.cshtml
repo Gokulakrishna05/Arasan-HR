@@ -190,6 +190,10 @@
                                                 <th> Disc %</th>
                                                 <th> Disc amount</th>
                                                  <th> Freight charges</th>
+                                                   <th> Packing charges</th>
+                                                <th> Other charges</th>
+                                                <th> SplDiscount</th>
+                                              <th> Cost Rate</th>
                                                 @* <th> Cost Rate</th>
                                             <th>Assessable Value</th>
                                                 
@@ -400,6 +404,7 @@
                                     </tbody>
                                 </table>
                             </div>
+
                             
                         <div style="height:30px;"></div>
                         <div class="row">
@@ -490,9 +495,8 @@
                                         }
 
 
-                                    </tbody>
-                                </table>
-                            </div>
+
+                     
                             <div class="col-md-8">
                                 <div class="tabs-container">
                                     <ul class="nav nav-tabs">
@@ -1158,7 +1162,7 @@
                 document.getElementById("txtTotalAmount" + i).value = totdisc.toFixed(2);
 
 
-                $('tr.chkitemlst').each(function () {
+               @* $('tr.chkitemlst').each(function () {
                     if ($(this).css('display') !== 'none') {
                         frieght = $(this).find('#txtFrigCharge' + j.toString()).val();
                         if (frieght == "")
@@ -1168,7 +1172,7 @@
                             amt = 0;
 
                         totamt += eval(amt);
-                        totfrieght += eval(frieght);
+                        totfrieght += eval(frieght);*@
 
  
                 var tottax = eval(tot) + eval(igstperc) + eval(cgstperc) + eval(sgstperc) + eval(frieght) + eval(otherch) + eval(packnf);
@@ -1273,12 +1277,7 @@
         return pad_with_zeros(round_decimals(amt, 0));
     }
 
- 
-            }
-            catch (ex) {
-                alert(ex.message);
-            }
-        }
+  
     function changeTot(_this) {
 
         var netamt = document.getElementById("hidnet").value;
@@ -1541,11 +1540,11 @@
         var costrate = "<td><input class='form-control' id='txtCostRate" + index + "' name='DirLst[" + index + "].costrate'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' value='0' type='text'  onkeyup = 'changeQty(this.value," + index + ")'  /></td>";
 
 
-        var CGSTP = "<td><input class='form-control' id='txtCGSTP" + index + "' name='DirLst[" + index + "].CGSTP'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value='0' onkeyup = 'changeQty(this.value," + index + ")' /></td>";
+        var CGSTP = "<td><input class='form-control' id='txtCGSTP" + index + "' name='DirLst[" + index + "].CGSTP'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value='0' readonly='True' onkeyup = 'changeQty(this.value," + index + ")' /></td>";
 
-        var SGSTP = "<td><input class='form-control' id='txtSGSTP" + index + "' name='DirLst[" + index + "].SGSTP'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value='0' onkeyup = 'changeQty(this.value," + index + ")'  /></td>";
+        var SGSTP = "<td><input class='form-control' id='txtSGSTP" + index + "' name='DirLst[" + index + "].SGSTP'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value='0' readonly='True' onkeyup = 'changeQty(this.value," + index + ")'  /></td>";
 
-        var IGSTP = "<td><input class='form-control' id='txtIGSTP" + index + "' name='DirLst[" + index + "].IGSTP'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value='0' onkeyup = 'changeQty(this.value," + index + ")'   /></td>";
+        var IGSTP = "<td><input class='form-control' id='txtIGSTP" + index + "' name='DirLst[" + index + "].IGSTP'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value='0' readonly='True' onkeyup = 'changeQty(this.value," + index + ")'   /></td>";
 
         var CGST = "<td><input class='form-control' id='txtCGST" + index + "' name='DirLst[" + index + "].CGST'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value='0' readonly='True'   onkeyup = 'changeQty(this.value," + index + ")' /></td>";
 
