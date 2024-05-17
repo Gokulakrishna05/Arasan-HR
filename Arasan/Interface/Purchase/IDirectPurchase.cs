@@ -40,8 +40,8 @@ namespace Arasan.Interface
         DataTable GetTariff(string id);
 
 
-        //Task<IEnumerable<DpItemDetail>> GetdpItem(string id, string s);
-        //Task<IEnumerable<DpDetItemDetail>> GetdpdetItem(string id, string s);
+        Task<IEnumerable<DpItemDetail>> GetdpItem(string id );
+        Task<IEnumerable<DpDetItemDetail>> GetdpdetItem(string id );
         //DataTable GetItem();
     }
 }

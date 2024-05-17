@@ -145,6 +145,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DataSet9.xsd</DependentUpon>
     </Compile>
+    <Compile Update="DpBasic.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DpBasic.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="DpDetail.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DpDetail.xsd</DependentUpon>
+    </Compile>
     <Compile Update="Exinvbasic.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -310,6 +320,14 @@
      <None Update="DataSet9.xsd">
        <Generator>MSDataSetGenerator</Generator>
        <LastGenOutput>DataSet9.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="DpBasic.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>DpBasic.Designer.cs</LastGenOutput>
+     </None>
+     <None Update="DpDetail.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>DpDetail.Designer.cs</LastGenOutput>
      </None>
      <None Update="Exinvbasic.xsd">
        <Generator>MSDataSetGenerator</Generator>

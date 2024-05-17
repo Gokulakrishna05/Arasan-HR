@@ -210,9 +210,12 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
                 string MoveToGRN = string.Empty;
+                string Print = string.Empty;
                
                 MailRow = "<a href=DirectPurchase?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
                 EditRow = "<a href=DirectPurchase?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                Print = "<a href=Print?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
+
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 if(dtUsers.Rows[i]["STATUS"].ToString()== "GRN Generated")
                 {
@@ -244,6 +247,7 @@ namespace Arasan.Controllers
                     editrow = EditRow,
                     delrow = DeleteRow,
                     move = MoveToGRN,
+                    print = Print,
                     
 
                 });
@@ -413,10 +417,12 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
                 string Account = string.Empty;
+                string Print = string.Empty;
                 //string Status = string.Empty;
 
                 MailRow = "<a href=DirectPurchase?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
                 EditRow = "<a href=DirectPurchase?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                Print = "<a href=Print?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 Account = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Edit' /></a>";
                 Reg.Add(new DirectPurchaseItems
@@ -430,6 +436,7 @@ namespace Arasan.Controllers
                     editrow = EditRow,
                     delrow = DeleteRow,
                     Accrow = Account,
+                    print = Print,
                     //Status = Status,
 
 
@@ -929,18 +936,17 @@ namespace Arasan.Controllers
 
             string mimtype = "";
             int extension = 1;
-            string DrumID = datatrans.GetDataString("Select PARTYID from POBASIC where POBASICID='" + id + "' ");
-
+ 
             System.Data.DataSet ds = new System.Data.DataSet();
-            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\Basic.rdlc";
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\DirectPurchaseReport.rdlc";
             Dictionary<string, string> Parameters = new Dictionary<string, string>();
             //  Parameters.Add("rp1", " Hi Everyone");
-            //var dpitem = await directPurchase.GetdpItem(id);
-            //var dpdetitem = await directPurchase.GetdpdetItem(id);
+            var dpitem = await directPurchase.GetdpItem(id);
+            var dpdetitem = await directPurchase.GetdpdetItem(id);
 
             AspNetCore.Reporting.LocalReport localReport = new AspNetCore.Reporting.LocalReport(path);
-            //localReport.AddDataSource("Dpbasic", dpitem);
-            //localReport.AddDataSource("Dbdetail", dpdetitem);
+            localReport.AddDataSource("DpBasic", dpitem);
+            localReport.AddDataSource("DpDetail", dpdetitem);
             //localReport.AddDataSource("DataSet1_DataTable1", po);
             var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
 
