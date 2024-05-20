@@ -115,7 +115,7 @@ namespace Arasan.Controllers
                             tda.Conversionfactor= dt4.Rows[0]["CF"].ToString();
                             tda.rate= Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
                         }
-                        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[0]["QTY"].ToString());
                         toaamt = tda.rate * tda.Quantity;
                         toaamt = Math.Round(toaamt, 2);
                         total += toaamt;
