@@ -285,7 +285,7 @@
                                                                                 @Html.HiddenFor(o => o.SubMatlilst[i].damount, new { @id = "txtdamount" + i })
                                                                               
                                                                                 </td>
-                                                                            <td><div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("DrumSelection", "SubContractingMaterialReceipt",new{id=Model.itemrate,rowid=i})' class='fancybox' data-fancybox-type="iframe"><img src='../Images/view_icon.png' id="im" hidden/></a></div> </td>
+                                                                             <td><label id="lot@(i)"></label></td>
                                                                             <td>@Html.TextBoxFor(o => o.SubMatlilst[i].unit, new { @id = "txtunit" + i, @class = "form-control", style = "width: 100px;",@readonly="readonly" })  </td>
                                                                             <td>@Html.TextBoxFor(o => o.SubMatlilst[i].qty, new { @id = "txtqty" + i, @class = "form-control", style = "width: 100px;" })  </td>
                                                                             <td>@Html.TextBoxFor(o => o.SubMatlilst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 100px;" })  </td>
@@ -603,15 +603,18 @@
 
                     document.getElementById("txtunit" + i).value = result.unit;
                     document.getElementById("txtrate" + i).value = result.price;
-                    document.getElementById("txtlot" + i).value = result.lot;
+                   // document.getElementById("txtlot" + i).value = result.lot;
                    
-                     if (result.lot == "NO" || result.lot=="") {
+                     if(result.lot=="YES")
+                {
+              document.getElementById("lot" + i).innerHTML=" <a href=DrumSelection?id=" + itemidd + "&rowid="+i+" class='fancybox' data-fancybox-type='iframe'> <img src='../Images/view_icon.png' /></a>";
 
-            document.getElementById("im").style.display = "none";
-        }
-        else {
-            document.getElementById("im").style.display = "block";
-        }
+                }
+                else{
+                    document.getElementById("lot" + i).innerHTML="";
+                    
+
+                }
 
                 },
                 error: function () {
@@ -700,7 +703,7 @@
 
         var ItemId = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='SubMatlilst[" + index + "].item' style='width:150px;' onchange = 'ItemChange(this.value," + index + ")'> <option value=''>Please select</option>" + opt + " < /select><input type='hidden' id='txtitemid" + index + "' name='SubMatlilst[" + index + "].itemid'><input type='hidden'  id='txtdrumno" + index + "' name='SubMatlilst[" + index + "].drumno'><input type='hidden'  id='txtdqty" + index + "' name='SubMatlilst[" + index + "].dqty'><input type='hidden'  id='txtdrate" + index + "' name='SubMatlilst[" + index + "].drate'><input type='hidden'  id='txtdamount" + index + "' name='SubMatlilst[" + index + "].damount'><input type='hidden'  id='txtsupid" + index + "' name='SubMatlilst[" + index + "].supid'></td>";
 
-        var Drum = "<td><div class='fa-hover col-md-2 col-sm-4''> <a href='@Url.Action("DrumSelection", "SubContractingMaterialReceipt")?rowid="+index+"&id='item' class='fancybox' data-fancybox-type='iframe' ><img src='../Images/view_icon.png' id='im' /></a></div> </td>";
+        var Drum = "<td><lable id='lot"+index+"'></lable></td>";  
 
         var Unit = "<td><input class='form-control' id='txtunit" + index + "' name='SubMatlilst[" + index + "].unit'  style='width: 100px;' type='text'    /></td>";
 
@@ -727,8 +730,7 @@
             type: "POST",
             url: 'GetItemDelJSON',
             success: function (data) {
-
-                $.each(data, function () {
+                 $.each(data, function () {
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
                 });
                 AppendRow1(opt);

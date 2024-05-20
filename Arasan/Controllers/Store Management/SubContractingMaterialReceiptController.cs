@@ -43,7 +43,7 @@ namespace Arasan.Controllers.Store_Management
             DataTable dtv = datatrans.GetSequence("submr");
             if (dtv.Rows.Count > 0)
             {
-                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
             }
 
             List<SubMaterialItem> TData = new List<SubMaterialItem>();
@@ -401,7 +401,7 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public ActionResult DrumSelection(long id,string rowid)
+        public ActionResult DrumSelection(string id,string rowid)
         {
             SubContractingMaterialReceipt ca = new SubContractingMaterialReceipt();
             List<DrumItemDeatil> TData = new List<DrumItemDeatil>();

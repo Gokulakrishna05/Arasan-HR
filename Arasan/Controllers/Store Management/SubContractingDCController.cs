@@ -40,7 +40,7 @@ namespace Arasan.Controllers.Store_Management
             DataTable dtv = datatrans.GetSequence("subdc");
             if (dtv.Rows.Count > 0)
             {
-                st.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+                st.DocId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
             }
             List<SubContractingItem> TData = new List<SubContractingItem>();
             SubContractingItem tda = new SubContractingItem();
@@ -476,6 +476,7 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
+
         public ActionResult GetPackItemDetail(string ItemId, string loc)
         {
             try
@@ -583,8 +584,6 @@ namespace Arasan.Controllers.Store_Management
                         tda.qty = dtEnq.Rows[i]["QTY"].ToString();
                         tda.reqqty = dtEnq.Rows[i]["QTY"].ToString();
                         tda.rate = dtEnq.Rows[i]["RATE"].ToString();
-
-
 
                         TData.Add(tda);
                     }

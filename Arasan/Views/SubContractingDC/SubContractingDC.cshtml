@@ -205,9 +205,10 @@
 
                                                                             </td>
                                                                          
-                                                                             <td>
-                                                                                <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("SubContractDrumSelection", "SubContractingDC")" class='fancybox' data-fancybox-type='iframe' id="hdrumselection@(i)"><img src='../Images/view_icon.png' id="im" /></a></div> @Html.HiddenFor(o => o.SCDIlst[i].DrumIds, new { @id = "hddrumid" + i }) @Html.HiddenFor(o => o.SCDIlst[i].invid, new { @id = "invid" + i })
-                                                                            </td>
+                                                                      
+                                                                             <td><label id="lot@(i)"></label></td>
+                                                                                
+                                                                             
                                                                             
 
                                                                             <td>
@@ -532,6 +533,17 @@
                 
                  
                 document.getElementById("txtstock" + i).value = result.stock;
+
+                if(result.lot=="YES")
+                {
+              document.getElementById("lot" + i).innerHTML=" <a href=SubContractDrumSelection?ItemId=" + ItemId + "&loc="+loc+"&rowid="+i+" class='fancybox' data-fancybox-type='iframe'> <img src='../Images/view_icon.png' /></a>";
+
+                }
+                else{
+                    document.getElementById("lot" + i).innerHTML="";
+                    document.getElementById("txtRate" + i).value = result.price;
+
+                }
                 },
             error: function () {
                 alert("Data Not Found");
@@ -548,14 +560,14 @@
         else {
             document.getElementById("im").style.display = "none";
         }*@
-        if (ItemId == "1") {
+        @*if (ItemId == "1") {
             document.getElementById("txtQuantity" + i).value = "1";
 
         }
         else {
             var url = "/SubContractingDC/SubContractDrumSelection?itemid=" + ItemId + "&rowid=" + i + "&loc="+ loc +"";
             document.getElementById("hdrumselection" + i).href = url;
-        }
+        }*@
     }
 
     function changeQty(_this, i) {
@@ -759,7 +771,7 @@
 
                var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='SCDIlst[" + index + "].ItemId' onchange = 'changeItemDeatils(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var drum = "<td><div class='fa-hover col-md-2 col-sm-4'> <a href='/SubContractingDC/SubContractDrumSelection' class='fancybox' data-fancybox-type='iframe' id='hdrumselection" + index + "'><img src='../Images/view_icon.png' id='im' ></a></div> <input  id='hddrumid" + index + "' name='SCDIlst[" + index + "].DrumIds' type='hidden'> </td>";
+        var drum = "<td><lable id='lot"+index+"'></lable> </td>";
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='SCDIlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /><input class='form-control' id='dqty" + index + "' name='SCDIlst[" + index + "].dqty' type='hidden' /><input class='form-control' id='lotno" + index + "' name='SCDIlst[" + index + "].Lotno' type='hidden' /><input class='form-control' id='drate" + index + "' name='SCDIlst[" + index + "].drate' type='hidden' /><input class='form-control' id='txtDrumsdesc" + index + "' name='SCDIlst[" + index + "].Drumsdesc' type='hidden' /><input class='form-control' id='damount" + index + "' name='SCDIlst[" + index + "].damount' type='hidden' /><input class='form-control' id='dstock" + index + "' name='SCDIlst[" + index + "].dstock' type='hidden' /></td>";
 
