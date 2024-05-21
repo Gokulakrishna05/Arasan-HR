@@ -586,11 +586,11 @@ namespace Arasan.Controllers.Master
                 {
                     if (ss.ID == null)
                     {
-                        TempData["notice"] = " ItemName Inserted Successfully...!";
+                        TempData["notice"] = " Item Inserted Successfully...!";
                     }
                     else
                     {
-                        TempData["notice"] = " ItemName Updated Successfully...!";
+                        TempData["notice"] = " Item Updated Successfully...!";
                     }
                     return RedirectToAction("ListItem");
                 }

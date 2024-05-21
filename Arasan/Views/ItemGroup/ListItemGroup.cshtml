@@ -43,7 +43,7 @@
                 // synchronize with the server - send update command
             },
             datafields: [
-                    { name: 'itemcat', type: 'string' },
+                    { name: 'type', type: 'string' },
                 { name: 'itemgroup', type: 'string' },
                 { name: 'itemgroupdescription', type: 'string' },
                 { name: 'editrow', type: 'string' },
@@ -84,9 +84,10 @@
                     keyboardnavigation: false,
                 columns: [
 
-                        { text: 'Item Category', filtertype: 'checkedlist', datafield: 'itemcat', width: 150 },
+                        //{ text: 'Item Category', filtertype: 'checkedlist', datafield: 'itemcat', width: 150 },
                     { text: 'Item Group', filtertype: 'checkedlist', datafield: 'itemgroup', width: 150 },
                     { text: 'ItemGroup Description', filtertype: 'input', datafield: 'itemgroupdescription', width: 200 },
+                        { text: 'Group Type', filtertype: 'input', datafield: 'type', width: 200 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 60 },
                         { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                 ]

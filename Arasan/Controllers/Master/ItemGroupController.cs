@@ -31,6 +31,7 @@ namespace Arasan.Controllers.Master
                     ig.ItemCat = dt.Rows[0]["CATEGORY"].ToString();
                     ig.ItemGroups = dt.Rows[0]["GROUPCODE"].ToString();
                     ig.ItemGroupDescription = dt.Rows[0]["GROUPDESC"].ToString();
+                    ig.Type = dt.Rows[0]["GROUPTYPE"].ToString();
                 }
             }
             return View(ig);
@@ -155,9 +156,10 @@ namespace Arasan.Controllers.Master
                 Reg.Add(new ItemGroupGrid
                 {
                     id = dtUsers.Rows[i]["ITEMGROUPID"].ToString(),
-                    itemgroup = dtUsers.Rows[i]["CATEGORY"].ToString(),
-                    itemcat = dtUsers.Rows[i]["GROUPCODE"].ToString(),
+                    itemgroup = dtUsers.Rows[i]["GROUPCODE"].ToString(),
+                    itemcat = dtUsers.Rows[i]["CATEGORY"].ToString(),
                     itemgroupdescription = dtUsers.Rows[i]["GROUPDESC"].ToString(),
+                    type = dtUsers.Rows[i]["GROUPTYPE"].ToString(),
                     editrow = EditRow,
                     delrow = DeleteRow,
 
