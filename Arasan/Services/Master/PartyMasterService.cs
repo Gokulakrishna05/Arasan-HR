@@ -55,8 +55,7 @@ namespace Arasan.Services.Master
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
 
-                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.PartyCode;
-                    objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = cy.PartyName;
+                     objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = cy.PartyName;
                     objCmd.Parameters.Add("PARTYCAT", OracleDbType.NVarchar2).Value = cy.PartyCategory;
                     
                     objCmd.Parameters.Add("PARTYGROUP", OracleDbType.NVarchar2).Value = cy.PartyGroup;
@@ -221,7 +220,7 @@ namespace Arasan.Services.Master
             public DataTable GetCountry()
             {
                 string SvSql = string.Empty;
-                SvSql = "select COUNTRYNAME,COUNTRYMASTID from CONMAST  ";
+                SvSql = "select COUNTRY ,CONMASTID from CONMAST  ";
                 DataTable dtt = new DataTable();
                 OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
                 OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -231,7 +230,7 @@ namespace Arasan.Services.Master
         public DataTable GetCountryDetails(string CID)
         {
             string SvSql = string.Empty;
-            SvSql = "select COUNTRYCODE,COUNTRYNAME,COUNTRYMASTID from CONMAST where COUNTRYNAME='" + CID + "'";
+            SvSql = "select CONCODE,COUNTRY ,CONMASTID from CONMAST where COUNTRY='" + CID + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

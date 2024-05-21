@@ -51,7 +51,7 @@ namespace Arasan.Services.Master
         public DataTable GetGroup(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select GROUPCODE,GROUPDESC,CATEGORY,ITEMGROUPID from ITEMGROUP where ITEMGROUPID = '" + id + "' ";
+            SvSql = "Select GROUPCODE,GROUPDESC,CATEGORY,GROUPTYPE,ITEMGROUPID from ITEMGROUP where ITEMGROUPID = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -134,6 +134,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("GROUPDESC", OracleDbType.NVarchar2).Value = by.ItemGroupDescription;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("CATEGORY", OracleDbType.NVarchar2).Value = by.ItemCat;
+                    objCmd.Parameters.Add("GROUPTYPE", OracleDbType.NVarchar2).Value = by.Type;
                     if (by.ID == null)
                     {
                         objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = by.createby;
@@ -220,12 +221,12 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = " Select ITEMGROUP.GROUPCODE,ITEMGROUP.GROUPDESC , ITEMGROUP.ITEMGROUPID,ITEMGROUP.IS_ACTIVE ,ITEMCATEGORY.CATEGORY from ITEMGROUP left outer join ITEMCATEGORY on ITEMCATEGORY.ITEMCATEGORYID = ITEMGROUP.CATEGORY WHERE ITEMGROUP.IS_ACTIVE='Y' order by ITEMGROUP.ITEMGROUPID DESC ";
+                SvSql = " Select ITEMGROUP.GROUPCODE,ITEMGROUP.GROUPDESC,GROUPTYPE , ITEMGROUP.ITEMGROUPID,ITEMGROUP.IS_ACTIVE ,ITEMCATEGORY.CATEGORY from ITEMGROUP left outer join ITEMCATEGORY on ITEMCATEGORY.ITEMCATEGORYID = ITEMGROUP.CATEGORY WHERE ITEMGROUP.IS_ACTIVE='Y' order by ITEMGROUP.ITEMGROUPID DESC ";
 
             }
             else
             {
-                SvSql = " Select ITEMGROUP.GROUPCODE,ITEMGROUP.GROUPDESC , ITEMGROUP.ITEMGROUPID,ITEMGROUP.IS_ACTIVE ,ITEMCATEGORY.CATEGORY from ITEMGROUP left outer join ITEMCATEGORY on ITEMCATEGORY.ITEMCATEGORYID = ITEMGROUP.CATEGORY WHERE ITEMGROUP.IS_ACTIVE='N' order by ITEMGROUP.ITEMGROUPID DESC ";
+                SvSql = " Select ITEMGROUP.GROUPCODE,ITEMGROUP.GROUPDESC,GROUPTYPE , ITEMGROUP.ITEMGROUPID,ITEMGROUP.IS_ACTIVE ,ITEMCATEGORY.CATEGORY from ITEMGROUP left outer join ITEMCATEGORY on ITEMCATEGORY.ITEMCATEGORYID = ITEMGROUP.CATEGORY WHERE ITEMGROUP.IS_ACTIVE='N' order by ITEMGROUP.ITEMGROUPID DESC ";
 
             }
             DataTable dtt = new DataTable();

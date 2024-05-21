@@ -13,6 +13,7 @@ namespace Arasan.Models
         public string ID { get; set; }
        
         public string ItemGroups { get; set; }
+        public string Type { get; set; }
         public string createby { get; set; }
 
         public List<SelectListItem> catlst;
@@ -28,6 +29,7 @@ namespace Arasan.Models
         public string itemcat { get; set; }
         public string itemgroup { get; set; }
         public string itemgroupdescription { get; set; }
+        public string type { get; set; }
         
         public String editrow { get; set; }
         public String delrow { get; set; }

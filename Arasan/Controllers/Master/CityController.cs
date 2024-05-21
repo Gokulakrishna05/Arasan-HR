@@ -98,7 +98,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRY"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRY"].ToString(), Value = dtDesg.Rows[i]["CONMASTID"].ToString() });
                 }
                 return lstdesg;
             }

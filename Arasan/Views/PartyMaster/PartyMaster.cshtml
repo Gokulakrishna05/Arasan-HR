@@ -57,7 +57,7 @@
                  @*1st atb*@
 
                           <div class="row">
-                            <div class="col-md-6">
+                            @*<div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Party ID<label class="mandatory">*</label></label>
@@ -67,7 +67,7 @@
                                                         @Html.HiddenFor(C => C.createby)
                                     </div>
                                 </div>
-                            </div>
+                                        </div>*@
                              <div class="col-md-6">
                                 <div class="form-group">
 
@@ -388,7 +388,7 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label">Country<label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.Country, Model.Countrylst, new { @id = "ddlCountry", @Class = "form-control _select", @TabIndex = 1,style = "width: 120px;" })<br />
+                                                        @Html.DropDownListFor(C => C.Country, Model.Countrylst," -- Please Select -- ", new { @id = "ddlCountry", @Class = "form-control _select", @TabIndex = 1,style = "width: 250px;" })<br />
 
                                                     </div>
                                                 </div>
@@ -405,7 +405,7 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label">State<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.State, Model.Statelst, new { @id = "ddlState", @Class = "form-control _select", @TabIndex = 1,style = "width: 120px;" })<br />
+                                                        @Html.DropDownListFor(C => C.State, Model.Statelst," -- Please Select -- ", new { @id = "ddlState", @Class = "form-control _select", @TabIndex = 1,style = "width: 250px;" })<br />
 
                                     </div>
                                 </div>
@@ -416,7 +416,7 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label">City<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.City, Model.Citylst, new { @id = "ddlCity", @Class = "form-control _select", @TabIndex = 1,style = "width: 120px;" })<br />
+                                                        @Html.DropDownListFor(C => C.City, Model.Citylst," -- Please Select -- ", new { @id = "ddlCity", @Class = "form-control _select", @TabIndex = 1,style = "width: 250px;" })<br />
                                     </div>
 
                                 </div>
@@ -475,7 +475,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Intred By<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.Intred, Model.assignList, new { @id = "ddlIntred", @Class = "form-control _select", @TabIndex = 1,style = "width: 120px;" })<br />
+                                                        @Html.DropDownListFor(C => C.Intred, Model.assignList," -- Please Select -- ", new { @id = "ddlIntred", @Class = "form-control _select", @TabIndex = 1,style = "width: 250px;" })<br />
 
                                                 </div>
 
