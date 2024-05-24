@@ -445,7 +445,17 @@ namespace Arasan.Controllers.Store_Management
         public ActionResult IndentApproved(string id)
         {
             datatrans = new DataTransactions(_connectionString);
-            bool result = datatrans.UpdateStatus("UPDATE IPINDDETAIL SET APPROVED1='YES',APPROVAL1U='SRRAJAN',APP1DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where IPINDDETAILID='" + id + "'");
+            string app1 = datatrans.GetDataString("SELECT APPROVED1 FROM PINDDETAIL WHERE  PINDDETAILID='" + id + "'");
+            if (app1 == "")
+            {
+                bool result = datatrans.UpdateStatus("UPDATE IPINDDETAIL SET APPROVED1='YES',APPROVAL1U='NAGES',APP1DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where IPINDDETAILID='" + id + "'");
+
+            }
+            else
+            {
+                bool result = datatrans.UpdateStatus("UPDATE IPINDDETAIL SET APPROVED2='YES',APPROVAL2U='SRRAJAN',APP2DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where IPINDDETAILID='" + id + "'");
+
+            }
             return RedirectToAction("List_PI_Approval");
         }
         public ActionResult IndentDisApproved(string id)
