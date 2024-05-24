@@ -153,7 +153,7 @@ namespace Arasan.Services
         public DataTable GetIndentItemApprove()
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,UNITMAST.UNITID,IPINDDETAIL.QTY,IPINDDETAIL.IPINDBASICID,LOCDETAILS.LOCID,IPINDDETAIL.IPINDDETAILID ,to_char(IPINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from IPINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=IPINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=IPINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=IPINDDETAIL.DEPARTMENT LEFT OUTER JOIN IPINDBASIC ON IPINDBASIC.IPINDBASICID=IPINDDETAIL.IPINDBASICID WHERE IPINDDETAIL.APPROVED1 IS NULL ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            SvSql = "Select ITEMMASTER.ITEMID,UNITMAST.UNITID,IPINDDETAIL.QTY,IPINDDETAIL.IPINDBASICID,LOCDETAILS.LOCID,IPINDDETAIL.IPINDDETAILID ,to_char(IPINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from IPINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=IPINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=IPINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=IPINDDETAIL.DEPARTMENT LEFT OUTER JOIN IPINDBASIC ON IPINDBASIC.IPINDBASICID=IPINDDETAIL.IPINDBASICID WHERE IPINDDETAIL.APPROVED1 IS NULL AND IPINDDETAIL.APPROVED2 IS NULL ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -308,8 +308,8 @@ namespace Arasan.Services
                 datatrans = new DataTransactions(_connectionString);
 
 
-                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'PENQ' AND ACTIVESEQUENCE = 'T'");
-                string EnqNo = string.Format("{0}{1}", "PENQ", (idc + 1).ToString());
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'IENQ' AND ACTIVESEQUENCE = 'T'");
+                string EnqNo = string.Format("{0}{1}", "IENQ", (idc + 1).ToString());
 
                 string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='PENQ' AND ACTIVESEQUENCE ='T'";
                 try
@@ -327,7 +327,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("PURCHASEENQPROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("IPURENQPROC", objConn);
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     StatementType = "Insert";
