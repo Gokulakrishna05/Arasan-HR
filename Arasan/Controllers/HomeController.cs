@@ -428,29 +428,30 @@ namespace Arasan.Controllers
         //    return View("_MenuBar", H);
         //}
 
-        public IActionResult _MenuBar()
-        {
-            Home H = new Home();
-            string userid = Request.Cookies["UserId"];
-            MenuList tda = new MenuList();
-            List<MenuList> Tdata = new List<MenuList>();
-            DataTable dt6 = new DataTable();
-            dt6 = HomeService.GetAllMenu(userid);
-            if (dt6.Rows.Count > 0)
-            {
-                for (int i = 0; i < dt6.Rows.Count; i++)
-                {
-                    tda = new MenuList();
-                    tda.Title = dt6.Rows[i]["TITLE"].ToString();   
-                    tda.Parent = dt6.Rows[i]["PARENT"].ToString();  
-                    tda.Groupid = dt6.Rows[i]["GROUP_ID"].ToString(); 
-                    tda.IsHead = dt6.Rows[i]["IS_HEAD"].ToString();  
-                    Tdata.Add(tda);
-                }
-            }
-            H.Menulst = Tdata;
-                return PartialView(H);  
-        }
+        //public IActionResult _MenuBar()
+        //{
+        //    Home H = new Home();
+        //    string userid = Request.Cookies["UserId"];
+        //    MenuList tda = new MenuList();
+        //    List<MenuList> Tdata = new List<MenuList>();
+        //    DataTable dt6 = new DataTable();
+        //    dt6 = HomeService.GetAllMenu(userid);
+        //    if (dt6.Rows.Count > 0)
+        //    {
+        //        for (int i = 0; i < dt6.Rows.Count; i++)
+        //        {
+        //            tda = new MenuList();
+        //            tda.Title = dt6.Rows[i]["TITLE"].ToString();   
+        //            tda.Parent = dt6.Rows[i]["PARENT"].ToString();  
+        //            tda.Groupid = dt6.Rows[i]["GROUP_ID"].ToString(); 
+        //            tda.IsHead = dt6.Rows[i]["IS_HEAD"].ToString();  
+        //            Tdata.Add(tda);
+        //        }
+        //    }
+        //    H.Menulst = Tdata;
+        //    ViewData["ViewDataMessage"] = "Success from ViewData!";
+        //    return PartialView(H);  
+        //}
         public ActionResult Proddashboard()
         {
             Home H = new Home();

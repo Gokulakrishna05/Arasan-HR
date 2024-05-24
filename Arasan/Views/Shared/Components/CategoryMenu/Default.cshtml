@@ -1,35 +1,37 @@
-﻿@model Arasan.Models.Home
+﻿@model List<Arasan.Models.MenuList>
 
 @{
-
-    int v = 0;
-    foreach (var item in Model.Menulst.ToList())
+    foreach (var item in Model)
     {
-        //@Html.DisplayFor(o => o.Menulst[v].Title)
+        // @Html.DisplayFor(o => item.Title)
+        if (item.IsHead == "Y" && item.IsDisable == "N" && item.Title == "Dashboard")
+        {
+            <li class="nav-item">
+                <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-th-large"></i> <span class="title">Dashboard</span> <span class="arrow"></span> </a>
 
-        v = v + 1;
-    }
-}
-<li class="nav-item">
-    <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-th-large"></i> <span class="title">Dashboard</span> <span class="arrow"></span> </a>
+                <ul class="sub-menu">
 
-    <ul class="sub-menu">
-
-        <li class="nav-item ">
-            <a class="nav-link" href="@Url.Action("PurchaseDash", "Home")">  <i class="fa fa-shopping-cart"></i><span class="title">Purchase</span> </a>
-        </li>
-        <li class="nav-item ">
-            <a class="nav-link" href="@Url.Action("QcDashboard", "QcDashboard")"> <i class="fa fa-flask"></i> <span class="title">Qc</span> </a>
-        </li>
-        @* <li class="nav-item ">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="@Url.Action("PurchaseDash", "Home")">  <i class="fa fa-shopping-cart"></i><span class="title">Purchase</span> </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="@Url.Action("QcDashboard", "QcDashboard")"> <i class="fa fa-flask"></i> <span class="title">Qc</span> </a>
+                    </li>
+                    @* <li class="nav-item ">
         <a class="nav-link" href="@Url.Action("Proddashboard", "Home")"> <i class="fa fa-table"></i> <span class="title">Curing Shed</span> </a>
         </li>
         <li class="nav-item ">
         <a class="nav-link" href="@Url.Action("SalesDash", "Home")">  <i class="fa fa-shopping-cart"></i><span class="title">Sales</span> </a>
         </li>*@
 
-    </ul>
-</li>
+                </ul>
+            </li>
+        }
+
+    }
+}
+
+
 
 <li class="nav-item active open">
 

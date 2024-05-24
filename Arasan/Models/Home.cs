@@ -169,6 +169,7 @@ namespace Arasan.Models
         public string Parent { get; set; }
         public string Groupid { get; set; }
         public string IsHead { get; set; }
+        public string IsDisable { get; set; }
 
     }
 }
