@@ -29,6 +29,7 @@ namespace Arasan.Models
         public List<IndentCreate> indlst { get; set; }
         public List<IssuePen> penlst { get; set; }
         public List<MatNotifys> Materialnotification { get; set; }
+        public List<MenuList> Menulst { get; set; }
 
     }
     public class salesdash { 
@@ -160,6 +161,14 @@ namespace Arasan.Models
         public string Due { get; set; }
 
         public string Id { get; set; }
+
+    }
+    public class MenuList
+    {
+        public string Title { get; set; }
+        public string Parent { get; set; }
+        public string Groupid { get; set; }
+        public string IsHead { get; set; }
 
     }
 }

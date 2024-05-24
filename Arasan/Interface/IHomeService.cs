@@ -25,5 +25,6 @@ namespace Arasan.Interface
         DataTable GetGRN(string id);
         DataTable GetCurInwardDoc(string id);
         DataTable GetMaterialnot();
+        DataTable GetAllMenu(string userid);
     }
 }
