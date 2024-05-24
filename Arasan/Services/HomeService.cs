@@ -16,6 +16,44 @@ namespace Arasan.Services
         {
         _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
+
+        //public IEnumerable<MenuList> GetAllMenu(string userid)
+        //{
+        //    List<MenuList> cmpList = new List<MenuList>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
+
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "select S.TITLE,S.PARENT,S.GROUP_ID,S.IS_HEAD from user_privileges U,USERPRIVDETAIL P,SITEMAP S WHERE U.PRIVILEGESID=P.PRIVILEGESID AND P.SITEMAPID=P.SITEMAPID AND EMPID='" + userid + "'";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                MenuList cmp = new MenuList
+        //                {
+        //                    Title = rdr["TITLE"].ToString(),
+        //                    Parent = rdr["PARENT"].ToString(),
+        //                    Groupid = rdr["GROUP_ID"].ToString(),
+        //                    IsHead = rdr["IS_HEAD"].ToString()
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
+        public DataTable GetAllMenu(string userid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select S.TITLE,S.PARENT,S.GROUP_ID,S.IS_HEAD from user_privileges U,USERPRIVDETAIL P,SITEMAP S WHERE U.PRIVILEGESID=P.PRIVILEGESID AND P.SITEMAPID=S.SITEMAPID AND EMPID='" + userid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
         public DataTable CuringGroup()
         {
             string SvSql = string.Empty;
