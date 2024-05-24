@@ -54,16 +54,16 @@ namespace Arasan.Services.Master
                 string StatementType = string.Empty;
                 string svSQL = "";
                 string sv = "";
-                if (ss.ID == null)
-                {
+                //if (ss.ID == null)
+                //{
 
-                    svSQL = " SELECT Count(HSNCODE) as cnt FROM HSNCODE WHERE HSNCODE = LTRIM(RTRIM('" + ss.HCode + "'))";
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "HsnCode Already Existed";
-                        return msg;
-                    }
-                }
+                //    svSQL = " SELECT Count(HSNCODE) as cnt FROM HSNCODE WHERE HSNCODE = LTRIM(RTRIM('" + ss.HCode + "'))";
+                //    if (datatrans.GetDataId(svSQL) > 0)
+                //    {
+                //        msg = "HsnCode Already Existed";
+                //        return msg;
+                //    }
+                //}
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -83,11 +83,10 @@ namespace Arasan.Services.Master
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
                     }
 
-                    objCmd.Parameters.Add("HSNCODE", OracleDbType.NVarchar2).Value = ss.HCode;
-                    objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = ss.Dec;
+                    objCmd.Parameters.Add("HSCODE", OracleDbType.NVarchar2).Value = ss.HCode;
+                    objCmd.Parameters.Add("HSDESC", OracleDbType.NVarchar2).Value = ss.Dec;
 
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
-                    if (ss.ID == null)
+                     if (ss.ID == null)
                     {
                        
                         objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
@@ -232,7 +231,7 @@ namespace Arasan.Services.Master
             {
                 SvSql = "select TARIFFMASTER.TARIFFID,HSNROW.HSNCODEID from HSNROW  LEFT OUTER JOIN TARIFFMASTER ON TARIFFMASTER.TARIFFMASTERID = HSNROW.TARIFFID   Order by HSNCODEID DESC ";
 
-            }
+            } 
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -264,7 +263,7 @@ namespace Arasan.Services.Master
         //}
         //public DataTable GetSGst()
         //{
-        //    string SvSql = string.Empty;
+        //    string SvSql = string.Empty; n
         //    SvSql = "select * from TAXMAST where TAX='SGST' AND STATUS= 'ACTIVE'  ";
         //    DataTable dtt = new DataTable();
         //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
