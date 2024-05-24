@@ -180,22 +180,25 @@
   <!-- Start page sidebar wrapper -->
   <div class="page-sidebar-wrapper">
     <div class="page-sidebar">
-	<ul class="page-sidebar-menu  page-header-fixed ">
-                    <li class="sidebar-search-wrapper">
-                        <!-- START RESPONSIVE SEARCH FORM -->
-                        <form class="sidebar-search  " action="search_results.html" method="POST">
-                            <a href="javascript:;" class="remove"> <i class="icon-close"></i> </a>
-                            
-                        </form>
-                        <!-- END RESPONSIVE SEARCH FORM -->
-                    </li>
-                 <!-- include partial view -->
-                    @*<partial name="_MenuBar" model="Model" />*@
-                  
-                  @*  @Html.PartialAsync("_MenuBar", Arasan.Models.Home)*@
-                    <!-- include partial view -->
-             </ul>
-                <div id="partialzone"></div>
+               @* <div id="partialzone">*@
+
+                    <ul class="page-sidebar-menu  page-header-fixed ">
+                        <li class="sidebar-search-wrapper">
+
+                            <!-- START RESPONSIVE SEARCH FORM -->
+                            <form class="sidebar-search  " action="search_results.html" method="POST">
+                                <a href="javascript:;" class="remove"> <i class="icon-close"></i> </a>
+
+                            </form>
+                            <!-- END RESPONSIVE SEARCH FORM -->
+                        </li>
+
+                    @await Component.InvokeAsync("CategoryMenu");
+                        </ul>
+
+               
+             
+               
             </div>
   </div>
   <!-- End page sidebar wrapper -->
@@ -297,16 +300,16 @@
  	
 </body>
 </html>
-<script>
+@*<script>
     $(function () {
+       // document.getElementById('partialzone').onload("/Home/_MenuBar");
         $.ajax({
             type: 'POST',
             url: '/Home/_MenuBar',
             success: function (data) {
-                alert(data);
-                $('partialzone').innerHTML = data;
+                document.getElementById('partialzone').innerHTML = data;
             }
         });
     })
                            // $('#partialzone').load("/Home/_MenuBar");
-</script>
+</script>*@
