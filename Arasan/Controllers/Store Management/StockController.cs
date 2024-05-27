@@ -75,7 +75,6 @@ namespace Arasan.Controllers
                     location = dtEnq.Rows[i]["LOCID"].ToString(),
                     branchname = dtEnq.Rows[i]["BRANCHID"].ToString(),
 
-                    
             });
 
             }
