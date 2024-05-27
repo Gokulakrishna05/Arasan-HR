@@ -75,7 +75,7 @@ namespace Arasan.Controllers.Store_Management
                 try
                 {
                     Cy.ID = id;
-                    string Strout = PurIndent.IndentCRUD(Cy);
+                string Strout = PurIndent.IndentCRUD(Cy);
                     if (string.IsNullOrEmpty(Strout))
                     {
                         if (Cy.ID == null)
@@ -615,12 +615,12 @@ namespace Arasan.Controllers.Store_Management
                 if (lot == "YES")
                 {
 
-                    totalstock = datatrans.GetDataString("Select  SUM(S.PLUSQTY-S.MINUSQTY) as QTY from  LSTOCKVALUE S  where S.ITEMID=" + ItemId + " AND S.LOCID NOT IN '10001000000827' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0  ");
+                    totalstock = datatrans.GetDataString("Select  SUM(S.PLUSQTY-S.MINUSQTY) as QTY from  LSTOCKVALUE S  where S.ITEMID=" + ItemId + "  HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0  ");
                     stk= datatrans.GetDataString("Select  SUM(S.PLUSQTY-S.MINUSQTY) as QTY from  LSTOCKVALUE S  where S.ITEMID=" + ItemId + " AND S.LOCID='10001000000827' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0  ");
                 }
                 else
                 {
-                    totalstock = datatrans.GetDataString("Select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY from STOCKVALUE S  where S.ITEMID=" + ItemId + "  AND S.LOCID NOT IN '10001000000827'  HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  ");
+                    totalstock = datatrans.GetDataString("Select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY from STOCKVALUE S  where S.ITEMID=" + ItemId + "    HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  ");
                     stk= datatrans.GetDataString("Select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY from STOCKVALUE S  where S.ITEMID=" + ItemId + "  AND S.LOCID='10001000000827'  HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  ");
                 }
                 
@@ -682,12 +682,12 @@ namespace Arasan.Controllers.Store_Management
             if (lot=="YES")
             {
 
-                 dtt = datatrans.GetData("Select ITEMMASTER.ITEMID,S.ITEMID as item,LOCDETAILS.LOCID,to_char(S.DOCDATE,'dd-MON-yyyy')DOCDATE,S.LOTNO,SUM(S.PLUSQTY-S.MINUSQTY) as QTY from  LSTOCKVALUE S left outer join ITEMMASTER ON ITEMMASTERID=S.ITEMID left outer join LOCDETAILS ON LOCDETAILSID=S.LOCID where S.ITEMID=" + id + " AND S.LOCID NOT IN '10001000000827' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0  GROUP BY ITEMMASTER.ITEMID,S.LOTNO,S.ITEMID ,LOCDETAILS.LOCID,S.DOCDATE ");
+                 dtt = datatrans.GetData("Select ITEMMASTER.ITEMID,S.ITEMID as item,LOCDETAILS.LOCID,to_char(S.DOCDATE,'dd-MON-yyyy')DOCDATE,S.LOTNO,SUM(S.PLUSQTY-S.MINUSQTY) as QTY from  LSTOCKVALUE S left outer join ITEMMASTER ON ITEMMASTERID=S.ITEMID left outer join LOCDETAILS ON LOCDETAILSID=S.LOCID where S.ITEMID=" + id + "  HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0  GROUP BY ITEMMASTER.ITEMID,S.LOTNO,S.ITEMID ,LOCDETAILS.LOCID,S.DOCDATE ");
 
             }
             else
             {
-                 dtt = datatrans.GetData("Select I.ITEMID,S.ITEMID as item,L.LOCID,SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY from STOCKVALUE S,ITEMMASTER I,LOCDETAILS L WHERE I.ITEMMASTERID=S.ITEMID AND LOCDETAILSID=S.LOCID AND S.ITEMID='"+ id + "'  AND S.LOCID NOT IN '10001000000827'  HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 GROUP BY I.ITEMID,S.ITEMID,L.LOCID");
+                 dtt = datatrans.GetData("Select I.ITEMID,S.ITEMID as item,L.LOCID,SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY from STOCKVALUE S,ITEMMASTER I,LOCDETAILS L WHERE I.ITEMMASTERID=S.ITEMID AND LOCDETAILSID=S.LOCID AND S.ITEMID='"+ id + "'    HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 GROUP BY I.ITEMID,S.ITEMID,L.LOCID");
 
             }
 

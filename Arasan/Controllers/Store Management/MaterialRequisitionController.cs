@@ -540,7 +540,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.issqty = Convert.ToDouble(dtt.Rows[i]["ISSQTY"].ToString() == "" ? "0" : dtt.Rows[i]["ISSQTY"].ToString());
                     double pendqty = tda.InvQty - tda.issqty;
                     tda.IndQty = pendqty;
-                    tda.InvQty = pendqty;
+                    tda.InvQty = 0;//pendqty;
                     tda.indentid = dtt.Rows[i]["STORESREQDETAILID"].ToString();
 
                     tda.Storeid = dtt.Rows[i]["STORESREQBASICID"].ToString();

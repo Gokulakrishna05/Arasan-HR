@@ -147,7 +147,7 @@
                                                             <th> Item</th>
                                                             <th>QC Y/N</th>
                                                             <th> Unit</th>
-                                                            <th> Avalible Stock </th>
+                                                            <th> Available Stock </th>
                                                             <th> Whole Stock </th>
                                                             <th> Indent Placed </th>
                                                             <th>Qty</th>
@@ -306,22 +306,7 @@
        $(document).ready(function () {
                 $('#btnSave').click(function (e) {
                     var isValid = true;
-                    if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
-                        isValid = false;
-                        $(ddlBranch_chzn).css({
-                            "border": "1px solid red",
-                            "background": "#FFCECE"
-                        });
-
-                        alert("Please Select Branch");
-                        return false;
-                    }
-                    else {
-                        $(ddlBranch_chzn).css({
-                            "border": "",
-                            "background": ""
-                        });
-                    }
+                   
                      if (document.getElementById("IndentDate").value == "") {
                         isValid = false;
                         $(IndentDate).css({
@@ -361,12 +346,6 @@
                     $('tr.chkitemlst').each(function () {
                         if ($(this).css('display') !== 'none') {
                            
-                             if ($(this).find('#ddlItemGrp' + j.toString()).val() == "" || $(this).find('#ddlItemGrp' + j.toString()).val() == 0) {
-                                isValid = false;
-                                alert("Please Select Sub Group");
-                                return false;
-                            }
-                            if ($(this).find('#ddlItemGrp' + j.toString()).val() != "" || $(this).find('#ddlItemGrp' + j.toString()).val() != "0") {
 
                                 if ($(this).find('#ddlItem' + j.toString()).val() == "" || $(this).find('#ddlItem' + j.toString()).val() == 0) {
                                     isValid = false;
@@ -384,7 +363,7 @@
                                         "background": ""
                                     });
                                 }
-                            }
+                           
                                 if ($(this).find('#txtQuantity' + j.toString()).val() == "" || $(this).find('#txtQuantity' + j.toString()).val() == "0") {
                                     isValid = false;
                                     $(this).find('#txtQuantity' + j.toString()).css({
@@ -429,6 +408,25 @@
                                         "background": ""
                                     });
                                 }
+
+                    if ($(this).find('#txtNarration' + j.toString()).val() == "") {
+                        isValid = false;
+                        $(this).find('#txtNarration' + j.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Narration");
+                        $(this).find('#txtNarration' + j.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtNarration' + j.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
 
 
                         }
@@ -558,6 +556,7 @@
     todayHighlight: 1,
     startView: 2,
     minView: 2,
+        startDate: new Date(),
     forceParse: 0
     });
 function AddRowT() {
@@ -615,6 +614,7 @@ function AddRowT() {
     todayHighlight: 1,
     startView: 2,
     minView: 2,
+            startDate: new Date(),
     forceParse: 0
     });
     }

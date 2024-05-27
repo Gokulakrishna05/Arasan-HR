@@ -131,7 +131,7 @@ namespace Arasan.Services
         public DataTable GetMatItemByID(string MatId)
         {
             string SvSql = string.Empty;
-            SvSql = "Select STORESREQDETAILID,STORESREQBASICID,STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,SCHCLQTY,UNITMAST.UNITID,ITEMMASTER.ITEMID,STORESREQDETAIL.QTY,ISSQTY from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + MatId + "'";
+            SvSql = "Select STORESREQDETAILID,STORESREQBASICID,STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,SCHCLQTY,UNITMAST.UNITID,ITEMMASTER.ITEMID,STORESREQDETAIL.QTY,ISSQTY from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + MatId + "' AND QTY!=ISSQTY";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -491,7 +491,9 @@ namespace Arasan.Services
                                     objCmddts = new OracleCommand(SvSql2, objConn);
                                     objCmddts.ExecuteNonQuery();
 
-                                    SvSql2 = "UPDATE STORESREQDETAIL SET SCHCLQTY='" + cp.IndQty + "',ISSQTY='"+ cp.InvQty + "',SCHISSQTY='"+ cp.InvQty +"' WHERE STORESREQDETAILID='" + cp.detid + "'";
+
+                                    double issqty = Convert.ToDouble(cp.ReqQty) - cp.IndQty;
+                                    SvSql2 = "UPDATE STORESREQDETAIL SET SCHCLQTY='" + cp.IndQty + "',ISSQTY='"+ issqty + "',SCHISSQTY='"+ issqty + "' WHERE STORESREQDETAILID='" + cp.detid + "'";
                                     objCmddts = new OracleCommand(SvSql2, objConn);
                                     objCmddts.ExecuteNonQuery();
                                 }
