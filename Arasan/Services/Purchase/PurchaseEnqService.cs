@@ -627,20 +627,43 @@ namespace Arasan.Services
 
         }
 
+        public string StatusActChange(string tag, string id)
+        {
 
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    //svSQL = "UPDATE PURENQ SET ACTIVE ='NO' WHERE PURENQID='" + id + "'";
+                    svSQL = "UPDATE PURENQBASIC SET IS_ACTIVE ='Y' WHERE PURENQBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
 
         public DataTable GetAllPurchaseEnquiryItems(string strfrom, string strTo,string strStatus)
         {
             string SvSql = string.Empty;
-            SvSql = "Select DOCID,to_char(DOCDATE,'dd-MON-yyyy') ENQDATE,PARTYREFNO,P.PARTYID,E.STATUS,PURENQBASICID from PURENQBASIC E,PARTYMAST P  Where E.PARTYMASTID=P.PARTYMASTID  ";
-            //if (strStatus == "Y" || strStatus == null)
-            //{
-            //    SvSql +=  " AND E.IS_ACTIVE='Y' ";
-            //}
-            //else
-            //{
-            //    SvSql = "  AND E.IS_ACTIVE='N'";
-            //}
+            SvSql = "Select DOCID,to_char(DOCDATE,'dd-MON-yyyy') ENQDATE,PARTYREFNO,P.PARTYID,E.STATUS,PURENQBASICID,E.IS_ACTIVE from PURENQBASIC E,PARTYMAST P  Where E.PARTYMASTID=P.PARTYMASTID  ";
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql +=  " AND E.IS_ACTIVE='Y' ";
+            }
+            else
+            {
+                SvSql += "  AND E.IS_ACTIVE='N'";
+            }
             //if (!string.IsNullOrEmpty(strfrom) && !string.IsNullOrEmpty(strTo))
             //{
             //    SvSql += " and E.DOCDATE BETWEEN '" + strfrom + "' and '" + strTo + "'";
