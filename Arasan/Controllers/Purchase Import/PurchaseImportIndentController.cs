@@ -115,7 +115,7 @@ namespace Arasan.Controllers.Store_Management
                 string EditRow = string.Empty;
 
                 EditRow = "<a href=PurchaseImportIndent?id=" + dtUsers.Rows[i]["IPINDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteIndent?tag=Del&id=" + dtUsers.Rows[i]["IPINDBASICID"].ToString() + " onclick='return confirm(" + "\"Are you sure you want to Disable this record...?\"" + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                DeleteRow = "<a href=DeleteIndent?tag=Del&id=" + dtUsers.Rows[i]["IPINDBASICID"].ToString() + " ><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new IndentBindList
                 {
@@ -123,8 +123,8 @@ namespace Arasan.Controllers.Store_Management
                     branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
                     indentno = dtUsers.Rows[i]["DOCID"].ToString(),
                     indentdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
-                    EditRow = EditRow,
-                    DelRow = DeleteRow,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
 
                 });
             }

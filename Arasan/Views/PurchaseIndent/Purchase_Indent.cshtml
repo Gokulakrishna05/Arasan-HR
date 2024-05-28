@@ -17,8 +17,8 @@
     <div class="col-lg-12">
 
         <ol class="breadcrumb">
-            <li> <a href="#">Home</a> </li>
-            <li> <a>Stores Management</a> </li>
+            <li> <a href="/Home/PurchaseDash">Home</a> </li>
+            <li> <a>Purchase</a> </li>
             <li class="active"> <strong>Purchase Indent</strong> </li>
         </ol>
     </div>
@@ -183,7 +183,7 @@
                                                                                      @Html.HiddenFor(o=>o.PILst[i].UnitID , new { @id = "txtUnitID" + i})
                                                                                     </td>
                                                                                     <td> @Html.TextBoxFor(o => o.PILst[i].Stock, new { @id = "txtStock" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 50px;text-align:right" ,@readonly="readonly"})</td>
-                                                                                    <td><label id="wholestock@(i)"></label></td>
+                                                            <td><label id="wholestock@(i)">@Html.Raw(item.WholeStock)</label></td>
                                                                                     <td>@Html.TextBoxFor(o => o.PILst[i].IndentPlaced, new { @id = "txtIndentPlaced" + i, @class = "form-control", style = "width: 50px;", @readonly="readonly"})</td>
                                                                                     <td>@Html.TextBoxFor(o => o.PILst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 75px;text-align:right", @onkeyup = "changeQty(this," + i + ")"})</td>
                                                             <td> @Html.DropDownListFor(o => o.PILst[i].LocId, Model.PILst[i].loclst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlLoc" + i, style = "width: 170px;" }) </td>

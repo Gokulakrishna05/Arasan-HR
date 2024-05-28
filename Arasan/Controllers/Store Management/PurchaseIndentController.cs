@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Interface.Master;
+using Org.BouncyCastle.Bcpg;
 //using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Arasan.Controllers.Store_Management
@@ -23,7 +24,7 @@ namespace Arasan.Controllers.Store_Management
             datatrans = new DataTransactions(_connectionString);
 
         }
-        public IActionResult Purchase_Indent()
+        public IActionResult Purchase_Indent(string id)
         {
             PurchaseIndent ca = new PurchaseIndent();
             ca.Brlst = BindBranch();
@@ -31,40 +32,140 @@ namespace Arasan.Controllers.Store_Management
             ca.PURLst = BindPurType();
             ca.ELst = BindErection();
             ca.EmpLst = BindEmp();
-            ca.Branch = Request.Cookies["BranchId"];
             ca.user = Request.Cookies["UserId"];
             ca.username = Request.Cookies["UserName"];
-            ca.IndentDate = DateTime.Now.ToString("dd-MMM-yyyy");
-            ca.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
-            DataTable dtv = datatrans.GetSequence("Pind");
-            if (dtv.Rows.Count > 0)
+            if (id == null)
             {
-                ca.IndentId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
+                ca.Branch = Request.Cookies["BranchId"];
+                ca.IndentDate = DateTime.Now.ToString("dd-MMM-yyyy");
+                ca.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
+                DataTable dtv = datatrans.GetSequence("Pind");
+                if (dtv.Rows.Count > 0)
+                {
+                    ca.IndentId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
+                }
+                List<PIndentItem> TData = new List<PIndentItem>();
+                PIndentItem tda = new PIndentItem();
+                for (int i = 0; i < 3; i++)
+                {
+                    tda = new PIndentItem();
+                    //tda.ItemGrouplst = BindItemGrplst();
+                    tda.Itemlst = BindItemlst();
+                    tda.loclst = GetLoc();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+                ca.PILst = TData;
+                //ca.ID = "0";
+                List<PIndentTANDC> TData1 = new List<PIndentTANDC>();
+                PIndentTANDC tda1 = new PIndentTANDC();
+                for (int i = 0; i < 1; i++)
+                {
+                    tda1 = new PIndentTANDC();
+                    tda1.Isvalid = "Y";
+                    TData1.Add(tda1);
+                }
+                ca.TANDClst = TData1;
             }
-            List<PIndentItem> TData = new List<PIndentItem>();
-            PIndentItem tda = new PIndentItem();
-            for (int i = 0; i < 3; i++)
+            else
             {
-                tda = new PIndentItem();
-                //tda.ItemGrouplst = BindItemGrplst();
-                tda.Itemlst = BindItemlst();
-                tda.loclst = GetLoc();
-                tda.Isvalid = "Y";
-                TData.Add(tda);
-            }
-            ca.PILst = TData;
-            //ca.ID = "0";
-            List<PIndentTANDC> TData1 = new List<PIndentTANDC>();
-            PIndentTANDC tda1 = new PIndentTANDC();
-            for (int i = 0; i < 1; i++)
-            {
-                tda1 = new PIndentTANDC();
-                tda1.Isvalid = "Y";
-                TData1.Add(tda1);
-            }
-            ca.TANDClst = TData1;
+                DataTable dt = new DataTable();
+                dt = datatrans.GetData("select PINDBASICID,BRANCHID,LOCID,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,REFDT from PINDBASIC where PINDBASICID='" + id + "'");
+                if(dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.SLocation= dt.Rows[0]["LOCID"].ToString();
+                    
+                    ca.IndentId= dt.Rows[0]["DOCID"].ToString();
+                    ca.IndentDate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.RefDate = dt.Rows[0]["REFDT"].ToString();
+                }
+                List<PIndentItem> TData = new List<PIndentItem>();
+                PIndentItem tda = new PIndentItem();
+                DataTable dtt=new DataTable();
+                dtt = datatrans.GetData("select ITEMID,UNIT,to_char(DUEDATE,'dd-MON-yyyy') DUEDATE,NARRATION,DEPARTMENT,CRATE,CAMOUNT,U.UNITID,QTY,QCCOMPFLAG from PINDDETAIL P,UNITMAST U where U.UNITMASTID=P.UNIT AND PINDBASICID='" + id + "'");
+                if(dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda = new PIndentItem();
+                        tda.Itemlst = BindItemlst();
+                        tda.loclst = GetLoc();
+                        tda.Narration = dtt.Rows[i]["NARRATION"].ToString();
+                        tda.Unit= dtt.Rows[i]["UNITID"].ToString();
+                        tda.UnitID= dtt.Rows[i]["UNIT"].ToString();
+                        tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? 0 : dtt.Rows[i]["QTY"].ToString());
+                        tda.Duedate = dtt.Rows[i]["DUEDATE"].ToString();
+                        tda.ItemId= dtt.Rows[i]["ITEMID"].ToString();
+                        tda.QC= dtt.Rows[i]["QCCOMPFLAG"].ToString();
+                        tda.detid= dtt.Rows[i]["DEPARTMENT"].ToString();
+                        string lot = datatrans.GetDataString("SELECT LOTYN FROM ITEMMASTER   WHERE ITEMMASTERID='" + tda.ItemId + "'");
+                        if (lot == "YES")
+                        {
 
-            return View(ca);
+                           string  totalstock = datatrans.GetDataString("Select  SUM(S.PLUSQTY-S.MINUSQTY) as QTY from  LSTOCKVALUE S  where S.ITEMID=" + tda.ItemId + "  HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0  ");
+                           tda.WholeStock =" <a  href = WholeStock? id = " + tda.ItemId + " class='fancybox' data-fancybox-type='iframe'>"+ totalstock+"</a>";
+                            tda.Stock = datatrans.GetDataString("Select  SUM(S.PLUSQTY-S.MINUSQTY) as QTY from  LSTOCKVALUE S  where S.ITEMID=" + tda.ItemId + " AND S.LOCID='10001000000827' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0  ");
+                        }
+                        else
+                        {
+                            string totalstock = datatrans.GetDataString("Select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY from STOCKVALUE S  where S.ITEMID=" + tda.ItemId + "    HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  ");
+                            tda.WholeStock = " <a  href = WholeStock? id = " + tda.ItemId + " class='fancybox' data-fancybox-type='iframe'>" + totalstock + "</a>";
+                            tda.Stock = datatrans.GetDataString("Select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY from STOCKVALUE S  where S.ITEMID=" + tda.ItemId + "  AND S.LOCID='10001000000827'  HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  ");
+                        }
+                        DataTable dt1 =new DataTable();
+                        dt1 = PurIndent.GetIndetnPlacedDetails(tda.ItemId);
+                        if (dt1.Rows.Count > 0)
+                        {
+                            tda.IndentPlaced = dt1.Rows[0]["QTY"].ToString();
+                        }
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
+                }
+                
+                else
+                {
+                    for (int i = 0; i < 1; i++)
+                    {
+                        tda = new PIndentItem();
+                        tda.Itemlst = BindItemlst();
+                        tda.loclst = GetLoc();
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
+                }
+                ca.PILst = TData;
+                List<PIndentTANDC> TData1 = new List<PIndentTANDC>();
+                PIndentTANDC tda1 = new PIndentTANDC();
+                DataTable dt2 = new DataTable();
+                dt2 = datatrans.GetData("select TERMNCDN from PINDTENDC where PINDBASICID='" + id + "'");
+                if(dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda1 = new PIndentTANDC();
+                        tda1.TANDC = dt2.Rows[i]["TERMNCDN"].ToString();
+                        tda1.Isvalid = "Y";
+                        TData1.Add(tda1);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 1; i++)
+                    {
+                        tda1 = new PIndentTANDC();
+                        tda1.Isvalid = "Y";
+                        TData1.Add(tda1);
+                    }
+                }
+             
+                ca.TANDClst = TData1;
+            }
+           
+
+
+                return View(ca);
         }
 
         [HttpPost]
@@ -119,7 +220,7 @@ namespace Arasan.Controllers.Store_Management
                 View = "<a href=ViewIndent?id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/close_icon.png' alt='View Details' width='20' /></a>";
 
                 EditRow = "<a href=Purchase_Indent?id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteIndent?tag=Del&id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + " onclick='return confirm(" + "\"Are you sure you want to Disable this record...?\"" + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                DeleteRow = "<a href=DeleteIndent?tag=Del&id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + " ><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new IndentBindList
                 {
@@ -128,8 +229,8 @@ namespace Arasan.Controllers.Store_Management
                     indentno = dtUsers.Rows[i]["DOCID"].ToString(),
                     indentdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     view = View,
-                    EditRow = EditRow,
-                    DelRow = DeleteRow,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
 
                 });
             }
