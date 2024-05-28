@@ -68,7 +68,9 @@
                 { name: 'indentno', type: 'string' },
                 { name: 'indentdate', type: 'string' },
                 { name: 'branch', type: 'string' },
-                { name: 'view', type: 'string' }
+                { name: 'view', type: 'string' },
+                { name: 'editrow', type: 'string' },
+                { name: 'delrow', type: 'string' }
             ],
             id: 'piid',
         };
@@ -110,7 +112,7 @@
         //var ordersDataAdapter2 = new $.jqx.dataAdapter(ordersSource, { autoBind: true });
         var orders = dataAdapter.records;
 
-        console.log(dataAdapter);
+        //console.log(dataAdapter);
 
         var nestedGrids = new Array();
         // create nested grid.
@@ -197,6 +199,14 @@
                     { text: 'IndentNo', filtertype: 'input', datafield: 'indentno', width: 300 },
                     { text: 'IndentDate', datafield: 'docDate', datafield: 'indentdate', align: 'center', width: 230 },
                     { text: 'Created By', filtertype: 'checkedlist', datafield: 'branch', width: 300 },
+                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 80 },
+                    {
+                        text: 'Delete', cellsAlign: 'center', align: "center",  editable: false, sortable: false, dataField: null, cellsRenderer: function (row, column, value) {
+                            // render custom column.
+                            return '<div class="text-center" style="padding:2px;"><a href=DeleteIndent?tag=Del&id="' + row + '"  ConfirmDelete(' + row + ')"><img src="../ Images / Inactive.png" /></a> </div>';
+                       }
+                    },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 80 },
                      //  { text: 'Short Close', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 160 },
 
                 ]
@@ -283,6 +293,9 @@
         var url = 'List_Purchase_Indent?strfrom=' + dtfrom + '&strTo=' + dtto;
         window.location.href = url;
 
+    }
+    function ConfirmDelete(data) {
+        return confirm("Are you sure you want to delete?");
     }
 </script>
 <script>

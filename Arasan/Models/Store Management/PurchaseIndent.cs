@@ -79,8 +79,8 @@ namespace Arasan.Models
         public double grnqty { get; set; }
         public string Narration { get; set; }
         public string Duedate { get; set; }
-        public double Stock { get; set; }
-        public double WholeStock { get; set; }
+        public string Stock { get; set; }
+        public string WholeStock { get; set; }
         public string Isvalid { get; set; }
 
     }
@@ -93,8 +93,8 @@ namespace Arasan.Models
     {
         public long piid { get; set; }
         public string SuppName { get; set; }
-        public string EditRow { get; set; }
-        public string DelRow { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
         public string view { get; set; }
         public string indentno { get; set; }
         public string indentdate { get; set; }
