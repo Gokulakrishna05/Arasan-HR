@@ -566,34 +566,46 @@ namespace Arasan.Controllers
                 string View = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y" || dtUsers.Rows[i]["IS_ACTIVE"].ToString() == null)
+                {
+                    MailRow = "<a href=SendMail?tag=Del&id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
+                    FollowUp = "<a href=Followup?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/followup.png' /></a>";
+                    //if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "N")
+                    //{
 
-                MailRow = "<a href=SendMail?tag=Del&id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
-                FollowUp = "<a href=Followup?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/followup.png' /></a>";
-                //if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "N")
-                //{
 
-
-                //}
-                //else
-                //{
+                    //}
+                    //else
+                    //{
                     if (dtUsers.Rows[i]["STATUS"].ToString() == "Quote")
                     {
-                    MoveToQuo = "<img src='../Images/tick.png' alt='View Details' width='20' />";
-                    EditRow = "";
-                    
+                        MoveToQuo = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                        EditRow = "";
+
                     }
                     else
                     {
-                    MoveToQuo = "<a href=ViewEnq?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-                    EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                        MoveToQuo = "<a href=ViewEnq?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                        EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
 
+                    }
+                    //}
+                    Regenerate = "<a href=Regenerate?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/Change.png' alt='Edit' /></a>";
+                    View = "<a href=ViewPurEnq?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                    //EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    //DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " onclick='return confirm(" + "\"Are you sure you want to Disable this record...?\"" + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    // DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + ")'></a>";
+                    DeleteRow = "DeleteItem?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "";
                 }
-                //}
-                Regenerate = "<a href=Regenerate?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/Change.png' alt='Edit' /></a>";
-                View = "<a href=ViewPurEnq?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                //EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-               
+                else {
+                    MailRow = "";
+                    FollowUp = "";
+                   MoveToQuo = "";
+                    Regenerate = "";
+                   View = "";
+                   EditRow = "";
+                    DeleteRow = "Active?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "";
+                }
                 Reg.Add(new PurchaseEnquiryItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["PURENQBASICID"].ToString()),
@@ -980,6 +992,21 @@ namespace Arasan.Controllers
         {
 
             string flag = PurenqService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListEnquiry");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListEnquiry");
+            }
+        }
+        public ActionResult Active(string tag, string id)
+        {
+
+            string flag = PurenqService.StatusActChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

@@ -35,6 +35,7 @@ public interface IPurchaseEnqService
         DataTable GetItemSubGroup(string id);
 
     string StatusChange(string tag, string id);
+    string StatusActChange(string tag, string id);
     DataTable GetAllPurchaseEnquiryItems(string strfrom, string strTo, string strStatus);
     string RegenerateCRUD(PurchaseEnquiry cy);
     DataTable GetRegenerateDetails(string id);
