@@ -113,7 +113,7 @@ namespace Arasan.Services
         {
             string msg = "";
             try
-            {
+            { 
                 string StatementType = string.Empty; string svSQL = "";
                 string updateCMd = ""; string DocNo = "";
                datatrans = new DataTransactions(_connectionString);

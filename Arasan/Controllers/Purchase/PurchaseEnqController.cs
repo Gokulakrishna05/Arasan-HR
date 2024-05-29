@@ -591,7 +591,7 @@ namespace Arasan.Controllers
                     }
                     //}
                     Regenerate = "<a href=Regenerate?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/Change.png' alt='Edit' /></a>";
-                    View = "<a href=ViewPurEnq?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                    View = "<a href=ViewPurEnq?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " class='fancyboxs' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                     //EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     //DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " onclick='return confirm(" + "\"Are you sure you want to Disable this record...?\"" + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                     // DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + ")'></a>";

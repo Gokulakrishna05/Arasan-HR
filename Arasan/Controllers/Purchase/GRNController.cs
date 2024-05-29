@@ -515,8 +515,8 @@ namespace Arasan.Controllers
                     // tda.CRDRLst = BindCRDRLst();
                     tda.Ledgerlist = BindLedgerLst();
                     tda.Ledgername = mid;
-                    tda.CRAmount = 0;
-                    tda.DRAmount = grn.Net;
+                    tda.CRAmount = grn.Net;
+                    tda.DRAmount = 0;
                     tda.TypeName = "NET";
                     tda.Isvalid = "Y";
                     tda.CRDR = "Cr";
@@ -532,8 +532,8 @@ namespace Arasan.Controllers
                         tda = new GRNAccount();
                         tda.Ledgerlist = BindLedgerLst();
                         tda.Ledgername = dtdet.Rows[i]["ITEMACC"].ToString();
-                        tda.CRAmount = Convert.ToDouble(dtdet.Rows[i]["GROSS"].ToString() == "" ? "0" : dtdet.Rows[i]["GROSS"].ToString());
-                        tda.DRAmount = 0;
+                        tda.CRAmount = 0;
+                        tda.DRAmount = Convert.ToDouble(dtdet.Rows[i]["GROSS"].ToString() == "" ? "0" : dtdet.Rows[i]["GROSS"].ToString());
                         tda.TypeName = "GROSS";
                         tda.Isvalid = "Y";
                         tda.CRDR = "Dr";
@@ -550,8 +550,8 @@ namespace Arasan.Controllers
                    //tda.CRDRLst = BindCRDRLst();
                     tda.Ledgerlist = BindLedgerLst();
                     tda.Ledgername = cgstledger;
-                    tda.CRAmount = grn.CGST;
-                    tda.DRAmount = 0;
+                    tda.CRAmount = 0;
+                    tda.DRAmount = grn.CGST;
                     tda.TypeName = "CGST";
                     tda.Isvalid = "Y";
                     tda.CRDR = "Dr";
@@ -566,8 +566,8 @@ namespace Arasan.Controllers
                    // tda.CRDRLst = BindCRDRLst();
                     tda.Ledgerlist = BindLedgerLst();
                     tda.Ledgername = sgstledger;
-                    tda.CRAmount = grn.SGST;
-                    tda.DRAmount = 0;
+                    tda.CRAmount = 0;
+                    tda.DRAmount = grn.SGST;
                     tda.TypeName = "SGST";
                     tda.Isvalid = "Y";
                     tda.CRDR = "Dr";
@@ -582,8 +582,8 @@ namespace Arasan.Controllers
                    // tda.CRDRLst = BindCRDRLst();
                     tda.Ledgerlist = BindLedgerLst();
                     tda.Ledgername = cgstledger;
-                    tda.CRAmount = grn.IGST;
-                    tda.DRAmount = 0;
+                    tda.CRAmount = 0;
+                    tda.DRAmount = grn.IGST;
                     tda.TypeName = "IGST";
                     tda.Isvalid = "Y";
                     tda.CRDR = "Dr";
@@ -597,8 +597,8 @@ namespace Arasan.Controllers
                     tda = new GRNAccount();
                    // tda.CRDRLst = BindCRDRLst();
                     tda.Ledgerlist = BindLedgerLst();
-                    tda.CRAmount = 0;
-                    tda.DRAmount = grn.DiscAmt;
+                    tda.CRAmount = grn.DiscAmt;
+                    tda.DRAmount = 0;
                     tda.TypeName = "Discount";
                     tda.Isvalid = "Y";
                     tda.CRDR = "Cr";
@@ -613,8 +613,8 @@ namespace Arasan.Controllers
                    // tda.CRDRLst = BindCRDRLst();
                     tda.Ledgerlist = BindLedgerLst();
                     tda.Ledgername = packingledger;
-                    tda.CRAmount = grn.Packingcharges;
-                    tda.DRAmount = 0;
+                    tda.CRAmount = 0;
+                    tda.DRAmount = grn.Packingcharges;
                     tda.TypeName = "PACKING CHARGES";
                     tda.Isvalid = "Y";
                     tda.CRDR = "Dr";
@@ -629,8 +629,8 @@ namespace Arasan.Controllers
                   //  tda.CRDRLst = BindCRDRLst();
                     tda.Ledgerlist = BindLedgerLst();
                     tda.Ledgername = frieghtledger;
-                    tda.CRAmount = grn.Frieghtcharge;
-                    tda.DRAmount = 0;
+                    tda.CRAmount = 0;
+                    tda.DRAmount = grn.Frieghtcharge;
                     tda.TypeName = "FREIGHT CHARGES";
                     tda.Isvalid = "Y";
                     tda.CRDR = "Dr";
@@ -644,8 +644,8 @@ namespace Arasan.Controllers
                     tda = new GRNAccount();
                    // tda.CRDRLst = BindCRDRLst();
                     tda.Ledgerlist = BindLedgerLst();
-                    tda.CRAmount = grn.Othercharges;
-                    tda.DRAmount = 0;
+                    tda.CRAmount = 0;
+                    tda.DRAmount = grn.Othercharges;
                     tda.TypeName = "Other charges";
                     tda.Isvalid = "Y";
                     tda.CRDR = "Dr";
@@ -659,9 +659,9 @@ namespace Arasan.Controllers
                     tda = new GRNAccount();
                    // tda.CRDRLst = BindCRDRLst();
                     tda.Ledgerlist = BindLedgerLst();
-                   // tda.Ledgername= packingledger
-                    tda.CRAmount = grn.Round;
-                    tda.DRAmount = 0;
+                    // tda.Ledgername= packingledger
+                    tda.CRAmount = 0;
+                    tda.DRAmount = grn.Round;
                     tda.TypeName = "ROUND OFF";
                     tda.Isvalid = "Y";
                     tda.CRDR = "Dr";
@@ -690,8 +690,8 @@ namespace Arasan.Controllers
                     tda = new GRNAccount();
                   //  tda.CRDRLst = BindCRDRLst();
                     tda.Ledgerlist = BindLedgerLst();
-                    tda.CRAmount = 0;
-                    tda.DRAmount = grn.otherdeduction;
+                    tda.CRAmount = grn.otherdeduction;
+                    tda.DRAmount = 0;
                     tda.TypeName = "Other Deduction";
                     tda.Isvalid = "Y";
                     tda.CRDR = "Cr";
@@ -764,11 +764,12 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = GRNService.LedgerList();
+                DataTable dtDesg = new DataTable();
+                dtDesg = datatrans.GetData("select MASTERID,MNAME from master");
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LEDNAME"].ToString(), Value = dtDesg.Rows[i]["LEDGERID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MNAME"].ToString(), Value = dtDesg.Rows[i]["MASTERID"].ToString() });
                 }
                 return lstdesg;
             }

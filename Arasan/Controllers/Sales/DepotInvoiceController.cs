@@ -361,8 +361,8 @@ namespace Arasan.Controllers
 
                     unit = dt.Rows[0]["UNITID"].ToString();
                     price = dt.Rows[0]["LATPURPRICE"].ToString();
-                    binno = dt.Rows[0]["BINNO"].ToString();
-                    binname = datatrans.GetDataString("select BINID from BINBASIC where BINBASICId='" + dt.Rows[0]["BINNO"].ToString() + "'"); ;
+                    binno = dt.Rows[0]["BINID"].ToString();
+                    binname = datatrans.GetDataString("select BINID from BINBASIC where BINBASICId='" + dt.Rows[0]["BINID"].ToString() + "'"); ;
                     dt1 = DepotInvoiceService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
                     if (dt1.Rows.Count > 0)
                     {
