@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\DirectPurchase\DPAccount.cshtml" />
     <Content Remove="wwwroot\Reports\APProductionDailyReport.rdlc" />
     <Content Remove="wwwroot\Reports\Basic.rdlc" />
     <Content Remove="wwwroot\Reports\EnqReport.rdlc" />
@@ -40,6 +41,7 @@
 
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="Views\DirectPurchase\DPAccount.cshtml" />
     <None Include="Views\ProFormaInvoice\ListProFormaInvoice.cshtml" />
     <None Include="Views\ProFormaInvoice\ProFormaInvoice.cshtml" />
     <None Include="wwwroot\Reports\APProductionDailyReport.rdlc">
@@ -410,5 +412,13 @@
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/artifacthub-repo.json" /></VisualStudio></ProjectExtensions>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\DirectPurchase\DPAccount.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\DirectPurchase\DPAccount.cshtml" />
+  </ItemGroup>
 
 </Project>

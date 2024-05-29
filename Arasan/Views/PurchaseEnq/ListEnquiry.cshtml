@@ -251,7 +251,26 @@
         $(".fancybox1").eq(0).trigger('click');
     }
 
+    var fancyboxs123;
+    jQuery(document).ready(function ($) {
+        $(".fancyboxs").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false,
+           
+        });
+        fancyboxs123 = $.fancybox;
+    });
 
+    function close_popup() {
+        fancyboxs123.close();
+        $(".fancyboxs1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancyboxs1").eq(0).trigger('click');
+    }
     //function changeStatus(status) {
     //    var url = "/PurchaseQuo/ListPurchaseQuo?status=" + status;
     //    window.location.href = url;
