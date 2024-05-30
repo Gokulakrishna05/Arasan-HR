@@ -21,8 +21,8 @@ namespace Arasan.Interface
         //DataTable GetItemDetails(string ItemId);
         DataTable GetItemCF(string ItemId, string unitid);
         string DirectPurCRUD(DirectPurchase cy);
-       
-      
+
+        string DPACC(GRN cy);
         IEnumerable<DirectPurchase> GetAllDirectPur(string status);
         DataTable GetDirectPurchase(string id);
         DataTable GetDirectPurchaseItemDetails(string id);

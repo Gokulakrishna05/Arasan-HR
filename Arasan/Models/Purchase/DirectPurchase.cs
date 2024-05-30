@@ -124,6 +124,7 @@ namespace Arasan.Models
         public string Accrow { get; set; }
         public string gross { get; set; }
         public string net { get; set; }
+        public string account { get; set; } 
         //public string Status { get; set; }
         //public string Account { get; set; }
     }
