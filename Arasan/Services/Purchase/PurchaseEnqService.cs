@@ -655,7 +655,7 @@ namespace Arasan.Services
         public DataTable GetAllPurchaseEnquiryItems(string strfrom, string strTo,string strStatus)
         {
             string SvSql = string.Empty;
-            SvSql = "Select DOCID,to_char(DOCDATE,'dd-MON-yyyy') ENQDATE,PARTYREFNO,P.PARTYID,E.STATUS,PURENQBASICID,E.IS_ACTIVE from PURENQBASIC E,PARTYMAST P  Where E.PARTYMASTID=P.PARTYMASTID  ";
+            SvSql = "Select DOCID,to_char(DOCDATE,'dd-MON-yyyy') ENQDATE,PARTYREFNO,P.PARTYID,E.STATUS,E.PURENQBASICID,E.IS_ACTIVE,PD.RATE,PD.QTY from PURENQBASIC E,PARTYMAST P,PURENQDETAIL PD  Where E.PARTYMASTID=P.PARTYMASTID AND E.PURENQBASICID=PD.PURENQBASICID ";
             if (strStatus == "Y" || strStatus == null)
             {
                 SvSql +=  " AND E.IS_ACTIVE='Y' ";
@@ -679,6 +679,7 @@ namespace Arasan.Services
         public string RegenerateCRUD(PurchaseEnquiry cy)
         {
             string msg = "";
+            string entat = DateTime.Now.ToString("dd\\/MM\\/yyyy hh:mm:ss tt");
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
@@ -707,7 +708,7 @@ namespace Arasan.Services
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     StatementType = "Insert";
-                    objCmd.Parameters.Add("PURENQBASICID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.EnqNo;
                     objCmd.Parameters.Add("ENQREF", OracleDbType.NVarchar2).Value = cy.RefNo;

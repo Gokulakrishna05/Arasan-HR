@@ -81,6 +81,9 @@
             }
         }
         );
+         var linkrenderer1 = function (row, column, value) {
+            return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+        }
         //alert(JSON.stringify(employeesAdapter));
 
         var ordersSource =
@@ -200,17 +203,29 @@
                     { text: 'IndentDate', datafield: 'docDate', datafield: 'indentdate', align: 'center', width: 230 },
                     { text: 'Created By', filtertype: 'checkedlist', datafield: 'branch', width: 300 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 80 },
-                    {
-                        text: 'Delete', cellsAlign: 'center', align: "center",  editable: false, sortable: false, dataField: null, cellsRenderer: function (row, column, value) {
+                    
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false,cellsrenderer: linkrenderer1, cellsalign: 'center', width: 70 },
                             // render custom column.
-                            return '<div class="text-center" style="padding:2px;"><a href=DeleteIndent?tag=Del&id="' + row + '"  ConfirmDelete(' + row + ')"><img src="../ Images / Inactive.png" /></a> </div>';
-                       }
-                    },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 80 },
+                     
+                 
+                   // { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
                      //  { text: 'Short Close', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 160 },
 
                 ]
             });
+ 
+    $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                 strfrom: "@strfrom ",
+                strTo: "@strTo",
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
     });
 </script>
 <div class="wrapper-content ">
@@ -256,6 +271,13 @@
                            
 
                         <div class="row">
+                            <div class="col-md-2 ">
+                                 <br>  <br> @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                { new SelectListItem() {Text = "Enabled", Value="Y"},
+                                new SelectListItem() {Text = "Disabled", Value="N"}},
+                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                                <br>
+                            </div>
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("Purchase_Indent", "PurchaseIndent")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Purchase Indent</a>
@@ -294,9 +316,7 @@
         window.location.href = url;
 
     }
-    function ConfirmDelete(data) {
-        return confirm("Are you sure you want to delete?");
-    }
+    
 </script>
 <script>
     $('.to_date').datetimepicker({

@@ -32,6 +32,7 @@ namespace Arasan.Models
         public List<SelectListItem> EmpLst;
 
         public string SLocation { get; set; }
+        public string ddlStatus { get; set; }
 
         public string IndentDate { get; set; }
 

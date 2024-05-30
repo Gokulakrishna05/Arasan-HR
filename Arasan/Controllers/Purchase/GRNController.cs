@@ -355,32 +355,48 @@ namespace Arasan.Controllers
                 //string MovePRDN = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
-
-                if (dtUsers.Rows[i]["STATUS"].ToString() == "GRN Completed")
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y" || dtUsers.Rows[i]["IS_ACTIVE"].ToString() == null)
                 {
-                    GRNStatus = "<img src='../Images/tick.png' alt='View Details' width='20' />";
-                    Account = "<a href=GRNAccount?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
-                    EditRow = "";
+                    if (dtUsers.Rows[i]["STATUS"].ToString() == "GRN Completed")
+                    {
+                        GRNStatus = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                        Account = "<a href=GRNAccount?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
+                        EditRow = "";
+                    }
+                    else
+                    {
+                        GRNStatus = dtUsers.Rows[i]["STATUS"].ToString();
+                        Account = "";
+                        //GRNStatus = "<a href=ViewQuote?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                        EditRow = "<a href=GRN?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+
+                    }
+                    //if( dtUsers.Rows[i]["damage"].ToString() == null)
+                    //{
+                    //    MovePRDN = "";
+                    //}
+                    //else
+                    //{
+                    //    MovePRDN = "<a href=ViewPRDN?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+
+                    //}
+                    View = "<a href=ViewGRN?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                    DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "";
+
                 }
                 else
                 {
-                    GRNStatus = dtUsers.Rows[i]["STATUS"].ToString();
-                    //GRNStatus = "<a href=ViewQuote?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-                    EditRow = "<a href=GRN?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    GRNStatus = "";
+                    Account = "";
+                    
+                    EditRow = "";
+
+                    View = "";
 
 
+                   DeleteRow = "Active?tag=Del&id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "";
                 }
-                //if( dtUsers.Rows[i]["damage"].ToString() == null)
-                //{
-                //    MovePRDN = "";
-                //}
-                //else
-                //{
-                //    MovePRDN = "<a href=ViewPRDN?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-
-                //}
-                View = "<a href=ViewGRN?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 Reg.Add(new GRNItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["GRNBLBASICID"].ToString()),
@@ -419,6 +435,21 @@ namespace Arasan.Controllers
         {
 
             string flag = GRNService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListGRN");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListGRN");
+            }
+        }
+        public ActionResult Active(string tag, string id)
+        {
+
+            string flag = GRNService.StatusActChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

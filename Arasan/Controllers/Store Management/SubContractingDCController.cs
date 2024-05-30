@@ -205,12 +205,16 @@ namespace Arasan.Controllers.Store_Management
                         View = "<a href=ViewSubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                         recept = "<a href=SubConDcRec?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
 
-                       // EditRow = "<a href=SubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                        // EditRow = "<a href=SubContractingDC?id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                        DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "";
 
                     }
                 }
-                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                else
+                {
+                    DeleteRow = "Active?tag=Del&id=" + dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString() + "";
 
+                }
                 Reg.Add(new ListSubContractingDCItem
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["SUBCONTDCBASICID"].ToString()),
@@ -241,6 +245,21 @@ namespace Arasan.Controllers.Store_Management
         {
 
             string flag = SubContractingDCService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListSubContractingDC");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListSubContractingDC");
+            }
+        }
+        public ActionResult Active(string tag, String id)
+        {
+
+            string flag = SubContractingDCService.StatusActChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

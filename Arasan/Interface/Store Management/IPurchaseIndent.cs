@@ -12,7 +12,7 @@ namespace Arasan.Interface
         DataTable GetItemDetails(string ItemId);
         DataTable GetEmp();
         string IndentCRUD(PurchaseIndent cy);
-        DataTable GetIndent(string strfrom, string strTo);
+        DataTable GetIndent(string strfrom, string strTo,string strStatus);
         DataTable GetIndentItem(string PRID);
         DataTable GetIndentItemApprove();
         DataTable GetIndentItemApproved();
@@ -28,5 +28,8 @@ namespace Arasan.Interface
         DataTable GetIndentItembyItemd(string ItemId);
         DataTable GetIndetnPlacedDetails(string ItemId);
         DataTable GetSTKDetails(string ItemId, string loc, string branch);
+
+        string StatusChange(string tag, string id);
+        string StatusActChange(string tag, string id);
     }
 }

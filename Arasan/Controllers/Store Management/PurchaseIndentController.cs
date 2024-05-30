@@ -204,24 +204,48 @@ namespace Arasan.Controllers.Store_Management
             return View(Cy);
         }
 
-        public ActionResult MyListIndentgrid(string strfrom,string strTo)
+        public ActionResult MyListIndentgrid(string strfrom,string strTo, string strStatus)
         {
            
             List<IndentBindList> Reg = new List<IndentBindList>();
             DataTable dtUsers = new DataTable();
-            //strStatus = strStatus == "" ? "Y" : strStatus;
-            dtUsers = PurIndent.GetIndent(strfrom, strTo);
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = PurIndent.GetIndent(strfrom, strTo, strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
                 string View = string.Empty;
-                View = "<a href=ViewIndent?id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/close_icon.png' alt='View Details' width='20' /></a>";
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y" || dtUsers.Rows[i]["IS_ACTIVE"].ToString() == null)
+                {
+                    if (dtUsers.Rows[i]["APPROVED1"].ToString() == "NO" || dtUsers.Rows[i]["APPROVED1"].ToString() == "")
+                    {
+                        View = "";
+                        EditRow = "";
 
-                EditRow = "<a href=Purchase_Indent?id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteIndent?tag=Del&id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + " ><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
+
+                        DeleteRow = "ActiveIndent?tag=Del&id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + "";
+                      
+                    }
+                    else
+                    {
+                        View = "<a href=ViewIndent?id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/close_icon.png' alt='View Details' width='20' /></a>";
+
+                        EditRow = "<a href=Purchase_Indent?id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                        DeleteRow = "DeleteIndent?tag=Del&id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + "";
+                    }
+                }
+                else
+                {
+                    View = "";
+                    EditRow = "";
+                    
+                 
+
+                    DeleteRow = "ActiveIndent?tag=Del&id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + "";
+                }
                 Reg.Add(new IndentBindList
                 {
                     piid = Convert.ToInt64(dtUsers.Rows[i]["PINDBASICID"].ToString()),
@@ -240,6 +264,39 @@ namespace Arasan.Controllers.Store_Management
                 Reg
             });
 
+        }
+        public ActionResult DeleteIndent(string tag, string id)
+        {
+
+           // bool result = datatrans.UpdateStatus("UPDATE PINDBASIC SET IS_ACTIVE='Y' Where PINDBASICID='" +id + "'");
+            string flag = PurIndent.StatusChange(tag, id);
+
+            if (string.IsNullOrEmpty(tag))
+            {
+
+                return RedirectToAction("List_Purchase_Indent");
+            }
+            else
+            {
+                TempData["notice"] = tag;
+                return RedirectToAction("List_Purchase_Indent");
+            }
+        }
+        public ActionResult ActiveIndent(string tag, string id)
+        {
+
+           // bool result = datatrans.UpdateStatus("UPDATE PINDBASIC SET IS_ACTIVE='Y' Where PINDBASICID='" + id + "'");
+            string flag = PurIndent.StatusActChange(tag, id);
+            if (string.IsNullOrEmpty(tag))
+            {
+
+                return RedirectToAction("List_Purchase_Indent");
+            }
+            else
+            {
+                TempData["notice"] = tag;
+                return RedirectToAction("List_Purchase_Indent");
+            }
         }
         public IActionResult ViewIndent(string id)
         {

@@ -13,7 +13,7 @@
       <div class="col-lg-12">
 
         <ol class="breadcrumb">
-          <li> <a href="#">Home</a> </li>
+          <li> <a href="@Url.Action("PurchaseDash", "Home")">Home</a> </li>
           <li> <a>Purchase</a> </li>
           <li class="active"> <strong> Purchase Enquiry </strong> </li>
         </ol>
@@ -28,7 +28,7 @@
               <hr>
                 @using (Html.BeginForm("PurchaseEnq", "PurchaseEnq", FormMethod.Post))
                         {
-                            @Html.AntiForgeryToken()
+                            @Html.AntiForgeryToken() 
               
               <from>
 			  <div class="row">
@@ -163,48 +163,48 @@
                                                             int j = 1;
                                                             foreach (var item in Model.EnqLst.ToList())
                                                             {
-                                                                                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                                                                       @* <td>
+                                                                                                                            <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                           @* <td>
                                                                                                                 @Html.DropDownListFor(o => o.EnqLst[i].ItemGroupId, Model.EnqLst[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Change(this.value," + i + ")",disabled="disabled" })
                                                                                                             </td>*@
-                                                                                                                    <td>
+                                                                                                                        <td>
 
-                                                                    @Html.DropDownListFor(o => o.EnqLst[i].ItemId, Model.EnqLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")",disabled="disabled" })
-                                                                                                                    @Html.HiddenFor(o => o.EnqLst[i].saveItemId)
-                                                                                                                    @Html.HiddenFor(o => o.EnqLst[i].pri,new{@id="txtpri"+i})
-                                                            @Html.HiddenFor(o => o.EnqLst[i].SGSTPer,new{@id="txtSGSTPer"+i})
-                                                            @Html.HiddenFor(o => o.EnqLst[i].CGSTPer,new{@id="txtCGSTPer"+i})
-                                                            @Html.HiddenFor(o => o.EnqLst[i].IGSTPer,new{@id="txtIGSTPer"+i})
-                                                            @Html.HiddenFor(o => o.EnqLst[i].CGSTAmt,new{@id="txtCGSTAmt"+i})
-                                                            @Html.HiddenFor(o => o.EnqLst[i].SGSTAmt,new{@id="txtSGSTAmt"+i})
-                                                            @Html.HiddenFor(o => o.EnqLst[i].IGSTAmt,new{@id="txtIGSTAmt"+i})
-                                                            @Html.HiddenFor(o => o.EnqLst[i].TotalAmount,new{@id="txtTotalAmount"+i})
+                                                                        @Html.DropDownListFor(o => o.EnqLst[i].ItemId, Model.EnqLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")",disabled="disabled" })
+                                                                                                                        @Html.HiddenFor(o => o.EnqLst[i].saveItemId)
+                                                                                                                        @Html.HiddenFor(o => o.EnqLst[i].pri,new{@id="txtpri"+i})
+                                                                @Html.HiddenFor(o => o.EnqLst[i].SGSTPer,new{@id="txtSGSTPer"+i})
+                                                                @Html.HiddenFor(o => o.EnqLst[i].CGSTPer,new{@id="txtCGSTPer"+i})
+                                                                @Html.HiddenFor(o => o.EnqLst[i].IGSTPer,new{@id="txtIGSTPer"+i})
+                                                                @Html.HiddenFor(o => o.EnqLst[i].CGSTAmt,new{@id="txtCGSTAmt"+i})
+                                                                @Html.HiddenFor(o => o.EnqLst[i].SGSTAmt,new{@id="txtSGSTAmt"+i})
+                                                                @Html.HiddenFor(o => o.EnqLst[i].IGSTAmt,new{@id="txtIGSTAmt"+i})
+                                                                @Html.HiddenFor(o => o.EnqLst[i].TotalAmount,new{@id="txtTotalAmount"+i})
+                                                                                                                            </td>
+                                                                                                                         <td>
+                                                                                                                            @Html.TextBoxFor(o => o.EnqLst[i].Desc, new { @id = "txtDesc" + i, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
                                                                                                                         </td>
-                                                                                                                     <td>
-                                                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].Desc, new { @id = "txtDesc" + i, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
-                                                                                                                    </td>
-                                                                                                                     <td>
-                                                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;" , @readonly = "readonly"})
-                                                                                                                    </td>
-                                                                                                                     <td>
-                                                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].Conversionfactor, new { @id = "txtConversionfactor" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly" })
-                                                                                                                    </td>
-                                                                                                                     <td>
-                                                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")"})
-                                                                                                                    </td>
-                                                                                                                    
-                                                                                                                     <td>
-                                                                    @Html.TextBoxFor(o => o.EnqLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
-                                                                                                                    </td>
-                                                                                                                     <td>
-                                                                                                                      @Html.HiddenFor(o => o.EnqLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly="readonly"})
-                                                                                                                    </td>
-                                                                                                                   @*   <td>
+                                                                                                                         <td>
+                                                                                                                            @Html.TextBoxFor(o => o.EnqLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;" , @readonly = "readonly"})
+                                                                                                                        </td>
+                                                                                                                         <td>
+                                                                                                                            @Html.TextBoxFor(o => o.EnqLst[i].Conversionfactor, new { @id = "txtConversionfactor" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly" })
+                                                                                                                        </td>
+                                                                                                                         <td>
+                                                                                                                            @Html.TextBoxFor(o => o.EnqLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")"})
+                                                                                                                        </td>
+                                                                                                                        
+                                                                                                                         <td>
+                                                                        @Html.TextBoxFor(o => o.EnqLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
+                                                                                                                        </td>
+                                                                                                                         <td>
+                                                                                                                          @Html.HiddenFor(o => o.EnqLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                                                            @Html.TextBoxFor(o => o.EnqLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly="readonly"})
+                                                                                                                        </td>
+                                                                                                                       @*   <td>
                                                                                                                
                                                                                                                 <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
                                                                                                             </td>*@
-                                                                                                                    </tr>
+                                                                                                                        </tr>
 
 
                                                              i = i + 1;
@@ -293,10 +293,10 @@
 								
 								 <div style="height:30px;"></div>
                         <div class="col-lg-10"></div>
-                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">submit</button>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListEnquiry", "PurchaseEnq")">Cancel</a>
               </from>
-              }
+        } 
             </div>
           </div>
         </div>
@@ -532,5 +532,25 @@ function changeItem(ItemId, i) {
 
         });
     }
+     $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            var i=0;
+             var up = document.getElementById("txtrate" + i).value;
+              var qty = document.getElementById("txtQuantity" + i).value;
+
+              if(eval(up) == 0)
+              {
+                  alert("Rate is Zero");
+                  return false;
+              }
+                 if(eval(qty) == 0)
+              {
+                  alert("Qty is Zero");
+                  return false;
+              }
+              i++;
+        });
+        });
 
      </script> 

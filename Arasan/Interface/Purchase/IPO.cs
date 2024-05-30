@@ -28,6 +28,7 @@ namespace Arasan.Interface
         DataTable GetViewGateItems(string Poid);
 
         string StatusChange(string tag, string id);
+        string StatusActChange(string tag, string id);
 
         DataTable GetPOItemrep(string id);
         Task<IEnumerable<POItemDetail>> GetPOItemss(string supid, string s);

@@ -147,6 +147,29 @@ namespace Arasan.Services.Store_Management
             return "";
 
         }
+        public string StatusActChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE SUBCONTDCBASIC SET IS_ACTIVE ='Y' WHERE SUBCONTDCBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
         public DataTable GetAllListSubContractingDCItems(string strStatus)
         {
             string SvSql = string.Empty;

@@ -120,7 +120,9 @@
         var dataAdapter = new $.jqx.dataAdapter(ordersSource,
             { contentType: 'application/json; charset=utf-8' }, { autoBind: true }
         );
-           
+            var linkrenderer1 = function (row, column, value) {
+            return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+        } 
         dataAdapter.dataBind();
         //var ordersDataAdapter2 = new $.jqx.dataAdapter(ordersSource, { autoBind: true });
         var orders = dataAdapter.records;
@@ -218,7 +220,7 @@
                     //{ text: 'Indent Creation', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
                     { text: 'Short Close', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 160 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false,cellsrenderer: linkrenderer1, cellsalign: 'center', width: 70 },
                     //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
  ]
             });
@@ -230,6 +232,8 @@
                 value = $(this).val();
             }
             source.data = {
+                strfrom: "@strfrom ",
+                strTo: "@strTo",
                 strstatus: value
             };
             $("#grid").jqxGrid({ source: source });

@@ -288,6 +288,20 @@
         }
 
     });
+     $(document).ready(function () {
+        $("#btnSave").click(function () {
+        var i=0;
+        var cl = document.getElementById("InvQty" + i).value;
+         
+        var isValid = true;
+        if (eval(cl)==0)
+        {
+            alert("Issue Qty is Zero");
+            return false;
+        }
+       
+    });
+    });
     //function enableAllrepview() {
 
     //    if ($("#Selectallchk").prop('checked') == true) {

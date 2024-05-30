@@ -18,6 +18,7 @@ namespace Arasan.Interface.Store_Management
         DataTable GetItemDetails(string ItemId);
         DataTable GetSubContractDrumDetails(string itemId ,string loc);
         string StatusChange(string tag, string id);
+        string StatusActChange(string tag, string id);
         string SubContractingDCCRUD(SubContractingDC ss);
         string ApproveSubContractingDCCRUD(SubContractingDC ss);
         string PackMatSubConDCCRUD(SubContractingDC ss);

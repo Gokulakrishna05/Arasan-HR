@@ -18,7 +18,7 @@
     <div class="col-lg-12">
 
         <ol class="breadcrumb">
-            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action("PurchaseDash", "Home")">Home</a> </li>
             <li> <a>Purchase</a> </li>
             <li class="active"> <strong>Purchase Quotation</strong> </li>
         </ol>
@@ -63,6 +63,9 @@
             }
         }
         );
+         var linkrenderer1 = function (row, column, value) {
+            return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+        }
 
         $("#grid").jqxGrid(
             {
@@ -97,7 +100,7 @@
                     { text: 'Generate PDF', datafield: 'pdf', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 90 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false,cellsrenderer: linkrenderer1, cellsalign: 'center', width: 70 },
                     //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
                 ]
             });
@@ -190,7 +193,26 @@
         $(".fancybox1").eq(0).trigger('click');
     }
 
+        var fancyboxs123;
+    jQuery(document).ready(function ($) {
+        $(".fancyboxs").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false,
+             
+        });
+        fancyboxs123 = $.fancybox;
+    });
 
+    function close_popup() {
+        fancyboxs123.close();
+        $(".fancyboxs1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancyboxs1").eq(0).trigger('click');
+    }
         //function changeStatus(status) {
         //    var url = "/PurchaseQuo/ListPurchaseQuo?status=" + status;
         //    window.location.href = url;

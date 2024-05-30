@@ -18,7 +18,7 @@
     <div class="col-lg-12">
 
         <ol class="breadcrumb">
-            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action("PurchaseDash", "Home")">Home</a> </li>
             <li> <a>Purchase</a> </li>
             <li class="active"> <strong>GRN</strong> </li>
         </ol>
@@ -62,7 +62,9 @@
             }
         }
         );
-
+           var linkrenderer1 = function (row, column, value) {
+            return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+        }
         $("#grid").jqxGrid(
             {
                 width: '100%',
@@ -96,7 +98,7 @@
                     { text: 'Account', datafield: 'acc', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false,cellsrenderer: linkrenderer1, cellsalign: 'center', width: 70 },
                     //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
                 ]
             });
