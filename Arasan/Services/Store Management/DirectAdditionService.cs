@@ -373,16 +373,39 @@ namespace Arasan.Services.Store_Management
             return "";
 
         }
+        public string StatusActChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE ADDBASIC SET IS_ACTIVE ='Y' WHERE ADDBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
         public DataTable GetAllListDirectAdditionItems(string strStatus)
         {
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(ADDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,ADDBASICID from ADDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ADDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ADDBASIC.LOCID AND ADDBASIC.IS_ACTIVE='Y' ORDER BY ADDBASIC.ADDBASICID DESC";
+                SvSql = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(ADDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,ADDBASICID,ADDBASIC.IS_ACTIVE from ADDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ADDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ADDBASIC.LOCID Where ADDBASIC.IS_ACTIVE='Y' ORDER BY ADDBASIC.ADDBASICID DESC";
             }
             else
             {
-                SvSql = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(ADDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,ADDBASICID from ADDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ADDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ADDBASIC.LOCID AND ADDBASIC.IS_ACTIVE='N' ORDER BY ADDBASIC.ADDBASICID DESC";
+                SvSql = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(ADDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,ADDBASICID,ADDBASIC.IS_ACTIVE from ADDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ADDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ADDBASIC.LOCID Where ADDBASIC.IS_ACTIVE='N' ORDER BY ADDBASIC.ADDBASICID DESC";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);

@@ -36,6 +36,7 @@ namespace Arasan.Interface
         IEnumerable<QuoFollowup> GetAllPurchaseFollowup();
 
         string StatusChange(string tag, string id);
+        string StatusActChange(string tag, string id);
 
         Task<IEnumerable<PQuoItemDetail>> GetPQuoItem(string id);
         DataTable GetAllPurchaseQuoItems(string strStatus);

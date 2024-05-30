@@ -566,6 +566,7 @@ namespace Arasan.Controllers
                 string View = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
+                string rate = dtUsers.Rows[i]["RATE"].ToString();
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y" || dtUsers.Rows[i]["IS_ACTIVE"].ToString() == null)
                 {
                     MailRow = "<a href=SendMail?tag=Del&id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
@@ -577,16 +578,26 @@ namespace Arasan.Controllers
                     //}
                     //else
                     //{
-                    if (dtUsers.Rows[i]["STATUS"].ToString() == "Quote")
+                    if (dtUsers.Rows[i]["RATE"].ToString() == "0" || dtUsers.Rows[i]["RATE"].ToString() == "")
                     {
-                        MoveToQuo = "<img src='../Images/tick.png' alt='View Details' width='20' />";
-                        EditRow = "";
-
+                        MoveToQuo = "";
+                        EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     }
                     else
                     {
-                        MoveToQuo = "<a href=ViewEnq?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-                        EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                        if (dtUsers.Rows[i]["STATUS"].ToString() == "Quote")
+                        {
+                            MoveToQuo = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                            EditRow = "";
+
+                        }
+                        else
+                        {
+                            MoveToQuo = "<a href=ViewEnq?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                            EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+                        }
+                      
 
                     }
                     //}

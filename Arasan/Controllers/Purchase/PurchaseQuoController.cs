@@ -162,38 +162,50 @@ namespace Arasan.Controllers
                 string View = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
-
-                MailRow = "<a href=SendMail?tag=Del&id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
-                FollowUp = "<a href=Followup?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/followup.png' /></a>";
-                //if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "N")
-                //{
-
-
-                //}
-                //else
-                //{
-                if (dtUsers.Rows[i]["STATUS"].ToString() == "Generated")
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y" || dtUsers.Rows[i]["IS_ACTIVE"].ToString() == null)
                 {
-                    MoveToPO = "<img src='../Images/tick.png' alt='View Details' width='20' />";
-                    EditRow = "";
+                    MailRow = "<a href=SendMail?tag=Del&id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
+                    FollowUp = "<a href=Followup?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/followup.png' /></a>";
+                    //if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "N")
+                    //{
+
+
+                    //}
+                    //else
+                    //{
+                    if (dtUsers.Rows[i]["STATUS"].ToString() == "Generated")
+                    {
+                        MoveToPO = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                        EditRow = "";
+                    }
+                    else
+                    {
+                        MoveToPO = "<a href=ViewQuote?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                        EditRow = "<a href=PurchaseQuotation?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+
+
+                    }
+                    //}
+                    Pdf = "<a href=Print?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' width='20' alt='Deactivate' target='_blank' /></a>";
+
+                    //Pdf = "<a href=Print?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "<img src='../Images/pdficon.png' width='30' /></a>";
+                    View = "<a href=ViewPurQuote?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + " class='fancyboxs' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                    //EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "";
                 }
                 else
                 {
-                    MoveToPO = "<a href=ViewQuote?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-                    EditRow = "<a href=PurchaseQuotation?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-
-
+                    MailRow = "";
+                    FollowUp = "";
+                    MoveToPO = "";
+                    EditRow = "";
+                    Pdf = "";
+                    View = "";
                    
+                    DeleteRow = "Active?tag=Del&id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "";
                 }
-                //}
-                Pdf = "<a href=Print?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/pdficon.png' width='20' alt='Deactivate' target='_blank' /></a>";
-
-                //Pdf = "<a href=Print?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "<img src='../Images/pdficon.png' width='30' /></a>";
-                View = "<a href=ViewPurQuote?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                //EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-
-                Reg.Add(new PurchaseQuoItems
+                    Reg.Add(new PurchaseQuoItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["PURQUOTBASICID"].ToString()),
                     branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
@@ -240,7 +252,21 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListPurchaseQuo");
             }
         }
+        public ActionResult Active(string tag, string id)
+        {
 
+            string flag = PurquoService.StatusActChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListPurchaseQuo");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListPurchaseQuo");
+            }
+        }
         public ActionResult SendMail(string id)
         {
             try

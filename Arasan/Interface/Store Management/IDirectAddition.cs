@@ -21,6 +21,7 @@ namespace Arasan.Interface.Store_Management
         IEnumerable<DirectItem> GetAllDirectAdditionItem(string id);
 
         string StatusChange(string tag, String id);
+        string StatusActChange(string tag, String id);
         DataTable GetAllListDirectAdditionItems(string strStatus);
         //DataTable GetItemSubGrp();
         DataTable GetItem(string id);

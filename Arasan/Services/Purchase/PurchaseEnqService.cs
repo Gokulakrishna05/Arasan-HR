@@ -655,7 +655,7 @@ namespace Arasan.Services
         public DataTable GetAllPurchaseEnquiryItems(string strfrom, string strTo,string strStatus)
         {
             string SvSql = string.Empty;
-            SvSql = "Select DOCID,to_char(DOCDATE,'dd-MON-yyyy') ENQDATE,PARTYREFNO,P.PARTYID,E.STATUS,PURENQBASICID,E.IS_ACTIVE from PURENQBASIC E,PARTYMAST P  Where E.PARTYMASTID=P.PARTYMASTID  ";
+            SvSql = "Select DOCID,to_char(DOCDATE,'dd-MON-yyyy') ENQDATE,PARTYREFNO,P.PARTYID,E.STATUS,E.PURENQBASICID,E.IS_ACTIVE,PD.RATE,PD.QTY from PURENQBASIC E,PARTYMAST P,PURENQDETAIL PD  Where E.PARTYMASTID=P.PARTYMASTID AND E.PURENQBASICID=PD.PURENQBASICID ";
             if (strStatus == "Y" || strStatus == null)
             {
                 SvSql +=  " AND E.IS_ACTIVE='Y' ";
@@ -679,6 +679,7 @@ namespace Arasan.Services
         public string RegenerateCRUD(PurchaseEnquiry cy)
         {
             string msg = "";
+            string entat = DateTime.Now.ToString("dd\\/MM\\/yyyy hh:mm:ss tt");
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
@@ -705,20 +706,23 @@ namespace Arasan.Services
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     StatementType = "Insert";
-                    objCmd.Parameters.Add("PURENQBASICID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
-                    objCmd.Parameters.Add("ENQNO", OracleDbType.NVarchar2).Value = cy.EnqNo;
+                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.EnqNo;
                     objCmd.Parameters.Add("ENQREF", OracleDbType.NVarchar2).Value = cy.RefNo;
-                    objCmd.Parameters.Add("ENQDATE", OracleDbType.NVarchar2).Value = cy.Enqdate;
-                    objCmd.Parameters.Add("EXCRATERATE", OracleDbType.NVarchar2).Value = cy.ExRate;
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Enqdate;
+                    objCmd.Parameters.Add("EXRATE", OracleDbType.NVarchar2).Value = cy.ExRate;
                     objCmd.Parameters.Add("PARTYREFNO", OracleDbType.NVarchar2).Value = cy.ParNo;
-                    objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = cy.Cur;
+                    objCmd.Parameters.Add("MAINCURR", OracleDbType.NVarchar2).Value = cy.Cur;
                     objCmd.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = cy.Supplier;
-                    //objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+
+
                     objCmd.Parameters.Add("ENQRECDBY", OracleDbType.NVarchar2).Value = cy.EnqRecid;
                     objCmd.Parameters.Add("ASSIGNTO", OracleDbType.NVarchar2).Value = cy.Enqassignid;
-                    //objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.EnqRecid;
-                    //objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.EnqRecid;
+                    objCmd.Parameters.Add("UPDATED_ON", OracleDbType.NVarchar2).Value = entat;
+                    objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.Gross;
+                    objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.Net;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try

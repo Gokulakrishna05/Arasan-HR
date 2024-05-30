@@ -338,26 +338,52 @@ namespace Arasan.Controllers
                 string View = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
-
-                MailRow = "<a href=SendMail?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
-                GeneratePO = "<a href=Print?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
-                if (dtUsers.Rows[i]["STATUS"].ToString() == "GRN Generated")
+                string cst = dtUsers.Rows[i]["CGSTP"].ToString();
+                string sst = dtUsers.Rows[i]["SGSTP"].ToString();
+                string ist = dtUsers.Rows[i]["IGSTP"].ToString();
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y" || dtUsers.Rows[i]["IS_ACTIVE"].ToString() == null)
                 {
-                    MoveToGRN = "<img src='../Images/tick.png' alt='View Details' width='20' />";
-                    EditRow = "";
+                    MailRow = "<a href=SendMail?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
+                    if (cst == "" &&   sst == "" &&  ist == "")
+                    {
+                        GeneratePO = "";
+                        MoveToGRN = "";
+                        EditRow = "";
+                       
+                    }
+                    else
+                    {
+                        GeneratePO = "<a href=Print?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
+                        if (dtUsers.Rows[i]["STATUS"].ToString() == "GRN Generated")
+                        {
+                            MoveToGRN = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                            EditRow = "";
+
+                        }
+                        else
+                        {
+                            MoveToGRN = "<a href=ViewPO?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                            EditRow = "<a href=PurchaseOrder?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+
+                        }
+                    }
+                //Download = "<a href=CreatePDF?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
+                View = "<a href=ViewPOrder?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + " class='fancyboxs' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                    DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "";
 
                 }
                 else
                 {
-                    MoveToGRN = "<a href=ViewPO?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-                    EditRow = "<a href=PurchaseOrder?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    MailRow = "";
+                    GeneratePO = "";
+                    MoveToGRN = "";
+                    EditRow = "";
+                    
+                    View = "";
 
-
+                    DeleteRow = "Active?tag=Del&id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "";
                 }
-                //Download = "<a href=CreatePDF?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
-                View = "<a href=ViewPOrder?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-
                 Reg.Add(new POItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["POBASICID"].ToString()),
@@ -389,6 +415,21 @@ namespace Arasan.Controllers
         {
 
             string flag = PoService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListPO");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListPO");
+            }
+        }
+        public ActionResult Active(string tag, string id)
+        {
+
+            string flag = PoService.StatusActChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

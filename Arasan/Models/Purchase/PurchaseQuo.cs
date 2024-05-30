@@ -105,13 +105,21 @@ namespace Arasan.Models
     {
         public string ITEMID { get; set; }
 
-        public string UNITID { get; set; }
+        public string UNIT { get; set; }
 
         public double QTY { get; set; }
 
         public double RATE { get; set; }
       
         public string DOCID { get; set; }
+        public string ADD1 { get; set; }
+        public string GSTNO { get; set; }
+        public string ADD2 { get; set; }
+        public string ADD3 { get; set; }
+        public string CITY { get; set; }
+        public string PINCODE { get; set; }
+        public string STATE { get; set; }
+        public string MOBILE { get; set; }
        
         public string DOCDATE { get; set; }
        

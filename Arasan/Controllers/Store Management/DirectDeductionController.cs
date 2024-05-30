@@ -187,11 +187,19 @@ namespace Arasan.Controllers.Store_Management
                 string View = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y" || dtUsers.Rows[i]["IS_ACTIVE"].ToString() == null)
+                {
+                    View = "<a href=viewDirectDeduction?id=" + dtUsers.Rows[i]["DEDBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                    EditRow = "<a href=DirectDeduction?id=" + dtUsers.Rows[i]["DEDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["DEDBASICID"].ToString() + "";
+                }
+                else
+                {
+                    View = "";
+                    EditRow = "";
+                    DeleteRow = "Active?tag=Del&id=" + dtUsers.Rows[i]["DEDBASICID"].ToString() + "";
 
-                View = "<a href=viewDirectDeduction?id=" + dtUsers.Rows[i]["DEDBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                EditRow = "<a href=DirectDeduction?id=" + dtUsers.Rows[i]["DEDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["DEDBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-
+                }
                 Reg.Add(new ListDirectDeductionItem
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["DEDBASICID"].ToString()),
@@ -253,7 +261,22 @@ namespace Arasan.Controllers.Store_Management
                 return RedirectToAction("ListDirectDeduction");
             }
         }
-        public List<SelectListItem> BindLocation()
+        public ActionResult Active(string tag, string id)
+        {
+
+            string flag = DirectDeductionService.StatusActChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListDirectDeduction");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListDirectDeduction");
+            }
+        }
+            public List<SelectListItem> BindLocation()
         {
             try
             {

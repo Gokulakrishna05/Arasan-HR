@@ -89,13 +89,20 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetIndent(string strfrom, string strTo)
+        public DataTable GetIndent(string strfrom, string strTo,string strStatus)
         {
             string SvSql = string.Empty;
-            SvSql = "select DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,PINDBASICID,E.EMPNAME,P.STAGE from PINDBASIC P,EMPMAST E WHERE P.ENTEREDBY=E.EMPMASTID ";
+            SvSql = "select DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,P.PINDBASICID,E.EMPNAME,P.STAGE,P.IS_ACTIVE,PD.APPROVED1 from PINDBASIC P,EMPMAST E,PINDDETAIL PD WHERE P.ENTEREDBY=E.EMPMASTID AND P.PINDBASICID=PD.PINDBASICID ";
             if (!string.IsNullOrEmpty(strfrom) && !string.IsNullOrEmpty(strTo))
             {
-                SvSql += " and P.DOCDATE BETWEEN '" + strfrom + "' and '" + strTo + "'";
+                if (strStatus == "Y" || strStatus == null)
+                {
+                    SvSql += "and P.IS_ACTIVE ='Y' and P.DOCDATE BETWEEN '" + strfrom + "' and '" + strTo + "'";
+                }
+                else
+                {
+                    SvSql += "and P.IS_ACTIVE ='N' and P.DOCDATE BETWEEN '" + strfrom + "' and '" + strTo + "'";
+                }
             }
             SvSql += " Order by P.DOCID DESC  ";
             DataTable dtt = new DataTable();
@@ -581,6 +588,52 @@ namespace Arasan.Services
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+        public string StatusChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE PINDBASIC SET IS_ACTIVE='N' Where PINDBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+        public string StatusActChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE PINDBASIC SET IS_ACTIVE='Y' Where PINDBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
         }
     }
 }

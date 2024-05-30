@@ -209,11 +209,17 @@ namespace Arasan.Controllers.Store_Management
                 string View = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
+                    View = "<a href=ViewDirectAddition?id=" + dtUsers.Rows[i]["ADDBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                    EditRow = "<a href=DirectAddition?id=" + dtUsers.Rows[i]["ADDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["ADDBASICID"].ToString() + "";
+                }
+                else
+                {
+                    DeleteRow = "Active?tag=Del&id=" + dtUsers.Rows[i]["ADDBASICID"].ToString() + "";
 
-                View = "<a href=ViewDirectAddition?id=" + dtUsers.Rows[i]["ADDBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                EditRow = "<a href=DirectAddition?id=" + dtUsers.Rows[i]["ADDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["ADDBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-
+                }
                 Reg.Add(new ListDirectAdditionItem
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["ADDBASICID"].ToString()),
@@ -250,6 +256,21 @@ namespace Arasan.Controllers.Store_Management
             {
                 TempData["notice"] = flag;
                 return RedirectToAction("ListDirectAddition");
+            }
+        }
+        public ActionResult Active(string tag, String id)
+        {
+
+            string flag = DirectAdditionService.StatusActChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListSubContractingDC");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListSubContractingDC");
             }
         }
         public List<SelectListItem> BindLocation()
