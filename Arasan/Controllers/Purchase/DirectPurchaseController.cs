@@ -211,6 +211,7 @@ namespace Arasan.Controllers
                 string EditRow = string.Empty;
                 string MoveToGRN = string.Empty;
                 string Print = string.Empty;
+                string Account = string.Empty;
                
                 MailRow = "<a href=DirectPurchase?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
                 EditRow = "<a href=DirectPurchase?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
@@ -225,13 +226,18 @@ namespace Arasan.Controllers
                 {
                     MoveToGRN = "<a href=MoveToGRN?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
                 }
-                //if (Reg.Status == "GRN Generated")
+                
+                    if (dtUsers.Rows[i]["IS_ACCOUNT"].ToString() == "N")
+                {
+                    Account = "<a href=DPACC?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
+                }
+                    //if (Reg.Status == "GRN Generated")
                 //{
                 //    @Html.DisplayFor(Reg => Reg.Status);
                 //}
                 //else
                 //{
-                    //MoveToGRN = "<a href=MoveToGRN?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                //MoveToGRN = "<a href=MoveToGRN?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
 
                 //}
                 Reg.Add(new DirectPurchaseItems
@@ -248,7 +254,7 @@ namespace Arasan.Controllers
                     delrow = DeleteRow,
                     move = MoveToGRN,
                     print = Print,
-                    
+                    account= Account
 
                 });
             }
@@ -263,12 +269,12 @@ namespace Arasan.Controllers
         {
             GRN grn = new GRN();
             DataTable dt = new DataTable();
-            string SvSql = "select PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,CGST,SGST,IGST,FREIGHT,GROSS,NET,TOT_DISC from GRNBLBASIC where GRNBLBASICID='" + id + "'";
+            string SvSql = "select SUM(CGST) CGST,SUM(SGST) SGST,SUM(IGST) IGST,SUM(TOTAMT) AS NET,SUM(IFREIGHTCH * QTY) as FRIEGHT,SUM(IOTHERCH * QTY) otherch,SUM(AMOUNT) as GROSS,SUM(IPKNFDCH * QTY)PKNFDCH,SUM(DISCAMOUNT) as DISC from DPDETAIL where DPBASICID='" + id + "'";
             dt = datatrans.GetData(SvSql);
             grn.GRNID = id;
             grn.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
             grn.createdby = Request.Cookies["UserId"];
-            DataTable dtnat = datatrans.GetData("select I.ITEMID,BL.QTY,U.UNITID from GRNBLDETAIL BL,ITEMMASTER I,UNITMAST U where I.ITEMMASTERID=BL.ITEMID AND U.UNITMASTID=I.PRIUNIT AND GRNBLBASICID='" + id + "'");
+            DataTable dtnat = datatrans.GetData("select I.ITEMID,BL.QTY,U.UNITID from DPDETAIL BL,ITEMMASTER I,UNITMAST U where I.ITEMMASTERID=BL.ITEMID AND U.UNITMASTID=I.PRIUNIT AND DPBASICID='" + id + "'");
             grn.Vmemo = "BEING " + dtnat.Rows[0]["ITEMID"].ToString() + "-" + dtnat.Rows[0]["QTY"].ToString() + dtnat.Rows[0]["UNITID"].ToString() + "PURCHASED.";
             List<GRNAccount> TData = new List<GRNAccount>();
             GRNAccount tda = new GRNAccount();
@@ -321,22 +327,22 @@ namespace Arasan.Controllers
             }
             if (dt.Rows.Count > 0)
             {
-                grn.Roundminus = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_MINUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_MINUS"].ToString());
-                grn.Round = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_PLUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_PLUS"].ToString());
-                grn.otherdeduction = Convert.ToDouble(dt.Rows[0]["OTHER_DEDUCTION"].ToString() == "" ? "0" : dt.Rows[0]["OTHER_DEDUCTION"].ToString());
-                grn.Othercharges = Convert.ToDouble(dt.Rows[0]["OTHER_CHARGES"].ToString() == "" ? "0" : dt.Rows[0]["OTHER_CHARGES"].ToString());
-                grn.Packingcharges = Convert.ToDouble(dt.Rows[0]["PACKING_CHRAGES"].ToString() == "" ? "0" : dt.Rows[0]["PACKING_CHRAGES"].ToString());
-                grn.Frieghtcharge = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["FREIGHT"].ToString());
+               // grn.Roundminus = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_MINUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_MINUS"].ToString());
+                //grn.Round = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_PLUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_PLUS"].ToString());
+               // grn.otherdeduction = Convert.ToDouble(dt.Rows[0]["OTHER_DEDUCTION"].ToString() == "" ? "0" : dt.Rows[0]["OTHER_DEDUCTION"].ToString());
+                grn.Othercharges = Convert.ToDouble(dt.Rows[0]["otherch"].ToString() == "" ? "0" : dt.Rows[0]["otherch"].ToString());
+                grn.Packingcharges = Convert.ToDouble(dt.Rows[0]["PKNFDCH"].ToString() == "" ? "0" : dt.Rows[0]["PKNFDCH"].ToString());
+                grn.Frieghtcharge = Convert.ToDouble(dt.Rows[0]["FRIEGHT"].ToString() == "" ? "0" : dt.Rows[0]["FRIEGHT"].ToString());
 
                 grn.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
                 grn.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
 
-                grn.DiscAmt = Convert.ToDouble(dt.Rows[0]["TOT_DISC"].ToString() == "" ? "0" : dt.Rows[0]["TOT_DISC"].ToString());
+                grn.DiscAmt = Convert.ToDouble(dt.Rows[0]["DISC"].ToString() == "" ? "0" : dt.Rows[0]["DISC"].ToString());
                 grn.CGST = Convert.ToDouble(dt.Rows[0]["CGST"].ToString() == "" ? "0" : dt.Rows[0]["CGST"].ToString());
                 grn.SGST = Convert.ToDouble(dt.Rows[0]["SGST"].ToString() == "" ? "0" : dt.Rows[0]["SGST"].ToString());
                 grn.IGST = Convert.ToDouble(dt.Rows[0]["IGST"].ToString() == "" ? "0" : dt.Rows[0]["IGST"].ToString());
                 //grn.TotalAmt= Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
-                DataTable dtParty = datatrans.GetData("select P.ACCOUNTNAME from GRNBLBASIC G,PARTYMAST P where G.PARTYID=P.PARTYMASTID AND G.GRNBLBASICID='" + id + "'");
+                DataTable dtParty = datatrans.GetData("select P.ACCOUNTNAME from DPBASIC G,PARTYMAST P where G.PARTYID=P.PARTYMASTID AND DPBASICID='" + id + "'");
                 string mid = dtParty.Rows[0]["ACCOUNTNAME"].ToString();
                 grn.mid = mid;
                 if (grn.Net > 0)
@@ -523,6 +529,309 @@ namespace Arasan.Controllers
             grn.Acclst = TData;
             grn.Accconfiglst = BindAccconfig();
             return View(grn);
+        }
+        public IActionResult DPACC(string id)
+        {
+            GRN grn = new GRN();
+            DataTable dt = new DataTable();
+            string SvSql = "select SUM(CGST) CGST,SUM(SGST) SGST,SUM(IGST) IGST,SUM(TOTAMT) AS NET,SUM(IFREIGHT) as FRIEGHT,SUM(IOTHERCH * QTY) otherch,SUM(AMOUNT) as GROSS,SUM(IPKNFDCH * QTY)PKNFDCH,SUM(DISCAMOUNT) as DISC from DPDETAIL where DPBASICID='" + id + "'";
+            dt = datatrans.GetData(SvSql);
+            grn.GRNID = id;
+            grn.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            grn.createdby = Request.Cookies["UserId"];
+            DataTable dtnat = datatrans.GetData("select I.ITEMID,BL.QTY,U.UNITID from DPDETAIL BL,ITEMMASTER I,UNITMAST U where I.ITEMMASTERID=BL.ITEMID AND U.UNITMASTID=I.PRIUNIT AND DPBASICID='" + id + "'");
+            if(dtnat.Rows.Count > 0)
+            {
+                grn.Vmemo = "BEING " + dtnat.Rows[0]["ITEMID"].ToString() + "-" + dtnat.Rows[0]["QTY"].ToString() + dtnat.Rows[0]["UNITID"].ToString() + "PURCHASED.";
+            }
+
+            List<GRNAccount> TData = new List<GRNAccount>();
+            GRNAccount tda = new GRNAccount();
+            double totalcredit = 0;
+            double totaldebit = 0;
+            DataTable dtdet = datatrans.GetData("select ITEMACC,SUM(AMOUNT) as GROSS from DPDETAIL WHERE DPBASICID='" + id + "' GROUP BY ITEMACC");
+            DataTable dtacc = new DataTable();
+            dtacc = datatrans.GetGRNconfig();
+            string frieghtledger = "";
+            string discledger = "";
+            string roundoffledger = "";
+            string cgstledger = "";
+            string sgstledger = "";
+            string igstledger = "";
+            string packingledger = "";
+            if (dtacc.Rows.Count > 0)
+            {
+                grn.ADCOMPHID = dtacc.Rows[0]["ADCOMPHID"].ToString();
+                for (int i = 0; i < dtacc.Rows.Count; i++)
+                {
+                    if (dtacc.Rows[i]["ADTYPE"].ToString() == "FREIGHT CHARGES")
+                    {
+                        frieghtledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADTYPE"].ToString().Contains("PACKING CHARGES"))
+                    {
+                        packingledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADTYPE"].ToString() == "DISCOUNT")
+                    {
+                        discledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADTYPE"].ToString() == "ROUND OFF")
+                    {
+                        roundoffledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADTYPE"].ToString().Contains("CGST"))
+                    {
+                        cgstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADTYPE"].ToString().Contains("SGST"))
+                    {
+                        sgstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                    if (dtacc.Rows[i]["ADTYPE"].ToString().Contains("IGST"))
+                    {
+                        igstledger = dtacc.Rows[i]["ADACCOUNT"].ToString();
+                    }
+                }
+            }
+            if (dt.Rows.Count > 0)
+            {
+                // grn.Roundminus = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_MINUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_MINUS"].ToString());
+                //grn.Round = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_PLUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_PLUS"].ToString());
+                // grn.otherdeduction = Convert.ToDouble(dt.Rows[0]["OTHER_DEDUCTION"].ToString() == "" ? "0" : dt.Rows[0]["OTHER_DEDUCTION"].ToString());
+                grn.Othercharges = Convert.ToDouble(dt.Rows[0]["otherch"].ToString() == "" ? "0" : dt.Rows[0]["otherch"].ToString());
+                grn.Packingcharges = Convert.ToDouble(dt.Rows[0]["PKNFDCH"].ToString() == "" ? "0" : dt.Rows[0]["PKNFDCH"].ToString());
+                grn.Frieghtcharge = Convert.ToDouble(dt.Rows[0]["FRIEGHT"].ToString() == "" ? "0" : dt.Rows[0]["FRIEGHT"].ToString());
+
+                grn.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+                grn.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+
+                grn.DiscAmt = Convert.ToDouble(dt.Rows[0]["DISC"].ToString() == "" ? "0" : dt.Rows[0]["DISC"].ToString());
+                grn.CGST = Convert.ToDouble(dt.Rows[0]["CGST"].ToString() == "" ? "0" : dt.Rows[0]["CGST"].ToString());
+                grn.SGST = Convert.ToDouble(dt.Rows[0]["SGST"].ToString() == "" ? "0" : dt.Rows[0]["SGST"].ToString());
+                grn.IGST = Convert.ToDouble(dt.Rows[0]["IGST"].ToString() == "" ? "0" : dt.Rows[0]["IGST"].ToString());
+                //grn.TotalAmt= Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+                DataTable dtParty = datatrans.GetData("select P.ACCOUNTNAME from DPBASIC G,PARTYMAST P where G.PARTYID=P.PARTYMASTID AND DPBASICID='" + id + "'");
+                string mid = dtParty.Rows[0]["ACCOUNTNAME"].ToString();
+                grn.mid = mid;
+                if (grn.Net > 0)
+                {
+                    tda = new GRNAccount();
+                    // tda.CRDRLst = BindCRDRLst();
+                    tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = mid;
+                    tda.CRAmount = grn.Net;
+                    tda.DRAmount = 0;
+                    tda.TypeName = "NET";
+                    tda.Isvalid = "Y";
+                    tda.CRDR = "Cr";
+                    totalcredit += tda.CRAmount;
+                    totaldebit += tda.DRAmount;
+                    tda.symbol = "+";
+                    TData.Add(tda);
+                }
+                if (grn.Gross > 0)
+                {
+                    for (int i = 0; i < dtdet.Rows.Count; i++)
+                    {
+                        tda = new GRNAccount();
+                        tda.Ledgerlist = BindLedgerLst();
+                        tda.Ledgername = dtdet.Rows[i]["ITEMACC"].ToString();
+                        tda.CRAmount = 0;
+                        tda.DRAmount = Convert.ToDouble(dtdet.Rows[i]["GROSS"].ToString() == "" ? "0" : dtdet.Rows[i]["GROSS"].ToString());
+                        tda.TypeName = "GROSS";
+                        tda.Isvalid = "Y";
+                        tda.CRDR = "Dr";
+                        tda.symbol = "-";
+                        totalcredit += tda.CRAmount;
+                        totaldebit += tda.DRAmount;
+                        TData.Add(tda);
+                    }
+
+                }
+                if (grn.CGST > 0)
+                {
+                    tda = new GRNAccount();
+                    //tda.CRDRLst = BindCRDRLst();
+                    tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = cgstledger;
+                    tda.CRAmount = 0;
+                    tda.DRAmount = grn.CGST;
+                    tda.TypeName = "CGST";
+                    tda.Isvalid = "Y";
+                    tda.CRDR = "Dr";
+                    tda.symbol = "-";
+                    totalcredit += tda.CRAmount;
+                    totaldebit += tda.DRAmount;
+                    TData.Add(tda);
+                }
+                if (grn.SGST > 0)
+                {
+                    tda = new GRNAccount();
+                    // tda.CRDRLst = BindCRDRLst();
+                    tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = sgstledger;
+                    tda.CRAmount = 0;
+                    tda.DRAmount = grn.SGST;
+                    tda.TypeName = "SGST";
+                    tda.Isvalid = "Y";
+                    tda.CRDR = "Dr";
+                    tda.symbol = "-";
+                    totalcredit += tda.CRAmount;
+                    totaldebit += tda.DRAmount;
+                    TData.Add(tda);
+                }
+                if (grn.IGST > 0)
+                {
+                    tda = new GRNAccount();
+                    // tda.CRDRLst = BindCRDRLst();
+                    tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = cgstledger;
+                    tda.CRAmount = 0;
+                    tda.DRAmount = grn.IGST;
+                    tda.TypeName = "IGST";
+                    tda.Isvalid = "Y";
+                    tda.CRDR = "Dr";
+                    tda.symbol = "-";
+                    totalcredit += tda.CRAmount;
+                    totaldebit += tda.DRAmount;
+                    TData.Add(tda);
+                }
+                if (grn.DiscAmt > 0)
+                {
+                    tda = new GRNAccount();
+                    // tda.CRDRLst = BindCRDRLst();
+                    tda.Ledgerlist = BindLedgerLst();
+                    tda.CRAmount = grn.DiscAmt;
+                    tda.DRAmount = 0;
+                    tda.TypeName = "Discount";
+                    tda.Isvalid = "Y";
+                    tda.CRDR = "Cr";
+                    tda.symbol = "+";
+                    totalcredit += tda.CRAmount;
+                    totaldebit += tda.DRAmount;
+                    TData.Add(tda);
+                }
+                if (grn.Packingcharges > 0)
+                {
+                    tda = new GRNAccount();
+                    // tda.CRDRLst = BindCRDRLst();
+                    tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = packingledger;
+                    tda.CRAmount = 0;
+                    tda.DRAmount = grn.Packingcharges;
+                    tda.TypeName = "PACKING CHARGES";
+                    tda.Isvalid = "Y";
+                    tda.CRDR = "Dr";
+                    tda.symbol = "-";
+                    totalcredit += tda.CRAmount;
+                    totaldebit += tda.DRAmount;
+                    TData.Add(tda);
+                }
+                if (grn.Frieghtcharge > 0)
+                {
+                    tda = new GRNAccount();
+                    //  tda.CRDRLst = BindCRDRLst();
+                    tda.Ledgerlist = BindLedgerLst();
+                    tda.Ledgername = frieghtledger;
+                    tda.CRAmount = 0;
+                    tda.DRAmount = grn.Frieghtcharge;
+                    tda.TypeName = "FREIGHT CHARGES";
+                    tda.Isvalid = "Y";
+                    tda.CRDR = "Dr";
+                    totalcredit += tda.CRAmount;
+                    totaldebit += tda.DRAmount;
+                    tda.symbol = "-";
+                    TData.Add(tda);
+                }
+                if (grn.Othercharges > 0)
+                {
+                    tda = new GRNAccount();
+                    // tda.CRDRLst = BindCRDRLst();
+                    tda.Ledgerlist = BindLedgerLst();
+                    tda.CRAmount = 0;
+                    tda.DRAmount = grn.Othercharges;
+                    tda.TypeName = "Other charges";
+                    tda.Isvalid = "Y";
+                    tda.CRDR = "Dr";
+                    totalcredit += tda.CRAmount;
+                    totaldebit += tda.DRAmount;
+                    tda.symbol = "-";
+                    TData.Add(tda);
+                }
+                if (grn.Round > 0)
+                {
+                    tda = new GRNAccount();
+                    // tda.CRDRLst = BindCRDRLst();
+                    tda.Ledgerlist = BindLedgerLst();
+                    // tda.Ledgername= packingledger
+                    tda.CRAmount = 0;
+                    tda.DRAmount = grn.Round;
+                    tda.TypeName = "ROUND OFF";
+                    tda.Isvalid = "Y";
+                    tda.CRDR = "Dr";
+                    totalcredit += tda.CRAmount;
+                    totaldebit += tda.DRAmount;
+                    tda.symbol = "-";
+                    TData.Add(tda);
+                }
+
+                if (grn.otherdeduction > 0)
+                {
+                    tda = new GRNAccount();
+                    //  tda.CRDRLst = BindCRDRLst();
+                    tda.Ledgerlist = BindLedgerLst();
+                    tda.CRAmount = grn.otherdeduction;
+                    tda.DRAmount = 0;
+                    tda.TypeName = "Other Deduction";
+                    tda.Isvalid = "Y";
+                    tda.CRDR = "Cr";
+                    totalcredit += tda.CRAmount;
+                    totaldebit += tda.DRAmount;
+                    tda.symbol = "+";
+                    TData.Add(tda);
+                }
+
+            }
+            grn.TotalCRAmt = Math.Round(totalcredit, 2);
+            grn.TotalDRAmt = Math.Round(totaldebit,2);
+            grn.Acclst = TData;
+            grn.Accconfiglst = BindAccconfig();
+            return View(grn);
+        }
+        [HttpPost]
+        public ActionResult DPACC(GRN Cy, string id)
+        {
+
+            try
+            {
+                string Strout = directPurchase.DPACC(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.GRNID == null)
+                    {
+                        TempData["notice"] = "GRN Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "GRN Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListDirectPurchase");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit GRN";
+                    TempData["notice"] = Strout;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
         }
         public List<SelectListItem> BindLedgerLst()
         {
@@ -726,7 +1035,7 @@ namespace Arasan.Controllers
                 EditRow = "<a href=DirectPurchase?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 Print = "<a href=Print?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-                Account = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Edit' /></a>";
+               // Account = "<a href=GRNAccount?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
                 Reg.Add(new DirectPurchaseItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["DPBASICID"].ToString()),
