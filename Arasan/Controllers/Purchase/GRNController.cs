@@ -340,6 +340,10 @@ namespace Arasan.Controllers
             IEnumerable<POItem> cmp = GRNService.GetAllGRNItem(id);
             return View(cmp);
         }
+        public IActionResult ListGRNAccount()
+        {
+            return View();
+        }
         public ActionResult MyListGRNGrid(string strStatus)
         {
             List<GRNItems> Reg = new List<GRNItems>();
@@ -417,6 +421,39 @@ namespace Arasan.Controllers
 
 
 
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public ActionResult MyListGRNAcc()
+        {
+            List<GRNItems> Reg = new List<GRNItems>();
+            DataTable dtUsers = new DataTable();
+            dtUsers = datatrans.GetData("Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,QCSTATUS,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.IS_ACTIVE,GRNBLBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,GRNBLBASIC.GRNBLBASICID,GRNBLBASIC.STATUS,GRNBLBASIC.GROSS,GRNBLBASIC.NET,GRNBLBASIC.IS_ACCOUNT from GRNBLBASIC  LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY    Where  GRNBLBASIC.IS_ACCOUNT='Y' ORDER BY GRNBLBASIC.GRNBLBASICID DESC");
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string Account = string.Empty;
+                string View = string.Empty;
+               Account = "<a href=GRNAccount?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
+                
+                Reg.Add(new GRNItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["GRNBLBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    enqno = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    gross = dtUsers.Rows[i]["GROSS"].ToString(),
+                    net = dtUsers.Rows[i]["NET"].ToString(),
+                    qcresult = dtUsers.Rows[i]["QCSTATUS"].ToString(),
+                    acc = Account,
+                    view = View,
+                 
                 });
             }
 

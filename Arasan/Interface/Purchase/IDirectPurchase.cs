@@ -38,8 +38,7 @@ namespace Arasan.Interface
         DataTable GethsnDetails(string id);
         DataTable GetgstDetails(string id);
         DataTable GetTariff(string id);
-
-
+        DataTable getindent();
         Task<IEnumerable<DpItemDetail>> GetdpItem(string id );
         Task<IEnumerable<DpDetItemDetail>> GetdpdetItem(string id );
         //DataTable GetItem();

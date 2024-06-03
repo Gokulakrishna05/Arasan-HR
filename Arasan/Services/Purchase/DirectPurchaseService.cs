@@ -1,13 +1,17 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
 using Dapper;
+using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.CodeAnalysis.Operations;
 //using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
+using PdfSharp.Drawing;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Security.Cryptography;
+using System.Threading.Channels;
 
 namespace Arasan.Services
 {
@@ -86,6 +90,25 @@ namespace Arasan.Services
                 }
             }
             return cmpList;
+        }
+        public DataTable getindent()
+        {
+            string SvSql = string.Empty;
+            SvSql= @"SELECT ID.PINDDETAILID,' ' AS MARK,IB.DOCID AS INDENT_NO , to_char(IB.DOCDATE,'dd-MON-yyyy') AS  INDENT_DATE, A.ITEMID,U.UNITID,  ID.QTY AS INDENT_QTY, A.ITEMDESC, ((ID.QTY+ID.RETQTY)-(ID.POQTY+ID.SHCLQTY+ID.GRNQTY)) AS ORD_QTY , IB.PurType,ID.mailto
+FROM ITEMMASTER A ,PINDBASIC IB,PINDDETAIL ID , BRANCHMAST BM , Unitmast U
+WHERE ID.APPROVED1 = 'YES'   AND ID.APPROVED2 = 'YES' 
+AND ((ID.QTY+ID.RETQTY)-(ID.POQTY+ID.SHCLQTY+ID.GRNQTY))>0
+AND ID.UNIT=U.UNITMASTID
+AND IB.PINDBASICID=ID.PINDBASICID
+AND A.ITEMMASTERID=ID.ITEMID 
+AND IB.BRANCHID = BM.BRANCHMASTID
+AND 'AGAINST PURCHASE INDENT' = 'AGAINST PURCHASE INDENT' ";
+            //AND IB.PINDBASICID = ID.PINDBASICID
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
         public DataTable GetDirectPurchaseItemDetails(string id)
         {
