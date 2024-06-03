@@ -175,13 +175,15 @@ namespace Arasan.Controllers
                     //{
                     if (dtUsers.Rows[i]["STATUS"].ToString() == "Generated")
                     {
-                        MoveToPO = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                        MoveToPO = "<a href=/PO/ListPO><img src='../Images/tick.png' alt='View Details' width='20' /></a>";
                         EditRow = "";
+                        DeleteRow = "";
                     }
                     else
                     {
                         MoveToPO = "<a href=ViewQuote?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
                         EditRow = "<a href=PurchaseQuotation?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                        DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "";
 
 
 
@@ -192,7 +194,6 @@ namespace Arasan.Controllers
                     //Pdf = "<a href=Print?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "<img src='../Images/pdficon.png' width='30' /></a>";
                     View = "<a href=ViewPurQuote?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + " class='fancyboxs' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                     //EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "";
                 }
                 else
                 {

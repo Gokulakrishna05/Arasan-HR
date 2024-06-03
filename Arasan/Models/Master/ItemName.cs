@@ -19,6 +19,9 @@ namespace Arasan.Models
             this.Hsn = new List<SelectListItem>();
             this.Bin = new List<SelectListItem>();
             this.Ledgerlst = new List<SelectListItem>();
+            this.Tarrifflst = new List<SelectListItem>();
+            this.purlst = new List<SelectListItem>();
+            this.costlst = new List<SelectListItem>();
             //this.Itemlst = new List<SelectListItem>();
 
         }
@@ -33,6 +36,7 @@ namespace Arasan.Models
         public string ItemSubGroup { get; set; }
 
         public List<SelectListItem> Isglst;
+        public List<SelectListItem> Tarrifflst;
         public List<SelectListItem> Itemlst;
         
         public string ddlStatus { get; set; }
@@ -47,11 +51,21 @@ namespace Arasan.Models
         public List<BinItem> Binlst;
         public List<SelectListItem> qclst;
         public List<SelectListItem> unitlst;
+        public List<SelectListItem> purlst;
         public List<SelectListItem> fqclst;
+        public List<SelectListItem> costlst;
         public string ID { get; set; }
         public string Unit { get; set; }
         public string ItemG { get; set; }
+        public string lastdate { get; set; }
+        public string runhrs { get; set; }
+        public string runhrsqty { get; set; }
+        public string autocon { get; set; }
+        public string costcat { get; set; }
+        public string rundet { get; set; }
         public string createdby { get; set; }
+        public string purchasecate { get; set; }
+        public string flow { get; set; }
         public string ItemSub { get; set; }
         public string QCTemp { get; set; }
         public string FQCTemp { get; set; }
@@ -85,13 +99,22 @@ namespace Arasan.Models
         public string Expiry { get; set; }
         public string ValuationMethod { get; set; }
         public string Serial { get; set; }
+        public string lot { get; set; }
         public string Batch { get; set; }
         public string QCTemplate { get; set; }
         public string QCRequired { get; set; }
+        public string Drumyn { get; set; }
+        public string major { get; set; }
+        public string bankst { get; set; }
+        public string qctest { get; set; }
         public string Latest { get; set; }
         public string SubHeading { get; set; }
         public string Rejection { get; set; }
+        public string clssscode { get; set; }
+        public string leadtime { get; set; }
         public string Percentage { get; set; }
+        public string itemfrom { get; set; }
+        public string Tarriff { get; set; }
         public string PercentageAdd { get; set; }
         public string Additive { get; set; }
         public string RawMaterial { get; set; }
@@ -100,6 +123,7 @@ namespace Arasan.Models
 
         public List<UnitItem> unititemlst { get; set; }
         public List<SupItem> Suplst { get; set; }
+        public List<LocdetItem> locdetlst { get; set; }
     }
 
     public class SupItem
@@ -135,6 +159,23 @@ namespace Arasan.Models
 
         public string ID { get; set; }
          
+
+    }
+    public class LocdetItem
+    {
+
+        public List<SelectListItem> locLst { get; set; }
+
+        public string loc { get; set; }
+        public string bank { get; set; }
+        public string maxlevel { get; set; }
+        public string minlevel { get; set; }
+
+        public string reorder { get; set; }
+        public string Isvalid { get; set; }
+
+        public string ID { get; set; }
+
 
     }
     public class BinItem

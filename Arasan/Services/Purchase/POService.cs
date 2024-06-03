@@ -325,7 +325,7 @@ namespace Arasan.Services
                                     string Sql = string.Empty;
                                     if (StatementType == "Insert")
                                     {
-                                        Sql = "Insert into GATE_INWARD_DETAILS(GATE_IN_ID,ITEM_ID,QCFLAG,IN_QTY) Values('" + Pid + "','" + cp.itemid + "','" + cp.qc + "','" + cp.quantity + "')";
+                                        Sql = "Insert into GATE_INWARD_DETAILS(GATE_IN_ID,ITEM_ID,QCFLAG,IN_QTY) Values('" + Pid + "','" + cp.itemid + "','" + cp.qc + "','" + cp.Quantity + "')";
                                     }
                                     else
                                     {
@@ -372,8 +372,14 @@ namespace Arasan.Services
 
                     using (OracleConnection objConn = new OracleConnection(_connectionString))
                     {
-                        svSQL = "Insert into GRNBLBASIC (PARTYID,BRANCHID,POBASICID,EXRATE,MAINCURRENCY,DOCID,DOCDATE,PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET) (Select PARTYID,BRANCHID,'" + cy.POId + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET  from POBASIC where POBASICID='" + cy.POId + "')";
-                        OracleCommand objCmd = new OracleCommand(svSQL, objConn);
+                        DataTable party = datatrans.GetData("SELECT GSTNO,PANNO FROM PARTYMAST  where PARTYNAME='" + cy.Supplier + "'");
+                        string due = datatrans.GetDataString("Select  DUEDATE FROM PODETAIL WHERE POBASICID='" + cy.ID + "'");
+
+                        DateTime del = DateTime.Parse(due);
+                        string duedate = del.ToString("dd-MMM-yyyy");
+                        DateTime now = DateTime.Now.Date;
+                        double t1 = (del - now).TotalDays;
+                        svSQL = "Insert into GRNBLBASIC (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,PARTYID,BRANCHID,POBASICID,EXRATE,MAINCURRENCY,DOCID,DOCDATE,PKNFD,OTHERCH,RNDOFF,FREIGHT,GROSS,NET,AMTINWORDS,PARTYNAME,USERID,VTYPE,ADSCHEME,GRNTYPE,LOCID,GSTNO,PANNO,DUEDATE,DUEDAYS) (Select '0','0','F','0','0',PARTYID,BRANCHID,'" + cy.POId + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + cy.GateInDate + "',PKNFD,OTHER_CHARGES,RNDOFF,FREIGHT,GROSS,NET,AMTINWORDS,'" + cy.Supplierid + "','" + cy.user + "','R','1','Against Purchase Order','10001000000827','" + party.Rows[0]["GSTNO"].ToString() + "','" + party.Rows[0]["PANNO"].ToString() + "','" + duedate + "','" + t1 + "' from POBASIC where POBASICID='" + cy.POId + "')"; OracleCommand objCmd = new OracleCommand(svSQL, objConn);
                         try
                         {
                             objConn.Open();
@@ -390,7 +396,7 @@ namespace Arasan.Services
                     string quotid = datatrans.GetDataString("Select GRNBLBASICID from GRNBLBASIC Where POBASICID=" + cy.POId + "");
                     using (OracleConnection objConnT = new OracleConnection(_connectionString))
                     {
-                        string Sql = "Insert into GRNBLDETAIL (GRNBLBASICID,ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,PURTYPE,MATSUPP,PODETAILID) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISCAMT,PURTYPE,'OWN',PODETAILID FROM PODETAIL WHERE POBASICID=" + cy.POId + ")";
+                        string Sql = "Insert into GRNBLDETAIL (GRNBLBASICID,ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,PURTYPE,PODETAILID,INDENTNO,INDENTDT,TARIFFID,IFREIGHTCH,RLOCATION,REFDNO,REFBASICID,REFDATED,MATSUPP) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISCAMT,PURTYPE,PODETAILID,INDENTNO,INDENTDT,TARIFFID,FREIGHTCHGS,'10001000000827','" + cy.POno + "','" + cy.POId + "','" + cy.GateInDate + "','OWN' FROM PODETAIL WHERE POBASICID=" + cy.POId + ")";
                         OracleCommand objCmds = new OracleCommand(Sql, objConnT);
                         objConnT.Open();
                         objCmds.ExecuteNonQuery();

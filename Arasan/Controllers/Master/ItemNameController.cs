@@ -31,6 +31,7 @@ namespace Arasan.Controllers.Master
             ca.IgLst = BindItemGroup();
             ca.Iclst = BindItemCategory();
             ca.Isglst = BindItemSubGroup();
+            ca.Tarrifflst = BindTarrif();
             ca.Hsn = BindHSNcode();
             ca.Bin = BindBinID();
             ca.qclst = BindQCTemp();
@@ -38,7 +39,13 @@ namespace Arasan.Controllers.Master
             ca.Ledgerlst = BindLedger();
             ca.Itemlst = BindItem();
             ca.unitlst = BindUnit();
+            ca.purlst = Bindpurchase();
+            ca.costlst = Bindcostcate();
             ca.createdby = Request.Cookies["UserId"];
+            ca.Selling = "0";
+            ca.runhrs = "0";
+            ca.runhrsqty = "0";
+            ca.rundet = "NO";
             List<SupItem> TData = new List<SupItem>();
             SupItem tda = new SupItem();
 
@@ -47,6 +54,8 @@ namespace Arasan.Controllers.Master
 
             List<UnitItem> TDatau = new List<UnitItem>();
             UnitItem tdau = new UnitItem();
+            List<LocdetItem> TDatal = new List<LocdetItem>();
+            LocdetItem tdal = new LocdetItem();
 
             if (id == null)
 
@@ -65,7 +74,13 @@ namespace Arasan.Controllers.Master
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
-
+                for (int i = 0; i < 1; i++)
+                {
+                    tdal = new LocdetItem();
+                    tdal.locLst = BindLoc();
+                    tdal.Isvalid = "Y";
+                    TDatal.Add(tdal);
+                }
                 for (int i = 0; i < 1; i++)
                 {
                     tdaB = new BinItem();
@@ -173,6 +188,7 @@ namespace Arasan.Controllers.Master
             }
             ca.Binlst = TDatab;
             ca.Suplst = TData;
+            ca.locdetlst = TDatal;
             ca.unititemlst = TDatau;
             return View(ca);
         }
@@ -185,6 +201,7 @@ namespace Arasan.Controllers.Master
             ca.Hsn = BindHSNcode();
             ca.Bin = BindBinID();
             ca.qclst = BindQCTemp();
+            ca.Tarrifflst = BindTarrif();
             ca.fqclst = BindQCTemp();
             ca.Ledgerlst = BindLedger();
             ca.Itemlst = BindItem();
@@ -367,6 +384,60 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
+        public List<SelectListItem> BindLoc()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetLocation();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> Bindpurchase()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "OTHERS", Value = "OTHERS" });
+                lstdesg.Add(new SelectListItem() { Text = "CONSUMABLES", Value = "CONSUMABLES" });
+                lstdesg.Add(new SelectListItem() { Text = "MAJOR RAW MATERIALS", Value = "MAJOR RAW MATERIALS" });
+                lstdesg.Add(new SelectListItem() { Text = "PACKING OLD DRUMS", Value = "PACKING OLD DRUMS" });
+                lstdesg.Add(new SelectListItem() { Text = "MAJOR CONSUMABLES", Value = "MAJOR CONSUMABLES" });
+                lstdesg.Add(new SelectListItem() { Text = "MAJOR FUEL", Value = "MAJOR FUEL" });
+                lstdesg.Add(new SelectListItem() { Text = "MAJOR PACKING MATERIAL", Value = "MAJOR PACKING MATERIAL" });
+
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> Bindcostcate()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "NONE", Value = "NONE" });
+                lstdesg.Add(new SelectListItem() { Text = "HIGH SIEVE", Value = "HIGH SIEVE" });
+                lstdesg.Add(new SelectListItem() { Text = "LOW SIEVE", Value = "LOW SIEVE" });
+               
+
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindLedger()
         {
             try
@@ -375,7 +446,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LEDNAME"].ToString(), Value = dtDesg.Rows[i]["LEDGERID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MNAME"].ToString(), Value = dtDesg.Rows[i]["MASTERID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -510,6 +581,23 @@ namespace Arasan.Controllers.Master
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["SGCODE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindTarrif()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("select ETARIFFMASTERID,TARIFFID from ETARIFFMASTER");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TARIFFID"].ToString(), Value = dtDesg.Rows[i]["ETARIFFMASTERID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -725,6 +813,12 @@ namespace Arasan.Controllers.Master
             //EnqItem model = new EnqItem();
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindUnit());
+        }
+        public JsonResult GetLocJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindLoc());
         }
         //public IActionResult SupplierDetail(String id)
         //{

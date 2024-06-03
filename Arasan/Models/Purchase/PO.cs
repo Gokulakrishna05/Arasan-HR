@@ -121,8 +121,11 @@ namespace Arasan.Models
         }
         public string ID { get; set; }
         public string Supplier { get; set; }
+        public string Supplierid { get; set; }
+        public string user { get; set; }
         public string Status { get; set; }
         public string POId { get; set; }
+        public string POno { get; set; }
         public string GateInDate { get; set; }
         public string GateInTime { get; set; }
         public string Narration { get; set; }
@@ -275,7 +278,8 @@ namespace Arasan.Models
         public string itemname { get; set; }
         public string unit { get; set; }
         public string Conversionfactor { get; set; }
-        public double quantity { get; set; }
+        public double qty { get; set; }
+        public double Quantity { get; set; }
         public string qc { get; set; }
     }
 }

@@ -700,8 +700,7 @@ namespace Arasan.Services
                     throw ex;
                 }
                 cy.EnqNo = EnqNo;
-                string entat = DateTime.Now.ToString("dd\\/MM\\/yyyy hh:mm:ss tt");
-
+ 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("PURCHASEENQPROC", objConn);

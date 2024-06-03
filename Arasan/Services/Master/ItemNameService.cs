@@ -183,8 +183,10 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("VALMETHOD", OracleDbType.NVarchar2).Value = ss.ValuationMethod;
                     objCmd.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = ss.Serial;
                     objCmd.Parameters.Add("BSTATEMENTYN", OracleDbType.NVarchar2).Value = ss.Batch;
-
-                    objCmd.Parameters.Add("TEMPLATEID", OracleDbType.NVarchar2).Value = ss.QCTemp;
+                    if(ss.QCTemp=="")
+                    { objCmd.Parameters.Add("TEMPLATEID", OracleDbType.NVarchar2).Value = "0"; }
+                    else { objCmd.Parameters.Add("TEMPLATEID", OracleDbType.NVarchar2).Value = ss.QCTemp; }
+                   
                     objCmd.Parameters.Add("QCCOMPFLAG", OracleDbType.NVarchar2).Value = ss.QCRequired;
                     objCmd.Parameters.Add("LATPURPRICE", OracleDbType.NVarchar2).Value = ss.Latest;
                    
@@ -194,8 +196,11 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = ss.AddItem;
                     objCmd.Parameters.Add("RAWMATCAT", OracleDbType.NVarchar2).Value = ss.RawMaterial;
                     objCmd.Parameters.Add("LEDGERNAME", OracleDbType.NVarchar2).Value = ss.Ledger;
-                  
-                    objCmd.Parameters.Add("PTEMPLATEID", OracleDbType.NVarchar2).Value = ss.FQCTemp;
+                    if (ss.FQCTemp == "")
+                    {
+                        objCmd.Parameters.Add("PTEMPLATEID", OracleDbType.NVarchar2).Value = "0";
+                    }
+                    else { objCmd.Parameters.Add("PTEMPLATEID", OracleDbType.NVarchar2).Value = ss.FQCTemp; }
                     objCmd.Parameters.Add("CURINGDAY", OracleDbType.NVarchar2).Value = ss.Curing;
                     objCmd.Parameters.Add("AUTOINDENT", OracleDbType.NVarchar2).Value = ss.Auto;
                     if (ss.ID == null)
@@ -208,6 +213,22 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = ss.createdby;
                     objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     }
+                    if (ss.Tarriff == "")
+                    {
+                        objCmd.Parameters.Add("TARIFFID", OracleDbType.NVarchar2).Value ="0";
+                    }
+                    else { objCmd.Parameters.Add("TARIFFID", OracleDbType.NVarchar2).Value = ss.Tarriff; }
+                    objCmd.Parameters.Add("LEADDAYS", OracleDbType.NVarchar2).Value = ss.leadtime;
+                    objCmd.Parameters.Add("LATPURDT", OracleDbType.NVarchar2).Value = ss.lastdate;
+                    objCmd.Parameters.Add("LOTYN", OracleDbType.NVarchar2).Value = ss.lot;
+                    objCmd.Parameters.Add("DRUMYN", OracleDbType.NVarchar2).Value = ss.Drumyn;
+                    objCmd.Parameters.Add("BINYN", OracleDbType.NVarchar2).Value = ss.BinYN;
+                    if (ss.BinID == "")
+                    {
+                        objCmd.Parameters.Add("BINNO", OracleDbType.NVarchar2).Value = "0";
+                    }
+                    else { objCmd.Parameters.Add("BINNO", OracleDbType.NVarchar2).Value = ss.BinID; }
+                    objCmd.Parameters.Add("PURCAT", OracleDbType.NVarchar2).Value = ss.purchasecate;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -556,7 +577,7 @@ namespace Arasan.Services.Master
 
            
 
-            SvSql = "SELECT LEDGERID,LEDNAME FROM accledger where IS_ACTIVE='Y'";
+            SvSql = "SELECT MNAME,MASTERID FROM MASTER ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -567,7 +588,7 @@ namespace Arasan.Services.Master
         public DataTable GetItemCategory()
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMCATEGORYID,CATEGORY from ITEMCATEGORY where APPROVALSTATUS='Y'";
+            SvSql = "Select ITEMCATEGORYID,CATEGORY from ITEMCATEGORY ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

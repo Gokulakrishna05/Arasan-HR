@@ -271,14 +271,14 @@
                                                                 <tr>
 
 
-                                                                    <td>@Html.DisplayFor(o => o.penlst[k].docid)</td>
-                                                                    <td>@Html.DisplayFor(o => o.penlst[k].Date)</td>
+                                                                    <td><a href="@Url.Action("ApproveMaterial", "MaterialRequisition",new{@id=item.basicid})">@Html.DisplayFor(o => o.penlst[k].docid)</a></td>
+                                                                    <td>@Html.DisplayFor(o => o.penlst[k].Date)@Html.HiddenFor(o => o.penlst[k].basicid)</td>
                                                                     <td>@Html.DisplayFor(o => o.penlst[k].location)</td>
 
                                                                     <td>@Html.DisplayFor(o => o.penlst[k].ItemName)</td>
                                                                     <td>@Html.DisplayFor(o => o.penlst[k].qty)</td>
 
-                                                                    <td> <small class="pull-right">@Html.DisplayFor(o => o.indlst[k].days)</small></td>
+                                                                   @* <td> <small class="pull-right">@Html.DisplayFor(o => o.indlst[k].days)</small></td>*@
 
                                                                 </tr>
                                                             k++;
