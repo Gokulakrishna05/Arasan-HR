@@ -700,7 +700,7 @@ namespace Arasan.Services
                     throw ex;
                 }
                 cy.EnqNo = EnqNo;
- 
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("PURCHASEENQPROC", objConn);

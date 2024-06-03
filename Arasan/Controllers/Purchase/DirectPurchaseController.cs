@@ -15,6 +15,7 @@ namespace Arasan.Controllers
 {
     public class DirectPurchaseController : Controller
     {
+
         IDirectPurchase directPurchase;
         IConfiguration? _configuratio;
         private string? _connectionString;
@@ -28,7 +29,161 @@ namespace Arasan.Controllers
             this._WebHostEnvironment = WebHostEnvironment;
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
-        public IActionResult DirectPurchase(string id)
+        public IActionResult DP(string id)
+        {
+            DirectPurchase ca = new DirectPurchase();
+            ca.Brlst = BindBranch();
+            ca.Branch = Request.Cookies["BranchId"];
+            ca.user = Request.Cookies["UserName"];
+            ca.Currency = "1";
+            ca.Suplst = BindSupplier("AGAINST PURCHASE INDENT");
+            ca.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            ca.Curlst = BindCurrency();
+            ca.Loclst = GetLoc();
+            ca.putypelst = BindPuType();
+            string loc = ca.Location;
+            //ViewBag.locdisp = ca.Location;
+            ca.Vocherlst = BindVocher();
+            ca.Voucher = "Purchase";
+            ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence1("dp", loc);
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["LASTNO"].ToString();
+            }
+            List<DirItem> TData = new List<DirItem>();
+            DirItem tda = new DirItem();
+            if (id == null)
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new DirItem();
+                    tda.Indentlst = BindEmpty();
+                    //tda.ItemGrouplst = BindItemGrplst();
+                    tda.Itemlst = BindItemlst("", "AGAINST PURCHASE INDENT");
+                    tda.gstlst = Bindgstlst("");
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+            else
+            {
+
+                // ca = directPurchase.GetDirectPurById(id);
+
+
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = directPurchase.GetDirectPurchase(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.Supplier = dt.Rows[0]["PARTYID"].ToString();
+                    ca.DocNo = dt.Rows[0]["DOCID"].ToString();
+                    ca.ID = id;
+                    ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
+                    ca.RefDate = dt.Rows[0]["REFDT"].ToString();
+                    ca.Voucher = dt.Rows[0]["VOUCHER"].ToString();
+                    ca.Location = dt.Rows[0]["LOCID"].ToString();
+                    ca.Narration = dt.Rows[0]["NARR"].ToString();
+                    ca.LRCha = Convert.ToDouble(dt.Rows[0]["LRCH"].ToString() == "" ? "0" : dt.Rows[0]["LRCH"].ToString());
+                    ca.DelCh = Convert.ToDouble(dt.Rows[0]["DELCH"].ToString() == "" ? "0" : dt.Rows[0]["DELCH"].ToString());
+                    ca.Other = Convert.ToDouble(dt.Rows[0]["OTHERCH"].ToString() == "" ? "0" : dt.Rows[0]["OTHERCH"].ToString());
+                    ca.Frieghtcharge = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["FREIGHT"].ToString());
+                    ca.Disc = Convert.ToDouble(dt.Rows[0]["OTHERDISC"].ToString() == "" ? "0" : dt.Rows[0]["OTHERDISC"].ToString());
+                    ca.Round = Convert.ToDouble(dt.Rows[0]["ROUNDM"].ToString() == "" ? "0" : dt.Rows[0]["ROUNDM"].ToString());
+
+                    ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+                    ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+
+                }
+                DataTable dt2 = new DataTable();
+                dt2 = directPurchase.GetDirectPurchaseItemDetails(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new DirItem();
+                        double toaamt = 0;
+                        tda.ItemGrouplst = BindItemGrplst();
+                        DataTable dt3 = new DataTable();
+                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        if (dt3.Rows.Count > 0)
+                        {
+                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        }
+                        //tda.Itemlst = BindItemlst(tda.ItemGroupId);
+                        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+
+                        DataTable dt4 = new DataTable();
+                        dt4 = datatrans.GetItemDetails(tda.ItemId);
+                        if (dt4.Rows.Count > 0)
+                        {
+
+                            tda.ConFac = dt4.Rows[0]["CF"].ToString();
+                            tda.rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
+                        }
+                        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        toaamt = tda.rate * tda.Quantity;
+                        total += toaamt;
+                        //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        tda.Amount = toaamt;
+                        tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                        //tda.PURLst = BindPurType();
+                        //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
+
+                        tda.Disc = Convert.ToDouble(dt2.Rows[i]["DISC"].ToString() == "" ? "0" : dt2.Rows[i]["DISC"].ToString());
+                        tda.DiscAmount = Convert.ToDouble(dt2.Rows[i]["DISCAMOUNT"].ToString() == "" ? "0" : dt2.Rows[i]["DISCAMOUNT"].ToString());
+
+                        tda.FrigCharge = Convert.ToDouble(dt2.Rows[i]["IFREIGHTCH"].ToString() == "" ? "0" : dt2.Rows[i]["IFREIGHTCH"].ToString());
+                        tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
+                        tda.CGSTP = Convert.ToDouble(dt2.Rows[i]["CGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTP"].ToString());
+                        tda.SGSTP = Convert.ToDouble(dt2.Rows[i]["SGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTP"].ToString());
+                        tda.IGSTP = Convert.ToDouble(dt2.Rows[i]["IGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTP"].ToString());
+                        tda.CGST = Convert.ToDouble(dt2.Rows[i]["CGST"].ToString() == "" ? "0" : dt2.Rows[i]["CGST"].ToString());
+                        tda.SGST = Convert.ToDouble(dt2.Rows[i]["SGST"].ToString() == "" ? "0" : dt2.Rows[i]["SGST"].ToString());
+                        tda.IGST = Convert.ToDouble(dt2.Rows[i]["IGST"].ToString() == "" ? "0" : dt2.Rows[i]["IGST"].ToString());
+                        // tda.PurType = dt2.Rows[i]["PURTYPE"].ToString();
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
+                }
+                ca.Net = Math.Round(total, 2);
+
+            }
+            ca.DirLst = TData;
+            return View(ca);
+        }
+        public IActionResult IndentSelection()
+        {
+            Indentdetailstable ca = new Indentdetailstable();
+            List<IndentVList> TData = new List<IndentVList>();
+            IndentVList tda = new IndentVList();
+            DataTable dt = new DataTable();
+            dt = directPurchase.getindent();
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    tda = new IndentVList();
+                    tda.indentno = dt.Rows[i]["INDENT_NO"].ToString();
+                    tda.indentdate = dt.Rows[i]["INDENT_DATE"].ToString();
+                    tda.item = dt.Rows[i]["ITEMID"].ToString();
+                    tda.unit = dt.Rows[i]["UNITID"].ToString();
+                    tda.indentqty = dt.Rows[i]["INDENT_QTY"].ToString();
+                    tda.ordqty = dt.Rows[i]["ORD_QTY"].ToString();
+                    tda.purtype = dt.Rows[i]["PurType"].ToString();
+                    tda.mailto = dt.Rows[i]["mailto"].ToString();
+                    tda.inddetid= dt.Rows[i]["PINDDETAILID"].ToString();
+                    TData.Add(tda);
+                }
+            }
+            ca.indlst = TData;
+            return View(ca);
+        }
+            public IActionResult DirectPurchase(string id)
         {
             DirectPurchase ca = new DirectPurchase();
             ca.Brlst = BindBranch();
@@ -198,6 +353,10 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
+        public IActionResult ListDPAccount()
+        {
+            return View();
+        }
         public ActionResult MyListDirectPurchaseGrid(string strStatus)
         {
             List<DirectPurchaseItems> Reg = new List<DirectPurchaseItems>();
@@ -255,6 +414,40 @@ namespace Arasan.Controllers
                     move = MoveToGRN,
                     print = Print,
                     account= Account
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public ActionResult MyListDPAccount(string strStatus)
+        {
+            List<DirectPurchaseItems> Reg = new List<DirectPurchaseItems>();
+            DataTable dtUsers = new DataTable();
+            dtUsers = datatrans.GetData("Select  BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,DPBASIC. DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.STATUS,DPBASICID,DPBASIC.GROSS,DPBASIC.NET,IS_ACCOUNT from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID WHERE IS_ACCOUNT='N'");
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string Account = string.Empty;
+
+                if (dtUsers.Rows[i]["IS_ACCOUNT"].ToString() == "N")
+                {
+                    Account = "<a href=DPACC?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
+                }
+              
+                Reg.Add(new DirectPurchaseItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["DPBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    docNo = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    gross = dtUsers.Rows[i]["GROSS"].ToString(),
+                    net = dtUsers.Rows[i]["NET"].ToString(),
+                    account = Account
 
                 });
             }
@@ -1298,7 +1491,7 @@ namespace Arasan.Controllers
             }
         }
 
-        public ActionResult GetItemDetail(string ItemId,string indent)
+        public ActionResult GetItemDetail(string ItemId)
         {
             try
             {
@@ -1310,6 +1503,7 @@ namespace Arasan.Controllers
                 string price = "";
                 string indqty = "";
                 string inddetid = "";
+                string bin = "";
                 dt = datatrans.GetItemDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
@@ -1317,16 +1511,21 @@ namespace Arasan.Controllers
                  
                     unit = dt.Rows[0]["UNITID"].ToString();
                     price = dt.Rows[0]["LATPURPRICE"].ToString();
+                    bin= dt.Rows[0]["BINID"].ToString(); 
                     dt1 = directPurchase.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
                     if (dt1.Rows.Count > 0)
                     {
                         CF = dt1.Rows[0]["CF"].ToString();
                     }
+                    //if (dt.Rows[0]["BINNO"].ToString() != "" && dt.Rows[0]["BINNO"].ToString() != null)
+                    //{
+                    //    bin = datatrans.GetDataString("select BINID from BINBASIC where BINBASICID='" + dt.Rows[0]["BINNO"].ToString() + "'");
+                    //}
                 }
-                string ind = datatrans.GetDataString("SELECT PINDBASICID FROM PINDBASIC WHERE DOCID='" + indent + "'");
-                indqty = datatrans.GetDataString("SELECT QTY FROM PINDDETAIL WHERE PINDBASICID='"+ ind + "' AND ITEMID='"+ItemId+"'");
-                inddetid = datatrans.GetDataString("SELECT PINDDETAILID FROM PINDDETAIL WHERE PINDBASICID='" + ind + "' AND ITEMID='"+ItemId+"'");
-                var result = new { unit = unit, CF = CF, price = price, indqty= indqty , inddetid = inddetid };
+                //string ind = datatrans.GetDataString("SELECT PINDBASICID FROM PINDBASIC WHERE DOCID='" + indent + "'");
+                //indqty = datatrans.GetDataString("SELECT QTY FROM PINDDETAIL WHERE PINDBASICID='"+ ind + "' AND ITEMID='"+ItemId+"'");
+                //inddetid = datatrans.GetDataString("SELECT PINDDETAILID FROM PINDDETAIL WHERE PINDBASICID='" + ind + "' AND ITEMID='"+ItemId+"'");
+                var result = new { unit = unit, CF = CF, price = price , bin = bin };
                 return Json(result);
             }
             catch (Exception ex)
@@ -1350,7 +1549,51 @@ namespace Arasan.Controllers
         {
             return Json(BindIndent(puid, supid));
         }
-        
+        public JsonResult GetIndentDetail(string indentid,string supid)
+        {
+            DataTable dt = new DataTable();
+            string svsql = string.Empty;
+            svsql = @"SELECT U.UNITMASTID,ID.PINDDETAILID,' ' AS MARK,IB.DOCID AS INDENT_NO , to_char(IB.DOCDATE,'dd-MON-yyyy') AS  INDENT_DATE,A.ITEMMASTERID, A.ITEMID,U.UNITID,  ID.QTY AS INDENT_QTY, A.ITEMDESC, ((ID.QTY+ID.RETQTY)-(ID.POQTY+ID.SHCLQTY+ID.GRNQTY)) AS ORD_QTY , IB.PurType,ID.mailto,A.BINNO
+FROM ITEMMASTER A ,PINDBASIC IB,PINDDETAIL ID ,  Unitmast U
+WHERE ID.PINDDETAILID IN(" + indentid + ") ";
+            svsql += @"AND ID.UNIT=U.UNITMASTID
+AND IB.PINDBASICID=ID.PINDBASICID
+AND A.ITEMMASTERID=ID.ITEMID ";
+            dt = datatrans.GetData(svsql);
+            Indentdetailstable ca = new Indentdetailstable();
+            List<IndentVList> TData = new List<IndentVList>();
+            IndentVList tda = new IndentVList();
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    tda = new IndentVList();
+                    tda.indentno = dt.Rows[i]["INDENT_NO"].ToString();
+                    tda.indentdate = dt.Rows[i]["INDENT_DATE"].ToString();
+                    tda.itemid = dt.Rows[i]["ITEMID"].ToString();
+                    tda.saveitemid= dt.Rows[i]["ITEMMASTERID"].ToString();
+                    tda.unit = dt.Rows[i]["UNITID"].ToString();
+                    tda.indentqty = dt.Rows[i]["INDENT_QTY"].ToString();
+                    tda.ordqty = dt.Rows[i]["ORD_QTY"].ToString();
+                    tda.purtype = dt.Rows[i]["PurType"].ToString();
+                    tda.mailto = dt.Rows[i]["mailto"].ToString();
+                    tda.inddetid = dt.Rows[i]["PINDDETAILID"].ToString();
+                    if(dt.Rows[i]["BINNO"].ToString() !="" && dt.Rows[i]["BINNO"].ToString() != null)
+                    {
+                        tda.binid = datatrans.GetDataString("select BINID from BINBASIC where BINBASICID='" + dt.Rows[i]["BINNO"].ToString() + "'");
+                    }
+                    DataTable dt1 = new DataTable();
+                    dt1 = directPurchase.GetItemCF(tda.saveitemid, dt.Rows[i]["UNITMASTID"].ToString());
+                    if (dt1.Rows.Count > 0)
+                    {
+                        tda.cf = dt1.Rows[0]["CF"].ToString();
+                    }
+                    TData.Add(tda);
+                }
+            }
+            ca.indlst = TData;
+            return Json(ca.indlst);
+        }
         public JsonResult GetItemGrpJSON()
         {
             //EnqItem model = new EnqItem();

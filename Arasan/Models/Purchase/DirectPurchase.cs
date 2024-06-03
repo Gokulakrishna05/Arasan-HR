@@ -62,6 +62,31 @@ namespace Arasan.Models
         public string LRdate { get; set; }
         public string dispatchname { get; set; }
         public string Amountinwords { get; set; }
+        public string IndentDate { get; set; }
+    }
+    public class Indentdetailstable
+    {
+        public List<IndentVList> indlst { get; set; }
+
+        public bool selectall { get; set; }
+    }
+    public class IndentVList
+    {
+        public string indentno { get; set; }
+        public string indentdate { get; set; }
+        public string item { get; set; }
+        public string itemid { get; set; }
+        public string saveitemid { get; set; }
+        public string inddetid { get; set; }
+        public string unit { get; set; }
+        public string unitid { get; set; }
+        public string indentqty { get; set; }
+        public string ordqty { get; set; }
+        public string purtype { get; set; }
+        public string mailto { get; set; }
+        public bool drumselect { get; set; }
+        public string binid { get; set; }
+        public string cf { get; set; }
     }
     public class DirItem
     {
@@ -76,6 +101,7 @@ namespace Arasan.Models
         public List<SelectListItem>  ItemGrouplst { get; set; }
         public List<SelectListItem> Indentlst { get; set; }
         public string IndentId { get; set; }
+        public string IndentDate { get; set; }
         public string ItemGroupId { get; set; }
         public double FrigCharge { get; set; }
         public double ConvQty { get; set; }
@@ -87,14 +113,14 @@ namespace Arasan.Models
         public string Indqty { get; set; }
         public string Unit { get; set; }
         public List<SelectListItem> PURLst;
-
+        public string BinId { get; set; }
         public string PurType { get; set; }
         public double Quantity { get; set; }
      //   public string unitprim { get; set; }
       //  public double QtyPrim { get; set; }
         public double rate { get; set; }
         public double Amount { get; set; }
-
+        public string pendqty { get; set; }
         public double Disc { get; set; }
         public double DiscAmount { get; set; }
     
