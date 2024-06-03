@@ -582,22 +582,25 @@ namespace Arasan.Controllers
                     {
                         MoveToQuo = "";
                         EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                        DeleteRow = "DeleteItem?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "";
+
                     }
                     else
                     {
                         if (dtUsers.Rows[i]["STATUS"].ToString() == "Quote")
                         {
-                            MoveToQuo = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                            MoveToQuo = "<a href=/PurchaseQuo/ListPurchaseQuo><img src='../Images/tick.png' alt='View Details' width='20' /></a>";
                             EditRow = "";
-
+                            DeleteRow ="";
                         }
                         else
                         {
                             MoveToQuo = "<a href=ViewEnq?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
                             EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                            DeleteRow = "DeleteItem?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "";
 
                         }
-                      
+
 
                     }
                     //}
@@ -606,7 +609,6 @@ namespace Arasan.Controllers
                     //EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     //DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " onclick='return confirm(" + "\"Are you sure you want to Disable this record...?\"" + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                     // DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + ")'></a>";
-                    DeleteRow = "DeleteItem?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "";
                 }
                 else {
                     MailRow = "";
@@ -615,6 +617,7 @@ namespace Arasan.Controllers
                     Regenerate = "";
                    View = "";
                    EditRow = "";
+
                     DeleteRow = "Active?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "";
                 }
                 Reg.Add(new PurchaseEnquiryItems
@@ -624,6 +627,7 @@ namespace Arasan.Controllers
                     docNo = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["ENQDATE"].ToString(),
                     supplier = dtUsers.Rows[i]["PARTYID"].ToString(),
+                    isactive = dtUsers.Rows[i]["IS_ACTIVE"].ToString(),
                     mailrow = MailRow,
                     follow = FollowUp,
                     move = MoveToQuo,

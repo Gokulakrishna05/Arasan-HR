@@ -41,8 +41,20 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Supplier <label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.HiddenFor(C => C.ID)
-                                        @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlsup", @Class = "form-control chosen-select", @TabIndex = 1 , @onchange = "Supp_Change(this.value)"})<br/>
-                                    </div>
+                                        @Html.HiddenFor(C => C.user)
+                                        @if(Model.Supplier==null)
+                                            {
+                                                @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlsup", @Class = "form-control _select", @TabIndex = 1 , @onchange = "Supp_Change(this.value)"})<br/>
+
+                                            }
+                                            else
+                                            {
+                                         		 @Html.DisplayFor(C => C.Supplierid)
+                                         		 @Html.HiddenFor(C => C.Supplierid)
+                                         		 @Html.HiddenFor(C => C.Supplier)
+
+                                            }
+                                        </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -50,9 +62,17 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">PO No.<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
+                                         @if(Model.POId==null)
+                                            {
+                                       @Html.DropDownListFor(C => C.POId, Model.POlst, new { @id = "ddlPO", @Class = "form-control _select", @TabIndex = 1 , @onchange = "PO_Change(this.value)" })<br/>
+                                            }
+                                            else
+                                            {
+                                         		 @Html.DisplayFor(C => C.POno)
+                                         		 @Html.HiddenFor(C => C.POno)
+                                         		 @Html.HiddenFor(C => C.POId)
 
-                                       @Html.DropDownListFor(C => C.POId, Model.POlst, new { @id = "ddlPO", @Class = "form-control chosen-select", @TabIndex = 1 , @onchange = "PO_Change(this.value)" })<br/>
-
+                                            }
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +136,40 @@
                    
                       <tbody id="tbBooks">
                        
-                       
+                        @{
+
+                                                            int i = 0;
+                                                             
+                                                            foreach (var item in Model.PoItem.ToList())
+                                                            {
+                                                            <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                              
+                                                                <td>
+                                                                    @Html.DisplayFor(o => o.PoItem[i].itemname)
+                                                                    @Html.HiddenFor(o => o.PoItem[i].itemid)
+                                                                </td>
+                                                                <td>
+                                                                    @Html.DisplayFor(o => o.PoItem[i].qc)
+                                                                    @Html.HiddenFor(o => o.PoItem[i].qc)
+                                                                </td>
+                                                                 <td>
+                                                                    @Html.DisplayFor(o => o.PoItem[i].qty)
+                                                                    @Html.HiddenFor(o => o.PoItem[i].qty)
+                                                                                                            </td>
+                                                                <td>
+                                                                    @Html.DisplayFor(o => o.PoItem[i].unit)
+                                                                    @Html.HiddenFor(o => o.PoItem[i].unit)
+                                                                </td>
+                                                                <td>
+                                                            @Html.TextBoxFor(o => o.PoItem[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px; ", @onkeyup = "changeQty(this," + i + ")"})
+                                                                </td>
+                                                               
+                                                             
+                                                                </tr>
+                                                    i = i + 1;
+                                                     
+                                                }
+                                            }
                       </tbody>
                     </table>
                   </div>
@@ -291,7 +344,9 @@
                     alert(ex.message);
                 }
             }
-     $(".chosen-select").chosen();
+     $(function () {
+        $('._select').select2();
+    });
    
      $('.form_date').datetimepicker({
      //   language:  'fr',

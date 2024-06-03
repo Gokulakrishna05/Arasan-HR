@@ -59,6 +59,7 @@ namespace Arasan.Models
         public long id { get; set; }
         public string branch { get; set; }
         public string supplier { get; set; }
+        public string isactive { get; set; }
         public string docNo { get; set; }
         public string docDate { get; set; }
         public string mailrow { get; set; }

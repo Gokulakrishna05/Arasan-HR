@@ -362,7 +362,7 @@ namespace Arasan.Controllers
                         }
                         else
                         {
-                            MoveToGRN = "<a href=ViewPO?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                            MoveToGRN = "<a href=GateInward?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
                             EditRow = "<a href=PurchaseOrder?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
 
 
@@ -474,12 +474,59 @@ namespace Arasan.Controllers
             cmp.GateInlst = TData;
             return View(cmp);
         }
-        public IActionResult GateInward()
+        public IActionResult GateInward(string id)
         {
             GateInward GI = new GateInward();
-            GI.Suplst = BindSupplier();
-            GI.GateInDate = DateTime.Now.ToString("dd-MMM-yyyy");
-            GI.GateInTime = DateTime.Now.ToString("h:mm");
+            List<POGateItem> Data = new List<POGateItem>();
+            POGateItem tda = new POGateItem();
+            if (id == null)
+            {
+                GI.Suplst = BindSupplier();
+                GI.GateInDate = DateTime.Now.ToString("dd-MMM-yyyy");
+                GI.GateInTime = DateTime.Now.ToString("h:mm");
+                GI.user = Request.Cookies["UserName"];
+            }
+            else
+            {
+                DataTable dt = new DataTable();
+                dt = datatrans.GetData("SELECT PARTYMAST.PARTYNAME,POBASIC.PARTYID,POBASICID,POBASIC.DOCID FROM POBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=POBASIC.PARTYID WHERE POBASICID ='" + id+"'");
+                if (dt.Rows.Count > 0)
+                {
+                    GI.GateInDate = DateTime.Now.ToString("dd-MMM-yyyy");
+                    GI.GateInTime = DateTime.Now.ToString("h:mm");
+                    GI.user = Request.Cookies["UserName"];
+                    GI.Supplier = dt.Rows[0]["PARTYID"].ToString();
+                    GI.Supplierid = dt.Rows[0]["PARTYNAME"].ToString();
+                    GI.POId = dt.Rows[0]["POBASICID"].ToString();
+                    GI.POno = dt.Rows[0]["DOCID"].ToString();
+                    GI.ID = id;
+
+                }
+              
+                DataTable dtt = new DataTable();
+                dtt = PoService.GetPOItembyID(id);
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda = new POGateItem();
+                        tda.itemid = dtt.Rows[i]["Itemi"].ToString();
+                        tda.itemname = dtt.Rows[i]["ITEMID"].ToString();
+                        tda.unit = dtt.Rows[i]["UNITID"].ToString();
+                        tda.qty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                        DataTable dt4 = new DataTable();
+                        dt4 = datatrans.GetItemDetails(tda.itemid);
+                        if (dt4.Rows.Count > 0)
+                        {
+                            tda.Conversionfactor = dt4.Rows[0]["CF"].ToString();
+                            tda.qc = dt4.Rows[0]["QCCOMPFLAG"].ToString();
+                        }
+                        Data.Add(tda);
+                    }
+                }
+               
+            }
+            GI.PoItem = Data;
             return View(GI);
         }
 
@@ -541,7 +588,7 @@ namespace Arasan.Controllers
                     tda.itemid = dtt.Rows[i]["Itemi"].ToString();
                     tda.itemname = dtt.Rows[i]["ITEMID"].ToString();
                     tda.unit = dtt.Rows[i]["UNITID"].ToString();
-                    tda.quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                    tda.qty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
                     DataTable dt4 = new DataTable();
                     dt4 = datatrans.GetItemDetails(tda.itemid);
                     if (dt4.Rows.Count > 0)
