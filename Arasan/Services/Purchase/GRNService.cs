@@ -224,7 +224,7 @@ namespace Arasan.Services
                                 datatrans.UpdateStatus(updatetrans);
 
 
-                                command.CommandText = "UPDATE GRNBLBASIC SET ADSCHEME ='"+ cy.ADCOMPHID +"' WHERE GRNBLBASICID='" + cy.GRNID + "'";
+                                command.CommandText = "UPDATE GRNBLBASIC SET ADSCHEME ='"+ cy.ADCOMPHID +"',IS_ACCOUNT='Y' WHERE GRNBLBASICID='" + cy.GRNID + "'";
                                 command.ExecuteNonQuery();
 
                                 ///////////////////transaction

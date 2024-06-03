@@ -29,7 +29,7 @@
     $(document).ready(function () {
         var source =
         {
-            url: "/GRN/MyListGRNGrid",
+            url: "/GRN/MyListGRNAcc",
             //url: "/ItemName/ItemName",
             data: {
                 strstatus: ""
@@ -39,7 +39,7 @@
                 // synchronize with the server - send update command
             },
             datafields: [
-                 { name: 'enqno', type: 'string' },
+                { name: 'enqno', type: 'string' },
                 { name: 'docDate', type: 'string' },
                 { name: 'supplier', type: 'string' },
                 { name: 'gross', type: 'string' },
@@ -47,11 +47,7 @@
                 { name: 'qcresult', type: 'string' },
                 { name: 'grn', type: 'string' },
                 { name: 'acc', type: 'string' },
-                //{ name: 'move', type: 'string' },
-                { name: 'view', type: 'string' },
-                { name: 'editrow', type: 'string' },
-                { name: 'delrow', type: 'string' },
-
+               
             ],
             id: 'id',
         };
@@ -62,7 +58,7 @@
             }
         }
         );
-           var linkrenderer1 = function (row, column, value) {
+        var linkrenderer1 = function (row, column, value) {
             return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
         }
         $("#grid").jqxGrid(
@@ -93,13 +89,9 @@
                     { text: 'Gross', filtertype: 'checkedlist', datafield: 'gross', width: 100 },
                     { text: 'Net', filtertype: 'checkedlist', datafield: 'net', width: 100 },
                     { text: 'Qc Testing', filtertype: 'input', datafield: 'qcresult', width: 100 },
-                    { text: 'GRN Status', datafield: 'grn', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 100 },
-                    //{ text: 'PR/DN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
-                   // { text: 'Account', datafield: 'acc', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
-                    { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
-                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false,cellsrenderer: linkrenderer1, cellsalign: 'center', width: 70 },
-                    //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
+                   // { text: 'GRN Status', datafield: 'grn', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 100 },
+                    { text: 'Account', datafield: 'acc', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
+                  
                 ]
             });
         $("#ddlStatus").change(function () {
@@ -122,30 +114,11 @@
 
                     <form>
                         <div class="row">
-                            <div class="col-md-2 ">
-                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
-                                { new SelectListItem() {Text = "Enabled", Value="Y"},
-                                new SelectListItem() {Text = "Disabled", Value="N"}},
-                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
-                                <br>
-                            </div>
-                            @*  <div class="col-md-9 ">
-                            <div class=" textalignright">
-                            <a href="@Url.Action("DirectPurchase", "DirectPurchase")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DirectPurchase</a>
-                            <br>
-                            </div>
-
-
-                            </div>*@
-                        </div>
-                        <div class="row">
-
-
-                            @*  <div class="col-md-10 ">*@
+                              <div class="col-md-12 ">
                             <div id="grid">
                             </div>
 
-                            @* </div>*@
+                             </div>
 
                         </div>
 
@@ -192,19 +165,4 @@
     }
 
 
-            //function changeStatus(status) {
-            //    var url = "/PurchaseQuo/ListPurchaseQuo?status=" + status;
-            //    window.location.href = url;
-            //    //$.ajax({
-            //    //    url: 'AssignSession',
-            //    //    data: { "status": status },
-            //    //    type: "GET",
-            //    //    success: function (result) {
-            //    //        document.getElementById("hdstatus").value = result;
-            //    //    },
-            //    //    error: function () {
-            //    //        alert("Data Not Found");
-            //    //    }
-            //    //});
-            //    //window.location.reload();
 </script>
