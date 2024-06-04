@@ -104,12 +104,20 @@ namespace Arasan.Controllers.Master
                     ca.ItemDes = dt.Rows[0]["ITEMDESC"].ToString();
                     ca.Reorderqu = dt.Rows[0]["REORDERQTY"].ToString();
                     ca.Reorderlvl = dt.Rows[0]["REORDERLVL"].ToString();
+                    ca.lot = dt.Rows[0]["LOTYN"].ToString();
+                    ca.qctest = dt.Rows[0]["QCT"].ToString();
+                    ca.Drumyn = dt.Rows[0]["DRUMYN"].ToString();
                      
                     ca.Minlvl = dt.Rows[0]["MINSTK"].ToString();
                     
                     ca.Unit = dt.Rows[0]["PRIUNIT"].ToString();
                     ca.Hcode = dt.Rows[0]["HSN"].ToString();
                     ca.Selling = dt.Rows[0]["SELLINGPRICE"].ToString();
+                    ca.itemfrom = dt.Rows[0]["ITEMFROM"].ToString();
+                    ca.Tarriff = dt.Rows[0]["TARIFFID"].ToString();
+                    ca.purchasecate = dt.Rows[0]["PURCAT"].ToString();
+                    ca.major = dt.Rows[0]["MAJORYN"].ToString();
+                    ca.lastdate = dt.Rows[0]["LATPURDT"].ToString();
                      
                     ca.Expiry = dt.Rows[0]["EXPYN"].ToString();
                     ca.ValuationMethod = dt.Rows[0]["VALMETHOD"].ToString();
@@ -124,7 +132,7 @@ namespace Arasan.Controllers.Master
                     ca.PercentageAdd = dt.Rows[0]["ADD1PER"].ToString();
                     ca.AddItem = dt.Rows[0]["ADD1"].ToString();
                     ca.RawMaterial = dt.Rows[0]["RAWMATCAT"].ToString();
-                    ca.Ledger = dt.Rows[0]["LEDGERNAME"].ToString();
+                    ca.Ledger = dt.Rows[0]["ITEMACC"].ToString();
 
                      
                     ca.FQCTemp = dt.Rows[0]["PTEMPLATEID"].ToString();
@@ -132,8 +140,15 @@ namespace Arasan.Controllers.Master
                     //ca.QCTemp = dt.Rows[0]["IQCTEMP"].ToString();
                     //ca.FQCTemp = dt.Rows[0]["FGQCTEMP"].ToString();
 
+                    ca.BinId = dt.Rows[0]["BINNO"].ToString();
+                    ca.BinYN = dt.Rows[0]["BINYN"].ToString();
                     ca.Curing = dt.Rows[0]["CURINGDAY"].ToString();
                     ca.Auto = dt.Rows[0]["AUTOINDENT"].ToString();
+                    ca.rundet = dt.Rows[0]["RHYN"].ToString();
+                    ca.runhrs = dt.Rows[0]["RUNHRS"].ToString();
+                    ca.runhrsqty = dt.Rows[0]["RUNPERQTY"].ToString();
+                    ca.costcat = dt.Rows[0]["COSTCATEGORY"].ToString();
+                    ca.autocon = dt.Rows[0]["AUTOCONSYN"].ToString();
                     ca.createdby = Request.Cookies["UserId"];
                 }
                 DataTable dt2 = new DataTable();
@@ -184,12 +199,30 @@ namespace Arasan.Controllers.Master
                         TDatau.Add(tdau);
                     }
                 }
+                DataTable dtt2 = new DataTable();
+                dtt2 = datatrans.GetData("SELECT ITEMMASTERID,LOCID,REORDERLEVEL,MINQTYN,MAXQTYN,BSTMGROUP,LOCINVDETAILROW FROM LOCINVDETAIL WHERE ITEMMASTERID='"+id+"'");
 
+                if (dtt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt2.Rows.Count; i++)
+                    {
+                        tdal = new LocdetItem();
+                        tdal.locLst = BindLoc();
+                        tdal.loc = dtt2.Rows[i]["LOCID"].ToString();
+                        tdal.minlevel = dtt2.Rows[i]["MINQTYN"].ToString();
+                        tdal.maxlevel = dtt2.Rows[i]["MAXQTYN"].ToString();
+                        tdal.bank = dtt2.Rows[i]["BSTMGROUP"].ToString();
+                        tdal.reorder = dtt2.Rows[i]["REORDERLEVEL"].ToString();
+                        tdal.Isvalid = "Y";
+                        TDatal.Add(tdal);
+                    }
+                }
             }
             ca.Binlst = TDatab;
             ca.Suplst = TData;
             ca.locdetlst = TDatal;
             ca.unititemlst = TDatau;
+            ca.locdetlst = TDatal;
             return View(ca);
         }
         public IActionResult ItemCreate(string id)
@@ -375,7 +408,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BINID"].ToString(), Value = dtDesg.Rows[i]["BINID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BINID"].ToString(), Value = dtDesg.Rows[i]["BINBASICID"].ToString() });
                 }
                 return lstdesg;
             }
