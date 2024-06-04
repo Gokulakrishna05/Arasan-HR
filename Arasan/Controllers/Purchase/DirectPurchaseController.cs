@@ -435,7 +435,7 @@ namespace Arasan.Controllers
 
                 if (dtUsers.Rows[i]["IS_ACCOUNT"].ToString() == "N")
                 {
-                    Account = "<a href=DPACC?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
+                    Account = "<a href=DPACC?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + " ><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
                 }
               
                 Reg.Add(new DirectPurchaseItems

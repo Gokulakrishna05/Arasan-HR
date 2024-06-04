@@ -1,7 +1,7 @@
 ﻿@model Arasan.Models.GRN
 
 @{
-    Layout = "_PopupLayout";
+   // Layout = "_PopupLayout";
     ViewData["Title"] = "GRN Account";
     string id = ViewContext.HttpContext.Request.Query["id"];
 }
@@ -168,8 +168,8 @@
                                      <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
                             <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18" >Account</button>
-                         
-                           <input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListGRNAccount", "GRN")'">Cancel</button>
+                           @*<input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />*@
                                    
                                  
                     </form>

@@ -364,7 +364,7 @@ namespace Arasan.Controllers
                     if (dtUsers.Rows[i]["STATUS"].ToString() == "GRN Completed")
                     {
                         GRNStatus = "<img src='../Images/tick.png' alt='View Details' width='20' />";
-                        Account = "<a href=GRNAccount?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
+                        Account = "<a href=GRNAccount?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " ><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
                         EditRow = "";
                     }
                     else
