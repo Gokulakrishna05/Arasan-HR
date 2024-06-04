@@ -360,7 +360,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
 
-                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Batch Control? <label class="mandatory">*</label></label>
+                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Bank Statement Y/N <label class="mandatory">*</label></label>
                                                     <div class="col-sm-8">
                                                         <div class="input-group">
 
@@ -401,9 +401,9 @@
                                                     <div class="col-sm-8">
                                                         <div class="input-group">
 
-                                                            @Html.RadioButtonFor(C => C.qctest, "Y", new { @TabIndex = 2 })
+                                                            @Html.RadioButtonFor(C => C.qctest, "YES", new { @TabIndex = 2 })
                                                             <label id="mt-radio">Yes</label>&emsp;
-                                                            @Html.RadioButtonFor(C => C.qctest, "N", new { @TabIndex = 3 })
+                                                            @Html.RadioButtonFor(C => C.qctest, "NO", new { @TabIndex = 3 })
                                                             <label id="mt-radio">No</label>
                                                         </div>
                                                     </div>
@@ -431,7 +431,7 @@
                                           
                                         </div>
                                           <div class="row">
-                                            <div class="col-md-6">
+                                           @* <div class="col-md-6">
                                                 <div class="form-group">
 
                                                     <br /> <label for="inputName3" class="col-sm-4 control-label">Bank Statement Y/N <label class="mandatory">*</label></label>
@@ -446,7 +446,7 @@
                                                     </div>
 
                                                 </div>
-                                            </div>
+                                            </div>*@
                                                    <div class="col-md-6">
                                                 <div class="form-group">
 
@@ -482,7 +482,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <br /> <label for="inputName3" class="col-sm-4 control-label"> QC Template for Pack<label class="mandatory">*</label></label>
+                                                    <br /> <label for="inputName3" class="col-sm-4 control-label"> QC Template for Pack<label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
                                                         @Html.DropDownListFor(C => C.FQCTemp, Model.fqclst," -- Please Select -- ", new { @id = "ddlLedger", @Class = "form-control _select", @TabIndex = 1 })
                                                     </div>
@@ -548,7 +548,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
 
-                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Percentage(RM)<label class="mandatory">*</label></label>
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Percentage(RM)<label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
                                                         @Html.TextBoxFor(C => C.Percentage , new { @id = "txtPercentage", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                     </div>
@@ -583,7 +583,7 @@
                                      <div class="col-md-6">
                                                 <div class="form-group">
 
-                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Raw Material Category<label class="mandatory">*</label></label>
+                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Raw Material Category<label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
                                                         @Html.TextBoxFor(C => C.RawMaterial , new { @id = "txtRawMaterial", @class = "form-control", @TabIndex = 1 })
 
@@ -658,7 +658,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
 
-                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Percentage(Additive)<label class="mandatory">*</label></label>
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Percentage(Additive)<label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
                                                         @Html.TextBoxFor(C => C.PercentageAdd , new { @id = "txtPercentageAdd", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
 
@@ -683,7 +683,7 @@
                                              <div class="col-md-6">
                                                 <div class="form-group">
 
-                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Flow Order<label class="mandatory">*</label></label>
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Flow Order<label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
                                                         @Html.TextBoxFor(C => C.flow , new { @id = "txtflow", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
 
@@ -707,7 +707,7 @@
                                              <div class="col-md-6">
                                                 <div class="form-group">
 
-                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Latest Purchase Date<label class="mandatory">*</label></label>
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Latest Purchase Date<label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
                                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
                                                         @Html.TextBoxFor(C => C.lastdate , new { @id = "txtflow", @class = "form-control", @TabIndex = 1,@size="32"  ,@readonly="readonly"})
@@ -1318,7 +1318,7 @@
                                                <div class="col-md-6">
                                                 <div class="form-group">
 
-                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Run detail Y/N? <label class="mandatory">*</label></label>
+                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Run detail Y/N? <label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
                                                         <div class="input-group">
 
@@ -1338,7 +1338,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
 
-                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Run Hrs <label class="mandatory">*</label></label>
+                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Run Hrs <label class="mandatory"></label></label>
                                                    <div class="col-sm-8">
                                                         @Html.TextBoxFor(C => C.runhrs , new { @id = "txtrunhrs", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                     </div>
@@ -1348,7 +1348,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
 
-                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Run Hrs/Qty <label class="mandatory">*</label></label>
+                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Run Hrs/Qty <label class="mandatory"></label></label>
                                                    <div class="col-sm-8">
                                                         @Html.TextBoxFor(C => C.runhrsqty , new { @id = "txtrunhrsqty", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                     </div>
@@ -1365,7 +1365,7 @@
                                                <div class="col-md-6">
                                                 <div class="form-group">
 
-                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Cost Category <label class="mandatory">*</label></label>
+                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Cost Category <label class="mandatory"></label></label>
                                                    <div class="col-sm-8">
                                                      @Html.DropDownListFor(C => C.costcat, Model.costlst, new { @id = "ddlcostcat", @Class = "form-control _select", @TabIndex = 2,@style="width: 300px !important;" })
 
@@ -1376,7 +1376,7 @@
                                                <div class="col-md-6">
                                                 <div class="form-group">
 
-                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Auto Consumption? <label class="mandatory">*</label></label>
+                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Auto Consumption? <label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
                                                         <div class="input-group">
 
@@ -1929,6 +1929,27 @@
                 e.preventDefault();
         });
 
+    });
+         $('.form_date').datetimepicker({
+     //   language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0
+    });
+     $('.form_time').datetimepicker({
+      //  language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    minView: 0,
+    maxView: 1,
+    forceParse: 0
     });
       function changeItem(ItemId,i) {
         var unit = document.getElementById("ddlUnit" +i).value;

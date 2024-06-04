@@ -183,7 +183,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("VALMETHOD", OracleDbType.NVarchar2).Value = ss.ValuationMethod;
                     objCmd.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = ss.Serial;
                     objCmd.Parameters.Add("BSTATEMENTYN", OracleDbType.NVarchar2).Value = ss.Batch;
-                    if(ss.QCTemp=="")
+                    if(ss.QCTemp==null)
                     { objCmd.Parameters.Add("TEMPLATEID", OracleDbType.NVarchar2).Value = "0"; }
                     else { objCmd.Parameters.Add("TEMPLATEID", OracleDbType.NVarchar2).Value = ss.QCTemp; }
                    
@@ -196,7 +196,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = ss.AddItem;
                     objCmd.Parameters.Add("RAWMATCAT", OracleDbType.NVarchar2).Value = ss.RawMaterial;
                     objCmd.Parameters.Add("LEDGERNAME", OracleDbType.NVarchar2).Value = ss.Ledger;
-                    if (ss.FQCTemp == "")
+                    if (ss.FQCTemp == null)
                     {
                         objCmd.Parameters.Add("PTEMPLATEID", OracleDbType.NVarchar2).Value = "0";
                     }
@@ -213,7 +213,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = ss.createdby;
                     objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     }
-                    if (ss.Tarriff == "")
+                    if (ss.Tarriff == null)
                     {
                         objCmd.Parameters.Add("TARIFFID", OracleDbType.NVarchar2).Value ="0";
                     }
@@ -223,12 +223,20 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("LOTYN", OracleDbType.NVarchar2).Value = ss.lot;
                     objCmd.Parameters.Add("DRUMYN", OracleDbType.NVarchar2).Value = ss.Drumyn;
                     objCmd.Parameters.Add("BINYN", OracleDbType.NVarchar2).Value = ss.BinYN;
-                    if (ss.BinID == "")
+                    if (ss.BinID == null)
                     {
                         objCmd.Parameters.Add("BINNO", OracleDbType.NVarchar2).Value = "0";
                     }
                     else { objCmd.Parameters.Add("BINNO", OracleDbType.NVarchar2).Value = ss.BinID; }
                     objCmd.Parameters.Add("PURCAT", OracleDbType.NVarchar2).Value = ss.purchasecate;
+                    objCmd.Parameters.Add("MAJORYN", OracleDbType.NVarchar2).Value = ss.major;
+                    objCmd.Parameters.Add("COSTCATEGORY", OracleDbType.NVarchar2).Value = ss.costcat;
+                    objCmd.Parameters.Add("AUTOCONSYN", OracleDbType.NVarchar2).Value = ss.autocon;
+                    objCmd.Parameters.Add("ITEMFROM", OracleDbType.NVarchar2).Value = ss.itemfrom;
+                    objCmd.Parameters.Add("RHYN", OracleDbType.NVarchar2).Value = ss.rundet;
+                    objCmd.Parameters.Add("RUNHRS", OracleDbType.NVarchar2).Value = ss.runhrs;
+                    objCmd.Parameters.Add("RUNPERQTY", OracleDbType.NVarchar2).Value = ss.runhrsqty;
+                    objCmd.Parameters.Add("QCT", OracleDbType.NVarchar2).Value = ss.qctest;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -319,7 +327,7 @@ namespace Arasan.Services.Master
                             }
                             else
                             {
-                                svSQL = "Delete DPDETAIL WHERE DPBASICID='" + ss.ID + "'";
+                                svSQL = "Delete ITEMMASTERPUNIT WHERE ITEMMASTERID='" + ss.ID + "'";
                                 OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
                                 objCmdd.ExecuteNonQuery();
                                 foreach (UnitItem cp in ss.unititemlst)
@@ -337,6 +345,47 @@ namespace Arasan.Services.Master
                                 }
                             }
                         }
+                        if (ss.locdetlst != null)
+                        {
+                            if (ss.ID == null)
+                            {
+                                foreach (LocdetItem cp in ss.locdetlst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.loc != null)
+                                    {
+
+                                        int i = 1;
+                                        svSQL = "Insert into LOCINVDETAIL (ITEMMASTERID,LOCID,REORDERLEVEL,MINQTYN,MAXQTYN,BSTMGROUP,LOCINVDETAILROW) VALUES ('" + Pid + "','" + cp.loc + "','" + cp.reorder + "','" + cp.minlevel + "','" + cp.maxlevel + "','" + cp.bank + "','" + i + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                        i++;
+                                    }
+
+                                }
+                            }
+                            else
+                            {
+                                svSQL = "Delete LOCINVDETAIL WHERE ITEMMASTERID='" + ss.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+                                foreach (LocdetItem cp in ss.locdetlst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.loc != "0")
+                                    {
+                                        int i = 1;
+                                        svSQL = "Insert into LOCINVDETAIL (ITEMMASTERID,LOCID,REORDERLEVEL,MINQTYN,MAXQTYN,BSTMGROUP,LOCINVDETAILROW) VALUES ('" + Pid + "','" + cp.loc + "','" + cp.reorder + "','" + cp.minlevel + "','" + cp.maxlevel + "','" + cp.bank + "','" + i + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                        i++;
+                                    }
+
+                                }
+                            }
+                        }
+
+                        
                     }
                     catch (Exception ex)
                     {
@@ -524,7 +573,7 @@ namespace Arasan.Services.Master
         public DataTable GetItemNameDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select IGROUP,ISUBGROUP,ITEMGROUP,SUBGROUPCODE,SUBCATEGORY,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MINSTK,PRIUNIT,HSN,SELLINGPRICE,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,TEMPLATEID,QCCOMPFLAG,LATPURPRICE,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,LEDGERNAME,PTEMPLATEID,CURINGDAY,AUTOINDENT from ITEMMASTER where ITEMMASTERID=" + id + "";
+            SvSql = "Select IGROUP,ISUBGROUP,ITEMGROUP,SUBGROUPCODE,SUBCATEGORY,BINNO,BINYN,LOTYN,RHYN,RUNPERQTY,RUNHRS,COSTCATEGORY,AUTOCONSYN,QCT,DRUMYN,ITEMFROM,TARIFFID,PURCAT,MAJORYN,to_char(LATPURDT,'dd-MON-yyyy')LATPURDT,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MINSTK,PRIUNIT,HSN,SELLINGPRICE,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,TEMPLATEID,QCCOMPFLAG,LATPURPRICE,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMACC,PTEMPLATEID,CURINGDAY,AUTOINDENT from ITEMMASTER where ITEMMASTERID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -534,7 +583,7 @@ namespace Arasan.Services.Master
         public DataTable GetBinDeatils(string data)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BINMASTER.BINID,BINMASTER.BINYN,BINMASTERID  from BINMASTER where BINMASTER.ITEMID=" + data + "";
+            SvSql = "Select BINBASIC.BINID,BINMASTER.BINYN,BINMASTERID  from BINMASTER LEFT OUTER JOIN BINBASIC ON BINBASIC.BINBASICID=BINMASTER.BINID where BINMASTER.ITEMID=" + data + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -554,7 +603,7 @@ namespace Arasan.Services.Master
         public DataTable BindBinID()
         {
             string SvSql = string.Empty;
-            SvSql = "Select BINID from BINBASIC";
+            SvSql = "Select BINID,BINBASICID from BINBASIC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
