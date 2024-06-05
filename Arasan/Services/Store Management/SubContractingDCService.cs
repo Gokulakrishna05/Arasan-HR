@@ -52,7 +52,7 @@ namespace Arasan.Services.Store_Management
         public DataTable GetPackItem()
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,ITEM_ID as item FROM INVENTORY_ITEM LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=INVENTORY_ITEM.ITEM_ID  WHERE ITEMMASTER.IGROUP='PACKING MATERIALS' ";
+            SvSql = "select ITEMMASTER.ITEMID,LSTOCKVALUE.ITEMID as item FROM LSTOCKVALUE LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=LSTOCKVALUE.ITEMID  WHERE ITEMMASTER.IGROUP='PACKING MATERIALS'  HAVING SUM(LSTOCKVALUE.PLUSQTY-LSTOCKVALUE.MINUSQTY) > 0 GROUP BY ITEMMASTER.ITEMID,LSTOCKVALUE.ITEMID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -175,11 +175,11 @@ namespace Arasan.Services.Store_Management
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "SELECT SUBCONTDCBASICID,BRANCHMAST.BRANCHID,DOCID,to_char(SUBCONTDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,TOTQTY,SUBCONTDCBASIC.IS_ACTIVE,SUBCONTDCBASIC.STATUS FROM SUBCONTDCBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=SUBCONTDCBASIC.BRANCH LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=SUBCONTDCBASIC.LOCID WHERE SUBCONTDCBASIC.IS_ACTIVE='Y' ORDER BY SUBCONTDCBASIC.SUBCONTDCBASICID DESC";
+                SvSql = "SELECT SUBCONTDCBASICID,BRANCHMAST.BRANCHID,DOCID,to_char(SUBCONTDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,TOTQTY,SUBCONTDCBASIC.IS_ACTIVE,SUBCONTDCBASIC.STATUS FROM SUBCONTDCBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=SUBCONTDCBASIC.BRANCH LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=SUBCONTDCBASIC.LOCID WHERE SUBCONTDCBASIC.IS_ACTIVE='Y' ORDER BY SUBCONTDCBASIC.DOCDATE DESC";
             }
             else
             {
-                SvSql = "SELECT SUBCONTDCBASICID,BRANCHMAST.BRANCHID,DOCID,to_char(SUBCONTDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,TOTQTY,SUBCONTDCBASIC.IS_ACTIVE,SUBCONTDCBASIC.STATUS FROM SUBCONTDCBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=SUBCONTDCBASIC.BRANCH LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=SUBCONTDCBASIC.LOCID WHERE SUBCONTDCBASIC.IS_ACTIVE='N' ORDER BY SUBCONTDCBASIC.SUBCONTDCBASICID DESC";
+                SvSql = "SELECT SUBCONTDCBASICID,BRANCHMAST.BRANCHID,DOCID,to_char(SUBCONTDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,TOTQTY,SUBCONTDCBASIC.IS_ACTIVE,SUBCONTDCBASIC.STATUS FROM SUBCONTDCBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=SUBCONTDCBASIC.BRANCH LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=SUBCONTDCBASIC.LOCID WHERE SUBCONTDCBASIC.IS_ACTIVE='N' ORDER BY SUBCONTDCBASIC.DOCDATE DESC";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -197,10 +197,10 @@ namespace Arasan.Services.Store_Management
 
                 datatrans = new DataTransactions(_connectionString);
 
-                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'DC23' AND ACTIVESEQUENCE = 'T'  ");
-                string DocId = string.Format("{0}{1}", "DC23", (idc + 1).ToString());
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'DC24' AND ACTIVESEQUENCE = 'T'  ");
+                string DocId = string.Format("{0}{1}", "DC24", (idc + 1).ToString());
 
-                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='DC23' AND ACTIVESEQUENCE ='T'  ";
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='DC24' AND ACTIVESEQUENCE ='T'  ";
                 try
                 {
                     datatrans.UpdateStatus(updateCMd);
@@ -331,7 +331,7 @@ namespace Arasan.Services.Store_Management
                                         if (cp.Isvalid == "Y")
                                         {
 
-                                            svSQL = "Insert into SUBCONTDCBATCH(SUBCONTDCBASICID,PARENTRECORDID,BITEMID,BITEMMASTERID,DRUMNO,BQTY,BRATE,BAMOUNT,BLOCID,TLOT,VALMETHOD,SUBCONTDCBATCHROW,BSTOCK,PARENTROW,BAMOUNT) VALUES ('" + Pid + "','" + detid + "','" + cp.ItemId + "','" + cp.ItemId + "','" + dddrum + "','" + ddqty + "','" + ddrate + "','0','" + ss.Location + "','" + ddlot + "','"+ itemdsc.Rows[0]["VALMETHOD"].ToString() +"','"+ brow +"','"+ ddstock +"','"+ row + "','"+ ddamount +"')";
+                                            svSQL = "Insert into SUBCONTDCBATCH(SUBCONTDCBASICID,PARENTRECORDID,BITEMID,BITEMMASTERID,DRUMNO,BQTY,BRATE,BAMOUNT,BLOCID,TLOT,BVALMETHOD,SUBCONTDCBATCHROW,BSTOCK,PARENTROW) VALUES ('" + Pid + "','" + detid + "','" + cp.ItemId + "','" + cp.ItemId + "','" + dddrum + "','" + ddqty + "','" + ddrate + "','"+ ddamount +"','" + ss.Location + "','" + ddlot + "','"+ itemdsc.Rows[0]["VALMETHOD"].ToString() +"','"+ brow +"','"+ ddstock +"','"+ row + "')";
                                             objCmds = new OracleCommand(svSQL, objConn);
                                             objCmds.ExecuteNonQuery();
 
@@ -346,7 +346,7 @@ namespace Arasan.Services.Store_Management
                                             objCmdss.ExecuteNonQuery();
 
 
-                                             SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,DOCTIME,STOCKTRANSTYPE,MATSREID) VALUES ('" + detid + "','m','" + cp.ItemId + "','" + ss.Docdate + "','" + ddqty + "' ,'"+ ss.Location + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','11:00:00 PM','Conversion Issue','"+ masterid + "') RETURNING STOCKVALUEID INTO :STKID";
+                                             SvSql1 = "Insert into STOCKVALUE (T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,SINSFLAG,STOCKVALUE,DOCTIME,STOCKTRANSTYPE,MASTERID) VALUES ('" + detid + "','m','" + cp.ItemId + "','" + ss.Docdate + "','" + ddqty + "' ,'"+ ss.Location + "','0','0','0','0','0','0','0','0','" + cp.Amount + "','11:00:00 PM','Conversion Issue','"+ masterid + "') RETURNING STOCKVALUEID INTO :STKID";
                                             OracleCommand objCmdsss = new OracleCommand(SvSql1, objConn);
                                             objCmdsss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                             objCmdsss.ExecuteNonQuery();

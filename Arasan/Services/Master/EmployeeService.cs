@@ -308,7 +308,7 @@ namespace Arasan.Services.Master
         public DataTable GetEMPDept()
         {
             string SvSql = string.Empty;
-            SvSql = "select DEPARTMENT_NAME,DEPARTMENTMASTID from DEPARTMENTMAST where IS_ACTIVE= 'Y'  ";
+            SvSql = "select DEPTCODE,DDBASICID from DDBASIC    ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -319,7 +319,7 @@ namespace Arasan.Services.Master
         public DataTable GetDesign()
         {
             string SvSql = string.Empty;
-            SvSql = "select DESIGNATION,DESIGNATIONMASTID from DESIGNATIONMAST where  IS_ACTIVE= 'Y'  ";
+            SvSql = "select DESIGNATION,PDESGID from PDESG where  IS_ACTIVE= 'Y'  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -336,7 +336,7 @@ namespace Arasan.Services.Master
                 string svSQL = "";
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    if (mp.Location != null)
+                if (mp.Location != null)
                 {
                     string EmpID = datatrans.GetDataString("Select EMPMASTID from EMPMAST where EMPNAME='" + mp.EmpName + "' ");
                         string dt = datatrans.GetDataString("Select EMPID from EMPLOYEELOCATION WHERE EMPID='" + EmpID + "'");
@@ -350,8 +350,7 @@ namespace Arasan.Services.Master
                             objCmds.ExecuteNonQuery();
                             objConn.Close();
                         }
-                        for (int i = 0; i < mp.Location.Length; i++)
-                            
+                        for (int i = 0; i < mp.Location.Length; i++)                            
                         {               
                                 OracleCommand objCmd = new OracleCommand("EMPLOCATIONPROC", objConn);
                                 /*objCmd.Connection = objConn;
@@ -363,17 +362,12 @@ namespace Arasan.Services.Master
                                 objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                 objCmd.Parameters.Add("EMPID", OracleDbType.NVarchar2).Value = EmpID;
                                 objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = mp.Location[i];
+
+                            objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                            objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = mp.CreadtedBy;
+                                
+                           
                             
-                            if (mp.ID == null)
-                            {
-                                objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = mp.CreadtedBy;
-                                objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                            }
-                            else
-                            {
-                                objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = mp.CreadtedBy;
-                                objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                            }
 
                             objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
@@ -388,9 +382,10 @@ namespace Arasan.Services.Master
                                 {
                                     //System.Console.WriteLine("Exception: {0}", ex.ToString());
                                 }
-                                objConn.Close();
+                                
                             }
-                        }
+                        objConn.Close();
+                    }
                     
                 }
             }

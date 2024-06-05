@@ -35,7 +35,7 @@ namespace Arasan.Controllers.Store_Management
             st.assignList = BindEmp();
             st.Branch = Request.Cookies["BranchId"];
             st.Entered = Request.Cookies["UserName"];
-            st.user = Request.Cookies["UserName"];
+            st.user = Request.Cookies["UserId"];
             st.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             DataTable dtv = datatrans.GetSequence("subdc");
             if (dtv.Rows.Count > 0)
@@ -512,7 +512,7 @@ namespace Arasan.Controllers.Store_Management
                 //string binno = "";
                 //string binname = "";
                 dt = SubContractingDCService.GetItemDetails(ItemId);
-                 stock = datatrans.GetDataString("Select SUM(BALANCE_QTY) from INVENTORY_ITEM where ITEM_ID='" + ItemId + "' AND BALANCE_QTY > 0 AND LOCATION_ID= '" + loc + "'  ");
+                stock = datatrans.GetDataString("select SUM(S.PLUSQTY-S.MINUSQTY) as QTY  from LSTOCKVALUE S  where S.LOCID='" + loc + "' AND S.ITEMID='" + ItemId + "' HAVING SUM(S.PLUSQTY-S.MINUSQTY) > 0");
 
                 if (dt.Rows.Count > 0)
                 {
