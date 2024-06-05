@@ -56,7 +56,7 @@
                                     <br> <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
 
-                                             @Html.DropDownListFor(C => C.Location, Model.Loc," -- Please Select -- ", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1,@onchange="changeItemDet(this.value)" })
+                                             @Html.DropDownListFor(C => C.Location, Model.Loc," -- Please Select -- ", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1})
 
                                        
 
@@ -437,8 +437,8 @@
                         <div style="height:30px;"></div>
                         <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18" onClick="window.parent.jQuery.fancybox.close();">Supmit</button>
 
-                        <input type="button" class="btn btn-danger" value="Close" onclick="window.parent.jQuery.fancybox.close();" />
-                    </form>
+                            <button class="btn btn-danger" type="button" onclick="location.href='@Url.Action("ListSubContractingDC", "SubContractingDC")'">Cancel</button>
+                        </form>
                     }
                 </div>
             </div>

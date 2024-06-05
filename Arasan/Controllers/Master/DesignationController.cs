@@ -127,7 +127,7 @@ namespace Arasan.Controllers.Master
                     {
                         TempData["notice"] = "Designation Updated Successfully...!";
                     }
-                    return RedirectToAction("ListDesignation");
+                    return RedirectToAction("ListPDesg");
                 }
 
                 else

@@ -106,8 +106,9 @@ namespace Arasan.Controllers
                     }
                 }
                 ca.Net = Math.Round(total, 2);
-                ca.QoLst = Data;
+              
             }
+            ca.QoLst = Data;
             return View(ca);
         }
             [HttpPost]
