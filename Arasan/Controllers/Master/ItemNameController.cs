@@ -657,13 +657,13 @@ namespace Arasan.Controllers.Master
             }
         }
         [HttpPost]
-        public ActionResult ItemName(ItemName ss, string id)
+        public ActionResult ItemName(ItemName ss, string id, List<IFormFile> file)
         {
 
             try
             {
                 ss.ID = id;
-                string Strout = ItemNameService.ItemNameCRUD(ss);
+                string Strout = ItemNameService.ItemNameCRUD(ss, file);
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (ss.ID == null)
@@ -696,13 +696,13 @@ namespace Arasan.Controllers.Master
         }
 
         [HttpPost]
-        public ActionResult ItemCreate(ItemName ss, string id)
+        public ActionResult ItemCreate(ItemName ss, string id, List<IFormFile> file)
         {
 
             try
             {
                 ss.ID = id;
-                string Strout = ItemNameService.ItemNameCRUD(ss);
+                string Strout = ItemNameService.ItemNameCRUD(ss, file);
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (ss.ID == null)

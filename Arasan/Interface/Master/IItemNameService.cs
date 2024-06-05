@@ -7,7 +7,7 @@ namespace Arasan.Interface.Master
 {
     public interface IItemNameService
     {
-        string ItemNameCRUD(ItemName by);
+        string ItemNameCRUD(ItemName by, List<IFormFile> file);
         IEnumerable<ItemName> GetAllItemName();
         DataTable GetAllItems(string status);
         //ItemName GetSupplierDetailById(string id);

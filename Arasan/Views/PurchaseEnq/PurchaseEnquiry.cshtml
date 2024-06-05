@@ -100,7 +100,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.ExRate, new { @id = "ExRate", @class = "form-control", @TabIndex = 6,@readonly="readonly" })
+                                            @Html.TextBoxFor(C => C.ExRate, new { @id = "ExRate", @class = "form-control", @TabIndex = 6  })
 												</div>
                                                
                                             </div>
@@ -541,12 +541,12 @@ function changeItem(ItemId, i) {
 
               if(eval(up) == 0)
               {
-                  alert("Rate is Zero");
+                  alert("Please Enter Rate ");
                   return false;
               }
                  if(eval(qty) == 0)
               {
-                  alert("Qty is Zero");
+                  alert("Please Enter Qty ");
                   return false;
               }
               i++;
