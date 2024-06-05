@@ -585,7 +585,7 @@ namespace Arasan.Controllers
                     if (dtUsers.Rows[i]["RATE"].ToString() == "0" || dtUsers.Rows[i]["RATE"].ToString() == "")
                     {
                         MoveToQuo = "";
-                        EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                        EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/verify.png' alt='Edit' /></a>";
                         DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "";
 
                     }
@@ -600,7 +600,7 @@ namespace Arasan.Controllers
                         else
                         {
                             MoveToQuo = "<a href=ViewEnq?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-                            EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/document.png' alt='Edit' /></a>";
+                            EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/verify.png' alt='Edit' /></a>";
                             DeleteRow = "DeleteItem?tag=Active&id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "";
 
                         }

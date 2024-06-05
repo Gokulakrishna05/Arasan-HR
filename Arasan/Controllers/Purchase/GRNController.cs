@@ -372,7 +372,7 @@ namespace Arasan.Controllers
                         GRNStatus = dtUsers.Rows[i]["STATUS"].ToString();
                         Account = "";
                         //GRNStatus = "<a href=ViewQuote?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-                        EditRow = "<a href=GRN?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                        EditRow = "<a href=GRN?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "><img src='../Images/verify.png' alt='Edit' /></a>";
 
 
                     }
