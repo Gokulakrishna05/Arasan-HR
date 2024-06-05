@@ -242,7 +242,7 @@ namespace Arasan.Services.Master
                     try
                     {
                         objConn.Open();
-                       // objCmd.ExecuteNonQuery();
+                        objCmd.ExecuteNonQuery();
                         Object Pid = objCmd.Parameters["OUTID"].Value;
                         if (ss.ID != null)
                         {
@@ -265,7 +265,7 @@ namespace Arasan.Services.Master
                                 objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = Pid;
                                 objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                 objConns.Open();
-                               // objCmds.ExecuteNonQuery();
+                               objCmds.ExecuteNonQuery();
                                 objConns.Close();
                             }
                         }
@@ -409,7 +409,7 @@ namespace Arasan.Services.Master
 
 
 
-                                        svSQL = "Insert into ITEMMASTERDOC(ITEMMASTERID,ITEMMASTERDOCROW,DOCPATH) VALUES ('" + Pid + "','" + r + ",'" + fileName1 + "')";
+                                        svSQL = "Insert into ITEMMASTERDOC(ITEMMASTERID,ITEMMASTERDOCROW,DOCPATH) VALUES ('" + Pid + "','" + r + "','" + fileName1 + "')";
                                         OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
                                         objCmdss.ExecuteNonQuery();
 
@@ -692,7 +692,7 @@ namespace Arasan.Services.Master
         public DataTable GetHSNcode()
         {
             string SvSql = string.Empty;
-            SvSql = "Select HSNCODEID,HSNCODE from HSNCODE order by HSNCODEID asc";
+            SvSql = "Select HSNMASTID,HSCODE from HSNMAST";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

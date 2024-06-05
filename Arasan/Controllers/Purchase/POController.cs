@@ -363,7 +363,7 @@ namespace Arasan.Controllers
                         else
                         {
                             MoveToGRN = "<a href=GateInward?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-                            EditRow = "<a href=PurchaseOrder?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                            EditRow = "<a href=PurchaseOrder?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/verify.png' alt='Edit' /></a>";
 
 
                         }

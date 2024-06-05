@@ -57,6 +57,9 @@ namespace Arasan.Controllers.Master
             List<LocdetItem> TDatal = new List<LocdetItem>();
             LocdetItem tdal = new LocdetItem();
 
+            List<uplodItem> TDataup = new List<uplodItem>();
+            uplodItem tdaup = new uplodItem();
+
             if (id == null)
 
             {
@@ -87,6 +90,7 @@ namespace Arasan.Controllers.Master
                     tdaB.Isvalid = "Y";
                     TDatab.Add(tdaB);
                 }
+                 
             }
             else
             {
@@ -217,11 +221,25 @@ namespace Arasan.Controllers.Master
                         TDatal.Add(tdal);
                     }
                 }
+                DataTable dttu = new DataTable();
+                dttu = datatrans.GetData("SELECT ITEMMASTERID,DOCPATH FROM ITEMMASTERDOC WHERE ITEMMASTERID='" + id + "'");
+
+                if (dttu.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dttu.Rows.Count; i++)
+                    {
+                        tdaup = new uplodItem();
+                         tdaup.docpath = dttu.Rows[i]["DOCPATH"].ToString();
+                         
+                        TDataup.Add(tdaup);
+                    }
+                }
             }
             ca.Binlst = TDatab;
             ca.Suplst = TData;
             ca.locdetlst = TDatal;
             ca.unititemlst = TDatau;
+            ca.Uplst = TDataup;
             ca.locdetlst = TDatal;
             return View(ca);
         }
@@ -741,7 +759,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["HSNCODE"].ToString(), Value = dtDesg.Rows[i]["HSNCODE"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["HSCODE"].ToString(), Value = dtDesg.Rows[i]["HSCODE"].ToString() });
                 }
                 return lstdesg;
             }

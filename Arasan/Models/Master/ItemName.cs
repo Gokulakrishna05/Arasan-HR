@@ -124,6 +124,7 @@ namespace Arasan.Models
         public List<UnitItem> unititemlst { get; set; }
         public List<SupItem> Suplst { get; set; }
         public List<LocdetItem> locdetlst { get; set; }
+        public List<uplodItem> Uplst { get; set; }
     }
 
     public class SupItem
@@ -173,6 +174,16 @@ namespace Arasan.Models
 
         public string reorder { get; set; }
         public string Isvalid { get; set; }
+
+        public string ID { get; set; }
+
+
+    }
+    public class uplodItem
+    {
+
+         
+        public string docpath { get; set; }
 
         public string ID { get; set; }
 
