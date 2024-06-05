@@ -15,7 +15,7 @@
     <div class="col-lg-12">
 
         <ol class="breadcrumb">
-            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action("PurchaseDash", "Home")">Home</a> </li>
             <li> <a>Stores Management</a> </li>
             <li class="active"> <strong> Stores Return </strong> </li>
         </ol>
@@ -394,6 +394,8 @@
             
             if(eval(qty) < eval(stock))
             {
+                alert(qty);
+                alert(stock);
                 document.getElementById("txtQuantity" + i).value = "0";
                 alert("Qty is Greaterthen Stock");
                 up = 0;

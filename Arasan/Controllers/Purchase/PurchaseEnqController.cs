@@ -85,6 +85,10 @@ namespace Arasan.Controllers
                         ca.Cur = "1";
                     }
                     ca.ExRate= dt.Rows[0]["EXCRATERATE"].ToString();
+                    if (string.IsNullOrEmpty(ca.ExRate))
+                    {
+                        ca.ExRate = "1";
+                    }
                     ca.RefNo= dt.Rows[0]["ENQREF"].ToString();
                     ca.Enqassignid = dt.Rows[0]["ASSIGNTO"].ToString();
                     ca.EnqRecid = Request.Cookies["UserId"];
@@ -582,7 +586,7 @@ namespace Arasan.Controllers
                     {
                         MoveToQuo = "";
                         EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                        DeleteRow = "DeleteItem?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "";
+                        DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "";
 
                     }
                     else
@@ -596,8 +600,8 @@ namespace Arasan.Controllers
                         else
                         {
                             MoveToQuo = "<a href=ViewEnq?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
-                            EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                            DeleteRow = "DeleteItem?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "";
+                            EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/document.png' alt='Edit' /></a>";
+                            DeleteRow = "DeleteItem?tag=Active&id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "";
 
                         }
 

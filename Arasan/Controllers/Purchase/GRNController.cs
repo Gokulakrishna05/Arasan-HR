@@ -52,7 +52,7 @@ namespace Arasan.Controllers
                     po.Branch = dt.Rows[0]["BRANCHID"].ToString();
                     po.BranchID = dt.Rows[0]["BRANCHID"].ToString();
                     po.GRNNo = dt.Rows[0]["DOCID"].ToString();
-                    po.GRNdate = dt.Rows[0]["DOCDATE"].ToString();
+                    po.GRNdate = DateTime.Now.ToString("dd-MMM-yyyy");
                     po.Supplier = dt.Rows[0]["PARTYID"].ToString();
                     po.Supplierid = dt.Rows[0]["PARTYID"].ToString();
                     po.party = dt.Rows[0]["PARTYNAME"].ToString();

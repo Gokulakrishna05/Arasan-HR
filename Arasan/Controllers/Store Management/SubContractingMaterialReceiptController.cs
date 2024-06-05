@@ -159,15 +159,22 @@ namespace Arasan.Controllers.Store_Management
                 string View = string.Empty;
                 string recept = string.Empty;
                 string Account = string.Empty;
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y" || dtUsers.Rows[i]["IS_ACTIVE"].ToString() == null)
+                {
+                    recept = "<a href=SubConMatDcRec?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
+                    Account = "<a href=SubMatAccount?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
 
-                recept = "<a href=SubConMatDcRec?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
-                Account = "<a href=SubMatAccount?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
+                    ViewPen = "<a href=ViewPendingSub?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Edit' /></a>";
+                    View = "<a href=ViewSub?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='Edit' /></a>";
+ 
+                    DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + "";
 
-                ViewPen = "<a href=ViewPendingSub?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Edit' /></a>";
-                View = "<a href=ViewSub?id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+                    DeleteRow = "Active?tag=Del&id=" + dtUsers.Rows[i]["SUBMRBASICID"].ToString() + "";
 
-
+                }
 
                 Reg.Add(new MaterialRecItem
                 {
@@ -195,7 +202,36 @@ namespace Arasan.Controllers.Store_Management
             });
 
         }
-        
+        public ActionResult DeleteItem(string tag, string id)
+        {
+
+            string flag = SubContractingMaterialReceiptService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListEnquiry");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListEnquiry");
+            }
+        }
+        public ActionResult Active(string tag, string id)
+        {
+
+            string flag = SubContractingMaterialReceiptService.StatusActChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListEnquiry");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListEnquiry");
+            }
+        }
         public List<SelectListItem> BindDC()
         {
             try

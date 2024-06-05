@@ -111,11 +111,11 @@ namespace Arasan.Services.Store_Management
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select DOCID,SUBMRBASICID,PARTYMAST.PARTYNAME,to_char(SUBMRBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,LOCDETAILS.LOCID from SUBMRBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=SUBMRBASIC.PARTYID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=SUBMRBASIC.FROMLOCATION  WHERE SUBMRBASIC.IS_ACTIVE='Y' ORDER BY SUBMRBASIC.SUBMRBASICID DESC";
+                SvSql = "Select DOCID,SUBMRBASICID,PARTYMAST.PARTYNAME,to_char(SUBMRBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,LOCDETAILS.LOCID,SUBMRBASIC.IS_ACTIVE from SUBMRBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=SUBMRBASIC.PARTYID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=SUBMRBASIC.FROMLOCATION  WHERE SUBMRBASIC.IS_ACTIVE='Y' ORDER BY SUBMRBASIC.SUBMRBASICID DESC";
             }
             else
             {
-                SvSql = "Select DOCID,SUBMRBASICID,PARTYMAST.PARTYNAME,to_char(SUBMRBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,LOCDETAILS.LOCID from SUBMRBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=SUBMRBASIC.PARTYID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=SUBMRBASIC.FROMLOCATION  WHERE SUBMRBASIC.IS_ACTIVE='N' ORDER BY SUBMRBASIC.SUBMRBASICID DESC";
+                SvSql = "Select DOCID,SUBMRBASICID,PARTYMAST.PARTYNAME,to_char(SUBMRBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,LOCDETAILS.LOCID,SUBMRBASIC.IS_ACTIVE from SUBMRBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=SUBMRBASIC.PARTYID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=SUBMRBASIC.FROMLOCATION  WHERE SUBMRBASIC.IS_ACTIVE='N' ORDER BY SUBMRBASIC.SUBMRBASICID DESC";
 
             }
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -615,6 +615,52 @@ namespace Arasan.Services.Store_Management
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+        public string StatusChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE SUBMRBASIC SET IS_ACTIVE ='N' WHERE SUBMRBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+        public string StatusActChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE SUBMRBASIC SET IS_ACTIVE ='Y' WHERE SUBMRBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
         }
     }
 }

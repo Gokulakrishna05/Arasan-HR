@@ -241,196 +241,24 @@ public class StoresReturnService : IStoresReturnService
                                 {
                                     locid = "0";
                                 }
-                                using (OracleConnection objConnT = new OracleConnection(_connectionString))
-                                {
-                                    objConnT.Open();
 
+                               string svSQL = "Insert into STOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,STOCKVALUE,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG) VALUES ('0','0','F','" + did + "','p','" + cp.ItemId + "','" + cy.Docdate + "','" + cp.Quantity + "','" + cp.Amount + "','10001000000827','" + cp.ToBin + "','0','0','0','0','0','0','','1') RETURNING STOCKVALUEID INTO :STKID";
+                                OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                objCmdss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                                objCmdss.ExecuteNonQuery();
+                                string stkid = objCmdss.Parameters["STKID"].Value.ToString();
+                                string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE) VALUES ('" + stkid + "','" + cy.DocId + "','','"+cp.rate+"') ";
+                                OracleCommand objCmddts = new OracleCommand(SvSql2, objConn);
+                                objCmddts.ExecuteNonQuery();
 
-                                    ///////////////////////////// Input Inventory
-                                    double qty = cp.Quantity;
-                                    DataTable dt = datatrans.GetData("Select INVENTORY_ITEM.BALANCE_QTY,INVENTORY_ITEM.ITEM_ID,INVENTORY_ITEM.LOCATION_ID,INV_OUT_ID,INVENTORY_ITEM.BRANCH_ID,INVENTORY_ITEM_ID,GRNID,GRN_DATE from INVENTORY_ITEM where INVENTORY_ITEM.ITEM_ID='" + cp.ItemId + "' AND INVENTORY_ITEM.LOCATION_ID='" + cy.Location + "' and INVENTORY_ITEM.BRANCH_ID='" + cy.Branch + "' and BALANCE_QTY!=0 order by GRN_DATE ASC");
-                                    if (dt.Rows.Count > 0)
-                                    {
-                                        for (int i = 0; i < dt.Rows.Count; i++)
-                                        {
-                                            double rqty = Convert.ToDouble(dt.Rows[i]["BALANCE_QTY"].ToString());
-                                            if (rqty >= qty)
-                                            {
-                                                double bqty = rqty - qty;
-
-                                                string Sql = string.Empty;
-                                                Sql = "Update INVENTORY_ITEM SET  BALANCE_QTY='" + bqty + "' WHERE INVENTORY_ITEM_ID='" + dt.Rows[i]["INVENTORY_ITEM_ID"].ToString() + "'";
-                                                OracleCommand objCmdsa = new OracleCommand(Sql, objConnT);
-                                                objCmdsa.ExecuteNonQuery();
-
-
-
-
-                                                OracleCommand objCmdIn = new OracleCommand("INVENTORYITEMPROC", objConnT);
-                                                objCmdIn.CommandType = CommandType.StoredProcedure;
-                                                objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                                objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                                objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = did;
-                                                objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                                objCmdIn.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = dt.Rows[i]["GRNID"].ToString();
-
-                                                objCmdIn.Parameters.Add("GRN_DATE", OracleDbType.NVarchar2).Value = cy.Docdate;
-                                                objCmdIn.Parameters.Add("REC_GOOD_QTY", OracleDbType.NVarchar2).Value = qty;
-                                                objCmdIn.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = qty;
-                                                objCmdIn.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
-                                                objCmdIn.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
-                                                objCmdIn.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                                                objCmdIn.Parameters.Add("WASTAGE", OracleDbType.NVarchar2).Value = "0";
-                                                objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = cy.Location;
-                                                objCmdIn.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = locid;
-                                                objCmdIn.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
-                                                objCmdIn.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
-                                                objCmdIn.Parameters.Add("INV_OUT_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
-
-                                                objCmdIn.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
-                                                objCmdIn.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
-                                                objCmdIn.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
-                                                objCmdIn.Parameters.Add("LOT_NO", OracleDbType.NVarchar2).Value = cp.lotno;
-                                                objCmdIn.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
-                                                objCmdIn.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
-
-
-                                                objCmdIn.ExecuteNonQuery();
-                                                Object inid = objCmdIn.Parameters["OUTID"].Value;
-                                                using (OracleConnection objConnIn = new OracleConnection(_connectionString))
-                                                {
-                                                    OracleCommand objCmdIns = new OracleCommand("INVITEMTRANSPROC", objConn);
-                                                    objCmdIns.CommandType = CommandType.StoredProcedure;
-                                                    objCmdIns.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                                    objCmdIns.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                                    objCmdIns.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = did;
-                                                    objCmdIns.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                                    objCmdIns.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = dt.Rows[i]["GRNID"].ToString();
-
-                                                    objCmdIns.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = inid;
-                                                    objCmdIns.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "ISSUEPROD";
-                                                    objCmdIns.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "I";
-                                                    objCmdIns.Parameters.Add("TRANS_QTY", OracleDbType.NVarchar2).Value = qty;
-                                                    objCmdIns.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "ISSUEPROD";
-                                                    objCmdIns.Parameters.Add("TRANS_DATE", OracleDbType.Date).Value = DateTime.Now;
-                                                    objCmdIns.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
-                                                    objCmdIns.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
-                                                    objCmdIns.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                                                    objCmdIns.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = cy.Location;
-                                                    objCmdIns.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
-                                                    objCmdIns.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
-                                                    objCmdIns.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
-                                                    objCmdIns.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
-                                                    objCmdIns.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
-                                                    objConnIn.Open();
-                                                    objCmdIns.ExecuteNonQuery();
-                                                    objConnIn.Close();
-
-                                                }
-
-
-
-
-
-
-
-
-                                                break;
-                                            }
-                                            else
-                                            {
-                                                qty = qty - rqty;
-
-                                                /////////////////////////////////Outward Entry
-
-                                                string Sql = string.Empty;
-                                                Sql = "Update INVENTORY_ITEM SET  BALANCE_QTY='" + rqty + "' WHERE INVENTORY_ITEM_ID='" + dt.Rows[i]["INVENTORY_ITEM_ID"].ToString() + "'";
-                                                OracleCommand objCmdsz = new OracleCommand(Sql, objConn);
-                                                objCmdsz.ExecuteNonQuery();
-
-
-
-                                                OracleCommand objCmdIn = new OracleCommand("INVENTORYITEMPROC", objConn);
-                                                objCmdIn.CommandType = CommandType.StoredProcedure;
-                                                objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                                objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                                objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = did;
-                                                objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                                objCmdIn.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = dt.Rows[i]["GRNID"].ToString();
-
-                                                objCmdIn.Parameters.Add("GRN_DATE", OracleDbType.NVarchar2).Value = cy.Docdate;
-                                                objCmdIn.Parameters.Add("REC_GOOD_QTY", OracleDbType.NVarchar2).Value = qty;
-                                                objCmdIn.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = qty;
-                                                objCmdIn.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
-                                                objCmdIn.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
-                                                objCmdIn.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                                                objCmdIn.Parameters.Add("WASTAGE", OracleDbType.NVarchar2).Value = "0";
-                                                objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.Date).Value = cy.Location;
-                                                objCmdIn.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = locid;
-                                                objCmdIn.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
-                                                objCmdIn.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
-                                                objCmdIn.Parameters.Add("INV_OUT_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INV_OUT_ID"].ToString();
-
-                                                objCmdIn.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
-                                                objCmdIn.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
-                                                objCmdIn.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
-                                                objCmdIn.Parameters.Add("LOT_NO", OracleDbType.NVarchar2).Value = cp.lotno;
-                                                objCmdIn.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
-                                                objCmdIn.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
-
-                                                objCmdIn.ExecuteNonQuery();
-                                                Object inid = objCmdIn.Parameters["OUTID"].Value;
-                                                using (OracleConnection objConnIn = new OracleConnection(_connectionString))
-                                                {
-                                                    OracleCommand objCmdIns = new OracleCommand("INVITEMTRANSPROC", objConn);
-                                                    objCmdIns.CommandType = CommandType.StoredProcedure;
-                                                    objCmdIns.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                                    objCmdIns.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                                    objCmdIns.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = did;
-                                                    objCmdIns.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                                    objCmdIns.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = dt.Rows[i]["GRNID"].ToString();
-
-                                                    objCmdIns.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = inid;
-                                                    objCmdIns.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "ISSUEPROD";
-                                                    objCmdIns.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "I";
-                                                    objCmdIns.Parameters.Add("TRANS_QTY", OracleDbType.NVarchar2).Value = qty;
-                                                    objCmdIns.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "ISSUEPROD";
-                                                    objCmdIns.Parameters.Add("TRANS_DATE", OracleDbType.Date).Value = DateTime.Now;
-                                                    objCmdIns.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
-                                                    objCmdIns.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
-                                                    objCmdIns.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                                                    objCmdIns.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = cy.Location;
-                                                    objCmdIns.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
-                                                    objCmdIns.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
-                                                    objCmdIns.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
-                                                    objCmdIns.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
-                                                    objCmdIns.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
-                                                    objConnIn.Open();
-                                                    objCmdIns.ExecuteNonQuery();
-                                                    objConnIn.Close();
-
-                                                }
-
-
-
-                                            }
-
-
-
-                                        }
-                                    }
-                                    ///////////////////////////// Input Inventory
-
-
-
-
-
-
-                                    objConnT.Close();
-                                }
-
-
-
+                                  svSQL = "Insert into STOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,STOCKVALUE,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG) VALUES ('0','0','F','" + did + "','m','" + cp.ItemId + "','" + cy.Docdate + "','" + cp.Quantity + "','" + cp.Amount + "','"+ cy.Location + "','" + cp.ToBin + "','0','0','0','0','0','0','','1') RETURNING STOCKVALUEID INTO :STKID";
+                                 objCmdss = new OracleCommand(svSQL, objConn);
+                                objCmdss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                                objCmdss.ExecuteNonQuery();
+                                  stkid = objCmdss.Parameters["STKID"].Value.ToString();
+                                  SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE) VALUES ('" + stkid + "','" + cy.DocId + "','','" + cp.rate + "') ";
+                                 objCmddts = new OracleCommand(SvSql2, objConn);
+                                objCmddts.ExecuteNonQuery();
 
 
                             }
@@ -488,7 +316,7 @@ public class StoresReturnService : IStoresReturnService
     public DataTable GetBin()
     {
         string SvSql = string.Empty;
-        SvSql = "Select BINID,BINBASICID from BINBASIC ";
+        SvSql = "Select BINID,BINBASICID from BINBASIC WHERE CAPACITY ='0' ";
         DataTable dtt = new DataTable();
         OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
         OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

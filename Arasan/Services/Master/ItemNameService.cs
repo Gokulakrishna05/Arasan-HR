@@ -127,7 +127,7 @@ namespace Arasan.Services.Master
         //    }
         //    return ItemName;
         //}
-        public string ItemNameCRUD(ItemName ss)
+        public string ItemNameCRUD(ItemName ss, List<IFormFile> files)
         {
             string msg = "";
             try
@@ -242,7 +242,7 @@ namespace Arasan.Services.Master
                     try
                     {
                         objConn.Open();
-                        objCmd.ExecuteNonQuery();
+                       // objCmd.ExecuteNonQuery();
                         Object Pid = objCmd.Parameters["OUTID"].Value;
                         if (ss.ID != null)
                         {
@@ -265,7 +265,7 @@ namespace Arasan.Services.Master
                                 objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = Pid;
                                 objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                 objConns.Open();
-                                objCmds.ExecuteNonQuery();
+                               // objCmds.ExecuteNonQuery();
                                 objConns.Close();
                             }
                         }
@@ -355,7 +355,7 @@ namespace Arasan.Services.Master
                                     {
 
                                         int i = 1;
-                                        svSQL = "Insert into LOCINVDETAIL (ITEMMASTERID,LOCID,REORDERLEVEL,MINQTYN,MAXQTYN,BSTMGROUP,LOCINVDETAILROW) VALUES ('" + Pid + "','" + cp.loc + "','" + cp.reorder + "','" + cp.minlevel + "','" + cp.maxlevel + "','" + cp.bank + "','" + i + "')";
+                                        svSQL = "Insert into LOCINVDETAIL (ITEMMASTERID,LOCID,REORDERLEVEL,MINQTYN,MAXQTYN,BSTMGROUP,LOCINVDETAILROW,SELLINGRATE) VALUES ('" + Pid + "','" + cp.loc + "','" + cp.reorder + "','" + cp.minlevel + "','" + cp.maxlevel + "','" + cp.bank + "','" + i + "','0')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -384,8 +384,43 @@ namespace Arasan.Services.Master
                                 }
                             }
                         }
+                        if (files != null && files.Count > 0)
+                        {
+                            int r = 1;
+                            foreach (var file in files)
+                            {
+                                if (file.Length > 0)
+                                {
+                                    // Get the file name and combine it with the target folder path
+                                    String strLongFilePath1 = file.FileName;
+                                    String sFileType1 = "";
+                                    sFileType1 = System.IO.Path.GetExtension(file.FileName);
+                                    sFileType1 = sFileType1.ToLower();
 
-                        
+                                    String strFleName = strLongFilePath1.Replace(sFileType1, "") + String.Format("{0:ddMMMyyyy-hhmmsstt}", DateTime.Now) + sFileType1;
+                                    var fileName = Path.Combine("wwwroot/itemdoc", strFleName);
+                                    var fileName1 = Path.Combine("itemdoc", strFleName);
+                                    var name = file.FileName;
+                                    // Save the file to the target folder
+
+                                    using (var fileStream = new FileStream(fileName, FileMode.Create))
+                                    {
+                                        file.CopyTo(fileStream);
+
+
+
+                                        svSQL = "Insert into ITEMMASTERDOC(ITEMMASTERID,ITEMMASTERDOCROW,DOCPATH) VALUES ('" + Pid + "','" + r + ",'" + fileName1 + "')";
+                                        OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                        objCmdss.ExecuteNonQuery();
+
+                                        r++;
+                                    }
+                                }
+
+                            }
+                            objConn.Close();
+                        }
+
                     }
                     catch (Exception ex)
                     {
