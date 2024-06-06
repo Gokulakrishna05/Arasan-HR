@@ -32,7 +32,7 @@
                     {
                         @Html.AntiForgeryToken()
                         <form>
-                            <div class="row">
+                            @*<div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -43,7 +43,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -52,15 +52,16 @@
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2 ,@readonly="readonly"})
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Branch)
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="mandatory">*</label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory">*</label></label>
                                         <div class="input-group date for_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
+                                            @Html.TextBoxFor(C => C.Docdate, new { @id = "txtDocdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
                                     </div>
@@ -242,7 +243,7 @@
         todayHighlight: 1,
         startView: 2,
         minView: 2,
-        endDate: new Date(),
+        startDate: new Date(),
         forceParse: 0
 
     });
@@ -254,7 +255,7 @@
         todayHighlight: 1,
         startView: 2,
         minView: 2,
-        endDate: new Date(),
+        startDate: new Date(),
         forceParse: 0
     }).on('changeDate', function (selected) {
         var minDate = new Date(selected.date.valueOf());
@@ -409,7 +410,7 @@
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Targetlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
-        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='Targetlst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text' onchange = 'changeQty(this.value," + index + ")' /></td>";
+        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='Targetlst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text' onkeyup = 'changeQty(this.value," + index + ")' /></td>";
 
         var rate = "<td><input class='form-control' id='txtrate" + index + "' name='Targetlst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text' value='0' onkeyup = 'changeQty(this.value," + index + ")'  readonly='True' /></td>";
 
@@ -463,38 +464,115 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtFMonth").value == "") {
+            if (document.getElementById("FDay").value == "") {
                 isValid = false;
-                $(txtFMonth).css({
+                $(FDay).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Financial Month");
+                alert("Please Select From Date");
                 return false;
             }
             else {
-                $(txtFMonth).css({
+                $(FDay).css({
                     "border": "",
                     "background": ""
                 });
             }
-            if (document.getElementById("txtFYear").value == "") {
+            if (document.getElementById("TDay").value == "") {
                 isValid = false;
-                $(txtFYear).css({
+                $(TDay).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Financial Year");
+                alert("Please Select To Date");
                 return false;
             }
             else {
-                $(txtFYear).css({
+                $(TDay).css({
                     "border": "",
                     "background": ""
                 });
             }
+
+              //Grid validation
+                    var j = 0;
+                    $('tr.chkitemlst').each(function () {
+                        if ($(this).css('display') !== 'none') {
+                           
+
+                                if ($(this).find('#ddlParty' + j.toString()).val() == "" || $(this).find('#ddlParty' + j.toString()).val() == 0) {
+                                    isValid = false;
+                                    $(this).find('#ddlParty' + j.toString()).css({
+                                        "border": "1px solid red",
+                                        "background": "#FFCECE"
+                                    });
+                                    alert("Please Select Party Name");
+                                    $(this).find('#ddlParty' + j.toString()).focus();
+                                    return false;
+                                }
+                                else {
+                                    $(this).find('#ddlParty' + j.toString()).css({
+                                        "border": "",
+                                        "background": ""
+                                    });
+                                }
+                           
+                                if ($(this).find('#ddlItem' + j.toString()).val() == "" || $(this).find('#ddlItem' + j.toString()).val() == "0") {
+                                    isValid = false;
+                                    $(this).find('#ddlItem' + j.toString()).css({
+                                        "border": "1px solid red",
+                                        "background": "#FFCECE"
+                                    });
+
+                                    alert("Please Select Item");
+                                    $(this).find('#ddlItem' + j.toString()).focus();
+                                    return false;
+
+                                }
+                                else {
+                                    $(this).find('#ddlItem' + j.toString()).css({
+                                        "border": "",
+                                        "background": ""
+                                    });
+                                }
+                         
+                               
+
+
+                             if ($(this).find('#txtQuantity' + j.toString()).val() == "" || $(this).find('#txtQuantity' + j.toString()).val() == "0") {
+                                    isValid = false;
+                                    $(this).find('#txtQuantity' + j.toString()).css({
+                                        "border": "1px solid red",
+                                        "background": "#FFCECE"
+                                    });
+
+                                    alert("Please Enter Quantity");
+                                    $(this).find('#txtQuantity' + j.toString()).focus();
+                                    return false;
+
+                                }
+                                else {
+                                    $(this).find('#txtQuantity' + j.toString()).css({
+                                        "border": "",
+                                        "background": ""
+                                    });
+                                }
+
+                    
+
+
+                        }
+                        j += 1;
+                    });
+
+
+ if (isValid == false)
+                        e.preventDefault();
+
+
 
         });
 
