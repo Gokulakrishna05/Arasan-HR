@@ -26,7 +26,7 @@ namespace Arasan.Services.Sales
         public DataTable GetItem()
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT ITEMMASTERID,ITEMID FROM ITEMMASTER";
+            SvSql = "SELECT ITEMMASTERID,ITEMID FROM ITEMMASTER Where GROUPTYPE='Finished Goods'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -56,7 +56,7 @@ namespace Arasan.Services.Sales
         public DataTable GetSalesTargetItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT ITEMMASTER.ITEMID,PARTYMAST.PARTYNAME,QTY,RATE,SAMOUNT FROM SALFCDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=SALFCDETAIL.ITEMID LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=SALFCDETAIL.PARTYID Where SALFCBASICID='" + id + "'";
+            SvSql = "SELECT ITEMMASTER.ITEMID,PARTYMAST.PARTYNAME,QTY,RATE,SAMOUNT,SALFCDETAILID FROM SALFCDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=SALFCDETAIL.ITEMID LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=SALFCDETAIL.PARTYID Where SALFCBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -129,11 +129,12 @@ namespace Arasan.Services.Sales
                 //if(cy.ID == null)
                 //{
                 string selectedDate = cy.FDay;
-                DateTime birthday = DateTime.ParseExact(selectedDate, "dd-M-yyyy", CultureInfo.InvariantCulture);
-                int year = birthday.Year;
-                int month = birthday.Month;
-                int day = birthday.Day;
+                DateTime fromdate = DateTime.ParseExact(selectedDate, "dd-MMM-yyyy", CultureInfo.InvariantCulture);
+                int year = fromdate.Year;
+                string month = fromdate.ToString("MMM").ToUpper();
+                int day = fromdate.Day;
 
+                string mname= month + "" + year;
                 //string monthName = selectedDate;
                 //string year = selectedDate.ToString("YYYY");
                 //} 
@@ -162,6 +163,8 @@ namespace Arasan.Services.Sales
                     objCmd.Parameters.Add("EDAY", OracleDbType.NVarchar2).Value = cy.TDay;
                     objCmd.Parameters.Add("MON", OracleDbType.NVarchar2).Value = cy.FMonth;
                     objCmd.Parameters.Add("FINYR", OracleDbType.NVarchar2).Value = cy.FYear;
+                    objCmd.Parameters.Add("FCTYPE", OracleDbType.NVarchar2).Value = "MONTHLY";
+                    objCmd.Parameters.Add("MONTH", OracleDbType.NVarchar2).Value = mname;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try

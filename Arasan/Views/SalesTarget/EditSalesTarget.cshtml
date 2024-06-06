@@ -1,0 +1,264 @@
+﻿@model Arasan.Models.SalesTarget
+
+@{
+    //Layout = "_PopupLayout";
+    ViewData["Title"] = "Sales Target";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+</style>
+
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    @using (Html.BeginForm("ViewSalesTarget", "SalesTarget", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.DisplayFor(C => C.Branch)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Doc.No<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.DocId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Doc.Date<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Docdate)
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">From Day<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.FDay)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">To Day<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.TDay)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Financial Month<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.FMonth)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Financial Year<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.FYear)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <div style="height:30px;"></div>
+                           <div class="row">
+                                                    <div class="col-md-12">
+                                                        <a href="#" id="editclick" class='fancybox' data-fancybox-type='iframe'></a>
+                                                        <div class="btn-group">
+                                                            <p style="float:right;"> <input id="button" type="button" value="Edit" onclick="EditRow()" class="btn sbold green" /></p>
+                                                        </div>
+                                                    </div>
+                                   </div>
+                            <div style="height:30px;"></div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="ibox float-e-margins">
+
+                                        <div class="ibox-content collapse in">
+                                            <div class="widgets-container">
+                                                <div>
+                                                    <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>Item</th>
+                                                                <th>Party</th>
+                                                                <th>Qty</th>
+                                                                <th>Rate</th>
+                                                                <th>Amount</th>
+                                                                <th>Edit</th>
+                                                                <th>Delete</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            @{
+                                                                int i = 0;
+
+                                                                foreach (var item in Model.Targetlst.ToList())
+                                                                {
+
+                                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                         <td>@Html.CheckBoxFor(o => o.Targetlst[i].drumselect, new { @id = "drumslect_" + i } )@Html.HiddenFor(o => o.Targetlst[i].ID, new { @id = "stardetid" + i })</td>
+                                                                        <td>@Html.DisplayFor(o => o.Targetlst[i].ItemId)</td>
+                                                                        <td>@Html.DisplayFor(o => o.Targetlst[i].PartyId)</td>
+                                                                        <td>@Html.DisplayFor(o => o.Targetlst[i].Quantity)</td>
+                                                                        <td>@Html.DisplayFor(o => o.Targetlst[i].rate)</td>
+                                                                        <td>@Html.DisplayFor(o => o.Targetlst[i].Amount)</td>
+                                                                        <td><a href="EditRow?id=@item.ID" class='fancybox' data-fancybox-type='iframe'><img src='../Images/edit.png' alt='Edit' /></a></td>
+                                                                        <td><a href="Delrow?id=@item.ID" onclick="return ConfirmDelete()"><img src="../Images/Inactive.png" style="text-align: center; margin-top: 5px;padding-left:25px;" /></a></td>
+                                                                    </tr>
+                                                                    i++;
+                                                                }
+                                                            }
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                           @* <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListSalesTarget", "SalesTarget")'">Cancel</button>
+*@
+
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $(document).on('click', '.closeFancybox', function () {
+            $.fancybox.close();
+        })
+
+         //$('#example7').DataTable();
+
+            // Scroll Horizontal example
+
+            var table = $('#example7').DataTable( {
+                    responsive: true,
+                    paging: false,
+                     fixedHeader: {
+                        headerOffset: 40
+                    }
+                } );
+ 
+    })
+     function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
+</script>
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false
+        });
+        fancybox123 = $.fancybox;
+    });
+
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
+     $("#button").click(function () {
+            //var ar1 = "";
+            //var j = 0;
+            //$('tr.chkitemlst').each(function () {
+            //    if ($(this).css('display') !== 'none') {
+            //        var checkBox = document.getElementById('drumslect_' + j);
+            //        if (checkBox.checked == true) {
+            //            var invid = document.getElementById('stardetid' + j).value;
+            //           // alert(invid);
+            //            ar1 += invid + ",";
+            //        }
+            //    }
+            //    j += 1;
+            //});
+            //var indid = ar1.substring(0, ar1.length - 1);
+            var indid ="";
+        var oTable = $('#example7').dataTable();   
+var rowcollection =  oTable.$(".call-checkbox:checked", {"page": "all"});
+rowcollection.each(function(index,elem){
+    var checkbox_value = $(elem).val();
+    //Do something with 'checkbox_value'
+    alert(checkbox_value);
+    alert(index);
+});
+            //alert(indid);
+            document.getElementById("editclick").href="EditRow?id=" + indid; 
+            document.getElementById('editclick').click();
+
+        //$.ajax({
+        //    url: 'EditRow',
+        //    data: { 'id': indid},
+        //    type: "GET",
+        //    success: function (result) {
+
+        //    },
+        //    error: function () {
+        //        alert("Data Not Found");
+        //    }
+        //});
+    });
+</script>
+
+

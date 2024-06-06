@@ -163,6 +163,24 @@ namespace Arasan.Models
         public string Id { get; set; }
 
     }
+    public class MenuItem
+    {
+        public bool Isdashborad { get; set; }
+        public bool Isaccounts { get; set; }
+        public bool Issubcontract { get; set; }
+        public bool IsMaster { get; set; }
+        public bool IsPurchse { get; set; }
+        public bool IsStore { get; set; }
+        public string dashparent { get; set; }
+        public string masterparent { get; set; }
+        public string purchaseparent { get; set; }
+        public string storeparent { get; set; }
+        public string accountsparent { get; set; }
+        public string subcontractparent { get; set; }
+        public List<MenuList> DmenuLists { get; set; }
+        public List<MenuList> MmenuLists { get; set; }
+        public List<MenuList> PmenuLists { get; set; }
+    }
     public class MenuList
     {
         public string Title { get; set; }
@@ -170,6 +188,7 @@ namespace Arasan.Models
         public string Groupid { get; set; }
         public string IsHead { get; set; }
         public string IsDisable { get; set; }
+        public string IsView { get; set; }
 
     }
 }

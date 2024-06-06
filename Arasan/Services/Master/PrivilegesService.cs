@@ -113,26 +113,28 @@ namespace Arasan.Services
                                                 int cunt = datatrans.GetDataId("select COUNT(*) as cunt from USERPRIVDETAIL WHERE PRIVILEGESID='" + cy.ID + "' AND SITEMAPID='" + ca.mapid + "'");
                                                 if(cunt > 0)
                                                 {
-                                                    command.CommandText = "INSERT INTO USERPRIVDETAIL (PRIVILEGESID,SITEMAPID,IS_VIEW,IS_ADD,IS_EDIT,IS_DELETE) VALUES ('" + Pid + "','" + ca.mapid + "','" + view + "','" + add + "','" + edit + "','" + delete + "')";
+                                                    command.CommandText = "UPDATE USERPRIVDETAIL SET IS_VIEW='" + view + "',IS_ADD='" + add + "',IS_EDIT='" + edit + "',IS_DELETE='" + delete + "' WHERE PRIVILEGESID='" + cy.ID + "' AND SITEMAPID='" + ca.mapid + "'";
                                                     command.ExecuteNonQuery();
                                                 }
                                                 else
                                                 {
-                                                    command.CommandText = "UPDATE USERPRIVDETAIL IS_VIEW='" + view + "',IS_ADD='" + add + "',IS_EDIT='" + edit + "',IS_DELETE='" + delete + "' WHERE PRIVILEGESID='" + cy.ID + "' AND SITEMAPID='" + ca.mapid + "'";
+                                                    command.CommandText = "INSERT INTO USERPRIVDETAIL (PRIVILEGESID,SITEMAPID,IS_VIEW,IS_ADD,IS_EDIT,IS_DELETE) VALUES ('" + Pid + "','" + ca.mapid + "','" + view + "','" + add + "','" + edit + "','" + delete + "')";
                                                     command.ExecuteNonQuery();
+
                                                 }
                                                
                                             }
                                             int cunts = datatrans.GetDataId("select COUNT(*) as cunt from USERPRIVDETAIL WHERE PRIVILEGESID='" + cy.ID + "' AND SITEMAPID='" + cp.menuid + "'");
                                             if (cunts > 0)
                                             {
-                                                command.CommandText = "INSERT INTO USERPRIVDETAIL (PRIVILEGESID,SITEMAPID,IS_DISABLE) VALUES ('" + Pid + "','" + cp.menuid + "','N')";
+                                                command.CommandText = "UPDATE USERPRIVDETAIL SET IS_DISABLE='N' WHERE PRIVILEGESID='" + cy.ID + "' AND SITEMAPID='" + cp.menuid + "'";
                                                 command.ExecuteNonQuery();
                                             }
                                             else
                                             {
-                                                command.CommandText = "UPDATE USERPRIVDETAIL IS_DISABLE='N' WHERE PRIVILEGESID='" + cy.ID + "' AND SITEMAPID='" + cp.menuid + "'";
+                                                command.CommandText = "INSERT INTO USERPRIVDETAIL (PRIVILEGESID,SITEMAPID,IS_DISABLE) VALUES ('" + Pid + "','" + cp.menuid + "','N')";
                                                 command.ExecuteNonQuery();
+
                                             }
                                         }
                                         else

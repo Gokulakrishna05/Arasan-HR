@@ -1,289 +1,317 @@
-﻿@model List<Arasan.Models.MenuList>
+﻿@model Arasan.Models.MenuItem
 
-@*@{
-    foreach (var item in Model)
-    {
-        // @Html.DisplayFor(o => item.Title)
-        if (item.IsHead == "Y" && item.IsDisable == "N" && item.Title == "Dashboard")
-        {
-           
-        }
 
-    }
-}*@
+@if (Model.Isdashborad == true)
+{
+    
 
 <li class="nav-item">
-    <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-th-large"></i> <span class="title">Dashboard</span> <span class="arrow"></span> </a>
-
+                <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-th-large"></i> <span class="title">Dashboard</span> <span class="arrow"></span> </a>
     <ul class="sub-menu">
 
-        <li class="nav-item ">
-            <a class="nav-link" href="@Url.Action("PurchaseDash", "Home")">  <i class="fa fa-shopping-cart"></i><span class="title">Purchase</span> </a>
-        </li>
-        <li class="nav-item ">
-            <a class="nav-link" href="@Url.Action("QcDashboard", "QcDashboard")"> <i class="fa fa-flask"></i> <span class="title">Qc</span> </a>
-        </li>
-        @* <li class="nav-item ">
+            @foreach (var item in Model.DmenuLists)
+        {
+                @if (item.IsView == "Y" && item.Title == "Purchase Dashboard")
+                    {
+                    <li class="nav-item ">
+                        <a class="nav-link" href="@Url.Action("PurchaseDash", "Home")">  <i class="fa fa-shopping-cart"></i><span class="title">Purchase</span> </a>
+                    </li>
+                    }
+                @if (item.IsView == "Y" && item.Title == "QC Dashboard")
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link" href="@Url.Action("QcDashboard", "QcDashboard")"> <i class="fa fa-flask"></i> <span class="title">Qc</span> </a>
+                    </li>
+                    }
+                    @if (item.IsView == "Y" && item.Title == "Curing Shed")
+                    {
+                    <li class="nav-item ">
         <a class="nav-link" href="@Url.Action("Proddashboard", "Home")"> <i class="fa fa-table"></i> <span class="title">Curing Shed</span> </a>
         </li>
+                    }
+                @if (item.IsView == "Y" && item.Title == "Sales Dashboard")
+                    {
         <li class="nav-item ">
         <a class="nav-link" href="@Url.Action("SalesDash", "Home")">  <i class="fa fa-shopping-cart"></i><span class="title">Sales</span> </a>
-        </li>*@
+        </li>
+                    }
+          
+        }
+    </ul>
+            </li>
+       
+}
+@if (Model.IsMaster == true)
+{
+
+
+    <li class="nav-item active open">
+
+        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-database"></i> <span class="title">Masters</span> <span class="arrow"></span> </a>
+        <ul class="sub-menu">
+            @*@foreach (var item in Model.MmenuLists)
+            {*@
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:;"> Admin <span class="arrow nav-toggle"></span> </a>
+                        <ul class="sub-menu">
+                           
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("ListBranch", "Branch")"> <span class="title">Branch </span> </a>
+                                </li>
+                            
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("ListCompany", "Company")"> <span class="title">Company </span> </a>
+                    </li>
+
+                       
+
+                </ul>
+            </li>
+            @*}*@
+
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:;"> Account <span class="arrow nav-toggle"></span> </a>
+                <ul class="sub-menu">
+
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("AccTreeView", "AccTreeView")"> <span class="title">Account Tree</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListAccConfig", "AccConfig")"> <span class="title">Account Config</span> </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListDayBook", "Ledger")"> <span class="title">Day Book</span> </a>
+                    </li>
+
+                </ul>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:;"> <span class="arrow nav-toggle">Item </span> </a>
+                <ul class="sub-menu">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="@Url.Action("ListItem", "ItemName")"> <span class="title">Item</span> </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListItemCategory", "ItemCategory")"> <span class="title">Item Category</span> </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListItemGroup", "ItemGroup")"> <span class="title">Item Group</span> </a>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="@Url.Action("ListItemSubGroup", "ItemSubGroup")"> <span class="title">Item SubGroup</span> </a>
+                    </li>
+
+                </ul>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:;"> <span class="arrow nav-toggle">Qc </span> </a>
+                <ul class="sub-menu">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="@Url.Action("ListQcTemplate", "QcTemplate")"> <span class="title">QC Template</span> </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:;"> Common <span class="arrow nav-toggle"></span> </a>
+                <ul class="sub-menu">
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListSequence", "Sequence")"> <span class="title">Sequence</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListNatofwork", "Natofwork")"> <span class="title">Nature of Work</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListProcessMast", "ProcessMast")"> <span class="title">Process</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListCity", "City")"> <span class="title">City </span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListCountry", "Country")"> <span class="title">Country</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListCurrency", "Currency")"> <span class="title">Currency</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListRateCode", "RateCode")"> <span class="title">Rate Code</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListRate", "Rate")"> <span class="title">Rate</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListCuring", "Curing")"> <span class="title">Curing</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListCustomerType", "CustomerType")"> <span class="title">Customer Type</span> </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListDepartment", "Departments")"> <span class="title">Department</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListDesignation", "Designation")"> <span class="title">Designation</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListNewCategory", "DrumCategory")"> <span class="title">Drum Category</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListDrumMaster", "DrumMaster")"> <span class="title">Drum Master</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListEmailConfig", "EmailConfig")"> <span class="title">Email Config</span> </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="@Url.Action("PromotionMail", "PromotionMail")"> <span class="title">Promotion Mail</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListEmployee", "Employee")"> <span class="title">Employee</span> </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="@Url.Action("ListETariff", "ETariff")"> <span class="title">ETariff</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListExchangeRate", "ExchangeRate")"> <span class="title">Exchange Rate</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListHSNcode", "HSNcode")"> <span class="title">HSN Code </span> </a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListLocation", "Location")"> <span class="title">Location</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListParty", "PartyMaster")"> <span class="title">Party Master</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListSieve", "Sieve")"> <span class="title">Sieve </span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListState", "State")"> <span class="title">State </span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListStop", "Stop")"> <span class="title">Stop </span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListTax", "Tax")"> <span class="title">Tax</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListUnit", "Unit")"> <span class="title">Unit </span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListWorkCenters", "WorkCenters")"> <span class="title">Work Center </span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListEmpMultipleAllocation", "EmpMultipleAllocation")"> <span class="title">Employee Multiple Allocation</span> </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="@Url.Action("ListItemDescription", "ItemDescription")"> <span class="title">Test Description</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListWCSieve", "WCSieve")"> <span class="title">WC Sieve</span> </a>
+                    </li>
+
+
+
+
+                </ul>
+            </li>
+
+            }
+
 
         </ul>
-        </li>
 
-<li class="nav-item active open">
+    </li>
+}
+@if (Model.IsPurchse == true)
+{
+    <li class="nav-item">
 
-    <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-database"></i> <span class="title">Masters</span> <span class="arrow"></span> </a>
-    <ul class="sub-menu">
+        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-shopping-cart"></i>  <span class="title">Purchase</span> <span class="arrow"></span> </a>
+        <ul class="sub-menu">
+               @foreach (var item in Model.PmenuLists)
+        {
+                @if (item.IsView == "Y" && item.Title == "Purchase Indent")
+                    {
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("List_Purchase_Indent", "PurchaseIndent")">Purchase Indent</a></li>
+                    }
+                @if (item.IsView == "Y" && item.Title == "Purchase Indent Approval")
+                {
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("List_PI_Approval", "PurchaseIndent")">Purchase Indent Approval</a></li>
+                }
+                @if (item.IsView == "Y" && item.Title == "Supplier Allocation")
+                {
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("List_PI_MSupp_Allocation", "PurchaseIndent")">Supplier Allocation</a></li>
+                }
+                @if (item.IsView == "Y" && item.Title == "Enquiry")
+                {
+            <li class="nav-item">
 
-        <li class="nav-item">
-            <a class="nav-link" href="javascript:;"> Admin <span class="arrow nav-toggle"></span> </a>
-            <ul class="sub-menu">
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListBranch", "Branch")"> <span class="title">Branch </span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListCompany", "Company")"> <span class="title">Company </span> </a>
-                </li>
+                <a class="nav-link" href="@Url.Action("ListEnquiry", "PurchaseEnq")"> <span class="title">Enquiry</span> </a>
+            </li>
+                }
+                @if (item.IsView == "Y" && item.Title == "Quotation")
+                {
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListPurchaseQuo", "PurchaseQuo")"> <span class="title">Quotation</span> </a>
+            </li>
+                }
+                @if (item.IsView == "Y" && item.Title == "Direct Purchase")
+                {
+            <li class="nav-item active">
+                <a class="nav-link" href="@Url.Action("ListDirectPurchase", "DirectPurchase")"> <span class="title">Direct Purchase</span> </a>
 
+            </li>
+                }
+                @if (item.IsView == "Y" && item.Title == "Purchase Order")
+                {
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListPO", "PO")"> <span class="title">Purchase Order</span> </a>
+            </li>
+                }
+                @if (item.IsView == "Y" && item.Title == "PO Gate Inward")
+                {
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("GateInward", "PO")"> <span class="title">PO Gate Inward</span> </a>
+            </li>
+                }
+                @if (item.IsView == "Y" && item.Title == "List GateInward")
+                {
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListGateInward", "PO")"> <span class="title">List GateInward</span> </a>
+            </li>
+                }
+                @if (item.IsView == "Y" && item.Title == "GRN")
+                {
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListGRN", "GRN")"> <span class="title">GRN</span> </a>
+            </li>
+                }
+                @if (item.IsView == "Y" && item.Title == "GRN Defect")
+                {
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListDamageGRN", "GRN")"> <span class="title">GRN Defect</span> </a>
+            </li>
+                }
+            }
+        </ul>
+    </li>
+}
 
-
-            </ul>
-        </li>
-
-
-        <li class="nav-item">
-            <a class="nav-link" href="javascript:;"> Account <span class="arrow nav-toggle"></span> </a>
-            <ul class="sub-menu">
-
-
-
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("AccTreeView", "AccTreeView")"> <span class="title">Account Tree</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListAccConfig", "AccConfig")"> <span class="title">Account Config</span> </a>
-                </li>
-                @*<li class="nav-item">
-                <a class="nav-link" href="@Url.Action("ListAccClass", "AccClass")"> <span class="title">Account Class</span> </a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("ListAccountType", "AccountType")"> <span class="title">Account Type </span> </a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("ListAccountGroup", "AccountGroup")"> <span class="title">Account Group</span> </a>
-                </li>*@
-                @* <li class="nav-item">
-
-                <a class="nav-link" href="@Url.Action("ListAccountGroup", "AccGroup")"> <span class="title">Account Group</span> </a>
-                </li>*@
-                @* <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("ListLedger", "Ledger")"> <span class="title">Account Ledger </span> </a>
-                </li>*@
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListDayBook", "Ledger")"> <span class="title">Day Book</span> </a>
-                </li>
-
-            </ul>
-        </li>
-
-
-        <li class="nav-item">
-            <a class="nav-link" href="javascript:;"> <span class="arrow nav-toggle">Item </span> </a>
-            <ul class="sub-menu">
-                <li class="nav-item active">
-                    <a class="nav-link" href="@Url.Action("ListItem", "ItemName")"> <span class="title">Item</span> </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListItemCategory", "ItemCategory")"> <span class="title">Item Category</span> </a>
-                </li>
-
-
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListItemGroup", "ItemGroup")"> <span class="title">Item Group</span> </a>
-                </li>
-
-                <li class="nav-item active">
-                    <a class="nav-link" href="@Url.Action("ListItemSubGroup", "ItemSubGroup")"> <span class="title">Item SubGroup</span> </a>
-                </li>
-
-            </ul>
-        </li>
-
-
-        <li class="nav-item">
-            <a class="nav-link" href="javascript:;"> <span class="arrow nav-toggle">Qc </span> </a>
-            <ul class="sub-menu">
-                <li class="nav-item active">
-                    <a class="nav-link" href="@Url.Action("ListQcTemplate", "QcTemplate")"> <span class="title">QC Template</span> </a>
-                </li>
-            </ul>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="javascript:;"> Common <span class="arrow nav-toggle"></span> </a>
-            <ul class="sub-menu">
-
-
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListSequence", "Sequence")"> <span class="title">Sequence</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListNatofwork", "Natofwork")"> <span class="title">Nature of Work</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListProcessMast", "ProcessMast")"> <span class="title">Process</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListCity", "City")"> <span class="title">City </span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListCountry", "Country")"> <span class="title">Country</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListCurrency", "Currency")"> <span class="title">Currency</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListRateCode", "RateCode")"> <span class="title">Rate Code</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListRate", "Rate")"> <span class="title">Rate</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListCuring", "Curing")"> <span class="title">Curing</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListCustomerType", "CustomerType")"> <span class="title">Customer Type</span> </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListDepartment", "Departments")"> <span class="title">Department</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListDesignation", "Designation")"> <span class="title">Designation</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListNewCategory", "DrumCategory")"> <span class="title">Drum Category</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListDrumMaster", "DrumMaster")"> <span class="title">Drum Master</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListEmailConfig", "EmailConfig")"> <span class="title">Email Config</span> </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="@Url.Action("PromotionMail", "PromotionMail")"> <span class="title">Promotion Mail</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListEmployee", "Employee")"> <span class="title">Employee</span> </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="@Url.Action("ListETariff", "ETariff")"> <span class="title">ETariff</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListExchangeRate", "ExchangeRate")"> <span class="title">Exchange Rate</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListHSNcode", "HSNcode")"> <span class="title">HSN Code </span> </a>
-
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListLocation", "Location")"> <span class="title">Location</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListParty", "PartyMaster")"> <span class="title">Party Master</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListSieve", "Sieve")"> <span class="title">Sieve </span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListState", "State")"> <span class="title">State </span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListStop", "Stop")"> <span class="title">Stop </span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListTax", "Tax")"> <span class="title">Tax</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListUnit", "Unit")"> <span class="title">Unit </span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListWorkCenters", "WorkCenters")"> <span class="title">Work Center </span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListEmpMultipleAllocation", "EmpMultipleAllocation")"> <span class="title">Employee Multiple Allocation</span> </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="@Url.Action("ListItemDescription", "ItemDescription")"> <span class="title">Test Description</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListWCSieve", "WCSieve")"> <span class="title">WC Sieve</span> </a>
-                </li>
-
-
-
-
-            </ul>
-        </li>
-
-
-
-
-    </ul>
-
-</li>
-
-
-
-<li class="nav-item">
-
-    <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-shopping-cart"></i>  <span class="title">Purchase</span> <span class="arrow"></span> </a>
-    <ul class="sub-menu">
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("List_Purchase_Indent", "PurchaseIndent")">Purchase Indent</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("List_PI_Approval", "PurchaseIndent")">Purchase Indent Approval</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("List_PI_MSupp_Allocation", "PurchaseIndent")">Supplier Allocation</a></li>
-        <li class="nav-item">
-
-            <a class="nav-link" href="@Url.Action("ListEnquiry", "PurchaseEnq")"> <span class="title">Enquiry</span> </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("ListPurchaseQuo", "PurchaseQuo")"> <span class="title">Quotation</span> </a>
-        </li>
-
-
-        <li class="nav-item active">
-            <a class="nav-link" href="@Url.Action("ListDirectPurchase", "DirectPurchase")"> <span class="title">Direct Purchase</span> </a>
-
-        </li>
-
-
-
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("ListPO", "PO")"> <span class="title">Purchase Order</span> </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("GateInward", "PO")"> <span class="title">PO Gate Inward</span> </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("ListGateInward", "PO")"> <span class="title">List GateInward</span> </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("ListGRN", "GRN")"> <span class="title">GRN</span> </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("ListDamageGRN", "GRN")"> <span class="title">GRN Defect</span> </a>
-        </li>
-
-    </ul>
-</li>
- 
                       <li class="nav-item">
 
                         <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-shopping-cart"></i>  <span class="title">Purchase Import</span> <span class="arrow"></span> </a>
@@ -331,8 +359,8 @@
 
 
 
-@*
-                    <li class="nav-item">
+
+                  @*  <li class="nav-item">
                         <a class="nav-link nav-toggle" href="javascript:;"><i class="fa fa-money"></i> <span class="title">Sales</span> <span class="arrow"></span> </a>
           <ul class="sub-menu">
 
@@ -355,8 +383,8 @@
 
 
           </ul>
-        </li>*@
-@*	<li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-industry"></i><span class="title">Production</span> <span class="arrow"></span> </a>
+        </li>
+	<li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-industry"></i><span class="title">Production</span> <span class="arrow"></span> </a>
           <ul class="sub-menu">
 
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListProductionForecasting", "ProductionForecasting")">Production Forecasting</a></li>
@@ -382,9 +410,9 @@
                            <li class="nav-item active"><a class="nav-link" href="@Url.Action("MaterialSplit", "MaterialSplit")">Material Splitting Entry</a></li>
 
           </ul>
-        </li>*@
+        </li>
 
-@*<li class="nav-item">
+<li class="nav-item">
                         <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-flask"></i>  <span class="title">Quality Control</span> <span class="arrow"></span> </a>
           <ul class="sub-menu">
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListQCTesting", "QCTesting")">QC Testing</a></li>
@@ -398,107 +426,99 @@
 
                         </ul>
                     </li>*@
-<li class="nav-item">
 
-    <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-money"></i> <span class="title">Account</span> <span class="arrow"></span> </a>
-    <ul class="sub-menu">
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("ListDPAccount", "DirectPurchase")"> <span class="title">DP Accounts</span> </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("ListGRNAccount", "GRN")"> <span class="title">GRN Accounts</span> </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("ListPaymentRequest", "PaymentRequest")"> <span class="title">Payment Request</span> </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("ListApprovedPaymentRequest", "PaymentRequest")"> <span class="title">Payment Voucher</span> </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("DebitNoteBillDet", "DebitNoteBill")"> <span class="title">Future Discount</span> </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("ListDebitNoteBill", "DebitNoteBill")"> <span class="title"> Approve DN Bill</span></a>
-        </li>
+@if (Model.Isaccounts == true)
+{
+    <li class="nav-item">
 
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("CreditorDebitNotes", "CreditorDebitNotes")"> <span class="title">CN/DN</span></a>
-        </li>
+        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-money"></i> <span class="title">Account</span> <span class="arrow"></span> </a>
+        <ul class="sub-menu">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListDPAccount", "DirectPurchase")"> <span class="title">DP Accounts</span> </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListGRNAccount", "GRN")"> <span class="title">GRN Accounts</span> </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListPaymentRequest", "PaymentRequest")"> <span class="title">Payment Request</span> </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListApprovedPaymentRequest", "PaymentRequest")"> <span class="title">Payment Voucher</span> </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("DebitNoteBillDet", "DebitNoteBill")"> <span class="title">Future Discount</span> </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListDebitNoteBill", "DebitNoteBill")"> <span class="title"> Approve DN Bill</span></a>
+            </li>
 
-    </ul>
-</li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("CreditorDebitNotes", "CreditorDebitNotes")"> <span class="title">CN/DN</span></a>
+            </li>
 
-<li class="nav-item">
-    <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-database"></i> <span class="title">StoreManagement</span> <span class="arrow"></span> </a>
+        </ul>
+    </li>
+}
+@if (Model.IsStore == true)
+{
+    <li class="nav-item">
+        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-database"></i> <span class="title">StoreManagement</span> <span class="arrow"></span> </a>
 
-    <ul class="sub-menu">
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("IndentStockIssue", "Stock")">Stock In Hand</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("Storestock", "Stock")">Store Stock </a></li>
+        <ul class="sub-menu">
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("IndentStockIssue", "Stock")">Stock In Hand</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("Storestock", "Stock")">Store Stock </a></li>
 
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListMaterialRequisition", "MaterialRequisition")">Material Requisition</a></li>
-        @* <li class="nav-item"><a class="nav-link" href="@Url.Action("ListMaterialReq", "MaterialRequisition")">Approve MR</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("IndentStockIssue", "Stock")">Indent Stock Issue</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListStockIn", "StockIn")">Indent Stock Issue</a></li>*@
-        @* <li class="nav-item"><a class="nav-link" href="@Url.Action("IssueToProduction", "IssueToProduction")">Issue To Production</a></li>*@
-
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListStoresReturn", "StoresReturn")">Stores Return</a></li>
-        @*<li class="nav-item"><a class="nav-link" href="@Url.Action("Returnable_NonReturnable_Dc", "StoresReturn")">Returnable NonReturnable Dc</a></li>*@
-        @*<li class="nav-item"><a class="nav-link" href="@Url.Action("List_StoreAcc", "StoreAcc")">Stores Acceptance</a></li>*@
-        @* <li class="nav-item"><a class="nav-link" href="@Url.Action("Receipt_Against_Returnable_DC", "StoresReturn")">Receipt Against Returnable DC</a></li>*@
-        @*     <li class="nav-item"><a class="nav-link" href="@Url.Action("ListStoreIssueCons", "StoreIssueConsumables")">Stores Issuse Consumbables</a></li>
-
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListStoreIssuePro", "StoreIssueProduction")">Stores Issuse Production</a></li>*@
-        @* <li class="nav-item"><a class="nav-link" href="@Url.Action("Material_Requisition_Short_Close", "StoresReturn")">Material Requisition Short Close</a></li>*@
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListPurchaseReturn", "PurReturn")">Purchase Return</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListDirectDeduction", "DirectDeduction")">Direct Deduction</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListDirectAddition", "DirectAddition")">Direct Addition</a></li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="javascript:;"> Asset <span class="arrow nav-toggle"></span> </a>
-            <ul class="sub-menu">
-                <li class="nav-item"><a class="nav-link" href="@Url.Action("ListAssetAddition", "AssetAddDed")">Asset Addition </a></li>
-                <li class="nav-item"><a class="nav-link" href="@Url.Action("ListAssetDeduction", "AssetAddDed")">Asset Deduction</a></li>
-                <li class="nav-item"><a class="nav-link" href="@Url.Action("ListConToAsset", "ContToAsset")">Consumable To Asset Transfer</a></li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ListAssetTransfer", "AssetTransfer")"> <span class="title">Asset Transfer</span> </a>
-                </li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListMaterialRequisition", "MaterialRequisition")">Material Requisition</a></li>
 
 
-            </ul>
-        </li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListStoresReturn", "StoresReturn")">Stores Return</a></li>
+
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListPurchaseReturn", "PurReturn")">Purchase Return</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListDirectDeduction", "DirectDeduction")">Direct Deduction</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListDirectAddition", "DirectAddition")">Direct Addition</a></li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:;"> Asset <span class="arrow nav-toggle"></span> </a>
+                <ul class="sub-menu">
+                    <li class="nav-item"><a class="nav-link" href="@Url.Action("ListAssetAddition", "AssetAddDed")">Asset Addition </a></li>
+                    <li class="nav-item"><a class="nav-link" href="@Url.Action("ListAssetDeduction", "AssetAddDed")">Asset Deduction</a></li>
+                    <li class="nav-item"><a class="nav-link" href="@Url.Action("ListConToAsset", "ContToAsset")">Consumable To Asset Transfer</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListAssetTransfer", "AssetTransfer")"> <span class="title">Asset Transfer</span> </a>
+                    </li>
 
 
+                </ul>
+            </li>
 
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListRetNonRetDc", "RetNonRetDc")">Returnable NonReturnable Dc</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListReceiptAgtRetDC", "ReceiptAgtRetDC")"> Receipt Against Returnable DC</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListRetNonRetDc", "RetNonRetDc")">Returnable NonReturnable Dc</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListReceiptAgtRetDC", "ReceiptAgtRetDC")"> Receipt Against Returnable DC</a></li>
 
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("Assetstock", "Stock")"> Asset Stock</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("Assetstock", "Stock")"> Asset Stock</a></li>
 
+        </ul>
 
-        @*<li class="nav-item"><a class="nav-link" href="@Url.Action("ScarpYard", "StoresReturn")">Scarp Yard</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("Sub_Contracting_DC", "StoresReturn")">Sub Contracting DC</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListItemTransfer", "ItemTransfer")">Item Transfer</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("Sub_Contracting_Material_Receipt", "StoresReturn")">Sub ContractingMaterial Receipt</a></li>*@
+    </li>
+}
+@if (Model.Issubcontract == true)
+{
+    <li class="nav-item">
 
-    </ul>
+        <a class="nav-link nav-toggle" href="javascript:;"> <i class="icon-paper-plane"></i> <span class="title">Sub Contract</span> <span class="arrow"></span> </a>
+        <ul class="sub-menu">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListSubContractingDC", "SubContractingDC")"> <span class="title">Sub Contracting DC</span> </a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListReceiptSubContract", "ReceiptSubContract")">Receipt for SubContract</a></li>
 
-</li>
-<li class="nav-item">
-
-    <a class="nav-link nav-toggle" href="javascript:;"> <i class="icon-paper-plane"></i> <span class="title">Sub Contract</span> <span class="arrow"></span> </a>
-    <ul class="sub-menu">
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("ListSubContractingDC", "SubContractingDC")"> <span class="title">Sub Contracting DC</span> </a>
-        </li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListReceiptSubContract", "ReceiptSubContract")">Receipt for SubContract</a></li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("ListSubContractingMaterialReceipt", "SubContractingMaterialReceipt")"> <span class="title">Sub Contracting Material Receipt</span> </a>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListSubContractingMaterialReceipt", "SubContractingMaterialReceipt")"> <span class="title">Sub Contracting Material Receipt</span> </a>
+            </li>
 
 
-    </ul>
-</li>
+        </ul>
+    </li>
+}
 <li class="nav-item">
 
     <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-gears"></i> <span class="title">Privileges</span> <span class="arrow"></span> </a>

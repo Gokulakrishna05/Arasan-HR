@@ -157,7 +157,12 @@ namespace Arasan.Controllers
                         }
                         tda.menudlst = TData1;
                     }
-                    
+                    else
+                    {
+                        tda1 = new menudetails();
+                        TData1.Add(tda1);
+                        tda.menudlst = TData1;
+                    }
                     TData.Add(tda);
                 }
             }
