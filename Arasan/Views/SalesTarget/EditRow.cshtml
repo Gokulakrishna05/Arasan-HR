@@ -29,11 +29,11 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">Sales Target</h5>
                     <hr>
-                    @using (Html.BeginForm("SalesTarget", "SalesTarget", FormMethod.Post))
+                    @using (Html.BeginForm("EditRow", "SalesTarget", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         <form>
-                         
+                            @Html.HiddenFor(C => C.PID)
                             <div class="row">
                                 <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
                                
@@ -62,7 +62,7 @@
 
                                                         <td>
                                                             @Html.DropDownListFor(o => o.Targetlst[i].PartyId, Model.Targetlst[i].Partylst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlParty" + i, style = "width: 250px;"})
-                                                            @Html.HiddenFor(o => o.Targetlst[i].savePartyId)
+                                                            @Html.HiddenFor(o => o.Targetlst[i].ID)
 
                                                         </td>
                                                         <td>
@@ -100,7 +100,7 @@
                             </div>
                        
                             <div style="height:30px;"></div>
-                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onClick="window.parent.jQuery.fancybox.close();">Submit</button>
                             <input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />
                         </form>
                     }
