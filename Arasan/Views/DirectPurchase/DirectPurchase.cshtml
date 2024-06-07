@@ -209,15 +209,17 @@
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                         <td>
                                                             @Html.DisplayFor(o => o.DirLst[i].IndentId)
+                                                            @Html.HiddenFor(o => o.DirLst[i].IndentId)
                                                         </td>
                                                         <td>
                                                             @Html.DisplayFor(o => o.DirLst[i].IndentDate)
+                                                            @Html.HiddenFor(o => o.DirLst[i].IndentDate)
                                                         </td>
                                                         <td>
                                                             @Html.DropDownListFor(o => o.DirLst[i].ItemId, Model.DirLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
                                                             @Html.HiddenFor(o => o.DirLst[i].saveItemId)
                                                     @Html.HiddenFor(o => o.DirLst[i].ConvQty,new{@id="txtPriqty" +i})
-                                                            @Html.HiddenFor(o => o.DirLst[i].Inddetid,new{@id="txtInddetid"+i})
+                                                            @Html.HiddenFor(o => o.DirLst[i].inddetid,new{@id="txtInddetid"+i})
                                                          </td>
                                                         <td>
                                                             @Html.DropDownListFor(o => o.DirLst[i].gst, Model.DirLst[i].gstlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlgst" + i, style = "width: 150px;", onchange = "changeGst(this.value," + i + ")" })
@@ -708,13 +710,13 @@
   function loadindent(item,opt){
         var index = $("#tbBooks").children("tr").length;
 
-        var indentno = "<td><label style='width:110px;'>" + item.indentno + "</label></td>";
+        var indentno = "<td><label style='width:110px;'>" + item.indentno + "</label><input class='form-control' id='txtindentno" + index + "' name='DirLst[" + index + "].indentno'  style='width: 80px;' value='"+ item.indentno +"'   type='hidden'  /></td>";
 
-        var indentdate = "<td><label style='width:110px;'>" + item.indentdate + "</label></td>";
+        var indentdate = "<td><label style='width:110px;'>" + item.indentdate + "</label><input class='form-control' id='txtindentno" + index + "' name='DirLst[" + index + "].indentdate'  style='width: 80px;' value='"+ item.indentdate +"'   type='hidden'  /><input class='form-control' id='txtindentno" + index + "' name='DirLst[" + index + "].inddetid'  style='width: 80px;' value='"+ item.inddetid +"'   type='hidden'  /></td>";
 
-        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' readonly><option value='" + item.saveitemid + "'>" + item.itemid + "</option></select></td>";
+        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='DirLst[" + index + "].ItemId' readonly><option value='" + item.saveitemid + "'>" + item.itemid + "</option></select></td>";
 
-        var tarrif = "<td><select style = 'width: 150px;' class='form-control _select newcss' id='ddlgst" + index + "' name='Itemlst[" + index + "].gst' onchange = 'changeGst(this.value," + index + ")'>" + opt + "</select></td>";
+        var tarrif = "<td><select style = 'width: 150px;' class='form-control _select newcss' id='ddlgst" + index + "' name='DirLst[" + index + "].gst' onchange = 'changeGst(this.value," + index + ")'>" + opt + "</select></td>";
 
         
 
@@ -759,7 +761,7 @@
 
         var TotalAmount = "<td><input class='form-control' id='txtTotalAmount" + index + "' name='DirLst[" + index + "].TotalAmount'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value='0' readonly='True' onkeyup = 'changeQty(this.value," + index + ")'  /></td>";
 
-        var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DirLst.Index' type='hidden' value='" + index + "'  /></td>";
+        var removeCell = "<td><input id='Isvalid" + index + "' name='DirLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DirLst.Index' type='hidden' value='" + index + "'  /></td>";
 
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + indentno + indentdate + Item + tarrif + Unit + BinId + ConFac + IndQty + Pendqty + Quantity + rate + Amount + Disc + DiscAmount + FrigCharge + packchar + othcharg + spldic + costrate + CGSTP + SGSTP + IGSTP + CGST + SGST + IGST + TotalAmount + removeCell + "</tr>";
 

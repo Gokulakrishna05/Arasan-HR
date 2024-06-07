@@ -376,6 +376,14 @@
             } else {
                 document.getElementById("txtAmount" + i).value = 0;
             }
+           @*   if(eval(qty) < eval(stock))
+            {
+                alert(qty);
+                alert(stock);
+                document.getElementById("txtQuantity" + i).value = "0";
+                alert("Qty is Greaterthen Stock");
+                up = 0;
+            }*@
             var GTot = 0;
             var j = 0;
             $('tr.chkitemlst').each(function () {
@@ -392,14 +400,7 @@
                 j += 1;
             });
             
-            if(eval(qty) < eval(stock))
-            {
-                alert(qty);
-                alert(stock);
-                document.getElementById("txtQuantity" + i).value = "0";
-                alert("Qty is Greaterthen Stock");
-                up = 0;
-            }
+          
             @*document.getElementById("gross").value = GTot;
             document.getElementById("net").value = GTot;*@
          // document.getElementById('words').value = inWords(GTot);

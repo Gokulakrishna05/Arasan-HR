@@ -176,23 +176,34 @@ namespace Arasan.Controllers.Stores_Management
                 //string MailRow = string.Empty;
                 //string FollowUp = string.Empty;
                 //string MoveToQuo = string.Empty;
-                //string View = string.Empty;
+                string View = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
+                    View = "<a href=ViewStoresReturn?id=" + dtUsers.Rows[i]["STORESRETBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='Edit' /></a>";
 
-               
-                EditRow = "<a href=StoresReturn?id=" + dtUsers.Rows[i]["STORESRETBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["STORESRETBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    EditRow = "<a href=StoresReturn?id=" + dtUsers.Rows[i]["STORESRETBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["STORESRETBASICID"].ToString() + "";
+                }
+                else
+                {
+                    View = "<a href=ViewStoresReturn?id=" + dtUsers.Rows[i]["STORESRETBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Edit' /></a>";
 
+                    EditRow = "";
+                    DeleteRow = "DeleteItem?tag=Active&id=" + dtUsers.Rows[i]["STORESRETBASICID"].ToString() + "";
+
+                }
                 Reg.Add(new ListStoresReturnItem
                 {
-                    id = Convert.ToInt64(dtUsers.Rows[i]["STORESRETBASICID"].ToString()),
+                    id =  dtUsers.Rows[i]["STORESRETBASICID"].ToString(),
                    
                     docNo = dtUsers.Rows[i]["DOCID"].ToString(),
                     docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
                     location = dtUsers.Rows[i]["LOCID"].ToString(),
                     toloc = dtUsers.Rows[i]["location"].ToString(),
-                  
+
+                    view = View,
                     editrow = EditRow,
                     delrow = DeleteRow,
 
@@ -209,8 +220,13 @@ namespace Arasan.Controllers.Stores_Management
         }
         public ActionResult DeleteItem(string tag, string id)
         {
-
-            string flag = StoresReturnService.StatusChange(tag, id);
+            string flag = "";
+            if (tag=="Del")
+            {
+                flag = StoresReturnService.StatusChange(tag, id);
+            }
+            else { flag = StoresReturnService.StatusActChange(tag, id); }
+            
             if (string.IsNullOrEmpty(flag))
             {
 
@@ -395,7 +411,68 @@ namespace Arasan.Controllers.Stores_Management
         {
             return View();
         }
+        public IActionResult ViewStoresReturn(string id)
+        {
+            StoresReturn ca = new StoresReturn();
+            
+            List<StoreItem> TData = new List<StoreItem>();
+            StoreItem tda = new StoreItem();
+             
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = StoresReturnService.GetStoresReturnview(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                    ca.RefNo = dt.Rows[0]["REFNO"].ToString();
+                    ca.RefDate = dt.Rows[0]["REFDATE"].ToString();
+                    //ca.ID = id;
+                    //ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
+                    //ca.RefDate = dt.Rows[0]["REFDT"].ToString();
+                    //ca.Voucher = dt.Rows[0]["VOUCHER"].ToString();
+                    ca.Location = dt.Rows[0]["LOCID"].ToString();
+                    ca.toloc = dt.Rows[0]["toloc"].ToString();
+                    ca.Narr = dt.Rows[0]["NARRATION"].ToString();
 
+                }
+                DataTable dt2 = new DataTable();
+                dt2 = StoresReturnService.GetSRItemDetailsview(id);
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new StoreItem();
+                
+                     
+                    tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                    tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+
+
+
+                     tda.rate = Convert.ToDouble(dt2.Rows[0]["RATE"].ToString());
+
+                    tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+
+                    //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                    tda.Amount = Convert.ToDouble(dt2.Rows[i]["AMOUNT"].ToString());
+                    tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                     tda.FromBin = dt2.Rows[i]["FROMBINID"].ToString();
+                    tda.Binlst = BindBin();
+                    tda.ToBin = dt2.Rows[i]["BINID"].ToString();
+
+
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+                
+            ca.StrLst = TData;
+            return View(ca);
+        }
+            
+        
     }
 }
 

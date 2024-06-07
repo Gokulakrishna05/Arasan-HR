@@ -67,6 +67,7 @@ namespace Arasan.Models
         //public string follow { get; set; }
         //public string pdf { get; set; }
         public string view { get; set; }
+        public string priority { get; set; }
         public string move { get; set; }
         //public string Account { get; set; }
     }

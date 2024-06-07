@@ -209,12 +209,12 @@ namespace Arasan.Controllers.Store_Management
             if (string.IsNullOrEmpty(flag))
             {
 
-                return RedirectToAction("ListEnquiry");
+                return RedirectToAction("ListSubContractingMaterialReceipt");
             }
             else
             {
                 TempData["notice"] = flag;
-                return RedirectToAction("ListEnquiry");
+                return RedirectToAction("ListSubContractingMaterialReceipt");
             }
         }
         public ActionResult Active(string tag, string id)
@@ -224,12 +224,12 @@ namespace Arasan.Controllers.Store_Management
             if (string.IsNullOrEmpty(flag))
             {
 
-                return RedirectToAction("ListEnquiry");
+                return RedirectToAction("ListSubContractingMaterialReceipt");
             }
             else
             {
                 TempData["notice"] = flag;
-                return RedirectToAction("ListEnquiry");
+                return RedirectToAction("ListSubContractingMaterialReceipt");
             }
         }
         public List<SelectListItem> BindDC()

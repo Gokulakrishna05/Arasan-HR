@@ -176,13 +176,13 @@
 
 
                             <div style="height:30px;"></div>
-                            <div class="row">
+                            @*<div class="row">
                                 <div class="col-md-12">
                                     <div class="btn-group">
                                         <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
 
 
                             <div class="row">
@@ -223,7 +223,7 @@
 
                                                          <td>
                                                             @Html.TextBoxFor(o => o.ReceiptLst[i].itemname, new { @id = "txtItem" + i, @class = "form-control", style = "width: 200px;" , onchange = "changeGroup(this.value," + i + ")"})
-                                                            @Html.HiddenFor(o => o.ReceiptLst[i].saveItemId)
+                                                            @Html.HiddenFor(o => o.ReceiptLst[i].itemid)
                                                          </td>
                                                            
                                                             <td>
@@ -258,7 +258,7 @@
 
                                                             <td>
                                                                 @Html.HiddenFor(o => o.ReceiptLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Partylst.Index" type="hidden" value="@(i)" />
+                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="ReceiptLst.Index" type="hidden" value="@(i)" />
                                                             </td>
 
                                                         </tr>
@@ -494,14 +494,14 @@
             cache: false,
             success: function (list) {
                  list.forEach((item) => {
-                    alert(item.itemname);
+                 
                     var index = $("#tbBooks").children("tr").length;
 
                     var itemname = "<td><label style='width: 150px;'>" + item.itemname + "</label><input type='hidden' value=" + item.itemid + " id='txtItem" + index + "' name='ReceiptLst[" + index + "].itemid'><input type='hidden' value=" + item.detid + " id='txtdetid" + index + "' name='ReceiptLst[" + index + "].detid'></td>";
                    
                     var unit = "<td><input class='form-control' id='txtUnit" + index + "' name='ReceiptLst[" + index + "].unit'  style='width: 100px;' type='text'  readonly='True'  value=" + item.unit + " /></td>";
 
-                    var bin = "<td><select style = 'width: 200px;' class='form-control _select newcss'  id='ddlbin " + index + "' name='ReceiptLst[" + index + "].bin '   ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
+                    var bin = "<td><select style = 'width: 200px;' class='form-control _select newcss'  id='ddlbin" + index + "' name='ReceiptLst[" + index + "].bin' ><option value=''>-- Please select -- </option>" + opt + "</select></td>";
 
 
                     var qty = "<td><input class='form-control' id='txtqty" + index + "' name='ReceiptLst[" + index + "].qty'  style='width: 100px;' type='text'   onkeydown='return isNumeric2(event.keyCode,this.value)'  onchange = 'changerecQty(this.value," + index + ")' /></td>";
