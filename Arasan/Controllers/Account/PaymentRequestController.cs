@@ -169,9 +169,9 @@ namespace Arasan.Controllers
             try
             {
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
-                lstdesg.Add(new SelectListItem() { Text = "Against Invoice", Value = "Against Invoice" });
+                lstdesg.Add(new SelectListItem() { Text = "Against GRN", Value = "Against GRN" });
+                lstdesg.Add(new SelectListItem() { Text = "Against DP", Value = "Against DP" });
                 lstdesg.Add(new SelectListItem() { Text = "Advance Payment", Value = "Advance Payment" });
-               
                 return lstdesg;
             }
             catch (Exception ex)
@@ -209,7 +209,7 @@ namespace Arasan.Controllers
 
             {
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
-                if (type == "Against Invoice")
+                if (type == "Against GRN")
                 {
                     DataTable dtDesg = request.GetGRN(item);
 
@@ -218,7 +218,15 @@ namespace Arasan.Controllers
                         lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
                     }
                 }
+               else if (type == "Against PO")
+                {
+                    DataTable dtDesg = request.GetGRN(item);
 
+                    for (int i = 0; i < dtDesg.Rows.Count; i++)
+                    {
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
+                    }
+                }
                 else
                 {
                     DataTable dtDesg = request.GetPO(item);

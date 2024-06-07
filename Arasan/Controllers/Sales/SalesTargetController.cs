@@ -29,7 +29,7 @@ namespace Arasan.Controllers.Sales
         public IActionResult SalesTarget(string id)
         {
             SalesTarget ca = new SalesTarget();
-            ca.Brlst = BindBranch();
+            //ca.Brlst = BindBranch();
             //ca.Partylst = BindGParty();
             DataTable dtv = datatrans.GetSequence("SalFc");
             if (dtv.Rows.Count > 0)
@@ -134,6 +134,76 @@ namespace Arasan.Controllers.Sales
         {
             return View();
         }
+        public IActionResult EditSalesTarget(string id)
+        {
+            SalesTarget ca = new SalesTarget();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+            dt = SalesTargetService.GetSalesTarget(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.FDay = dt.Rows[0]["FDAY"].ToString();
+                ca.TDay = dt.Rows[0]["EDAY"].ToString();
+                ca.FMonth = dt.Rows[0]["MON"].ToString();
+                ca.FYear = dt.Rows[0]["FINYR"].ToString();
+                ca.ID = id;
+            }
+            List<SalesTargetItem> TData = new List<SalesTargetItem>();
+            SalesTargetItem tda = new SalesTargetItem();
+
+            dtt = SalesTargetService.GetSalesTargetItem(id)
+;
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new SalesTargetItem();
+                    tda.ID = dtt.Rows[i]["SALFCDETAILID"].ToString();
+                    tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
+                    tda.PartyId = dtt.Rows[i]["PARTYNAME"].ToString();
+                    tda.Quantity = dtt.Rows[i]["QTY"].ToString();
+                    tda.rate = dtt.Rows[i]["RATE"].ToString();
+                    tda.Amount = dtt.Rows[i]["SAMOUNT"].ToString();
+                    TData.Add(tda);
+                }
+            }
+
+            ca.Targetlst = TData;
+            return View(ca);
+        }
+        public IActionResult EditRow(string id)
+        {
+            SalesTarget ca = new SalesTarget();
+            List<SalesTargetItem> TData = new List<SalesTargetItem>();
+            SalesTargetItem tda = new SalesTargetItem();
+
+            DataTable dt2 = new DataTable();
+
+            dt2 = datatrans.GetData("SELECT ITEMID,PARTYID,QTY,RATE,SAMOUNT FROM SALFCDETAIL Where SALFCDETAILID IN(" + id + ")");
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new SalesTargetItem();
+                    tda.Itemlst = BindItemlst();
+                    tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                    tda.Partylst = BindGParty();
+                    tda.PartyId = dt2.Rows[i]["PARTYID"].ToString();
+                    tda.Quantity = dt2.Rows[i]["QTY"].ToString();
+                    tda.rate = dt2.Rows[i]["RATE"].ToString();
+                    tda.Amount = dt2.Rows[i]["SAMOUNT"].ToString();
+                    TData.Add(tda);
+                }
+            }
+
+        
+
+        ca.Targetlst = TData;
+            return View(ca);
+    }
         public IActionResult ViewSalesTarget(string id)
         {
             SalesTarget ca = new SalesTarget();
@@ -186,7 +256,7 @@ namespace Arasan.Controllers.Sales
                 string DeleteRow = string.Empty;
 
                 View = "<a href=ViewSalesTarget?id=" + dtUsers.Rows[i]["SALFCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                EditRow = "<a href=SalesTarget?id=" + dtUsers.Rows[i]["SALFCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                EditRow = "<a href=EditSalesTarget?id=" + dtUsers.Rows[i]["SALFCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["SALFCBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new ListSalesTargetItem
@@ -264,7 +334,7 @@ namespace Arasan.Controllers.Sales
         {
             try
             {
-                DataTable dtDesg = datatrans.GetSupplier();
+                DataTable dtDesg = datatrans.GetCustomer();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {

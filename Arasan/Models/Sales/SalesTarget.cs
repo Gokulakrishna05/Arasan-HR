@@ -32,7 +32,7 @@ namespace Arasan.Models
         public string ID { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
         public string ItemId { get; set; }
-
+        public bool drumselect { get; set; }
         public List<SelectListItem> Partylst { get; set; }
         public string PartyId { get; set; }
         public string Unit { get; set; }
