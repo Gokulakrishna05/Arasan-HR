@@ -288,7 +288,7 @@
 
                                                         <td>
                                                             @Html.HiddenFor(o => o.RetLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Partylst.Index" type="hidden" value="@(i)" />
+                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="RetLst.Index" type="hidden" value="@(i)" />
                                                         </td>
 
                                                     </tr>
@@ -586,7 +586,7 @@
         var SubGrp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlSubGrp" + index + "' name='RetLst[" + index + "].subgrp' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
 
-        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].item' onchange = 'changeRetItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='RetLst[" + index + "].item' onchange = 'changeRetItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='RetLst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
         var Current = "<td><input class='form-control' id='txtCurrent" + index + "' name='RetLst[" + index + "].Current'    style='width: 80px;' type='text'  readonly='True' /></td>";

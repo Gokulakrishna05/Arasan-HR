@@ -43,6 +43,7 @@ namespace Arasan.Services.Store_Management
                     {
                         throw ex;
                     }
+                    cy.Did = Did;
                 }
                 string PARTY = datatrans.GetDataString("Select PARTYMASTID from PARTYMAST where PARTYID='" + cy.Party + "' ");
                 string ENTER = datatrans.GetDataString("Select EMPNAME||' / '||EMPID as empcode from EMPMAST where EMPMASTID='" + cy.Entered + "' ");
@@ -63,14 +64,14 @@ namespace Arasan.Services.Store_Management
                     }
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
-                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = Did;
+                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.Did;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DDate;
                     objCmd.Parameters.Add("DCNO", OracleDbType.NVarchar2).Value = cy.Dcno;
-                     objCmd.Parameters.Add("DCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.DcDate);
+                     objCmd.Parameters.Add("DCDATE", OracleDbType.NVarchar2).Value = cy.DcDate;
                     objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = PARTY;
                     objCmd.Parameters.Add("STKTYPE", OracleDbType.NVarchar2).Value = cy.Stock;
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.Ref;
-                    objCmd.Parameters.Add("REFDATE", OracleDbType.Date).Value = DateTime.Parse(cy.RefDate);
+                    objCmd.Parameters.Add("REFDATE", OracleDbType.NVarchar2).Value =  cy.RefDate;
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration;
                     if(cy.ID==null)
                     { objCmd.Parameters.Add("EBY", OracleDbType.NVarchar2).Value = ENTER; 
@@ -82,7 +83,7 @@ namespace Arasan.Services.Store_Management
                     objCmd.Parameters.Add("LOCIDREJ", OracleDbType.NVarchar2).Value = "10989000000581";
                     objCmd.Parameters.Add("APPPER", OracleDbType.NVarchar2).Value = cy.Approved;
                     objCmd.Parameters.Add("APPPER2", OracleDbType.NVarchar2).Value = cy.Approval2;
-                    objCmd.Parameters.Add("DCENTBY", OracleDbType.NVarchar2).Value = cy.dcey;
+                    objCmd.Parameters.Add("DCENTBY", OracleDbType.NVarchar2).Value = ENTER;
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -99,7 +100,7 @@ namespace Arasan.Services.Store_Management
                         }
                         foreach (ReceiptAgtRetDCItem cp in cy.ReceiptLst)
                         {
-                            if (cp.Isvalid == "Y" && cp.item != "0")
+                            if (cp.Isvalid == "Y" && cp.itemid != "0")
                             {
 
                                 string UNIT = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.unit + "' ");
@@ -346,7 +347,7 @@ namespace Arasan.Services.Store_Management
         {
             string SvSql = string.Empty;
            // SvSql = " SELECT CITEMID,BINID,QTY,PENDQTY,REJQTY,UNITMAST.UNITID,SERIALYN,ACCQTY,RATE,AMOUNT FROM RECDCDETAIL LEFT OUTER JOIN UNITMAST on UNITMAST.UNITMASTID = RECDCDETAIL.UNIT WHERE RECDCBASICID = '" + id + "' ";
-            SvSql = "   SELECT ITEMMASTER.ITEMID, RECDCDETAIL.BINID,RECDCDETAIL.QTY,RECDCDETAIL.PENDQTY,RECDCDETAIL.REJQTY,UNITMAST.UNITID,RECDCDETAIL.SERIALYN,RECDCDETAIL.ACCQTY,RECDCDETAIL.RATE,RECDCDETAIL.AMOUNT FROM RECDCDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID = RECDCDETAIL.CITEMID LEFT OUTER JOIN UNITMAST on UNITMAST.UNITMASTID = RECDCDETAIL.UNIT WHERE RECDCDETAIL.RECDCBASICID = '" + id + "' ";
+            SvSql = "   SELECT ITEMMASTER.ITEMID, RECDCDETAIL.BINID,RECDCDETAIL.QTY,RECDCDETAIL.PENDQTY,RECDCDETAIL.REJQTY,UNITMAST.UNITID,RECDCDETAIL.SERIALYN,RECDCDETAIL.ACCQTY,RECDCDETAIL.RATE,RECDCDETAIL.AMOUNT,CITEMID FROM RECDCDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID = RECDCDETAIL.CITEMID LEFT OUTER JOIN UNITMAST on UNITMAST.UNITMASTID = RECDCDETAIL.UNIT WHERE RECDCDETAIL.RECDCBASICID = '" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -487,12 +488,12 @@ namespace Arasan.Services.Store_Management
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "select RECDCBASIC.RECDCBASICID,RECDCBASIC.IS_ACTIVE,RECDCBASIC.DOCID,to_char(RECDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RDELBASIC.DOCID as dcno,PARTYMAST.PARTYID,RECDCBASIC.STATUS from RECDCBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RECDCBASIC.PARTYID LEFT OUTER JOIN RDELBASIC ON RDELBASIC.RDELBASICID = RECDCBASIC.DCNO where RECDCBASIC.IS_ACTIVE = 'Y' ORDER BY RECDCBASICID DESC  ";
+                SvSql = "select RECDCBASIC.RECDCBASICID,RECDCBASIC.IS_ACTIVE,RECDCBASIC.DOCID,to_char(RECDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RDELBASIC.DOCID as dcno,PARTYMAST.PARTYID,RECDCBASIC.STATUS from RECDCBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RECDCBASIC.PARTYID LEFT OUTER JOIN RDELBASIC ON RDELBASIC.RDELBASICID = RECDCBASIC.DCNO where RECDCBASIC.IS_ACTIVE = 'Y' ORDER BY RECDCBASIC.DOCDATE DESC  ";
 
             }
             else
             {
-                SvSql = "select RECDCBASIC.RECDCBASICID,RECDCBASIC.IS_ACTIVE,RECDCBASIC.DOCID,to_char(RECDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RDELBASIC.DOCID as dcno,PARTYMAST.PARTYID,RECDCBASIC.STATUS  from RECDCBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RECDCBASIC.PARTYID LEFT OUTER JOIN RDELBASIC ON RDELBASIC.RDELBASICID = RECDCBASIC.DCNO where RECDCBASIC.IS_ACTIVE = 'N' ORDER BY RECDCBASICID DESC  ";
+                SvSql = "select RECDCBASIC.RECDCBASICID,RECDCBASIC.IS_ACTIVE,RECDCBASIC.DOCID,to_char(RECDCBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RDELBASIC.DOCID as dcno,PARTYMAST.PARTYID,RECDCBASIC.STATUS  from RECDCBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RECDCBASIC.PARTYID LEFT OUTER JOIN RDELBASIC ON RDELBASIC.RDELBASICID = RECDCBASIC.DCNO where RECDCBASIC.IS_ACTIVE = 'N' ORDER BY RECDCBASIC.DOCDATE DESC  ";
 
             }
             DataTable dtt = new DataTable();

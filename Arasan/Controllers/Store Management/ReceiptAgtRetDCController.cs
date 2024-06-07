@@ -130,6 +130,7 @@ namespace Arasan.Controllers
                         tda.Itemlst = BindItemlst(tda.item);
                         tda.itemname = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.itemid = dt2.Rows[i]["CITEMID"].ToString();
 
                         tda.unit = dt2.Rows[i]["UNITID"].ToString();
 
@@ -162,7 +163,7 @@ namespace Arasan.Controllers
             try
             {
                 Cy.ID = id;
-                string Strout = ""; //ReceiptAgtRetDCService.ReceiptAgtRetDCCRUD(Cy);
+                string Strout =ReceiptAgtRetDCService.ReceiptAgtRetDCCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (Cy.ID == null)
@@ -723,9 +724,10 @@ namespace Arasan.Controllers
                         approve = "<a href=ApproveReceiptAgtRetDC?id=" + dtUsers.Rows[i]["RECDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
                         ViewRow = "<a href=ViewReceiptAgtRetDC?id=" + dtUsers.Rows[i]["RECDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                         EditRow = "<a href=ReceiptAgtRetDC?id=" + dtUsers.Rows[i]["RECDCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                        DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["RECDCBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                         DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["RECDCBASICID"].ToString() + "";
+
                     }
-                       
+
                 }
                 else
                 {

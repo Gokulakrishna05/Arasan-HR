@@ -412,10 +412,29 @@ namespace Arasan.Controllers.Store_Management
                 string View = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
+                string priority = string.Empty;
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y" || dtUsers.Rows[i]["IS_ACTIVE"].ToString() == null)
                 {
-                    Issuse = "<a href=ApproveMaterial?&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/issue_icon.png' alt='View Details' width='20' /></a>";
+                    if (dtUsers.Rows[i]["STATUS"].ToString() == "Issued")
+                    {
+                        Issuse = "";
+                        EditRow = "";
+                        View = "";
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(dtUsers.Rows[i]["REASON"].ToString()))
+                        {
+                         
+                            priority = "";
+                        }
+                        else { priority = "1"; }
+                            Issuse = "<a href=ApproveMaterial?&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/issue_icon.png' alt='View Details' width='20' /></a>";
+                        EditRow = "<a href=MaterialRequisition?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
 
+                        View = "<a href=MaterialStatus?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/close_icon.png' alt='View Details' width='20' /></a>";
+                        DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "";
+                    }
                     //if (dtUsers.Rows[i]["STATUS"].ToString() == "Indent")
                     //{
                     //  //  MoveToIndent = "<img src='../Images/tick.png' alt='View Details' width='20' />";
@@ -426,10 +445,7 @@ namespace Arasan.Controllers.Store_Management
                     //   // MoveToIndent = "<a href=IssueToindent?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
                     //    EditRow = "<a href=MaterialRequisition?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     //}
-                    EditRow = "<a href=MaterialRequisition?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-
-                    View = "<a href=MaterialStatus?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/close_icon.png' alt='View Details' width='20' /></a>";
-                    DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "";
+                  
 
                 }
                 else
@@ -456,6 +472,7 @@ namespace Arasan.Controllers.Store_Management
                     move = MoveToIndent,
                     //pdf = Pdf,
                     view = View,
+                    priority = priority,
                     editrow = EditRow,
                     delrow = DeleteRow,
 

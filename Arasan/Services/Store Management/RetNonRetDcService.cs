@@ -34,24 +34,34 @@ namespace Arasan.Services
                 //{
                 //    cy.ID = null;
                 //}
+                string updateCMd = "";
+                if (cy.DcType == "Returnable DC")
+                {
+                    int idc = datatrans.GetDataId("SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'Rdc-' AND ACTIVESEQUENCE = 'T'  ");
+                    string Did = string.Format("{0}{1}", "Rdc-", (idc + 1).ToString());
 
-                //int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'Rdc-' AND ACTIVESEQUENCE = 'T'  ");
-                //string Did = string.Format("{0}{1}", "Rdc-", (idc + 1).ToString());
+                     updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='Rdc-' AND ACTIVESEQUENCE ='T'  ";
+                }
+                if (cy.DcType == "Non-Returnable")
+                {
+                    int idc = datatrans.GetDataId("SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'Ndc-' AND ACTIVESEQUENCE = 'T'  ");
+                    string Did = string.Format("{0}{1}", "Ndc-", (idc + 1).ToString());
 
-                //string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='Rdc-' AND ACTIVESEQUENCE ='T'  ";
-                //try
-                //{
-                //    datatrans.UpdateStatus(updateCMd);
-                //}
-                //catch (Exception ex)
-                //{
-                //    throw ex;
-                //}
+                    updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='Ndc-' AND ACTIVESEQUENCE ='T'  ";
+                }
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
 
                 //string PARTY = datatrans.GetDataString("Select PARTYMASTID from PARTYMAST where PARTYID='" + cy.Party + "' ");
                 //string WID = datatrans.GetDataString("Select WCBASICID from WCBASIC where WCID='" + cy.work + "' ");
 
-                 //string ENTER = datatrans.GetDataString("Select EMPNAME from EMPMAST where EMPMASTID='" + cy.Approved + "' ");
+                //string ENTER = datatrans.GetDataString("Select EMPNAME from EMPMAST where EMPMASTID='" + cy.Approved + "' ");
                 string APPROV = datatrans.GetDataString("Select EMPNAME from EMPMAST where EMPMASTID='" + cy.Approval2 + "' ");
                  
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
@@ -135,10 +145,12 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["ITEMDESC"].ToString();
                                     objCmds.Parameters.Add("LOTYN", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["LOTYN"].ToString();
                                     objCmds.Parameters.Add("VALMETHOD", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["VALMETHOD"].ToString();
-                                    objCmds.Parameters.Add("ITEMACC", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["ITEMACC"].ToString();
                                     objCmds.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["SERIALYN"].ToString();
-                                    objCmds.Parameters.Add("FROMBINID", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["BINID"].ToString();
                                     objCmds.Parameters.Add("ITEMSUBCAT", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["SUBCATEGORY"].ToString();
+
+                                    objCmds.Parameters.Add("ITEMACC", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["ITEMACC"].ToString();
+                                    
+                                    objCmds.Parameters.Add("FROMBINID", OracleDbType.NVarchar2).Value = itemdsc.Rows[0]["BINID"].ToString();
 
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
@@ -490,12 +502,12 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "select RDELBASIC.RDELBASICID,RDELBASIC.IS_ACTIVE,RDELBASIC.DOCID,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RDELBASIC.DELTYPE,PARTYMAST.PARTYID,RDELBASIC.STATUS from RDELBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RDELBASIC.PARTYID where RDELBASIC.IS_ACTIVE = 'Y' ORDER BY RDELBASICID DESC";
+                SvSql = "select RDELBASIC.RDELBASICID,RDELBASIC.IS_ACTIVE,RDELBASIC.DOCID,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RDELBASIC.DELTYPE,PARTYMAST.PARTYID,RDELBASIC.STATUS from RDELBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RDELBASIC.PARTYID where RDELBASIC.IS_ACTIVE = 'Y' ORDER BY RDELBASIC.DOCDATE DESC";
 
             }
             else
             {
-                SvSql = "select RDELBASIC.RDELBASICID,RDELBASIC.IS_ACTIVE,RDELBASIC.DOCID,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RDELBASIC.DELTYPE,PARTYMAST.PARTYID,RDELBASIC.STATUS from RDELBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RDELBASIC.PARTYID where RDELBASIC.IS_ACTIVE = 'N' ORDER BY RDELBASICID DESC";
+                SvSql = "select RDELBASIC.RDELBASICID,RDELBASIC.IS_ACTIVE,RDELBASIC.DOCID,to_char(RDELBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RDELBASIC.DELTYPE,PARTYMAST.PARTYID,RDELBASIC.STATUS from RDELBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = RDELBASIC.PARTYID where RDELBASIC.IS_ACTIVE = 'N' ORDER BY RDELBASIC.RDELBASICID DESC";
 
             }
             DataTable dtt = new DataTable();
