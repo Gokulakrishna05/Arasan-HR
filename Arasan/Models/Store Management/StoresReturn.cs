@@ -23,6 +23,7 @@ namespace Arasan.Models
 
         public List<SelectListItem> Loc;
         public string Location { get; set; }
+        public string toloc { get; set; }
         public string ddlStatus { get; set; }
         public List<StoreItem> StrLst { get; set; }
     }
@@ -56,7 +57,7 @@ namespace Arasan.Models
     }
     public class ListStoresReturnItem
     {
-        public long id { get; set; }
+        public string id { get; set; }
         public string toloc { get; set; }
         public string docNo { get; set; }
         public string location { get; set; }
@@ -66,7 +67,7 @@ namespace Arasan.Models
         public string delrow { get; set; }
         public string refdate { get; set; }
         //public string pdf { get; set; }
-        //public string view { get; set; }
+        public string view { get; set; }
         //public string acc { get; set; }
         //public string pono { get; set; }
         //public string Account { get; set; }

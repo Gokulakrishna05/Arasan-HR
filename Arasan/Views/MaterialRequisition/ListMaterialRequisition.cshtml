@@ -40,7 +40,11 @@
         @:alert('@TempData["notice"]');
     }
 </script>
-
+  <style>
+        .yellowCell {
+            background-color: green;
+        }
+    </style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -83,6 +87,7 @@
                 { name: 'view', type: 'string' },
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
+                { name: 'priority', type: 'string' },
             ],
            id: 'piid',
         };
@@ -94,6 +99,14 @@
     }
 }
         );
+         var cellclassname = function (row, column, value, data) {
+                var val = $('#grid').jqxGrid('getcellvalue', row, "priority");
+                if (val == 1) {
+                    return "yellowCell";
+                }
+            }
+
+
         //alert(JSON.stringify(employeesAdapter));
 
         var ordersSource =
@@ -208,19 +221,19 @@
                 columns: [
 
                      //{ text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
-                    { text: 'Doc Id', filtertype: 'input', datafield: 'docid', width: 150 },
-                    { text: 'Doc Date', datafield: 'docDate', width: 100, align: 'center' },
-                    { text: 'Location', filtertype: 'checkedlist', datafield: 'location', width: 130 },
-                    { text: 'Entered By', filtertype: 'checkedlist', datafield: 'enter', width: 130 },
-                    { text: 'Entered On', filtertype: 'checkedlist', datafield: 'enterdate', width: 180 },
+                    { text: 'Doc Id', filtertype: 'input', datafield: 'docid', width: 150,cellclassname: cellclassname },
+                    { text: 'Doc Date', datafield: 'docDate', width: 100, align: 'center',cellclassname: cellclassname },
+                    { text: 'Location', filtertype: 'checkedlist', datafield: 'location', width: 130 ,cellclassname: cellclassname},
+                    { text: 'Requsted By', filtertype: 'checkedlist', datafield: 'enter', width: 130,cellclassname: cellclassname },
+                    { text: 'Requsted On', filtertype: 'checkedlist', datafield: 'enterdate', width: 180,cellclassname: cellclassname },
                     //{ text: 'Work Center', filtertype: 'checkedlist', datafield: 'work', width: 150 },
                     //{ text: 'Send Mail', datafield: 'mailrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     //{ text: 'Follow Up', datafield: 'follow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Issue Quantity', datafield: 'iss', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
+                    { text: 'Issue Quantity', datafield: 'iss', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 ,cellclassname: cellclassname},
                     //{ text: 'Indent Creation', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
-                    { text: 'Short Close', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 160 },
-                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false,cellsrenderer: linkrenderer1, cellsalign: 'center', width: 70 },
+                    { text: 'Short Close', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 160,cellclassname: cellclassname },
+                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70,cellclassname: cellclassname },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false,cellsrenderer: linkrenderer1, cellsalign: 'center', width: 70,cellclassname: cellclassname },
                     //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
  ]
             });
@@ -247,11 +260,11 @@
                 <div class="widgets-container">
 
                     <form>
+                             
                             <div class="row">
-                            <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                     <label for="inputName3" class="col-sm-3 control-label">From Date  <label class="mandatory"></label></label>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-9">
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
 
                                             @*@Html.TextBoxFor(C => C.SStart, new { @id = "SStart", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })*@
@@ -262,9 +275,9 @@
                                     </div>
                                 </div>
                             
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                     <label for="inputName3" class="col-sm-3 control-label"> To date  <label class="mandatory"></label></label>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-9">
 
                                         <div class="input-group date to_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
 
@@ -272,13 +285,17 @@
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 
                                         </div>
-                                        <button type="button" class="btn btn-primary  marginright" id="btnSave" value="Run" onclick="loadReport()">Search</button>
-
+ 
                                     </div>
 
                                  </div>
+                             <div class="col-md-2">
+
+                                <button type="button" class="btn btn-info  marginright" id="btnSave" value="Run" onclick="loadReport()">Search</button>
+
+                                </div>
+
                             </div>
-                        </div>
                         <div class="row">
                             <div class="col-md-2 ">
                                 @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]

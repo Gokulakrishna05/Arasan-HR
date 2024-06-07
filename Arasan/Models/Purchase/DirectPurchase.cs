@@ -94,7 +94,10 @@ namespace Arasan.Models
         public string ItemId { get; set; }
         public string gst { get; set; }
         public string saveItemId { get; set; }
-        public string Inddetid { get; set; }
+        
+        public string indentno { get; set; }
+        public string indentdate { get; set; }
+        public string inddetid { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
         public List<SelectListItem> gstlst { get; set; }
 

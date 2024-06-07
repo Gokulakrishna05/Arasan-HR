@@ -12,9 +12,12 @@ namespace Arasan.Interface.Stores_Management
         DataTable GetBranch();
         string StoresReturnCRUD(StoresReturn cy);
         string StatusChange(string tag, string id);
+        string StatusActChange(string tag, string id);
         DataTable GetItem(string id);
         DataTable GetStoresReturn(string id);
+        DataTable GetStoresReturnview(string id);
         DataTable GetSRItemDetails(string id);
+        DataTable GetSRItemDetailsview(string id);
         IEnumerable<StoreItem> GetAllStoresReturnItem(string id);
         DataTable GetItemCF(string ItemId, string unitid);
         DataTable Getstkqty(string ItemId, string loc, string branch);

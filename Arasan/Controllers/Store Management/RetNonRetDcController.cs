@@ -109,12 +109,13 @@ namespace Arasan.Controllers
                     {
                         tda = new RetNonRetDcItem();
                         double toaamt = 0;
-                       
-                       // tda.Itemlst = BindItemlst(tda.subgrp);
-                        tda.item = dt2.Rows[i]["ITEMID"].ToString();
-                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+
+                        // tda.Itemlst = BindItemlst(tda.subgrp);
+                        tda.Itemlst = BindItemlst(ca.Location, ca.Stock);
+                        tda.item = dt2.Rows[i]["CITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["CITEMID"].ToString();
                         DataTable dt4 = new DataTable();
-                        dt4 = RetNonRetDcService.GetRetItemDetail(tda.item);
+                        dt4 = RetNonRetDcService.GetRetItemDetail(tda.saveItemId);
                         if (dt4.Rows.Count > 0)
                         {
                             tda.Unit = dt4.Rows[0]["UNITID"].ToString();
@@ -761,7 +762,8 @@ namespace Arasan.Controllers
                     Generate = "<a href=Print?id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + "  ><img src='../Images/pdf.png' alt='Generate' width='20' /></a>";
 
                     ViewRow = "<a href=ViewRetNonRetDc?id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["RDELBASICID"].ToString() + "";
+
                 }
                 else
                 {

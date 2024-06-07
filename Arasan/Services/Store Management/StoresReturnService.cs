@@ -113,6 +113,26 @@ public class StoresReturnService : IStoresReturnService
         adapter.Fill(dtt);
         return dtt;
     }
+    public DataTable GetSRItemDetailsview(string id)
+    {
+        string SvSql = string.Empty;
+        SvSql = "Select STORESRETDETAIL.QTY,STORESRETDETAIL.STORESRETDETAILID,ITEMMASTER.ITEMID,STORESRETDETAIL.UNIT,UNITMAST.UNITID,RATE,AMOUNT,CONVFACTOR,FROMBINID,BINBASIC.BINID from STORESRETDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESRETDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESRETDETAIL.UNIT LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=STORESRETDETAIL.ITEMID LEFT OUTER JOIN BINBASIC ON BINBASIC.BINBASICID=STORESRETDETAIL.TOBINID  where STORESRETDETAIL.STORESRETBASICID='" + id + "'";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable GetStoresReturnview(string id)
+    {
+        string SvSql = string.Empty;
+        SvSql = "Select BRANCHMAST.BRANCHID,STORESRETBASIC.DOCID,to_char(STORESRETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,LOC.LOCID as toloc,to_char(STORESRETBASIC.REFDATE,'dd-MON-yyyy')REFDATE,STORESRETBASIC.REFNO,STORESRETBASIC.NARRATION,STORESRETBASICID  from STORESRETBASIC left outer join BRANCHMAST ON BRANCHMAST.BRANCHMASTID=STORESRETBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=STORESRETBASIC.FROMLOCID LEFT OUTER JOIN LOCDETAILS LOC ON LOC.LOCDETAILSID=STORESRETBASIC.TOLOCID where STORESRETBASIC.STORESRETBASICID=" + id + "";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
     public DataTable GetBranch()
     {
         string SvSql = string.Empty;
@@ -144,7 +164,7 @@ public class StoresReturnService : IStoresReturnService
 
 
             int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'SRt-' AND ACTIVESEQUENCE = 'T'");
-            string docid = string.Format("{0}{1}", "SRt-", (idc + 1).ToString());
+            string docid = string.Format("{0}{1}", "SRt-",(idc + 1).ToString());
 
             string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='SRt-' AND ACTIVESEQUENCE ='T'";
             try
@@ -346,17 +366,40 @@ public class StoresReturnService : IStoresReturnService
         return "";
 
     }
+    public string StatusActChange(string tag, string id)
+    {
+
+        try
+        {
+            string svSQL = string.Empty;
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                svSQL = "UPDATE STORESRETBASIC SET IS_ACTIVE ='Y' WHERE STORESRETBASICID='" + id + "'";
+                OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                objConnT.Open();
+                objCmds.ExecuteNonQuery();
+                objConnT.Close();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return "";
+
+    }
 
     public DataTable GetAllListStoresReturnItems(string strStatus)
     {
         string SvSql = string.Empty;
         if (strStatus == "Y" || strStatus == null)
         {
-            SvSql = "Select loc.LOCID as location,LOCDETAILS.LOCID,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,to_char(REFDATE,'dd-MON-yyyy')REFDATE,NARRATION,STORESRETBASICID from STORESRETBASIC LEFT OUTER JOIN LOCDETAILS loc ON loc.LOCDETAILSID=STORESRETBASIC.TOLOCID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=STORESRETBASIC.FROMLOCID AND STORESRETBASIC.IS_ACTIVE='Y' ORDER BY STORESRETBASICID DESC";
+            SvSql = "Select loc.LOCID as location,LOCDETAILS.LOCID,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,to_char(REFDATE,'dd-MON-yyyy')REFDATE,NARRATION,STORESRETBASICID,STORESRETBASIC.IS_ACTIVE from STORESRETBASIC LEFT OUTER JOIN LOCDETAILS loc ON loc.LOCDETAILSID=STORESRETBASIC.TOLOCID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=STORESRETBASIC.FROMLOCID AND STORESRETBASIC.IS_ACTIVE='Y' ORDER BY STORESRETBASICID DESC";
         }
         else
         {
-            SvSql = "Select loc.LOCID as location,LOCDETAILS.LOCID,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,to_char(REFDATE,'dd-MON-yyyy')REFDATE,NARRATION,STORESRETBASICID from STORESRETBASIC LEFT OUTER JOIN LOCDETAILS loc ON loc.LOCDETAILSID=STORESRETBASIC.TOLOCID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=STORESRETBASIC.FROMLOCID AND STORESRETBASIC.IS_ACTIVE='N' ORDER BY STORESRETBASICID DESC";
+            SvSql = "Select loc.LOCID as location,LOCDETAILS.LOCID,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,to_char(REFDATE,'dd-MON-yyyy')REFDATE,NARRATION,STORESRETBASICID,STORESRETBASIC.IS_ACTIVE from STORESRETBASIC LEFT OUTER JOIN LOCDETAILS loc ON loc.LOCDETAILSID=STORESRETBASIC.TOLOCID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=STORESRETBASIC.FROMLOCID AND STORESRETBASIC.IS_ACTIVE='N' ORDER BY STORESRETBASICID DESC";
         }
         DataTable dtt = new DataTable();
         OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
