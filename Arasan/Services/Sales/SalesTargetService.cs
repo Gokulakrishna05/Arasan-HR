@@ -103,6 +103,29 @@ namespace Arasan.Services.Sales
             return "";
 
         }
+        public string DeleteSTDetail(string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "DELETE from SALFCDETAIL  WHERE SALFCDETAILID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
         public string SalesTargetCRUD(SalesTarget cy)
         {
             string msg = "";
@@ -226,7 +249,99 @@ namespace Arasan.Services.Sales
 
             return msg;
         }
+        public string ESTDetailCRUD(SalesTarget cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
 
+                datatrans = new DataTransactions(_connectionString);
+
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    objConn.Open();
+                    string Pid = cy.PID;
+                    foreach (SalesTargetItem cp in cy.Targetlst)
+                    {
+                        if (cp.ItemId != "0")
+                        {
+
+                            OracleCommand objCmds = new OracleCommand("SALFCDETAILPROC", objConn);
+                             StatementType = "Update";
+                            objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cp.ID;
+                             objCmds.CommandType = CommandType.StoredProcedure;
+                            objCmds.Parameters.Add("SALFCBASICID", OracleDbType.NVarchar2).Value = Pid;
+                            objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
+                            objCmds.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cp.PartyId;
+                            objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
+                            objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
+                            objCmds.Parameters.Add("SAMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
+                            objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                            objCmds.ExecuteNonQuery();
+
+                        }
+                    }
+                    objConn.Close();
+                }
+               
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string ESalesTargetCRUD (SalesTarget cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                datatrans = new DataTransactions(_connectionString);
+
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    objConn.Open();
+                    string Pid = cy.ID;
+                    foreach (SalesTargetItem cp in cy.Targetlst)
+                    {
+                        if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                        {
+
+                            OracleCommand objCmds = new OracleCommand("SALFCDETAILPROC", objConn);
+                            StatementType = "Insert";
+                            objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+                            objCmds.CommandType = CommandType.StoredProcedure;
+                            objCmds.Parameters.Add("SALFCBASICID", OracleDbType.NVarchar2).Value = Pid;
+                            objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
+                            objCmds.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cp.PartyId;
+                            objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
+                            objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
+                            objCmds.Parameters.Add("SAMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
+                            objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                            objCmds.ExecuteNonQuery();
+
+                        }
+                    }
+                    objConn.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
         public DataTable GetSalesTargetDeatils(string id)
         {
             string SvSql = string.Empty;

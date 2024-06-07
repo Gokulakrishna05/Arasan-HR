@@ -16,5 +16,8 @@ namespace Arasan.Interface.Sales
         DataTable SalesDeatils(string id);
         string SalesTargetCRUD(SalesTarget cy);
         string StatusChange(string tag, string id);
+        string ESalesTargetCRUD(SalesTarget cy);
+        string ESTDetailCRUD(SalesTarget cy);
+        string DeleteSTDetail(string id);
     }
 }
