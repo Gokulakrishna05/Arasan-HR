@@ -7,7 +7,7 @@
         width: 120px;
     }
 
-    .mandatory {
+    .Mandatory {
         color: red;
         position: relative;
         top: 2px;
@@ -93,7 +93,7 @@
                                         <div class="form-group">
 
 
-                                            <br /> <label for="inputName3" class="col-sm-4 control-label">For The Month Of<label class="Mandatory"></label></label>
+                                            <br /> <label for="inputName3" class="col-sm-4 control-label">For The Month Of <label class="Mandatory">*</label></label>
                                             <div class="col-sm-8">
                                                 @Html.DropDownListFor(C => C.ForMonth, Model.mnthlst," -- Please Select -- ", new { @id = "ddlmnth", @Class = "form-control _select", @TabIndex = 1 ,@onchange="changemnth(this.value)"})
 
@@ -121,7 +121,7 @@
                                         <div class="form-group">
 
 
-                                            <br /><label for="inputName3" class="col-sm-4 control-label">Holidays<label class="Mandatory"></label></label>
+                                            <br /><label for="inputName3" class="col-sm-4 control-label">Holidays <label class="Mandatory">*</label></label>
                                             <div class="col-sm-8">
                                                 @Html.TextBoxFor(C => C.Hd, new { @id = "Hd", @class = "form-control", @TabIndex = 2 ,@onkeyup="changedays(this.value)" })
 
@@ -135,7 +135,7 @@
                                         <div class="form-group">
 
 
-                                            <br />  <label for="inputName3" class="col-sm-4 control-label">Prod Start Date<label class="Mandatory"></label></label>
+                                            <br />  <label for="inputName3" class="col-sm-4 control-label">Prod Start Date <label class="Mandatory">*</label></label>
                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                                 @Html.TextBoxFor(C => C.Fordate, new { @id = "Fordate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true ,@onchange="changedays(this.value)"})
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -144,7 +144,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <br /> <label for="inputName3" class="col-sm-4 control-label">End Date<label class="Mandatory"></label></label>
+                                            <br /> <label for="inputName3" class="col-sm-4 control-label">End Date <label class="Mandatory">*</label></label>
                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                                 @Html.TextBoxFor(C => C.Enddate, new { @id = "Enddate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true,@onchange="changedays(this.value)" })
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -1363,7 +1363,7 @@
                                 </div>*@
                                 <div style="height:30px;"></div>
                                 <div class="col-lg-10"></div>
-                                <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                                <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                                 <button class="btn btn-danger" type="button">Cancel</button><br />
 
                             </form>
@@ -2748,4 +2748,86 @@ if (targethrs == "")
 
 
             }
+</script>
+<script>
+ $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("ddlmnth").value == "") {
+                isValid = false;
+                $(ddlmnth).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Month");
+                return false;
+            }
+            else {
+                $(ddlmnth).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+             if (document.getElementById("Hd").value == "") {
+                isValid = false;
+                $(Hd).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Holidays");
+                return false;
+            }
+            else {
+                $(Hd).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("Fordate").value == "") {
+                isValid = false;
+                $(Fordate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please select From Date");
+                return false;
+            }
+            else {
+                $(Fordate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("Enddate").value == "") {
+                isValid = false;
+                $(Enddate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please select To Date");
+                return false;
+            }
+            else {
+                $(Enddate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            
+
+if (isValid == false)
+                        e.preventDefault();
+
+
+
+        });
+
+    });
 </script>
