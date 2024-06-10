@@ -130,6 +130,26 @@ AND 'AGAINST PURCHASE INDENT' = 'AGAINST PURCHASE INDENT' ";
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetDirectPurchaseItemDetailsView(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = " Select DPDETAIL.QTY,DPDETAIL.DPDETAILID,ITEMMASTER.ITEMID,INDENTDT,INDENTNO,UNITMAST.UNITID,RATE,TOTAMT,DISC,DISCAMOUNT,IFREIGHTCH,PURTYPE,AMOUNT,CF,CGSTP,SGSTP,IGSTP,CGST,SGST,IGST  from DPDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DPDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT   where DPDETAIL.DPBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetDirectPurchaseView(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select BRANCHMAST.BRANCHID,PARTYMAST.PARTYID,DPBASIC.DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.VOUCHER,to_char(DPBASIC.REFDT,'dd-MON-yyyy')REFDT,LOCDETAILS.LOCID,CURRENCY.MAINCURR,DPBASIC.GROSS,DPBASIC.NET,DPBASIC.FREIGHT,DPBASIC.OTHERCH,DPBASIC.ROUNDM,DPBASIC.OTHERDISC,DPBASIC.LRCH,DPBASIC.DELCH,DPBASIC.NARR,DPBASICID  from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=DPBASIC.PARTYID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DPBASIC.LOCID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=DPBASIC.MAINCURRENCY  where DPBASIC.DPBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string DPACC(GRN cy)
         {
             string msg = "";
@@ -569,7 +589,7 @@ AND 'AGAINST PURCHASE INDENT' = 'AGAINST PURCHASE INDENT' ";
             {
                 SvSql += "Where DPBASIC.IS_ACTIVE='N'";
             }
-            SvSql += " ORDER BY DPBASICID DESC";
+            SvSql += " ORDER BY DPBASIC.DOCDATE DESC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

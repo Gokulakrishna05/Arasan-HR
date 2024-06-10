@@ -371,7 +371,9 @@ namespace Arasan.Controllers
                 string MoveToGRN = string.Empty;
                 string Print = string.Empty;
                 string Account = string.Empty;
-               
+                string view = string.Empty;
+                view = "<a href=ViewDirectPurchase?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+
                 MailRow = "<a href=DirectPurchase?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
                 EditRow = "<a href=DirectPurchase?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 Print = "<a href=Print?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + " target='_blank'><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
@@ -413,6 +415,7 @@ namespace Arasan.Controllers
                     delrow = DeleteRow,
                     move = MoveToGRN,
                     print = Print,
+                    view = view,
                     account= Account
 
                 });
@@ -1806,6 +1809,92 @@ AND A.ITEMMASTERID=ID.ITEMID ";
 
             return File(result.MainStream, "application/Pdf");
           
+        }
+
+        public IActionResult ViewDirectPurchase(string id)
+        {
+            DirectPurchase ca = new DirectPurchase();
+           
+            List<DirItem> TData = new List<DirItem>();
+            DirItem tda = new DirItem();
+            
+
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = directPurchase.GetDirectPurchaseView(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.Supplier = dt.Rows[0]["PARTYID"].ToString();
+                    ca.DocNo = dt.Rows[0]["DOCID"].ToString();
+                    ca.ID = id;
+                    ca.Currency = dt.Rows[0]["MAINCURR"].ToString();
+                    ca.RefDate = dt.Rows[0]["REFDT"].ToString();
+                    ca.Voucher = dt.Rows[0]["VOUCHER"].ToString();
+                    ca.Location = dt.Rows[0]["LOCID"].ToString();
+                    ca.Narration = dt.Rows[0]["NARR"].ToString();
+                    ca.LRCha = Convert.ToDouble(dt.Rows[0]["LRCH"].ToString() == "" ? "0" : dt.Rows[0]["LRCH"].ToString());
+                    ca.DelCh = Convert.ToDouble(dt.Rows[0]["DELCH"].ToString() == "" ? "0" : dt.Rows[0]["DELCH"].ToString());
+                    ca.Other = Convert.ToDouble(dt.Rows[0]["OTHERCH"].ToString() == "" ? "0" : dt.Rows[0]["OTHERCH"].ToString());
+                    ca.Frieghtcharge = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["FREIGHT"].ToString());
+                    ca.Disc = Convert.ToDouble(dt.Rows[0]["OTHERDISC"].ToString() == "" ? "0" : dt.Rows[0]["OTHERDISC"].ToString());
+                    ca.Round = Convert.ToDouble(dt.Rows[0]["ROUNDM"].ToString() == "" ? "0" : dt.Rows[0]["ROUNDM"].ToString());
+
+                    ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+                    ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+
+                }
+                DataTable dt2 = new DataTable();
+                dt2 = directPurchase.GetDirectPurchaseItemDetailsView(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new DirItem();
+                        double toaamt = 0;
+                       
+                      
+                       
+                        
+                        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.indentno = dt2.Rows[i]["INDENTNO"].ToString();
+                        tda.indentdate = dt2.Rows[i]["INDENTDT"].ToString();
+                     
+
+                             
+                            tda.rate = Convert.ToDouble(dt2.Rows[0]["RATE"].ToString());
+               
+                        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                         
+                        tda.Amount = Convert.ToDouble(dt2.Rows[i]["AMOUNT"].ToString());
+                    tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                        //tda.PURLst = BindPurType();
+                        //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
+
+                        tda.Disc = Convert.ToDouble(dt2.Rows[i]["DISC"].ToString() == "" ? "0" : dt2.Rows[i]["DISC"].ToString());
+                        tda.DiscAmount = Convert.ToDouble(dt2.Rows[i]["DISCAMOUNT"].ToString() == "" ? "0" : dt2.Rows[i]["DISCAMOUNT"].ToString());
+
+                        tda.FrigCharge = Convert.ToDouble(dt2.Rows[i]["IFREIGHTCH"].ToString() == "" ? "0" : dt2.Rows[i]["IFREIGHTCH"].ToString());
+                        tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
+                        tda.CGSTP = Convert.ToDouble(dt2.Rows[i]["CGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTP"].ToString());
+                        tda.SGSTP = Convert.ToDouble(dt2.Rows[i]["SGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTP"].ToString());
+                        tda.IGSTP = Convert.ToDouble(dt2.Rows[i]["IGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTP"].ToString());
+                        tda.CGST = Convert.ToDouble(dt2.Rows[i]["CGST"].ToString() == "" ? "0" : dt2.Rows[i]["CGST"].ToString());
+                        tda.SGST = Convert.ToDouble(dt2.Rows[i]["SGST"].ToString() == "" ? "0" : dt2.Rows[i]["SGST"].ToString());
+                        tda.IGST = Convert.ToDouble(dt2.Rows[i]["IGST"].ToString() == "" ? "0" : dt2.Rows[i]["IGST"].ToString());
+                        // tda.PurType = dt2.Rows[i]["PURTYPE"].ToString();
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
+                }
+                 
+
+           
+            ca.DirLst = TData;
+            return View(ca);
+
         }
     }
 }

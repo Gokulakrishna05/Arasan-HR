@@ -25,7 +25,9 @@ namespace Arasan.Interface
         string DPACC(GRN cy);
         IEnumerable<DirectPurchase> GetAllDirectPur(string status);
         DataTable GetDirectPurchase(string id);
+        DataTable GetDirectPurchaseView(string id);
         DataTable GetDirectPurchaseItemDetails(string id);
+        DataTable GetDirectPurchaseItemDetailsView(string id);
         IEnumerable<DirItem> GetAllDirectPurItem(string id);
 
         string StatusChange(string tag, string id);

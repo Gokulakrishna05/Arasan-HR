@@ -47,6 +47,7 @@
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
                 { name: 'move', type: 'string' }, 
+                { name: 'view', type: 'string' }, 
                 { name: 'gross', type: 'string' },
                 { name: 'net', type: 'string' },
                 { name: 'print', type: 'string' },
@@ -90,6 +91,7 @@
                     { text: 'Gross', datafield: 'gross', width: 150, align: 'center' },
                     { text: 'Net', datafield: 'net', width: 150, align: 'center' },
                     { text: 'Print', datafield: 'print', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                   //  { text: 'Account', datafield: 'account', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     //{ text: 'Send Mail', datafield: 'mailrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     //{ text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
@@ -165,10 +167,7 @@
             width: '80%',
             height: '10%',
             arrows: false,
-            afterClose: function () {
-                location.reload();
-                return;
-            }
+           
         });
         fancybox123 = $.fancybox;
     });

@@ -233,7 +233,7 @@
                                                             @Html.DropDownListFor(o => o.DirLst[i].ItemId, Model.DirLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
                                                             @Html.HiddenFor(o => o.DirLst[i].saveItemId)
                                                             @Html.HiddenFor(o => o.DirLst[i].ConvQty,new{@id="txtPriqty" +i})
-                                                            @Html.HiddenFor(o => o.DirLst[i].Inddetid,new{@id="txtInddetid"+i})
+                                                           
                                                         </td>
                                                         <td>
                                                             @Html.DropDownListFor(o => o.DirLst[i].gst, Model.DirLst[i].gstlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlgst" + i, style = "width: 150px;", onchange = "changeGst(this.value," + i + ")" })
