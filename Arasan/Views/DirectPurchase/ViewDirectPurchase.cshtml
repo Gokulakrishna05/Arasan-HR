@@ -1,7 +1,7 @@
-﻿@model Arasan.Models.GRN
+﻿@model Arasan.Models.DirectPurchase
 @{
     Layout = "_PopupLayout";
-    ViewData["Title"] = "GRN";
+    ViewData["Title"] = "Direct Purchase";
 }
 <style>
     .newwidth {
@@ -127,7 +127,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Purchase</a> </li>
-            <li class="active"> <strong>GRN</strong> </li>
+            <li class="active"> <strong>Direct Purchase</strong> </li>
         </ol>
     </div>
 </div>
@@ -158,10 +158,10 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">GRN No.<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Doc No.<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
 
-                                        @Html.DisplayFor(C => C.GRNNo) @Html.HiddenFor(C => C.GRNNo)<br>
+                                        @Html.DisplayFor(C => C.DocNo) @Html.HiddenFor(C => C.DocNo)<br>
                                     </div>
                                 </div>
                             </div>
@@ -172,9 +172,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">GRN Date<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.GRNdate) @Html.HiddenFor(C => C.GRNdate)<br>
+                                        @Html.DisplayFor(C => C.DocDate) @Html.HiddenFor(C => C.DocDate)<br>
 
                                     </div>
                                 </div>
@@ -183,7 +183,7 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Currency<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.Cur) @Html.HiddenFor(C => C.Cur)<br>
+                                        @Html.DisplayFor(C => C.Currency) @Html.HiddenFor(C => C.Currency)<br>
                                         <br />
                                     </div>
                                 </div>
@@ -191,37 +191,29 @@
                         </div>
 
                         <div class="row">
+                            
                             <div class="col-md-6">
                                 <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="mandatory"></label></label>
-                                    <div class="col-sm-8">
-
-                                        @Html.DisplayFor(C => C.ExRate) @Html.HiddenFor(C => C.ExRate)<br>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Supplier Invoice. No.<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Ref No.<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.DisplayFor(C => C.RefNo) @Html.HiddenFor(C => C.RefNo)<br>
                                         <br />
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Supplier Invoice. Date<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Ref Date<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
 
                                         @Html.DisplayFor(C => C.RefDate) @Html.HiddenFor(C => C.RefDate)<br>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Party Name<label class="mandatory"></label></label>
@@ -231,19 +223,17 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
+                              <div class="col-md-6">
                                 <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Address<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-
-                                        @Html.DisplayFor(C => C.address) @Html.HiddenFor(C => C.address)<br>
+                                        @Html.DisplayFor(C => C.Location) @Html.HiddenFor(C => C.Location)<br>
+                                        <br />
                                     </div>
                                 </div>
                             </div>
-                            </div>
+                        </div>
+                        
                             <br />
 
                             <div style="height:30px;"></div>
@@ -257,10 +247,11 @@
                                                 <div>
                                                     <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                         <thead>
-                                                    <th> Item </th>
-                                                    <th>Unit</th>
+                                                    <th> Indent No </th>
+                                                    <th>Indent Date</th>
                                                     
-                                                   
+                                                       <th> Item </th>
+                                                    <th>Unit</th>
                                                     <th>Rate </th>
                                                     <th> Qty</th>
                                                     
@@ -275,7 +266,7 @@
                                                     <th>IGST</th>
                                                     <th>Total Amount</th>
                                                   
-                                                    <th>Purchase Type</th>
+                                                
 
                                                         </thead>
 
@@ -283,25 +274,27 @@
                                                             @{
                                                                 int i = 0;
 
-                                                            foreach (var item in Model.PoItem.ToList())
+                                                            foreach (var item in Model.DirLst.ToList())
                                                                 {
 
                                                                     <tr>
-                                                                    <td>@Html.DisplayFor(o => o.PoItem[i].ItemId)</td>
-                                                                    <td>@Html.DisplayFor(o => o.PoItem[i].Unit)</td>
-                                                                    <td>@Html.DisplayFor(o => o.PoItem[i].rate)</td>
-                                                                    <td>@Html.DisplayFor(o => o.PoItem[i].Quantity)</td>
-                                                                       <td>@Html.DisplayFor(o => o.PoItem[i].DiscAmt)</td>
-                                                                    <td>@Html.DisplayFor(o => o.PoItem[i].CGSTPer)</td>
-                                                                    <td>@Html.DisplayFor(o => o.PoItem[i].SGSTPer)</td>
-                                                                    <td>@Html.DisplayFor(o => o.PoItem[i].IGSTPer)</td>
-                                                                    <td>@Html.DisplayFor(o => o.PoItem[i].CGSTAmt)</td>
-                                                                    <td>@Html.DisplayFor(o => o.PoItem[i].SGSTAmt)</td>
-                                                                    <td>@Html.DisplayFor(o => o.PoItem[i].IGSTAmt)</td>
+                                                                    <td>@Html.DisplayFor(o => o.DirLst[i].indentno)</td>
+                                                                    <td>@Html.DisplayFor(o => o.DirLst[i].indentdate)</td>
+                                                                    <td>@Html.DisplayFor(o => o.DirLst[i].ItemId)</td>
+                                                                    <td>@Html.DisplayFor(o => o.DirLst[i].Unit)</td>
+                                                                    <td>@Html.DisplayFor(o => o.DirLst[i].rate)</td>
+                                                                    <td>@Html.DisplayFor(o => o.DirLst[i].Quantity)</td>
+                                                                       <td>@Html.DisplayFor(o => o.DirLst[i].DiscAmount)</td>
+                                                                    <td>@Html.DisplayFor(o => o.DirLst[i].CGSTP)</td>
+                                                                    <td>@Html.DisplayFor(o => o.DirLst[i].SGSTP)</td>
+                                                                    <td>@Html.DisplayFor(o => o.DirLst[i].IGSTP)</td>
+                                                                    <td>@Html.DisplayFor(o => o.DirLst[i].CGST)</td>
+                                                                    <td>@Html.DisplayFor(o => o.DirLst[i].SGST )</td>
+                                                                    <td>@Html.DisplayFor(o => o.DirLst[i].IGST )</td>
                                                                   
                                                                  
-                                                                    <td>@Html.DisplayFor(o => o.PoItem[i].TotalAmount)</td>
-                                                                    <td>@Html.DisplayFor(o => o.PoItem[i].Purtype)</td>
+                                                                    <td>@Html.DisplayFor(o => o.DirLst[i].TotalAmount)</td>
+                                                                  
 
                                                                     </tr>
 
@@ -348,7 +341,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Other Charges ( + )<label class="mandatory"></label></label>
                             <div class="col-sm-8">
 
-                                        @Html.DisplayFor(C => C.Othercharges) @Html.HiddenFor(C => C.Othercharges)<br>
+                                        @Html.DisplayFor(C => C.Other) @Html.HiddenFor(C => C.Other)<br>
                             </div>
                         </div>
                     </div>
@@ -362,27 +355,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Other Deductions ( - )<label class="mandatory"></label></label>
-                            <div class="col-sm-8">
-
-                                        @Html.DisplayFor(C => C.otherdeduction) @Html.HiddenFor(C => C.otherdeduction)<br>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Round Off ( - )<label class="mandatory"></label></label>
-                            <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.Roundminus) @Html.HiddenFor(C => C.Roundminus)<br>
-                                <br />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -415,7 +388,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                           @* <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Truck No.<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
@@ -423,9 +396,9 @@
                                         <br />
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
-                        <div class="row">
+                    @*    <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -466,7 +439,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
                             <div style="height:30px;"></div>
 

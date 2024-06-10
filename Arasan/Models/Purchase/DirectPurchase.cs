@@ -104,7 +104,7 @@ namespace Arasan.Models
         public List<SelectListItem>  ItemGrouplst { get; set; }
         public List<SelectListItem> Indentlst { get; set; }
         public string IndentId { get; set; }
-        public string IndentDate { get; set; }
+       // public string IndentDate { get; set; }
         public string ItemGroupId { get; set; }
         public double FrigCharge { get; set; }
         public double ConvQty { get; set; }
@@ -150,6 +150,7 @@ namespace Arasan.Models
         public string delrow { get; set; }
         public string print { get; set; }
         public string move { get; set; }
+        public string view { get; set; }
         public string Accrow { get; set; }
         public string gross { get; set; }
         public string net { get; set; }
