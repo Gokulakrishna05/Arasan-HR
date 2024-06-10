@@ -1,15 +1,8 @@
-﻿using System.Collections.Generic;
-using Arasan.Interface.Master;
-using System.Data;
-using System.Security.Cryptography.Pkcs;
-using System.Xml.Linq;
-using Arasan.Interface.Production;
+﻿using Arasan.Interface.Production;
 using Arasan.Models;
-using Arasan.Services;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
-using Arasan.Services.Store_Management;
-using Arasan.Interface;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Data;
 
 namespace Arasan.Controllers.Production
 {

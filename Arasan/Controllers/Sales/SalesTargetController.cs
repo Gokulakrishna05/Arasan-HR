@@ -130,6 +130,66 @@ namespace Arasan.Controllers.Sales
 
             return View(Cy);
         }
+        [HttpPost]
+        public ActionResult EditSalesTarget(SalesTarget Cy, string id)
+        {
+
+            try
+            {
+
+                string Strout = SalesTargetService.ESalesTargetCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                 TempData["notice"] = "SalesTarget Inserted Successfully...!";
+                 return RedirectToAction("EditSalesTarget", new {id= Cy .ID});
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit SalesTarget";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
+        [HttpPost]
+        public ActionResult EditRow(SalesTarget Cy, string id)
+        {
+
+            try
+            {
+
+                string Strout = SalesTargetService.ESTDetailCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    TempData["notice"] = "SalesTarget Inserted Successfully...!";
+                    return RedirectToAction("EditSalesTarget", new { id = Cy.ID });
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit SalesTarget";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
         public IActionResult ListSalesTarget()
         {
             return View();
@@ -170,8 +230,17 @@ namespace Arasan.Controllers.Sales
                     TData.Add(tda);
                 }
             }
+            List<SalesTargetItem> TData2 = new List<SalesTargetItem>();
+            SalesTargetItem tda2 = new SalesTargetItem();
+                tda2 = new SalesTargetItem();
+                tda2.Itemlst = BindItemlst();
+                tda2.Partylst = BindGParty();
+                tda2.Isvalid = "Y";
+                TData2.Add(tda2);
+            
+            ca.VTargetlst = TData;
 
-            ca.Targetlst = TData;
+            ca.Targetlst = TData2;
             return View(ca);
         }
         public IActionResult EditRow(string id)
@@ -181,8 +250,8 @@ namespace Arasan.Controllers.Sales
             SalesTargetItem tda = new SalesTargetItem();
 
             DataTable dt2 = new DataTable();
-
-            dt2 = datatrans.GetData("SELECT ITEMID,PARTYID,QTY,RATE,SAMOUNT FROM SALFCDETAIL Where SALFCDETAILID IN(" + id + ")");
+           // ca.ID= id;
+            dt2 = datatrans.GetData("SELECT ITEMID,PARTYID,QTY,RATE,SAMOUNT,SALFCDETAILID,SALFCBASICID FROM SALFCDETAIL Where SALFCDETAILID IN(" + id + ")");
             if (dt2.Rows.Count > 0)
             {
                 for (int i = 0; i < dt2.Rows.Count; i++)
@@ -192,9 +261,12 @@ namespace Arasan.Controllers.Sales
                     tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                     tda.Partylst = BindGParty();
                     tda.PartyId = dt2.Rows[i]["PARTYID"].ToString();
+                    tda.Unit= datatrans.GetDataString("select U.UNITID from ITEMMASTER I,UNITMAST U  where I.PRIUNIT=U.UNITMASTID  AND I.ITEMMASTERID='"+ dt2.Rows[i]["ITEMID"].ToString() + "'") ;
                     tda.Quantity = dt2.Rows[i]["QTY"].ToString();
                     tda.rate = dt2.Rows[i]["RATE"].ToString();
                     tda.Amount = dt2.Rows[i]["SAMOUNT"].ToString();
+                    tda.ID= dt2.Rows[i]["SALFCDETAILID"].ToString();
+                    ca.PID = dt2.Rows[i]["SALFCBASICID"].ToString();
                     TData.Add(tda);
                 }
             }
@@ -295,6 +367,12 @@ namespace Arasan.Controllers.Sales
                 TempData["notice"] = flag;
                 return RedirectToAction("ListSalesTarget");
             }
+        }
+        public ActionResult Delrow(String id)
+        {
+            string pid = datatrans.GetDataString("SELECT SALFCBASICID FROM SALFCDETAIL WHERE SALFCDETAILID='"+ id +"'");
+            string flag = SalesTargetService.DeleteSTDetail(id);
+            return RedirectToAction("EditSalesTarget", new { id = pid });
         }
         public List<SelectListItem> BindBranch()
         {

@@ -12,7 +12,7 @@ namespace Arasan.Models
         }
        
         public string ID { get; set; }
-
+        public string PID { get; set; }
         public List<SelectListItem> Brlst;
 
         public string Branch { get; set; }
@@ -23,7 +23,7 @@ namespace Arasan.Models
         public string FDay { get; set; }
         public string TDay { get; set; }
         public string ddlStatus { get; set; }
-
+        public List<SalesTargetItem> VTargetlst { get; set; }
         public List<SalesTargetItem> Targetlst { get; set; }
 
     }
