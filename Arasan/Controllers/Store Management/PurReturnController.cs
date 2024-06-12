@@ -42,7 +42,7 @@ namespace Arasan.Controllers
             DataTable dtv = datatrans.GetSequence("PURRE");
             if (dtv.Rows.Count > 0)
             {
-                ca.RetNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+                ca.RetNo = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
             }
             List<RetItem> TData = new List<RetItem>();
             RetItem tda = new RetItem();
@@ -439,6 +439,7 @@ namespace Arasan.Controllers
                     tda.confac = dtt.Rows[i]["CF"].ToString();
                     tda.rate= dtt.Rows[i]["RATE"].ToString();
                     tda.amount = dtt.Rows[i]["AMOUNT"].ToString();
+                    grnid = dtt.Rows[i]["GRNBLDETAILID"].ToString();
                     tda.disc= Convert.ToDouble(dtt.Rows[i]["DISCPER"].ToString());
                     tda.discAmount= Convert.ToDouble(dtt.Rows[i]["DISC"].ToString());
                     tda.frigcharge= Convert.ToDouble( dtt.Rows[i]["IFREIGHTCH"].ToString() == "" ? "0" :dtt.Rows[i]["IFREIGHTCH"].ToString());
@@ -497,7 +498,7 @@ namespace Arasan.Controllers
             }
         }
 
-        public ActionResult GetGRNBL(string GRNID)
+        public ActionResult GetGRNBL(string GRNID,string doc)
         {
             try
             {
@@ -517,6 +518,7 @@ namespace Arasan.Controllers
                 string gross = "";
                 string net = "";
                 string packing = "";
+                string narr = "";
 
 
                 dt = PurReturn.GetGRNBlDetails(GRNID);
@@ -536,11 +538,14 @@ namespace Arasan.Controllers
                     otherdedu = dt.Rows[0]["OTHER_DEDUCTION"].ToString();
                     gross = dt.Rows[0]["GROSS"].ToString();
                     net = dt.Rows[0]["NET"].ToString();
-                   
 
+
+                    string entat = DateTime.Now.ToString("dd\\/MM\\/yyyy");
+
+                    narr = doc + "--" + entat + " Return Goods To" + party;
                 }
 
-                var result = new { ex = ex, frig = frig, other = other, roundoffplus = roundoffplus, roundoffmin = roundoffmin, otherdedu = otherdedu, gross = gross, net = net, packing = packing, party= party, currency= currency , currencyid = currencyid };
+                var result = new { ex = ex, frig = frig, other = other, roundoffplus = roundoffplus, roundoffmin = roundoffmin, otherdedu = otherdedu, gross = gross, net = net, packing = packing, party= party, currency= currency , currencyid = currencyid, narr= narr };
                 return Json(result);
             }
             catch (Exception ex)
