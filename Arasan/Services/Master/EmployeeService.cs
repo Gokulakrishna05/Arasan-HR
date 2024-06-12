@@ -363,11 +363,11 @@ namespace Arasan.Services.Master
                                 objCmd.Parameters.Add("EMPID", OracleDbType.NVarchar2).Value = EmpID;
                                 objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = mp.Location[i];
 
-                            objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                      
                             objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = mp.CreadtedBy;
-                                
-                           
-                            
+
+                            objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+
 
                             objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 

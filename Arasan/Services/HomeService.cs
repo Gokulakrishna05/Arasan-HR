@@ -211,6 +211,15 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable Getinddentapprove()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select P.DOCID,to_char(P.DOCDATE,'dd-MON-yyyy')DOCDATE,ITEMMASTER.ITEMID,PD.QTY,LOCDETAILS.LOCID from PINDBASIC P,PINDDETAIL PD LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PD.ITEMID  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PD.DEPARTMENT WHERE P.PINDBASICID=PD.PINDBASICID AND PD.APPROVED1 is null";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

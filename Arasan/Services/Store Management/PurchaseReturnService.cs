@@ -99,7 +99,7 @@ namespace Arasan.Services
         public DataTable Getstkqty(string grnid, string locid, string brid)
         {
             string SvSql = string.Empty;
-            SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid + "' AND BRANCH_ID='" + brid + "' AND TSOURCEID='" + grnid + "'";
+            SvSql = "select SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY  from STOCKVALUE S where S.LOCID = '" + locid + "' AND S.T1SOURCEID='" + grnid + "' HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -157,10 +157,10 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = PARTYID;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.RetNo;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.RetDate);
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.RetDate;
                     objCmd.Parameters.Add("EXCHANGERATE", OracleDbType.NVarchar2).Value = cy.ExRate;
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.ReqNo;
-                    objCmd.Parameters.Add("REFDT", OracleDbType.Date).Value = DateTime.Parse(cy.ReqDate);
+                    objCmd.Parameters.Add("REFDT", OracleDbType.NVarchar2).Value =  cy.ReqDate;
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
                     objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = CURR;
                     objCmd.Parameters.Add("REASONCODE", OracleDbType.NVarchar2).Value = cy.Reason;
@@ -199,6 +199,8 @@ namespace Arasan.Services
 
                             using (OracleConnection objConns = new OracleConnection(_connectionString))
                             {
+                                string binid = datatrans.GetDataString("Select BINNO from ITEMMASTER where ITEMMASTER='" + cp.itemid + "' ");
+                                string itemacc = datatrans.GetDataString("Select ITEMACC from ITEMMASTER where ITEMMASTER='" + cp.itemid + "' ");
                                 OracleCommand objCmds = new OracleCommand("PURRETURNDETAILPROC", objConns);
                                 if (cy.ID == null)
                                 {
@@ -227,6 +229,7 @@ namespace Arasan.Services
                                 objCmds.Parameters.Add("SGSTAMT", OracleDbType.NVarchar2).Value = cp.sgstamt;
                                 objCmds.Parameters.Add("IGSTPER", OracleDbType.NVarchar2).Value = cp.igstper;
                                 objCmds.Parameters.Add("IGSTAMT", OracleDbType.NVarchar2).Value = cp.igstamt;
+                                objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = binid;
                                 objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                 objCmds.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                 objConns.Open();
@@ -235,6 +238,16 @@ namespace Arasan.Services
                                 objConns.Close();
 
                                 double qty = Convert.ToDouble(cp.rqty);
+
+
+                                svSQL = "Insert into STOCKVALUE (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,PLUSORMINUS,ITEMID,DOCDATE,QTY,STOCKVALUE,LOCID,BINID,RATEC,PROCESSID,SNO,SCSID,SVID,FROMLOCID,STOCKTRANSTYPE,SINSFLAG,MASTERID) VALUES ('0','0','F','" + Prid + "','m','" + cp.itemid + "','" + cy.RetDate + "','" + cp.quantity + "','" + cp.totalamount + "','" + cy.Location + "','" + binid + "','0','0','0','0','0','0','PURCHASE RETURN','1','"+ itemacc + "') RETURNING STOCKVALUEID INTO :STKID";
+                                OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                objCmdss.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                                objCmdss.ExecuteNonQuery();
+                                string stkid = objCmdss.Parameters["STKID"].Value.ToString();
+                                string SvSql2 = "Insert into STOCKVALUE2 (STOCKVALUEID,DOCID,NARRATION,RATE) VALUES ('" + stkid + "','" + cy.RetNo + "','"+cy.Narration+"','" + cp.rate + "') ";
+                                OracleCommand objCmddts = new OracleCommand(SvSql2, objConn);
+                                objCmddts.ExecuteNonQuery();
                                 DataTable dt = datatrans.GetData("Select INVENTORY_ITEM.BALANCE_QTY,INVENTORY_ITEM.ITEM_ID,INVENTORY_ITEM.LOCATION_ID,INVENTORY_ITEM.BRANCH_ID,INVENTORY_ITEM_ID,TSOURCEID,GRN_DATE,TSOURCEBASICID from INVENTORY_ITEM where INVENTORY_ITEM.ITEM_ID='" + cp.itemid + "' AND INVENTORY_ITEM.LOCATION_ID='" + cy.Location + "' and INVENTORY_ITEM.BRANCH_ID='" + cy.Branch + "' and BALANCE_QTY!=0 order by GRN_DATE ASC");
                                 if (dt.Rows.Count > 0)
                                 {
@@ -248,7 +261,7 @@ namespace Arasan.Services
                                             {
                                                 string Sql = string.Empty;
                                                 Sql = "Update INVENTORY_ITEM SET  BALANCE_QTY='" + bqty + "' WHERE INVENTORY_ITEM_ID='" + dt.Rows[i]["INVENTORY_ITEM_ID"].ToString() + "'";
-                                                OracleCommand objCmdss = new OracleCommand(Sql, objConnT);
+                                                 objCmdss = new OracleCommand(Sql, objConnT);
                                                 objConnT.Open();
                                                 objCmdss.ExecuteNonQuery();
 
@@ -288,7 +301,7 @@ namespace Arasan.Services
                                             {
                                                 string Sql = string.Empty;
                                                 Sql = "Update INVENTORY_ITEM SET  BALANCE_QTY='" + rqty + "' WHERE INVENTORY_ITEM_ID='" + dt.Rows[i]["INVENTORY_ITEM_ID"].ToString() + "'";
-                                                OracleCommand objCmdss = new OracleCommand(Sql, objConnT);
+                                                 objCmdss = new OracleCommand(Sql, objConnT);
                                                 objConnT.Open();
                                                 objCmdss.ExecuteNonQuery();
 
