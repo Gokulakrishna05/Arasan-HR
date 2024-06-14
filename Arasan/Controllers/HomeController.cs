@@ -151,6 +151,7 @@ namespace Arasan.Controllers
                         tad.grn = dt1.Rows[0]["DOCID"].ToString();
                         tad.Date = dt1.Rows[0]["DOCDATE"].ToString();
                         tad.party = dt1.Rows[0]["PARTYNAME"].ToString();
+
                         DateTime Current = DateTime.Parse(tad.Date);
                         TimeSpan difference = DateTime.Now - Current;
                         int daysAgo = (int)difference.TotalDays;
@@ -161,6 +162,7 @@ namespace Arasan.Controllers
                         else
                         {
                             tad.days = daysAgo + "days ago";
+
 
                         }
                     }

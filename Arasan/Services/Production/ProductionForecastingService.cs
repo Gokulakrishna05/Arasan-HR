@@ -358,7 +358,7 @@ GROUP BY I.ITEMID,I2.ITEMID,i2.REJRAWMATPER,STARTVALUE,ENDVALUE
 ORDER BY 2 DESC
 )GROUP BY ITEMID,REJ,STARTVALUE,ENDVALUE
 )GROUP BY ITEMID,STARTVALUE,ENDVALUE
-ORDER BY ORD DESC";
+Having  SUM(QTY+MINSTK-STK) > 0 ORDER BY ORD DESC";
                     cmd.Parameters.Add("Docdate", Docdate);
                     cmd.Parameters.Add("PlanType", type);
                     cmd.Parameters.Add("MONTH",mnth);
@@ -391,8 +391,9 @@ ORDER BY ORD DESC";
                         };
                         //cmp.pasterej = datatrans.GetDataString("Select Decode(sign(3-round(sum(rc/(oq+1)*100),2)),1,round(sum(rc/(oq+1)*100),2),3) rcper from (Select nvl(sum(oq),1) oq,nvl(sum(rc),1) rc from (Select 0 oq,Sum(B.OQTY) rc from FQTVEBAsic B,Itemmaster I Where B.DOCDATE between '"+ startDate + "' and '" + endDate + "' And B.Finalresult='NOT OK' and I.ITEMID='" + cmp.saveitemid + "' and B.RESULTTYPE='RECHARGE' And I.ITEMMASTERID=B.ITEMID Union All Select Sum(D.OQTY) Oq,0 From Nprodbasic B,Nprodoutdet D,Itemmaster I where I.ITEMMASTERID=D.OITEMID and B.NPRODBASICID=D.NPRODBASICID and B.DOCDATE between '" + startDate + "' and '"+ endDate + "' and I.ITEMID='" + cmp.saveitemid + "'))");
                         cmp.pasterej = "0.16";
-                        double rem = Convert.ToDouble(cmp.target) + Convert.ToDouble(cmp.minstock) - Convert.ToDouble(cmp.stock);
-                        double regqty= Math.Floor(rem * (Convert.ToDouble(cmp.pasterej) / 100));
+                        // double rem = Convert.ToDouble(cmp.target) + Convert.ToDouble(cmp.minstock) - Convert.ToDouble(cmp.stock);
+                        double rem = Convert.ToDouble(cmp.target);
+                         double regqty= Math.Floor(rem * (Convert.ToDouble(cmp.pasterej) / 100));
                         cmp.rejqty= regqty.ToString();
                         double required=Math.Round(rem - regqty);
                         cmp.required = required.ToString();
@@ -462,7 +463,7 @@ AND I2.SUBCATEGORY IN ('PIGMENT POWDER','PYRO DF','PYRO POLISHED')
 AND ((sb.MONTH=:MONTH And  SB.FCTYPE=:PlanType) Or (Sb.FCTYPE='YEARLY' And 'YEARLY'=:Plantype))
 GROUP BY I2.ITEMID,IM.MINSTK
 )GROUP BY ITEMID
-)GROUP BY ITEMID 
+) Having SUM(QTY+MINSTK-STK) > 0  GROUP BY ITEMID 
 ORDER BY ord desc";
                     cmd.Parameters.Add("Docdate", Docdate);
                     cmd.Parameters.Add("PlanType", type);
@@ -572,7 +573,7 @@ WHERE S.ItemID = I.ItemMasterID AND S.DocDate <=:Docdate AND S.LocID = L.Locdeta
 AND i.SNCATEGORY IN ('CAKE') AND i.QCCOMPFLAG='YES'
 and I.TEMPLATEID=B.TESTTBASICID and B.TESTTBASICID=D.TESTTBASICID and D.TESTDESC='SIEVE -350 MESH'
 HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0 
-GROUP BY I.ITEMID,I.MINSTK,STARTVALUE,ENDVALUE) Group by itemid ,STARTVALUE,ENDVALUE
+GROUP BY I.ITEMID,I.MINSTK,STARTVALUE,ENDVALUE) Having Sum(qty-stk+min)>0 Group by itemid ,STARTVALUE,ENDVALUE
 UNION ALL
 Select I.ITEMID,Sum(D.RVDPRODQTY) Qty,0,0,0,STARTVALUE,ENDVALUE from ProdFcBasic B,ProdFcRvd D,Itemmaster I,TestTBasic B,TestTDetail D Where B.PRODFCBASICID=D.PRODFCBASICID  And I.ITEMMASTERID=D.RVDRAWMAT
 and I.TEMPLATEID=B.TESTTBASICID and B.TESTTBASICID=D.TESTTBASICID and D.TESTDESC='SIEVE -350 MESH'
@@ -590,7 +591,7 @@ Order by 2 Desc";
                         {
                             itemid = rdr["ITEMID"].ToString(),
                             saveitemid = datatrans.GetDataString("SELECT   ITEMMASTERID FROM ITEMMASTER WHERE  ITEMID ='" + rdr["ITEMID"].ToString() + "'"),
-                            required = rdr["Tar"].ToString(),
+                            required = rdr["qty"].ToString(),
                             
                             minstock = rdr["min"].ToString()==""?"0":rdr["min"].ToString(),
                            
