@@ -237,6 +237,8 @@ namespace Arasan.Controllers
                 Data4.Add(tdas);
 
             }
+            ChartData tda1=new ChartData();
+            List<ChartData> TData3 = new List<ChartData>();
             DataTable topitem = datatrans.GetData("SELECT SUM(net) stk, PARTYNAME  FROM (SELECT SUM(net) as net, PARTYNAME FROM dpbasic WHERE DOCDATE between sysdate - 365 and sysdate GROUP BY PARTYNAME   UNION ALL SELECT SUM(net) as net, PARTYNAME FROM GRNBLBASIC WHERE DOCDATE between sysdate - 365 and sysdate GROUP BY PARTYNAME) GROUP BY PARTYNAME order by SUM(net) desc");
             string str = "";
             string color = "";
@@ -245,20 +247,24 @@ namespace Arasan.Controllers
                 str += "[";
                 for (int i = 0; i < topitem.Rows.Count; i++)
                 {
+                    tda1=new ChartData();
+                    tda1.ctext = topitem.Rows[i]["PARTYNAME"].ToString();
+                    tda1.cvalue = topitem.Rows[i]["stk"].ToString();
+                    TData3.Add(tda1);
+                //    str += "{" +
+                //    " \"party\": \"" + topitem.Rows[i]["PARTYNAME"].ToString() + "\", " +
+                //    " \"amount\": \"" + topitem.Rows[i]["stk"].ToString() + "\"" +
 
-                    str += "{" +
-                    " \"party\": \"" + topitem.Rows[i]["PARTYNAME"].ToString() + "\", " +
-                    " \"amount\": \"" + topitem.Rows[i]["stk"].ToString() + "\"" +
 
-
-                    "  },";
+                //    "  },";
 
 
                 }
-                str = str.Remove(str.Length - 1);
-                str += "]";
+                //str = str.Remove(str.Length - 1);
+                //str += "]";
             }
-            ViewBag.Item = str;
+           // ViewBag.Item = str;
+            ViewBag.chrtlst = TData3;
             //DataTable intent = datatrans.GetData("select count(pindbasicID) as cunt,to_char(PINDBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE from PINDBASIC  where    PINDBASIC.DOCDATE BETWEEN '01-MAR-2022' AND  '8-MAR-2022' GROUP BY DOCDATE  ");
             //string str = "";
             //string color = "";

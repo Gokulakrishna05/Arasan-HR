@@ -39,6 +39,8 @@ namespace Arasan.Models
         public List<MatNotifys> Materialnotification { get; set; }
         public List<MenuList> Menulst { get; set; }
         public List<GateIn> GateInlst { get; set; }
+        public List<ChartData> chrtlst { get; set; }    
+
 
     }
     public class salesdash { 
@@ -170,6 +172,13 @@ namespace Arasan.Models
         public string status { get; set; }
 
         public string CPerson { get; set; }
+
+    }
+    public class ChartData
+    {
+        public string cvalue { get; set; }
+
+        public string ctext { get; set; }
 
     }
 
