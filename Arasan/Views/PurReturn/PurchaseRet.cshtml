@@ -278,70 +278,70 @@
 
                                                 foreach (var item in Model.RetLst.ToList())
                                                 {
-                                                    <tr id="trBookout@(g)" class="chkitemlstout" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].ItemId, new { @id = "txtItem" + g, @class = "form-control", style = "width: 200px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].Unit, new { @id = "txtUnit" + g, @class = "form-control", style = "width: 60px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].ConFac, new { @id = "txtConFac " + g, @class = "form-control", style = "width: 50px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].Quantity, new { @id = "txtQuantity" + g, @class = "form-control", style = "width: 80px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].binid, new { @id = "txtbinid" + g, @class = "form-control", style = "width: 80px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].Current, new { @id = "txtCurrent" + g, @class = "form-control", style = "width: 80px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].Return, new { @id = "txtReturn" + g, @class = "form-control", style = "width: 80px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].rate, new { @id = "txtrate" + g, @class = "form-control", style = "width: 100px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].Amount, new { @id = "txtAmount" + g, @class = "form-control", style = "width: 100px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].Disc, new { @id = "txtDisc" + g, @class = "form-control", style = "width: 80px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].DiscAmount, new { @id = "txtDiscAmount" + g, @class = "form-control", style = "width: 80px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].FrigCharge, new { @id = "txtFrigCharge" + g, @class = "form-control", style = "width: 80px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].CGSTPer, new { @id = "txtCGSTPer" + g, @class = "form-control", style = "width: 70px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].SGSTPer, new { @id = "txtSGSTPer" + g, @class = "form-control", style = "width: 70px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].IGSTPer, new { @id = "txtIGSTPer" + g, @class = "form-control", style = "width: 70px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].CGSTAmt, new { @id = "txtCGSTAmt" + g, @class = "form-control", style = "width: 70px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].SGSTAmt, new { @id = "txtSGSTAmt" + g, @class = "form-control", style = "width: 70px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].IGSTAmt, new { @id = "txtIGSTAmt" + g, @class = "form-control", style = "width: 70px;", @readonly="ReadOnly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.RetLst[g].TotalAmount, new { @id = "txtTotalAmount" + g, @class = "form-control", style = "width: 100px;", @readonly="ReadOnly" })
-                                                        </td>
+                                                        <tr id="trBookout@(g)" class="chkitemlstout" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].ItemId, new { @id = "txtItem" + g, @class = "form-control", style = "width: 200px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].Unit, new { @id = "txtUnit" + g, @class = "form-control", style = "width: 60px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].ConFac, new { @id = "txtConFac " + g, @class = "form-control", style = "width: 50px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].Quantity, new { @id = "txtQuantity" + g, @class = "form-control", style = "width: 80px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].binid, new { @id = "txtbinid" + g, @class = "form-control", style = "width: 80px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].Current, new { @id = "txtCurrent" + g, @class = "form-control", style = "width: 80px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].Return, new { @id = "txtReturn" + g, @class = "form-control", style = "width: 80px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].rate, new { @id = "txtrate" + g, @class = "form-control", style = "width: 100px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].Amount, new { @id = "txtAmount" + g, @class = "form-control", style = "width: 100px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].Disc, new { @id = "txtDisc" + g, @class = "form-control", style = "width: 80px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].DiscAmount, new { @id = "txtDiscAmount" + g, @class = "form-control", style = "width: 80px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].FrigCharge, new { @id = "txtFrigCharge" + g, @class = "form-control", style = "width: 80px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].CGSTPer, new { @id = "txtCGSTPer" + g, @class = "form-control", style = "width: 70px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].SGSTPer, new { @id = "txtSGSTPer" + g, @class = "form-control", style = "width: 70px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].IGSTPer, new { @id = "txtIGSTPer" + g, @class = "form-control", style = "width: 70px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].CGSTAmt, new { @id = "txtCGSTAmt" + g, @class = "form-control", style = "width: 70px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].SGSTAmt, new { @id = "txtSGSTAmt" + g, @class = "form-control", style = "width: 70px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].IGSTAmt, new { @id = "txtIGSTAmt" + g, @class = "form-control", style = "width: 70px;", @readonly="ReadOnly" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.RetLst[g].TotalAmount, new { @id = "txtTotalAmount" + g, @class = "form-control", style = "width: 100px;", @readonly="ReadOnly" })
+                                                            </td>
 
-                                                        <td>
-                                                            @Html.HiddenFor(o => o.RetLst[g].Isvalid, new { @id = "Isvalid" + g })
-                                                            <img onclick="removeOutRow(@(g));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(g)" />
-                                                        </td>
-                                                    </tr>
+                                                            <td>
+                                                                @Html.HiddenFor(o => o.RetLst[g].Isvalid, new { @id = "Isvalid" + g })
+                                                                <img onclick="removeOutRow(@(g));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(g)" />
+                                                            </td>
+                                                        </tr>
 
                                                     g = g + 1;
 
@@ -794,10 +794,11 @@
     function changeItem(GRNID, i) {
         var branch = document.getElementById("txtBranch").value;
         var loc = document.getElementById("txtLocation").value;
+        var doc = document.getElementById("txtRetNo").value;
 
         $.ajax({
             url: 'GetGRNBL',
-            data: { "GRNID": GRNID },
+            data: { "GRNID": GRNID, "doc":doc },
             type: "GET",
             success: function (result) {
 
@@ -816,6 +817,7 @@
 
                 document.getElementById("txtGross").value = result.gross;
                 document.getElementById("txtNet").value = result.net;
+                document.getElementById("txtNarration").value = result.narr;
             },
             error: function () {
                 alert("Data Not Found");

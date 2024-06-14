@@ -4,7 +4,17 @@
     string sdate = ViewContext.HttpContext.Request.Query["st"];
     string edate = ViewContext.HttpContext.Request.Query["ed"];
 }
- 
+ <style>
+#chartdiv {
+	width		: 800px;
+	height		: 400px;
+	font-size	: 11px;
+
+
+   
+    
+}							
+</style>
  <script src="~/assets/js/vendor/amcharts/amcharts.js"></script>
 		<script src="~/assets/js/vendor/amcharts/serial.js"></script>
 		<script src="~/assets/js/vendor/amcharts/pie.js"></script>
@@ -28,7 +38,7 @@
                     </div>
                     <div class="col-xs-9 text-right">
                         <span>Total Suppliers</span>
-                        <h2 class="font-bold">320</h2>
+                        <h2 class="font-bold">@Html.DisplayFor(o => o.suppliar)</h2>
                     </div>
                 </div>
             </div>
@@ -42,7 +52,7 @@
                     </div>
                     <div class="col-xs-9 text-right">
                         <span>Total Products</span>
-                        <h2 class="font-bold">10</h2>
+                        <h2 class="font-bold">@Html.DisplayFor(o => o.itemcnt)</h2>
                     </div>
                 </div>
             </div>
@@ -146,9 +156,182 @@
 						</div>
 					</div>*@
 
- 	
+ 	    <div class="row">
+                    <div class="col-lg-6">
+                        <div class="ibox float-e-margins">
+                             <div class="ibox-title">
+                    <h5>Top Suppliers</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link" data-toggle="collapse" data-target="#demo13"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </div>
+                </div>
+                         
+                                <div class="widgets-container">
+                                     <div class="ibox-content collapse in" id="demo13">
+<div id="chartdiv"></div>
+</div>
+ 
+</div>
+</div>
+</div>
+     @if (Model.supcnt > 0)
+    {
+        <div class="col-lg-6">
+            <!-- Start feed -->
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Waiting For Suppliar Allocation</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link" data-toggle="collapse" data-target="#demo6"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content collapse in" id="demo6">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+
+                                <div class="ibox-content collapse in">
+                                    <div class="widgets-container">
+                                        <div>
+                                            <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                      
+                                                        <th> Indent No </th>
+                                                        <th> Date </th>
+
+
+                                                        <th> Item </th>
+                                                        <th>Qty</th>
+                                                        <th> Location </th>
+                                                        <th>   </th>
+
+
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @{
+                                                        int s = 0;
+
+                                                        foreach (var item in Model.suplst.ToList())
+                                                        {
+                                                                            <tr>
+
+
+                                                                                <td>@Html.DisplayFor(o => o.suplst[s].indentno)</td>
+                                                                                <td>@Html.DisplayFor(o => o.suplst[s].indentdate)</td>
+                                                                                <td>@Html.DisplayFor(o => o.suplst[s].ItemName)</td>
+
+                                                                                <td>@Html.DisplayFor(o => o.suplst[s].Qty)</td>
+                                                                                <td>@Html.DisplayFor(o => o.suplst[s].loc)</td>
+                                                                                <td> <div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("List_PI_MSupp_Allocation", "PurchaseIndent")'><img src='../Images/right-arrow.png'/></a></div></td>
+
+
+                                                                            </tr>
+                                                            s++;
+                                                        }
+
+                                                    }
+                                                </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        <!-- End feed -->
+    </div>
+    }
+</div>
 
             <div class="row">
+       @if (Model.appcnt > 0)
+    {
+        <div class="col-lg-6">
+            <!-- Start feed -->
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Waiting For Approve(Indent)</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link" data-toggle="collapse" data-target="#demo6"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content collapse in" id="demo6">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+
+                                <div class="ibox-content collapse in">
+                                    <div class="widgets-container">
+                                        <div>
+                                            <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                      
+                                                        <th> Indent No </th>
+                                                        <th> Date </th>
+
+
+                                                        <th> Item </th>
+                                                        <th>Qty</th>
+                                                        <th> Location </th>
+                                                        <th>   </th>
+
+
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @{
+                                                        int aa = 0;
+
+                                                        foreach (var item in Model.applst.ToList())
+                                                        {
+                                                                            <tr>
+
+
+                                                                                <td>@Html.DisplayFor(o => o.applst[aa].indentno)</td>
+                                                                                <td>@Html.DisplayFor(o => o.applst[aa].indentdate)</td>
+                                                                                <td>@Html.DisplayFor(o => o.applst[aa].ItemName)</td>
+
+                                                                                <td>@Html.DisplayFor(o => o.applst[aa].Qty)</td>
+                                                                                <td>@Html.DisplayFor(o => o.applst[aa].loc)</td>
+                                                                                <td> <div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("List_PI_Approval", "PurchaseIndent")'><img src='../Images/right-arrow.png' /></a></div></td>
+
+
+                                                                            </tr>
+                                                            aa++;
+                                                        }
+
+                                                    }
+                                                </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        <!-- End feed -->
+    </div>
+    }
     @if (Model.dagrncnt > 0)
     {
     <div class="col-lg-6">
@@ -182,6 +365,8 @@
                                                 <th> Item </th>
                                                
                                                 <th> Damege Qty </th>
+                                                <th>   </th>
+                                                <th>   </th>
 
 
                                             </tr>
@@ -193,19 +378,20 @@
 
                                                 foreach (var item in Model.purlst.ToList())
                                                 {
-                                                        <tr>
+                                                                        <tr>
 
 
-                                                            <td>@Html.DisplayFor(o => o.purlst[i].grn)</td>
-                                                            <td>@Html.DisplayFor(o => o.purlst[i].Date)</td>
-                                                            <td>@Html.DisplayFor(o => o.purlst[i].party)</td>
+                                                                            <td>@Html.DisplayFor(o => o.purlst[i].grn)</td>
+                                                                            <td>@Html.DisplayFor(o => o.purlst[i].Date)</td>
+                                                                            <td>@Html.DisplayFor(o => o.purlst[i].party)</td>
 
-                                                            <td>@Html.DisplayFor(o => o.purlst[i].ItemName)</td>
-                                                            <td>@Html.DisplayFor(o => o.purlst[i].qty)</td>
-                                                             
-                                                            <td> <small class="pull-right">@Html.DisplayFor(o => o.purlst[i].days)</small></td>
+                                                                            <td>@Html.DisplayFor(o => o.purlst[i].ItemName)</td>
+                                                                            <td>@Html.DisplayFor(o => o.purlst[i].qty)</td>
+                                                                             
+                                                                            <td> <small class="pull-right">@Html.DisplayFor(o => o.purlst[i].days)</small></td>
+                                                                                                                                            <td> <div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("ListDamageGRN", "GRN")'><img src='../Images/right-arrow.png' /></a></div></td>
 
-                                                            </tr>
+                                                                            </tr>
                                                         i++;
                                                     }
 
@@ -224,83 +410,9 @@
         <!-- End feed -->
     </div>
     }
-    @if (Model.indcnt > 0)
-    {
-        <div class="col-lg-6">
-            <!-- Start feed -->
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>Material Request Pending</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link" data-toggle="collapse" data-target="#demo8"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                            <i class="fa fa-wrench"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="ibox-content collapse in" id="demo8">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="ibox float-e-margins">
-
-                                <div class="ibox-content collapse in">
-                                    <div class="widgets-container">
-                                        <div>
-                                            <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        @* <th>Item Group</th>*@
-                                                        <th> Doc No </th>
-                                                        <th> Date </th>
-                                                        <th>Location</th>
-
-                                                        <th> Item </th>
-
-                                                        <th> Qty </th>
-
-
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody>
-                                                    @{
-                                                        int k = 0;
-
-                                                        foreach (var item in Model.penlst.ToList())
-                                                        {
-                                                                <tr>
-
-
-                                                                    <td><a href="@Url.Action("ApproveMaterial", "MaterialRequisition",new{@id=item.basicid})">@Html.DisplayFor(o => o.penlst[k].docid)</a></td>
-                                                                    <td>@Html.DisplayFor(o => o.penlst[k].Date)@Html.HiddenFor(o => o.penlst[k].basicid)</td>
-                                                                    <td>@Html.DisplayFor(o => o.penlst[k].location)</td>
-
-                                                                    <td>@Html.DisplayFor(o => o.penlst[k].ItemName)</td>
-                                                                    <td>@Html.DisplayFor(o => o.penlst[k].qty)</td>
-
-                                                                   @* <td> <small class="pull-right">@Html.DisplayFor(o => o.indlst[k].days)</small></td>*@
-
-                                                                </tr>
-                                                            k++;
-                                                        }
-
-                                                    }
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-             
-
-            </div>
-            <!-- End feed -->
-        </div>
-    }
+  
 </div>
+ 
 <div class="row">
    
     @if (Model.EnqFollowcunt > 0)
@@ -346,14 +458,14 @@
 
                                                         foreach (var item in Model.Enqlllst.ToList())
                                                         {
-                                                                <tr>
-                                                                    <td>@Html.DisplayFor(o => o.Enqlllst[t].displaytext)</td>
+                                                                                <tr>
+                                                                                    <td>@Html.DisplayFor(o => o.Enqlllst[t].displaytext)</td>
 
-                                                                    <td>@Html.DisplayFor(o => o.Enqlllst[t].followedby)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.Enqlllst[t].followedby)</td>
 
-                                                                    <td>@Html.DisplayFor(o => o.Enqlllst[t].status)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.Enqlllst[t].status)</td>
 
-                                                                </tr>
+                                                                                </tr>
                                                             t = t + 1;
 
                                                         }
@@ -415,14 +527,14 @@
 
                                                         foreach (var item in Model.Folllst.ToList())
                                                         {
-                                                                <tr>
-                                                                    <td>@Html.DisplayFor(o => o.Folllst[e].displaytext)</td>
+                                                                                <tr>
+                                                                                    <td>@Html.DisplayFor(o => o.Folllst[e].displaytext)</td>
 
-                                                                    <td>@Html.DisplayFor(o => o.Folllst[e].followedby)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.Folllst[e].followedby)</td>
 
-                                                                    <td>@Html.DisplayFor(o => o.Folllst[e].status)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.Folllst[e].status)</td>
 
-                                                                </tr>
+                                                                                </tr>
                                                             e = e + 1;
 
                                                         }
@@ -441,6 +553,7 @@
     </div>
 }
 </div>
+ 
 <script>
 
   $(function () {
@@ -683,4 +796,31 @@
             window.location.href = url;*@
         }
     }
+</script>
+
+                    <script>
+                       $(function () {
+      var ItemId = '@ViewBag.Item';
+     var result = ItemId.replace(/&quot;/g, '"');
+                         
+var chart = AmCharts.makeChart("chartdiv", {
+    "type": "pie",
+    "theme": "light",
+    "innerRadius": "40%",
+    "gradientRatio": [-0.4, -0.4, -0.4, -0.4, -0.4, -0.4, 0, 0.1, 0.2, 0.1, 0, -0.2, -0.5],
+    "dataProvider": [{ "party": "TAJ METAL SMELTING L.L.C",  "amount": "511530"  },{ "party": "V.MADASAMY (SWAMY CRANE SERVICE)",  "amount": "48085"  },{ "party": "VISVAS IMAGE GALAXY",  "amount": "27140"  },{ "party": "NEW ROYAL CORPORATION",  "amount": "19470"  },{ "party": "SELVA VINAYAGAR INDUSTRIES, CHENNAI",  "amount": "10532"  },{ "party": "SRI GANESH ENGINEERING WORKS",  "amount": "3540"  }],
+    "balloonText": "[[value]]",
+    "valueField": "amount",
+    "titleField": "party",
+    "balloon": {
+        "drop": true,
+        "adjustBorderColor": false,
+        "color": "#FFFFFF",
+        "fontSize": 16
+    },
+    "export": {
+        "enabled": true
+    }
+});
+});
 </script>

@@ -1,0 +1,539 @@
+﻿@model Arasan.Models.Home
+@{
+    ViewData["Title"] = "Home Page";
+    string sdate = ViewContext.HttpContext.Request.Query["st"];
+    string edate = ViewContext.HttpContext.Request.Query["ed"];
+}
+ <style>
+#chartdiv {
+  width: 100%;
+  height: 500px;
+}										
+</style>
+ <script src="~/assets/js/vendor/amcharts/amcharts.js"></script>
+		<script src="~/assets/js/vendor/amcharts/serial.js"></script>
+		<script src="~/assets/js/vendor/amcharts/pie.js"></script>
+		<script src="~/assets/js/vendor/amcharts/gantt.js"></script>
+		<script src="~/assets/js/vendor/amcharts/funnel.js"></script>
+		<script src="~/assets/js/vendor/amcharts/radar.js"></script>
+		 
+		<script src="~/assets/js/vendor/amcharts/ammap.js"></script>
+		<script src="~/assets/js/vendor/amcharts/worldLow.js"></script>
+		<script src="~/assets/js/vendor/amcharts/light.js"></script>
+		 
+		<script type="text/javascript" src="~/assets/js/vendor/amcharts.js"></script>
+	 
+<div class="row">
+    <div class="col-lg-6 top15">
+        <div class="col-lg-4">
+            <div class="widget box-shadow green-bg">
+                <div class="row vertical-align">
+                    <div class="col-xs-3">
+                        <i class="fa fa-user fa-2x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <span>Total Suppliers</span>
+                        <h2 class="font-bold">320</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- begin col-2 -->
+        <div class="col-lg-4">
+            <div class="widget box-shadow aqua-bg">
+                <div class="row vertical-align">
+                    <div class="col-xs-3">
+                        <i class="fa fa-shopping-cart fa-2x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <span>Total Products</span>
+                        <h2 class="font-bold">10</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="widget box-shadow red-bg">
+                <div class="row vertical-align">
+                    <div class="col-xs-3">
+                        <i class="fa fa-user fa-2x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <span>Total Customes</span>
+                        <h2 class="font-bold">610</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+@*
+ <div class="row">
+						<div class="col-lg-12">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>Indent </h5>
+									<div class="ibox-tools">
+										<a class="collapse-link" data-toggle="collapse" data-target="#demo4"> <i class="fa fa-chevron-up"></i><i class="fa fa-chevron-down"></i> </a>
+										<a href="#" data-toggle="dropdown" class="dropdown-toggle">
+										 
+										 </a>
+									</div>
+								</div>
+								<div class="ibox-content collapse in" id="demo4">
+									<div class="chartdiv-container">
+										<div id="ColumnChart"></div>
+										 
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>*@
+
+ 	
+
+            <div class="row">
+    
+    @if (Model.indcnt > 0)
+    {
+        <div class="col-lg-6">
+            <!-- Start feed -->
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Material Request Pending</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link" data-toggle="collapse" data-target="#demo8"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content collapse in" id="demo8">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+
+                                <div class="ibox-content collapse in">
+                                    <div class="widgets-container">
+                                        <div>
+                                            <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        @* <th>Item Group</th>*@
+                                                        <th> Doc No </th>
+                                                        <th> Date </th>
+                                                        <th>Location</th>
+
+                                                        <th> Item </th>
+
+                                                        <th> Qty </th>
+
+
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @{
+                                                        int k = 0;
+
+                                                        foreach (var item in Model.penlst.ToList())
+                                                        {
+                                                                    <tr>
+
+
+                                                                        <td><a href="@Url.Action("ApproveMaterial", "MaterialRequisition",new{@id=item.basicid})">@Html.DisplayFor(o => o.penlst[k].docid)</a></td>
+                                                                        <td>@Html.DisplayFor(o => o.penlst[k].Date)@Html.HiddenFor(o => o.penlst[k].basicid)</td>
+                                                                        <td>@Html.DisplayFor(o => o.penlst[k].location)</td>
+
+                                                                        <td>@Html.DisplayFor(o => o.penlst[k].ItemName)</td>
+                                                                        <td>@Html.DisplayFor(o => o.penlst[k].qty)</td>
+
+                                                                       @* <td> <small class="pull-right">@Html.DisplayFor(o => o.indlst[k].days)</small></td>*@
+
+                                                                    </tr>
+                                                            k++;
+                                                        }
+
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             
+
+            </div>
+            <!-- End feed -->
+        </div>
+    }
+      @if (Model.gatcnt > 0)
+    {
+        <div class="col-lg-6">
+            <!-- Start feed -->
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Gate Inward</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link" data-toggle="collapse" data-target="#demo4"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content collapse in" id="demo4">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+
+                                <div class="ibox-content collapse in">
+                                    <div class="widgets-container">
+                                        <div>
+                                            <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        @* <th>Item Group</th>*@
+                                                       <th>Gate In Date &Time</th>
+                                                                            <th>Party Name</th>
+                                                                            <th>Item Name</th>
+                                                                            <th>Total Qty</th>
+                                                                            <th>Unit</th>
+                                                                            <th> </th>
+
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @{
+                                                        int g = 0;
+
+                                                     foreach (var item in Model.GateInlst.ToList())
+                                                                        {
+                                                                                <tr>
+                                                                                    <td>@Html.DisplayFor(o => o.GateInlst[g].GateDate)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.GateInlst[g].PartyName)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.GateInlst[g].ItemName)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.GateInlst[g].TotalQty)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.GateInlst[g].Unit)</td>
+                                                                                    @*<td> <a class="nav-link" href="@Url.Action("POQcTesting", "QCTesting",new { id=item.id,tag=1})"> <img src='../Images/GoTo.jpg' alt='View Details' width='80' /></a></td>*@
+                                                                                    <td> <a class="nav-link" href="@Url.Action("ListGateInward", "PO")"> <img src='../Images/right-arrow.png' width='20' /> </a></td>
+                                                                                </tr>
+                                                                            g = g + 1;
+
+                                                                        }
+
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             
+
+            </div>
+            <!-- End feed -->
+        </div>
+    }
+</div>
+<div class="row">
+   <div class="col-lg-8">
+        <div class="ibox float-e-margins">
+
+                                <div class="ibox-content collapse in">
+                                    <div class="widgets-container">
+    <div id="chartdiv"></div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+
+  $(function () {
+      var ItemId = '@ViewBag.Item';
+     var result = ItemId.replace(/&quot;/g, '"');
+
+   @* // 3D Cylinder Chart  
+
+
+      var chart = AmCharts.makeChart("cylinderChart", {
+          "theme": "light",
+          "type": "serial",
+          "startDuration": 2,
+          "dataProvider": [{ "date": "08-MAR-2022", "create": "6", "complete": "0", "pending": "6" }, { "date": "01-MAR-2022", "create": "14", "complete": "0", "pending": "14" }, { "date": "03-MAR-2022", "create": "6", "complete": "0", "pending": "6" }, { "date": "07-MAR-2022", "create": "18", "complete": "0", "pending": "18" }, { "date": "02-MAR-2022", "create": "3", "complete": "0", "pending": "3" }, { "date": "04-MAR-2022", "create": "11", "complete": "2", "pending": "11" }, { "date": "05-MAR-2022", "create": "5", "complete": "0", "pending": "5" }],
+        "valueAxes": [{
+            "position": "left",
+            "axisAlpha": 0,
+            "gridAlpha": 0
+        }],
+        "graphs": [
+        {
+            "balloonText": "Created: <b>[[value]]</b>",
+            "colorField": "color",
+            "fillAlphas": 0.85,
+            "lineAlpha": 0.1,
+            "type": "column",
+            "topRadius": 1,
+            "valueField": "create"
+        },
+              {
+            "balloonText": "Completed: <b>[[value]]</b>",
+            "colorField": "color",
+            "fillAlphas": 0.85,
+            "lineAlpha": 0.1,
+            "type": "column",
+            "topRadius": 1,
+            "valueField": "complete"
+        },
+              {
+            "balloonText": "Pending: <b>[[value]]</b>",
+            "colorField": "color",
+            "fillAlphas": 0.85,
+            "lineAlpha": 0.1,
+            "type": "column",
+            "topRadius": 1,
+            "valueField": "pending"
+        }
+        ],
+        "depth3D": 40,
+        "angle": 30,
+        "chartCursor": {
+            "categoryBalloonEnabled": false,
+            "cursorAlpha": 0,
+            "zoomable": false
+        },
+        "categoryField": "date",
+        "categoryAxis": {
+            "gridPosition": "start",
+            "axisAlpha": 0,
+            "gridAlpha": 0
+
+        },
+        "export": {
+            "enabled": true
+        }
+
+    }, 0);
+
+    jQuery('.chart-input2').off().on('input change', function () {
+        var property = jQuery(this).data('property');
+        var target = chart;
+        chart.startDuration = 0;
+
+        if (property == 'topRadius') {
+            target = chart.graphs[0];
+        }
+
+        target[property] = this.value;
+        chart.validateNow();
+    });*@
+
+
+    var chart = AmCharts.makeChart("ColumnChart", {
+    "theme": "light",
+    "type": "serial",
+    "startDuration": 2,
+     "legend": {
+        "useGraphSettings": true,
+        "markerSize":12,
+        "valueWidth":0,
+        "verticalGap":0
+    },
+       "dataProvider": [{ "date": "08-MAR-2022", "create": "6", "complete": "0", "pending": "6" }, { "date": "01-MAR-2022", "create": "14", "complete": "0", "pending": "14" }, { "date": "03-MAR-2022", "create": "6", "complete": "0", "pending": "6" }, { "date": "07-MAR-2022", "create": "18", "complete": "0", "pending": "18" }, { "date": "02-MAR-2022", "create": "3", "complete": "0", "pending": "3" }, { "date": "04-MAR-2022", "create": "11", "complete": "2", "pending": "9" }, { "date": "05-MAR-2022", "create": "5", "complete": "0", "pending": "5" }
+       ],
+
+    "valueAxes": [{
+        "position": "left",
+        "title": "Count"
+    }],
+    "graphs": [
+        {
+            "balloonText": "[[title]]: <b>[[value]]</b>",
+            "colorField": "color",
+            "fillAlphas": 0.85,
+            "lineAlpha": 0.1,
+            "type": "column",
+            "topRadius": 1,
+            "valueField": "create",
+            "title": "Created"
+         
+        
+        },
+              {
+            "balloonText": "[[title]]: <b>[[value]]</b>",
+            "colorField": "color",
+            "fillAlphas": 0.85,
+            "lineAlpha": 0.1,
+            "type": "column",
+            "topRadius": 1,
+            "valueField": "complete",
+              "title": "Completed"
+        },
+              {
+            "balloonText": "[[title]]: <b>[[value]]</b>",
+            "colorField": "color",
+            "fillAlphas": 0.85,
+            "lineAlpha": 0.1,
+            "type": "column",
+            "topRadius": 1,
+            "valueField": "pending",
+            "title": "Pending"
+        }
+        ],
+    "depth3D": 20,
+    "angle": 30,
+    "chartCursor": {
+        "categoryBalloonEnabled": false,
+        "cursorAlpha": 0,
+        "zoomable": false
+    },    
+    "categoryField": "date",
+    "categoryAxis": {
+        "gridPosition": "end",
+        "labelRotation": 0
+    },
+    "export": {
+        "enabled": true
+     }
+
+});
+});
+    $('.to_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    });
+
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('.to_date').datetimepicker('setStartDate', minDate);
+    });
+    function changesearch() {
+
+        var isValid = true;
+
+        if (document.getElementById("SStart").value == "" || document.getElementById("SStart").value == 0) {
+            isValid = false;
+            $(SStart).css({
+                "border": "1px solid red",
+                "background": "#FFCECE"
+            });
+
+            alert("Please Select From Date");
+            isValid = false;
+        }
+        else {
+            $(SStart).css({
+                "border": "",
+                "background": ""
+            });
+        }
+
+
+        if (document.getElementById("SEnd").value == "" || document.getElementById("SEnd").value == 0) {
+            isValid = false;
+            $(SEnd).css({
+                "border": "1px solid red",
+                "background": "#FFCECE"
+            });
+
+            alert("Please Select To date");
+            isValid = false;
+        }
+        else {
+            $(SEnd).css({
+                "border": "",
+                "background": ""
+            });
+        }
+
+        if (isValid == true) {
+
+            var st = document.getElementById("SStart").value;
+            var ed = document.getElementById("SEnd").value;
+            $.ajax({
+                url: 'GetDatewisecount',
+                data: { 'st': st, 'ed': ed },
+                type: "GET",
+                success: function (result) {
+                        
+                    document.getElementById("indent").innerHTML = result.indent;
+                    document.getElementById("enq" ).innerHTML = result.enq;
+                    document.getElementById("quot").innerHTML = result.quot;
+                    document.getElementById("po").innerHTML = result.po;
+                    document.getElementById("direct").innerHTML = result.direct;
+                    document.getElementById("grn").innerHTML = result.grn;
+                    
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+          @*  var url = '@Url.Action("PurchaseDash", "Home")?st=' + fromDate + '&ed=' + toDate;
+            window.location.href = url;*@
+        }
+    }
+</script>
+
+                    <script>
+                        
+  $(function () {
+      var ItemId = '@ViewBag.Item';
+     var result = ItemId.replace(/&quot;/g, '"');
+      
+var chart = AmCharts.makeChart("chartdiv", {
+ "theme": "light",
+    "type": "serial",
+    "dataProvider": [{ "item": "Diethylene Glycol (Kgs)",  "qty": "38250"  },{ "item": "Sample Cover",  "qty": "18750"  },{ "item": "L.A.W.S",  "qty": "18000"  },{ "item": "Fresh Mineral Turpentine",  "qty": "15130"  },{ "item": "Tag Card Green CCC Grade",  "qty": "11900"  }],
+    "valueAxes": [{
+        "title": "Store Stock"
+    }],
+    "graphs": [{
+        "balloonText": "Stock in [[category]]:[[value]]",
+        "fillAlphas": 1,
+        "lineAlpha": 0.2,
+        "title": "item",
+        "type": "column",
+        "valueField": "qty"
+    }],
+    "depth3D": 20,
+    "angle": 30,
+    "rotate": true,
+    "categoryField": "item",
+    "categoryAxis": {
+        "gridPosition": "start",
+        "fillAlpha": 0.05,
+        "position": "left"
+    },
+    "export": {
+    	"enabled": true
+     }
+});
+});
+ 
+</script>

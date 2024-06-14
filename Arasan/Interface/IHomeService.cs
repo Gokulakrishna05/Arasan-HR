@@ -13,6 +13,7 @@ namespace Arasan.Interface
         //DataTable GetMaterialnot();
         //DataTable GetAPout();
         DataTable GetquoteFollowupnextReport();
+        DataTable Getinddentapprove();
         DataTable GetDamageGRN();
         DataTable GetIndent();
         DataTable GetDamageGRNDetail();
