@@ -481,7 +481,7 @@ namespace Arasan.Controllers.Production
             try
             {
                 Cy.ID = id;
-                string Strout =  _ProdForecastServ.ProductionForecastingCRUD(Cy);
+                string Strout = ""; //_ProdForecastServ.ProductionForecastingCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (Cy.ID == null)

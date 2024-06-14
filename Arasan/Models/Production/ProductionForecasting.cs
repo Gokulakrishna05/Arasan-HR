@@ -55,7 +55,7 @@ namespace Arasan.Models
         public string apstk { get; set; }
         public string coarse { get; set; }
         public string power { get; set; }
-         
+        public string pastecunt { get; set; }
         public string pyrocunt { get; set; }
         public string apcunt { get; set; }
         public List<SelectListItem> mnthlst { get; set; }

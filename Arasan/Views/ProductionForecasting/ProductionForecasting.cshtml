@@ -136,7 +136,7 @@
 
 
                                             <br />  <label for="inputName3" class="col-sm-4 control-label">Prod Start Date <label class="Mandatory">*</label></label>
-                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            <div class="input-group date from_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                                 @Html.TextBoxFor(C => C.Fordate, new { @id = "Fordate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true ,@onchange="changedays(this.value)"})
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                             </div>
@@ -145,7 +145,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <br /> <label for="inputName3" class="col-sm-4 control-label">End Date <label class="Mandatory">*</label></label>
-                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            <div class="input-group date to_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                                 @Html.TextBoxFor(C => C.Enddate, new { @id = "Enddate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true,@onchange="changedays(this.value)" })
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                             </div>
@@ -1423,7 +1423,35 @@ var date2 = "";
         todayHighlight: 1,
         startView: 2,
         minView: 2,
+         startDate: new Date(),
         forceParse: 0
+    });
+      $('.to_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        startDate: new Date(),
+        forceParse: 0
+
+    });
+    $('.from_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        startDate: new Date(),
+        forceParse: 0
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('.to_date').datetimepicker('setStartDate', minDate);
+        
     });
    function changemnth(mnth){
         $('._select').select2();
@@ -1433,7 +1461,7 @@ var date2 = "";
         document.getElementById("tbBooks3").innerHTML = "";
         document.getElementById("tbBooks4").innerHTML = "";
         document.getElementById("tbBooks5").innerHTML = "";
-        //document.getElementById("tbBooks6").innerHTML = "";
+        document.getElementById("apnewtable").innerHTML = "";
         document.getElementById("tbBooks7").innerHTML = "";
          document.getElementById("tbBooks8").innerHTML = "";
         var opt = "";
@@ -1635,7 +1663,7 @@ var date2 = "";
 
 
                     var Required = "<td><input class='form-control' id='txtpasteRequired" + index + "' name='PFCPASTELst[" + index + "].required'  style='width: 100px;' type='text' readonly='True'  value=" + item.required + " /><input class='form-control' id='hdpasteRequired" + index + "' name='PFCPASTELst[" + index + "].required'  type='hidden' value=" + item.required + " /></td>";
-                    var prodday = "<td><input class='form-control' id='txtpasteproddays" + index + "' name='PFCPASTELst[" + index + "].proddays'  style='width: 100px;' type='text' /><input class='form-control' id='hdpastecapacity" + index + "'  type='hidden'  /></td>";
+                    var prodday = "<td><input class='form-control' id='txtpasteproddays" + index + "' name='PFCPASTELst[" + index + "].proddays'  style='width: 100px;' type='text' onkeyup = 'changepastedays(this," + index + ")' /><input class='form-control' id='hdpastecapacity" + index + "'  type='hidden'  /></td>";
                     var Production = "<td><input class='form-control' id='txtpprod" + index + "' name='PFCPASTELst[" + index + "].production'  style='width: 100px;' type='text' readonly='True' /><input class='form-control' id='hdpprod" + index + "' name='PFCPASTELst[" + index + "].production'  type='hidden'  /></td>";
                    var RawMat = "<td><label style='width: 120px;' id='txtpasteRawItem" + index + "'>" + item.rawmat + "</label><input id='txtpasteRawItemId" + index + "' name='PFCPASTELst[" + index + "].rawmatid' type='hidden'  value=" + item.rawmatid + "></td>";
                    var stval="<td><input class='form-control' id='txtspastestval" + index + "' name='PFCPASTELst[" + index + "].startval'  style='width: 60px;' type='text' value=" + item.startval + " readonly='True' ><input id='txtpastestval" + index + "' name='PFCPASTELst[" + index + "].startval'   type='hidden'   value=" + item.startval + " /></td>";
@@ -1750,7 +1778,7 @@ var date2 = "";
 
 
                     var Required = "<td><input class='form-control' id='txtpolishrequired" + index + "' name='PFCPOLILst[" + index + "].required'  style='width: 100px;' type='text' readonly='True'  value=" + item.required + " /><input class='form-control' id='hdpolishrequired" + index + "' name='PFCPOLILst[" + index + "].required'  type='hidden'  value=" + item.required + " /></td>";
-                    var Days = "<td><input class='form-control' id='txtpolishdays" + index + "' name='PFCPOLILst[" + index + "].days'  style='width: 120px;' type='text' /><input class='form-control' id='hdpolishdays" + index + "' name='PFCPOLILst[" + index + "].days'  type='hidden'  /></td>";
+                    var Days = "<td><input class='form-control' id='txtpolishdays" + index + "' name='PFCPOLILst[" + index + "].days'  style='width: 120px;' type='text' onkeyup = 'changepolishdays(this," + index + ")' /><input class='form-control' id='hdpolishdays" + index + "' name='PFCPOLILst[" + index + "].days'  type='hidden'  /></td>";
                     var Additive = "<td><label style='width: 120px;'>" + item.additive + "</label><input class='form-control' id='hdpolishadditive" + index + "' name='PFCPOLILst[" + index + "].additiveid'  style='width: 120px;' type='hidden' value=" + item.additiveid + " /></td>";
                     var AllocAdditive = "<td><input class='form-control' id='txtpolishadd" + index + "' name='PFCPOLILst[" + index + "].add'  style='width: 60px;' type='text' value=" + item.add + " readonly='True' /><input class='form-control' id='hdpolishadd" + index + "' name='PFCPOLILst[" + index + "].add'   type='hidden' value=" + item.add + " /></td>";
 
@@ -1786,7 +1814,7 @@ var date2 = "";
 
                     var Prodqty = "<td><input class='form-control' id='txtrvdprodqty" + rindex + "' name='PFCRVDLst[" + rindex + "].prodqty'  style='width: 100px;' type='text' readonly='True'  value=" + item.required + " /><input type='hidden' value=" + item.required + " id='hdrvdprodqty" + rindex + "' name='PFCRVDLst[" + rindex + "].prodqty'></td>";
 
-                       var Days = "<td><input class='form-control' id='txtrvddays" + rindex + "' name='PFCRVDLst[" + rindex + "].days'  style='width: 120px;' type='text' /><input type='hidden'  id='hdrvdcapacity" + rindex + "' name='PFCRVDLst[" + rindex + "].capacity'></td>";
+                       var Days = "<td><input class='form-control' id='txtrvddays" + rindex + "' name='PFCRVDLst[" + rindex + "].days'  style='width: 120px;' type='text' onkeyup = 'changervddays(this," + rindex + ")' /><input type='hidden'  id='hdrvdcapacity" + rindex + "' name='PFCRVDLst[" + rindex + "].capacity'></td>";
 
                    var Cons = "<td><label style='width: 120px;'>" + item.consmat + "</label><input id='txtrvdconsmatid" + index + "' name='PFCRVDLst[" + index + "].consmatid' type='hidden'  value=" + item.consmatid + "></td>";
                     
@@ -2369,163 +2397,268 @@ if (targethrs == "")
 
             }
             function changepyrodays(_this,i){
-                var itemid=document.getElementById("txtItemId"+i).value;
-                var sval=document.getElementById("txtpyrostval"+i).value;
-                var endval=document.getElementById("txtpyroendval"+i).value;
-                var ritemid=document.getElementById("txtRawItemId"+i).value;
-               
+
+                  var isValid = true;
+            if (document.getElementById("ddlmnth").value == "") {
+                isValid = false;
+                $(ddlmnth).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Month");
+                 document.getElementById("txtproddays"+i).value="0";
+                return false;
+            }
+            else {
+                $(ddlmnth).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+             if (document.getElementById("Hd").value == "") {
+                isValid = false;
+                $(Hd).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Holidays");
+                 document.getElementById("txtproddays"+i).value="0";
+                return false;
+            }
+            else {
+                $(Hd).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("Fordate").value == "") {
+                isValid = false;
+                $(Fordate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please select From Date");
+                 document.getElementById("txtproddays"+i).value="0";
+                return false;
+            }
+            else {
+                $(Fordate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("Enddate").value == "") {
+                isValid = false;
+                $(Enddate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please select To Date");
+                 document.getElementById("txtproddays"+i).value="0";
+                return false;
+            }
+            else {
+                $(Enddate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlWorkId"+i).value == "") {
+                isValid = false;
+                 alert("Please select Work Center");
+                  document.getElementById("txtproddays"+i).value="0";
+                return false;
+            }
+            
+            
+
+if (isValid == true)
+
+{
+                var totdays=document.getElementById("hdtotaldays").value;
                 var prodday=document.getElementById("txtproddays"+i).value;
-                var targethrs=document.getElementById("txttargethrs"+i).value;
-                var rejqty=document.getElementById("txtrejqty"+i).value;
-        var rejmatper = document.getElementById("txtrejmat" + i).value;
-        var req = document.getElementById("txtpyroRequired" + i).value;
-        var per = document.getElementById("txtPer" + i).value;
-                var prodqty=0;
-                 if (prodday == "")
-                        prodday = 0;
+                if(eval(totdays) >= eval(prodday))
+                {
+                   
+                }
+                else{
+                    alert("Production day not valid");
+                     document.getElementById("txtproddays"+i).value="0";
+                }
 
-if (targethrs == "")
-                        targethrs = 0;
-
-                        if (rejqty == "")
-                        rejqty = 0;
-
-                        if (rejmatper == "")
-            rejmatper = 0;
-
-             if (req == "")
-            req = 0;
-
-             if (per == "")
-            per = 0;
-
-                        prodqty = eval(targethrs) * eval(prodday);
-                        var reqty=(eval(rejqty) + eval(prodqty));
-        var rejmatqty = Math.ceil(eval(reqty) * (eval(rejmatper) / 100));
-        var balqty = Math.ceil(eval(req) - eval(prodqty));
-        var addtitive=eval(prodqty) * (eval(per) /100);
-        var reqpower=eval(prodqty) -eval(addtitive);
-                        document.getElementById("txtprodqty"+i).value=prodqty;
-                            document.getElementById("txtsprodqty"+i).value=prodqty;
-        document.getElementById("txtrejmatreq" + i).value = rejmatqty;
-        document.getElementById("txtsrejmatreq" + i).value = rejmatqty;
-        document.getElementById("txtbalanceqty" + i).value = balqty;
-        document.getElementById("txtsbalanceqty" + i).value = balqty;
-        document.getElementById("txtallocadditive" + i).value = Math.round(addtitive,2);
-        document.getElementById("txtsallocadditive" + i).value = Math.round(addtitive, 2);
-        document.getElementById("txtsreqpowder" + i).value = Math.ceil(reqpower);
-        document.getElementById("txtreqpowder" + i).value = Math.ceil(reqpower);
-
-        var totpwd=0;
-        var j = 0;
-        $('tr.chkitemlst2sub').each(function () {
-            if ($(this).css('display') !== 'none') {
-                 var nitemid=document.getElementById("txtItemId"+j).value;
-                  var nsval=document.getElementById("txtpyrostval"+j).value;
-                var nendval=document.getElementById("txtpyroendval"+j).value;
-                 if(itemid==nitemid && nsval==sval && nendval==endval){
-                     var reqpwd= document.getElementById("txtreqpowder" + j).value;
-                      if (reqpwd == "")
-            reqpwd = 0;
-
-                totpwd += eval(reqpwd);
-                 }
-
-                j += 1;
-            }
-        });
-
-           var k = 0;
-        $('tr.chkitemlst9').each(function () {
-            if ($(this).css('display') !== 'none') {
-                 var nitemid=document.getElementById("txtapreqitemid"+k).value;
-                   var nsval=document.getElementById("txtapstval"+k).value;
-                var nendval=document.getElementById("txtapendval"+k).value;
-                     if(ritemid==nitemid && nsval==sval && nendval==endval){
-                  document.getElementById("txtappyro" + k).value=totpwd;
-                  document.getElementById("hdappyro" + k).value=totpwd;
-                  var appaste=document.getElementById("hdappaste" + k).value;
-                  var apfgapsvalue=document.getElementById("hdapfgapsvalue" + k).value;
-                  var apstock=document.getElementById("hdapreqavlstk" + k).value;
-                  var apminstock=document.getElementById("hdapreqminitk" + k).value;
-
-                  if (appaste == "")
-            appaste = 0;
-
-            if (apfgapsvalue == "")
-            apfgapsvalue = 0;
-
-             if (apstock == "")
-            apstock = 0;
-
-             if (apminstock == "")
-            apminstock = 0;
-
-            var totpowder= eval(appaste) +eval(apfgapsvalue) +eval(totpwd);
-
-            var coarse = eval(totpowder) * 0.05;
-
-            var pwreq=eval(totpowder) + eval(apminstock) -eval(apstock) -eval(coarse);
-
-            document.getElementById("hdapreqappowder" + k).value=totpowder;
-                document.getElementById("txtapreqappowder" + k).value=totpowder;
-
-                    document.getElementById("txtcoarsemelting" + k).value=Math.round(coarse);
-                document.getElementById("hdcoarsemelting" + k).value=Math.round(coarse);
-
-                       document.getElementById("txtapreqpowderrequired" + k).value=Math.round(pwreq);
-
-                 }
-                 
-        
-                k += 1;
-            }
-        });
+                @* start calculation *@
+                    prodday=document.getElementById("txtproddays"+i).value;
+                         var itemid=document.getElementById("txtItemId"+i).value;
+                    var sval=document.getElementById("txtpyrostval"+i).value;
+                    var endval=document.getElementById("txtpyroendval"+i).value;
+                    var ritemid=document.getElementById("txtRawItemId"+i).value;
 
 
+                    var targethrs=document.getElementById("txttargethrs"+i).value;
+                    var rejqty=document.getElementById("txtrejqty"+i).value;
+            var rejmatper = document.getElementById("txtrejmat" + i).value;
+            var req = document.getElementById("txtpyroRequired" + i).value;
+            var per = document.getElementById("txtPer" + i).value;
+                    var prodqty=0;
+                     if (prodday == "")
+                            prodday = 0;
 
-                           var n = 0;
-            $('tr.chkitemlst6sub').each(function () {
+    if (targethrs == "")
+                            targethrs = 0;
+
+                            if (rejqty == "")
+                            rejqty = 0;
+
+                            if (rejmatper == "")
+                rejmatper = 0;
+
+                 if (req == "")
+                req = 0;
+
+                 if (per == "")
+                per = 0;
+
+                            prodqty = eval(targethrs) * eval(prodday);
+                            var reqty=(eval(rejqty) + eval(prodqty));
+            var rejmatqty = Math.ceil(eval(reqty) * (eval(rejmatper) / 100));
+            var balqty = Math.ceil(eval(req) - eval(prodqty));
+            var addtitive=eval(prodqty) * (eval(per) /100);
+            var reqpower=eval(prodqty) -eval(addtitive);
+                            document.getElementById("txtprodqty"+i).value=prodqty;
+                                document.getElementById("txtsprodqty"+i).value=prodqty;
+            document.getElementById("txtrejmatreq" + i).value = rejmatqty;
+            document.getElementById("txtsrejmatreq" + i).value = rejmatqty;
+            document.getElementById("txtbalanceqty" + i).value = balqty;
+            document.getElementById("txtsbalanceqty" + i).value = balqty;
+            document.getElementById("txtallocadditive" + i).value = Math.round(addtitive,2);
+            document.getElementById("txtsallocadditive" + i).value = Math.round(addtitive, 2);
+            document.getElementById("txtsreqpowder" + i).value = Math.ceil(reqpower);
+            document.getElementById("txtreqpowder" + i).value = Math.ceil(reqpower);
+
+            var totpwd=0;
+            var j = 0;
+            $('tr.chkitemlst2sub').each(function () {
                 if ($(this).css('display') !== 'none') {
-                      var asval=document.getElementById("hdapsval"+n).value;
-                    var aendval=document.getElementById("hdapeval"+n).value;
-                    var tot=0;
-                  
-                    /////////////
-                 var t = 0;var totpwd=0;
-        $('tr.chkitemlst9').each(function () {
-            if ($(this).css('display') !== 'none') {
-                 var nsval=document.getElementById("txtapstval"+t).value;
-                var nendval=document.getElementById("txtapendval"+t).value;
-                 if(eval(nendval) < eval(aendval) && eval(nendval) > eval(asval)){
-                     var pwreq=document.getElementById("txtapreqpowderrequired" + t).value;
-                     if (pwreq == "")
-            pwreq = 0;
+                     var nitemid=document.getElementById("txtItemId"+j).value;
+                      var nsval=document.getElementById("txtpyrostval"+j).value;
+                    var nendval=document.getElementById("txtpyroendval"+j).value;
+                     if(itemid==nitemid && nsval==sval && nendval==endval){
+                         var reqpwd= document.getElementById("txtreqpowder" + j).value;
+                          if (reqpwd == "")
+                reqpwd = 0;
 
-                     totpwd +=eval(pwreq);
-                 }
+                    totpwd += eval(reqpwd);
+                     }
 
-                t += 1;
-            }
-        });
-        /////////////
+                    j += 1;
+                }
+            });
+
+               var k = 0;
+            $('tr.chkitemlst9').each(function () {
+                if ($(this).css('display') !== 'none') {
+                     var nitemid=document.getElementById("txtapreqitemid"+k).value;
+                       var nsval=document.getElementById("txtapstval"+k).value;
+                    var nendval=document.getElementById("txtapendval"+k).value;
+                         if(ritemid==nitemid && nsval==sval && nendval==endval){
+                      document.getElementById("txtappyro" + k).value=totpwd;
+                      document.getElementById("hdappyro" + k).value=totpwd;
+                      var appaste=document.getElementById("hdappaste" + k).value;
+                      var apfgapsvalue=document.getElementById("hdapfgapsvalue" + k).value;
+                      var apstock=document.getElementById("hdapreqavlstk" + k).value;
+                      var apminstock=document.getElementById("hdapreqminitk" + k).value;
+
+                      if (appaste == "")
+                appaste = 0;
+
+                if (apfgapsvalue == "")
+                apfgapsvalue = 0;
+
+                 if (apstock == "")
+                apstock = 0;
+
+                 if (apminstock == "")
+                apminstock = 0;
+
+                var totpowder= eval(appaste) +eval(apfgapsvalue) +eval(totpwd);
+
+                var coarse = eval(totpowder) * 0.05;
+
+                var pwreq=eval(totpowder) + eval(apminstock) -eval(apstock) -eval(coarse);
+
+                document.getElementById("hdapreqappowder" + k).value=totpowder;
+                    document.getElementById("txtapreqappowder" + k).value=totpowder;
+
+                        document.getElementById("txtcoarsemelting" + k).value=Math.round(coarse);
+                    document.getElementById("hdcoarsemelting" + k).value=Math.round(coarse);
+
+                           document.getElementById("txtapreqpowderrequired" + k).value=Math.round(pwreq);
+
+                     }
 
 
-                    if(eval(endval) < eval(aendval) && eval(endval) > eval(asval)){
-  
-                        document.getElementById("txtaptarget" + n).value=Math.round(totpwd);
-                        document.getElementById("hdaptarget" + n).value=Math.round(totpwd);
-
-                         document.getElementById("txtapbalanceqty" + n).value=Math.round(totpwd);
-                        document.getElementById("hdapbalanceqty" + n).value=Math.round(totpwd);
-
-                    }
-
-                        n +=1;
+                    k += 1;
                 }
             });
 
 
+
+                               var n = 0;
+                $('tr.chkitemlst6sub').each(function () {
+                    if ($(this).css('display') !== 'none') {
+                          var asval=document.getElementById("hdapsval"+n).value;
+                        var aendval=document.getElementById("hdapeval"+n).value;
+                        var tot=0;
+
+                        /////////////
+                     var t = 0;var totpwd=0;
+            $('tr.chkitemlst9').each(function () {
+                if ($(this).css('display') !== 'none') {
+                     var nsval=document.getElementById("txtapstval"+t).value;
+                    var nendval=document.getElementById("txtapendval"+t).value;
+                     if(eval(nendval) < eval(aendval) && eval(nendval) > eval(asval)){
+                         var pwreq=document.getElementById("txtapreqpowderrequired" + t).value;
+                         if (pwreq == "")
+                pwreq = 0;
+
+                         totpwd +=eval(pwreq);
+                     }
+
+                    t += 1;
+                }
+            });
+            /////////////
+
+
+                        if(eval(endval) < eval(aendval) && eval(endval) > eval(asval)){
+
+                            document.getElementById("txtaptarget" + n).value=Math.round(totpwd);
+                            document.getElementById("hdaptarget" + n).value=Math.round(totpwd);
+
+                             document.getElementById("txtapbalanceqty" + n).value=Math.round(totpwd);
+                            document.getElementById("hdapbalanceqty" + n).value=Math.round(totpwd);
+
+                        }
+
+                            n +=1;
+                    }
+                });
+
+
+                     @* End calculation *@
+
+    }
+    else{
+        document.getElementById("txtproddays"+i).value="0";
+    }
 
             }
 
@@ -2607,6 +2740,7 @@ if (targethrs == "")
                 alert("Data Not Found");
             }
         });
+        
     }
     function changepastedays(_this, i){
         var target = document.getElementById("hdpasteRequired" + i).value;
