@@ -352,8 +352,8 @@ namespace Arasan.Services
                                 {
                                     string Sql = string.Empty;
                                     if (StatementType == "Update")
-                                    {
-                                        Sql = "Update GRNBLDETAIL SET  QTY= '" + cp.BillQty + "',RATE= '" + cp.rate + "',CF='" + cp.Conversionfactor + "',AMOUNT='" + cp.Amount + "',DISCPER='" + cp.DiscPer + "',DISC='" + cp.DiscAmt + "',PURTYPE='" + cp.Purtype + "',CGSTP='" + cp.CGSTPer + "',CGST='" + cp.CGSTAmt + "',SGSTP='" + cp.SGSTPer + "',SGST='" + cp.SGSTAmt + "',IGSTP='" + cp.IGSTPer + "',IGST='" + cp.IGSTAmt + "',TOTAMT='" + cp.TotalAmount + "',COSTRATE='" + cp.CostRate + "',ORDQTY='" + cp.Quantity + "',DAMAGE_QTY='" + cp.DamageQty + "',LOT_NO='" + lotnumber + "',QCTESTFLAG='" + ins + "',LOTYN='" + lotnogen.Rows[0]["LOTYN"].ToString() + "',QCYN='" + lotnogen.Rows[0]["QCT"].ToString() + "'";
+                                    {/*,LOT_NO='" + lotnumber + "'*/
+                                        Sql = "Update GRNBLDETAIL SET  QTY= '" + cp.BillQty + "',RATE= '" + cp.rate + "',CF='" + cp.Conversionfactor + "',AMOUNT='" + cp.Amount + "',DISCPER='" + cp.DiscPer + "',DISC='" + cp.DiscAmt + "',PURTYPE='" + cp.Purtype + "',CGSTP='" + cp.CGSTPer + "',CGST='" + cp.CGSTAmt + "',SGSTP='" + cp.SGSTPer + "',SGST='" + cp.SGSTAmt + "',IGSTP='" + cp.IGSTPer + "',IGST='" + cp.IGSTAmt + "',TOTAMT='" + cp.TotalAmount + "',COSTRATE='" + cp.CostRate + "',ORDQTY='" + cp.Quantity + "',DAMAGE_QTY='" + cp.DamageQty + "',QCTESTFLAG='" + ins + "',LOTYN='" + lotnogen.Rows[0]["LOTYN"].ToString() + "',QCYN='" + lotnogen.Rows[0]["QCT"].ToString() + "'";
                                         if (lotnogen.Rows[0]["EXPYN"].ToString() == "YES")
                                         {
                                             Sql += ",MDATE='"+ cp.mdate+ "',EDATE='"+ cp.edate +"'";
