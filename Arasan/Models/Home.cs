@@ -40,6 +40,7 @@ namespace Arasan.Models
         public List<MenuList> Menulst { get; set; }
         public List<GateIn> GateInlst { get; set; }
         public List<ChartData> chrtlst { get; set; }    
+        public List<StoreChartData> schrtlst { get; set; }    
 
 
     }
@@ -175,6 +176,13 @@ namespace Arasan.Models
 
     }
     public class ChartData
+    {
+        public string cvalue { get; set; }
+
+        public string ctext { get; set; }
+
+    }
+    public class StoreChartData
     {
         public string cvalue { get; set; }
 

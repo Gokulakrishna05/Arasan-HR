@@ -163,7 +163,7 @@ namespace Arasan.Services
         public DataTable GetDamageGRNDetail()
         {
             string SvSql = string.Empty;
-            SvSql = "Select GRNBLDETAILID,GRNBLBASICID,ITEMMASTER.ITEMID,GRNBLDETAIL.DAMAGE_QTY from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GRNBLDETAIL.ITEMID WHERE GRNBLDETAIL.DAMAGE_QTY >0 ORDER BY GRNBLDETAIL.GRNBLDETAILID ASC  ";
+            SvSql = "Select GD.GRNBLBASICID,ITEMMASTER.ITEMID,GD.DAMAGE_QTY,G.DOCID,G.PARTYNAME,to_char(G.DOCDATE,'dd-MON-yyyy')DOCDATE from GRNBLBASIC G, GRNBLDETAIL GD LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GD.ITEMID WHERE GD.DAMAGE_QTY >0 AND G.GRNBLBASICID=GD.GRNBLBASICID ORDER BY GD.GRNBLDETAILID ASC  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
