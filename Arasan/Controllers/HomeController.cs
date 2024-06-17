@@ -144,13 +144,10 @@ namespace Arasan.Controllers
                     tad.ItemName = dt2.Rows[i]["ITEMID"].ToString();
                     tad.qty = dt2.Rows[i]["DAMAGE_QTY"].ToString();
                     tad.grnbasicid = dt2.Rows[i]["GRNBLBASICID"].ToString();
-                    DataTable dt1 = new DataTable();
-                    dt1 = HomeService.GetGRN(tad.grnbasicid);
-                    if (dt1.Rows.Count > 0)
-                    {
-                        tad.grn = dt1.Rows[0]["DOCID"].ToString();
-                        tad.Date = dt1.Rows[0]["DOCDATE"].ToString();
-                        tad.party = dt1.Rows[0]["PARTYNAME"].ToString();
+                     
+                        tad.grn = dt2.Rows[0]["DOCID"].ToString();
+                        tad.Date = dt2.Rows[0]["DOCDATE"].ToString();
+                        tad.party = dt2.Rows[0]["PARTYNAME"].ToString();
 
                         DateTime Current = DateTime.Parse(tad.Date);
                         TimeSpan difference = DateTime.Now - Current;
@@ -165,7 +162,7 @@ namespace Arasan.Controllers
 
 
                         }
-                    }
+                
 
                     Data.Add(tad);
                 }
@@ -239,7 +236,10 @@ namespace Arasan.Controllers
             }
             ChartData tda1=new ChartData();
             List<ChartData> TData3 = new List<ChartData>();
-            DataTable topitem = datatrans.GetData("SELECT SUM(net) stk, PARTYNAME  FROM (SELECT SUM(net) as net, PARTYNAME FROM dpbasic WHERE DOCDATE between sysdate - 365 and sysdate GROUP BY PARTYNAME   UNION ALL SELECT SUM(net) as net, PARTYNAME FROM GRNBLBASIC WHERE DOCDATE between sysdate - 365 and sysdate GROUP BY PARTYNAME) GROUP BY PARTYNAME order by SUM(net) desc");
+            DateTime fin = datatrans.GetFinancialDate(DateTime.Now);
+
+            string finy = fin.ToString("dd-MMM-yyyy");
+            DataTable topitem = datatrans.GetData("SELECT SUM(net) stk, PARTYNAME  FROM (SELECT SUM(net) as net, PARTYNAME FROM dpbasic WHERE DOCDATE between '"+ finy + "' and sysdate GROUP BY PARTYNAME   UNION ALL SELECT SUM(net) as net, PARTYNAME FROM GRNBLBASIC WHERE DOCDATE between '" + finy + "' and sysdate GROUP BY PARTYNAME) GROUP BY PARTYNAME order by SUM(net) desc FETCH FIRST 5 ROWS ONLY");
             string str = "";
             string color = "";
             if (topitem.Rows.Count > 0)
@@ -426,29 +426,37 @@ namespace Arasan.Controllers
                     TDatag.Add(tdag);
                 }
             }
-
+            StoreChartData tda1 = new StoreChartData();
+            List<StoreChartData> TData3 = new List<StoreChartData>();
             DataTable topitem = datatrans.GetData("select  SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) as QTY,I.ITEMID  from STOCKVALUE S ,ITEMMASTER I where S.ITEMID=I.ITEMMASTERID AND S.LOCID='10001000000827'   HAVING SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) > 0  GROUP BY I.ITEMID order by SUM(DECODE(S.PlusOrMinus,'p',S.qty,-S.qty)) desc FETCH FIRST 5 ROWS ONLY ");
             string str = "";
             string color = "";
             if (topitem.Rows.Count > 0)
             {
-                str += "[";
+                //str += "[";
                 for (int i = 0; i < topitem.Rows.Count; i++)
                 {
-                      
-                    str += "{" +
-                    " \"item\": \"" + topitem.Rows[i]["ITEMID"].ToString() + "\", " +
-                    " \"qty\": \"" + topitem.Rows[i]["QTY"].ToString() + "\"" +
+
+                    tda1 = new StoreChartData();
+                    tda1.ctext = topitem.Rows[i]["ITEMID"].ToString();
+                    tda1.cvalue = topitem.Rows[i]["QTY"].ToString();
+                    TData3.Add(tda1);
+
+                    //str += "{" +
+                    //" \"item\": \"" + topitem.Rows[i]["ITEMID"].ToString() + "\", " +
+                    //" \"qty\": \"" + topitem.Rows[i]["QTY"].ToString() + "\"" +
                     
                   
-                    "  },";
+                    //"  },";
 
 
                 }
-                str = str.Remove(str.Length - 1);
-                str += "]";
+                //str = str.Remove(str.Length - 1);
+                //str += "]";
             }
-            ViewBag.Item = str;
+            // ViewBag.Item = str;
+            ViewBag.schrtlst = TData3;
+
             //DataTable intent = datatrans.GetData("select count(pindbasicID) as cunt,to_char(PINDBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE from PINDBASIC  where    PINDBASIC.DOCDATE BETWEEN '01-MAR-2022' AND  '8-MAR-2022' GROUP BY DOCDATE  ");
             //string str = "";
             //string color = "";

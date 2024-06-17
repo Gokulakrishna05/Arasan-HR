@@ -159,13 +159,13 @@
  	    <div class="row">
                     <div class="col-lg-6">
                         <div class="ibox float-e-margins">
-                             <div class="ibox-title">
-                    <h5>Top Suppliers</h5>
+                             <div class="ibox-title" style="background-color:steelblue">
+                    <h5 style="color:white;font-weight:bold">Top 5 Suppliers (Current Financial Year)</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link" data-toggle="collapse" data-target="#demo13"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                            <i class="fa fa-wrench"></i>
-                        </a>
+                       
+                           
+                       
                     </div>
                 </div>
                          
@@ -177,100 +177,20 @@
 </div>
 </div>
 </div>
-     @if (Model.supcnt > 0)
-    {
-        <div class="col-lg-6">
-            <!-- Start feed -->
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>Waiting For Supplier Allocation</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link" data-toggle="collapse" data-target="#demo6"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                            <i class="fa fa-wrench"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="ibox-content collapse in" id="demo6">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="ibox float-e-margins">
-
-                                <div class="ibox-content collapse in">
-                                    <div class="widgets-container">
-                                        <div>
-                                            <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                      
-                                                        <th> Indent No </th>
-                                                        <th> Date </th>
-
-
-                                                        <th> Item </th>
-                                                        <th>Qty</th>
-                                                        <th> Location </th>
-                                                        <th>   </th>
-
-
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody>
-                                                    @{
-                                                        int s = 0;
-
-                                                        foreach (var item in Model.suplst.ToList())
-                                                        {
-                                                                            <tr>
-
-
-                                                                                <td>@Html.DisplayFor(o => o.suplst[s].indentno)</td>
-                                                                                <td>@Html.DisplayFor(o => o.suplst[s].indentdate)</td>
-                                                                                <td>@Html.DisplayFor(o => o.suplst[s].ItemName)</td>
-
-                                                                                <td>@Html.DisplayFor(o => o.suplst[s].Qty)</td>
-                                                                                <td>@Html.DisplayFor(o => o.suplst[s].loc)</td>
-                                                                                <td> <div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("List_PI_MSupp_Allocation", "PurchaseIndent")'><img src='../Images/right-arrow.png'/></a></div></td>
-
-
-                                                                            </tr>
-                                                            s++;
-                                                        }
-
-                                                    }
-                                                </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-           
-        </div>
-        <!-- End feed -->
-    </div>
-    }
-</div>
-
-            <div class="row">
        @if (Model.appcnt > 0)
     {
         <div class="col-lg-6">
             <!-- Start feed -->
             <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>Waiting For Approve(Indent)</h5>
+                <div class="ibox-title" style="background-color:steelblue">
+                    <h5 style="color:white;font-weight:bold">Waiting For Approval (Indent)</h5>
                     <div class="ibox-tools">
-                        <a class="collapse-link" data-toggle="collapse" data-target="#demo6"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                            <i class="fa fa-wrench"></i>
-                        </a>
+                        <a class="collapse-link" data-toggle="collapse" data-target="#demo7"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
+                       
+                           
                     </div>
                 </div>
-                <div class="ibox-content collapse in" id="demo6">
+                <div class="ibox-content collapse in" id="demo7">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="ibox float-e-margins">
@@ -278,7 +198,7 @@
                                 <div class="ibox-content collapse in">
                                     <div class="widgets-container">
                                         <div>
-                                            <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                            <table id="example7" class="display nowrap table  responsive nowrap table-bordered" style="background-color:honeydew;font-weight:bold">
                                                 <thead>
                                                     <tr>
                                                       
@@ -332,21 +252,98 @@
         <!-- End feed -->
     </div>
     }
+</div>
+
+            <div class="row">
+                  @if (Model.supcnt > 0)
+    {
+        <div class="col-lg-6">
+            <!-- Start feed -->
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="background-color:steelblue">
+                    <h5 style="color:white;font-weight:bold">Waiting For Supplier Allocation</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link" data-toggle="collapse" data-target="#demo6"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
+                       
+                          
+                    </div>
+                </div>
+                <div class="ibox-content collapse in" id="demo6">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+
+                                <div class="ibox-content collapse in">
+                                    <div class="widgets-container">
+                                        <div>
+                                            <table id="example7" class="display nowrap table  responsive nowrap table-bordered" style="background-color:honeydew;font-weight:bold">
+                                                <thead>
+                                                    <tr>
+                                                      
+                                                        <th> Indent No </th>
+                                                        <th> Date </th>
+
+
+                                                        <th> Item </th>
+                                                        <th>Qty</th>
+                                                        <th> Location </th>
+                                                        <th>   </th>
+
+
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @{
+                                                        int s = 0;
+
+                                                        foreach (var item in Model.suplst.ToList())
+                                                        {
+                                                                            <tr>
+
+
+                                                                                <td>@Html.DisplayFor(o => o.suplst[s].indentno)</td>
+                                                                                <td>@Html.DisplayFor(o => o.suplst[s].indentdate)</td>
+                                                                                <td>@Html.DisplayFor(o => o.suplst[s].ItemName)</td>
+
+                                                                                <td>@Html.DisplayFor(o => o.suplst[s].Qty)</td>
+                                                                                <td>@Html.DisplayFor(o => o.suplst[s].loc)</td>
+                                                                                <td> <div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("List_PI_MSupp_Allocation", "PurchaseIndent")'><img src='../Images/right-arrow.png'/></a></div></td>
+
+
+                                                                            </tr>
+                                                            s++;
+                                                        }
+
+                                                    }
+                                                </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        <!-- End feed -->
+    </div>
+    }
+   
     @if (Model.dagrncnt > 0)
     {
     <div class="col-lg-6">
         <!-- Start feed -->
         <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5>Damaged Purchase</h5>
+            <div class="ibox-title" style="background-color:steelblue">
+                <h5 style="color:white;font-weight:bold">Damaged Purchase</h5>
                 <div class="ibox-tools">
-                    <a class="collapse-link" data-toggle="collapse" data-target="#demo6"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
-                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                        <i class="fa fa-wrench"></i>
-                    </a>
+                    <a class="collapse-link" data-toggle="collapse" data-target="#demo8"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
+                   
                 </div>
             </div>
-            <div class="ibox-content collapse in" id="demo6">
+            <div class="ibox-content collapse in" id="demo8">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
@@ -354,7 +351,7 @@
                         <div class="ibox-content collapse in">
                             <div class="widgets-container">
                                 <div>
-                                    <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                    <table id="example7" class="display nowrap table  responsive nowrap table-bordered" style="background-color:honeydew;font-weight:bold">
                                         <thead>
                                             <tr>
                                                 @* <th>Item Group</th>*@
@@ -365,7 +362,7 @@
                                                 <th> Item </th>
                                                
                                                 <th> Damege Qty </th>
-                                                <th>   </th>
+                                               
                                                 <th>   </th>
 
 
@@ -388,7 +385,7 @@
                                                                             <td>@Html.DisplayFor(o => o.purlst[i].ItemName)</td>
                                                                             <td>@Html.DisplayFor(o => o.purlst[i].qty)</td>
                                                                              
-                                                                            <td> <small class="pull-right">@Html.DisplayFor(o => o.purlst[i].days)</small></td>
+                                                                          @*  <td> <small class="pull-right">@Html.DisplayFor(o => o.purlst[i].days)</small></td>*@
                                                                                                                                             <td> <div class='fa-hover col-md-2 col-sm-4'> <a href='@Url.Action("ListDamageGRN", "GRN")'><img src='../Images/right-arrow.png' /></a></div></td>
 
                                                                             </tr>
@@ -420,13 +417,12 @@
         <div class="col-lg-6">
             <!-- Start feed -->
             <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>Enquiry Followup -<label id="EnqFollowcunt">(@Html.DisplayFor(m => m.EnqFollowcunt))</label></h5>
+                <div class="ibox-title" style="background-color:steelblue">
+                    <h5 style="color:white;font-weight:bold">Enquiry Followup -<label id="EnqFollowcunt">(@Html.DisplayFor(m => m.EnqFollowcunt))</label></h5>
                     <div class="ibox-tools">
                         <a class="collapse-link" data-toggle="collapse" data-target="#demo9"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                            <i class="fa fa-wrench"></i>
-                        </a>
+                       
+                           
                     </div>
                 </div>
                 <div class="ibox-content collapse in" id="demo9">
@@ -437,7 +433,7 @@
                                 <div class="ibox-content collapse in">
                                     <div class="widgets-container">
                                         <div>
-                                            <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                            <table id="example7" class="display nowrap table  responsive nowrap table-bordered" style="background-color:honeydew;font-weight:bold">
                                                 <thead>
                                                     <tr>
                                                         <th>Enq No</th>
@@ -489,13 +485,12 @@
     <div class="col-lg-6">
         <!-- Start feed -->
         <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                    <h5>Quote Followup -<label id="Quotefollowcunt">(@Html.DisplayFor(m => m.Quotefollowcunt))</label></h5>
+            <div class="ibox-title" style="background-color:steelblue">
+                    <h5 style="color:white;font-weight:bold">Quote Followup -<label id="Quotefollowcunt">(@Html.DisplayFor(m => m.Quotefollowcunt))</label></h5>
                 <div class="ibox-tools">
                     <a class="collapse-link" data-toggle="collapse" data-target="#demo10"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
-                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                        <i class="fa fa-wrench"></i>
-                    </a>
+                   
+                       
                 </div>
             </div>
             <div class="ibox-content collapse in" id="demo10">
@@ -506,7 +501,7 @@
                             <div class="ibox-content collapse in">
                                 <div class="widgets-container">
                                     <div>
-                                        <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                        <table id="example7" class="display nowrap table  responsive nowrap table-bordered" style="background-color:honeydew;font-weight:bold">
                                             <thead>
                                                 <tr>
                                                         <th>Quo No</th>

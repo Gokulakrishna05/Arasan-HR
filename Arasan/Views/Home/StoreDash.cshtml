@@ -101,13 +101,11 @@
         <div class="col-lg-6">
             <!-- Start feed -->
             <div class="ibox float-e-margins">
-                <div class="ibox-title" style="background-color:darkblue">
+                <div class="ibox-title" style="background-color:  steelblue">
                     <h5 style="color:white;font-weight:bold">Material Request Pending</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link" data-toggle="collapse" data-target="#demo8"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                            <i class="fa fa-wrench"></i>
-                        </a>
+                        
                     </div>
                 </div>
                 <div class="ibox-content collapse in" id="demo8">
@@ -173,11 +171,22 @@
         </div>
     }
         <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="background-color:  steelblue">
+                    <h5 style="color:white;font-weight:bold">Store Stock</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link" data-toggle="collapse" data-target="#demo33"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
+                      
+                    </div>
+                </div>
+                <div class="ibox-content collapse in" id="demo33">
         <div class="ibox float-e-margins">
 
                                 <div class="ibox-content collapse in">
                                     <div class="widgets-container">
     <div id="chartdiv"></div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -194,9 +203,7 @@
                     <h5 style="color:white;font-weight:bold">Gate Inward</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link" data-toggle="collapse" data-target="#demo4"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                            <i class="fa fa-wrench"></i>
-                        </a>
+                         
                     </div>
                 </div>
                 <div class="ibox-content collapse in" id="demo4">
@@ -506,13 +513,13 @@
                     <script>
                         
   $(function () {
-      var ItemId = '@ViewBag.Item';
-     var result = ItemId.replace(/&quot;/g, '"');
+       var chartData = generateChartDatasd();
+
       
 var chart = AmCharts.makeChart("chartdiv", {
  "theme": "light",
     "type": "serial",
-    "dataProvider": [{ "item": "Diethylene Glycol (Kgs)",  "qty": "38250"  },{ "item": "Sample Cover",  "qty": "18750"  },{ "item": "L.A.W.S",  "qty": "18000"  },{ "item": "Fresh Mineral Turpentine",  "qty": "15130"  },{ "item": "Tag Card Green CCC Grade",  "qty": "11900"  }],
+    "dataProvider": chartData,
     "valueAxes": [{
         "title": "Store Stock"
     }],
@@ -539,4 +546,21 @@ var chart = AmCharts.makeChart("chartdiv", {
 });
 });
  
+
+function generateChartDatasd() {
+    @{
+    var chlst = ViewBag.schrtlst;
+}
+     var jsonObj =@Json.Serialize(chlst);
+     var chartData = [];
+     for(var i = 0; i < jsonObj.length; i++) {
+    
+    chartData.push({
+        item :  jsonObj[i].ctext,
+        qty: jsonObj[i].cvalue 
+    });
+        
+     }
+return chartData;
+}
 </script>
