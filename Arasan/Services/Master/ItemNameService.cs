@@ -276,9 +276,8 @@ namespace Arasan.Services.Master
                             {
                                 if (cp.Isvalid == "Y" && cp.SupName != null)
                                 {
-                                    using (OracleConnection objConnI = new OracleConnection(_connectionString))
-                                    {
-                                        OracleCommand objCmdI = new OracleCommand("SUPPLIERPROC", objConnI);
+                                   
+                                        OracleCommand objCmdI = new OracleCommand("SUPPLIERPROC", objConn);
 
                                         objCmdI.CommandType = CommandType.StoredProcedure;
                                         StatementType = "Insert";
@@ -289,21 +288,16 @@ namespace Arasan.Services.Master
                                         objCmdI.Parameters.Add("DELDAYS", OracleDbType.NVarchar2).Value = cp.Delivery;
                                         objCmdI.Parameters.Add("ITEMMASTERID", OracleDbType.NVarchar2).Value = Pid;
                                         objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                        try
-                                        {
-                                            objConnI.Open();
+                                        
+                                            
                                             objCmdI.ExecuteNonQuery();
                                             //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            //System.Console.WriteLine("Exception: {0}", ex.ToString());
-                                        }
+                                       
 
-                                        objConnI.Close();
+                                     
                                     }
 
-                                }
+                                 
                             }
 
                         }
@@ -443,25 +437,35 @@ namespace Arasan.Services.Master
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-               
+                if (ss.ID == null)
+                {
                     svSQL = " SELECT Count(ITEMID) as cnt FROM ITEMMASTER WHERE ITEMID =LTRIM(RTRIM('" + ss.Item + "')) and ITEMDESC =LTRIM(RTRIM('" + ss.ItemDes + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Item Already Existed";
                         return msg;
                     }
-                
+                }
                 string grpid = datatrans.GetDataString("Select ITEMGROUPID from ITEMGROUP where GROUPCODE='" + ss.ItemG + "'");
                 string supid = datatrans.GetDataString("Select ITEMSUBGROUPID from ITEMSUBGROUP where SGCODE='" + ss.ItemSub + "'");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ITEMMASTERPROC", objConn);
-                
+                    /*objCmd.Connection = objConn; 
+                    objCmd.CommandText = "ITEMMASTERPROC";*/
+
                     objCmd.CommandType = CommandType.StoredProcedure;
-                   
-                    StatementType = "Insert";
-                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                   
+                    if (ss.ID == null)
+                    {
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        StatementType = "Update";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
+                    }
+
                     objCmd.Parameters.Add("IGROUP", OracleDbType.NVarchar2).Value = ss.ItemG;
                     objCmd.Parameters.Add("ISUBGROUP", OracleDbType.NVarchar2).Value = ss.ItemSub;
                     objCmd.Parameters.Add("ITEMGROUP", OracleDbType.NVarchar2).Value = grpid;
@@ -483,8 +487,10 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("VALMETHOD", OracleDbType.NVarchar2).Value = ss.ValuationMethod;
                     objCmd.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = ss.Serial;
                     objCmd.Parameters.Add("BSTATEMENTYN", OracleDbType.NVarchar2).Value = ss.Batch;
+                    if (ss.QCTemp == null)
+                    { objCmd.Parameters.Add("TEMPLATEID", OracleDbType.NVarchar2).Value = "0"; }
+                    else { objCmd.Parameters.Add("TEMPLATEID", OracleDbType.NVarchar2).Value = ss.QCTemp; }
 
-                    objCmd.Parameters.Add("TEMPLATEID", OracleDbType.NVarchar2).Value = ss.QCTemp;
                     objCmd.Parameters.Add("QCCOMPFLAG", OracleDbType.NVarchar2).Value = ss.QCRequired;
                     objCmd.Parameters.Add("LATPURPRICE", OracleDbType.NVarchar2).Value = ss.Latest;
 
@@ -494,13 +500,47 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = ss.AddItem;
                     objCmd.Parameters.Add("RAWMATCAT", OracleDbType.NVarchar2).Value = ss.RawMaterial;
                     objCmd.Parameters.Add("LEDGERNAME", OracleDbType.NVarchar2).Value = ss.Ledger;
-
-                    objCmd.Parameters.Add("PTEMPLATEID", OracleDbType.NVarchar2).Value = ss.FQCTemp;
+                    if (ss.FQCTemp == null)
+                    {
+                        objCmd.Parameters.Add("PTEMPLATEID", OracleDbType.NVarchar2).Value = "0";
+                    }
+                    else { objCmd.Parameters.Add("PTEMPLATEID", OracleDbType.NVarchar2).Value = ss.FQCTemp; }
                     objCmd.Parameters.Add("CURINGDAY", OracleDbType.NVarchar2).Value = ss.Curing;
                     objCmd.Parameters.Add("AUTOINDENT", OracleDbType.NVarchar2).Value = ss.Auto;
-                    objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.createdby;
-                    objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                   
+                    if (ss.ID == null)
+                    {
+                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.createdby;
+                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
+                    else
+                    {
+                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = ss.createdby;
+                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
+                    if (ss.Tarriff == null)
+                    {
+                        objCmd.Parameters.Add("TARIFFID", OracleDbType.NVarchar2).Value = "0";
+                    }
+                    else { objCmd.Parameters.Add("TARIFFID", OracleDbType.NVarchar2).Value = ss.Tarriff; }
+                    objCmd.Parameters.Add("LEADDAYS", OracleDbType.NVarchar2).Value = ss.leadtime;
+                    objCmd.Parameters.Add("LATPURDT", OracleDbType.NVarchar2).Value = ss.lastdate;
+                    objCmd.Parameters.Add("LOTYN", OracleDbType.NVarchar2).Value = ss.lot;
+                    objCmd.Parameters.Add("DRUMYN", OracleDbType.NVarchar2).Value = ss.Drumyn;
+                    objCmd.Parameters.Add("BINYN", OracleDbType.NVarchar2).Value = ss.BinYN;
+                    if (ss.BinID == null)
+                    {
+                        objCmd.Parameters.Add("BINNO", OracleDbType.NVarchar2).Value = "0";
+                    }
+                    else { objCmd.Parameters.Add("BINNO", OracleDbType.NVarchar2).Value = ss.BinID; }
+                    objCmd.Parameters.Add("PURCAT", OracleDbType.NVarchar2).Value = ss.purchasecate;
+                    objCmd.Parameters.Add("MAJORYN", OracleDbType.NVarchar2).Value = ss.major;
+                    objCmd.Parameters.Add("COSTCATEGORY", OracleDbType.NVarchar2).Value = ss.costcat;
+                    objCmd.Parameters.Add("AUTOCONSYN", OracleDbType.NVarchar2).Value = ss.autocon;
+                    objCmd.Parameters.Add("ITEMFROM", OracleDbType.NVarchar2).Value = ss.itemfrom;
+                    objCmd.Parameters.Add("RHYN", OracleDbType.NVarchar2).Value = ss.rundet;
+                    objCmd.Parameters.Add("RUNHRS", OracleDbType.NVarchar2).Value = ss.runhrs;
+                    objCmd.Parameters.Add("RUNPERQTY", OracleDbType.NVarchar2).Value = ss.runhrsqty;
+                    objCmd.Parameters.Add("QCT", OracleDbType.NVarchar2).Value = ss.qctest;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -508,10 +548,10 @@ namespace Arasan.Services.Master
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
                         Object Pid = objCmd.Parameters["OUTID"].Value;
-                        //if (ss.ID != null)
-                        //{
-                        //    Pid = ss.ID;
-                        //}
+                        if (ss.ID != null)
+                        {
+                            Pid = ss.ID;
+                        }
                         //  foreach (DirItem cp in cy.DirLst)
                         //{
                         string latestbin = datatrans.GetDataString("Select BINID from BINMASTER where ITEMID='" + Pid + "' AND ISUPDATED='Y'");
@@ -540,40 +580,35 @@ namespace Arasan.Services.Master
                             {
                                 if (cp.Isvalid == "Y" && cp.SupName != null)
                                 {
-                                    using (OracleConnection objConnI = new OracleConnection(_connectionString))
-                                    {
-                                        OracleCommand objCmdI = new OracleCommand("SUPPLIERPROC", objConnI);
 
-                                        objCmdI.CommandType = CommandType.StoredProcedure;
-                                        StatementType = "Insert";
-                                        objCmdI.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                        objCmdI.Parameters.Add("SUPPLIERID", OracleDbType.NVarchar2).Value = cp.SupName;
-                                        objCmdI.Parameters.Add("SUPPLIERPARTNO", OracleDbType.NVarchar2).Value = cp.SupplierPart;
-                                        objCmdI.Parameters.Add("SPURPRICE", OracleDbType.NVarchar2).Value = cp.PurchasePrice;
-                                        objCmdI.Parameters.Add("DELDAYS", OracleDbType.NVarchar2).Value = cp.Delivery;
-                                        objCmdI.Parameters.Add("ITEMMASTERID", OracleDbType.NVarchar2).Value = Pid;
-                                        objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                        try
-                                        {
-                                            objConnI.Open();
-                                            objCmdI.ExecuteNonQuery();
-                                            //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            //System.Console.WriteLine("Exception: {0}", ex.ToString());
-                                        }
+                                    OracleCommand objCmdI = new OracleCommand("SUPPLIERPROC", objConn);
 
-                                        objConnI.Close();
-                                    }
+                                    objCmdI.CommandType = CommandType.StoredProcedure;
+                                    StatementType = "Insert";
+                                    objCmdI.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    objCmdI.Parameters.Add("SUPPLIERID", OracleDbType.NVarchar2).Value = cp.SupName;
+                                    objCmdI.Parameters.Add("SUPPLIERPARTNO", OracleDbType.NVarchar2).Value = cp.SupplierPart;
+                                    objCmdI.Parameters.Add("SPURPRICE", OracleDbType.NVarchar2).Value = cp.PurchasePrice;
+                                    objCmdI.Parameters.Add("DELDAYS", OracleDbType.NVarchar2).Value = cp.Delivery;
+                                    objCmdI.Parameters.Add("ITEMMASTERID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
+
+                                    objCmdI.ExecuteNonQuery();
+                                    //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+
+
 
                                 }
+
+
                             }
 
                         }
                         if (ss.unititemlst != null)
                         {
-                           
+                            if (ss.ID == null)
+                            {
                                 foreach (UnitItem cp in ss.unititemlst)
                                 {
                                     if (cp.Isvalid == "Y" && cp.Unit != "0")
@@ -587,8 +622,103 @@ namespace Arasan.Services.Master
                                     }
 
                                 }
-                            
+                            }
+                            else
+                            {
+                                svSQL = "Delete ITEMMASTERPUNIT WHERE ITEMMASTERID='" + ss.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+                                foreach (UnitItem cp in ss.unititemlst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.Unit != "0")
+                                    {
+                                        int i = 1;
+                                        svSQL = "Insert into ITEMMASTERPUNIT (ITEMMASTERID,ITEMMASTERPUNITROW,UNIT,CF,VALIDROW3,UNITTYPE,UNITUNIQUEID) VALUES ('" + Pid + "','" + i + "','" + cp.Unit + "','" + cp.cf + "','T','" + cp.unittype + "','" + cp.uniqid + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                        i++;
+                                    }
+
+                                }
+                            }
                         }
+                        if (ss.locdetlst != null)
+                        {
+                            if (ss.ID == null)
+                            {
+                                foreach (LocdetItem cp in ss.locdetlst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.loc != null)
+                                    {
+
+                                        int i = 1;
+                                        svSQL = "Insert into LOCINVDETAIL (ITEMMASTERID,LOCID,REORDERLEVEL,MINQTYN,MAXQTYN,BSTMGROUP,LOCINVDETAILROW,SELLINGRATE) VALUES ('" + Pid + "','" + cp.loc + "','" + cp.reorder + "','" + cp.minlevel + "','" + cp.maxlevel + "','" + cp.bank + "','" + i + "','0')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                        i++;
+                                    }
+
+                                }
+                            }
+                            else
+                            {
+                                svSQL = "Delete LOCINVDETAIL WHERE ITEMMASTERID='" + ss.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+                                foreach (LocdetItem cp in ss.locdetlst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.loc != "0")
+                                    {
+                                        int i = 1;
+                                        svSQL = "Insert into LOCINVDETAIL (ITEMMASTERID,LOCID,REORDERLEVEL,MINQTYN,MAXQTYN,BSTMGROUP,LOCINVDETAILROW) VALUES ('" + Pid + "','" + cp.loc + "','" + cp.reorder + "','" + cp.minlevel + "','" + cp.maxlevel + "','" + cp.bank + "','" + i + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                        i++;
+                                    }
+
+                                }
+                            }
+                        }
+                        if (files != null && files.Count > 0)
+                        {
+                            int r = 1;
+                            foreach (var file in files)
+                            {
+                                if (file.Length > 0)
+                                {
+                                    // Get the file name and combine it with the target folder path
+                                    String strLongFilePath1 = file.FileName;
+                                    String sFileType1 = "";
+                                    sFileType1 = System.IO.Path.GetExtension(file.FileName);
+                                    sFileType1 = sFileType1.ToLower();
+
+                                    String strFleName = strLongFilePath1.Replace(sFileType1, "") + String.Format("{0:ddMMMyyyy-hhmmsstt}", DateTime.Now) + sFileType1;
+                                    var fileName = Path.Combine("wwwroot/itemdoc", strFleName);
+                                    var fileName1 = Path.Combine("itemdoc", strFleName);
+                                    var name = file.FileName;
+                                    // Save the file to the target folder
+
+                                    using (var fileStream = new FileStream(fileName, FileMode.Create))
+                                    {
+                                        file.CopyTo(fileStream);
+
+
+
+                                        svSQL = "Insert into ITEMMASTERDOC(ITEMMASTERID,ITEMMASTERDOCROW,DOCPATH) VALUES ('" + Pid + "','" + r + "','" + fileName1 + "')";
+                                        OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                        objCmdss.ExecuteNonQuery();
+
+                                        r++;
+                                    }
+                                }
+
+                            }
+                            objConn.Close();
+                        }
+
                     }
                     catch (Exception ex)
                     {

@@ -348,8 +348,8 @@ namespace Arasan.Controllers
                     {
                         GeneratePO = "";
                         MoveToGRN = "";
-                        EditRow = "";
-                       
+                        EditRow = "<a href=PurchaseOrder?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/verify.png' alt='Edit' /></a>";
+
                     }
                     else
                     {
