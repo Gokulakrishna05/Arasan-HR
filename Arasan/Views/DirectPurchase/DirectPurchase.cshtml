@@ -426,7 +426,7 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group">
 
-                                                         <br /> <label for="inputName3" class="col-sm-2 control-label">Truck No<label class="Mandatory"></label></label>
+                                                         <br /> <label for="inputName3" class="col-sm-2 control-label">Truck No<label class="mandatory"> * </label></label>
                                                         <div class="col-sm-10">
                                                             @Html.TextBoxFor(C => C.truckno, new { @id = "txttruckno", @class = "form-control", @TabIndex = 1})
                                                         </div>
@@ -544,38 +544,58 @@
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
-            if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
+            if (document.getElementById("ddlputype").value == "" || document.getElementById("ddlputype").value == 0) {
                 isValid = false;
-                $(ddlBranch).css({
+                $(ddlputype).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Branch");
+                alert("Please Select Purchase Type");
                 return false;
             }
             else {
-                $(ddlBranch).css({
+                $(ddlputype).css({
                     "border": "",
                     "background": ""
                 });
             }
-            if (document.getElementById("DocDate").value == "") {
+
+             if (document.getElementById("ddlSupplier").value == "" || document.getElementById("ddlSupplier").value == 0) {
                 isValid = false;
-                $(DocDate).css({
+                $(ddlSupplier).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select  Date");
+                alert("Please Select Supplier");
                 return false;
             }
             else {
-                $(DocDate).css({
+                $(ddlSupplier).css({
                     "border": "",
                     "background": ""
                 });
             }
+
+            if (document.getElementById("ddllocation").value == "" || document.getElementById("ddllocation").value == 0) {
+                isValid = false;
+                $(ddllocation).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Loacation");
+                return false;
+            }
+            else {
+                $(ddllocation).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+           
+           
             if (document.getElementById("txtDocNo").value == "") {
                 isValid = false;
                 $(txtDocNo).css({
@@ -588,6 +608,23 @@
             }
             else {
                 $(txtDocNo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("DocDate").value == "") {
+                isValid = false;
+                $(DocDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Date");
+                return false;
+            }
+            else {
+                $(DocDate).css({
                     "border": "",
                     "background": ""
                 });
@@ -609,38 +646,94 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("ddllocation").value == "" || document.getElementById("ddllocation").value == 0) {
+         
+          
+            var j = 0;
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    j += 1;
+                }
+            });
+            if(j==0){
+                if (document.getElementById("ddlputype").value == "AGAINST PURCHASE INDENT") {
+                     alert("Please Select Indent");
+             }
+             else{
+                    alert("Please Add Item");
+             }
                 isValid = false;
-                $(ddllocation).css({
+                return false;
+            }
+            
+            
+            
+
+            //Grid validation
+            var j = 0;
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+
+
+                    if ($(this).find('#ddlItem' + j.toString()).val() == "" || $(this).find('#ddlItem' + j.toString()).val() == 0) {
+                        isValid = false;
+                        $(this).find('#ddlItem' + j.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        alert("Please Select Item");
+                        $(this).find('#ddlItem' + j.toString()).focus();
+                        return false;
+                    }
+                    else {
+                        $(this).find('#ddlItem' + j.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#txtQuantity' + j.toString()).val() == "" || $(this).find('#txtQuantity' + j.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtQuantity' + j.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Quantity");
+                        $(this).find('#txtQuantity' + j.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtQuantity' + j.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                   
+
+
+                }
+                j += 1;
+            });
+
+            if (document.getElementById("txttruckno").value == "" || document.getElementById("txttruckno").value == 0) {
+                isValid = false;
+                $(txttruckno).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Loacation");
+                alert("Please Enter Truck No.");
                 return false;
             }
             else {
-                $(ddllocation).css({
+                $(txttruckno).css({
                     "border": "",
                     "background": ""
                 });
             }
-            if (document.getElementById("ddlSupplier").value == "" || document.getElementById("ddlSupplier").value == 0) {
-                isValid = false;
-                $(ddlSupplier).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
 
-                alert("Please Select Supplier");
-                return false;
-            }
-            else {
-                $(ddlSupplier).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
 
             if (isValid == false)
                 e.preventDefault();
@@ -827,18 +920,17 @@
         });
     }
     function getsuptype(supid) {
-        @*var puid=document.getElementById("ddlputype").value;
             var i = 0;
             $('tr.chkitemlst').each(function () {
             if ($(this).css('display') !== 'none') {
             (function (index) {
-
+                    var ItemId = document.getElementById("ddlItem" + index).value;
             $.ajax({
-            url: 'GetIndentJSON',
-            data: { "puid": puid,"supid":supid},
+                        url: 'GetGSTItemJSON',
+                        data: { "itemid": ItemId, "custid": supid },
             type: "GET",
             success: function (response) {
-            PopulateDropDown("#ddlIndent" + index, response);
+                            PopulateDropDownn("#ddlgst" + index, response);
             },
             error: function () {
             alert("Data Not Found");
@@ -848,7 +940,10 @@
             })(i);
             i += 1;
             }
-            });*@
+            });
+
+
+            
  
 
             $.ajax({
@@ -866,7 +961,9 @@
    
         }
     function getputype(puid) {
-        var supid = document.getElementById("ddlSupplier").value;
+        //var supid = document.getElementById("ddlSupplier").value;
+        $('#ddlSupplier').select2("val", "");
+
         $.ajax({
             url: "GetSupJSON",
             type: "post",
@@ -881,7 +978,7 @@
             }
         });
         if (puid == "AGAINST CONSUMABLES RETURN") {
-            document.getElementById('txtVoucher').value = "Credit Note";
+            document.getElementById('txtVoucher').value = "CreditNote";
             document.getElementById("tbBooks").innerHTML="";
             var i = 0;
             $('tr.chkitemlst').each(function () {
@@ -1049,7 +1146,7 @@
             }
             });*@
 
-                           var i = 0;
+                         
  
                            
    
@@ -1059,17 +1156,7 @@
             data: { 'itemid': ItemId, "custid": cutid },
             cache: false,
             success: function (response) {
-                var newlist;
-
-                newlist = response.gstlst;
-                var i = 0;
-                $('tr.chkitemlst').each(function () {
-                    if ($(this).css('display') !== 'none') {
                         PopulateDropDownn("#ddlgst" + i, response);
-                        //$("#ddlgst" + i).val(null).trigger("change");
-                        i += 1;
-                    }
-                });
             },
             error: function () {
                 debugger;

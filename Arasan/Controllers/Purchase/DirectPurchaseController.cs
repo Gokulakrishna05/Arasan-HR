@@ -40,6 +40,7 @@ namespace Arasan.Controllers
             ca.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Curlst = BindCurrency();
             ca.Loclst = GetLoc();
+            ca.Location = "10001000000827";
             ca.putypelst = BindPuType();
             string loc = ca.Location;
             //ViewBag.locdisp = ca.Location;
@@ -65,6 +66,7 @@ namespace Arasan.Controllers
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
+               // ca.Location = "";
             }
             else
             {
@@ -195,12 +197,14 @@ namespace Arasan.Controllers
             ca.Curlst = BindCurrency();
             ca.Loclst = GetLoc();
             ca.putypelst = BindPuType();
+            ca.Location = "10001000000827";
             string loc = ca.Location;
             //ViewBag.locdisp = ca.Location;
             ca.Vocherlst = BindVocher();
             ca.Voucher = "Purchase";
             ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
-            DataTable dtv = datatrans.GetSequence1("dp", loc);
+            if (loc == "10001000000827") { loc = "12423000000238"; }
+            DataTable dtv = datatrans.GetSequences("dp", loc);
             if (dtv.Rows.Count > 0)
             {
                 ca.DocNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["LASTNO"].ToString();
