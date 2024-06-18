@@ -81,7 +81,7 @@ namespace Arasan.Services.Master
         public DataTable GetSubGroup(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SGCODE,SGDESC,ITEMSUBGROUPID,CATEGORY,GROUPCODE from ITEMSUBGROUP where ITEMSUBGROUPID = '" + id + "' ";
+            SvSql = "Select SGCODE,SGDESC,ITEMSUBGROUPID from ITEMSUBGROUP where ITEMSUBGROUPID = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

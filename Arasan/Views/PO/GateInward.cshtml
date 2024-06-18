@@ -404,7 +404,7 @@ function PO_Change(poid) {
                          var index = $("#tbBooks").children("tr").length;
                         var Item = "<td><label style='font-weight: 200;'>" + item.itemname + "</label><input type='hidden' value=" + item.itemid + " id='txtItem" + index + "' name='PoItem[" + index + "].itemid'></td>";
                         var Qc = "<td><label style='font-weight: 200;'>" + item.qc + "</label><input type='hidden' value=" + item.qc + " id='txtqc" + index + "' name='PoItem[" + index + "].qc'></td>";
-                        var Qt = "<td><label style='font-weight: 200;'>" + item.quantity + "</label></td>";
+                        var Qt = "<td><label style='font-weight: 200;'>" + item.qty + "</label></td>";
                          var Unit = "<td><label style='font-weight: 200;'>" + item.unit + "</label></td>";
 var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='PoItem[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0'  onkeyup = 'changeQty(this," + index + ")'/></td>";
 
