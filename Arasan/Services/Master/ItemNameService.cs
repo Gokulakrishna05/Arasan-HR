@@ -682,42 +682,42 @@ namespace Arasan.Services.Master
                                 }
                             }
                         }
-                        if (files != null && files.Count > 0)
-                        {
-                            int r = 1;
-                            foreach (var file in files)
-                            {
-                                if (file.Length > 0)
-                                {
-                                    // Get the file name and combine it with the target folder path
-                                    String strLongFilePath1 = file.FileName;
-                                    String sFileType1 = "";
-                                    sFileType1 = System.IO.Path.GetExtension(file.FileName);
-                                    sFileType1 = sFileType1.ToLower();
+                        //if (files != null && files.Count > 0)
+                        //{
+                        //    int r = 1;
+                        //    foreach (var file in files)
+                        //    {
+                        //        if (file.Length > 0)
+                        //        {
+                        //            // Get the file name and combine it with the target folder path
+                        //            String strLongFilePath1 = file.FileName;
+                        //            String sFileType1 = "";
+                        //            sFileType1 = System.IO.Path.GetExtension(file.FileName);
+                        //            sFileType1 = sFileType1.ToLower();
 
-                                    String strFleName = strLongFilePath1.Replace(sFileType1, "") + String.Format("{0:ddMMMyyyy-hhmmsstt}", DateTime.Now) + sFileType1;
-                                    var fileName = Path.Combine("wwwroot/itemdoc", strFleName);
-                                    var fileName1 = Path.Combine("itemdoc", strFleName);
-                                    var name = file.FileName;
-                                    // Save the file to the target folder
+                        //            String strFleName = strLongFilePath1.Replace(sFileType1, "") + String.Format("{0:ddMMMyyyy-hhmmsstt}", DateTime.Now) + sFileType1;
+                        //            var fileName = Path.Combine("wwwroot/itemdoc", strFleName);
+                        //            var fileName1 = Path.Combine("itemdoc", strFleName);
+                        //            var name = file.FileName;
+                        //            // Save the file to the target folder
 
-                                    using (var fileStream = new FileStream(fileName, FileMode.Create))
-                                    {
-                                        file.CopyTo(fileStream);
+                        //            using (var fileStream = new FileStream(fileName, FileMode.Create))
+                        //            {
+                        //                file.CopyTo(fileStream);
 
 
 
-                                        svSQL = "Insert into ITEMMASTERDOC(ITEMMASTERID,ITEMMASTERDOCROW,DOCPATH) VALUES ('" + Pid + "','" + r + "','" + fileName1 + "')";
-                                        OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
-                                        objCmdss.ExecuteNonQuery();
+                        //                svSQL = "Insert into ITEMMASTERDOC(ITEMMASTERID,ITEMMASTERDOCROW,DOCPATH) VALUES ('" + Pid + "','" + r + "','" + fileName1 + "')";
+                        //                OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                        //                objCmdss.ExecuteNonQuery();
 
-                                        r++;
-                                    }
-                                }
+                        //                r++;
+                        //            }
+                        //        }
 
-                            }
-                            objConn.Close();
-                        }
+                        //    }
+                        //    objConn.Close();
+                        //}
 
                     }
                     catch (Exception ex)

@@ -320,35 +320,27 @@ namespace Arasan.Services
                         {
                             if (cp.itemid != "0")
                             {
-                                using (OracleConnection objConnT = new OracleConnection(_connectionString))
-                                {
+                                
                                     string Sql = string.Empty;
                                     if (StatementType == "Insert")
                                     {
-                                        Sql = "Insert into GATE_INWARD_DETAILS(GATE_IN_ID,ITEM_ID,QCFLAG,IN_QTY) Values('" + Pid + "','" + cp.itemid + "','" + cp.qc + "','" + cp.Quantity + "')";
+                                        Sql = "Insert into GATE_INWARD_DETAILS(GATE_IN_ID,ITEM_ID,QCFLAG,IN_QTY,QTY) Values('" + Pid + "','" + cp.itemid + "','" + cp.qc + "','" + cp.Quantity + "','"+ cp.qty +"')";
                                     }
                                     else
                                     {
                                         Sql = "";
                                     }
-                                    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
-                                    objConnT.Open();
+                                    OracleCommand objCmds = new OracleCommand(Sql, objConn);
+                                    
                                     objCmds.ExecuteNonQuery();
-                                    objConnT.Close();
-                                }
+                                    
+                                 
                             }
 
 
                         }
+                      
 
-                        using (OracleConnection objConnE = new OracleConnection(_connectionString))
-                        {
-                            string Sql = "UPDATE POBASIC SET STATUS='GRN Generated' where POBASICID='" + cy.POId + "'";
-                            OracleCommand objCmds = new OracleCommand(Sql, objConnE);
-                            objConnE.Open();
-                            objCmds.ExecuteNonQuery();
-                            objConnE.Close();
-                        }
                     }
                     catch (Exception ex)
                     {
@@ -372,13 +364,18 @@ namespace Arasan.Services
 
                     using (OracleConnection objConn = new OracleConnection(_connectionString))
                     {
-                        DataTable party = datatrans.GetData("SELECT GSTNO,PANNO FROM PARTYMAST  where PARTYNAME='" + cy.Supplier + "'");
-                        string due = datatrans.GetDataString("Select  DUEDATE FROM PODETAIL WHERE POBASICID='" + cy.ID + "'");
-
-                        DateTime del = DateTime.Parse(due);
-                        string duedate = del.ToString("dd-MMM-yyyy");
-                        DateTime now = DateTime.Now.Date;
-                        double t1 = (del - now).TotalDays;
+                        DataTable party = datatrans.GetData("SELECT GSTNO,PANNO FROM PARTYMAST  where PARTYMASTID='" + cy.Supplier + "'");
+                        string due = datatrans.GetDataString("Select  DUEDATE FROM PODETAIL WHERE POBASICID='" + cy.POId + "'");
+                        double t1 = 0;
+                        string duedate = "0";
+                        if (due!="")
+                        {
+                            DateTime del = DateTime.Parse(due);
+                             duedate = del.ToString("dd-MMM-yyyy");
+                            DateTime now = DateTime.Now.Date;
+                            t1 = (del - now).TotalDays;
+                        }
+                        
                         svSQL = "Insert into GRNBLBASIC (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,PARTYID,BRANCHID,POBASICID,EXRATE,MAINCURRENCY,DOCID,DOCDATE,PKNFD,OTHERCH,RNDOFF,FREIGHT,GROSS,NET,AMTINWORDS,PARTYNAME,USERID,VTYPE,ADSCHEME,GRNTYPE,LOCID,GSTNO,PANNO,DUEDATE,DUEDAYS) (Select '0','0','F','0','0',PARTYID,BRANCHID,'" + cy.POId + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + cy.GateInDate + "',PKNFD,OTHER_CHARGES,RNDOFF,FREIGHT,GROSS,NET,AMTINWORDS,'" + cy.Supplierid + "','" + cy.user + "','R','1','Against Purchase Order','10001000000827','" + party.Rows[0]["GSTNO"].ToString() + "','" + party.Rows[0]["PANNO"].ToString() + "','" + duedate + "','" + t1 + "' from POBASIC where POBASICID='" + cy.POId + "')"; OracleCommand objCmd = new OracleCommand(svSQL, objConn);
                         try
                         {
@@ -411,7 +408,14 @@ namespace Arasan.Services
                         objCmds.ExecuteNonQuery();
                         objConnE.Close();
                     }
-
+                    using (OracleConnection objConnE = new OracleConnection(_connectionString))
+                    {
+                        string Sql = "UPDATE POBASIC SET STATUS='GRN Generated' where POBASICID='" + cy.POId + "'";
+                        OracleCommand objCmds = new OracleCommand(Sql, objConnE);
+                        objConnE.Open();
+                        objCmds.ExecuteNonQuery();
+                        objConnE.Close();
+                    }
                 }
                 ///////////////////////GRN Generation
 
@@ -619,7 +623,7 @@ namespace Arasan.Services
         public DataTable GetViewGateItems(string Poid)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,ITEMMASTER.QCT,UNITMAST.UNITID ,QCFLAG,IN_QTY from GATE_INWARD_DETAILS left outer join ITEMMASTER on ITEMMASTERID=GATE_INWARD_DETAILS.GATE_IN_ID left outer join UNITMAST on UNITMASTID=GATE_INWARD_DETAILS.GATE_IN_ID  where GATE_INWARD_DETAILS.GATE_IN_ID  ='" + Poid + "'";
+            SvSql = "select ITEMMASTER.ITEMID,ITEMMASTER.QCT,QCFLAG,IN_QTY,QTY from GATE_INWARD_DETAILS left outer join ITEMMASTER on ITEMMASTERID=GATE_INWARD_DETAILS.ITEM_ID   where GATE_INWARD_DETAILS.GATE_IN_ID  ='" + Poid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -547,7 +547,7 @@ namespace Arasan.Controllers
                     {
                         TempData["notice"] = "Gate Inward Updated Successfully...!";
                     }
-                    return RedirectToAction("GateInward");
+                    return RedirectToAction("ListGateInward");
                 }
 
                 else
@@ -1163,9 +1163,9 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dtt.Rows.Count; i++)
                     {
                         tda.ItemId = dtt.Rows[0]["ITEMID"].ToString();
-                        tda.QC = dtt.Rows[0]["QCT"].ToString();
-                        tda.Unit = dtt.Rows[0]["UNITID"].ToString();
-                        tda.Quantity = dtt.Rows[0]["QCFLAG"].ToString();
+                        tda.QC = dtt.Rows[0]["QCFLAG"].ToString();
+                        //  tda.Unit = dtt.Rows[0]["UNITID"].ToString();
+                        tda.Quantity = ca.TotalQty.ToString();
                         tda.inQuantity = dtt.Rows[0]["IN_QTY"].ToString();
 
                         Data.Add(tda);
