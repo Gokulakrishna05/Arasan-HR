@@ -120,52 +120,22 @@ namespace Arasan.Controllers
             try
             {
                 DataTable dt = new DataTable();
-                DataTable dt1 = new DataTable();
-                DataTable dt2=new DataTable();
-                string acctype = "";
-                string acccode = "";
-                string accgrp = "";
-                string accgrpcode = "";
-                string ledgername = "";
-                string displayname = "";
-                string ledgercode = "";
-                if (string.IsNullOrEmpty(parentid) || parentid=="#")
+                dt = datatrans.GetData("Select M.MNAME,M.GROUPORACCOUNT,M.CATEGORY,C.MAINCURR,M.MPARENT from MASTER M,CURRENCY C where C.CURRENCYID=M.NATIVECURRENCY  AND M.MASTERID='" + id + "'");
+                string accname=string.Empty;
+                string group=string.Empty;
+                string category = string.Empty;
+                string cur=string.Empty;
+                string parent=string.Empty;
+                if(dt.Rows.Count > 0)
                 {
-                    dt = datatrans.GetAccType(id);
-                    if (dt.Rows.Count > 0)
-                    {
-                        acctype = dt.Rows[0]["ACCOUNTTYPE"].ToString();
-                        acccode = dt.Rows[0]["ACCOUNTCODE"].ToString();
-                    }
+                    accname = dt.Rows[0]["MNAME"].ToString();
+                    group= dt.Rows[0]["GROUPORACCOUNT"].ToString();
+                    category= dt.Rows[0]["CATEGORY"].ToString();
+                    cur= dt.Rows[0]["MAINCURR"].ToString();
+                    parent = datatrans.GetDataString("SELECT MNAME FROM MASTER WHERE MASTERID='" + dt.Rows[0]["MPARENT"].ToString() + "'"); 
                 }
-                else
-                {
-                    if(Convert.ToInt32(parentid) < 10)
-                    {
-                        dt1 = datatrans.GetAccGroup(id);
-                        if (dt1.Rows.Count > 0)
-                        {
-                            acctype = dt1.Rows[0]["ACCOUNTTYPE"].ToString();
-                            acccode = dt1.Rows[0]["ACCOUNTCODE"].ToString();
-                            accgrp = dt1.Rows[0]["ACCOUNTGROUP"].ToString();
-                            accgrpcode = dt1.Rows[0]["GROUPCODE"].ToString();
-                        }
-                    }
-                    else
-                    {
-                        dt2 = datatrans.GetAccLedger(id);
-                        if (dt2.Rows.Count > 0)
-                        {
-                            acctype = dt2.Rows[0]["ACCOUNTTYPE"].ToString();
-                            acccode = dt2.Rows[0]["ACCOUNTCODE"].ToString();
-                            accgrp = dt2.Rows[0]["ACCOUNTGROUP"].ToString();
-                            accgrpcode = dt2.Rows[0]["GROUPCODE"].ToString();
-                            ledgername= dt2.Rows[0]["LEDNAME"].ToString();
-                            displayname = dt2.Rows[0]["DISPLAY_NAME"].ToString();
-                        }
-                    }
-                }
-                var result = new { acctype = acctype, acccode = acccode , accgrp = accgrp , accgrpcode = accgrpcode , ledgername = ledgername , displayname = displayname };
+              
+                var result = new { accname = accname, group = group, category = category, cur = cur , parent = parent };
                 return Json(result);
             }
             catch (Exception ex)

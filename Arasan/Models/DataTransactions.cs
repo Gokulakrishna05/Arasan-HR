@@ -290,7 +290,7 @@ namespace Arasan.Models
         }
         public DataTable GetEmailConfig()
         {
-            string SvSql = "Select EMAILCONFIG_ID,SMTP_HOST,PORT_NO,SIGNATURE,SSL,EMAIL_ID,PASSWORD from EMAIL_CONFIG where STATUS = 'ACTIVE'";
+            string SvSql = "Select EMAILCONFIG_ID,SMTP_HOST,PORT_NO,SIGNATURE,SSL,EMAIL_ID,PASSWORD from EMAIL_CONFIG where IS_ACTIVE='Y'";
             DataTable dtCity = new DataTable();
             dtCity = GetData(SvSql);
             return dtCity;

@@ -10,6 +10,14 @@ using Arasan.Services.Master;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using System.Xml.Linq;
+using AspNetCore;
+using System.IO;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.Text;
+using Intuit.Ipp.Data;
+using System.Net;
+using Microsoft.Reporting.Map.WebForms.BingMaps;
 //using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Arasan.Controllers
@@ -411,18 +419,11 @@ namespace Arasan.Controllers
         }
         public ActionResult SendMail(string id)
         {
-
-
-            try
-            {
-                datatrans = new DataTransactions(_connectionString);
-                MailRequest requestwer = new MailRequest();
-
-                requestwer.ToEmail = "deepa@icand.in";
-                requestwer.Subject = "Enquiry";
-                //string Content = "";
-                IEnumerable<EnqItem> cmp = PurenqService.GetAllPurenquriyItem(id);
-                string Content = @"<html> 
+            PromotionMail P = new PromotionMail();
+            P.To= "deepa@icand.in";
+            P.Sub = "Enquiry";
+            IEnumerable<EnqItem> cmp = PurenqService.GetAllPurenquriyItem(id);
+            string Content = @"<html> 
                 <head>
     <style>
                 table, th, td {
@@ -438,19 +439,19 @@ namespace Arasan.Controllers
 </br>";
 
 
- 
 
-                foreach (EnqItem item in cmp)
-                {
-                     
 
-                    Content += "<table><tr><td>" + item.ItemId +"-" +"</td>";
-                    Content += "  <td>" + item.Quantity + "-"+"</td>";
-                    Content += "  <td>" + item.Unit + "</td></tr></table>";
-                }
+            foreach (EnqItem item in cmp)
+            {
 
-                 
-                Content += @" </br> 
+
+                Content += "<table><tr><td>" + item.ItemId + "-" + "</td>";
+                Content += "  <td>" + item.Quantity + "-" + "</td>";
+                Content += "  <td>" + item.Unit + "</td></tr></table>";
+            }
+
+
+            Content += @" </br> 
 <p style='padding-left:30px;font-style:italic;'>With Regards,
 </br><img src='../assets/images/Arasan_Logo.png' alt='Arasan Logo'/>
 </br>N Balaji Purchase Manager
@@ -459,24 +460,64 @@ namespace Arasan.Controllers
 
 </br>
 </p> ";
-                Content += @"</body> 
+            Content += @"</body> 
 </html> ";
-
-                requestwer.Body = Content;
-                //request.Attachments = "No";
-                datatrans.sendemail("Test mail", Content, "kesavanmoorthi81@gmail.com", "kesavanmoorthi70@gmail.com", "spabnjcirlfipjco", "587", "true", "smtp.gmail.com", "IcanD");
-                return Ok();
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
+            P.editors = Content;
+            return View(P); 
         }
-        
+        [HttpPost]
+        public ActionResult SendMail(PromotionMail Cy, string id)
+        {
+           
+                datatrans = new DataTransactions(_connectionString);
+                
+                if (Cy.To != "" && Cy.To != null)
+                {
+                    try
+                    {
+                        EmailConfig ec = new EmailConfig();
+                        DataTable dtEmailConfig = new DataTable();
+                        dtEmailConfig = datatrans.GetEmailConfig();
+                        string HostAdd = dtEmailConfig.Rows[0]["SMTP_HOST"].ToString();
+                        string FromEmailid = dtEmailConfig.Rows[0]["EMAIL_ID"].ToString();
+                        string password = dtEmailConfig.Rows[0]["PASSWORD"].ToString();
+                        int port = Convert.ToInt32(dtEmailConfig.Rows[0]["PORT_NO"].ToString());
+                        Boolean ssl = dtEmailConfig.Rows[0]["SSL"].ToString() == "NO" ? false : true;
 
-            [HttpPost]
+
+                        MailMessage mailMessage = new MailMessage();
+                        mailMessage.From = new MailAddress(FromEmailid);
+                        mailMessage.IsBodyHtml = true;
+                    mailMessage.To.Add(new MailAddress(Cy.To));
+                    mailMessage.Subject = Cy.Sub;
+                    mailMessage.Body = Cy.editors;
+
+                    System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient();  // creating object of smptpclient  
+                        smtp.Host = HostAdd;              //host of emailaddress for example smtp.gmail.com etc  
+                        smtp.EnableSsl = ssl;
+                        NetworkCredential NetworkCred = new NetworkCredential();
+                        NetworkCred.UserName = mailMessage.From.Address;
+                        NetworkCred.Password = password;
+                        smtp.UseDefaultCredentials = false;
+                        smtp.Credentials = NetworkCred;
+                        smtp.Port = port;
+                        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        smtp.Send(mailMessage);
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        //strerr = ex.Message;
+                    }
+                    //request.Attachments = "No";
+                }
+
+            return RedirectToAction("ListEnquiry");
+        }
+
+
+        [HttpPost]
         public ActionResult PurchaseEnq(PurchaseEnquiry Cy, string id)
         {
 
@@ -573,7 +614,7 @@ namespace Arasan.Controllers
                 string rate = dtUsers.Rows[i]["RATE"].ToString();
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y" || dtUsers.Rows[i]["IS_ACTIVE"].ToString() == null)
                 {
-                    MailRow = "<a href=SendMail?tag=Del&id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
+                    MailRow = "<a href=SendMail?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
                     FollowUp = "<a href=Followup?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/followup.png' /></a>";
                     //if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "N")
                     //{

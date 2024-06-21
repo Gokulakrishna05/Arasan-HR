@@ -9,6 +9,11 @@ using NuGet.Packaging.Signing;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using System.Xml.Linq;
+using System.Net.Mail;
+using System.Net;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System.IO;
+using Intuit.Ipp.ReportService;
 //using DocumentFormat.OpenXml.Wordprocessing;
 namespace Arasan.Controllers
 {
@@ -165,7 +170,7 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y" || dtUsers.Rows[i]["IS_ACTIVE"].ToString() == null)
                 {
-                    MailRow = "<a href=SendMail?tag=Del&id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
+                    MailRow = "<a href=SendMail?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
                     FollowUp = "<a href=Followup?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/followup.png' /></a>";
                     //if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "N")
                     //{
@@ -273,63 +278,87 @@ namespace Arasan.Controllers
         {
             try
             {
-                datatrans = new DataTransactions(_connectionString);
-                MailRequest requestwer = new MailRequest();
+                //DataTable dt=new DataTable();
+                //dt = datatrans.GetData(id);
+                EmailConfig ec = new EmailConfig();
+            DataTable dtEmailConfig = new DataTable();
+            dtEmailConfig = datatrans.GetEmailConfig();
+            string HostAdd = dtEmailConfig.Rows[0]["SMTP_HOST"].ToString();
+            string FromEmailid = dtEmailConfig.Rows[0]["EMAIL_ID"].ToString();
+            string password = dtEmailConfig.Rows[0]["PASSWORD"].ToString();
+            int port = Convert.ToInt32(dtEmailConfig.Rows[0]["PORT_NO"].ToString());
+            Boolean ssl = dtEmailConfig.Rows[0]["SSL"].ToString() == "NO" ? false : true;
 
-                requestwer.ToEmail = "deepa@icand.in";
-                requestwer.Subject = "Quotations";
+
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress(FromEmailid);
+            mailMessage.IsBodyHtml = true;
+            mailMessage.To.Add(new MailAddress("deepa@icand.in"));
+            mailMessage.Subject = "Quotaion";
                 string Content = "";
                 IEnumerable<QoItem> cmp = PurquoService.GetAllPurQuotationItem(id);
                 Content = @"<html> 
-                <head>
-    <style>
-                table, th, td {
-                border: 1px solid black;
-                    border - collapse: collapse;
-                }
-    </style>
-</head>
+                
 <body>
 <p>Dear Sir,</p>
-</br>
-  <p> Kindly arrange to send your lowest price offer for the following items through our email immediately.</p>
-</br>
-<table style = 'border: 1px solid black;border-collapse: collapse;'> ";
+ <p> Kindly arrange to send your lowest price offer for the following items through our email immediately.</p>
+<br>
+";
 
-
-
-                foreach (QoItem item in cmp)
-                {
-                    Content += " <tr><td>" + item.ItemId + "</td>";
-                    Content += " <td>" + item.Quantity + "</td>";
-                    Content += " <td>" + item.Unit + "</td></tr>";
-                }
-                Content += "</table>";
-
-                Content += @" </br> 
+                Content += @" 
 <p style='padding-left:30px;font-style:italic;'>With Regards,
-</br><img src='../assets/images/Arasan_Logo.png' alt='Arasan Logo'/>
-</br>N Balaji Purchase Manager
-</br>The Arasan Aluminium Industries (P) Ltd.
-<br/102-A
-
-</br>
+<br> <img src='~/Images/Upload.png' alt='Arasan Logo'/>
+<br> N Balaji Purchase Manager
+<br> The Arasan Aluminium Industries (P) Ltd.
+<br> 102-A , Chairman A. Shanmugam Road, Sivakasi,
+<br> Tamil Nadu , India - 626123
 </p> ";
                 Content += @" </body> 
 </html> ";
 
-                requestwer.Body = Content;
-                //request.Attachments = "Yes";
-                datatrans.sendemail("Test mail", Content, "gokulakrishna76@gmail.com", "gokulakrishna76@gmail.com", "wxojuguvqfnjcejj", "587", "true", "smtp.gmail.com", "Arasan");
-                return Ok();
+                mailMessage.Body = Content;
 
+                ///////////////////////Pdf Creation
+
+                //FileStream flStream = File(result.MainStream, "application/pdf").FileStream;
+
+                /////////////////////Pdf Creation
+
+                string filepath = exportpdf(id);
+                mailMessage.Attachments.Add(new Attachment(filepath));
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient();  // creating object of smptpclient  
+                smtp.Host = HostAdd;              //host of emailaddress for example smtp.gmail.com etc  
+                smtp.EnableSsl = ssl;
+                NetworkCredential NetworkCred = new NetworkCredential();
+                NetworkCred.UserName = mailMessage.From.Address;
+                NetworkCred.Password = password;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = NetworkCred;
+                smtp.Port = port;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Send(mailMessage);
+                mailMessage.Attachments.Dispose();
+                if (System.IO.File.Exists(filepath))
+                {
+                    try
+                    {
+                        System.IO.File.Delete(filepath);
+                    }
+                    catch (Exception ex)
+                    {
+                        //Do something
+                    }
+                }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
 
+            return RedirectToAction("ListPurchaseQuo");
+
         }
+       
         public IActionResult PurchaseQuotationFollowup()
         {
             return View();
@@ -731,6 +760,33 @@ namespace Arasan.Controllers
             //localReport.AddDataSource("DataSet1_DataTable1", po);
             var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
             return File(result.MainStream, "application/Pdf");
+        }
+
+        public string exportpdf(string id)
+        {
+            string mimtype = "";
+            int extension = 1;
+            string docname = datatrans.GetDataString("Select DOCID FROM PURQUOTBASIC WHERE PURQUOTBASICID='"+ id + "'");
+            DataSet ds = new DataSet();
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\QuotationReport.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+            var PQuoitem = PurquoService.GetPQuoItemD(id);
+
+            LocalReport localReport = new LocalReport(path);
+            localReport.AddDataSource("PurchaseQuotation", PQuoitem);
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+
+            string strFleName = "Quotation_"+ docname + ".pdf";
+            string filename = Path.Combine(Path.GetTempPath(), strFleName);
+
+         //   byte[] byteArray = File.ReadAllBytes(fpath);
+
+            using (var fs = new FileStream(filename, FileMode.Create))
+            {
+                fs.Write(result.MainStream, 0, result.MainStream.Length);
+                fs.Close();
+            }
+            return filename;
         }
     }
 }

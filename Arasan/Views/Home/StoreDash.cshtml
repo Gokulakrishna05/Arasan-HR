@@ -141,7 +141,7 @@
                                                                             <tr>
 
 
-                                                                                <td><a  href="@Url.Action("ApproveMaterial", "MaterialRequisition",new{@id=item.basicid})" style="color:red">@Html.DisplayFor(o => o.penlst[k].docid)</a></td>
+                                                                                <td><a  href="@Url.Action("ApproveMaterial", "MaterialRequisition",new{@id=item.basicid})" >@Html.DisplayFor(o => o.penlst[k].docid)</a></td>
                                                                                 <td>@Html.DisplayFor(o => o.penlst[k].Date)@Html.HiddenFor(o => o.penlst[k].basicid)</td>
                                                                                 <td>@Html.DisplayFor(o => o.penlst[k].location)</td>
 
@@ -199,7 +199,7 @@
         <div class="col-lg-6">
             <!-- Start feed -->
             <div class="ibox float-e-margins">
-                <div class="ibox-title"  style="background-color:darkblue">
+                <div class="ibox-title" style="background-color:steelblue">
                     <h5 style="color:white;font-weight:bold">Gate Inward</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link" data-toggle="collapse" data-target="#demo4"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>

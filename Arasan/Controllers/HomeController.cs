@@ -265,6 +265,8 @@ namespace Arasan.Controllers
             }
            // ViewBag.Item = str;
             ViewBag.chrtlst = TData3;
+            ViewBag.datedisp = finy + " to " + DateTime.Now.ToString("dd-MMM-yyyy");
+            ViewBag.todaydisp= DateTime.Now.ToString("dd-MMM-yyyy");
             //DataTable intent = datatrans.GetData("select count(pindbasicID) as cunt,to_char(PINDBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE from PINDBASIC  where    PINDBASIC.DOCDATE BETWEEN '01-MAR-2022' AND  '8-MAR-2022' GROUP BY DOCDATE  ");
             //string str = "";
             //string color = "";

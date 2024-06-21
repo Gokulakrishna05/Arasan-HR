@@ -1,5 +1,6 @@
 ﻿@model Arasan.Models.Home
 @{
+    Layout = "_PurLayout";
     ViewData["Title"] = "Home Page";
     string sdate = ViewContext.HttpContext.Request.Query["st"];
     string edate = ViewContext.HttpContext.Request.Query["ed"];
@@ -17,9 +18,9 @@
 		<script src="~/assets/js/vendor/amcharts/pie.js"></script>
 		<script src="~/assets/js/vendor/amcharts/gantt.js"></script>
 		<script src="~/assets/js/vendor/amcharts/funnel.js"></script>
-		<script src="~/assets/js/vendor/amcharts/radar.js"></script>
-		 
-		<script src="~/assets/js/vendor/amcharts/ammap.js"></script>
+		<script src="~/assets/js/vendor/amcharts/radar.js"></script>@*
+<script src="~/assets/js/vendor/amcharts/amstock.js"></script>
+*@		<script src="~/assets/js/vendor/amcharts/ammap.js"></script>
 		<script src="~/assets/js/vendor/amcharts/worldLow.js"></script>
 		<script src="~/assets/js/vendor/amcharts/light.js"></script>
 		 
@@ -99,12 +100,12 @@
 
         </div>
         <div>
-            <h5>Today List</h5>
+            <h5><label id="lbltodaylst"></label></h5>
             <table class="table">
                 <tbody>
                     <tr>
                         <td>
-                            <button type="button" class="btn btn-danger m-r-sm"><lable id="indent">@Html.DisplayFor(o => o.indent)</lable></button> Total Indent
+                            <button type="button" class="btn yellow m-r-sm"><lable id="indent">@Html.DisplayFor(o => o.indent)</lable></button> Total Indent
                         </td>
                         <td>
                             <button type="button" class="btn btn-primary m-r-sm"><lable id="enq">@Html.DisplayFor(o => o.enqury )</lable></button>  Enquiry
@@ -115,13 +116,13 @@
                     </tr>
                     <tr>
                         <td>
-                            <button type="button" class="btn btn-info m-r-sm"><lable id="po">@Html.DisplayFor(o => o.po )</lable></button> PO
+                            <button type="button" class="btn btn-success m-r-sm"><lable id="po">@Html.DisplayFor(o => o.po )</lable></button> PO
                         </td>
                         <td>
-                            <button type="button" class="btn btn-success m-r-sm"><lable id="direct">@Html.DisplayFor(o => o.direct )</lable></button> Direct Purchase
+                            <button type="button" class="btn btn-warning  m-r-sm"><lable id="direct">@Html.DisplayFor(o => o.direct )</lable></button> Direct Purchase
                         </td>
                         <td>
-                            <button type="button" class="btn btn-danger m-r-sm"><lable id="grn">@Html.DisplayFor(o => o.grn )</lable></button> GRN
+                            <button type="button" class="btn purple m-r-sm"><lable id="grn">@Html.DisplayFor(o => o.grn )</lable></button> GRN
                         </td>
                     </tr>
                    
@@ -157,7 +158,7 @@
                     <div class="col-lg-6">
                         <div class="ibox float-e-margins">
                              <div class="ibox-title" style="background-color:steelblue">
-                    <h5 style="color:white;font-weight:bold">Top 5 Suppliers (Current Financial Year)</h5>
+                    <h5 style="color:white;font-weight:bold">Top 5 Suppliers (<label id="lblfinyear"></label>)</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link" data-toggle="collapse" data-target="#demo13"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
                        
@@ -334,7 +335,7 @@
         <!-- Start feed -->
         <div class="ibox float-e-margins">
             <div class="ibox-title" style="background-color:steelblue">
-                <h5 style="color:white;font-weight:bold">Damaged Purchase</h5>
+                <h5 style="color:white;font-weight:bold">GRN - (Damaged Goods)</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link" data-toggle="collapse" data-target="#demo8"> <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i> </a>
                    
@@ -549,10 +550,12 @@
 <script>
 
   $(function () {
-      var ItemId = '@ViewBag.Item';
-     var result = ItemId.replace(/&quot;/g, '"');
-
-   @* // 3D Cylinder Chart  
+    
+         var datedisp='@ViewBag.datedisp';
+                 var today='@ViewBag.todaydisp';
+             document.getElementById("lblfinyear").innerHTML=datedisp;
+                document.getElementById("lbltodaylst").innerHTML=today;
+    @* // 3D Cylinder Chart  
 
 
       var chart = AmCharts.makeChart("cylinderChart", {
