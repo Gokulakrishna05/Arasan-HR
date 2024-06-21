@@ -39,6 +39,8 @@ namespace Arasan.Interface
         string StatusActChange(string tag, string id);
 
         Task<IEnumerable<PQuoItemDetail>> GetPQuoItem(string id);
+
+        IEnumerable <PQuoItemDetail> GetPQuoItemD(string id);
         DataTable GetAllPurchaseQuoItems(string strStatus);
     }
 }

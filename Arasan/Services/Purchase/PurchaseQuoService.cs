@@ -1,6 +1,7 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
 using Dapper;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
@@ -522,6 +523,46 @@ namespace Arasan.Services
             {
                 return await db.QueryAsync<PQuoItemDetail>("SELECT  PARTYMAST.PARTYID, PARTYMAST.PARTYNAME, PARTYMAST.ADD1, PARTYMAST.ADD2, PARTYMAST.ADD3, PARTYMAST.CITY, PARTYMAST.PINCODE,PARTYMAST.STATE, PARTYMAST.GSTNO,  PARTYMAST.PINCODE,PARTYMAST.MOBILE, PURQUOTBASIC.BRANCHID,PURQUOTBASIC.DOCID,to_char( PURQUOTBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,  PURQUOTBASIC.PARTYID AS EXPR1, ITEMMASTER.ITEMID, PURQUOTDETAIL.ITEMDESC, PURQUOTDETAIL.RATE,PURQUOTDETAIL.QTY, UNITMAST.UNITID as UNIT FROM PURQUOTBASIC    INNER JOIN  PARTYMAST ON PARTYMAST.PARTYMASTID = PURQUOTBASIC.PARTYID INNER JOIN PURQUOTDETAIL ON PURQUOTBASIC.PURQUOTBASICID=PURQUOTDETAIL.PURQUOTBASICID LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PURQUOTDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PURQUOTDETAIL.UNIT  where PURQUOTDETAIL.PURQUOTBASICID='" + id + "' and PURQUOTBASIC.PURQUOTBASICID ='" + id + "'", commandType: CommandType.Text);
             }
+        }
+
+        public IEnumerable <PQuoItemDetail> GetPQuoItemD(string id)
+        {
+            List<PQuoItemDetail> cmpList = new List<PQuoItemDetail>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "SELECT  PARTYMAST.PARTYID, PARTYMAST.PARTYNAME, PARTYMAST.ADD1, PARTYMAST.ADD2, PARTYMAST.ADD3, PARTYMAST.CITY, PARTYMAST.PINCODE,PARTYMAST.STATE, PARTYMAST.GSTNO,  PARTYMAST.PINCODE,PARTYMAST.MOBILE, PURQUOTBASIC.BRANCHID,PURQUOTBASIC.DOCID,to_char( PURQUOTBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,  PURQUOTBASIC.PARTYID AS EXPR1, ITEMMASTER.ITEMID, PURQUOTDETAIL.ITEMDESC, PURQUOTDETAIL.RATE,PURQUOTDETAIL.QTY, UNITMAST.UNITID as UNIT FROM PURQUOTBASIC    INNER JOIN  PARTYMAST ON PARTYMAST.PARTYMASTID = PURQUOTBASIC.PARTYID INNER JOIN PURQUOTDETAIL ON PURQUOTBASIC.PURQUOTBASICID=PURQUOTDETAIL.PURQUOTBASICID LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PURQUOTDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PURQUOTDETAIL.UNIT  where PURQUOTDETAIL.PURQUOTBASICID='" + id + "' and PURQUOTBASIC.PURQUOTBASICID ='" + id + "'"; 
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        PQuoItemDetail cmp = new PQuoItemDetail
+                        {
+                            PARTYNAME = rdr["PARTYID"].ToString(),
+                            ADD1 = rdr["ADD1"].ToString(),
+                            ADD2 = rdr["ADD2"].ToString(),
+                            ADD3 = rdr["ADD3"].ToString(),
+                            CITY = rdr["CITY"].ToString(),
+                            PINCODE= rdr["PINCODE"].ToString(),
+                            STATE= rdr["STATE"].ToString(),
+                            GSTNO= rdr["GSTNO"].ToString(),
+                            MOBILE = rdr["MOBILE"].ToString(),
+                            DOCID = rdr["DOCID"].ToString(),
+                            DOCDATE = rdr["DOCDATE"].ToString(),
+                            ITEMID = rdr["ITEMID"].ToString(),
+                            QTY = Convert.ToDouble(rdr["QTY"].ToString()),
+                            RATE = Convert.ToDouble(rdr["RATE"].ToString()),
+                            UNIT = rdr["UNIT"].ToString()
+
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+         
         }
 
         public DataTable GetAllPurchaseQuoItems(string strStatus)
