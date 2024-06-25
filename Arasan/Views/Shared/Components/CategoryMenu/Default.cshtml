@@ -255,6 +255,13 @@
 
     </li>
 }
+<li class="nav-item">
+    <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-user-o"></i><span class="title">Common</span> <span class="arrow"></span> </a>
+    <ul class="sub-menu">
+        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListMaterialRequisition", "MaterialRequisition")">Material Requisition</a></li>
+        <li class="nav-item"><a class="nav-link" href="@Url.Action("List_Purchase_Indent", "PurchaseIndent")">Purchase Indent</a></li>
+    </ul>
+</li>
 @if (Model.IsPurchse == true)
 {
     <li class="nav-item">
@@ -263,10 +270,10 @@
         <ul class="sub-menu">
                @foreach (var item in Model.PmenuLists)
         {
-                @if (item.IsView == "Y" && item.Title == "Purchase Indent")
+                @*@if (item.IsView == "Y" && item.Title == "Purchase Indent")
                     {
-            <li class="nav-item"><a class="nav-link" href="@Url.Action("List_Purchase_Indent", "PurchaseIndent")">Purchase Indent</a></li>
-                    }
+        
+                    }*@
                 @if (item.IsView == "Y" && item.Title == "Purchase Indent Approval")
                 {
             <li class="nav-item"><a class="nav-link" href="@Url.Action("List_PI_Approval", "PurchaseIndent")">Purchase Indent Approval</a></li>
@@ -338,7 +345,7 @@
             <li class="nav-item"><a class="nav-link" href="@Url.Action("IndentStockIssue", "Stock")">Stock In Hand</a></li>
             <li class="nav-item"><a class="nav-link" href="@Url.Action("Storestock", "Stock")">Store Stock </a></li>
 
-            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListMaterialRequisition", "MaterialRequisition")">Material Requisition</a></li>
+           
 
 
             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListStoresReturn", "StoresReturn")">Stores Return</a></li>
@@ -415,8 +422,6 @@
 
                         </ul>
                     </li> *@
-
-
 
 
                     
