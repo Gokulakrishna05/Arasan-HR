@@ -294,11 +294,11 @@ namespace Arasan.Controllers.Master
         {
             try
             {
-                DataTable dtDesg = datatrans.GetData("SELECT COUNTRYCODE,COUNTRYMASTID FROM CONMAST");
+                DataTable dtDesg = datatrans.GetData("SELECT CONCODE,CONMASTID FROM CONMAST");
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRYCODE"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CONCODE"].ToString(), Value = dtDesg.Rows[i]["CONMASTID"].ToString() });
                 }
                 return lstdesg;
             }
