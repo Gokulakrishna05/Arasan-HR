@@ -387,7 +387,7 @@
     </li>
 }
 
-                     @* <li class="nav-item">
+@* <li class="nav-item">
 
                         <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-shopping-cart"></i>  <span class="title">Purchase Import</span> <span class="arrow"></span> </a>
                            <ul class="sub-menu">
@@ -432,10 +432,11 @@
                         </ul>
                     </li> *@
 
+@if (Model.Isproduction == true)
+{
 
-                    
-	<li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-industry"></i><span class="title">Production</span> <span class="arrow"></span> </a>
-          <ul class="sub-menu">
+    <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-industry"></i><span class="title">Production</span> <span class="arrow"></span> </a>
+        <ul class="sub-menu">
 
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListProductionForecasting", "ProductionForecasting")">Production Forecasting</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListProductionSchedule", "ProductionSchedule")">Production Schedule</a></li>
@@ -461,7 +462,7 @@
 
           </ul>
         </li>
-
+        }
 <li class="nav-item">
                         <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-flask"></i>  <span class="title">Quality Control</span> <span class="arrow"></span> </a>
           <ul class="sub-menu">
@@ -511,31 +512,33 @@
         </ul>
     </li>
 }
-<li class="nav-item">
-    <a class="nav-link nav-toggle" href="javascript:;"><i class="fa fa-money"></i> <span class="title">Sales</span> <span class="arrow"></span> </a>
-    <ul class="sub-menu">
+@if (Model.Issales == true)
+{
+    <li class="nav-item">
+        <a class="nav-link nav-toggle" href="javascript:;"><i class="fa fa-money"></i> <span class="title">Sales</span> <span class="arrow"></span> </a>
+        <ul class="sub-menu">
 
 
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSalesEnquiry", "SalesEnquiry")">Sales Enquiry</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSalesQuotation", "SalesQuotation")">Sales Quotation</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSalesEnquiry", "SalesEnquiry")">Sales Enquiry</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSalesQuotation", "SalesQuotation")">Sales Quotation</a></li>
 
 
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListWorkOrder", "WorkOrder")">Work Order</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListWDrumAllo", "WorkOrder")">Drum Allocation </a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListWorkSchedule", "WorkOrder")">Schedule Work Order </a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListProFormaInvoice", "ProFormaInvoice")">Proforma Invoice</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSalesInvoice", "SalesInvoice")">Invoice</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSIJSON", "SalesInvoice")">SI JSON</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListDepotInvoice", "DepotInvoice")">Depot Invoice</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("Custcompl", "SalesReturn")">Customer Complaint</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSalesReturn", "SalesReturn")">Sales Return</a></li>
-        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSalesTarget", "SalesTarget")">Sales Target</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListWorkOrder", "WorkOrder")">Work Order</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListWDrumAllo", "WorkOrder")">Drum Allocation </a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListWorkSchedule", "WorkOrder")">Schedule Work Order </a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListProFormaInvoice", "ProFormaInvoice")">Proforma Invoice</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSalesInvoice", "SalesInvoice")">Invoice</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSIJSON", "SalesInvoice")">SI JSON</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListDepotInvoice", "DepotInvoice")">Depot Invoice</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("Custcompl", "SalesReturn")">Customer Complaint</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSalesReturn", "SalesReturn")">Sales Return</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSalesTarget", "SalesTarget")">Sales Target</a></li>
 
 
 
-    </ul>
-</li>
-
+        </ul>
+    </li>
+}
 @if (Model.Issubcontract == true)
 {
     <li class="nav-item">

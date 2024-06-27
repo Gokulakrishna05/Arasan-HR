@@ -90,6 +90,14 @@ namespace Arasan.Components
                         M.Isaccounts = true;
                         M.accountsparent = dt7.Rows[i]["SITEMAPID"].ToString();
                     }
+                    if (dt7.Rows[i]["IS_DISABLE"].ToString() == "N" && dt7.Rows[i]["TITLE"].ToString() == "Sales")
+                    {
+                        M.Issales = true;
+                    }
+                    if (dt7.Rows[i]["IS_DISABLE"].ToString() == "N" && dt7.Rows[i]["TITLE"].ToString() == "Production")
+                    {
+                        M.Isproduction = true;
+                    }
                 }
             }
             if (M.Isdashborad == true)
