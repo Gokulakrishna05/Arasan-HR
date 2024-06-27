@@ -294,7 +294,7 @@ namespace Arasan.Controllers.Master
         {
             try
             {
-                DataTable dtDesg = datatrans.GetData("SELECT CONCODE,CONMASTID FROM CONMAST WHERE ");
+                DataTable dtDesg = datatrans.GetData("SELECT CONCODE,CONMASTID FROM CONMAST WHERE COUNTRY='"+id+"'");
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
