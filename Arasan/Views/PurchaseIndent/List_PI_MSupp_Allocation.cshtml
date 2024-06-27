@@ -1,7 +1,7 @@
 ﻿@model Arasan.Models.IndentSuppMultipleAllocate
 
 @{
-    ViewData["Title"] = "Purchase Indent Approval";
+    ViewData["Title"] = "Supplier Allocation";
 }
   <partial name="JqxGridPartial" />
 @* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
@@ -12,7 +12,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Purchase</a> </li>
-            <li class="active"> <strong>Purchase Indent Approval</strong> </li>
+            <li class="active"> <strong>Supplier Allocation</strong> </li>
         </ol>
     </div>
 </div>
@@ -144,7 +144,7 @@
                       initrowdetails: initrowdetails,
                     rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
                     ready: function() {
-                        $("#jqxgrid").jqxGrid('showrowdetails', 1);
+                        $("#jqxgrid").jqxGrid('showrowdetails', 0);
                     },
                     columns: [
 

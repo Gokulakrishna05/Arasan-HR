@@ -82,14 +82,14 @@ namespace Arasan.Controllers.Production
                     tda2.Isvalid = "Y";
                     TData2.Add(tda2);
                 }
-                for (int i = 0; i < 1; i++)
-                {
-                    tda3 = new PFCPOLIItem();
-                    tda3.POWorklst = BindWorkCenter();
-                    //tda3.POItemlst = BindItemlst("");
-                    tda3.Isvalid = "Y";
-                    TData3.Add(tda3);
-                }
+                //for (int i = 0; i < 1; i++)
+                //{
+                //    tda3 = new PFCPOLIItem();
+                //    tda3.POWorklst = BindWorkCenter();
+                //    //tda3.POItemlst = BindItemlst("");
+                //    tda3.Isvalid = "Y";
+                //    TData3.Add(tda3);
+                //}
                 for (int i = 0; i < 1; i++)
                 {
                     tda4 = new PFCRVDItem();
@@ -232,47 +232,47 @@ namespace Arasan.Controllers.Production
                     }
 
                 }
-                DataTable dt5 = new DataTable();
+                //DataTable dt5 = new DataTable();
 
-                dt5 = _ProdForecastServ.GetProdForecastPolishDetail(id);
-                if (dt5.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dt5.Rows.Count; i++)
-                    {
-                        tda3 = new PFCPOLIItem();
+                //dt5 = _ProdForecastServ.GetProdForecastPolishDetail(id);
+                //if (dt5.Rows.Count > 0)
+                //{
+                //    for (int i = 0; i < dt5.Rows.Count; i++)
+                //    {
+                //        tda3 = new PFCPOLIItem();
                     
-                        tda3.itemid = dt5.Rows[0]["PIGWCID"].ToString();
+                //        tda3.itemid = dt5.Rows[0]["PIGWCID"].ToString();
 
-                        tda3.POWorklst = BindWorkCenter();
-                        tda3.workid = dt5.Rows[0]["PIGITEMID"].ToString();
+                //        tda3.POWorklst = BindWorkCenter();
+                //        tda3.workid = dt5.Rows[0]["PIGITEMID"].ToString();
 
-                        tda3.wcdays = dt5.Rows[0]["PIGWCDAYS"].ToString();
-                        tda3.target = dt5.Rows[0]["PIGTARGET"].ToString();
-                        tda3.capacity = dt5.Rows[0]["PIGCAP"].ToString();
-                        tda3.stock = dt5.Rows[0]["PIGSTOCK"].ToString();
-                        tda3.minstock = dt5.Rows[0]["PIGMINSTK"].ToString();
-                        tda3.required = dt5.Rows[0]["PIGRAWREQ"].ToString();
-                        tda3.days = dt5.Rows[0]["PIGDAYS"].ToString();
-                        tda3.additive = dt5.Rows[0]["PIGADDIT"].ToString();
-                        tda3.add = dt5.Rows[0]["PIGADDPER"].ToString();
-                        tda3.rejmat = dt5.Rows[0]["PIGRAWMAT"].ToString();
-                        tda3.reqper = dt5.Rows[0]["PIGRAWREQPER"].ToString();
-                        tda3.rvdqty = dt5.Rows[0]["PIGRVDQTY"].ToString();
-                        tda3.pyropowder = dt5.Rows[0]["PIGPYPO"].ToString();
-                        tda3.pyroqty = dt5.Rows[0]["PIGPYQTY"].ToString();
-                        tda3.powderrequired = dt5.Rows[0]["PIGPOWREQ"].ToString();
-                        tda3.ID = id;
-                        TData3.Add(tda3);
-                    }
+                //        tda3.wcdays = dt5.Rows[0]["PIGWCDAYS"].ToString();
+                //        tda3.target = dt5.Rows[0]["PIGTARGET"].ToString();
+                //        tda3.capacity = dt5.Rows[0]["PIGCAP"].ToString();
+                //        tda3.stock = dt5.Rows[0]["PIGSTOCK"].ToString();
+                //        tda3.minstock = dt5.Rows[0]["PIGMINSTK"].ToString();
+                //        tda3.required = dt5.Rows[0]["PIGRAWREQ"].ToString();
+                //        tda3.days = dt5.Rows[0]["PIGDAYS"].ToString();
+                //        tda3.additive = dt5.Rows[0]["PIGADDIT"].ToString();
+                //        tda3.add = dt5.Rows[0]["PIGADDPER"].ToString();
+                //        tda3.rejmat = dt5.Rows[0]["PIGRAWMAT"].ToString();
+                //        tda3.reqper = dt5.Rows[0]["PIGRAWREQPER"].ToString();
+                //        tda3.rvdqty = dt5.Rows[0]["PIGRVDQTY"].ToString();
+                //        tda3.pyropowder = dt5.Rows[0]["PIGPYPO"].ToString();
+                //        tda3.pyroqty = dt5.Rows[0]["PIGPYQTY"].ToString();
+                //        tda3.powderrequired = dt5.Rows[0]["PIGPOWREQ"].ToString();
+                //        tda3.ID = id;
+                //        TData3.Add(tda3);
+                //    }
 
-                }
+                //}
 
             }
 
             ca.PFCILst = TData;
             ca.PFCDGILst = TData1;
             ca.PFCPYROILst = TData2;
-            ca.PFCPOLILst = TData3;
+            //ca.PFCPOLILst = TData3;
             ca.PFCRVDLst = TData4;
             ca.PFCPASTELst = TData5;
             ca.PFCAPPRODLst = TData6;
@@ -1116,8 +1116,8 @@ WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='" + Docdate + "' AND S.LocID = 
             PFCPOLIItem tda3 = new PFCPOLIItem();
             List<PFCRVDItem> TData4 = new List<PFCRVDItem>();
             PFCRVDItem tda4 = new PFCRVDItem();
-            List<PFCPASTEItem> TData5 = new List<PFCPASTEItem>();
-            PFCPASTEItem tda5 = new PFCPASTEItem();
+            //List<PFCPASTEItem> TData5 = new List<PFCPASTEItem>();
+            //PFCPASTEItem tda5 = new PFCPASTEItem();
             List<PFCAPPRODItem> TData6 = new List<PFCAPPRODItem>();
             PFCAPPRODItem tda6 = new PFCAPPRODItem();
             List<PFCPACKItem> TData7 = new List<PFCPACKItem>();
@@ -1287,39 +1287,39 @@ WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='" + Docdate + "' AND S.LocID = 
 
             }
 
-            DataTable dt7 = new DataTable();
+            //DataTable dt7 = new DataTable();
 
-            dt7 = _ProdForecastServ.GetProdForecastPasteDetail(id);
-            if (dt7.Rows.Count > 0)
-            {
-                for (int i = 0; i < dt7.Rows.Count; i++)
-                {
-                    tda5 = new PFCPASTEItem();
+            //dt7 = _ProdForecastServ.GetProdForecastPasteDetail(id);
+            //if (dt7.Rows.Count > 0)
+            //{
+            //    for (int i = 0; i < dt7.Rows.Count; i++)
+            //    {
+            //        tda5 = new PFCPASTEItem();
 
-                    tda5.WorkId = dt7.Rows[i]["WCID"].ToString();
-                    tda5.itemid = dt7.Rows[i]["ITEMID"].ToString();
-                    tda5.charge = dt7.Rows[i]["PANOOFCHG"].ToString();
-                    tda5.allocadditive = dt7.Rows[i]["PAALLADDIT"].ToString();
-                    tda5.target = dt7.Rows[i]["PATARGQTY"].ToString();
-                    tda5.stock = dt7.Rows[i]["PASTK"].ToString();
-                    tda5.minstock = dt7.Rows[i]["PAMINSTK"].ToString();
-                    tda5.production = dt7.Rows[i]["PAPROD"].ToString();
-                    tda5.appowder = dt7.Rows[i]["PAAPPOW"].ToString();
-                    tda5.balance = dt7.Rows[i]["PABALQTY"].ToString();
-                    tda5.rvdloss = dt7.Rows[i]["RVDLOSTQTY"].ToString();
-                    tda5.missmto = dt7.Rows[i]["MIXINGMTO"].ToString();
-                    tda5.coarse = dt7.Rows[i]["PACOACONS"].ToString();
-                    tda5.addcost = dt7.Rows[i]["item"].ToString();
-                    tda5.powerrequired = dt7.Rows[i]["PAPOWREQ"].ToString();
+            //        tda5.WorkId = dt7.Rows[i]["WCID"].ToString();
+            //        tda5.itemid = dt7.Rows[i]["ITEMID"].ToString();
+            //        tda5.charge = dt7.Rows[i]["PANOOFCHG"].ToString();
+            //        tda5.allocadditive = dt7.Rows[i]["PAALLADDIT"].ToString();
+            //        tda5.target = dt7.Rows[i]["PATARGQTY"].ToString();
+            //        tda5.stock = dt7.Rows[i]["PASTK"].ToString();
+            //        tda5.minstock = dt7.Rows[i]["PAMINSTK"].ToString();
+            //        tda5.production = dt7.Rows[i]["PAPROD"].ToString();
+            //        tda5.appowder = dt7.Rows[i]["PAAPPOW"].ToString();
+            //        tda5.balance = dt7.Rows[i]["PABALQTY"].ToString();
+            //        tda5.rvdloss = dt7.Rows[i]["RVDLOSTQTY"].ToString();
+            //        tda5.missmto = dt7.Rows[i]["MIXINGMTO"].ToString();
+            //        tda5.coarse = dt7.Rows[i]["PACOACONS"].ToString();
+            //        tda5.addcost = dt7.Rows[i]["item"].ToString();
+            //        tda5.powerrequired = dt7.Rows[i]["PAPOWREQ"].ToString();
                     
                      
 
 
-                    tda5.ID = id;
-                    TData5.Add(tda5);
-                }
+            //        tda5.ID = id;
+            //        TData5.Add(tda5);
+            //    }
 
-            }
+            //}
             DataTable dt8 = new DataTable();
 
             dt8 = _ProdForecastServ.GetAPSDeatils(id);
@@ -1418,7 +1418,7 @@ WHERE S.ItemID = I.ItemMasterID AND S.DocDate <='" + Docdate + "' AND S.LocID = 
             ca.PFCPYROILst = TData2;
             ca.PFCPOLILst = TData3;
             ca.PFCRVDLst = TData4;
-            ca.PFCPASTELst = TData5;
+            //ca.PFCPASTELst = TData5;
             ca.PFCAPPRODLst = TData6;
             ca.PFCPACKLst = TData7;
             ca.Aplst = TData8;
