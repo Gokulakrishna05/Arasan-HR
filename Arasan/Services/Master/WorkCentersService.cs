@@ -76,7 +76,7 @@ namespace Arasan.Services.Master
         public DataTable GetWorkCenters(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select WCID,WCTYPE,DOCDATE,ILOCATION,QCLOCATION,PARTYID,WIPITEMID,WIPLOCID,CONVITEMID,CONVLOCID,BUNKERYN,OPBBAL,MLYN,OPMLBAL,PROCLOTYN,CAPACITY,PRODSCHYN,UTILPERCENT,PRODYN,DRUMILOCATION,ENRMETF,MANREQ,COST,COSTUNIT,REMARKS,WCBASICID from WCBASIC WHERE WCBASIC.WCBASICID ='" + id + "' ";
+            SvSql = "select WCID,WCTYPE,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,ILOCATION,QCLOCATION,PARTYID,WIPITEMID,WIPLOCID,CONVITEMID,CONVLOCID,BUNKERYN,OPBBAL,MLYN,OPMLBAL,PROCLOTYN,CAPACITY,PRODSCHYN,UTILPERCENT,PRODYN,DRUMILOCATION,ENRMETF,MANREQ,COST,COSTUNIT,REMARKS,WCBASICID from WCBASIC WHERE WCBASIC.WCBASICID ='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -232,7 +232,337 @@ namespace Arasan.Services.Master
 
             return msg;
         }
+        public string ProductionRateCRUD(WorkCenters cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty;
+                string svSQL = "";
 
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    
+                    if (cy.ProdRatelst != null)
+                    {
+                       
+                            svSQL = "Delete WCPRODDETAIL WHERE WCBASICID='" + cy.ID + "'";
+                            OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                            objCmdd.ExecuteNonQuery();
+                            int r = 1;
+                            foreach (ProdRate cp in cy.ProdRatelst)
+                            {
+                                if (cp.Isvalid == "Y" && cp.itemid != "0")
+                                {
+
+                                    svSQL = "Insert into WCPRODDETAIL (WCBASICID,WCPRODDETAILROW,ITEMID,PRATE,ITEMTYPE,REJPERCENT) VALUES ('" + cy.ID + "','" + r + "','" + cp.itemid + "','" + cp.outputrate + "','" + cp.inputtype + "','0')";
+                                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                objConn.Open();
+                                objCmds.ExecuteNonQuery();
+
+
+
+
+                                }
+                                r++;
+                            }
+                        
+                    }
+
+                    objConn.Close();
+                }
+            }
+            
+                  
+               
+
+
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string RejdetCRUD(WorkCenters cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty;
+                string svSQL = "";
+
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+
+                    if (cy.ProdRatelst != null)
+                    {
+
+                        svSQL = "Delete WCREJDETAIL WHERE WCBASICID='" + cy.ID + "'";
+                        OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        objCmdd.ExecuteNonQuery();
+                        int r = 1;
+                        foreach (Rejdet cp in cy.Rejdetlst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.rejtype != "0")
+                            {
+
+                                svSQL = "Insert into WCREJDETAIL (WCBASICID,WCREJDETAILROW,REJTYPE,REJPER) VALUES ('" + cy.ID + "','" + r + "','" + cp.rejtype + "','" + cp.rejection + "')";
+                                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                objConn.Open();
+                                objCmds.ExecuteNonQuery();
+
+
+
+
+                            }
+                            r++;
+                        }
+
+                    }
+
+                    objConn.Close();
+                }
+            }
+
+
+
+
+
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string ProdCapCRUD(WorkCenters cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty;
+                string svSQL = "";
+
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+
+                    if (cy.ProdCaplst != null)
+                    {
+
+                        svSQL = "Delete WCPRODCAPDETAIL WHERE WCBASICID='" + cy.ID + "'";
+                        OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        objCmdd.ExecuteNonQuery();
+                        int r = 1;
+                        foreach (ProdCap cp in cy.ProdCaplst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.itemid != "0")
+                            {
+                                string pro = datatrans.GetDataString("SELECT PROCESSID FROM PROCESSMAST WHERE PROCESSMASTID='"+cp.process+"'");
+                                string item = datatrans.GetDataString("SELECT ITEMID FROM ITEMMASTER WHERE ITEMMASTERID = '"+cp.itemid+"'");
+
+                                string capuniq = pro + " --- " + item;
+
+                                svSQL = "Insert into WCPRODCAPDETAIL (WCBASICID,WCPRODCAPDETAILROW,PROCESSID,PITEMID,OUTPUTCAPACITY,CAPUNIQUE) VALUES ('" + cy.ID + "','" + r + "','" + cp.process + "','" + cp.itemid + "','" + cp.outputcap + "','" + capuniq + "')";
+                                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                objConn.Open();
+                                objCmds.ExecuteNonQuery();
+
+
+
+
+                            }
+                            r++;
+                        }
+
+                    }
+
+                    objConn.Close();
+                }
+            }
+
+
+
+
+
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string ProdCapPerCRUD(WorkCenters cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty;
+                string svSQL = "";
+
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+
+                    if (cy.ProdCaplst != null)
+                    {
+
+                        svSQL = "Delete WCCAPDET WHERE WCBASICID='" + cy.ID + "'";
+                        OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        objCmdd.ExecuteNonQuery();
+                        int r = 1;
+                        foreach (ProdCapPerDay cp in cy.ProdCapPerDaylst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.itemid != "0")
+                            {
+                                
+
+                                svSQL = "Insert into WCCAPDET (WCBASICID,CAPITEMID,CAPQTY) VALUES ('" + cy.ID + "' ,'" + cp.itemid + "','" + cp.Qty + "')";
+                                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                objConn.Open();
+                                objCmds.ExecuteNonQuery();
+
+
+
+
+                            }
+                            r++;
+                        }
+
+                    }
+
+                    objConn.Close();
+                }
+            }
+
+
+
+
+
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string ApSiveCRUD(WorkCenters cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty;
+                string svSQL = "";
+
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+
+                    if (cy.ProdCaplst != null)
+                    {
+
+                        svSQL = "Delete WCAPSDETAIL WHERE WCBASICID='" + cy.ID + "'";
+                        OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        objCmdd.ExecuteNonQuery();
+                        int r = 1;
+                        foreach (ApSive cp in cy.ApSivelst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.siveid != "0")
+                            {
+
+
+                                svSQL = "Insert into WCAPSDETAIL (WCBASICID,WCAPSDETAILROW,SIEVE,FUELQTY,METTQTY,MINSIEVE) VALUES ('" + cy.ID + "','r' ,'" + cp.siveid + "','" + cp.fuelqty + "','" + cp.mettqty + "','" + cp.minsive + "')";
+                                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                objConn.Open();
+                                objCmds.ExecuteNonQuery();
+
+
+
+
+                            }
+                            r++;
+                        }
+
+                    }
+
+                    objConn.Close();
+                }
+            }
+
+
+
+
+
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string PasteRunCRUD(WorkCenters cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty;
+                string svSQL = "";
+
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+
+                    if (cy.ProdCaplst != null)
+                    {
+
+                        svSQL = "Delete PARUNDET WHERE WCBASICID='" + cy.ID + "'";
+                        OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        objCmdd.ExecuteNonQuery();
+                        int r = 1;
+                        foreach (PasteRun cp in cy.PasteRunlst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.itemid != "0")
+                            {
+
+
+                                svSQL = "Insert into PARUNDET (WCBASICID,PARUNDETROW,RUNITEM,RUNHRS,MTOLOSSPER,CAKEOP,APPOWKG,NOOFCHGSPDAY) VALUES ('" + cy.ID + "','r' ,'" + cp.itemid + "','" + cp.runhrs + "','" + cp.mtoloss + "','" + cp.cake + "','" + cp.appowder + "','" + cp.noofchange + "')";
+                                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                objConn.Open();
+                                objCmds.ExecuteNonQuery();
+
+
+
+
+                            }
+                            r++;
+                        }
+
+                    }
+
+                    objConn.Close();
+                }
+            }
+
+
+
+
+
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
         public string StatusChange(string tag, string id)
         {
 

@@ -71,7 +71,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("CSGNPARTYID", OracleDbType.NVarchar2).Value = cy.ConPartyID;
                     objCmd.Parameters.Add("TRANSLMT", OracleDbType.NVarchar2).Value = cy.TransationLimit;
                     objCmd.Parameters.Add("GSTNO", OracleDbType.NVarchar2).Value = cy.GST;
-                    objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = cy.Active;
+                    //objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = cy.Active;
                     objCmd.Parameters.Add("RATECODE", OracleDbType.NVarchar2).Value = cy.RateCode;
                     objCmd.Parameters.Add("MOBILE", OracleDbType.NVarchar2).Value = cy.Mobile;
                     objCmd.Parameters.Add("PHONENO", OracleDbType.NVarchar2).Value = cy.Phone;
@@ -90,21 +90,32 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("HTTP", OracleDbType.NVarchar2).Value = cy.Http;
                     objCmd.Parameters.Add("OVERDUEINTEREST", OracleDbType.NVarchar2).Value = cy.OverDueInterest;
                     objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = cy.Address;
+                    objCmd.Parameters.Add("ADD2", OracleDbType.NVarchar2).Value = cy.Address2;
+                    objCmd.Parameters.Add("ADD3", OracleDbType.NVarchar2).Value = cy.Address3;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remark;
                     objCmd.Parameters.Add("INTRODUCEDBY", OracleDbType.NVarchar2).Value = cy.Intred;
                     objCmd.Parameters.Add("ACCOUNTNAME", OracleDbType.NVarchar2).Value = cy.Ledger;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
-                    if (cy.ID == null)
+                     if (string.IsNullOrEmpty(cy.ID))
                     {
                         objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
-                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.NVarchar2).Value = DateTime.Now.ToString("dd\\/MM\\/yyyy hh:mm:ss tt");
                     }
                     else
                     {
-                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
-                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                        objCmd.Parameters.Add("MODBY", OracleDbType.NVarchar2).Value = cy.createby;
+                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.NVarchar2).Value = DateTime.Now.ToString("dd\\/MM\\/yyyy hh:mm:ss tt");
                     }
+                    objCmd.Parameters.Add("SALPERNAME", OracleDbType.NVarchar2).Value = cy.branch;
 
+                    if (string.IsNullOrEmpty(cy.salper))
+                    {
+                        objCmd.Parameters.Add("SALPERNAME", OracleDbType.NVarchar2).Value = cy.salper;
+                    }
+                    else
+                    {
+                        objCmd.Parameters.Add("SALPERNAME", OracleDbType.NVarchar2).Value = "0";
+                    }
+                    objCmd.Parameters.Add("SALLOC", OracleDbType.NVarchar2).Value = cy.salloc;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 
@@ -118,37 +129,113 @@ namespace Arasan.Services.Master
                         {
                             Pid = cy.ID;
                         }
-                     
-
-                            using (OracleConnection objConns = new OracleConnection(_connectionString))
+                        if (cy.PartyLst != null)
+                        {
+                            if (cy.ID == null)
                             {
-                                OracleCommand objCmds = new OracleCommand("PARTYCONTACTPROC", objConns);
-                                if (cy.ID == null)
+
+                                foreach (PartyItem cp in cy.PartyLst)
                                 {
-                                    StatementType = "Insert";
-                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    if (cp.Isvalid == "Y" && cp.Purpose != "0")
+                                    {
+                                        
+                                            OracleCommand objCmds = new OracleCommand("PARTYCONTACTPROC", objConn);
+
+                                            StatementType = "Insert";
+                                            objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+                                            objCmds.CommandType = CommandType.StoredProcedure;
+                                            objCmds.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = Pid;
+                                            objCmds.Parameters.Add("CONTACTPURPOSE", OracleDbType.NVarchar2).Value = cp.Purpose;
+                                            objCmds.Parameters.Add("CONTACTNAME", OracleDbType.NVarchar2).Value = cp.ContactPerson;
+                                            objCmds.Parameters.Add("CONTACTDESIG", OracleDbType.NVarchar2).Value = cp.Designation;
+                                            objCmds.Parameters.Add("CONTACTPHONE", OracleDbType.NVarchar2).Value = cp.CPhone;
+                                            objCmds.Parameters.Add("CONTACTEMAIL", OracleDbType.NVarchar2).Value = cp.CEmail;
+                                            objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                             objCmds.ExecuteNonQuery();
+
+                                         
+                                    }
                                 }
-                                else
-                                {
-                                    StatementType = "Update";
-                                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                }
-                                objCmds.CommandType = CommandType.StoredProcedure;
-                                objCmds.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = Pid;
-                                objCmds.Parameters.Add("CONTACTPURPOSE", OracleDbType.NVarchar2).Value = cy.Purpose;
-                                objCmds.Parameters.Add("CONTACTNAME", OracleDbType.NVarchar2).Value = cy.ContactPerson;
-                                objCmds.Parameters.Add("CONTACTDESIG", OracleDbType.NVarchar2).Value = cy.Designation;
-                                objCmds.Parameters.Add("CONTACTPHONE", OracleDbType.NVarchar2).Value = cy.CPhone;
-                                objCmds.Parameters.Add("CONTACTEMAIL", OracleDbType.NVarchar2).Value = cy.CEmail;
-                                objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                objConns.Open();
-                                objCmds.ExecuteNonQuery();
-                                objConns.Close();
                             }
 
+                            else
+                            {
+                                svSQL = "Delete PARTYMASTCONTACT WHERE PARTYMASTID='" + cy.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+
+                                foreach (PartyItem cp in cy.PartyLst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.Purpose != "0")
+                                    {
+
+                                        OracleCommand objCmds = new OracleCommand("PARTYCONTACTPROC", objConn);
+
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+                                        objCmds.CommandType = CommandType.StoredProcedure;
+                                        objCmds.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = Pid;
+                                        objCmds.Parameters.Add("CONTACTPURPOSE", OracleDbType.NVarchar2).Value = cp.Purpose;
+                                        objCmds.Parameters.Add("CONTACTNAME", OracleDbType.NVarchar2).Value = cp.ContactPerson;
+                                        objCmds.Parameters.Add("CONTACTDESIG", OracleDbType.NVarchar2).Value = cp.Designation;
+                                        objCmds.Parameters.Add("CONTACTPHONE", OracleDbType.NVarchar2).Value = cp.CPhone;
+                                        objCmds.Parameters.Add("CONTACTEMAIL", OracleDbType.NVarchar2).Value = cp.CEmail;
+                                        objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                        objCmds.ExecuteNonQuery();
 
 
+                                    }
+                                }
+                            }
                         }
+                        if (cy.PartyLst != null)
+                        {
+                            if (cy.ID == null)
+                            {
+                                int r = 1;
+                                foreach (ratedet cp in cy.rateLst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.ratetype != "")
+                                    {
+
+                                        svSQL = "Insert into PARTYMASTBRCODE (PARTYMASTID,PARTYMASTBRCODEROW,BRATECODE,BRATETYPE,BRATEDESC,ACCNAME,ACOUNTRY) VALUES ('" + Pid + "','" + r + "','" + cp.ratecode + "','" + cp.ratetype + "','" + cp.ratecode + "','0','"+cp.acco+"')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+
+
+                                    }
+                                    r++;
+                                }
+                            }
+
+                            else
+                            {
+                                svSQL = "Delete PARTYMASTBRCODE WHERE PARTYMASTID='" + cy.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+                                int r = 1;
+                                foreach (ratedet cp in cy.rateLst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.ratetype != "0")
+                                    {
+
+                                         svSQL = "Insert into PARTYMASTBRCODE (PARTYMASTID,PARTYMASTBRCODEROW,BRATECODE,BRATETYPE,BRATEDESC,ACCNAME,ACOUNTRY) VALUES ('" + Pid + "','" + r + "','" + cp.ratecode + "','" + cp.ratetype + "','" + cp.ratecode + "','0','" + cp.acco + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+
+
+
+                                    }
+                                    r++;
+                                }
+                            }
+                        }
+
+                    }
                     
                     catch (Exception ex)
                     {
@@ -169,7 +256,7 @@ namespace Arasan.Services.Master
         public DataTable GetParty(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYMAST.PARTYID,PARTYMAST.PARTYNAME,PARTYMAST.PARTYCAT,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,PARTYMAST.ACCOUNTNAME,PARTYMAST.PARTYGROUP,PARTYMAST.COMMCODE,PARTYMAST.REGULARYN,PARTYMAST.LUTNO,PARTYMAST.TYPE,PARTYMAST.CREDITLIMIT,PARTYMAST.CREDITDAYS,PARTYMAST.SECTIONID,PARTYMAST.CSGNPARTYID,PARTYMAST.TRANSLMT,PARTYMAST.GSTNO,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,HTTP,OVERDUEINTEREST,ADD1,REMARKS,INTRODUCEDBY,ACTIVE,PARTYMASTID  from PARTYMAST where PARTYMAST.PARTYMASTID=" + id + "";
+            SvSql = "Select PARTYMAST.PARTYID,PARTYMAST.PARTYNAME,PARTYMAST.PARTYCAT,SALPERNAME,SALLOC,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,PARTYMAST.ACCOUNTNAME,PARTYMAST.PARTYGROUP,PARTYMAST.COMMCODE,PARTYMAST.REGULARYN,PARTYMAST.LUTNO,PARTYMAST.TYPE,PARTYMAST.CREDITLIMIT,PARTYMAST.CREDITDAYS,PARTYMAST.SECTIONID,PARTYMAST.CSGNPARTYID,PARTYMAST.TRANSLMT,PARTYMAST.GSTNO,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,HTTP,OVERDUEINTEREST,ADD1,ADD2,ADD3,REMARKS,INTRODUCEDBY,ACTIVE,PARTYMASTID  from PARTYMAST where PARTYMAST.PARTYMASTID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -179,7 +266,17 @@ namespace Arasan.Services.Master
         public DataTable GetLedger()
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT LEDGERID,LEDNAME FROM ACCLEDGER";
+            SvSql = "SELECT MNAME,MASTERID FROM MASTER";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable Getratecode()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT RATECODE FROM RATEBASIC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -220,7 +317,7 @@ namespace Arasan.Services.Master
             public DataTable GetCountry()
             {
                 string SvSql = string.Empty;
-                SvSql = "select COUNTRY ,CONMASTID from CONMAST  ";
+                SvSql = "select COUNTRY  from CONMAST  ";
                 DataTable dtt = new DataTable();
                 OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
                 OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

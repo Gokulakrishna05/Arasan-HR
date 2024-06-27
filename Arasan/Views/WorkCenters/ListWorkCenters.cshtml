@@ -44,6 +44,12 @@
                 { name: 'wtype', type: 'string' },
                 { name: 'iloc', type: 'string' },
                 { name: 'editrow', type: 'string' },
+                { name: 'productionrate', type: 'string' },
+                { name: 'rejdet', type: 'string' },
+                { name: 'prodcap', type: 'string' },
+                { name: 'prodcapday', type: 'string' },
+                { name: 'apsive', type: 'string' },
+                { name: 'paste', type: 'string' },
                 { name: 'delrow', type: 'string' },
 
 
@@ -61,7 +67,7 @@
         $("#grid").jqxGrid(
             {
 
-                    width: '100%',
+                    width: '120%',
                     source: dataAdapter,
                     //height: 450,
                     autorowheight: true,
@@ -82,6 +88,12 @@
                     { text: 'Work Center Type', filtertype: 'input', datafield: 'wtype', width: 200 },
                     { text: 'Issuse Location',datafield: 'iloc', width: 200 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'prod Rate', datafield: 'productionrate', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Regection Det', datafield: 'rejdet', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Prod Cap', datafield: 'prodcap', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Prod Cap Per Day', datafield: 'prodcapday', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'AP Sieve', datafield: 'apsive', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'paste', datafield: 'paste', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                 ]
         });
@@ -210,22 +222,6 @@
         });
         $(".fancybox1").eq(0).trigger('click');
     }
-    function changeStatus(status) {
-        var url = "/WorkCenters/ListWorkCenters?status=" + status;
-        window.location.href = url;
-        //$.ajax({
-        //    url: 'AssignSession',
-        //    data: { "status": status },
-        //    type: "GET",
-        //    success: function (result) {
-        //        document.getElementById("hdstatus").value = result;
-        //    },
-        //    error: function () {
-        //        alert("Data Not Found");
-        //    }
-        //});
-        //window.location.reload();
-
-    }
+  
     
 </script>*@

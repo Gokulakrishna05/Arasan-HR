@@ -127,7 +127,7 @@ namespace Arasan.Services.Master
         //    }
         //    return ItemName;
         //}
-        public string ItemNameCRUD(ItemName ss, List<IFormFile> files)
+        public string ItemNameCRUD(ItemName ss, List<IFormFile> files, List<IFormFile> files1)
         {
             string msg = "";
             try
@@ -142,7 +142,7 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
-                string grpid = datatrans.GetDataString("Select ITEMGROUPID from ITEMGROUP where GROUPCODE='" + ss.ItemG + "'");
+                string grpid = datatrans.GetDataString("Select GROUPCODE from ITEMGROUP where ITEMGROUPID='" + ss.ItemG + "'");
                 string supid = datatrans.GetDataString("Select ITEMSUBGROUPID from ITEMSUBGROUP where SGCODE='" + ss.ItemSub + "'");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -162,9 +162,9 @@ namespace Arasan.Services.Master
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID; 
                     }
 
-                    objCmd.Parameters.Add("IGROUP", OracleDbType.NVarchar2).Value = ss.ItemG;
+                    objCmd.Parameters.Add("ITEMGROUP", OracleDbType.NVarchar2).Value = ss.ItemG;
                     objCmd.Parameters.Add("ISUBGROUP", OracleDbType.NVarchar2).Value = ss.ItemSub;
-                    objCmd.Parameters.Add("ITEMGROUP", OracleDbType.NVarchar2).Value = grpid;
+                    objCmd.Parameters.Add("IGROUP", OracleDbType.NVarchar2).Value = grpid;
                     objCmd.Parameters.Add("SUBGROUPCODE", OracleDbType.NVarchar2).Value = supid;
                     objCmd.Parameters.Add("SUBCATEGORY", OracleDbType.NVarchar2).Value = ss.SubCat;
                    
@@ -180,7 +180,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("SELLINGPRICE", OracleDbType.NVarchar2).Value = ss.Selling;
                  
                     objCmd.Parameters.Add("EXPYN", OracleDbType.NVarchar2).Value = ss.Expiry;
-                    objCmd.Parameters.Add("VALMETHOD", OracleDbType.NVarchar2).Value = ss.ValuationMethod;
+                    objCmd.Parameters.Add("VALMETHDES", OracleDbType.NVarchar2).Value = ss.ValuationMethod;
                     objCmd.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = ss.Serial;
                     objCmd.Parameters.Add("BSTATEMENTYN", OracleDbType.NVarchar2).Value = ss.Batch;
                     if(ss.QCTemp==null)
@@ -237,6 +237,8 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("RUNHRS", OracleDbType.NVarchar2).Value = ss.runhrs;
                     objCmd.Parameters.Add("RUNPERQTY", OracleDbType.NVarchar2).Value = ss.runhrsqty;
                     objCmd.Parameters.Add("QCT", OracleDbType.NVarchar2).Value = ss.qctest;
+                    objCmd.Parameters.Add("ABCGRADE", OracleDbType.NVarchar2).Value = ss.clssscode;
+                    objCmd.Parameters.Add("FLWORD", OracleDbType.NVarchar2).Value = ss.flow;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -393,7 +395,7 @@ namespace Arasan.Services.Master
 
                                     String strFleName = strLongFilePath1.Replace(sFileType1, "") + String.Format("{0:ddMMMyyyy-hhmmsstt}", DateTime.Now) + sFileType1;
                                     var fileName = Path.Combine("wwwroot/itemdoc", strFleName);
-                                    var fileName1 = Path.Combine("itemdoc", strFleName);
+                                    var fileName1 = "../itemdoc/" + strFleName;
                                     var name = file.FileName;
                                     // Save the file to the target folder
 
@@ -403,7 +405,7 @@ namespace Arasan.Services.Master
 
 
 
-                                        svSQL = "Insert into ITEMMASTERDOC(ITEMMASTERID,ITEMMASTERDOCROW,DOCPATH) VALUES ('" + Pid + "','" + r + "','" + fileName1 + "')";
+                                        svSQL = "Insert into ITEMMASTERDOC(ITEMMASTERID,ITEMMASTERDOCROW,DOCPATH,DOCNAME) VALUES ('" + Pid + "','" + r + "','" + fileName1 + "','"+ name + "')";
                                         OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
                                         objCmdss.ExecuteNonQuery();
 
@@ -412,7 +414,42 @@ namespace Arasan.Services.Master
                                 }
 
                             }
-                            objConn.Close();
+                        }
+                        if (files1 != null && files1.Count > 0)
+                        {
+                            int r = 1;
+                            foreach (var file in files1)
+                            {
+                                if (file.Length > 0)
+                                {
+                                    // Get the file name and combine it with the target folder path
+                                    String strLongFilePath1 = file.FileName;
+                                    String sFileType1 = "";
+                                    sFileType1 = System.IO.Path.GetExtension(file.FileName);
+                                    sFileType1 = sFileType1.ToLower();
+
+                                    String strFleName = strLongFilePath1.Replace(sFileType1, "") + String.Format("{0:ddMMMyyyy-hhmmsstt}", DateTime.Now) + sFileType1;
+                                    var fileName = Path.Combine("wwwroot/itemdoc", strFleName);
+                                    var fileName1 ="../itemdoc/"+strFleName;
+                                    var name = file.FileName;
+                                    // Save the file to the target folder
+
+                                    using (var fileStream = new FileStream(fileName, FileMode.Create))
+                                    {
+                                        file.CopyTo(fileStream);
+
+
+
+                                        svSQL = "UPDATE ITEMMASTER SET IMGPATH='"+ fileName1 + "' WHERE ITEMMASTERID='" + Pid + "'";
+                                        OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                        objCmdss.ExecuteNonQuery();
+
+                                        r++;
+                                    }
+                                }
+
+                            }
+                             
                         }
 
                     }
@@ -431,7 +468,7 @@ namespace Arasan.Services.Master
 
             return msg;
         }
-        public string NewItemCRUD(ItemName ss)
+        public string NewItemCRUD(ItemName ss, List<IFormFile> files, List<IFormFile> files1)
         {
             string msg = "";
             try
@@ -465,10 +502,9 @@ namespace Arasan.Services.Master
                         StatementType = "Update";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
                     }
-
-                    objCmd.Parameters.Add("IGROUP", OracleDbType.NVarchar2).Value = ss.ItemG;
+                    objCmd.Parameters.Add("ITEMGROUP", OracleDbType.NVarchar2).Value = ss.ItemG;
                     objCmd.Parameters.Add("ISUBGROUP", OracleDbType.NVarchar2).Value = ss.ItemSub;
-                    objCmd.Parameters.Add("ITEMGROUP", OracleDbType.NVarchar2).Value = grpid;
+                    objCmd.Parameters.Add("IGROUP", OracleDbType.NVarchar2).Value = grpid;
                     objCmd.Parameters.Add("SUBGROUPCODE", OracleDbType.NVarchar2).Value = supid;
                     objCmd.Parameters.Add("SUBCATEGORY", OracleDbType.NVarchar2).Value = ss.SubCat;
 
@@ -484,7 +520,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("SELLINGPRICE", OracleDbType.NVarchar2).Value = ss.Selling;
 
                     objCmd.Parameters.Add("EXPYN", OracleDbType.NVarchar2).Value = ss.Expiry;
-                    objCmd.Parameters.Add("VALMETHOD", OracleDbType.NVarchar2).Value = ss.ValuationMethod;
+                    objCmd.Parameters.Add("VALMETHDES", OracleDbType.NVarchar2).Value = ss.ValuationMethod;
                     objCmd.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = ss.Serial;
                     objCmd.Parameters.Add("BSTATEMENTYN", OracleDbType.NVarchar2).Value = ss.Batch;
                     if (ss.QCTemp == null)
@@ -541,6 +577,8 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("RUNHRS", OracleDbType.NVarchar2).Value = ss.runhrs;
                     objCmd.Parameters.Add("RUNPERQTY", OracleDbType.NVarchar2).Value = ss.runhrsqty;
                     objCmd.Parameters.Add("QCT", OracleDbType.NVarchar2).Value = ss.qctest;
+                    objCmd.Parameters.Add("ABCGRADE", OracleDbType.NVarchar2).Value = ss.clssscode;
+                    objCmd.Parameters.Add("FLWORD", OracleDbType.NVarchar2).Value = ss.flow;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -682,42 +720,78 @@ namespace Arasan.Services.Master
                                 }
                             }
                         }
-                        //if (files != null && files.Count > 0)
-                        //{
-                        //    int r = 1;
-                        //    foreach (var file in files)
-                        //    {
-                        //        if (file.Length > 0)
-                        //        {
-                        //            // Get the file name and combine it with the target folder path
-                        //            String strLongFilePath1 = file.FileName;
-                        //            String sFileType1 = "";
-                        //            sFileType1 = System.IO.Path.GetExtension(file.FileName);
-                        //            sFileType1 = sFileType1.ToLower();
+                        if (files != null && files.Count > 0)
+                        {
+                            int r = 1;
+                            foreach (var file in files)
+                            {
+                                if (file.Length > 0)
+                                {
+                                    // Get the file name and combine it with the target folder path
+                                    String strLongFilePath1 = file.FileName;
+                                    String sFileType1 = "";
+                                    sFileType1 = System.IO.Path.GetExtension(file.FileName);
+                                    sFileType1 = sFileType1.ToLower();
 
-                        //            String strFleName = strLongFilePath1.Replace(sFileType1, "") + String.Format("{0:ddMMMyyyy-hhmmsstt}", DateTime.Now) + sFileType1;
-                        //            var fileName = Path.Combine("wwwroot/itemdoc", strFleName);
-                        //            var fileName1 = Path.Combine("itemdoc", strFleName);
-                        //            var name = file.FileName;
-                        //            // Save the file to the target folder
+                                    String strFleName = strLongFilePath1.Replace(sFileType1, "") + String.Format("{0:ddMMMyyyy-hhmmsstt}", DateTime.Now) + sFileType1;
+                                    var fileName = Path.Combine("wwwroot/itemdoc", strFleName);
+                                    var fileName1 = Path.Combine("itemdoc", strFleName);
+                                    var name = file.FileName;
+                                    // Save the file to the target folder
 
-                        //            using (var fileStream = new FileStream(fileName, FileMode.Create))
-                        //            {
-                        //                file.CopyTo(fileStream);
+                                    using (var fileStream = new FileStream(fileName, FileMode.Create))
+                                    {
+                                        file.CopyTo(fileStream);
 
 
 
-                        //                svSQL = "Insert into ITEMMASTERDOC(ITEMMASTERID,ITEMMASTERDOCROW,DOCPATH) VALUES ('" + Pid + "','" + r + "','" + fileName1 + "')";
-                        //                OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
-                        //                objCmdss.ExecuteNonQuery();
+                                        svSQL = "Insert into ITEMMASTERDOC(ITEMMASTERID,ITEMMASTERDOCROW,DOCPATH) VALUES ('" + Pid + "','" + r + "','" + fileName1 + "')";
+                                        OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                        objCmdss.ExecuteNonQuery();
 
-                        //                r++;
-                        //            }
-                        //        }
+                                        r++;
+                                    }
+                                }
 
-                        //    }
-                        //    objConn.Close();
-                        //}
+                                   }
+                                 
+                                 }
+                        if (files1 != null && files1.Count > 0)
+                        {
+                            int r = 1;
+                            foreach (var file in files1)
+                            {
+                                if (file.Length > 0)
+                                {
+                                    // Get the file name and combine it with the target folder path
+                                    String strLongFilePath1 = file.FileName;
+                                    String sFileType1 = "";
+                                    sFileType1 = System.IO.Path.GetExtension(file.FileName);
+                                    sFileType1 = sFileType1.ToLower();
+
+                                    String strFleName = strLongFilePath1.Replace(sFileType1, "") + String.Format("{0:ddMMMyyyy-hhmmsstt}", DateTime.Now) + sFileType1;
+                                    var fileName = Path.Combine("wwwroot/itemdoc", strFleName);
+                                    var fileName1 = Path.Combine("itemdoc", strFleName);
+                                    var name = file.FileName;
+                                    // Save the file to the target folder
+
+                                    using (var fileStream = new FileStream(fileName, FileMode.Create))
+                                    {
+                                        file.CopyTo(fileStream);
+
+
+
+                                        svSQL = "UPDATE ITEMMASTER SET IMGPATH='" + fileName1 + "' WHERE ITEMMASTERID='"+Pid+"'";
+                                        OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                        objCmdss.ExecuteNonQuery();
+
+                                        r++;
+                                    }
+                                }
+
+                            }
+
+                        }
 
                     }
                     catch (Exception ex)
@@ -738,7 +812,7 @@ namespace Arasan.Services.Master
         public DataTable GetItemNameDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select IGROUP,ISUBGROUP,ITEMGROUP,SUBGROUPCODE,SUBCATEGORY,BINNO,BINYN,LOTYN,RHYN,RUNPERQTY,RUNHRS,COSTCATEGORY,AUTOCONSYN,QCT,DRUMYN,ITEMFROM,TARIFFID,PURCAT,MAJORYN,to_char(LATPURDT,'dd-MON-yyyy')LATPURDT,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MINSTK,PRIUNIT,HSN,SELLINGPRICE,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,TEMPLATEID,QCCOMPFLAG,LATPURPRICE,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMACC,PTEMPLATEID,CURINGDAY,AUTOINDENT from ITEMMASTER where ITEMMASTERID=" + id + "";
+            SvSql = "Select ITEMGROUP,ISUBGROUP,ITEMGROUP,SUBGROUPCODE,SUBCATEGORY,BINNO,IMGPATH,BINYN,FLWORD,LEADDAYS,ABCGRADE,LOTYN,RHYN,RUNPERQTY,RUNHRS,COSTCATEGORY,AUTOCONSYN,QCT,DRUMYN,ITEMFROM,TARIFFID,PURCAT,MAJORYN,to_char(LATPURDT,'dd-MON-yyyy')LATPURDT,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MINSTK,PRIUNIT,HSN,SELLINGPRICE,EXPYN,VALMETHDES,SERIALYN,BSTATEMENTYN,TEMPLATEID,QCCOMPFLAG,LATPURPRICE,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMACC,PTEMPLATEID,CURINGDAY,AUTOINDENT from ITEMMASTER where ITEMMASTERID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -809,10 +883,10 @@ namespace Arasan.Services.Master
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetItemSubGroup()
+        public DataTable GetItemSubGroup(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMSUBGROUPID,SGCODE from ITEMSUBGROUP order by ITEMSUBGROUPID asc";
+            SvSql = "Select ITEMSUBGROUPID,SGCODE from ITEMSUBGROUP Where ITEMGROUPID='"+ id +"'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -995,6 +1069,19 @@ namespace Arasan.Services.Master
             }
             return "";
 
+        }
+
+        public DataTable GetAllAttachment(string id)
+        {
+            string SvSql = string.Empty;
+
+            SvSql = "Select ITEMMASTERDOCID,ITEMMASTERID,DOCPATH,DOCNAME FROM ITEMMASTERDOC WHERE ITEMMASTERID='" + id + "' ";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }

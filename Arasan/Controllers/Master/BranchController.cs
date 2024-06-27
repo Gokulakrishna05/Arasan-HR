@@ -181,7 +181,7 @@ namespace Arasan.Controllers
                 {
                     ViewBag.PageTitle = "Edit Branch";
                     TempData["notice"] = Strout;
-                    //return View();
+                    return RedirectToAction("Branch");
                 }
 
                 // }

@@ -30,6 +30,8 @@ namespace Arasan.Models
 
         public List<SelectListItem> Loc;
         public string Iloc { get; set; }
+        public string rloc { get; set; }
+        public string rjloc { get; set; }
 
         public List<SelectListItem> QCLst;
         public string QcLoc { get; set; }
@@ -70,6 +72,12 @@ namespace Arasan.Models
         public string createby { get; set; }
 
         public List<WorkCentersDetail> WorkCenterlst { get; set; }
+        public List<ProdRate> ProdRatelst { get; set; }
+        public List<Rejdet> Rejdetlst { get; set; }
+        public List<ProdCap> ProdCaplst { get; set; }
+        public List<ProdCapPerDay> ProdCapPerDaylst { get; set; }
+        public List<ApSive> ApSivelst { get; set; }
+        public List<PasteRun> PasteRunlst { get; set; }
 
     }
     public class WorkCentersDetail
@@ -78,18 +86,93 @@ namespace Arasan.Models
         public string MId { get; set; }
         public string Isvalid { get; set; }
         public string MCost { get; set; }
+        public List<SelectListItem> mlst;
+
+    }
+    public class ProdRate
+    {
+        public string ID { get; set; }
+        public string itemid { get; set; }
+        public string Isvalid { get; set; }
+        public string inputtype { get; set; }
+        public string outputrate { get; set; }
+        public List<SelectListItem> itemlst;
+        public List<SelectListItem> inputlst;
+
+    }
+    public class PasteRun
+    {
+        public string ID { get; set; }
+        public string itemid { get; set; }
+        public string Isvalid { get; set; }
+        public string runhrs { get; set; }
+        public string mtoloss { get; set; }
+        public string appowder { get; set; }
+        public string cake { get; set; }
+        public string noofchange { get; set; }
+        public List<SelectListItem> itemlst;
+ 
+    }
+    public class ApSive
+    {
+        public string ID { get; set; }
+        public string siveid { get; set; }
+        public string Isvalid { get; set; }
+        public string fuelqty { get; set; }
+        public string mettqty { get; set; }
+        public string minsive { get; set; }
+       
+        public List<SelectListItem> sivelst;
+       
+
+    }
+    public class ProdCap
+    {
+        public string ID { get; set; }
+        public string itemid { get; set; }
+        public string Isvalid { get; set; }
+        public string process { get; set; }
+        public string outputcap { get; set; }
+        public List<SelectListItem> itemlst;
+        public List<SelectListItem> prolst;
+
+    }
+    public class Rejdet
+    {
+        public string ID { get; set; }
+        public string rejtype { get; set; }
+        public string Isvalid { get; set; }
+        public string rejection { get; set; }
+       
+        public List<SelectListItem> rejlst;
 
     }
 
+    public class ProdCapPerDay
+    {
+        public string ID { get; set; }
+        public string itemid { get; set; }
+        public string Isvalid { get; set; }
+        public string Qty { get; set; }
+        
+        public List<SelectListItem> itemlst;
+       
 
+    }
     public class WorkCentersgrid
     {
         public string id { get; set; }
         public string wid { get; set; }
         public string wtype { get; set; }
         public string iloc { get; set; }
-        public String editrow { get; set; }
-        public String delrow { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        public string productionrate { get; set; }
+        public string rejdet { get; set; }
+        public string prodcap { get; set; }
+        public string apsive { get; set; }
+        public string prodcapday { get; set; }
+        public string paste { get; set; }
     }
 
     }

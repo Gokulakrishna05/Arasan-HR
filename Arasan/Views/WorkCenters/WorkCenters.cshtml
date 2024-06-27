@@ -86,7 +86,7 @@
                                     <div class="form-group">
 
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory">*</label></label>
-                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
+                                      <div class="input-group date form_datetime col-sm-8" data-date="" data-date-format="dd-M-yyyy - HH:ii p" >
                                                          @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
 														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							            </div>
@@ -105,9 +105,18 @@
                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Cont Type<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Receipt Location<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.ContType, Model.Contlst," -- Please Select -- ", new { @id = "ddIContType", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.rloc, Model.Loc," -- Please Select -- ", new { @id = "ddIrloc", @Class = "form-control _select", @TabIndex = 1 })
+                                        </div>
+
+                                    </div>
+                                </div>
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Reject Location<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.rjloc, Model.Loc," -- Please Select -- ", new { @id = "ddIrloc", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
 
                                     </div>
@@ -395,7 +404,8 @@
 
                                                         
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.WorkCenterlst[i].MId, new { @id = "txtMId" + i, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+
+                                                            @Html.DropDownListFor(o => o.WorkCenterlst[i].MId,Model.WorkCenterlst[i].mlst, new { @id = "txtMId" + i, @class = "form-control _select", style = "width: 200px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                         </td>
                                                         <td>
                                                             @Html.TextBoxFor(o => o.WorkCenterlst[i].MCost, new { @id = "txtMCost" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 120px;" })
@@ -474,7 +484,7 @@
 </div>
 
 <script>
-    $(".chosen-select").chosen();
+   
 
     function PopulateDropDown(dropDownId, list) {
         //alert(list);
@@ -487,7 +497,7 @@
         }
         $(dropDownId).trigger("liszt:updated");
     }
-    $(".chosen-select").chosen();
+  
      $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -498,7 +508,18 @@
         minView: 2,
         forceParse: 0
      });
-    $(".chosen-select").chosen();
+     
+    $('.form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+   
      function removeRow(id) {
         var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
@@ -548,9 +569,9 @@
         var index = $("#tbBooks").children("tr").length;
 
       
-        var MId = "<td><input class='form-control' id='txtConFac" + index + "' name='WorkCenterlst[" + index + "].MId'  style='width: 80px;' type='text' ,'onkeydown='return isNumeric2(event.keyCode,this.value)'  /></td>";
+        var MId = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='txtMId" + index + "' name='WorkCenterlst[" + index + "].MId'><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var MCost = "<td><input class='form-control' id='txtBinID" + index + "' name='WorkCenterlst[" + index + "].MCost'  style='width: 80px;' type='text','onkeydown='return isNumeric2(event.keyCode,this.value)'    /></td>";
+        var MCost = "<td><input class='form-control' id='txtBinID" + index + "' name='WorkCenterlst[" + index + "].MCost'  style='width: 120px;' type='text','onkeydown='return isNumeric2(event.keyCode,this.value)'    /></td>";
 
      
 
@@ -561,7 +582,9 @@
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
-        $(".chosen-select").chosen();
+       $(function () {
+        $('._select').select2();
+    });
     }
     
 </script>

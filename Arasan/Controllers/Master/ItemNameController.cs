@@ -30,7 +30,7 @@ namespace Arasan.Controllers.Master
             ItemName ca = new ItemName();
             ca.IgLst = BindItemGroup();
             ca.Iclst = BindItemCategory();
-            ca.Isglst = BindItemSubGroup();
+            ca.Isglst = BindItemSubGroup("");
             ca.Tarrifflst = BindTarrif();
             ca.Hsn = BindHSNcode();
             ca.Bin = BindBinID();
@@ -41,18 +41,29 @@ namespace Arasan.Controllers.Master
             ca.unitlst = BindUnit();
             ca.purlst = Bindpurchase();
             ca.costlst = Bindcostcate();
+            ca.classlst = Bindclasscode();
+            ca.valuelst = Bindvalue();
             ca.createdby = Request.Cookies["UserId"];
             ca.Selling = "0";
             ca.runhrs = "0";
             ca.runhrsqty = "0";
             ca.rundet = "NO";
+            ca.Auto = "N";
+            ca.Expiry = "NO";
+            ca.lot = "NO";
+            ca.Serial = "NO";
+            ca.QCRequired = "NO";
+            ca.Batch = "Y";
+            ca.qctest = "NO";
+            ca.Drumyn = "NO";
+            ca.major = "N";
+            ca.autocon = "No";
             List<SupItem> TData = new List<SupItem>();
             SupItem tda = new SupItem();
 
             List<BinItem> TDatab = new List<BinItem>();
             BinItem tdaB = new BinItem();
-
-            List<UnitItem> TDatau = new List<UnitItem>();
+             List<UnitItem> TDatau = new List<UnitItem>();
             UnitItem tdau = new UnitItem();
             List<LocdetItem> TDatal = new List<LocdetItem>();
             LocdetItem tdal = new LocdetItem();
@@ -67,6 +78,8 @@ namespace Arasan.Controllers.Master
                 {
                     tdau = new UnitItem();
                     tdau.UnitLst = BindUnit();
+                    tdau.UnittypeLst = BindUnitType();
+                    tdau.cf = "1";
                     tdau.Isvalid = "Y";
                     TDatau.Add(tdau);
                 }
@@ -100,7 +113,8 @@ namespace Arasan.Controllers.Master
                 dt = ItemNameService.GetItemNameDetails(id);
                 if (dt.Rows.Count > 0)
                 {
-                    ca.ItemG = dt.Rows[0]["IGROUP"].ToString();
+                    ca.ItemG = dt.Rows[0]["ITEMGROUP"].ToString();
+                    ca.Isglst = BindItemSubGroup(ca.ItemG);
                     ca.ItemSub = dt.Rows[0]["ISUBGROUP"].ToString();
                     ca.SubCat = dt.Rows[0]["SUBCATEGORY"].ToString();
                     
@@ -124,12 +138,15 @@ namespace Arasan.Controllers.Master
                     ca.lastdate = dt.Rows[0]["LATPURDT"].ToString();
                      
                     ca.Expiry = dt.Rows[0]["EXPYN"].ToString();
-                    ca.ValuationMethod = dt.Rows[0]["VALMETHOD"].ToString();
+                    ca.valuelst = Bindvalue();
+                    ca.ValuationMethod = dt.Rows[0]["VALMETHDES"].ToString();
                     ca.Serial = dt.Rows[0]["SERIALYN"].ToString();
                     ca.Batch = dt.Rows[0]["BSTATEMENTYN"].ToString();
                     ca.QCTemp = dt.Rows[0]["TEMPLATEID"].ToString();
                     ca.QCRequired = dt.Rows[0]["QCCOMPFLAG"].ToString();
                     ca.Latest = dt.Rows[0]["LATPURPRICE"].ToString();
+                    ca.clssscode = dt.Rows[0]["ABCGRADE"].ToString();
+                    ca.imgpath = dt.Rows[0]["IMGPATH"].ToString();
                      
                     ca.Rejection = dt.Rows[0]["REJRAWMATPER"].ToString();
                     ca.Percentage = dt.Rows[0]["RAWMATPER"].ToString();
@@ -137,6 +154,8 @@ namespace Arasan.Controllers.Master
                     ca.AddItem = dt.Rows[0]["ADD1"].ToString();
                     ca.RawMaterial = dt.Rows[0]["RAWMATCAT"].ToString();
                     ca.Ledger = dt.Rows[0]["ITEMACC"].ToString();
+                    ca.leadtime = dt.Rows[0]["LEADDAYS"].ToString();
+                    ca.flow = dt.Rows[0]["FLWORD"].ToString();
 
                      
                     ca.FQCTemp = dt.Rows[0]["PTEMPLATEID"].ToString();
@@ -144,7 +163,7 @@ namespace Arasan.Controllers.Master
                     //ca.QCTemp = dt.Rows[0]["IQCTEMP"].ToString();
                     //ca.FQCTemp = dt.Rows[0]["FGQCTEMP"].ToString();
 
-                    ca.BinId = dt.Rows[0]["BINNO"].ToString();
+                    ca.BinID = dt.Rows[0]["BINNO"].ToString();
                     ca.BinYN = dt.Rows[0]["BINYN"].ToString();
                     ca.Curing = dt.Rows[0]["CURINGDAY"].ToString();
                     ca.Auto = dt.Rows[0]["AUTOINDENT"].ToString();
@@ -195,8 +214,10 @@ namespace Arasan.Controllers.Master
                     {
                         tdau = new UnitItem();
                         tdau.UnitLst = BindUnit();
+                      
                         tdau.Unit = dtt1.Rows[i]["UNIT"].ToString();
                         tdau.cf = dtt1.Rows[i]["CF"].ToString();
+                        tdau.UnittypeLst = BindUnitType();
                         tdau.unittype = dtt1.Rows[i]["UNITTYPE"].ToString();
                         tdau.uniqid = dtt1.Rows[i]["UNITUNIQUEID"].ToString();
                         tdau.Isvalid = "Y";
@@ -249,7 +270,7 @@ namespace Arasan.Controllers.Master
             ca.IgLst = BindItemGroup();
             ca.IgLst = BindItemGroup();
             ca.Iclst = BindItemCategory();
-            ca.Isglst = BindItemSubGroup();
+            ca.Isglst = BindItemSubGroup("");
             ca.Tarrifflst = BindTarrif();
             ca.Hsn = BindHSNcode();
             ca.Bin = BindBinID();
@@ -552,6 +573,23 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
+        public List<SelectListItem> BindUnitType()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "Purchase", Value = "Purchase" });
+                lstdesg.Add(new SelectListItem() { Text = "Production", Value = "Production" });
+                lstdesg.Add(new SelectListItem() { Text = "Sales", Value = "Sales" });
+
+
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindLedger()
         {
             try
@@ -628,7 +666,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["GROUPCODE"].ToString(), Value = dtDesg.Rows[i]["GROUPCODE"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["GROUPCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMGROUPID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -669,6 +707,41 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
+        public List<SelectListItem> Bindclasscode()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "A", Value = "A" });
+                lstdesg.Add(new SelectListItem() { Text = "B", Value = "B" });
+                lstdesg.Add(new SelectListItem() { Text = "C", Value = "C" });
+                lstdesg.Add(new SelectListItem() { Text = "D", Value = "D" });
+                lstdesg.Add(new SelectListItem() { Text = "E", Value = "E" });
+                lstdesg.Add(new SelectListItem() { Text = "F", Value = "F" });
+
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> Bindvalue()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "Wt. Average", Value = "Wt. Average" });
+                lstdesg.Add(new SelectListItem() { Text = "FIFO", Value = "FIFO" });
+              
+
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindItemCategory()
         {
             try
@@ -686,11 +759,11 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-        public List<SelectListItem> BindItemSubGroup()
+        public List<SelectListItem> BindItemSubGroup(string value)
         {
             try
             {
-                DataTable dtDesg = ItemNameService.GetItemSubGroup();
+                DataTable dtDesg = ItemNameService.GetItemSubGroup(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -738,13 +811,13 @@ namespace Arasan.Controllers.Master
             }
         }
         [HttpPost]
-        public ActionResult ItemName(ItemName ss, string id, List<IFormFile> file)
+        public ActionResult ItemName(ItemName ss, string id, List<IFormFile> file, List<IFormFile> file1)
         {
 
             try
             {
                 ss.ID = id;
-                string Strout = ItemNameService.ItemNameCRUD(ss, file);
+                string Strout = ItemNameService.ItemNameCRUD(ss, file, file1);
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (ss.ID == null)
@@ -762,7 +835,7 @@ namespace Arasan.Controllers.Master
                 {
                     ViewBag.PageTitle = "Edit ItemName";
                     TempData["notice"] = Strout;
-                    //return View();
+                    return RedirectToAction("ItemName");
                 }
 
 
@@ -777,13 +850,13 @@ namespace Arasan.Controllers.Master
         }
 
         [HttpPost]
-        public ActionResult ItemCreate(ItemName ss, string id, List<IFormFile> file)
+        public ActionResult ItemCreate(ItemName ss, string id, List<IFormFile> file, List<IFormFile> file1)
         {
 
             try
             {
                 ss.ID = id;
-                string Strout = ItemNameService.ItemNameCRUD(ss, file);
+                string Strout = ItemNameService.NewItemCRUD(ss, file,file1);
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (ss.ID == null)
@@ -922,6 +995,18 @@ namespace Arasan.Controllers.Master
            //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindSupplier());
         }
+        public JsonResult GetunittypeJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindUnitType());
+        }
+        public JsonResult GetSubGroupJSON(string itemid)
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindItemSubGroup(itemid));
+        }
         public JsonResult GetUnitJSON()
         {
             //EnqItem model = new EnqItem();
@@ -1036,6 +1121,38 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-        
+        public ActionResult MyListAttachitemGrid(string id)
+        {
+            List<itemupload> Reg = new List<itemupload>();
+            DataTable dtUsers = new DataTable();
+
+            dtUsers = (DataTable)ItemNameService.GetAllAttachment(id);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string Upload = string.Empty;
+
+
+
+                Upload = "<a href='/" + dtUsers.Rows[i]["DOCPATH"].ToString() + "' target='_blank' title='Attachement'>" + dtUsers.Rows[i]["DOCNAME"].ToString() + "</a>";
+
+
+                Reg.Add(new itemupload
+                {
+                    id =  dtUsers.Rows[i]["ITEMMASTERDOCID"].ToString(),
+
+                    upload = Upload,
+
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
     }
 }

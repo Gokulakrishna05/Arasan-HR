@@ -14,6 +14,9 @@ namespace Arasan.Models
             this.Ledgerlst = new List<SelectListItem>();
         }
         public List<SelectListItem> Ledgerlst;
+        public List<SelectListItem> ratelst;
+        public List<SelectListItem> commlst;
+        public List<SelectListItem> typelst;
 
         public string Ledger { get; set; }
         public string ID { get; set; }
@@ -29,6 +32,8 @@ namespace Arasan.Models
         public string PartyGroup { get; set; }
         public string Comm { get; set; }
         public string Address { get; set; }
+        public string Address2 { get; set; }
+        public string Address3 { get; set; }
         public List<SelectListItem> Statelst;
         public string State { get; set; }
         public List<SelectListItem> Citylst;
@@ -38,8 +43,13 @@ namespace Arasan.Models
        
         public string Country { get; set; }
         public List<SelectListItem> assignList;
+        public List<SelectListItem> saleloclst;
+        public List<SelectListItem> saleperlst;
+        public List<SelectListItem> concodelst;
 
-        public string Phone { get; set; }
+        public string salloc { get; set; }
+        public string salper { get; set; }
+         public string Phone { get; set; }
         public string Remark { get; set; }
         public string Mobile { get; set; }
         public string Email { get; set; }
@@ -77,21 +87,59 @@ namespace Arasan.Models
         public int  EntryBY { get; set; }   
         public string EntryOn { get; set; }
         public int UpdatedBY { get; set; }
-        //public List<PartyItem> PartyLst { get; set; }
+       
 
         public string CID { get; set; }
+    
+        public string status { get; set; }
+        public string ddlStatus { get; set; }
+        public string createby { get; set; }
+        public string branch { get; set; }
+        public List<PartyItem> PartyLst { get; set; }
+        public List<ratedet> rateLst { get; set; }
+        public List<shipping> shLst { get; set; }
+
+    }
+    public class PartyItem
+    {
         public string ContactPerson { get; set; }
         public string Purpose { get; set; }
-
+        public List<SelectListItem> purlst;
         public string Designation { get; set; }
         public string CPhone { get; set; }
 
         public string CEmail { get; set; }
         public string Isvalid { get; set; }
-        public string status { get; set; }
-        public string ddlStatus { get; set; }
-        public string createby { get; set; }
+    }
+    public class shipping
+    {
+        public string city { get; set; }
+        public string state { get; set; }
+        public List<SelectListItem> statelst;
+        public string add1 { get; set; }
+        public string add2 { get; set; }
 
+        public string add3 { get; set; }
+        public string consingn { get; set; }
+        public string addtype { get; set; }
+        public string pincode { get; set; }
+        public string gstno { get; set; }
+        public string shippingdistance { get; set; }
+        public string email { get; set; }
+        public string phone { get; set; }
+        public string Isvalid { get; set; }
+    }
+    public class ratedet
+    {
+        public string ratetype { get; set; }
+        public string ratecode { get; set; }
+        public List<SelectListItem> ratelist;
+        public List<SelectListItem> ratecodelist;
+        public string ratedece { get; set; }
+        public string acco { get; set; }
+
+        
+        public string Isvalid { get; set; }
     }
     public class PartyGrid
     {

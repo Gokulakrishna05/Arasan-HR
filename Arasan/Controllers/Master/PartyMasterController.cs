@@ -30,17 +30,41 @@ namespace Arasan.Controllers.Master
         {
             PartyMaster ca = new PartyMaster();
 
-            ca.createby = Request.Cookies["UserId"];
+            ca.createby = Request.Cookies["UserName"];
+            ca.branch = Request.Cookies["BranchId"];
             ca.Countrylst = BindCountry();
             ca.Statelst = BindState();
             ca.Citylst = BindCity();
             ca.assignList = BindEmp();
             ca.Categorylst = BindCategory();
             ca.Ledgerlst = BindLedger();
-            //List<PartyItem> TData = new List<PartyItem>();
-            //PartyItem tda = new PartyItem();
+            ca.ratelst = BindRateCode();
+            ca.commlst = BindCommCode();
+            ca.typelst = Bindpartytype();
+            ca.saleloclst = Bindsalloc();
+            ca.saleperlst = Bindsalep();
+            ca.concodelst = Bindconcode();
+            List<PartyItem> TData = new List<PartyItem>();
+            PartyItem tda = new PartyItem();
+            List<ratedet> TData1 = new List<ratedet>();
+            ratedet tda1 = new ratedet();
             if (id == null)
             {
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new PartyItem();
+                    tda.purlst = Bindpur();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda1 = new ratedet();
+                    tda1.ratelist = BindRatetype();
+                    tda1.ratecodelist = BindRateCode();
+                    tda1.Isvalid = "Y";
+                    TData1.Add(tda1);
+                }
             }
             else
             {
@@ -52,6 +76,8 @@ namespace Arasan.Controllers.Master
                 dt = PartyMasterService.GetParty(id);
                 if (dt.Rows.Count > 0)
                 {
+                    ca.createby = Request.Cookies["UserName"];
+                    ca.branch = Request.Cookies["BranchId"];
                     ca.PartyCode = dt.Rows[0]["PARTYID"].ToString();
                     ca.PartyName = dt.Rows[0]["PARTYNAME"].ToString();
                     ca.PartyCategory = dt.Rows[0]["PARTYCAT"].ToString();
@@ -90,6 +116,10 @@ namespace Arasan.Controllers.Master
                     ca.Http = dt.Rows[0]["HTTP"].ToString();
                     ca.OverDueInterest = dt.Rows[0]["OVERDUEINTEREST"].ToString();
                     ca.Address = dt.Rows[0]["ADD1"].ToString();
+                    ca.Address2 = dt.Rows[0]["ADD2"].ToString();
+                    ca.Address3 = dt.Rows[0]["ADD3"].ToString();
+                    ca.salloc = dt.Rows[0]["SALLOC"].ToString();
+                    ca.salper = dt.Rows[0]["SALPERNAME"].ToString();
                     ca.Remark = dt.Rows[0]["REMARKS"].ToString();
                     ca.Intred = dt.Rows[0]["INTRODUCEDBY"].ToString();
                     ca.Ledger = dt.Rows[0]["ACCOUNTNAME"].ToString();
@@ -101,17 +131,38 @@ namespace Arasan.Controllers.Master
                 { 
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
+                        tda = new PartyItem();
+                        tda.Purpose = dt2.Rows[i]["CONTACTPURPOSE"].ToString();
+                        tda.ContactPerson = dt2.Rows[i]["CONTACTNAME"].ToString();
+                        tda.Designation = dt2.Rows[i]["CONTACTDESIG"].ToString();
+                        tda.CPhone = dt2.Rows[i]["CONTACTPHONE"].ToString();
+                        tda.CEmail = dt2.Rows[i]["CONTACTEMAIL"].ToString();
+                        tda.Isvalid = "Y";
 
-                        ca.Purpose = dt2.Rows[0]["CONTACTPURPOSE"].ToString();
-                        ca.ContactPerson = dt2.Rows[0]["CONTACTNAME"].ToString();
-                        ca.Designation = dt2.Rows[0]["CONTACTDESIG"].ToString();
-                        ca.CPhone = dt2.Rows[0]["CONTACTPHONE"].ToString();
-                        ca.CEmail = dt2.Rows[0]["CONTACTEMAIL"].ToString();
+                    }
+                }
+                DataTable dt3 = new DataTable();
+                dt3 = datatrans.GetData("SELECT PARTYMASTID,PARTYMASTBRCODEROW,BRATECODE,BRATETYPE,BRATEDESC,ACCNAME,ACOUNTRY FROM PARTYMASTBRCODE WHERE PARTYMASTID='"+id+"'");
+                if (dt3.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt3.Rows.Count; i++)
+                    {
+                        tda1 = new ratedet();
+                     
+                        tda1.ratecodelist = BindRateCode();
+                        tda1.ratecode = dt3.Rows[i]["BRATECODE"].ToString();
+                        tda1.ratelist = BindRatetype();
+                        tda1.ratetype = dt3.Rows[i]["BRATETYPE"].ToString();
+                        tda1.acco = dt3.Rows[i]["ACOUNTRY"].ToString();
+                        
+                        tda1.Isvalid = "Y";
+                        TData1.Add(tda1);
 
                     }
                 }
             }
-                    //ca.PartyLst = TData;
+                   ca.PartyLst = TData;
+                   ca.rateLst = TData1;
             return View(ca);
         }
         [HttpPost]
@@ -151,6 +202,43 @@ namespace Arasan.Controllers.Master
 
             return View(emp);
         }
+        public List<SelectListItem> Bindpur()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "Purchase", Value = "Purchase" });
+                lstdesg.Add(new SelectListItem() { Text = "QC", Value = "QC" });
+                lstdesg.Add(new SelectListItem() { Text = "Payments", Value = "Payments" });
+                lstdesg.Add(new SelectListItem() { Text = "Accounts", Value = "Accounts" });
+                lstdesg.Add(new SelectListItem() { Text = "Sales", Value = "Sales" });
+                lstdesg.Add(new SelectListItem() { Text = "Stores", Value = "Stores" });
+
+
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindRatetype()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "OUTRIGHT", Value = "OUTRIGHT" });
+                lstdesg.Add(new SelectListItem() { Text = "CONVERSION", Value = "CONVERSION" });
+ 
+
+
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindLedger()
         {
             try
@@ -159,7 +247,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LEDNAME"].ToString(), Value = dtDesg.Rows[i]["LEDGERID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MNAME"].ToString(), Value = dtDesg.Rows[i]["MASTERID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -168,7 +256,91 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-
+        public List<SelectListItem> Bindsalloc()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT LOCID,LOCDETAILSID FROM LOCDETAILS WHERE LOCATIONTYPE IN ('FG GODOWN','STORES')");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> Bindsalep()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT NEMPID,EMPMASTID FROM EMPMAST");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["NEMPID"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> Bindconcode()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT COUNTRYCODE,COUNTRYMASTID FROM CONMAST");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRYCODE"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindCommCode()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT COMMCODE FROM COMMBASIC");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMCODE"].ToString(), Value = dtDesg.Rows[i]["COMMCODE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindRateCode()
+        {
+            try
+            {
+                DataTable dtDesg = PartyMasterService.Getratecode();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["RATECODE"].ToString(), Value = dtDesg.Rows[i]["RATECODE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindCategory()
         {
             try
@@ -176,6 +348,35 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 lstdesg.Add(new SelectListItem() { Text = "CUSTOMER", Value = "CUSTOMER" });
                 lstdesg.Add(new SelectListItem() { Text = "SUPPLIER", Value = "SUPPLIER" });
+                lstdesg.Add(new SelectListItem() { Text = "BOTH", Value = "BOTH" });
+                lstdesg.Add(new SelectListItem() { Text = "TRANSPORTER", Value = "TRANSPORTER" });
+                lstdesg.Add(new SelectListItem() { Text = "BRANCH", Value = "BRANCH" });
+
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> Bindpartytype()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "Customer", Value = "Customer" });
+                lstdesg.Add(new SelectListItem() { Text = "Supplier", Value = "Supplier" });
+                lstdesg.Add(new SelectListItem() { Text = "Sub Contractor", Value = "Sub Contractor" });
+                lstdesg.Add(new SelectListItem() { Text = "CASH PURCHASE PARTY", Value = "CASH PURCHASE PARTY" });
+                lstdesg.Add(new SelectListItem() { Text = "EB POWER PRODUCER", Value = "EB POWER PRODUCER" });
+                lstdesg.Add(new SelectListItem() { Text = "Manufacturer", Value = "Manufacturer" });
+                lstdesg.Add(new SelectListItem() { Text = "TRANSPORTER", Value = "TRANSPORTER" });
+                lstdesg.Add(new SelectListItem() { Text = "BRANCH", Value = "BRANCH" });
+                lstdesg.Add(new SelectListItem() { Text = "I OR II Stage Dealer", Value = "I OR II Stage Dealer" });
+                lstdesg.Add(new SelectListItem() { Text = "CONSIGNEE", Value = "CONSIGNEE" });
+                lstdesg.Add(new SelectListItem() { Text = "CONSIGNEES PARTY", Value = "CONSIGNEES PARTY" });
+                lstdesg.Add(new SelectListItem() { Text = "Dealer", Value = "Dealer" });
+                lstdesg.Add(new SelectListItem() { Text = "Reseller", Value = "Reseller" });
                 lstdesg.Add(new SelectListItem() { Text = "BOTH", Value = "BOTH" });
 
                 return lstdesg;
@@ -263,6 +464,18 @@ namespace Arasan.Controllers.Master
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(model);
         }
+        public JsonResult GetrateJSON()
+        {
+            PartyMaster model = new PartyMaster();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindRatetype());
+        }
+        public JsonResult GetratecodeJSON()
+        {
+            PartyMaster model = new PartyMaster();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindRateCode());
+        }
         public ActionResult GetCountryDetail(string CID)
         {
             try
@@ -336,17 +549,21 @@ namespace Arasan.Controllers.Master
                 {
 
                     EditRow = "<a href=PartyMaster?id=" + dtUsers.Rows[i]["PARTYMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["PARTYMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                   // DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["PARTYMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["PARTYMASTID"].ToString() + "";
+
                 }
                 else
                 {
 
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["PARTYMASTID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+                    //DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["PARTYMASTID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+                    DeleteRow = "Remove?tag=Active&id=" + dtUsers.Rows[i]["PARTYMASTID"].ToString() + "";
+
 
                 }
-                
-                    Reg.Add(new PartyGrid
+
+                Reg.Add(new PartyGrid
                     {
                         id = dtUsers.Rows[i]["PARTYMASTID"].ToString(),
                         partyname = dtUsers.Rows[i]["PARTYNAME"].ToString(),

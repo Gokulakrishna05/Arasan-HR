@@ -7,13 +7,13 @@ namespace Arasan.Interface.Master
 {
     public interface IItemNameService
     {
-        string ItemNameCRUD(ItemName by, List<IFormFile> file);
+        string ItemNameCRUD(ItemName by, List<IFormFile> file, List<IFormFile> file1);
         IEnumerable<ItemName> GetAllItemName();
         DataTable GetAllItems(string status);
         //ItemName GetSupplierDetailById(string id);
         DataTable GetItemGroup();
         DataTable GetItemCategory();
-        DataTable GetItemSubGroup();
+        DataTable GetItemSubGroup(string id);
         DataTable GetQCTemp();
         DataTable GetHSNcode();
         DataTable GetSupplier();
@@ -28,8 +28,11 @@ namespace Arasan.Interface.Master
         DataTable GetLedger();
         DataTable GetItem();
         DataTable GetUnit();
+        DataTable GetAllAttachment(string id);
         string StatusChange(string tag, int id);
-        string NewItemCRUD(ItemName ss);
+        string NewItemCRUD(ItemName ss, List<IFormFile> file, List<IFormFile> file1);
+
+
         //DataTable GetItem();
     }
 }

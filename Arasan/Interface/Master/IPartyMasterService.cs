@@ -19,6 +19,7 @@ namespace Arasan.Interface.Master
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
         DataTable GetLedger();
+        DataTable Getratecode();
 
         //DataTable GetEmpEduDeatils(string data);
         //DataTable GetEmpPersonalDeatils(string id);

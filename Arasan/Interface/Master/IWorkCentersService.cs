@@ -14,6 +14,12 @@ public interface IWorkCentersService
     DataTable GetWorkCentersDetail(string id);
 
     string WorkCentersCRUD(WorkCenters cy);
+    string ProductionRateCRUD(WorkCenters cy);
+    string RejdetCRUD(WorkCenters cy);
+    string ProdCapCRUD(WorkCenters cy);
+    string ProdCapPerCRUD(WorkCenters cy);
+    string ApSiveCRUD(WorkCenters cy);
+    string PasteRunCRUD(WorkCenters cy);
 
     string StatusChange(string tag, string id);
     string RemoveChange(string tag, string id);

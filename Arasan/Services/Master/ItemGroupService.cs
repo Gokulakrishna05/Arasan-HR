@@ -131,10 +131,8 @@ namespace Arasan.Services.Master
                                                                       
                    
                     objCmd.Parameters.Add("GROUPCODE", OracleDbType.NVarchar2).Value = by.ItemGroups;
-                    objCmd.Parameters.Add("GROUPDESC", OracleDbType.NVarchar2).Value = by.ItemGroupDescription;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
-                    objCmd.Parameters.Add("CATEGORY", OracleDbType.NVarchar2).Value = by.ItemCat;
-                    objCmd.Parameters.Add("GROUPTYPE", OracleDbType.NVarchar2).Value = by.Type;
+                    objCmd.Parameters.Add("GROUPDESC", OracleDbType.NVarchar2).Value = by.ItemGroups;
+                      objCmd.Parameters.Add("GROUPTYPE", OracleDbType.NVarchar2).Value = by.Type;
                     if (by.ID == null)
                     {
                         objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = by.createby;
@@ -146,16 +144,87 @@ namespace Arasan.Services.Master
                         objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     }
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                    try
-                    {
-                        objConn.Open();
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+
+                    objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
-                    }
-                    catch (Exception it)
+                    Object Pid = objCmd.Parameters["OUTID"].Value;
+                    if (by.ID != null)
                     {
-                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                        Pid = by.ID;
                     }
+                    if (by.ID == null)
+                    {
+                        if (by.Sublst != null)
+                        {
+                            foreach (subgrp cp in by.Sublst)
+                            {
+                                if (cp.Isvalid == "Y" && cp.subgrpname != null)
+                                {
+
+                                    OracleCommand objCmds = new OracleCommand("ITEMSUBGROUPPROC", objConn);
+
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    StatementType = "Insert";
+                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+                                    objCmds.Parameters.Add("ITEMGROUPID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("SGCODE", OracleDbType.NVarchar2).Value = cp.subgrpname;
+                                    objCmds.Parameters.Add("SGDESC", OracleDbType.NVarchar2).Value = cp.subgrpname;
+                                    objCmds.Parameters.Add("SCONSYN", OracleDbType.NVarchar2).Value = cp.consyn;
+
+
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
+
+                                    objCmds.ExecuteNonQuery();
+
+
+
+                                }
+
+
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        svSQL = "Delete ITEMSUBGROUP WHERE ITEMMASTERID='" + by.ID + "'";
+                        OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        objCmdd.ExecuteNonQuery();
+
+                        foreach (subgrp cp in by.Sublst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.subgrpname != null)
+                            {
+
+                                OracleCommand objCmds = new OracleCommand("ITEMSUBGROUPPROC", objConn);
+
+                                objCmds.CommandType = CommandType.StoredProcedure;
+                                StatementType = "Insert";
+                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+                                objCmds.Parameters.Add("ITEMGROUPID", OracleDbType.NVarchar2).Value = Pid;
+                                objCmds.Parameters.Add("SGCODE", OracleDbType.NVarchar2).Value = cp.subgrpname;
+                                objCmds.Parameters.Add("SGDESC", OracleDbType.NVarchar2).Value = cp.subgrpdecs;
+                                objCmds.Parameters.Add("SCONSYN", OracleDbType.NVarchar2).Value = cp.consyn;
+
+
+                                objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
+
+                                objCmds.ExecuteNonQuery();
+
+
+
+                            }
+
+
+                        }
+                    }
+                    //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+
                     objConn.Close();
                 }
             }
