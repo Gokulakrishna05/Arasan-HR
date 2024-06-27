@@ -28,6 +28,7 @@ namespace Arasan.Controllers.Production
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Enterd = Request.Cookies["UserId"];
             ca.mnthlst = Bindmnth();
+            ca.Ins = "1";
             DataTable dtv = datatrans.GetSequence("ProFc");
             if (dtv.Rows.Count > 0)
             {
@@ -481,7 +482,7 @@ namespace Arasan.Controllers.Production
             try
             {
                 Cy.ID = id;
-                string Strout = ""; //_ProdForecastServ.ProductionForecastingCRUD(Cy);
+                string Strout = _ProdForecastServ.ProductionForecastingCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (Cy.ID == null)

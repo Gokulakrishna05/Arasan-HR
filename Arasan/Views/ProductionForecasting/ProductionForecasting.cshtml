@@ -159,15 +159,15 @@
                                         <div class="tabs-container">
                                             <ul class="nav nav-tabs">
                                                 @*<li class="active"><a href="#tab-1" data-toggle="tab">Prod Forecast Detail</a></li>*@
-                                                <li class="active"><a href="#tab-2" data-toggle="tab">Prod Forecast DG Paste </a></li>
-                                                <li><a href="#tab-3" data-toggle="tab">Prod Forecast Pyro</a></li>
-                                                <li><a href="#tab-4" data-toggle="tab">Prod Forecast Polish</a></li>
-                                                <li><a href="#tab-5" data-toggle="tab">Prod Forecast Rvd</a></li>
-                                                <li><a href="#tab-6" data-toggle="tab">Paste Prod Forecast</a></li>
-                                                <li><a href="#tab-7" data-toggle="tab">Prod Forecast APS</a></li>
+                                                <li class="active"><a href="#tab-2" data-toggle="tab">Prod., Forecast DG Paste </a></li>
+                                                <li><a href="#tab-3" data-toggle="tab">Prod., Forecast Pyro</a></li>
+                                                <li><a href="#tab-4" data-toggle="tab">Prod., Forecast Polish</a></li>
+                                                <li><a href="#tab-5" data-toggle="tab">Prod., Forecast Rvd</a></li>
+                                                <li><a href="#tab-6" data-toggle="tab">Paste Prod., Forecast</a></li>
+                                                <li><a href="#tab-7" data-toggle="tab">Prod., Forecast APS</a></li>
                                                 <li><a href="#tab-8" data-toggle="tab">AP Requirement Basic</a></li>
-                                                <li><a href="#tab-9" data-toggle="tab">AP Production Plan</a></li>
-                                                <li><a href="#tab-10" data-toggle="tab">Prod Forecast Packing</a></li>
+                                                <li><a href="#tab-9" data-toggle="tab">AP Prod., Plan</a></li>
+                                                <li><a href="#tab-10" data-toggle="tab">Prod., Forecast Packing</a></li>
 
                                             </ul>
                                             <div class="tab-content">
@@ -1468,6 +1468,10 @@
             //document.getElementById("tbBooks4").innerHTML = "";
            // document.getElementById("tbBooks5").innerHTML = "";
             document.getElementById("apnewtable").innerHTML = "";
+             document.getElementById("newtable").innerHTML = "";
+                 document.getElementById("pastetable").innerHTML = "";
+                 document.getElementById("polishtable").innerHTML = "";
+                     document.getElementById("rvdtable").innerHTML = "";
             document.getElementById("tbBooks7").innerHTML = "";
              document.getElementById("tbBooks8").innerHTML = "";
             var opt = "";
@@ -1621,7 +1625,7 @@
                         var endval="<td><input class='form-control' id='txtspyroendval" + index + "' name='PFCPYROILst[" + index + "].endval'  style='width: 60px;' type='text' value=" + item.endval + " readonly='True' ><input id='txtpyroendval" + index + "' name='PFCPYROILst[" + index + "].endval'   type='hidden'   value=" + item.endval + " /></td>";
                         var ReqPowder = "<td><input class='form-control' id='txtsreqpowder" + index + "' name='PFCPYROILst[" + index + "].reqpowder'  style='width: 100px;' type='text' readonly='True' /><input id='txtreqpowder" + index + "' name='PFCPYROILst[" + index + "].reqpowder'   type='hidden'    /></td>";
                         var WStatus = "<td><input class='form-control' id='txtwstatus" + index + "' name='PFCPYROILst[" + index + "].wstatus'  style='width: 120px;' type='text' value=" + item.wstatus + " readonly='True' /><input id='hdpyroindex" + index + "'  type='hidden' value='"+ index +"'   /></td>";
-                        var PowderRequired = "<td><input class='form-control' id='txtspyropowerreq" + index + "' name='PFCPYROILst[" + index + "].powderrequired'  style='width: 100px;' type='text' readonly='True' /><input id='txtpyropowerreq" + index + "' name='PFCPYROILst[" + index + "].powderrequired'   type='hidden'    /><input id='IsPyrovalid" + index + "' name='PFCPYROILst[" + index + "].Isvalid'   type='hidden'   /></td>";
+                        var PowderRequired = "<td><input class='form-control' id='txtspyropowerreq" + index + "' name='PFCPYROILst[" + index + "].powderrequired'  style='width: 100px;' type='text' readonly='True' /><input id='txtpyropowerreq" + index + "' name='PFCPYROILst[" + index + "].powderrequired'   type='hidden'    /><input id='hdpyropowerper" + index + "' type='hidden' /><input id='IsPyrovalid" + index + "' name='PFCPYROILst[" + index + "].Isvalid'   type='hidden'   /></td>";
                       if(index==0){
                             headg=" <thead><tr><th></th><th >Work Center</th> <th>Cum Days</th><th>Sales Tar </th><th> Prod Item </th> <th> Min Stock </th> <th> Stock </th> <th> Past Rej %</th><th>Rej Qty </th><th>Required </th><th>Target(22Hrs)</th><th>Prod Days </th><th>Prod Qty </th><th>Rej Mat % </th><th>Rej Mat Req </th><th>Balance Qty </th><th>Additive 1 </th><th>Per </th><th>Alloc Additive </th><th>Raw Mat.</th><th>Start Value</th><th>End Value</th><th>Req Ap Powder </th><th>WC Status </th><th>Power Required </th></tr></thead>";
 
@@ -1660,7 +1664,7 @@
 
                         var WC = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlWorkId" + kindex + "' name='PFCPASTELst[" + kindex + "].WorkId' onchange='pastewcchange(" + kindex + ",this.value)'  ><option value=''>-- Please select -- </option>" + pasteopt + "</select></td>";
 
-                        var cday = "<td><input class='form-control' id='txtCpasteDays" + kindex + "' name='PFCPASTELst[" + kindex + "].CDays'  style='width: 100px;' type='text'    /></td>";
+                        var cday = "<td><input class='form-control' id='txtCpasteDays" + kindex + "' name='PFCPASTELst[" + kindex + "].CDays'  style='width: 100px;' type='text'  readonly='True'  /></td>";
 
                         var ItemId = "<td><label style='width: 150px;' id='lblpasteitem" + kindex + "'>" + item.itemid + "</label><input id='txtpasteItemId" + kindex + "' name='PFCPASTELst[" + kindex + "].saveitemid' type='hidden'  value=" + item.saveitemid + "></td>";
 
@@ -1672,12 +1676,12 @@
 
 
                         var Required = "<td><input class='form-control' id='txtpasteRequired" + kindex + "' name='PFCPASTELst[" + kindex + "].required'  style='width: 100px;' type='text' readonly='True'  value=" + item.required + " /><input class='form-control' id='hdpasteRequired" + kindex + "' name='PFCPASTELst[" + kindex + "].required'  type='hidden' value=" + item.required + " /></td>";
-                        var prodday = "<td><input class='form-control' id='txtpasteproddays" + kindex + "' name='PFCPASTELst[" + kindex + "].proddays'  style='width: 100px;' type='text' onkeyup = 'changepastedays(this," + kindex + ")' /><input class='form-control' id='hdpastecapacity" + kindex + "'  type='hidden'  /></td>";
+                            var prodday = "<td><input class='form-control' id='txtpasteproddays" + kindex + "' name='PFCPASTELst[" + kindex + "].proddays'  style='width: 100px;' type='text' onkeyup = 'changepastedays(this," + kindex + ")' /><input  id='hdpastecapacity" + kindex + "'  type='hidden'  /><input  id='hdTotpastedays" + kindex + "'  type='hidden'  /></td>";
                         var Production = "<td><input class='form-control' id='txtpprod" + kindex + "' name='PFCPASTELst[" + kindex + "].production'  style='width: 100px;' type='text' readonly='True' /><input class='form-control' id='hdpprod" + kindex + "' name='PFCPASTELst[" + kindex + "].production'  type='hidden'  /></td>";
                        var RawMat = "<td><label style='width: 120px;' id='txtpasteRawItem" + kindex + "'>" + item.rawmat + "</label><input id='txtpasteRawItemId" + kindex + "' name='PFCPASTELst[" + kindex + "].rawmatid' type='hidden'  value=" + item.rawmatid + "></td>";
                        var stval="<td><input class='form-control' id='txtspastestval" + kindex + "' name='PFCPASTELst[" + kindex + "].startval'  style='width: 60px;' type='text' value=" + item.startval + " readonly='True' ><input id='txtpastestval" + kindex + "' name='PFCPASTELst[" + kindex + "].startval'   type='hidden'   value=" + item.startval + " /></td>";
                         var endval="<td><input class='form-control' id='txtspasteendval" + kindex + "' name='PFCPASTELst[" + kindex + "].endval'  style='width: 60px;' type='text' value=" + item.endval + " readonly='True' ><input id='txtpasteendval" + kindex + "' name='PFCPASTELst[" + kindex + "].endval'   type='hidden'   value=" + item.endval + " /></td>";
-                            var ApPowder = "<td><input class='form-control' id='txtappowder" + kindex + "' name='PFCPASTELst[" + kindex + "].appowder'  style='width: 120px;' type='text' readonly='True' /><input class='form-control' id='hdappowder" + kindex + "' name='PFCPASTELst[" + kindex + "].appowder'  type='hidden'  /></td>";
+                            var ApPowder = "<td><input class='form-control' id='txtappowder" + kindex + "' name='PFCPASTELst[" + kindex + "].appowder'  style='width: 120px;' type='text' readonly='True' /><input class='form-control' id='hdappowder" + kindex + "' name='PFCPASTELst[" + kindex + "].appowder'  type='hidden'  /><input  id='hdappowderper" + kindex + "'   type='hidden'  /></td>";
                         var Balance = "<td><input class='form-control' id='txtpbal" + kindex + "' name='PFCPASTELst[" + kindex + "].balance'  style='width: 100px;' type='text'  readonly='True' /><input class='form-control' id='hdpbal" + kindex + "' name='PFCPASTELst[" + kindex + "].balance'  type='hidden'  /></td>";
                             var Additive = "<td> <label style='width: 120px;' id='lblpasteadditve" + kindex + "'>" + item.additive + "</label><input class='form-control' id='txtAdditive" + kindex + "' name='PFCPASTELst[" + kindex + "].additiveid'  style='width: 120px;' type='hidden' value=" + item.additiveid + " /></td>";
                         var AllocAdditive = "<td><input class='form-control' id='txtAllocAdditive" + kindex + "' name='PFCPASTELst[" + kindex + "].AllocAdditive'  style='width: 120px;' type='text' readonly='True' value=" + item.allocadditive + " /><input class='form-control' id='hdAllocAdditive" + kindex + "' name='PFCPASTELst[" + kindex + "].allocadditive'  type='hidden' value=" + item.allocadditive + " /></td>";
@@ -1693,10 +1697,10 @@
                         var mtocost = "<td><input class='form-control' id='txtpastemtocost" + kindex + "' name='PFCPASTELst[" + kindex + "].mtocost'  style='width: 120px;' type='text' readonly='True' /><input class='form-control' id='hdpastemtocost" + kindex + "' name='PFCPASTELst[" + kindex + "].mtocost'  type='hidden'  /><input class='form-control' id='hdmtopurpri" + kindex + "' name='PFCPASTELst[" + kindex + "].mtopurpri'  type='hidden' value=" + item.mtopurpri + " /></td>";
 
 
-                        var PowderRequired = "<td><input class='form-control' id='txtpastepowerreq" + kindex + "' name='PFCPASTELst[" + kindex + "].powerrequired'  style='width: 100px;' type='text' readonly='True'  /><input type='hidden'  id='hdpastepowerreq" + kindex + "' name='PFCPASTELst[" + kindex + "].powerrequired'><input id='hdpasteindex" + kindex + "'  type='hidden' value='"+ kindex +"'   /><input id='Ispastevalid" + kindex + "' name='PFCPASTELst[" + kindex + "].Isvalid'   type='hidden'   /></td>";
+                        var PowderRequired = "<td><input class='form-control' id='txtpastepowerreq" + kindex + "' name='PFCPASTELst[" + kindex + "].powerrequired'  style='width: 100px;' type='text' readonly='True'  /><input type='hidden'  id='hdpastepowerreq" + kindex + "' name='PFCPASTELst[" + kindex + "].powerrequired'><input id='hdpasteindex" + kindex + "'  type='hidden' value='"+ kindex +"'   /><input type='hidden'  id='hdpastepowerper" + kindex + "' ><input id='Ispastevalid" + kindex + "' name='PFCPASTELst[" + kindex + "].Isvalid'   type='hidden'   /></td>";
                          
                         if(kindex==0){
-                                kheadg=" <thead><tr><th></th><th >Work Center</th> <th>Cum Days</th><th>Item ID </th><th> Charges/Days </th> <th> Target </th> <th> Stock </th> <th> Min Stk </th><th>Required </th><th>Prod.Days </th><th>Production</th><th>Raw Material </th><th>Start Value </th><th>End Value</th><th>Ap Powder </th><th>Balance</th><th>Additive</th><th>Alloc Additive </th><th>TO Prod(kg) </th><th>Rvd Loss</th><th>TO Loss(kg)</th><th>to In Coarse(kg)</th><th> Mixing MTO </th><th>TO Req(Ltd)</th><th>Additive Cost </th><th>Mto Cost  </th><th>Power Required</th></tr></thead>";
+                                kheadg=" <thead><tr><th></th><th >Work Center</th> <th>Cum Days</th><th>Item ID </th><th> Charges/Days </th> <th> Target </th> <th> Stock </th> <th> Min Stk </th><th>Required </th><th>Prod.Days </th><th>Production</th><th>Raw Material </th><th>Start Value </th><th>End Value</th><th>Ap Powder </th><th>Balance</th><th>Additive</th><th>Alloc Additive </th><th>TO Prod(kg) </th><th>RVD Loss</th><th>TO Loss(kg)</th><th>To In Coarse(kg)</th><th> Mixing MTO </th><th>TO Req(Ltd)</th><th>Additive Cost </th><th>Mto Cost  </th><th>Power Required</th></tr></thead>";
 
                         }
                         else{
@@ -2385,11 +2389,13 @@ function addrvdrow(index,itemid ){
                    var pasteaddcost = document.getElementById("hdpaaddpurpri" + index).value;
                     var pastemtocost = document.getElementById("hdmtopurpri" + index).value;
 
+                    var totpastedays=document.getElementById("hdTotpastedays" + index).value;
+
 
                var addrow = "<td><a href='#' aria-hidden='true' onclick='removepasterow(" + index + "," + kindex + ")' ><img src='../Images/delete.png' alt='View Details' width='15' /></a></td>";
                                        var WC = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlWorkId" + kindex + "' name='PFCPASTELst[" + kindex + "].WorkId' onchange='pastewcchange(" + kindex + ",this.value)'  ><option value=''>-- Please select -- </option>" + pasteopt + "</select></td>";
 
-                        var cday = "<td><input class='form-control' id='txtCpasteDays" + kindex + "' name='PFCPASTELst[" + kindex + "].CDays'  style='width: 100px;' type='text'    /></td>";
+                            var cday = "<td><input class='form-control' id='txtCpasteDays" + kindex + "' name='PFCPASTELst[" + kindex + "].CDays'  style='width: 100px;' type='text'  readonly='True'  /></td>";
 
                         var ItemId = "<td><label style='width: 150px;' id='lblpasteitem" + kindex + "'>" + itemname + "</label><input id='txtpasteItemId" + kindex + "' name='PFCPASTELst[" + kindex + "].saveitemid' type='hidden'  value=" + itemid + "></td>";
 
@@ -2401,12 +2407,12 @@ function addrvdrow(index,itemid ){
 
 
                         var Required = "<td><input class='form-control' id='txtpasteRequired" + kindex + "' name='PFCPASTELst[" + kindex + "].required'  style='width: 100px;' type='text' readonly='True'  value=" + pasteRequired + " /><input class='form-control' id='hdpasteRequired" + kindex + "' name='PFCPASTELst[" + kindex + "].required'  type='hidden' value=" + pasteRequired + " /></td>";
-                        var prodday = "<td><input class='form-control' id='txtpasteproddays" + kindex + "' name='PFCPASTELst[" + kindex + "].proddays'  style='width: 100px;' type='text' onkeyup = 'changepastedays(this," + kindex + ")' /><input class='form-control' id='hdpastecapacity" + kindex + "'  type='hidden'  /></td>";
+                        var prodday = "<td><input class='form-control' id='txtpasteproddays" + kindex + "' name='PFCPASTELst[" + kindex + "].proddays'  style='width: 100px;' type='text' onkeyup = 'changepastedays(this," + kindex + ")' /><input class='form-control' id='hdpastecapacity" + kindex + "'  type='hidden'  /><input  id='hdTotpastedays" + kindex + "'  type='hidden' value="+ totpastedays +"  /></td>";
                         var Production = "<td><input class='form-control' id='txtpprod" + kindex + "' name='PFCPASTELst[" + kindex + "].production'  style='width: 100px;' type='text' readonly='True' /><input class='form-control' id='hdpprod" + kindex + "' name='PFCPASTELst[" + kindex + "].production'  type='hidden'  /></td>";
                        var RawMat = "<td><label style='width: 120px;' id='txtpasteRawItem" + kindex + "'>" + rawitem + "</label><input id='txtpasteRawItemId" + kindex + "' name='PFCPASTELst[" + kindex + "].rawmatid' type='hidden'  value=" + rawitemid + "></td>";
                        var stval="<td><input class='form-control' id='txtspastestval" + kindex + "' name='PFCPASTELst[" + kindex + "].startval'  style='width: 60px;' type='text' value=" + pastestval + " readonly='True' ><input id='txtpastestval" + kindex + "' name='PFCPASTELst[" + kindex + "].startval'   type='hidden'   value=" + pastestval + " /></td>";
                         var endval="<td><input class='form-control' id='txtspasteendval" + kindex + "' name='PFCPASTELst[" + kindex + "].endval'  style='width: 60px;' type='text' value=" + pasteendval + " readonly='True' ><input id='txtpasteendval" + kindex + "' name='PFCPASTELst[" + kindex + "].endval'   type='hidden'   value=" + pasteendval + " /></td>";
-                            var ApPowder = "<td><input class='form-control' id='txtappowder" + kindex + "' name='PFCPASTELst[" + kindex + "].appowder'  style='width: 120px;' type='text' readonly='True' /><input class='form-control' id='hdappowder" + kindex + "' name='PFCPASTELst[" + kindex + "].appowder'  type='hidden'  /></td>";
+                            var ApPowder = "<td><input class='form-control' id='txtappowder" + kindex + "' name='PFCPASTELst[" + kindex + "].appowder'  style='width: 120px;' type='text' readonly='True' /><input class='form-control' id='hdappowder" + kindex + "' name='PFCPASTELst[" + kindex + "].appowder'  type='hidden'  /><input  id='hdappowderper" + kindex + "'   type='hidden'  /></td>";
                         var Balance = "<td><input class='form-control' id='txtpbal" + kindex + "' name='PFCPASTELst[" + kindex + "].balance'  style='width: 100px;' type='text'  readonly='True' /><input class='form-control' id='hdpbal" + kindex + "' name='PFCPASTELst[" + kindex + "].balance'  type='hidden'  /></td>";
                         var Additive = "<td> <label style='width: 120px;' id='lblpasteadditve" + kindex + "'>" + addt + "</label><input class='form-control' id='txtAdditive" + kindex + "' name='PFCPASTELst[" + kindex + "].additiveid'  style='width: 120px;' type='hidden' value=" + addtv + " /></td>";
                         var AllocAdditive = "<td><input class='form-control' id='txtAllocAdditive" + kindex + "' name='PFCPASTELst[" + kindex + "].AllocAdditive'  style='width: 120px;' type='text' readonly='True' value=" + addtvper + " /><input class='form-control' id='hdAllocAdditive" + kindex + "' name='PFCPASTELst[" + kindex + "].allocadditive'  type='hidden' value=" + addtvper + " /></td>";
@@ -2422,7 +2428,7 @@ function addrvdrow(index,itemid ){
                         var mtocost = "<td><input class='form-control' id='txtpastemtocost" + kindex + "' name='PFCPASTELst[" + kindex + "].mtocost'  style='width: 120px;' type='text' readonly='True' /><input class='form-control' id='hdpastemtocost" + kindex + "' name='PFCPASTELst[" + kindex + "].mtocost'  type='hidden'  /><input class='form-control' id='hdmtopurpri" + kindex + "' name='PFCPASTELst[" + kindex + "].mtopurpri'  type='hidden' value=" + pastemtocost + " /></td>";
 
 
-                            var PowderRequired = "<td><input class='form-control' id='txtpastepowerreq" + kindex + "' name='PFCPASTELst[" + kindex + "].powerrequired'  style='width: 100px;' type='text' readonly='True'  /><input type='hidden'  id='hdpastepowerreq" + kindex + "' name='PFCPASTELst[" + kindex + "].powerrequired'><input id='hdpasteindex" + kindex + "'  type='hidden' value='"+ kindex +"'   /><input id='Ispastevalid" + kindex + "' name='PFCPASTELst[" + kindex + "].Isvalid'   type='hidden'   /></td>";
+                            var PowderRequired = "<td><input class='form-control' id='txtpastepowerreq" + kindex + "' name='PFCPASTELst[" + kindex + "].powerrequired'  style='width: 100px;' type='text' readonly='True'  /><input type='hidden'  id='hdpastepowerreq" + kindex + "' name='PFCPASTELst[" + kindex + "].powerrequired'><input type='hidden'  id='hdpastepowerper" + kindex + "' ><input id='hdpasteindex" + kindex + "'  type='hidden' value='"+ kindex +"'   /><input id='Ispastevalid" + kindex + "' name='PFCPASTELst[" + kindex + "].Isvalid'   type='hidden'   /></td>";
 
 
             var newRow = "<tr class='chkitemlst5sub'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook5paste" + kindex + "'>" + addrow + WC + cday + ItemId +Charge+ Target +Stock+ Min  + Required + prodday + Production + RawMat +stval + endval + ApPowder + Balance + Additive + AllocAdditive + Toprod + RvdLoss + ToLoss + coarse + Mixing + toreq + AddCost + mtocost + PowderRequired + "</tr>";
@@ -2511,7 +2517,7 @@ function addrvdrow(index,itemid ){
            var ReqPowder = "<td><input class='form-control' id='txtsreqpowder" + newindex + "' name='PFCPYROILst[" + newindex + "].reqpowder'  style='width: 100px;' type='text' readonly='True' /><input id='txtreqpowder" + newindex + "' name='PFCPYROILst[" + newindex + "].reqpowder'   type='hidden'    /></td>";
 
                         var WStatus = "<td><input class='form-control' id='txtwstatus" + newindex + "' name='PFCPYROILst[" + newindex + "].wstatus'  style='width: 120px;' type='text' value='Pending' readonly='True' /></td>";
-            var PowderRequired = "<td><input class='form-control' id='txtspyropowerreq" + newindex + "' name='PFCPYROILst[" + newindex + "].powderrequired'  style='width: 100px;' type='text' /><input id='txtpyropowerreq" + newindex + "' name='PFCPYROILst[" + newindex + "].powderrequired'   type='hidden'    /><input id='IsPyrovalid" + newindex + "' name='PFCPYROILst[" + newindex + "].Isvalid'   type='hidden'   /></td>";
+            var PowderRequired = "<td><input class='form-control' id='txtspyropowerreq" + newindex + "' name='PFCPYROILst[" + newindex + "].powderrequired'  style='width: 100px;' type='text' /><input id='txtpyropowerreq" + newindex + "' name='PFCPYROILst[" + newindex + "].powderrequired'   type='hidden' /><input id='hdpyropowerper" + newindex + "' type='hidden' /><input id='IsPyrovalid" + newindex + "' name='PFCPYROILst[" + newindex + "].Isvalid'   type='hidden'   /></td>";
 
 
             var newRow = "<tr class='chkitemlst2sub'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookpyro" + newindex + "'>" + addrow + WC + pend + Target + ItemId +  Min + Stock +  PasteRej + RejQty + Required + targethrs + ProdDays + ProdQty + RejMat + RejMatReq + BalanceQty + Additive + Per + AllocAdditive + RawMat +stval + endval + ReqPowder + WStatus + PowderRequired + "</tr>";
@@ -2536,9 +2542,10 @@ function addrvdrow(index,itemid ){
 
                 document.getElementById("txtstargethrs"+i).value = result.tar;
                  document.getElementById("txttargethrs"+i).value = result.tar;
-
-                   document.getElementById("txtspyropowerreq" + i).value = result.powe;
-                    document.getElementById("txtpyropowerreq" + i).value = result.powe;
+                 
+                 document.getElementById("hdpyropowerper" + i).value = result.powe;
+                 @*  document.getElementById("txtspyropowerreq" + i).value = result.powe;
+                    document.getElementById("txtpyropowerreq" + i).value = result.powe;*@
 
                // document.getElementById("txtAdd2").value = result.add2;
                 },
@@ -2780,6 +2787,7 @@ function addrvdrow(index,itemid ){
                 var rejmatper = document.getElementById("txtrejmat" + i).value;
                 var req = document.getElementById("txtpyroRequired" + i).value;
                 var per = document.getElementById("txtPer" + i).value;
+                var power=document.getElementById("hdpyropowerper" + i).value;
                         var prodqty=0;
                          if (prodday == "")
                                 prodday = 0;
@@ -2799,7 +2807,11 @@ function addrvdrow(index,itemid ){
                      if (per == "")
                     per = 0;
 
+                     if (power == "")
+                    power = 0;
+
                                 prodqty = eval(targethrs) * eval(prodday);
+                                var kwhr=eval(prodday) * 22  * eval(power);
                                 var reqty=(eval(rejqty) + eval(prodqty));
                 var rejmatqty = Math.ceil(eval(reqty) * (eval(rejmatper) / 100));
                 var balqty = Math.ceil(eval(req) - eval(prodqty));
@@ -2815,7 +2827,9 @@ function addrvdrow(index,itemid ){
                 document.getElementById("txtsallocadditive" + i).value = Math.round(addtitive, 2);
                 document.getElementById("txtsreqpowder" + i).value = Math.ceil(reqpower);
                 document.getElementById("txtreqpowder" + i).value = Math.ceil(reqpower);
-
+                
+                    document.getElementById("txtspyropowerreq" + i).value = power;
+                        document.getElementById("txtpyropowerreq" + i).value = power;
                 var totpwd=0;
                 var j = 0;
                 $('tr.chkitemlst2sub').each(function () {
@@ -2997,16 +3011,31 @@ function addrvdrow(index,itemid ){
 
 
                     document.getElementById("hdpastecapacity" + i).value = result.tar;
-                    document.getElementById("txtpastepowerreq" + i).value = result.powe;
-                    document.getElementById("hdpastepowerreq" + i).value = result.powe;
-
-                    document.getElementById("txtappowder" + i).value = result.appowe;
-                    document.getElementById("hdappowder" + i).value = result.appowe;
+                    document.getElementById("hdpastepowerper" + i).value = result.powe;
+                   @* document.getElementById("txtpastepowerreq" + i).value = result.powe;
+                    document.getElementById("hdpastepowerreq" + i).value = result.powe;*@
+                    //document.getElementById("txtappowder" + i).value = result.appowe;
+                    document.getElementById("hdappowderper" + i).value = result.appowe;
 
                       document.getElementById("hdmtolossqty" + i).value = result.pamtoloss;
                     document.getElementById("hdrvdlossqty" + i).value = result.rvdloss;
 
-                    changepastedays('', i);
+                    var target = document.getElementById("hdpasteRequired" + i).value;
+            var PaCapperChg = document.getElementById("hdpastecapacity" + i).value;
+            var days=0;
+
+if (target == "")
+                target = 0;
+
+            if (PaCapperChg == "")
+                PaCapperChg = 0;
+
+ if(eval(PaCapperChg) > 0){
+                days = eval(target) / eval(PaCapperChg);
+            }
+
+            document.getElementById("hdTotpastedays" + i).value = Math.ceil(days);
+                   // changepastedays('', i);
 
                 },
                 error: function () {
@@ -3018,15 +3047,16 @@ function addrvdrow(index,itemid ){
         function changepastedays(_this, i){
             var target = document.getElementById("hdpasteRequired" + i).value;
             var PaCapperChg = document.getElementById("hdpastecapacity" + i).value;
-            var power= document.getElementById("hdpastepowerreq" + i).value;
-            var PaapPow =document.getElementById("hdappowder" + i).value;
+                var power= document.getElementById("hdpastepowerper" + i).value;
+                var PaapPow =document.getElementById("hdappowderper" + i).value;
             var paaddper =document.getElementById("hdAllocAdditive" + i).value;
              var  PaMtoLoss=document.getElementById("hdmtolossqty" + i).value;
                var RvdLost =document.getElementById("hdrvdlossqty" + i).value ;
               var mtopurpri =document.getElementById("hdmtopurpri" + i).value ;
               var paaddpurpri =document.getElementById("hdpaaddpurpri" + i).value ;
+              var days=document.getElementById("txtpasteproddays" + i).value;
 
-             var days =0;
+             @*var days =0;*@
              var panoofchg =0;
              var PaProd=0;
              var PaAllAddit =0;
@@ -3055,16 +3085,20 @@ function addrvdrow(index,itemid ){
                  if (paaddpurpri == "")
                 paaddpurpri = 0;
 
+                if (days == "")
+                days = 0;
+
             if(eval(PaCapperChg) > 0){
-                days = eval(target) / eval(PaCapperChg);
+              @*  days = eval(target) / eval(PaCapperChg);*@
                 panoofchg=eval(PaCapperChg) /210;
             }
                 PaProd=eval(days)*eval(PaCapperChg);
             var pallappow =eval(panoofchg) * eval(PaapPow) *eval(days);
 
+
             var balqty=eval(target)-eval(PaProd);
 
-            var kwhr = eval(target) * 22 * eval(power);
+            var kwhr = eval(days) * 22 * eval(power);
 
             var PaMtoLosst =(eval(PaMtoLoss) * eval(PaProd))/100;
 
@@ -3088,7 +3122,9 @@ function addrvdrow(index,itemid ){
            var PaAddC=(eval(paaddpurpri) * eval(PaAllAddit)) / eval(PaProd);
            var PaMtoC=(eval(mtopurpri) *eval(PaAllMto)) / eval(PaProd);
 
-                document.getElementById("txtpasteproddays" + i).value = Math.ceil(days);
+           @*document.getElementById("hdTotpastedays" + i).value = Math.ceil(days);
+           
+                document.getElementById("txtpasteproddays" + i).value = Math.ceil(days);*@
           document.getElementById("txtpastecharge" + i).value = panoofchg.toFixed(2);
            document.getElementById("hdpastecharge" + i).value = panoofchg.toFixed(2);
             document.getElementById("txtpastepowerreq" + i).value =kwhr.toFixed(2);
