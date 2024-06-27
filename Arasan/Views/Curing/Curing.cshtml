@@ -1,7 +1,7 @@
 ﻿@model Arasan.Models.Curing
 
 @{
-    ViewData["Title"] = "Curing";
+    ViewData["Title"] = "Bin Basic";
 }
 <style>
     .mandatory {
@@ -25,7 +25,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong>Curing</strong> </li>
+            <li class="active"> <strong>Bin Basic</strong> </li>
         </ol>
     </div>
 </div>
@@ -68,7 +68,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Bin Id<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Bin No<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.binid, new { @id = "txtbinid", @class = "form-control", @TabIndex = 1})
                                         </div>
@@ -157,22 +157,22 @@
                         "background": ""
                     });
                 }
-            //if (document.getElementById("txtCap").value == "") {
-            //        isValid = false;
-            //    $(txtCap).css({
-            //            "border": "1px solid red",
-            //            "background": "#FFCECE"
-            //        });
+            if (document.getElementById("txtCap").value == "" || document.getElementById("txtCap").value == 0) {
+                    isValid = false;
+                $(txtCap).css({
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
 
-            //    alert("Please Enter Capacity");
-            //        return false;
-            //    }
-            //    else {
-            //    $(txtCap).css({
-            //            "border": "",
-            //            "background": ""
-            //        });
-            //    }
+                alert("Please Enter Capacity");
+                    return false;
+                }
+                else {
+                $(txtCap).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
 
 
                 if (isValid == false)

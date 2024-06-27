@@ -44,7 +44,7 @@
                             @Html.AntiForgeryToken()
               <form>
 
-                            <div class="row">
+                           @* <div class="row">
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -56,7 +56,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
 									<div class="row">
                             <div class="col-lg-3"></div>
                                         <div class="col-md-6">
@@ -72,7 +72,7 @@
                                         </div>
                                         </div>
                          
-                              <div class="row">
+                             @* <div class="row">
                             <div class="col-lg-3"></div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -82,8 +82,9 @@
                                     </div>
                                             </div>
                                 </div>
-                                <div class="col-lg-3"></div>
-                                        </div>
+                              
+                                        </div>*@
+                                          <div class="col-lg-3"></div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -94,6 +95,72 @@
                                     </div>
                                 </div>
                             </div>
+                              <div style="height:30px;"></div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="btn-group">
+                                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+
+                                                @* <div class="ibox float-e-margins">*@
+
+                                                <!-- / ibox-title -->
+                                                @* <div id="demo3" class="ibox-content collapse in">
+                                            <div class="borderedTable">
+                                            <div class="table-scrollable">*@
+                                                <table class="table table-striped table-hover" id="dataTable">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th>SubGroup </th>
+                                                           @* <th>SubGroup Desc</th>*@
+                                                            <th>ConsYN </th>
+                                                          
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbBooks">
+                                                        @{
+
+                                                            int i = 0;
+
+                                                            foreach (var item in Model.Sublst.ToList())
+                                                            {
+
+                                                                            <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                               
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.Sublst[i].subgrpname, new { @id = "txtsubgrpname" + i, @class = "form-control", style = "width: 200px;"})
+                                                                                </td>
+                                                                             @* <td>
+                                                                                    @Html.TextBoxFor(o => o.Sublst[i].subgrpdecs, new { @id = "txtsubgrpdecs" + i, @class = "form-control", style = "width: 200px;" })
+                                                                                </td>*@
+                                                                              <td>
+                                                                               @Html.RadioButtonFor(C => C.Sublst[i].consyn, "Y", new { @TabIndex = 2 })
+                                                            <label id="mt-radio">Yes</label>
+                                                            @Html.RadioButtonFor(C => C.Sublst[i].consyn, "N", new { @TabIndex = 3 })
+                                                            <label id="mt-radio">No</label>
+
+                                                                              </td>
+                                                                                <td>
+                                                                                    @Html.HiddenFor(o => o.Sublst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                    <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Sublst.Index" type="hidden" value="@(i)" />
+                                                                                </td>
+                                                                                
+                                                                            </tr>
+
+                                                                i = i + 1;
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                         <div class="row">
 
                             <div class="col-lg-8"></div>
@@ -190,4 +257,61 @@
         });
 
     });
+
+     function AddRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetItemGrpJSON',
+            success: function (data) {
+
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow(opt);
+            }
+        })
+    }
+
+       function AppendRow() {
+      var index = $("#tbBooks").children("tr").length;
+
+ 
+
+
+        var subgrpname = "<td><input class='form-control' id='txtsubgrpname" + index + "' name='Sublst[" + index + "].subgrpname'  style='width: 200px;' type='text'   /></td>";
+
+        var subgrbdesc = "<td><input class='form-control' id='txtsubgrpdecs" + index + "' name='Sublst[" + index + "].subgrpdecs'  style='width: 200px;' type='text'  /></td>";
+
+ 
+
+        var consyn = "<td>  <div class='input-group'><input id='txtconsyn" + index + "' name='Sublst[" + index + "].consyn' type='radio' value='Y'/>  <label id='mt-radio'>Yes</label><input id='txtconsyn" + index + "' name='Sublst[" + index + "].consyn' type='radio' value='N'/>  <label id='mt-radio'>No</label><div></td>";
+
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Sublst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Sublst.Index' type='hidden' value='" + index + "'  /></td>";
+
+     
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + subgrpname + subgrbdesc + consyn  + removeCell + "</tr>";
+ 
+        $("#tbBooks").append(newRow); 
+ 
+    } 
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
 </script>

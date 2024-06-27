@@ -54,6 +54,8 @@ namespace Arasan.Models
         public List<SelectListItem> purlst;
         public List<SelectListItem> fqclst;
         public List<SelectListItem> costlst;
+        public List<SelectListItem> classlst;
+        public List<SelectListItem> valuelst;
         public string ID { get; set; }
         public string Unit { get; set; }
         public string ItemG { get; set; }
@@ -111,6 +113,7 @@ namespace Arasan.Models
         public string SubHeading { get; set; }
         public string Rejection { get; set; }
         public string clssscode { get; set; }
+        public string imgpath { get; set; }
         public string leadtime { get; set; }
         public string Percentage { get; set; }
         public string itemfrom { get; set; }
@@ -150,6 +153,7 @@ namespace Arasan.Models
     {
 
         public List<SelectListItem> UnitLst { get; set; }
+        public List<SelectListItem> UnittypeLst { get; set; }
 
         public string Unit { get; set; }
         public string cf { get; set; }
@@ -213,5 +217,26 @@ namespace Arasan.Models
         public string rrow { get; set; }
 
     }
+
+    public class itemupload
+    {
+        public string id { get; set; }
+        public string branch { get; set; }
+        public string supplier { get; set; }
+        public string quono { get; set; }
+        public string podate { get; set; }
+        public string mailrow { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        public string genpo { get; set; }
+        public string upload { get; set; }
+        public string pdf { get; set; }
+        public string view { get; set; }
+        public string move { get; set; }
+        public string doc { get; set; }
+        public string pono { get; set; }
+        public string download { get; set; }
+    }
+
 
 }

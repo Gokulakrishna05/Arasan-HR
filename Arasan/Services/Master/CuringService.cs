@@ -138,8 +138,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
                     objCmd.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = cy.binid;
                     objCmd.Parameters.Add("CAPACITY", OracleDbType.NVarchar2).Value = cy.Cap;
-                    objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "Y";
-                    //if (cy.ID == null)
+                     //if (cy.ID == null)
                     //{
                     //    objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.createdby;
                     //    objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;

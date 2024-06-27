@@ -60,10 +60,18 @@
             }
         }
         );
+         var linkrenderer1 = function (row, column, value) {
+           
+                 
+                return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+             
+                 
+}
+
 
         $("#grid").jqxGrid(
             {
-                    width: '100%',
+                    width: '120%',
                     source: dataAdapter,
                     height: 450,
                     source: source,
@@ -90,7 +98,7 @@
                     { text: 'Join Date', filtertype: 'input', datafield: 'joindate', width: 150 },
                     { text: 'Rate Code', datafield: 'ratecode', width: 100 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, cellsrenderer: linkrenderer1, formatter: returnMyLink, edittype: 'select' },
                 ]
             });
         $("#ddlStatus").change(function () {

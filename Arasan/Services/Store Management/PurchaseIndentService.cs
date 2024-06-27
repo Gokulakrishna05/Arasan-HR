@@ -469,7 +469,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("IndentDate", OracleDbType.NVarchar2).Value =cy.IndentDate; 
                     objCmd.Parameters.Add("RefDate", OracleDbType.NVarchar2).Value = cy.RefDate; 
                     //objCmd.Parameters.Add("Erecation", OracleDbType.NVarchar2).Value =cy.Erection;
-                    //objCmd.Parameters.Add("PurchaseType", OracleDbType.NVarchar2).Value = cy.Purtype;
+                    objCmd.Parameters.Add("PurchaseType", OracleDbType.NVarchar2).Value = cy.Purtype;
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.user;
                     objCmd.Parameters.Add("ENTRYDATE", OracleDbType.NVarchar2).Value = DateTime.Now.ToString("dd-MMM-yyyy");
                    // objCmd.Parameters.Add("STOREREQID", OracleDbType.NVarchar2).Value ="";

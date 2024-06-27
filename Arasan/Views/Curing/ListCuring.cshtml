@@ -1,7 +1,7 @@
 ﻿@model Arasan.Models.Curing
 
 @{
-    ViewData["Title"] = "Curing ";
+    ViewData["Title"] = "Bin Basic ";
      
 }
 <partial name="JqxGridPartial" />
@@ -20,7 +20,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong>Curing </strong> </li>
+            <li class="active"> <strong>Bin Basic </strong> </li>
         </ol>
     </div>
 </div>
@@ -56,6 +56,13 @@
             }
         }
         );
+           var linkrenderer1 = function (row, column, value) {
+           
+                 
+                return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+             
+                 
+}
 
         $("#grid").jqxGrid(
             {
@@ -84,7 +91,7 @@
                     { text: 'Bin Id', filtertype: 'checkedlist', datafield: 'binid', width: 150 },
                     { text: 'Capacity', datafield: 'cap', width: 100 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, cellsrenderer: linkrenderer1, formatter: returnMyLink, edittype: 'select' },
                 ]
             });
         $("#ddlStatus").change(function () {
@@ -125,7 +132,7 @@
 
                             <div class="col-md-8 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("Curing","Curing")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Curing</a>
+                                    <a href="@Url.Action("Curing","Curing")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Bin</a>
                                     <br>
                                 </div>
 

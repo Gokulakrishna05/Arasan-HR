@@ -21,6 +21,8 @@ namespace Arasan.Models
         public string ItemGroupDescription { get; set; } 
         public String status { get; set; }
         public string ddlStatus { get; set; }
+        public List<subgrp> Sublst { get; set; }
+
     }
     public class ItemGroupGrid
     {
@@ -33,6 +35,16 @@ namespace Arasan.Models
         
         public String editrow { get; set; }
         public String delrow { get; set; }
+
+    }
+    public class subgrp
+    {
+
+        public string consyn { get; set; }
+        public string subgrpname { get; set; }
+        public string subgrpdecs { get; set; }
+         public string Isvalid { get; set; }
+        
 
     }
 }

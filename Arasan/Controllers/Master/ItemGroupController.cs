@@ -12,28 +12,60 @@ namespace Arasan.Controllers.Master
     public class ItemGroupController : Controller
     {
         IItemGroupService itemGroupService;
-        public ItemGroupController(IItemGroupService _itemGroupService)
+        DataTransactions datatrans;
+        IConfiguration? _configuratio;
+        private string? _connectionString;
+        public ItemGroupController(IItemGroupService _itemGroupService, IConfiguration _configuratio)
         {
             itemGroupService = _itemGroupService;
+            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IActionResult ItemGroup(string id)
         {
             ItemGroup ig = new ItemGroup();
-            ig.createby = Request.Cookies["UserId"];
+            ig.createby = Request.Cookies["UserName"];
             ig.catlst = BindCategory();
-            if (id != null)
+            List<subgrp> TData = new List<subgrp>();
+            subgrp tda = new subgrp();
+            if (id == null)
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new subgrp();
+
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+            else
             {
                 DataTable dt = new DataTable();
                 double total = 0;
                 dt = itemGroupService.GetGroup(id);
                 if (dt.Rows.Count > 0)
                 {
-                    ig.ItemCat = dt.Rows[0]["CATEGORY"].ToString();
+                    
                     ig.ItemGroups = dt.Rows[0]["GROUPCODE"].ToString();
                     ig.ItemGroupDescription = dt.Rows[0]["GROUPDESC"].ToString();
                     ig.Type = dt.Rows[0]["GROUPTYPE"].ToString();
+                    ig.ID = id;
+                }
+               DataTable dt2 = datatrans.GetData("Select SGCODE,SGDESC,SCONSYN,ITEMSUBGROUPID from ITEMSUBGROUP where ITEMGROUPID = '" + id + "'");
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new subgrp();
+                        tda.subgrpname = dt2.Rows[i]["SGCODE"].ToString();
+                        tda.subgrpdecs = dt2.Rows[i]["SGDESC"].ToString();
+                        tda.consyn = dt2.Rows[i]["SCONSYN"].ToString();
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
                 }
             }
+            ig.Sublst = TData;
             return View(ig);
         }
         [HttpPost]
@@ -171,6 +203,12 @@ namespace Arasan.Controllers.Master
                 Reg
             });
 
+        }
+        public JsonResult GetItemGrpJSON()
+        {
+            ItemGroup model = new ItemGroup();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindCategory());
         }
     }
 }

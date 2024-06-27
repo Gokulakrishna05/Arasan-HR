@@ -29,7 +29,7 @@ namespace Arasan.Controllers.Master
 
             ca.createby = Request.Cookies["UserId"];
             ca.Loc = BindLocation();
-            ca.QCLst = BindLocation();
+            ca.QCLst = BindQCLocation();
             ca.WIPLst = BindLocation();
             ca.CONLst = BindLocation();
             ca.Drumlst = BindLocation();
@@ -51,7 +51,7 @@ namespace Arasan.Controllers.Master
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new WorkCentersDetail();
-
+                    tda.mlst = BindMeachine();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -160,7 +160,7 @@ namespace Arasan.Controllers.Master
         {
             //CIItem model = new CIItem();
             //  model.ItemGrouplst = BindItemGrplst(value);
-            return Json(BindItemlst(""));
+            return Json(BindMeachine());
         }
         public List<SelectListItem> BindType()
         {
@@ -185,6 +185,23 @@ namespace Arasan.Controllers.Master
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindMeachine()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetMachine();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MCODE"].ToString(), Value = dtDesg.Rows[i]["MACHINEINFOBASICID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -227,6 +244,23 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
+        public List<SelectListItem> BindQCLocation()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT LOCID,LOCDETAILSID FROM LOCDETAILS WHERE LOCATIONTYPE='QUALITY'");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindLocation()
         {
             try
@@ -244,7 +278,40 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-
+        public List<SelectListItem> BindItem()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetItem();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindProcess()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT PROCESSMASTID ,PROCESSID FROM PROCESSMAST");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PROCESSID"].ToString(), Value = dtDesg.Rows[i]["PROCESSMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult DeleteMR(string tag, string id)
         {
 
@@ -288,11 +355,23 @@ namespace Arasan.Controllers.Master
 
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
+                string ProductionRate = string.Empty;
+                string rejdet = string.Empty;
+                string ProdCap = string.Empty;
+                string ProdCapday = string.Empty;
+                string ApSive = string.Empty;
+                string paste = string.Empty;
 
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
 
                     EditRow = "<a href=WorkCenters?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    ProductionRate = "<a href=ProductionRate?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + " ><img src='../Images/edit.png' alt='Edit' /></a>";
+                    rejdet = "<a href=Rejdet?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    ProdCap ="<a href=ProdCap?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    ProdCapday = "<a href=ProdCapPerDay?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    ApSive = "<a href=ApSive?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    paste = "<a href=PasteRun?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 }
                 else
@@ -312,6 +391,12 @@ namespace Arasan.Controllers.Master
                     iloc = dtUsers.Rows[i]["LOCID"].ToString(),
                     editrow = EditRow,
                     delrow = DeleteRow,
+                    productionrate = ProductionRate,
+                    rejdet = rejdet,
+                    prodcap = ProdCap,
+                    apsive = ApSive,
+                    prodcapday = ProdCapday,
+                    paste = paste,
 
                 });
             }
@@ -322,5 +407,641 @@ namespace Arasan.Controllers.Master
             });
 
         }
+        public List<SelectListItem> BindInputtype()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "Primary", Value = "Primary" });
+                lstdesg.Add(new SelectListItem() { Text = "Secondary", Value = "Secondary" });
+ 
+
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public IActionResult ProductionRate(string id)
+        {
+            WorkCenters w = new WorkCenters();
+            List<ProdRate> TData = new List<ProdRate>();
+            ProdRate tda = new ProdRate();
+            DataTable dt = new DataTable();
+            dt = WorkCentersService.GetWorkCenters(id);
+            if (dt.Rows.Count > 0)
+            {
+                w.Wid = dt.Rows[0]["WCID"].ToString();
+                w.WType = dt.Rows[0]["WCTYPE"].ToString();
+                w.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                w.Iloc = dt.Rows[0]["ILOCATION"].ToString();
+                w.ID = id;
+
+            }
+            DataTable dt2 = new DataTable();
+
+            dt2 = datatrans.GetData("SELECT ITEMID,PRATE,ITEMTYPE FROM WCPRODDETAIL WHERE WCBASICID='"+ id +"'");
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new ProdRate();
+                    tda.itemlst = BindItem();
+                    tda.itemid = dt2.Rows[i]["ITEMID"].ToString();
+                    tda.inputlst = BindInputtype();
+                    tda.inputtype = dt2.Rows[i]["ITEMTYPE"].ToString();
+                    tda.outputrate = dt2.Rows[i]["PRATE"].ToString();
+                    tda.ID = id;
+                    TData.Add(tda);
+                }
+
+            }
+            else
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new ProdRate();
+                    tda.itemlst = BindItem();
+                    tda.inputlst = BindInputtype();
+                    tda.ID = id;
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+           
+
+            w.ProdRatelst = TData;
+            return View(w);
+        }
+        [HttpPost]
+        public ActionResult ProductionRate(WorkCenters Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = WorkCentersService.ProductionRateCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "ProductionRate Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "ProductionRate Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListWorkCenters");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit ProductionRate";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
+        public JsonResult GetItemJSON()
+        {
+            //CIItem model = new CIItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindItem());
+        }
+        public JsonResult GetItemTypeJSON()
+        {
+            //CIItem model = new CIItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindInputtype());
+        }
+        public IActionResult Rejdet(string id)
+        {
+            WorkCenters w = new WorkCenters();
+            List<Rejdet> TData = new List<Rejdet>();
+            Rejdet tda = new Rejdet();
+            DataTable dt = new DataTable();
+            dt = WorkCentersService.GetWorkCenters(id);
+            if (dt.Rows.Count > 0)
+            {
+                w.Wid = dt.Rows[0]["WCID"].ToString();
+                w.WType = dt.Rows[0]["WCTYPE"].ToString();
+                w.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                w.Iloc = dt.Rows[0]["ILOCATION"].ToString();
+                w.ID = id;
+
+            }
+            DataTable dt2 = new DataTable();
+
+            dt2 = datatrans.GetData("SELECT REJTYPE,REJPER FROM WCREJDETAIL WHERE WCBASICID='" + id + "'");
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new Rejdet();
+                    tda.rejlst = Bindrejtype();
+                    tda.rejtype = dt2.Rows[i]["REJTYPE"].ToString();
+                    
+                    tda.rejection = dt2.Rows[i]["REJPER"].ToString();
+                
+                    tda.ID = id;
+                    TData.Add(tda);
+                }
+
+            }
+            else
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new Rejdet();
+                    tda.rejlst = Bindrejtype();
+                   
+                    tda.ID = id;
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+
+
+            w.Rejdetlst = TData;
+            return View(w);
+        }
+        [HttpPost]
+        public ActionResult Rejdet(WorkCenters Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = WorkCentersService.RejdetCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "Rejection Details Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Rejection Details Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListWorkCenters");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit WorkCenters";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
+        public List<SelectListItem> Bindrejtype()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "RECHARGE", Value = "RECHARGE" });
+                lstdesg.Add(new SelectListItem() { Text = "GRADE CHANGE", Value = "GRADE CHANGE" });
+
+
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public JsonResult GetRejJSON()
+        {
+            //CIItem model = new CIItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(Bindrejtype());
+        }
+
+        public IActionResult ProdCap(string id)
+        {
+            WorkCenters w = new WorkCenters();
+            List<ProdCap> TData = new List<ProdCap>();
+            ProdCap tda = new ProdCap();
+            DataTable dt2 = new DataTable();
+            DataTable dt = new DataTable();
+
+            dt = WorkCentersService.GetWorkCenters(id);
+            if (dt.Rows.Count > 0)
+            {
+                w.Wid = dt.Rows[0]["WCID"].ToString();
+                w.WType = dt.Rows[0]["WCTYPE"].ToString();
+                w.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                w.Iloc = dt.Rows[0]["ILOCATION"].ToString();
+                w.ID = id;
+
+            }
+            dt2 = datatrans.GetData("SELECT PROCESSID,PITEMID,OUTPUTCAPACITY,CAPUNIQUE FROM WCPRODCAPDETAIL WHERE WCBASICID='" + id + "'");
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new ProdCap();
+                    tda.itemlst = BindItem();
+                    tda.itemid = dt2.Rows[i]["PITEMID"].ToString();
+                    tda.prolst = BindProcess();
+                    tda.process = dt2.Rows[i]["PROCESSID"].ToString();
+                    tda.outputcap = dt2.Rows[i]["OUTPUTCAPACITY"].ToString();
+
+                    tda.ID = id;
+                    TData.Add(tda);
+                }
+
+            }
+            else
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new ProdCap();
+                    tda.itemlst = BindItem();
+                    tda.prolst = BindProcess();
+                    tda.ID = id;
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+
+
+            w.ProdCaplst = TData;
+            return View(w);
+        }
+        [HttpPost]
+        public ActionResult ProdCap(WorkCenters Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = WorkCentersService.ProdCapCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "Production Capacity Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Production Capacity Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListWorkCenters");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit WorkCenters";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
+        public JsonResult GetcapItemJSON()
+        {
+            //CIItem model = new CIItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindItem());
+        }
+        public JsonResult GetprocessJSON()
+        {
+            //CIItem model = new CIItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindProcess());
+        }
+
+
+        public IActionResult ProdCapPerDay(string id)
+        {
+            WorkCenters w = new WorkCenters();
+            List<ProdCapPerDay> TData = new List<ProdCapPerDay>();
+            ProdCapPerDay tda = new ProdCapPerDay();
+            DataTable dt2 = new DataTable();
+            DataTable dt = new DataTable();
+
+            dt = WorkCentersService.GetWorkCenters(id);
+            if (dt.Rows.Count > 0)
+            {
+                w.Wid = dt.Rows[0]["WCID"].ToString();
+                w.WType = dt.Rows[0]["WCTYPE"].ToString();
+                w.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                w.Iloc = dt.Rows[0]["ILOCATION"].ToString();
+
+                w.ID = id;
+            }
+            dt2 = datatrans.GetData("SELECT CAPITEMID,CAPQTY FROM WCCAPDET WHERE WCBASICID='" + id + "'");
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new ProdCapPerDay();
+                    tda.itemlst = BindItem();
+                    tda.itemid = dt2.Rows[i]["CAPITEMID"].ToString();
+                  
+                    tda.Qty = dt2.Rows[i]["CAPQTY"].ToString();
+                   
+
+                    tda.ID = id;
+                    TData.Add(tda);
+                }
+
+            }
+            else
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new ProdCapPerDay();
+                    tda.itemlst = BindItem();
+                    
+                    tda.ID = id;
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+
+
+            w.ProdCapPerDaylst = TData;
+            return View(w);
+        }
+        [HttpPost]
+        public ActionResult ProdCapPerDay(WorkCenters Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = WorkCentersService.ProdCapPerCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "Production Capacity Per Day Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Production Capacity Per Day Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListWorkCenters");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit WorkCenters";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
+        public JsonResult GetcapperItemJSON()
+        {
+            //CIItem model = new CIItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindItem());
+        }
+        public IActionResult ApSive(string id)
+        {
+            WorkCenters w = new WorkCenters();
+            List<ApSive> TData = new List<ApSive>();
+            ApSive tda = new ApSive();
+            DataTable dt2 = new DataTable();
+            DataTable dt = new DataTable();
+
+            dt = WorkCentersService.GetWorkCenters(id);
+            if (dt.Rows.Count > 0)
+            {
+                w.Wid = dt.Rows[0]["WCID"].ToString();
+                w.WType = dt.Rows[0]["WCTYPE"].ToString();
+                w.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                w.Iloc = dt.Rows[0]["ILOCATION"].ToString();
+                w.ID = id;
+
+
+            }
+            dt2 = datatrans.GetData("SELECT SIEVE,FUELQTY,METTQTY,MINSIEVE FROM WCAPSDETAIL WHERE WCBASICID='" + id + "'");
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new ApSive();
+                    tda.sivelst = BindSive();
+                    tda.siveid = dt2.Rows[i]["SIEVE"].ToString();
+
+                    tda.fuelqty = dt2.Rows[i]["FUELQTY"].ToString();
+                    tda.mettqty = dt2.Rows[i]["METTQTY"].ToString();
+                    tda.minsive = dt2.Rows[i]["MINSIEVE"].ToString();
+
+
+                    tda.ID = id;
+                    TData.Add(tda);
+                }
+
+            }
+            else
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new ApSive();
+                    tda.sivelst = BindSive();
+
+                    tda.ID = id;
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+
+
+            w.ApSivelst = TData;
+            return View(w);
+        }
+        [HttpPost]
+        public ActionResult ApSive(WorkCenters Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = WorkCentersService.ApSiveCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "Ap Sieve Set Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Ap Sieve Set Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListWorkCenters");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit WorkCenters";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
+        public JsonResult GetSiveJSON()
+        {
+            //CIItem model = new CIItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindSive());
+        }
+        public List<SelectListItem> BindSive()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("Select SIEVE,SIEVEMASTID from SIEVEMAST");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SIEVE"].ToString(), Value = dtDesg.Rows[i]["SIEVE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public IActionResult PasteRun(string id)
+        {
+            WorkCenters w = new WorkCenters();
+            List<PasteRun> TData = new List<PasteRun>();
+            PasteRun tda = new PasteRun();
+            DataTable dt2 = new DataTable();
+            DataTable dt = new DataTable();
+
+            dt = WorkCentersService.GetWorkCenters(id);
+            if (dt.Rows.Count > 0)
+            {
+                w.Wid = dt.Rows[0]["WCID"].ToString();
+                w.WType = dt.Rows[0]["WCTYPE"].ToString();
+                w.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                w.Iloc = dt.Rows[0]["ILOCATION"].ToString();
+                w.ID = id;
+
+
+            }
+            dt2 = datatrans.GetData("SELECT RUNITEM,RUNHRS,MTOLOSSPER,CAKEOP,APPOWKG,NOOFCHGSPDAY FROM PARUNDET WHERE WCBASICID='" + id + "'");
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new PasteRun();
+                    tda.itemlst = BindItem();
+                    tda.itemid = dt2.Rows[i]["RUNITEM"].ToString();
+
+                    tda.runhrs = dt2.Rows[i]["RUNHRS"].ToString();
+                    tda.mtoloss = dt2.Rows[i]["MTOLOSSPER"].ToString();
+                    tda.cake = dt2.Rows[i]["CAKEOP"].ToString();
+                    tda.appowder = dt2.Rows[i]["APPOWKG"].ToString();
+                    tda.noofchange = dt2.Rows[i]["NOOFCHGSPDAY"].ToString();
+
+
+                    tda.ID = id;
+                    TData.Add(tda);
+                }
+
+            }
+            else
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new PasteRun();
+                    tda.itemlst = BindItem();
+
+                    tda.ID = id;
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+
+
+            w.PasteRunlst = TData;
+            return View(w);
+        }
+        [HttpPost]
+        public ActionResult PasteRun(WorkCenters Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = WorkCentersService.PasteRunCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "Paste Run Hr Detail Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Paste Run Hr Detail Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListWorkCenters");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit WorkCenters";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
+         
     }
 }
