@@ -61,9 +61,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("ListEmployee", "Employee")"> <span class="title">Employee</span> </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("ListEmpMultipleAllocation", "EmpMultipleAllocation")"> <span class="title">Employee Multiple Allocation</span> </a>
-                    </li>
+                  
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("ListDepartment", "Departments")"> <span class="title">Department</span> </a>
                     </li>
@@ -90,7 +88,7 @@
                         <a class="nav-link" href="@Url.Action("ListItemGroup", "ItemGroup")"> <span class="title">Item Group</span> </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("ListCuring", "Curing")"> <span class="title">Bin Master</span> </a>
+                        <a class="nav-link" href="@Url.Action("ListCuring", "Curing")"> <span class="title">Bin Basic</span> </a>
                     </li>
                    @* <li class="nav-item active">
                         <a class="nav-link" href="@Url.Action("ListItemSubGroup", "ItemSubGroup")"> <span class="title">Item SubGroup</span> </a>
@@ -156,8 +154,8 @@
                         <a class="nav-link" href="@Url.Action("ListStop", "Stop")"> <span class="title">Stop </span> </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("ListCuring", "Curing")"> <span class="title">Bin Basic</span> </a>
+                  @*  <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListCuring", "Curing")"> <span class="title">Bin Basic</span> </a>*@
                    
                 </ul>
             </li>
@@ -207,7 +205,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("ListCustomerType", "CustomerType")"> <span class="title">Party Group</span> </a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListEmpMultipleAllocation", "EmpMultipleAllocation")">
+                            <span class="title">
+                                Pyro Supervisor Allocation
+                            </span>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("ListSequence", "Sequence")"> <span class="title">Sequence</span> </a>
                     </li>

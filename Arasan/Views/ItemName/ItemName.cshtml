@@ -32,6 +32,7 @@
         </ol>
     </div>
 </div>
+<link rel="stylesheet" href="~/src/css/lightbox.css">
 
 <style>
     .tab-content > .tab-pane {
@@ -90,7 +91,11 @@
                 
                  <div id="preview-container"></div>
                  @if(Model.ID!="")
-                 {  <img src='@Html.DisplayFor(C => C.imgpath)' style="width:70px;height:70px"/>}
+                 {
+                                        <a class="example-image-link" href="@Html.DisplayFor(C => C.imgpath)" data-lightbox="example-set" data-title="@Html.DisplayFor(C => C.Item)"><img class="example-image" src="@Html.DisplayFor(C => C.imgpath)" alt="" style="width:70px;height:70px" /></a>
+
+                     @*<img src='@Html.DisplayFor(C => C.imgpath)' style="width:70px;height:70px"/>*@
+                 }
                
                  
             </div> 
@@ -2078,5 +2083,6 @@
     });
 
    
-</script> 
- 
+</script>
+
+<script src="~/src/js/lightbox.js"></script>
