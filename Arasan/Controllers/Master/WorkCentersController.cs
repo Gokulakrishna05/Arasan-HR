@@ -31,10 +31,10 @@ namespace Arasan.Controllers.Master
             ca.Loc = BindLocation();
             ca.QCLst = BindQCLocation();
             ca.WIPLst = BindLocation();
-            ca.CONLst = BindLocation();
+            ca.CONLst = BindLocations();
             ca.Drumlst = BindLocation();
             ca.Contlst = BindContType();
-            ca.Itemlst = BindItemlst("");
+            ca.Itemlst = BindItemlst();
             ca.ConItemlst = BindItemlst("");
             ca.Suplst = BindSupplier();
             ca.Typelst = BindType();
@@ -91,6 +91,9 @@ namespace Arasan.Controllers.Master
                     ca.Man = dt.Rows[0]["MANREQ"].ToString();
                     ca.Cost = dt.Rows[0]["COST"].ToString();
                     ca.Unit = dt.Rows[0]["COSTUNIT"].ToString();
+                    ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
+                    ca.rloc = dt.Rows[0]["RLOCATION"].ToString();
+                    ca.rjloc = dt.Rows[0]["REJLOCATION"].ToString();
                     ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
                     ca.ID = id;
 
@@ -231,7 +234,41 @@ namespace Arasan.Controllers.Master
         {
             try
             {
-                DataTable dtDesg = datatrans.GetItem(value);
+                DataTable dtDesg = datatrans.GetData("SELECT ITEMID ,ITEMMASTERID FROM ITEMMASTER UNION SELECT 'None',1 FROM DUAL ORDER BY ITEMMASTERID ASC");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindLocations()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT LOCID ,LOCDETAILSID FROM LOCDETAILS UNION SELECT 'None',1 FROM DUAL ORDER BY LOCDETAILSID ASC");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindItemlst()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetItem();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {

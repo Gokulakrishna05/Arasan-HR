@@ -45,9 +45,18 @@
                         {
                             @Html.AntiForgeryToken()
                     <form>
-                       
+                          <div class="tabs-container">
+              <ul class="nav nav-tabs">
+                 <li class="active"><a href="#tab-1" data-toggle="tab">Party Detail</a></li>
+                 <li><a href="#tab-2" data-toggle="tab">General Info</a></li>
+                <li ><a href="#tab-3" data-toggle="tab">Contact Whom</a></li>
+                <li ><a href="#tab-4" data-toggle="tab">Rate Code Details</a></li>
+                <li ><a href="#tab-4" data-toggle="tab">Shipping Address</a></li>
+                
+              </ul>
+              <div class="tab-content">
                  @*1st atb*@
-
+                      <div class="tab-pane active" id="tab-1">
                           <div class="row">
                             @*<div class="col-md-6">
                                 <div class="form-group">
@@ -245,7 +254,7 @@
                                 </div>
                             </div>
                               </div>
-                                    <div class="row">
+                                   @* <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -269,7 +278,7 @@
                                 </div>
                             </div>
                      
-                             </div>
+                             </div>*@
 
                             <div class="row">
 
@@ -310,39 +319,153 @@
                                  </div>
                                 </div>
                                 </div>
+                                </div>
+                             
                                        
                          
                   @*1st atb*@
                 
-                <div class="tabs-container">
-              <ul class="nav nav-tabs">
-                 <li class="active"><a href="#tab-2" data-toggle="tab" >General Info</a></li>
-                <li ><a href="#tab-3" data-toggle="tab" >Contact Whom</a></li>
-                <li ><a href="#tab-4" data-toggle="tab" >Rate Code Details</a></li>
-               @* <li ><a href="#tab-4" data-toggle="tab" >Shipping Address</a></li>*@
-                
-              </ul>
-              <div class="tab-content">
-                <div class="tab-pane active" id="tab-2">
+             
+                <div class="tab-pane" id="tab-2">
                
                  
                     @*2nd tab*@
-
-                                    <div class="row">
-@*
-                                        <div class="col-md-6">
+                     <div class="row">
+                                          <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="inputName3" class="col-sm-4 control-label">Name<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Add1<label class="mandatory">*</label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" type="text">
+                                                        @Html.TextBoxFor(C => C.Address, new { @id = "Address", @class = "form-control", @TabIndex = 1})
+                                                       
                                                 </div>
 
                                             </div>
-                                        </div>*@
+                                        </div>
+                                          <div class="col-md-6">
+                                            <div class="form-group">
 
+                                                <label for="inputName3" class="col-sm-4 control-label">Add2<label class="mandatory">*</label></label>
+                                                <div class="col-sm-8">
+                                                     
+                                                        @Html.TextBoxFor(C => C.Address2, new { @id = "Address2", @class = "form-control", @TabIndex = 1})
+                                                     
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        </div>
+                                    <div class="row">
+                                         <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Add3<label class="mandatory">*</label></label>
+                                                <div class="col-sm-8">
+                                                     
+                                                        @Html.TextBoxFor(C => C.Address3, new { @id = "Address3", @class = "form-control", @TabIndex = 1})
+                                                     
+                                                </div>
+
+                                            </div>
+                                        </div>
+  <div class="col-md-6">
+                                <div class="form-group">
+
+                                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Pin Code<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Pincode, new { @id = "Pincode", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)"})   <br />
+                                                </div>
+
+                                </div>
+                            </div>                                         
+
+
+                            </div>
+                             <div class="row">
+
+                                    <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Country<label class="mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.Country, Model.Countrylst," -- Please Select -- ", new { @id = "ddlCountry", @Class = "form-control _select", @TabIndex = 1,style = "width: 260px;" })<br />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                      
+                          
+                     
+                           
 
                                         <div class="col-md-6">
+                                            <div class="form-group">
+    <label for="inputName3" class="col-sm-4 control-label">Country Code<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                                                                            @Html.DropDownListFor(C => C.CountryCode, Model.concodelst," -- Please Select -- ", new { @id = "txtCountryCode", @Class = "form-control _select", @TabIndex = 1,style = "width: 260px;" })<br />
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        </div>
+                                             <div class="row">
+
+                                       <div class="col-md-6">
+                                <div class="form-group">
+
+                                                  <br />   <label for="inputName3" class="col-sm-4 control-label">State<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.State, Model.Statelst," -- Please Select -- ", new { @id = "ddlState", @Class = "form-control _select", @TabIndex = 1 ,style = "width: 260px;"})<br />
+
+                                    </div>
+                                </div>
+                            </div>
+                                
+                             <div class="col-md-6">
+                                <div class="form-group">
+
+                                                   <br />  <label for="inputName3" class="col-sm-4 control-label">City<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.City, Model.Citylst," -- Please Select -- ", new { @id = "ddlCity", @Class = "form-control _select", @TabIndex = 1,style = "width: 260px;"})<br />
+                                    </div>
+
+                                </div>
+                             </div>
+                            </div>
+                              <div class="row">
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                 <br /><label for="inputName3" class="col-sm-4 control-label">Sales Person Name<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                   @Html.DropDownListFor(C => C.salper, Model.saleperlst," -- Please Select -- ", new { @id = "ddlsalper", @Class = "form-control _select", @TabIndex = 1 ,style = "width: 260px;"})<br />
+<br />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Sales Location<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                   @Html.DropDownListFor(C => C.salloc, Model.saleloclst," -- Please Select -- ", new { @id = "ddlsalloc", @Class = "form-control _select", @TabIndex = 1 ,style = "width: 260px;"})<br />
+<br />   
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    
+                                       
+ 
+
+                                         
+
+                                        </div>
+                               <div class="row">
+                            <div class="col-md-6">
                                             <div class="form-group">
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Phone Number<label class="Mandatory"></label></label>
@@ -380,89 +503,22 @@
                                            
                                   
                                         <div class="col-md-6">
-                                                <div class="form-group">
+                                            <div class="form-group">
 
-                                                    <label for="inputName3" class="col-sm-4 control-label">Country<label class="mandatory"></label></label>
-                                                    <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.Country, Model.Countrylst," -- Please Select -- ", new { @id = "ddlCountry", @Class = "form-control _select", @TabIndex = 1 })<br />
-
-                                                    </div>
+                                                <label for="inputName3" class="col-sm-4 control-label">Over Due Int%<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.OverDueInterest, new { @id = "OverDueInterest",@maxlength="3", onkeydown = "return isNumeric2(event.keyCode,this.value)", @class = "form-control", @TabIndex = 1})<br />
                                                 </div>
+
                                             </div>
-                                                      
+                                        </div>
+
                                         
                                           
                                              </div>
 
-                            <div class="row">
-
-                                       <div class="col-md-6">
-                                <div class="form-group">
-
-                                                    <label for="inputName3" class="col-sm-4 control-label">State<label class="mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.State, Model.Statelst," -- Please Select -- ", new { @id = "ddlState", @Class = "form-control _select", @TabIndex = 1 })<br />
-
-                                    </div>
-                                </div>
-                            </div>
+                       
                                 
-                             <div class="col-md-6">
-                                <div class="form-group">
-
-                                                    <label for="inputName3" class="col-sm-4 control-label">City<label class="mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.City, Model.Citylst," -- Please Select -- ", new { @id = "ddlCity", @Class = "form-control _select", @TabIndex = 1})<br />
-                                    </div>
-
-                                </div>
-                             </div>
-                            </div>
-                                
-                                    <div class="row">
-
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Pin Code<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.Pincode, new { @id = "Pincode", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)"})   <br />
-                                                </div>
-
-                                </div>
-                            </div>
-                     
-                           
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-
-                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Country Code<label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
-                                                                                                            @Html.DropDownListFor(C => C.CountryCode, Model.concodelst," -- Please Select -- ", new { @id = "txtCountryCode", @Class = "form-control _select", @TabIndex = 1 })<br />
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                       
-
-                                    
-
-                                     @*   <div class="col-md-6">
-                                            <div class="form-group">
-
-                                                <label for="inputName3" class="col-sm-4 control-label">SCode<label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" type="text"><br />
-                                                </div>
-
-                                            </div>
-                                        </div>*@
-                                  
-                                        </div>
 
                                     <div class="row">
 
@@ -559,37 +615,7 @@
                                         
                                         </div>
 
-                                    <div class="row">
-                                        
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-
-                                                <label for="inputName3" class="col-sm-4 control-label">Sales Person Name<label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
-                                                   @Html.DropDownListFor(C => C.salper, Model.saleperlst," -- Please Select -- ", new { @id = "ddlsalper", @Class = "form-control _select", @TabIndex = 1 })<br />
-<br />
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-
-                                                <label for="inputName3" class="col-sm-4 control-label">Sales Location<label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
-                                                   @Html.DropDownListFor(C => C.salloc, Model.saleloclst," -- Please Select -- ", new { @id = "ddlsalloc", @Class = "form-control _select", @TabIndex = 1 })<br />
-<br />   
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    
-                                       
- 
-
-                                         
-
-                                        </div>
+                                  
                                           <div class="row">
 
                                         <div class="col-md-6">
@@ -628,50 +654,10 @@
                                             </div>
                                         </div>
                                         </div>
-                                        <div class="row">
-
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-
-                                                <label for="inputName3" class="col-sm-4 control-label">Over Due Int%<label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.OverDueInterest, new { @id = "OverDueInterest",@maxlength="3", onkeydown = "return isNumeric2(event.keyCode,this.value)", @class = "form-control", @TabIndex = 1})<br />
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                         
-@*
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-
-                                                <label for="inputName3" class="col-sm-4 control-label">Central Excise RegNo <label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" type="text"><br />
-                                                </div>
-
-                                            </div>
-                                        </div>*@
-                                 
- 
                                       
-                                       </div>
 
                                     <div class="row">
-                                          <div class="col-md-6">
-                                            <div class="form-group">
-
-                                                <label for="inputName3" class="col-sm-4 control-label">Address<label class="mandatory">*</label></label>
-                                                <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.Address, new { @id = "Address", @class = "form-control", @TabIndex = 1})
-                                                        @Html.TextBoxFor(C => C.Address2, new { @id = "Address2", @class = "form-control", @TabIndex = 1})
-                                                        @Html.TextBoxFor(C => C.Address3, new { @id = "Address3", @class = "form-control", @TabIndex = 1})
-                                                </div>
-
-                                            </div>
-                                        </div>
+                                        
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -974,21 +960,34 @@
         });
 
     });
-      function changeCode(CID) {
-        $.ajax({
-            url: 'GetCountryDetail',
-            data: { "CID": CID },
-            type: "GET",
-            success: function (result) {
-                
-                document.getElementById("txtCountryCode" ).value = result.country;
-              
-               
+      function changeCode(cid) {
+          $.ajax({
+            url: "GetCountryDetail",
+            type: "post",
+            data: { 'cid': cid },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                PopulateDropDownn("#txtCountryCode"  , response);
             },
             error: function () {
-                alert("Data Not Found");
+                debugger;
+                alert("Please Select Item Group");
             }
         });
+    }
+     function PopulateDropDownn(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
     }
     </script>
 <script>
@@ -1063,8 +1062,7 @@
     }
      function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
-
-        var Purpose = "<td><input class='form-control' id='txtPurpose" + index + "' name='PartyLst[" + index + "].Purpose'  style='width: 180px;' type='text'  /></td>";
+        var Purpose = "<td>        <select style = 'width: 200px;' class='form-control _select newcss' id='txtPurpose" + index + "' name='PartyLst[" + index + "].Purpose' ><option value=''>Please select</option>" + opt + "</select></td>";
 
         var ContactPerson = "<td><input class='form-control' id='txtContactPerson" + index + "' name='PartyLst[" + index + "].ContactPerson'  style='width: 180px;' type='text' '  /></td>";
        
