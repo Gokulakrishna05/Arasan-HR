@@ -43,7 +43,7 @@ namespace Arasan.Controllers.Master
             ca.typelst = Bindpartytype();
             ca.saleloclst = Bindsalloc();
             ca.saleperlst = Bindsalep();
-            ca.concodelst = Bindconcode();
+            ca.concodelst = Bindconcode("");
             List<PartyItem> TData = new List<PartyItem>();
             PartyItem tda = new PartyItem();
             List<ratedet> TData1 = new List<ratedet>();
@@ -290,15 +290,15 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-        public List<SelectListItem> Bindconcode()
+        public List<SelectListItem> Bindconcode(string id)
         {
             try
             {
-                DataTable dtDesg = datatrans.GetData("SELECT COUNTRYCODE,COUNTRYMASTID FROM CONMAST");
+                DataTable dtDesg = datatrans.GetData("SELECT CONCODE,CONMASTID FROM CONMAST WHERE COUNTRY='"+id+"'");
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRYCODE"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CONCODE"].ToString(), Value = dtDesg.Rows[i]["CONMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -462,7 +462,7 @@ namespace Arasan.Controllers.Master
         {
             PartyMaster model = new PartyMaster();
             //  model.ItemGrouplst = BindItemGrplst(value);
-            return Json(model);
+            return Json(Bindpur());
         }
         public JsonResult GetrateJSON()
         {
@@ -476,32 +476,13 @@ namespace Arasan.Controllers.Master
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindRateCode());
         }
-        public ActionResult GetCountryDetail(string CID)
+        public JsonResult GetCountryDetail(string cid)
         {
-            try
-            {
-                DataTable dt = new DataTable();
-               
-                string country = "";
-                
-                dt = PartyMasterService.GetCountryDetails(CID);
-
-                if (dt.Rows.Count > 0)
-                {
-
-                    country= dt.Rows[0]["COUNTRYCODE"].ToString();
-                   
-                  
-                }
-
-                var result = new { country = country };
-                return Json(result);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            PartyMaster model = new PartyMaster();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(Bindconcode(cid));
         }
+
 
         public ActionResult DeleteMR(string tag, int id)
         {

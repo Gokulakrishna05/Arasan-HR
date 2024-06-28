@@ -65,6 +65,7 @@
     <None Include="wwwroot\Reports\SubConMatDc.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="wwwroot\src\js\lightbox.js" />
   </ItemGroup>
 
   <ItemGroup>

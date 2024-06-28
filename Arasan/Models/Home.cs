@@ -271,6 +271,8 @@ public class salesdash {
         public bool IsMaster { get; set; }
         public bool IsPurchse { get; set; }
         public bool IsStore { get; set; }
+        public bool Issales { get; set; }
+        public bool Isproduction { get; set; }
         public string dashparent { get; set; }
         public string masterparent { get; set; }
         public string purchaseparent { get; set; }
