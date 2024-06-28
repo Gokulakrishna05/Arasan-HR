@@ -51,7 +51,47 @@ namespace Arasan.Services.Master
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetEditProcessDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PROCESSMASTID,PARAMETERS,UNIT,PARAMVALUE from PROCESSDETAIL where PROCESSMASTID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetViewEditWrkDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PROCESSMASTID,WCID from PROCESSWC where PROCESSMASTID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetWc()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select WCBASICID,WCID from WCBASIC  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
+        public DataTable GetUnit()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select UNITID,UNITMASTID from UNITMAST";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string ProcessMastCRUD(ProcessMast cy)
         {
             string msg = "";
@@ -85,15 +125,91 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("BATCHORAVGCOST", OracleDbType.NVarchar2).Value = cy.Costtype;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (cy.ID != null)
+                        {
+                            Pid = cy.ID;
+                        }
+                        if (cy.Prolst != null)
+                        {
+                            if (cy.ID == null)
+                            {
+                                foreach (Promst cp in cy.Prolst)
+                                {
+                                    if (cp.Isvalid == "Y")
+                                    {
 
+                                        svSQL = "Insert into PROCESSDETAIL (PROCESSMASTID,PARAMETERS,UNIT,PARAMVALUE) VALUES ('" + Pid + "','" + cp.para + "','" + cp.unit + "','" + cp.paraval + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                svSQL = "Delete PROCESSDETAIL WHERE PROCESSMASTID='" + cy.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+                                foreach (Promst cp in cy.Prolst)
+                                {
+                                    if (cp.Isvalid == "Y")
+                                    {
+                                        svSQL = "Insert into PROCESSDETAIL (PROCESSMASTID,PARAMETERS,UNIT,PARAMVALUE) VALUES ('" + Pid + "','" + cp.para + "','" + cp.unit + "','" + cp.paraval + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                    }
+                                }
+                            }
+                        }
+                        if (cy.wclst != null)
+                        {
+                            if (cy.ID == null)
+                            {
+                                foreach (Wcid cp in cy.wclst)
+                                {
+                                    if (cp.Isvalid1 == "Y" && cp.wc != "0")
+                                    {
+                                        svSQL = "Insert into PROCESSWC (PROCESSMASTID,WCID) VALUES ('" + Pid + "','" + cp.wc + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                    }
+
+
+                                }
+                            }
+                            else
+                            {
+                                svSQL = "Delete PROCESSWC WHERE PROCESSMASTID='" + cy.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+                                foreach (Wcid cp in cy.wclst)
+                                {
+                                    if (cp.Isvalid1 == "Y" && cp.wc != "0")
+                                    {
+                                        svSQL = "Insert into PROCESSWC (PROCESSMASTID,WCID) VALUES ('" + Pid + "','" + cp.wc + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                    }
+
+
+                                }
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
-
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
                     objConn.Close();
                 }

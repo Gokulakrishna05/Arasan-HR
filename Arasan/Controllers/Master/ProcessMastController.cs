@@ -29,11 +29,37 @@ namespace Arasan.Controllers.Master
             pm.Prodhrtypelst = BindProdhrtype();
             pm.Costtypelst = BindCosttype();
 
+            Promst pr = new Promst();
+            List<Promst> TData = new List<Promst>();
 
+            Wcid wc = new Wcid();
+            List<Wcid> Data = new List<Wcid>();
+
+
+
+            if (id == null)
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    pr = new Promst();
+                    pr.ulst = BindUnit();
+                    pr.Isvalid = "Y";
+                    TData.Add(pr);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    wc = new Wcid();
+                    wc.wlst = Bindworkcenter();
+
+                    wc.Isvalid1 = "Y";
+                    Data.Add(wc);
+                }
+            }
             //for edit & delete
-            if (id != null)
+            else
             {
                 DataTable dt = new DataTable();
+
                 //double total = 0;
                 dt = ProcessMastService.GetEditProcessMast(id);
                 if (dt.Rows.Count > 0)
@@ -51,11 +77,42 @@ namespace Arasan.Controllers.Master
                 }
 
             }
+            DataTable dt2 = new DataTable();
+            dt2 = ProcessMastService.GetEditProcessDetail(id);
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    pr = new Promst();
+
+                    pr.para = dt2.Rows[i]["PARAMETERS"].ToString();
+                    pr.ulst = BindUnit();
+                    pr.unit = dt2.Rows[i]["UNIT"].ToString();
+                    pr.paraval = dt2.Rows[i]["PARAMVALUE"].ToString();
+                    pr.Isvalid = "Y";
+                    TData.Add(pr);
+                }
+            }
+            DataTable dt3 = new DataTable();
+            dt3 = ProcessMastService.GetViewEditWrkDeatils(id);
+            if (dt3.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt3.Rows.Count; i++)
+                {
+                    wc = new Wcid();
+                    wc.wlst = Bindworkcenter();
+                    wc.wc = dt3.Rows[i]["WCID"].ToString();
+                    wc.Isvalid1 = "Y";
+                    Data.Add(wc);
+                }
+            }
             else
             {
                 pm.Qc = "N";
                 pm.Batch = "N";
             }
+            pm.Prolst = TData;
+            pm.wclst = Data;
             return View(pm);
         }
         public List<SelectListItem> BindProdhrtype()
@@ -78,6 +135,7 @@ namespace Arasan.Controllers.Master
         {
             return View();
         }
+
         public List<SelectListItem> BindCosttype()
         {
             try
@@ -93,7 +151,54 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
+        public List<SelectListItem> Bindworkcenter()
+        {
+            try
+            {
+                DataTable dtDesg = ProcessMastService.GetWc();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindUnit()
+        {
+            try
+            {
+                DataTable dtDesg = ProcessMastService.GetUnit();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["UNITID"].ToString(), Value = dtDesg.Rows[i]["UNITMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public JsonResult GetItemJSON()
+        {
+            Promst model = new Promst();
+            //model.Itemlst = BindItemlst(itemid);
+            return Json(BindUnit());
 
+        }
+        public JsonResult GetItemJSON1()
+        {
+            //Promst model = new Promst();
+            //model.Itemlst = BindItemlst(itemid);
+            return Json(Bindworkcenter());
+
+        }
         [HttpPost]
 
         public ActionResult ProcessMast(ProcessMast Cy, string id)

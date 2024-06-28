@@ -1,0 +1,161 @@
+﻿@model Arasan.Models.Home
+
+    <link rel="stylesheet" type="text/css" href="~/css/Profile.css">
+ 
+                <div class="wrapper-content">
+                    <div class="row">
+                        <!-- Left Container (Image & Basic Info) -->
+                        <div class="col-sm-4">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content profile-box">
+                                    <div class="profile-img-box">
+                                        <img src="~/Images/profileicon.png" height="250" width="250" class="full-width" alt="image">
+                                    </div>
+                                    <div class="widgets-container">
+                                        <h4><strong>Rishi</strong></h4>
+                                        <h5>Employee ID: 12345</h5>
+                                        <p>Designation: Software Engineer</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-5">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h3>Employee Details</h3>
+                                </div>
+                                <div id="demo1" class="ibox-content collapse in">
+                                    <div class="widgets-container">
+                                        <div class="feed-activity-list">
+                                            <div class="feed-element">
+                                                <div class="media-body">
+                                                    <p><strong>Employee ID: </strong> @Html.DisplayFor(c => c.Empid)</p>
+                                                    <p><strong>Employee Name: </strong> @Html.DisplayFor(c => c.Empname)</p>
+                                                    <p><strong>Gender: </strong> @Html.DisplayFor(c => c.Gender)</p>
+                                                    <p><strong>DOB: </strong> @Html.DisplayFor(c => c.DOB)</p>
+                                                    <p><strong>Mobile No: </strong> @Html.DisplayFor(c => c.Mobile)</p>
+                                                    <p><strong>Email: </strong> @Html.DisplayFor(c => c.Email)</p>
+                                                    <p><strong>Address: </strong> @Html.DisplayFor(c => c.Ads)</p>
+                                                    <p><strong>State: </strong> @Html.DisplayFor(c => c.State)</p>
+                                                    <p><strong>City: </strong> @Html.DisplayFor(c => c.City)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h3>PAY CODE</h3>
+
+                                    <p><strong>Pay Category: </strong> @Html.DisplayFor(c => c.Ecat)</p>
+                                    <p><strong>Employee Basic: </strong> @Html.DisplayFor(c => c.Ebas)</p>
+                                    <p><strong>PF NO: </strong> @Html.DisplayFor(c => c.PFN)</p>
+                                    <p><strong>ESI NO: </strong> @Html.DisplayFor(c => c.ESIN)</p>
+                                    <p><strong>PF Date: </strong> @Html.DisplayFor(c => c.PFD)</p>
+                                    <p><strong>ESI Date: </strong> @Html.DisplayFor(c => c.ESID)</p>
+                                    <p><strong>Emp Cost: </strong> @Html.DisplayFor(c => c.ECOST)</p>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="widgets-container">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h3>Extra Container</h3>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="widgets-container">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="ibox">
+                                <div class="widgets-container">
+                                    <div class="feed-element">
+                                        <div class="media-body">
+                                            <h3>LOGIN DETAILS</h3>
+                                            <p><strong>Username: </strong> @Html.DisplayFor(c => c.Username)</p>
+                                            <p><strong>Department: </strong> @Html.DisplayFor(c => c.Edep)</p>
+                                            <p><strong>EMP Design: </strong> @Html.DisplayFor(c => c.Edes)</p>
+                                            <p><strong>Join Date: </strong> @Html.DisplayFor(c => c.Jdate)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ibox">
+                                <div class="widgets-container">
+                                    <div class="feed-element">
+                                        <div class="media-body">
+                                            <h3>Personal Details</h3>
+                                            <p><strong>Father's Name: </strong> @Html.DisplayFor(c => c.Fname)</p>
+                                            <p><strong>Mother's Name: </strong> @Html.DisplayFor(c => c.Mname)</p>
+                                            <p><strong>Marital Status: </strong> @Html.DisplayFor(c => c.Marsts)</p>
+                                            <p><strong>Blood Group: </strong> @Html.DisplayFor(c => c.Blood)</p>
+                                            <p><strong>Community: </strong>@Html.DisplayFor(c => c.Commu)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ibox">
+                                <div class="widgets-container">
+                                    <div class="feed-element">
+                                        <div class="media-body">
+                                            <h3>Education Details</h3>
+                                            <p><strong>Education: </strong> @Html.DisplayFor(c => c.Edu)</p>
+                                            <p><strong>College: </strong> @Html.DisplayFor(c => c.College)</p>
+                                            <p><strong>Edu Place: </strong>@Html.DisplayFor(c => c.EduPlc)</p>
+                                            <p><strong>Year of Passing: </strong> @Html.DisplayFor(c => c.YOP)</p>
+                                            <p><strong>Grade: </strong> @Html.DisplayFor(c => c.Grade)</p>
+                                            <p><strong>Skillset: </strong> @Html.DisplayFor(c => c.Skill)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="ibox">
+                                <div class="widgets-container">
+                                    <div class="feed-element">
+                                        <div class="media-body">
+                                            <h3>LOCATION DETAILS</h3>
+                                            @{
+                                                int i = 0;
+
+                                                foreach (var item in Model.Locdet.ToList())
+                                                {
+                                                    <p><strong>Location: </strong> @Html.DisplayFor(c => c.Locdet[i].Loc)</p>
+                                                    i = i + 1;
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="ibox">
+                                <div class="widgets-container">
+                                    <div class="feed-element">
+                                        <div class="media-body">
+                                            <h3>Additional Container 2</h3>
+                                            <!-- Add content here if needed in the future -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+          
+
+
