@@ -29,7 +29,27 @@ namespace Arasan.Models
 
         public string ddlStatus { get; set; }
 
+        public List<Promst> Prolst { get; set; }
+        public List<Wcid> wclst { get; set; }
 
+    }
+    public class Promst
+    {
+
+        public string para { get; set; }
+        public string unit { get; set; }
+        public List<SelectListItem> ulst { get; set; }
+
+        public string paraval { get; set; }
+        public string Isvalid { get; set; }
+
+    }
+    public class Wcid
+    {
+        public List<SelectListItem> wlst { get; set; }
+
+        public string wc { get; set; }
+        public string Isvalid1 { get; set; }
 
     }
     public class ProcessMastItem

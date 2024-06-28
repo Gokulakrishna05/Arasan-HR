@@ -40,11 +40,58 @@ namespace Arasan.Models
         public List<MenuList> Menulst { get; set; }
         public List<GateIn> GateInlst { get; set; }
         public List<ChartData> chrtlst { get; set; }    
-        public List<StoreChartData> schrtlst { get; set; }    
+        public List<StoreChartData> schrtlst { get; set; }
+        public List<LocDetail> Locdet { get; set; }
 
+        public string Empid { get; set; }
+        public string Empname { get; set; }
+        public string Gender { get; set; }
+        public string DOB { get; set; }
+        public string Mobile { get; set; }
+        public string Email { get; set; }
+        public string Ads { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
+
+        public string Username { get; set; }
+        public string Edep { get; set; }
+        public string Edes { get; set; }
+        public string Jdate { get; set; }
+
+        public string Fname { get; set; }
+        public string Mname { get; set; }
+        public string Marsts { get; set; }
+        public string Blood { get; set; }
+        public string Commu { get; set; }
+
+
+        public string Edu { get; set; }
+        public string College { get; set; }
+        public string EduPlc { get; set; }
+        public string YOP { get; set; }
+        public string Grade { get; set; }
+        public string Skill { get; set; }
+
+
+        public string Ecat { get; set; }
+        public string Ebas { get; set; }
+        public string PFN { get; set; }
+        public string ESIN { get; set; }
+        public string PFD { get; set; }
+        public string ESID { get; set; }
+        public string ECOST { get; set; }
 
     }
-    public class salesdash { 
+    public class LocDetail
+    {
+        public string Loc { get; set; }
+    }
+
+
+
+
+
+public class salesdash { 
        public List<topsellpro> topsellpros { get; set; }
        public List<Salespar> Salesparlst { get; set; }
 }

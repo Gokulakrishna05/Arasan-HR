@@ -1,0 +1,147 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    background-color: #D3D3D3;
+    margin: 0;
+    padding: 0;
+}
+
+.page-container {
+    margin: 20px;
+}
+
+.ibox {
+    background: #ffffff;
+    border: 1px solid #e7eaec;
+    margin-bottom: 20px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0), 0 6px 20px rgba(0, 0, 0);
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.ibox:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 255, 255), 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.ibox-content {
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.ibox-title {
+    background: #f8f8f8;
+    border-bottom: 1px solid #e7eaec;
+    padding: 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+    transition: text-shadow 0.3s ease-in-out;
+}
+
+h3 {
+    margin: 0;
+    text-align: center;
+    color: #007bff;
+    font-weight: bold;
+    transition: text-shadow 0.3s ease-in-out;
+}
+
+h3:hover {
+    text-shadow: 0 0 10px rgba(0, 123, 255, 0.7), 0 0 20px rgba(0, 123, 255, 0.5);
+}
+
+.profile-box {
+    text-align: center;
+}
+
+.profile-img-box {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin: 20px auto;
+}
+
+.profile-img-box img {
+    border-radius: 50%;
+    border: 2px solid #e7eaec;
+    margin-bottom: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.profile-img-box img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.widgets-container {
+    text-align: left;
+    padding: 10px;
+}
+
+.feed-element {
+    padding: 10px;
+}
+
+.media-body p {
+    margin: 0;
+    padding: 5px 0;
+}
+
+.col-sm-4, .col-sm-5, .col-sm-3 {
+    padding: 10px;
+}
+
+h4, h5, p {
+    margin: 10px 0;
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+.strong {
+    font-weight: bold;
+}
+
+.ibox-title h3 {
+    color: #007bff;
+    text-transform: uppercase;
+}
+
+.ibox-content {
+    background-color: #fff;
+}
+
+.widgets-container {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.page-content-wrapper {
+    margin-top: 20px;
+}
+
+.aligned-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.aligned-container .label {
+    display: flex;
+    align-items: center;
+}
+
+.aligned-container .label span:first-child {
+    min-width: 100px;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.aligned-container .label span:last-child {
+    flex-grow: 1;
+}
+
+.aligned-container .label + .label {
+    margin-top: 10px;
+}

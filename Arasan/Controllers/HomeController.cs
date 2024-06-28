@@ -729,6 +729,95 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public IActionResult Profile()
+        {
+            Home ca = new Home();
+
+            DataTable dt = new DataTable();
+            string username = Request.Cookies["UserId"];
+            dt = datatrans.GetData("SELECT EMPID,EMPNAME,EMPSEX,TO_CHAR(EMPDOB,'dd-MON-yyyy')EMPDOB,ECPHNO,ECMAILID,ECADD1,ECSTATE,ECCITY,USERNAME,EMPDEPT,EMPDESIGN,TO_CHAR(JOINDATE,'dd-MON-yyyy')JOINDATE,FATHERNAME,MOTHERNAME,EMPPAYCAT,EMPBASIC,PFNO,ESINO,TO_CHAR(PFDT,'dd-MON-yyyy')PFDT,TO_CHAR(ESIDT,'dd-MON-yyyy')ESIDT,EMPCOST FROM EMPMAST WHERE EMPMASTID='" + username + "'");
+            if (dt.Rows.Count > 0)
+            {
+                ca.Empid = dt.Rows[0]["EMPID"].ToString();
+                ca.Empname = dt.Rows[0]["EMPNAME"].ToString();
+                ca.Gender = dt.Rows[0]["EMPSEX"].ToString();
+                ca.DOB = dt.Rows[0]["EMPDOB"].ToString();
+                ca.Mobile = dt.Rows[0]["ECPHNO"].ToString();
+                ca.Email = dt.Rows[0]["ECMAILID"].ToString();
+                ca.Ads = dt.Rows[0]["ECADD1"].ToString();
+                ca.State = dt.Rows[0]["ECSTATE"].ToString();
+                ca.City = dt.Rows[0]["ECCITY"].ToString();
+
+
+                ca.Username = dt.Rows[0]["USERNAME"].ToString();
+                ca.Edep = dt.Rows[0]["EMPDEPT"].ToString();
+                ca.Edes = dt.Rows[0]["EMPDESIGN"].ToString();
+                ca.Jdate = dt.Rows[0]["JOINDATE"].ToString();
+
+
+                ca.Fname = dt.Rows[0]["FATHERNAME"].ToString();
+                ca.Mname = dt.Rows[0]["MOTHERNAME"].ToString();
+
+                ca.Ecat = dt.Rows[0]["EMPPAYCAT"].ToString();
+                ca.Ebas = dt.Rows[0]["EMPBASIC"].ToString();
+                ca.PFN = dt.Rows[0]["PFNO"].ToString();
+                ca.ESIN = dt.Rows[0]["ESINO"].ToString();
+                ca.PFD = dt.Rows[0]["PFDT"].ToString();
+                ca.ESID = dt.Rows[0]["ESIDT"].ToString();
+                ca.ECOST = dt.Rows[0]["EMPCOST"].ToString();
+
+            }
+            DataTable dt1 = datatrans.GetData("SELECT MARITALSTATUS,BLOODGROUP,COMMUNITY FROM EMPMOI WHERE EMPMASTID='" + username + "'");
+            if (dt1.Rows.Count > 0)
+            {
+                ca.Marsts = dt1.Rows[0]["MARITALSTATUS"].ToString();
+                ca.Blood = dt1.Rows[0]["BLOODGROUP"].ToString();
+                ca.Commu = dt1.Rows[0]["COMMUNITY"].ToString();
+            }
+
+            DataTable dt2 = datatrans.GetData("SELECT EDUCATION,UC,ECPLACE,YRPASSING,MPER FROM EMPMEDU WHERE EMPMASTID='" + username + "'");
+            if (dt2.Rows.Count > 0)
+            {
+                ca.Edu = dt2.Rows[0]["EDUCATION"].ToString();
+                ca.College = dt2.Rows[0]["UC"].ToString();
+                ca.EduPlc = dt2.Rows[0]["ECPLACE"].ToString();
+                ca.YOP = dt2.Rows[0]["YRPASSING"].ToString();
+                ca.Grade = dt2.Rows[0]["MPER"].ToString();
+                ca.Skill = dt2.Rows[0][""].ToString();
+            }
+
+            LocDetail tad = new LocDetail();
+            List<LocDetail> Data = new List<LocDetail>();
+            DataTable dt3 = datatrans.GetData("select l.locid from empwcdetail e left join locdetails l on e.locid=l.locdetailsid  WHERE EMPMASTID='" + username + "'");
+            if (dt3.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt3.Rows.Count; i++)
+                {
+                    tad = new LocDetail();
+                    tad.Loc = dt3.Rows[i]["locid"].ToString();
+                    Data.Add(tad);
+                }
+            }
+
+
+            //ca.Email = dt.Rows[0]["EMAIL"].ToString();
+            //ca.Fax = dt.Rows[0]["FAX"].ToString();
+            //ca.Commisionerate = dt.Rows[0]["COMMISIONERATE"].ToString();
+            //ca.Range = dt.Rows[0]["RANGEDIVISION"].ToString();
+            //ca.EccID = dt.Rows[0]["ECCNO"].ToString();
+            //ca.Excise = dt.Rows[0]["EXCISEAPPLICABLE"].ToString();
+            ////ca.Type = dt.Rows[0]["PARTYTYPE"].ToString();
+            //ca.Http = dt.Rows[0]["HTTP"].ToString();
+            //ca.OverDueInterest = dt.Rows[0]["OVERDUEINTEREST"].ToString();
+            //ca.Address = dt.Rows[0]["ADD1"].ToString();
+            //ca.Remark = dt.Rows[0]["REMARKS"].ToString();
+            //ca.Intred = dt.Rows[0]["INTRODUCEDBY"].ToString();
+            //ca.Ledger = dt.Rows[0]["ACCOUNTNAME"].ToString();
+
+
+            ca.Locdet = Data;
+            return View(ca);
+        }
         //public IActionResult Privacy()
         //{
         //    return View();
