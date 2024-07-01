@@ -15,5 +15,6 @@ namespace Arasan.Interface.Master
         DataTable GetEditRate(string id);
         DataTable GetEditRateDeatil(string id);
         DataTable GetEditRateDeatils(string id);
+        string RateCodeCRUD(string Ratecode, string RateDsc);
     }
 }

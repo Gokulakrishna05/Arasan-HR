@@ -47,7 +47,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="mandatory">*</label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory">*</label></label>
                                         <div class="input-group date for_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -60,20 +60,29 @@
                                     <div class="form-group">
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Rate Code<label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
+                                        <div class="col-sm-7">
                                             @Html.DropDownListFor(C => C.Ratecode, Model.Ratelst," -- Please Select -- ", new { @id = "ddlRatecode", @Class = "form-control _select", @TabIndex = 1 })
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
+                                        <div class="col-sm-1"><a href="@Url.Action("AddRateCode", "Rate")"  class='fancybox' data-fancybox-type='iframe'><img src='../Images/plus.png' alt='Add' /></a></div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Rate Type<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.RateType, new { @id = "txtRateType", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                              @*  <div class="col-md-6">
                                     <div class="form-group">
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Rate Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.RateName, Model.Ratelst," -- Please Select -- ", new { @id = "ddlRateName", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -99,7 +108,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                              @*  <div class="col-md-6">
                                     <div class="form-group">
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">UF<label class="Mandatory"></label></label>
@@ -107,15 +116,8 @@
                                             @Html.TextBoxFor(C => C.UF, new { @id = "txtUF", @class = "form-control", @TabIndex = 2 })
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Rate Type<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.RateType, new { @id = "txtRateType", @class = "form-control", @TabIndex = 2 })
-                                        </div>
-                                    </div>
-                                </div>
+                                </div>*@
+                               
                             </div>
 
                             <div style="height:30px;"></div>
@@ -140,15 +142,15 @@
                                         <thead>
                                             <tr>
 
-                                                <th>RCode</th>
+                                                @*<th>RCode</th>*@
                                                 <th>Item</th>
                                                 <th>Unit</th>
-                                                <th>Qty</th>
+                                                @*<th>Qty</th>*@
                                                 <th>Rate</th>
-                                                <th>Valid From</th>
+                                               @* <th>Valid From</th>
                                                 <th>Valid To</th>
                                                 <th>Amount</th>
-                                                <th>Rate Type</th>
+                                                <th>Rate Type</th>*@
 
                                             </tr>
 
@@ -162,11 +164,11 @@
                                                 {
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                        <td>
+                                                      @*  <td>
                                                             @Html.DropDownListFor(o => o.RATElist[i].RCode, Model.RATElist[i].Ratelst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlRCode" + i, style = "width: 200px;"})
                                                             @Html.HiddenFor(o => o.RATElist[i].saveRCode)
 
-                                                        </td>
+                                                        </td>*@
                                                         <td>
                                                             @Html.DropDownListFor(o => o.RATElist[i].ItemId, Model.RATElist[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
                                                             @Html.HiddenFor(o => o.RATElist[i].saveItemId)
@@ -175,13 +177,13 @@
                                                         <td>
                                                             @Html.TextBoxFor(o => o.RATElist[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
                                                         </td>
-                                                        <td>
+                                                       @*  <td>
                                                             @Html.TextBoxFor(o => o.RATElist[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
-                                                        </td>
+                                                        </td>*@
                                                         <td>
                                                             @Html.TextBoxFor(o => o.RATElist[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly = "readonly", @onkeyup = "changeQty(this," + i + ")" })
                                                         </td>
-                                                        <td>
+                                                       @*   <td>
                                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
 
                                                                 @Html.TextBoxFor(o => o.RATElist[i].Validfrom, new { @id = "txtValidfrom" + i, @class = "form-control", style = "width: 120px;",@readonly="readonly"  })
@@ -201,7 +203,7 @@
                                                         </td>
                                                         <td>
                                                             @Html.TextBoxFor(o => o.RATElist[i].Type, new { @id = "txtType" + i, @class = "form-control", style = "width: 80px;"})
-                                                        </td>
+                                                        </td>*@
                                                         <td>
                                                             @Html.HiddenFor(o => o.RATElist[i].Isvalid, new { @id = "Isvalid" + i })
                                                             <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="RATElist.Index" type="hidden" value="@(i)" />
@@ -403,27 +405,27 @@
     function AppendRow(opt, remopt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var RCode = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlRCode" + index + "' name='RATElist[" + index + "].RCode'><option value=''>Please select</option>" + opt + "</select></td>";
-
+@*        var RCode = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlRCode" + index + "' name='RATElist[" + index + "].RCode'><option value=''>Please select</option>" + opt + "</select></td>";
+*@
         var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='RATElist[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + remopt + "</select></td>";
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='RATElist[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
-        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='RATElist[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text' onchange = 'changeQty(this.value," + index + ")' /></td>";
-
+@*        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='RATElist[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text' onchange = 'changeQty(this.value," + index + ")' /></td>";
+*@
         var rate = "<td><input class='form-control' id='txtrate" + index + "' name='RATElist[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text' value='0' onkeyup = 'changeQty(this.value," + index + ")'  readonly='True' /></td>";
 
-        var ValidFrom = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtValidfrom" + index + "' name='RATElist[" + index + "].Validfrom'  style='width: 120px;' type='text'   ReadOnly='readonly' /><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+     @*   var ValidFrom = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtValidfrom" + index + "' name='RATElist[" + index + "].Validfrom'  style='width: 120px;' type='text'   ReadOnly='readonly' /><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
 
         var ValidTo = "<td><div class='input-group date to_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtValidto" + index + "' name='RATElist[" + index + "].Validto'  style='width: 120px;' type='text'   ReadOnly='readonly' /><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
 
         var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='RATElist[" + index + "].Amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text' value='0' readonly='True' /></td>";
 
-        var Type = "<td><input class='form-control' id='txtType" + index + "' name='RATElist[" + index + "].Type'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text'  /></td>";
+        var Type = "<td><input class='form-control' id='txtType" + index + "' name='RATElist[" + index + "].Type'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text'  /></td>";*@
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='RATElist[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='RATElist.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + RCode + Item + Unit + Quantity + rate + ValidFrom + ValidTo + Amount + Type + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" +  Item + Unit +  rate +  removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
@@ -529,7 +531,49 @@
                 });
             }
 
+
+
         });
 
     });
+        function AddRatecode(ratecode) {
+  $.ajax({
+            url: "GetRateJSON",
+            type: "post",
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#ddlRatecode", response);
+                $(ddlRatecode).select2().val(ratecode).trigger("change");
+              //  document.getElementById("ddlRatecode").value =ratecode;
+            },
+            error: function () {
+                alert("Please Select Rate");
+            }
+        });
+    }
 </script>
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false
+        });
+        fancybox123 = $.fancybox;
+    });
+
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
+    </script>

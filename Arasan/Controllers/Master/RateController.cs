@@ -94,6 +94,24 @@ namespace Arasan.Controllers.Master
             ca.RATElist = TData;
             return View(ca);
         }
+        public JsonResult GetRateJSON()
+        {
+            return Json(BindRateCode());
+        }
+        public IActionResult AddRateCode(string id)
+        {
+            RateCode ca = new RateCode();
+           // ca.Brlst = BindBranch();
+            ca.Branch = Request.Cookies["BranchId"];
+            return View(ca);
+        }
+        
+        public JsonResult SaveRateCode(string ratecode,string ratedesc)
+        {
+            string Strout = RateService.RateCodeCRUD(ratecode, ratedesc);
+            var result = new { msg = Strout };
+            return Json(result);
+        }
         [HttpPost]
         public ActionResult Rate(Rate Cy, string id)
         {

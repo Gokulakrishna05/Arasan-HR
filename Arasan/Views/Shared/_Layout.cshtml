@@ -2,6 +2,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        .nav-link.active {
+            color: #49b6d6 !important;
+        }
+
+        .nav-item.active {
+            color: #49b6d6 !important;
+        }
+    </style>
 <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -151,7 +160,7 @@
     <div class="page-sidebar">
                @* <div id="partialzone">*@
 
-                    <ul class="page-sidebar-menu  page-header-fixed ">
+                <ul class="page-sidebar-menu  page-header-fixed ">
                         <li class="sidebar-search-wrapper">
 
                             <!-- START RESPONSIVE SEARCH FORM -->
@@ -269,16 +278,44 @@
  	
 </body>
 </html>
-@*<script>
+<script>
+    //$(document).ready(function () {
+    //    $(window).load(function () {
+    //        var x = window.location.href;
+    //        alert('ul a[href="' + x + '"]');
+    //        $('ul a[href="' + x + '"]').each(function () {
+                
+    //            if (x == window.location.href) {
+    //                alert(x);
+    //                $('ul li').removeClass('active');
+    //                $(this).parent('li').addClass('active');
+    //            }
+    //        });
+    //    });
+    //});
+</script>
+<script>
     $(function () {
-       // document.getElementById('partialzone').onload("/Home/_MenuBar");
-        $.ajax({
-            type: 'POST',
-            url: '/Home/_MenuBar',
-            success: function (data) {
-                document.getElementById('partialzone').innerHTML = data;
+        var url = window.location.href;
+        var rest = url.substring(0, url.lastIndexOf("/") + 1);
+        $('.nav-item.active, .nav-link.active').removeClass('active');
+        $('.nav-item.open').removeClass('open');
+       
+        document.querySelectorAll(".nav-link").forEach((link) => {
+            var navrest = link.href.substring(0, url.lastIndexOf("/") + 1);
+            if (navrest === rest) {
+                link.classList.add("active");
+                link.parentElement.classList.add("active");
+                link.parentElement.parentElement.parentElement.classList.add("active", "open");
+                link.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add("active", "open");
+               // break;
             }
+           
         });
+
+
+       
     })
-                           // $('#partialzone').load("/Home/_MenuBar");
-</script>*@
+
+
+</script>

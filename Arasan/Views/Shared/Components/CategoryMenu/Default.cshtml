@@ -23,7 +23,7 @@
                 @if (item.IsView == "Y" && item.Title == "QC Dashboard")
                     {
                         <li class="nav-item ">
-                            <a class="nav-link" href="@Url.Action("QcDashboard", "QcDashboard")"> <i class="fa fa-flask"></i> <span class="title">Qc</span> </a>
+                            <a class="nav-link" href="@Url.Action("QcDashboard", "QcDashboard")" > <i class="fa fa-flask"></i> <span class="title">Qc</span> </a>
                     </li>
                     }
                     @if (item.IsView == "Y" && item.Title == "Curing Shed")
@@ -59,7 +59,7 @@
                         <ul class="sub-menu">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("ListEmployee", "Employee")"> <span class="title">Employee</span> </a>
+                        <a class="nav-link" href="@Url.Action("ListEmployee", "Employee")" > <span class="title">Employee</span> </a>
                     </li>
                   
                     <li class="nav-item">
@@ -261,7 +261,7 @@
                 </ul>
             </li>
 
-            }
+            
 
 
         </ul>
@@ -289,7 +289,7 @@
                     }*@
                 @if (item.IsView == "Y" && item.Title == "Purchase Indent Approval")
                 {
-            <li class="nav-item"><a class="nav-link" href="@Url.Action("List_PI_Approval", "PurchaseIndent")">Purchase Indent Approval</a></li>
+                    <li class="nav-item"><a class="nav-link" href="@Url.Action("List_PI_Approval", "PIApproval")">Purchase Indent Approval</a></li>
                 }
                 @if (item.IsView == "Y" && item.Title == "Supplier Allocation")
                 {
