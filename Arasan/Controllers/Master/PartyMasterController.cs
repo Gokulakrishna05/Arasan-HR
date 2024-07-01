@@ -48,6 +48,8 @@ namespace Arasan.Controllers.Master
             PartyItem tda = new PartyItem();
             List<ratedet> TData1 = new List<ratedet>();
             ratedet tda1 = new ratedet();
+            List<shipping> TDatas = new List<shipping>();
+            shipping tdas = new shipping();
             if (id == null)
             {
                 for (int i = 0; i < 1; i++)
@@ -64,6 +66,14 @@ namespace Arasan.Controllers.Master
                     tda1.ratecodelist = BindRateCode();
                     tda1.Isvalid = "Y";
                     TData1.Add(tda1);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tdas = new shipping();
+                    tdas.statelst = BindState();
+                  
+                    tdas.Isvalid = "Y";
+                    TDatas.Add(tdas);
                 }
             }
             else
@@ -163,6 +173,7 @@ namespace Arasan.Controllers.Master
             }
                    ca.PartyLst = TData;
                    ca.rateLst = TData1;
+                   ca.shLst = TDatas;
             return View(ca);
         }
         [HttpPost]
@@ -341,6 +352,23 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
+        //public List<SelectListItem> BindState()
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = datatrans.GetData("SELECT STATE FROM STATEMAST");
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATE"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         public List<SelectListItem> BindCategory()
         {
             try
@@ -463,6 +491,12 @@ namespace Arasan.Controllers.Master
             PartyMaster model = new PartyMaster();
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(Bindpur());
+        }
+        public JsonResult GetStateJSON()
+        {
+            PartyMaster model = new PartyMaster();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindState());
         }
         public JsonResult GetrateJSON()
         {
