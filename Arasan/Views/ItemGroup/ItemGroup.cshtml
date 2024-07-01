@@ -199,24 +199,9 @@
         $('#btnSave').click(function (e) {
             var isValid = true;
 
-            if (document.getElementById("ddlItemCat").value == "") {
-                isValid = false;
-                $(ddlItemCat).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+             
 
-                alert("Please Enter Item Category");
-                return false;
-            }
-            else {
-                $(ddlItemCat).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-            if (document.getElementById("txtItemGroups").value == "") {
+            if (document.getElementById("txtItemGroups").value == ""|| document.getElementById("txtItemGroups").value == 0) {
                 isValid = false;
                 $(txtItemGroups).css({
                     "border": "1px solid red",
@@ -233,7 +218,7 @@
                 });
             }
 
-            if (document.getElementById("txtItemGroupDescription").value == "") {
+            if (document.getElementById("txtItemGroupDescription").value == "" || document.getElementById("txtItemGroupDescription").value == 0) {
                 isValid = false;
                 $(txtItemGroupDescription).css({
                     "border": "1px solid red",
@@ -291,7 +276,7 @@
         var removeCell = "<td><input id='Isvalid" + index + "' name='Sublst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Sublst.Index' type='hidden' value='" + index + "'  /></td>";
 
      
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + subgrpname + subgrbdesc + consyn  + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + subgrpname + consyn  + removeCell + "</tr>";
  
         $("#tbBooks").append(newRow); 
  

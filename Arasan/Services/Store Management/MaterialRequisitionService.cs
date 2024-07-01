@@ -1059,8 +1059,7 @@ namespace Arasan.Services
 
                                 svSQL = "Insert into STORESREQDETAIL (STORESREQBASICID,ITEMID,UNIT,QTY,STOCK,NARR,ITEMMASTERID,ITEMDESC,STATUS,STORESREQDETAILROW,ISSQTY,SGCODE,TYPE,VALMETHOD,SCHCLQTY,SCHISSQTY,SCHQTY) VALUES ('" + reqid + "','" + cp.ItemId + "','" + unitID + "','" + cp.ReqQty + "','" + cp.ClosingStock + "','" + cy.Narration + "','" + cp.ItemId + "','" + desc + "','OPEN','0','0','0','Stores Issue','"+ VALMETHOD + "','" + cp.ReqQty + "','0','0') RETURNING STORESREQDETAILID INTO :LASTCID";
                                 OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                objCmds.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
-                                objCmds.ExecuteNonQuery();
+                                   objCmds.ExecuteNonQuery();
                                 string detailid = objCmds.Parameters["LASTCID"].Value.ToString();
                                 double stock = Convert.ToDouble(cp.ReqQty);
                                 double clstock = Convert.ToDouble(cp.ClosingStock);
