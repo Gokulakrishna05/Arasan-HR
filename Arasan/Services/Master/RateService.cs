@@ -47,7 +47,44 @@ namespace Arasan.Services.Master
             return "";
 
         }
+        public string RateCodeCRUD(string Ratecode,string RateDsc)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
 
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("RATECODEPROC", objConn);
+                
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+                    objCmd.Parameters.Add("RATECODE", OracleDbType.NVarchar2).Value = Ratecode;
+                    objCmd.Parameters.Add("RATEDESC", OracleDbType.NVarchar2).Value = RateDsc;
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                    objConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
         public DataTable GetRateCode()
         {
             string SvSql = string.Empty;
