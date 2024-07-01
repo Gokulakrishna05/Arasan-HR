@@ -57,11 +57,11 @@ namespace Arasan.Controllers
                 {
                     if (Ic.ID == null)
                     {
-                        TempData["notice"] = "Curing Inserted Successfully...!";
+                        TempData["notice"] = "Bin No Inserted Successfully...!";
                     }
                     else
                     {
-                        TempData["notice"] = "Curing Updated Successfully...!";
+                        TempData["notice"] = "Bin No Updated Successfully...!";
                     }
                     return RedirectToAction("ListCuring");
                 }

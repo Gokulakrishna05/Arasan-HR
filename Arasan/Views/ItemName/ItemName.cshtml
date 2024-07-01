@@ -87,15 +87,13 @@
                             <div class="row">
                             <div class="col-md-6">
                       
-                <input type="file" name="file1" id="file-input">
+               <lable style="padding-left:600px;">Upload an Image</lable>
+    <input type="file" id="file" name="file1"
+        onchange="return fileValidation()" />
+ 
+    <!-- Image preview -->
+    <div id="preview-container" class="preview"></div>
                 
-                 <div id="preview-container"></div>
-                 @if(Model.ID!="")
-                 {
-                                        <a class="example-image-link" href="@Html.DisplayFor(C => C.imgpath)" data-lightbox="example-set" data-title="@Html.DisplayFor(C => C.Item)"><img class="example-image" src="@Html.DisplayFor(C => C.imgpath)" alt="" style="width:70px;height:70px" /></a>
-
-                     @*<img src='@Html.DisplayFor(C => C.imgpath)' style="width:70px;height:70px"/>*@
-                 }
                
                  
             </div> 
@@ -813,31 +811,31 @@
                                                             foreach (var item in Model.unititemlst.ToList())
                                                             {
 
-                                                                                    <tr id="trBookun@(j)" class="chkitemlstun" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                        <tr id="trBookun@(j)" class="chkitemlstun" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                                                        <td>
-                                                                                            @Html.DropDownListFor(o => o.unititemlst[j].Unit, Model.unititemlst[j].UnitLst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlUnit" + j, style = "width: 200px;"})
+                                                                                            <td>
+                                                                                                @Html.DropDownListFor(o => o.unititemlst[j].Unit, Model.unititemlst[j].UnitLst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlUnit" + j, style = "width: 200px;"})
 
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.TextBoxFor(o => o.unititemlst[j].cf, new { @id = "txtcf" + j, @class = "form-control", style = "width: 90px;"})
-                                                                                        </td>
-                                                                                        <td>
-                                                                                                              @Html.DropDownListFor(o => o.unititemlst[j].unittype, Model.unititemlst[j].UnittypeLst, "Please Select", new { @class = "form-control _select newcss", @id = "txtunittype" + j, style = "width: 200px;",onchange = "changeItem(this.value," + j + ")"})
-                     @Html.HiddenFor(o => o.unititemlst[j].uniqid, new { @id = "txtuniqid" + j })
-                                                                                        </td>
-                                                                                       @* <td>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                @Html.TextBoxFor(o => o.unititemlst[j].cf, new { @id = "txtcf" + j, @class = "form-control", style = "width: 90px;"})
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                                  @Html.DropDownListFor(o => o.unititemlst[j].unittype, Model.unititemlst[j].UnittypeLst, "Please Select", new { @class = "form-control _select newcss", @id = "txtunittype" + j, style = "width: 200px;",onchange = "changeItem(this.value," + j + ")"})
+                         @Html.HiddenFor(o => o.unititemlst[j].uniqid, new { @id = "txtuniqid" + j })
+                                                                                            </td>
+                                                                                           @* <td>
                                                                         @Html.TextBoxFor(o => o.Suplst[i].Preforder, new { @id = "txtPreforder" + i, @class = "form-control", style = "width: 90px;" })
                                                                     </td>
                                                                     <td>
                                                                         @Html.TextBoxFor(o => o.unititemlst[j].uniqid, new { @id = "txtuniqid" + j, @class = "form-control", style = "width: 140px;" })
                                                                     </td>*@
-                                                                                        <td>
-                                                                                            @Html.HiddenFor(o => o.unititemlst[j].Isvalid, new { @id = "Isvalid" + j })
-                                                                                            <img onclick="removeRowun(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Suplst.Index" type="hidden" value="@(j)" />
-                                                                                        </td>
-                                                                                        
-                                                                                    </tr>
+                                                                                            <td>
+                                                                                                @Html.HiddenFor(o => o.unititemlst[j].Isvalid, new { @id = "Isvalid" + j })
+                                                                                                <img onclick="removeRowun(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="unititemlst.Index" type="hidden" value="@(j)" />
+                                                                                            </td>
+                                                                                            
+                                                                                        </tr>
                                                                 j = j + 1;
 
                                                             }
@@ -1191,11 +1189,11 @@
 
                                                                             foreach (var item in Model.Binlst)
                                                                             {
-                                                                                                    <tr>
+                                                                                                        <tr>
 
-                                                                                                        <td>@Html.DisplayFor(modelItem => item.BinID)</td>
-                                                                                                        <td>@Html.DisplayFor(modelItem => item.BinYN)</td>
-                                                                                                    </tr>
+                                                                                                            <td>@Html.DisplayFor(modelItem => item.BinID)</td>
+                                                                                                            <td>@Html.DisplayFor(modelItem => item.BinYN)</td>
+                                                                                                        </tr>
                                                                                 a++;
                                                                             }
                                                                         }
@@ -1255,30 +1253,30 @@
                                                             foreach (var item in Model.Suplst.ToList())
                                                             {
 
-                                                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                                                        <td>
-                                                                                            @Html.DropDownListFor(o => o.Suplst[i].SupName, Model.Suplst[i].Suplierlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlSuplierlst" + i, style = "width: 200px;"})
+                                                                                            <td>
+                                                                                                @Html.DropDownListFor(o => o.Suplst[i].SupName, Model.Suplst[i].Suplierlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlSuplierlst" + i, style = "width: 200px;"})
 
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.TextBoxFor(o => o.Suplst[i].SupplierPart, new { @id = "txtSupplierPart" + i, @class = "form-control", style = "width: 90px;"})
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.TextBoxFor(o => o.Suplst[i].PurchasePrice, new { @id = "txtPurchasePrice" + i, @class = "form-control", style = "width: 90px;" })
-                                                                                        </td>
-                                                                                       @* <td>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                @Html.TextBoxFor(o => o.Suplst[i].SupplierPart, new { @id = "txtSupplierPart" + i, @class = "form-control", style = "width: 90px;"})
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                @Html.TextBoxFor(o => o.Suplst[i].PurchasePrice, new { @id = "txtPurchasePrice" + i, @class = "form-control", style = "width: 90px;" })
+                                                                                            </td>
+                                                                                           @* <td>
                                                                         @Html.TextBoxFor(o => o.Suplst[i].Preforder, new { @id = "txtPreforder" + i, @class = "form-control", style = "width: 90px;" })
                                                                     </td>*@
-                                                                                        <td>
-                                                                                            @Html.TextBoxFor(o => o.Suplst[i].Delivery, new { @id = "txtDelivery" + i, @class = "form-control", style = "width: 90px;" })
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.HiddenFor(o => o.Suplst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Suplst.Index" type="hidden" value="@(i)" />
-                                                                                        </td>
-                                                                                        
-                                                                                    </tr>
+                                                                                            <td>
+                                                                                                @Html.TextBoxFor(o => o.Suplst[i].Delivery, new { @id = "txtDelivery" + i, @class = "form-control", style = "width: 90px;" })
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                @Html.HiddenFor(o => o.Suplst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Suplst.Index" type="hidden" value="@(i)" />
+                                                                                            </td>
+                                                                                            
+                                                                                        </tr>
 
                                                                 i = i + 1;
                                                             }
@@ -1328,28 +1326,28 @@
                                                             foreach (var item in Model.locdetlst.ToList())
                                                             {
 
-                                                                                    <tr id="trBooklo@(l)" class="chkitemlstlo" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                        <tr id="trBooklo@(l)" class="chkitemlstlo" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                                                        <td>
-                                                                                            @Html.DropDownListFor(o => o.locdetlst[l].loc, Model.locdetlst[l].locLst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlloc" + l, style = "width: 200px;"})
+                                                                                            <td>
+                                                                                                @Html.DropDownListFor(o => o.locdetlst[l].loc, Model.locdetlst[l].locLst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlloc" + l, style = "width: 200px;"})
 
-                                                                                        </td>
-                                                                                       
-                                                                                        <td>
-                                                                                            @Html.TextBoxFor(o => o.locdetlst[l].minlevel, new { @id = "txtminlevel" + l, @class = "form-control", style = "width: 120px;",onchange = "changeItem(this.value," + j + ")"  })
-                                                                                        </td>
-                                                                                       <td>
-                                                                                            @Html.TextBoxFor(o => o.locdetlst[l].reorder, new { @id = "txtreorder" + l, @class = "form-control", style = "width: 90px;" })
-                                                                                        </td> 
-                                                                                        <td>
-                                                                                            @Html.TextBoxFor(o => o.locdetlst[l].maxlevel, new { @id = "txtmaxlevel" + l, @class = "form-control", style = "width: 140px;" })
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            @Html.HiddenFor(o => o.locdetlst[l].Isvalid, new { @id = "Isvalid" + l })
-                                                                                            <img onclick="removeRowlo(@(l));" src="../Images/delete.png" style="cursor:pointer" /> <input name="locdetlst.Index" type="hidden" value="@(l)" />
-                                                                                        </td>
-                                                                                        
-                                                                                    </tr>
+                                                                                            </td>
+                                                                                           
+                                                                                            <td>
+                                                                                                @Html.TextBoxFor(o => o.locdetlst[l].minlevel, new { @id = "txtminlevel" + l, @class = "form-control", style = "width: 120px;",onchange = "changeItem(this.value," + j + ")"  })
+                                                                                            </td>
+                                                                                           <td>
+                                                                                                @Html.TextBoxFor(o => o.locdetlst[l].reorder, new { @id = "txtreorder" + l, @class = "form-control", style = "width: 90px;" })
+                                                                                            </td> 
+                                                                                            <td>
+                                                                                                @Html.TextBoxFor(o => o.locdetlst[l].maxlevel, new { @id = "txtmaxlevel" + l, @class = "form-control", style = "width: 140px;" })
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                @Html.HiddenFor(o => o.locdetlst[l].Isvalid, new { @id = "Isvalid" + l })
+                                                                                                <img onclick="removeRowlo(@(l));" src="../Images/delete.png" style="cursor:pointer" /> <input name="locdetlst.Index" type="hidden" value="@(l)" />
+                                                                                            </td>
+                                                                                            
+                                                                                        </tr>
                                                                 l = l + 1;
 
                                                             }
@@ -1478,14 +1476,14 @@
                                                             
                                                              
 
-                                                                                    <tr>
+                                                                                        <tr>
 
-                                                                                        <td>
-                                                                    <input type="file" name="file" multiple />
-                                                                    @Html.HiddenFor(C => C.ID,new{@id="basicid"})
-                                                                </td>
-                                                                                        
-                                                                                    </tr>
+                                                                                            <td>
+                                                                        <input type="file" name="file" multiple />
+                                                                        @Html.HiddenFor(C => C.ID,new{@id="basicid"})
+                                                                    </td>
+                                                                                            
+                                                                                        </tr>
 
 
 
@@ -2005,7 +2003,7 @@
                 }
     }
 
-     $(document).ready(function () {
+@*     $(document).ready(function () {
         $("#file-input").on("change", function () {
             var files = $(this)[0].files;
             $("#preview-container").empty();
@@ -2024,6 +2022,45 @@
             $("#file-input").val(""); // Clear input value if needed
         });
     });
+*@
+
+
+function fileValidation() {
+            var fileInput = 
+                document.getElementById('file');
+             
+            var filePath = fileInput.value;
+         
+            // Allowing file type
+            var allowedExtensions = 
+                    /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+             
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Invalid file type (Please Select Image Type is .jpg,.jpeg,.png )');
+                fileInput.value = '';
+                return false;
+            } 
+            else 
+            {
+             
+                // Image preview
+                if (fileInput.files && fileInput.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById(
+                            'preview-container').innerHTML = 
+                            '<img src="' + e.target.result
+                            + '"/>';
+                    };
+                     
+                    reader.readAsDataURL(fileInput.files[0]);
+                }
+            }
+            $("#preview-container").on("click", ".delete", function () {
+            $(this).parent(".preview").remove();
+            $("#file-input").val(""); // Clear input value if needed
+        });
+        }
 </script>
                 <script type="text/javascript">
     $(document).ready(function () {
