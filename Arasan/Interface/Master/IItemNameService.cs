@@ -30,6 +30,7 @@ namespace Arasan.Interface.Master
         DataTable GetUnit();
         DataTable GetAllAttachment(string id);
         string StatusChange(string tag, int id);
+        string deletedoc(string tag, string id);
         string NewItemCRUD(ItemName ss, List<IFormFile> file, List<IFormFile> file1);
 
 

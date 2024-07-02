@@ -26,6 +26,7 @@ namespace Arasan.Controllers.Master
             ItemGroup ig = new ItemGroup();
             ig.createby = Request.Cookies["UserName"];
             ig.catlst = BindCategory();
+
             List<subgrp> TData = new List<subgrp>();
             subgrp tda = new subgrp();
             if (id == null)
@@ -33,7 +34,7 @@ namespace Arasan.Controllers.Master
                 for (int i = 0; i < 1; i++)
                 {
                     tda = new subgrp();
-
+                    tda.consyn = "N";
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }

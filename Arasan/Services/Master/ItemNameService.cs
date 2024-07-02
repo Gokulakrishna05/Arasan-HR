@@ -1070,7 +1070,30 @@ namespace Arasan.Services.Master
             return "";
 
         }
+        public string deletedoc(string tag, string id)
+        {
 
+            try
+            {
+                string svSQL = string.Empty;
+              
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "DELETE FROM ITEMMASTERDOC WHERE ITEMMASTERDOCID='" + id+"'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
         public DataTable GetAllAttachment(string id)
         {
             string SvSql = string.Empty;
