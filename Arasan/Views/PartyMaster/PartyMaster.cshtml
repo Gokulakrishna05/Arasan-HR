@@ -70,6 +70,18 @@
                                 </div>
                                         </div>*@
                                          <div class="col-md-6">
+                                 <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Party Type<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                                                                                    @Html.DropDownListFor(C => C.Type, Model.typelst," -- Please Select -- ", new { @id = "Type", @Class = "form-control _select", @TabIndex = 18})<br />
+
+                                    </div>
+
+                                 </div>
+                                </div>
+                                
+                                         <div class="col-md-6">
                                 <div class="form-group">
 
                                                     <label for="inputName3" class="col-sm-4 control-label">Party Category<label class="mandatory">*</label></label>
@@ -79,34 +91,40 @@
 
                                 </div>
                             </div>
-                             <div class="col-md-6">
+                              
+                        </div>
+
+                          <div class="row">
+                          
+                            
+                              <div class="col-md-6">
                                 <div class="form-group">
 
-                                                    <label for="inputName3" class="col-sm-4 control-label">Party Name<label class="mandatory">*</label></label>
+                                                   <br />  <label for="inputName3" class="col-sm-4 control-label">Party Name<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                                         @Html.TextBoxFor(C => C.PartyName, new { @id = "PartyName", @class = "form-control", @TabIndex = 2,autocomplete="off"}) <br />
                                     </div>
 
                                 </div>
                             </div>
-                        </div>
-
-                          <div class="row">
-                          
-                            
-
 
                                           
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                         <label for="inputName3" class="col-sm-4 control-label">Account Name<label class="mandatory">*</label></label>
+                                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Account Name<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
                                                             @Html.DropDownListFor(C => C.Ledger, Model.Ledgerlst," -- Please Select -- ", new { @id = "ddlLedger", @Class = "form-control _select", @TabIndex = 3 })<br />
                                                         </div>
 
                                                     </div>
                                                 </div>
-                                                 <div class="col-md-6">
+                                               
+                                          
+
+                          </div>
+                          <br>
+                              <div class="row">
+                                    <div class="col-md-6">
                                 <div class="form-group">
 
                                                     <label for="inputName3" class="col-sm-4 control-label"> Rate Code<label class="mandatory">*</label></label>
@@ -117,12 +135,6 @@
 
                                 </div>
                             </div>
-                                          
-
-                          </div>
-                          <br>
-                              <div class="row">
-
                                 <div class="col-md-6">
                                   <div class="form-group">
 
@@ -136,7 +148,36 @@
                                 </div>
 
                          
-                                <div class="col-md-6">
+                               
+                              </div>
+                               <div class="row">
+                                    <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">GST Number<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                         @Html.TextBoxFor(C => C.GST, new { @id = "GST", @class = "form-control",@maxlength="15", @TabIndex = 17})<br />
+                                    </div>
+
+                                </div>
+                            </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Join Date<label class="mandatory">*</label></label>
+                                    
+                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                        @Html.TextBoxFor(C => C.JoinDate, new { @id = "JoinDate", @class = "form-control", @TabIndex = 11,@size="30",@readonly=true })
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                   <br />
+                                    
+                                           </div>
+
+                                </div>
+                              </div>
+                            </div>
+                          <div class="row">
+                               <div class="col-md-6">
                                  <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Comm.Code<label class="Mandatory"></label></label>
@@ -147,9 +188,6 @@
 
                                  </div>
                                 </div>
-                              </div>
-
-                          <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -169,7 +207,7 @@
                                 </div>
                             </div>
                             
-                            <div class="col-md-6">
+                          @*  <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">LUT No <label class="Mandatory"></label></label>
@@ -179,11 +217,11 @@
                                                 </div>
 
                                 </div>
-                            </div>
+                            </div>*@
                             </div>
 
-                             <div class="row">
-                             <div class="col-md-6">
+                           
+                          @*   <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">LUT Date<label class="Mandatory"></label></label>
@@ -197,23 +235,8 @@
 
                                 </div>
                              </div>
-                           
-
-                              <div class="col-md-6">
-                                <div class="form-group">
-
-                                                    <label for="inputName3" class="col-sm-4 control-label">Join Date<label class="mandatory">*</label></label>
-                                    
-                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                        @Html.TextBoxFor(C => C.JoinDate, new { @id = "JoinDate", @class = "form-control", @TabIndex = 11,@size="30",@readonly=true })
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                   <br />
-                                    
-                                           </div>
-
-                                </div>
-                              </div>
-                            </div>
+                           *@
+                            
 
                             
 
@@ -294,32 +317,11 @@
                             </div>
                              
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">GST Number<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.GST, new { @id = "GST", @class = "form-control",@maxlength="15", @TabIndex = 17})<br />
-                                    </div>
-
-                                </div>
-                            </div>
+                           
                        
                              </div>
-                              <div class="row">
-                       <div class="col-md-6">
-                                 <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Party Type<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                                                                                    @Html.DropDownListFor(C => C.Type, Model.typelst," -- Please Select -- ", new { @id = "Type", @Class = "form-control _select", @TabIndex = 18})<br />
-
-                                    </div>
-
-                                 </div>
-                                </div>
-                                </div>
-                                </div>
+                             </div>
+                              
                              
                                        
                          
@@ -345,7 +347,7 @@
                                           <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="inputName3" class="col-sm-4 control-label">Add2<label class="mandatory">*</label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Add2<label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                      
                                                         @Html.TextBoxFor(C => C.Address2, new { @id = "Address2", @class = "form-control", @TabIndex = 1})
@@ -359,7 +361,7 @@
                                          <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Add3<label class="mandatory">*</label></label>
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Add3<label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                      
                                                         @Html.TextBoxFor(C => C.Address3, new { @id = "Address3", @class = "form-control", @TabIndex = 1})
@@ -371,7 +373,7 @@
   <div class="col-md-6">
                                 <div class="form-group">
 
-                                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Pin Code<label class="Mandatory"></label></label>
+                                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Pin Code<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                                         @Html.TextBoxFor(C => C.Pincode, new { @id = "Pincode", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)"})   <br />
                                                 </div>
@@ -386,7 +388,7 @@
                                     <div class="col-md-6">
                                                 <div class="form-group">
 
-                                                    <label for="inputName3" class="col-sm-4 control-label">Country<label class="mandatory"></label></label>
+                                                    <label for="inputName3" class="col-sm-4 control-label">Country<label class="mandatory">*</label></label>
                                                     <div class="col-sm-8">
                                                         @Html.DropDownListFor(C => C.Country, Model.Countrylst," -- Please Select -- ", new { @id = "ddlCountry", @Class = "form-control _select", @TabIndex = 1,style = "width: 260px;" ,@onchange="changeCode(this.value)"})<br />
 
@@ -414,7 +416,7 @@
                                        <div class="col-md-6">
                                 <div class="form-group">
 
-                                                  <br />   <label for="inputName3" class="col-sm-4 control-label">State<label class="mandatory"></label></label>
+                                                  <br />   <label for="inputName3" class="col-sm-4 control-label">State<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                                         @Html.DropDownListFor(C => C.State, Model.Statelst," -- Please Select -- ", new { @id = "ddlState", @Class = "form-control _select", @TabIndex = 1 ,style = "width: 260px;"})<br />
 
@@ -425,7 +427,7 @@
                              <div class="col-md-6">
                                 <div class="form-group">
 
-                                                   <br />  <label for="inputName3" class="col-sm-4 control-label">City<label class="mandatory"></label></label>
+                                                   <br />  <label for="inputName3" class="col-sm-4 control-label">City<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                                         @Html.DropDownListFor(C => C.City, Model.Citylst," -- Please Select -- ", new { @id = "ddlCity", @Class = "form-control _select", @TabIndex = 1,style = "width: 260px;"})<br />
                                     </div>
@@ -618,7 +620,7 @@
                                   
                                           <div class="row">
 
-                                        <div class="col-md-6">
+                                     @*   <div class="col-md-6">
                                             <div class="form-group">
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Excise Applicable<label class="Mandatory"></label></label>
@@ -635,7 +637,7 @@
                                                 </div>
 
                                             </div>
-                                        </div>
+                                        </div>*@
                                     
                                        
  
@@ -653,13 +655,7 @@
 
                                             </div>
                                         </div>
-                                        </div>
-                                      
-
-                                    <div class="row">
-                                        
-
-                                        <div class="col-md-6">
+                                          <div class="col-md-6">
                                             <div class="form-group">
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
@@ -670,7 +666,10 @@
 
                                             </div>
                                         </div>
-                                    </div>
+                                        </div>
+                                      
+
+                                    
                    @* 2 nd tab*@
                 </div>
                 <div class="tab-pane" id="tab-3">
@@ -784,10 +783,10 @@
 
 
                                                                     <td>
-                                                                        @Html.DropDownListFor(o => o.rateLst[j].ratetype,Model.rateLst[j].ratelist, new { @id = "txtratetype" + j, @class = "form-control _select", style = "width: 200px;"})
+                                                                        @Html.DropDownListFor(o => o.rateLst[j].ratetype,Model.rateLst[j].ratelist,"Please Select", new { @id = "txtratetype" + j, @class = "form-control _select", style = "width: 200px;"})
                                                                     </td>
                                                                     <td>
-                                                                            @Html.DropDownListFor(o => o.rateLst[j].ratecode,Model.rateLst[j].ratecodelist, new { @id = "txtratecode" + j, @class = "form-control _select", style = "width: 200px;"})
+                                                                            @Html.DropDownListFor(o => o.rateLst[j].ratecode,Model.rateLst[j].ratecodelist,"Please Select", new { @id = "txtratecode" + j, @class = "form-control _select", style = "width: 200px;"})
 
                                                                      </td>
                                                                     <td>
@@ -877,7 +876,7 @@
                                                                         @Html.TextBoxFor(o => o.shLst[j].city, new { @id = "txtcity" + j, @class = "form-control", style = "width: 180px;" })
                                                                     </td>
                                                                     <td>
-                                                                        @Html.DropDownListFor(o => o.shLst[j].state,Model.shLst[j].statelst, new { @id = "txtstate" + j, @class = "form-control _select", style = "width: 200px;"})
+                                                                        @Html.DropDownListFor(o => o.shLst[j].state,Model.shLst[j].statelst,"Please select" ,new { @id = "txtstate" + j, @class = "form-control _select", style = "width: 200px;"})
                                                                     </td>
                                                                   
                                                                        <td>
@@ -893,7 +892,7 @@
                                                                         @Html.TextBoxFor(o => o.shLst[j].email, new { @id = "txtemail" + j, @class = "form-control", style = "width: 180px;" })
                                                                     </td>
                                                                       <td>
-                                                                        @Html.TextBoxFor(o => o.shLst[j].phone, new { @id = "txtphone" + j, @class = "form-control", style = "width: 180px;" })
+                                                                        @Html.TextBoxFor(o => o.shLst[j].phone, new { @id = "txtphone" + j, @class = "form-control", style = "width: 180px;", onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                     </td>
  
                                                                    
@@ -938,6 +937,22 @@
       $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
+             if (document.getElementById("Type").value == "" || document.getElementById("Type").value == 0) {
+                isValid = false;
+                $(Type).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Party Type");
+                return false;
+            }
+            else {
+                $(Type).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
              if (document.getElementById("ddlPartyCategory").value == "" || document.getElementById("ddlPartyCategory").value == 0) {
                 isValid = false;
                 $(ddlPartyCategory).css({
@@ -981,11 +996,27 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Ledger Name");
+                alert("Please Select Account Name");
                 return false;
             }
             else {
                 $(ddlLedger).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+              if (document.getElementById("RateCode").value == "") {
+                isValid = false;
+                $(RateCode).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Rate Code");
+                return false;
+            }
+            else {
+                $(RateCode).css({
                     "border": "",
                     "background": ""
                 });
@@ -1024,34 +1055,84 @@
                 });
             }
             
-            if (document.getElementById("RateCode").value == "") {
+          
+            if (document.getElementById("Address").value == "") {
                 isValid = false;
-                $(RateCode).css({
+                $(Address).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Rate Code");
+                alert("Please Enter Address ");
                 return false;
             }
             else {
-                $(RateCode).css({
+                $(Address).css({
                     "border": "",
                     "background": ""
                 });
             }
-            if (document.getElementById("Mobile").value == "") {
+           
+            if (document.getElementById("Pincode").value == "") {
                 isValid = false;
-                $(Mobile).css({
+                $(Pincode).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Mobile Number ");
+                alert("Please Enter Pincode ");
                 return false;
             }
             else {
-                $(Mobile).css({
+                $(Pincode).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+                if (document.getElementById("ddlCountry").value == "") {
+                isValid = false;
+                $(ddlCountry).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Country ");
+                return false;
+            }
+            else {
+                $(ddlCountry).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("ddlState").value == "") {
+                isValid = false;
+                $(ddlState).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select State ");
+                return false;
+            }
+            else {
+                $(ddlState).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+              if (document.getElementById("ddlCity").value == "") {
+                isValid = false;
+                $(ddlCity).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select City ");
+                return false;
+            }
+            else {
+                $(ddlCity).css({
                     "border": "",
                     "background": ""
                 });
@@ -1072,24 +1153,26 @@
                 var newlist;
                 //alert(JSON.stringify(response));
                 newlist = response.Ilst;
-                PopulateDropDownn("#txtCountryCode"  , response);
+                PopulateDropDown("#txtCountryCode"  , response);
             },
             error: function () {
                 debugger;
-                alert("Please Select Item Group");
+                alert("Please Select Country");
             }
         });
     }
-     function PopulateDropDownn(dropDownId, list) {
+       function PopulateDropDown(dropDownId, list) {
         //alert(list);
-        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        $(dropDownId).empty().append('');
+        var fvalue="";
         if (list != null && list.length > 0) {
             $(dropDownId).removeAttr("disabled");
             $.each(list, function () {
+                fvalue = this['value'];
                 $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
             });
         }
-        $(dropDownId).trigger("liszt:updated");
+        $(dropDownId).select2().val(fvalue).trigger("change");
     }
     </script>
 <script>
@@ -1262,7 +1345,7 @@
                 $.each(data, function () {
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
                 });
-                AppendRow(opt);
+                AppendRows(opt);
             }
         })
     }
@@ -1282,8 +1365,7 @@
         var state = "<td>   <select style = 'width: 200px;' class='form-control _select newcss' id='txtstate" + index + "' name='shLst[" + index + "].state' ><option value=''>Please select</option>" + opt + "</select></td>";
         var pincode = "<td><input class='form-control' id='txtpincode" + index + "' name='shLst[" + index + "].pincode'   style='width: 180px;text-align:right' type='text'   /></td>";
         var gstno = "<td><input class='form-control' id='txtgstno" + index + "' name='shLst[" + index + "].gstno'   style='width: 180px;text-align:right' type='text'   /></td>";
-        var pincode = "<td><input class='form-control' id='txtEmail" + index + "' name='shLst[" + index + "].Email'   style='width: 180px;text-align:right' type='text'   /></td>";
-        var shipdis = "<td><input class='form-control' id='txtshippingdistance" + index + "' name='shLst[" + index + "].shippingdistance'   style='width: 180px;text-align:right' type='text'   /></td>";
+         var shipdis = "<td><input class='form-control' id='txtshippingdistance" + index + "' name='shLst[" + index + "].shippingdistance'   style='width: 180px;text-align:right' type='text'   /></td>";
         var email = "<td><input class='form-control' id='txtemail" + index + "' name='shLst[" + index + "].Email'   style='width: 180px;text-align:right' type='text'   /></td>";
         var phone = "<td><input class='form-control' id='txtphone" + index + "' name='shLst[" + index + "].Email'   style='width: 180px;text-align:right' type='text'   /></td>";
        
@@ -1291,9 +1373,12 @@
         var removeCell = "<td><input id='Isvalid" + index + "' name='shLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRows(" + index + ");'  style='cursor:pointer' /><input name='shLst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
-        var newRow = "<tr class='chkitemlsts'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBooks" + index + "'>" + type + consinee + add1 + add2 + add3 + city + state + pincode + shipdis + email + phone + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlsts'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBooks" + index + "'>" + type + consinee + add1 + add2 + add3 + city + state + pincode + gstno + shipdis + email + phone + removeCell + "</tr>";
         //alert(Packing);
-        $("#tbBooks").append(newRow);
-
+        $("#tbBookss").append(newRow);
+        
+        $(function() {
+            $('._select').select2();
+        });
      }
 </script>

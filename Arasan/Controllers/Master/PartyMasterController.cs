@@ -44,6 +44,7 @@ namespace Arasan.Controllers.Master
             ca.saleloclst = Bindsalloc();
             ca.saleperlst = Bindsalep();
             ca.concodelst = Bindconcode("");
+            ca.Regular = "NO";
             List<PartyItem> TData = new List<PartyItem>();
             PartyItem tda = new PartyItem();
             List<ratedet> TData1 = new List<ratedet>();
@@ -115,6 +116,7 @@ namespace Arasan.Controllers.Master
                     ca.State = dt.Rows[0]["STATE"].ToString();
                     ca.Country = dt.Rows[0]["COUNTRY"].ToString();
                     ca.Pincode = dt.Rows[0]["PINCODE"].ToString();
+                    ca.concodelst = Bindconcode(ca.Country);
                     ca.CountryCode = dt.Rows[0]["COUNTRYCODE"].ToString();
                     ca.Email = dt.Rows[0]["EMAIL"].ToString();
                     ca.Fax = dt.Rows[0]["FAX"].ToString();
@@ -133,6 +135,9 @@ namespace Arasan.Controllers.Master
                     ca.Remark = dt.Rows[0]["REMARKS"].ToString();
                     ca.Intred = dt.Rows[0]["INTRODUCEDBY"].ToString();
                     ca.Ledger = dt.Rows[0]["ACCOUNTNAME"].ToString();
+                    ca.typelst = Bindpartytype();
+                    ca.Type = dt.Rows[0]["TYPE"].ToString();
+                    
 
                 }
                 DataTable dt2 = new DataTable();
@@ -142,12 +147,15 @@ namespace Arasan.Controllers.Master
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new PartyItem();
+                        tda.purlst = Bindpur();
                         tda.Purpose = dt2.Rows[i]["CONTACTPURPOSE"].ToString();
                         tda.ContactPerson = dt2.Rows[i]["CONTACTNAME"].ToString();
                         tda.Designation = dt2.Rows[i]["CONTACTDESIG"].ToString();
                         tda.CPhone = dt2.Rows[i]["CONTACTPHONE"].ToString();
                         tda.CEmail = dt2.Rows[i]["CONTACTEMAIL"].ToString();
                         tda.Isvalid = "Y";
+                        TData.Add(tda);
+
 
                     }
                 }
@@ -167,6 +175,32 @@ namespace Arasan.Controllers.Master
                         
                         tda1.Isvalid = "Y";
                         TData1.Add(tda1);
+
+                    }
+                }
+                DataTable dt4 = new DataTable();
+                dt4 = datatrans.GetData("SELECT ADDBOOKTYPE,ADDBOOKCOMPANY,SPHONE,SEMAIL,SADD1,SADD2,SADD3,SCITY,SSTATE,SPINCODE,SGSTNO FROM PARTYMASTADDRESS WHERE PARTYMASTID='" + id + "'");
+                if (dt4.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt4.Rows.Count; i++)
+                    {
+                        tdas = new shipping();
+
+                      
+                        tdas.addtype = dt4.Rows[i]["ADDBOOKTYPE"].ToString();
+                         tdas.consingn = dt4.Rows[i]["ADDBOOKCOMPANY"].ToString();
+                        tdas.add1 = dt4.Rows[i]["SADD1"].ToString();
+                        tdas.add2 = dt4.Rows[i]["SADD2"].ToString();
+                        tdas.add3 = dt4.Rows[i]["SADD3"].ToString();
+                        tdas.email = dt4.Rows[i]["SEMAIL"].ToString();
+                        tdas.phone = dt4.Rows[i]["SPHONE"].ToString();
+                        tdas.pincode = dt4.Rows[i]["SPINCODE"].ToString();
+                        tdas.gstno = dt4.Rows[i]["SGSTNO"].ToString();
+                        tdas.statelst = BindState();
+                        tdas.state = dt4.Rows[i]["SSTATE"].ToString();
+                        tdas.city = dt4.Rows[i]["SCITY"].ToString();
+                         tdas.Isvalid = "Y";
+                        TDatas.Add(tdas);
 
                     }
                 }

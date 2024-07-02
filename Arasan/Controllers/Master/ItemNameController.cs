@@ -1130,10 +1130,12 @@ namespace Arasan.Controllers.Master
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
                 string Upload = string.Empty;
+                string delrow = string.Empty;
 
 
 
                 Upload = "<a href='/" + dtUsers.Rows[i]["DOCPATH"].ToString() + "' target='_blank' title='Attachement'>" + dtUsers.Rows[i]["DOCNAME"].ToString() + "</a>";
+                delrow = "DeleteDoc?tag=Del&ida=" + dtUsers.Rows[i]["ITEMMASTERDOCID"].ToString() + "&id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "";
 
 
                 Reg.Add(new itemupload
@@ -1141,6 +1143,7 @@ namespace Arasan.Controllers.Master
                     id =  dtUsers.Rows[i]["ITEMMASTERDOCID"].ToString(),
 
                     upload = Upload,
+                    delrow = delrow,
 
 
 
@@ -1153,6 +1156,21 @@ namespace Arasan.Controllers.Master
                 Reg
             });
 
+        }
+        public ActionResult DeleteDoc(string tag, string ida,string id)
+        {
+
+            string flag = ItemNameService.deletedoc(tag, ida);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ItemName", new{id = id});
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ItemName", new { id = id });
+            }
         }
     }
 }
