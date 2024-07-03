@@ -12,8 +12,8 @@ namespace Arasan.Interface.Master
 
         DataTable GetAllItemGroup(string strStatus);
         //ItemGroup GetItemGroupById(string id);
-        string StatusChange(string tag, int id);
-        string RemoveChange(string tag, int id);
+        string StatusChange(string tag, string id);
+        string RemoveChange(string tag, string id);
 
         DataTable GetCategory();
         DataTable GetGroup(string id);

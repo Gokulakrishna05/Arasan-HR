@@ -250,9 +250,16 @@ namespace Arasan.Controllers.Master
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                EditRow = "<a href=ProcessMast?id=" + dtUsers.Rows[i]["PROCESSMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PROCESSMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
+                    EditRow = "<a href=ProcessMast?id=" + dtUsers.Rows[i]["PROCESSMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PROCESSMASTID"].ToString() + "";
+                }
+                else
+                {
+                    EditRow = "";
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["PROCESSMASTID"].ToString() + "";
+                }
 
                 Reg.Add(new ProcessMastItem
                 {
@@ -276,6 +283,21 @@ namespace Arasan.Controllers.Master
         {
 
             string flag = ProcessMastService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListProcessMast");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListProcessMast");
+            }
+        }
+        public ActionResult Remove(string tag, string id)
+        {
+
+            string flag = ProcessMastService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

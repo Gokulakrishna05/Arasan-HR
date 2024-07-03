@@ -29,7 +29,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "SELECT TESTTBASICID,TEMPLATEID,TESTTYPE,TEMPLATEDESC FROM TESTTBASIC  order by TESTTBASIC.TESTTBASICID DESC ";
+                    cmd.CommandText = "SELECT TESTTBASICID,TEMPLATEID,TESTTYPE,TEMPLATEDESC,IS_ACTIVE FROM TESTTBASIC  order by TESTTBASIC.TESTTBASICID DESC ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -208,6 +208,69 @@ namespace Arasan.Services.Master
             }
 
             return msg;
+        }
+        public DataTable GetAllQCTemp(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "SELECT TESTTBASICID,TEMPLATEID,TESTTYPE,TEMPLATEDESC,IS_ACTIVE FROM TESTTBASIC  order by TESTTBASIC.TESTTBASICID DESC ";
+            }
+            else
+            {
+                SvSql = "SELECT TESTTBASICID, TEMPLATEID, TESTTYPE, TEMPLATEDESC,IS_ACTIVE FROM TESTTBASIC  order by TESTTBASIC.TESTTBASICID DESC ";
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public string StatusChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE TESTTBASIC SET IS_ACTIVE ='N' WHERE TESTTBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+        public string RemoveChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE TESTTBASIC SET IS_ACTIVE = 'Y' WHERE TESTTBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
         }
     }
 }

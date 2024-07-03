@@ -85,7 +85,7 @@
                     //{ text: 'State Code', filtertype: 'checkedlist', datafield: 'statecode', width: 200 },
                     { text: 'Country Name', filtertype: 'input', datafield: 'countryid', width: 150 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, cellsrenderer: linkrenderer1, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                 ]
             });
         $("#ddlStatus").change(function () {
@@ -103,7 +103,9 @@
      function returnMyLink(cellValue, options, rowdata, action) {
         return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
     }
-
+    var linkrenderer1 = function (row, column, value) {
+        return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+    }
 </script>
 
 <div class="wrapper-content ">

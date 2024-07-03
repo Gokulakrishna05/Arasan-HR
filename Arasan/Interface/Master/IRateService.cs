@@ -12,6 +12,7 @@ namespace Arasan.Interface.Master
         string RateCRUD(Rate cy);
         DataTable GetItemDetails(string itemId);
         string StatusChange(string tag, string id);
+        string RemoveChange(string tag, string id);
         DataTable GetEditRate(string id);
         DataTable GetEditRateDeatil(string id);
         DataTable GetEditRateDeatils(string id);

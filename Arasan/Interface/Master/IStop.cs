@@ -13,8 +13,8 @@ namespace Arasan.Interface
         DataTable GetviewStop(string id);
         //DataTable GetDepartmentDetail(string id);
 
-        string StatusChange(string tag, int id);
-        string RemoveChange(string tag, int id);
+        string StatusChange(string tag, string id);
+        string RemoveChange(string tag, string id);
 
         DataTable GetAllStop(string strStatus);
 

@@ -47,6 +47,29 @@ namespace Arasan.Services.Master
             return "";
 
         }
+        public string RemoveChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE RATEBASIC SET IS_ACTIVE = 'Y' WHERE RATEBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
         public string RateCodeCRUD(string Ratecode,string RateDsc)
         {
             string msg = "";
@@ -110,11 +133,11 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "SELECT RATEBASICID,DOCID,to_char(RATEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RATECODE,RATENAME,UF,RATETYPE FROM RATEBASIC WHERE RATEBASIC.IS_ACTIVE='Y' ORDER BY RATEBASIC.RATEBASICID DESC";
+                SvSql = "SELECT RATEBASICID,DOCID,to_char(RATEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RATECODE,RATENAME,UF,IS_ACTIVE,RATETYPE FROM RATEBASIC WHERE RATEBASIC.IS_ACTIVE='Y' ORDER BY RATEBASIC.RATEBASICID DESC";
             }
             else
             {
-                SvSql = "SELECT RATEBASICID,DOCID,to_char(RATEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RATECODE,RATENAME,UF,RATETYPE FROM RATEBASIC WHERE RATEBASIC.IS_ACTIVE='N' ORDER BY RATEBASIC.RATEBASICID DESC";
+                SvSql = "SELECT RATEBASICID,DOCID,to_char(RATEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,RATECODE,RATENAME,UF,IS_ACTIVE,RATETYPE FROM RATEBASIC WHERE RATEBASIC.IS_ACTIVE='N' ORDER BY RATEBASIC.RATEBASICID DESC";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);

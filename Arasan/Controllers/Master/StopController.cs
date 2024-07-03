@@ -92,7 +92,7 @@ namespace Arasan.Controllers
         }
 
 
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteMR(string tag, string id)
         {
 
             string flag = StopService.StatusChange(tag, id);
@@ -107,7 +107,7 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListStop");
             }
         }
-        public ActionResult Remove(string tag, int id)
+        public ActionResult Remove(string tag, string id)
         {
 
             string flag = StopService.RemoveChange(tag, id);
@@ -161,14 +161,13 @@ namespace Arasan.Controllers
 
                     ViewRow = "<a href=viewStop?id=" + dtUsers.Rows[i]["STOPMASTID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
                     EditRow = "<a href=Stop?id=" + dtUsers.Rows[i]["STOPMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["STOPMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["STOPMASTID"].ToString() + "";
                 }
                 else
                 {
                     ViewRow = "";
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["STOPMASTID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
-
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["STOPMASTID"].ToString() + "";
                 }
                 Reg.Add(new Stopgrid
                 {

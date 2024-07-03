@@ -282,7 +282,7 @@ namespace Arasan.Services.Master
         //    return dtt;
         //}
 
-        public string StatusChange(string tag, int id)
+        public string StatusChange(string tag, string id)
         {
 
             try
@@ -290,7 +290,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE HSNCODE SET IS_ACTIVE ='N' WHERE HSNCODEID='" + id + "'";
+                    svSQL = "UPDATE HSNMAST SET IS_ACTIVE ='N' WHERE HSNMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -305,7 +305,7 @@ namespace Arasan.Services.Master
             return "";
 
         } 
-        public string RemoveChange(string tag, int id)
+        public string RemoveChange(string tag, string id)
         {
 
             try
@@ -313,7 +313,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE HSNCODE SET IS_ACTIVE ='Y' WHERE HSNCODEID='" + id + "'";
+                    svSQL = "UPDATE HSNMAST SET IS_ACTIVE ='Y' WHERE HSNMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
