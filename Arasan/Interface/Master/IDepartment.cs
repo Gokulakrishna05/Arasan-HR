@@ -9,11 +9,12 @@ namespace Arasan.Interface
         string DepartmentCRUD(Department ss);
 
         DataTable GetDepartment(string id);
+        DataTable GetDesign();
 
         //DataTable GetDepartmentDetail(string id);
 
-        string StatusChange(string tag, int id);
-        string RemoveChange(string tag, int id);
+        string StatusChange(string tag, string id);
+        string RemoveChange(string tag, string id);
         DataTable GetAllDEPARTMENT(string strStatus);
         DataTable GetAllPDEPARTMENT(string strStatus);
         DataTable GetPDepartment(string id);

@@ -19,7 +19,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong> Department </strong> </li>
+            <li class="active"> <strong> Department/Designation </strong> </li>
         </ol>
     </div>
 </div>
@@ -55,7 +55,13 @@
             }
         }
         );
-
+         var linkrenderer1 = function (row, column, value) {
+            
+                
+                return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+                 
+                 
+}
         $("#grid").jqxGrid(
             {
                     width: '100%',
@@ -83,7 +89,7 @@
                         { text: 'Department Name', filtertype: 'input', datafield: 'departmentname', width: 200 },
                  
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
+                        { text: 'Enable/Disable', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select', cellsrenderer: linkrenderer1 },
                   ]
             });
         $("#ddlStatus").change(function () {
