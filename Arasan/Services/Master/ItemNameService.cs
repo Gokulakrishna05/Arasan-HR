@@ -143,7 +143,15 @@ namespace Arasan.Services.Master
                     }
                 }
                 string grpid = datatrans.GetDataString("Select GROUPCODE from ITEMGROUP where ITEMGROUPID='" + ss.ItemG + "'");
+                string grptype = datatrans.GetDataString("Select GROUPTYPE from ITEMGROUP where ITEMGROUPID='" + ss.ItemG + "'");
                 string supid = datatrans.GetDataString("Select ITEMSUBGROUPID from ITEMSUBGROUP where SGCODE='" + ss.ItemSub + "'");
+                string cate = datatrans.GetDataString("Select ITEMCATEGORYID from ITEMCATEGORY where CATEGORY='" + ss.SubCat + "'");
+                string val = "";
+                if(ss.ValuationMethod== "Wt. Average")
+                {
+                    val = "W";
+                }
+                else { val = "F"; }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ITEMMASTERPROC", objConn);
@@ -166,7 +174,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("ISUBGROUP", OracleDbType.NVarchar2).Value = ss.ItemSub;
                     objCmd.Parameters.Add("IGROUP", OracleDbType.NVarchar2).Value = grpid;
                     objCmd.Parameters.Add("SUBGROUPCODE", OracleDbType.NVarchar2).Value = supid;
-                    objCmd.Parameters.Add("SUBCATEGORY", OracleDbType.NVarchar2).Value = ss.SubCat;
+                    objCmd.Parameters.Add("SNCATEGORY", OracleDbType.NVarchar2).Value = ss.SubCat;
                    
                     objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = ss.Item;
                     objCmd.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = ss.ItemDes;
@@ -239,6 +247,10 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("QCT", OracleDbType.NVarchar2).Value = ss.qctest;
                     objCmd.Parameters.Add("ABCGRADE", OracleDbType.NVarchar2).Value = ss.clssscode;
                     objCmd.Parameters.Add("FLWORD", OracleDbType.NVarchar2).Value = ss.flow;
+                    objCmd.Parameters.Add("GROUPTYPE", OracleDbType.NVarchar2).Value = grptype;
+                    objCmd.Parameters.Add("ITEMCATEGORY", OracleDbType.NVarchar2).Value = cate;
+                    objCmd.Parameters.Add("SUBCATEGORY", OracleDbType.NVarchar2).Value = ss.subcategory;
+                    objCmd.Parameters.Add("VALMETHOD", OracleDbType.NVarchar2).Value = val;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -252,7 +264,7 @@ namespace Arasan.Services.Master
                         }
                         //  foreach (DirItem cp in cy.DirLst)
                         //{
-                        string latestbin = datatrans.GetDataString("Select BINID from BINMASTER where ITEMID='" + Pid + "' AND ISUPDATED='Y'");
+                        string latestbin = datatrans.GetDataString("Select BINID from BINMASTER where ITEMID='" + Pid + "'");
                         if (latestbin != ss.BinID)
                         {
                             bool resultsds = datatrans.UpdateStatus("UPDATE BINMASTER SET ISUPDATED='N' Where ITEMID='" + Pid + "'");
@@ -483,8 +495,16 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
-                string grpid = datatrans.GetDataString("Select ITEMGROUPID from ITEMGROUP where GROUPCODE='" + ss.ItemG + "'");
+                string grpid = datatrans.GetDataString("Select GROUPCODE from ITEMGROUP where ITEMGROUPID='" + ss.ItemG + "'");
+                string grptype = datatrans.GetDataString("Select GROUPTYPE from ITEMGROUP where ITEMGROUPID='" + ss.ItemG + "'");
                 string supid = datatrans.GetDataString("Select ITEMSUBGROUPID from ITEMSUBGROUP where SGCODE='" + ss.ItemSub + "'");
+                string cate = datatrans.GetDataString("Select ITEMCATEGORYID from ITEMCATEGORY where CATEGORY='" + ss.SubCat + "'");
+                string val = "";
+                if (ss.ValuationMethod == "Wt. Average")
+                {
+                    val = "W";
+                }
+                else { val = "F"; }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ITEMMASTERPROC", objConn);
@@ -502,11 +522,12 @@ namespace Arasan.Services.Master
                         StatementType = "Update";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
                     }
+
                     objCmd.Parameters.Add("ITEMGROUP", OracleDbType.NVarchar2).Value = ss.ItemG;
                     objCmd.Parameters.Add("ISUBGROUP", OracleDbType.NVarchar2).Value = ss.ItemSub;
                     objCmd.Parameters.Add("IGROUP", OracleDbType.NVarchar2).Value = grpid;
                     objCmd.Parameters.Add("SUBGROUPCODE", OracleDbType.NVarchar2).Value = supid;
-                    objCmd.Parameters.Add("SUBCATEGORY", OracleDbType.NVarchar2).Value = ss.SubCat;
+                    objCmd.Parameters.Add("SNCATEGORY", OracleDbType.NVarchar2).Value = ss.SubCat;
 
                     objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = ss.Item;
                     objCmd.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = ss.ItemDes;
@@ -579,6 +600,10 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("QCT", OracleDbType.NVarchar2).Value = ss.qctest;
                     objCmd.Parameters.Add("ABCGRADE", OracleDbType.NVarchar2).Value = ss.clssscode;
                     objCmd.Parameters.Add("FLWORD", OracleDbType.NVarchar2).Value = ss.flow;
+                    objCmd.Parameters.Add("GROUPTYPE", OracleDbType.NVarchar2).Value = grptype;
+                    objCmd.Parameters.Add("ITEMCATEGORY", OracleDbType.NVarchar2).Value = cate;
+                    objCmd.Parameters.Add("SUBCATEGORY", OracleDbType.NVarchar2).Value = ss.subcategory;
+                    objCmd.Parameters.Add("VALMETHOD", OracleDbType.NVarchar2).Value = val;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -592,7 +617,7 @@ namespace Arasan.Services.Master
                         }
                         //  foreach (DirItem cp in cy.DirLst)
                         //{
-                        string latestbin = datatrans.GetDataString("Select BINID from BINMASTER where ITEMID='" + Pid + "' AND ISUPDATED='Y'");
+                        string latestbin = datatrans.GetDataString("Select BINID from BINMASTER where ITEMID='" + Pid + "'");
                         if (latestbin != ss.BinID)
                         {
                             bool resultsds = datatrans.UpdateStatus("UPDATE BINMASTER SET ISUPDATED='N' Where ITEMID='" + Pid + "'");
@@ -735,7 +760,7 @@ namespace Arasan.Services.Master
 
                                     String strFleName = strLongFilePath1.Replace(sFileType1, "") + String.Format("{0:ddMMMyyyy-hhmmsstt}", DateTime.Now) + sFileType1;
                                     var fileName = Path.Combine("wwwroot/itemdoc", strFleName);
-                                    var fileName1 = Path.Combine("itemdoc", strFleName);
+                                    var fileName1 = "../itemdoc/" + strFleName;
                                     var name = file.FileName;
                                     // Save the file to the target folder
 
@@ -745,7 +770,7 @@ namespace Arasan.Services.Master
 
 
 
-                                        svSQL = "Insert into ITEMMASTERDOC(ITEMMASTERID,ITEMMASTERDOCROW,DOCPATH) VALUES ('" + Pid + "','" + r + "','" + fileName1 + "')";
+                                        svSQL = "Insert into ITEMMASTERDOC(ITEMMASTERID,ITEMMASTERDOCROW,DOCPATH,DOCNAME) VALUES ('" + Pid + "','" + r + "','" + fileName1 + "','" + name + "')";
                                         OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
                                         objCmdss.ExecuteNonQuery();
 
@@ -753,9 +778,8 @@ namespace Arasan.Services.Master
                                     }
                                 }
 
-                                   }
-                                 
-                                 }
+                            }
+                        }
                         if (files1 != null && files1.Count > 0)
                         {
                             int r = 1;
@@ -771,7 +795,7 @@ namespace Arasan.Services.Master
 
                                     String strFleName = strLongFilePath1.Replace(sFileType1, "") + String.Format("{0:ddMMMyyyy-hhmmsstt}", DateTime.Now) + sFileType1;
                                     var fileName = Path.Combine("wwwroot/itemdoc", strFleName);
-                                    var fileName1 = Path.Combine("itemdoc", strFleName);
+                                    var fileName1 = "../itemdoc/" + strFleName;
                                     var name = file.FileName;
                                     // Save the file to the target folder
 
@@ -781,7 +805,7 @@ namespace Arasan.Services.Master
 
 
 
-                                        svSQL = "UPDATE ITEMMASTER SET IMGPATH='" + fileName1 + "' WHERE ITEMMASTERID='"+Pid+"'";
+                                        svSQL = "UPDATE ITEMMASTER SET IMGPATH='" + fileName1 + "' WHERE ITEMMASTERID='" + Pid + "'";
                                         OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
                                         objCmdss.ExecuteNonQuery();
 
@@ -812,7 +836,7 @@ namespace Arasan.Services.Master
         public DataTable GetItemNameDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMGROUP,ISUBGROUP,ITEMGROUP,SUBGROUPCODE,SUBCATEGORY,BINNO,IMGPATH,BINYN,FLWORD,LEADDAYS,ABCGRADE,LOTYN,RHYN,RUNPERQTY,RUNHRS,COSTCATEGORY,AUTOCONSYN,QCT,DRUMYN,ITEMFROM,TARIFFID,PURCAT,MAJORYN,to_char(LATPURDT,'dd-MON-yyyy')LATPURDT,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MINSTK,PRIUNIT,HSN,SELLINGPRICE,EXPYN,VALMETHDES,SERIALYN,BSTATEMENTYN,TEMPLATEID,QCCOMPFLAG,LATPURPRICE,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMACC,PTEMPLATEID,CURINGDAY,AUTOINDENT from ITEMMASTER where ITEMMASTERID=" + id + "";
+            SvSql = "Select ITEMGROUP,ISUBGROUP,ITEMGROUP,SUBGROUPCODE,SUBCATEGORY,BINNO,IMGPATH,BINYN,FLWORD,LEADDAYS,ABCGRADE,LOTYN,RHYN,RUNPERQTY,RUNHRS,COSTCATEGORY,AUTOCONSYN,QCT,DRUMYN,ITEMFROM,TARIFFID,PURCAT,MAJORYN,to_char(LATPURDT,'dd-MON-yyyy')LATPURDT,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MINSTK,PRIUNIT,HSN,SELLINGPRICE,EXPYN,VALMETHDES,SERIALYN,BSTATEMENTYN,TEMPLATEID,QCCOMPFLAG,LATPURPRICE,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMACC,PTEMPLATEID,CURINGDAY,AUTOINDENT,SNCATEGORY from ITEMMASTER where ITEMMASTERID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1105,6 +1129,114 @@ namespace Arasan.Services.Master
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+        public string CategoryCRUD(string category )
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                svSQL = " SELECT Count(COMMON_VALUE) as cnt FROM COMMONMASTER WHERE COMMON_VALUE =LTRIM(RTRIM('" + category + "')) AND COMMON_TEXT='SUBCATEGORY'";
+                if (datatrans.GetDataId(svSQL) > 0)
+                {
+                    msg = "SUB CATEGORY Already Existed";
+                    return msg;
+                }
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    svSQL = "Insert into COMMONMASTER (COMMON_TEXT,COMMON_VALUE) VALUES ('SUBCATEGORY','" + category + "')";
+                    
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                    objConn.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConn.Close();
+                }
+                
+                      
+                    
+               
+              
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string PurCategoryCRUD(string category)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                svSQL = " SELECT Count(COMMON_VALUE) as cnt FROM COMMONMASTER WHERE COMMON_VALUE =LTRIM(RTRIM('" + category + "')) AND COMMON_TEXT='PURCHASECATEGORY'";
+                if (datatrans.GetDataId(svSQL) > 0)
+                {
+                    msg = "SUB PURCHASE CATEGORY Already Existed";
+                    return msg;
+                }
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    svSQL = "Insert into COMMONMASTER (COMMON_TEXT,COMMON_VALUE) VALUES ('PURCHASECATEGORY','" + category + "')";
+
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                    objConn.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConn.Close();
+                }
+
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string AddRawCategoryCRUD(string category)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                svSQL = " SELECT Count(COMMON_VALUE) as cnt FROM COMMONMASTER WHERE COMMON_VALUE =LTRIM(RTRIM('" + category + "')) AND COMMON_TEXT='RAWCATEGORY'";
+                if (datatrans.GetDataId(svSQL) > 0)
+                {
+                    msg = "SUB RAWMATERIAL CATEGORY Already Existed";
+                    return msg;
+                }
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    svSQL = "Insert into COMMONMASTER (COMMON_TEXT,COMMON_VALUE) VALUES ('RAWCATEGORY','" + category + "')";
+
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                    objConn.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConn.Close();
+                }
+
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
         }
     }
 }

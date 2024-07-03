@@ -43,6 +43,7 @@ namespace Arasan.Controllers.Master
             ca.typelst = Bindpartytype();
             ca.saleloclst = Bindsalloc();
             ca.saleperlst = Bindsalep();
+            ca.grouplist = BindPartyGroup();
             ca.concodelst = Bindconcode("");
             ca.Regular = "NO";
             List<PartyItem> TData = new List<PartyItem>();
@@ -425,22 +426,12 @@ namespace Arasan.Controllers.Master
         {
             try
             {
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='PARTYTYPE' ");
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
-                lstdesg.Add(new SelectListItem() { Text = "Customer", Value = "Customer" });
-                lstdesg.Add(new SelectListItem() { Text = "Supplier", Value = "Supplier" });
-                lstdesg.Add(new SelectListItem() { Text = "Sub Contractor", Value = "Sub Contractor" });
-                lstdesg.Add(new SelectListItem() { Text = "CASH PURCHASE PARTY", Value = "CASH PURCHASE PARTY" });
-                lstdesg.Add(new SelectListItem() { Text = "EB POWER PRODUCER", Value = "EB POWER PRODUCER" });
-                lstdesg.Add(new SelectListItem() { Text = "Manufacturer", Value = "Manufacturer" });
-                lstdesg.Add(new SelectListItem() { Text = "TRANSPORTER", Value = "TRANSPORTER" });
-                lstdesg.Add(new SelectListItem() { Text = "BRANCH", Value = "BRANCH" });
-                lstdesg.Add(new SelectListItem() { Text = "I OR II Stage Dealer", Value = "I OR II Stage Dealer" });
-                lstdesg.Add(new SelectListItem() { Text = "CONSIGNEE", Value = "CONSIGNEE" });
-                lstdesg.Add(new SelectListItem() { Text = "CONSIGNEES PARTY", Value = "CONSIGNEES PARTY" });
-                lstdesg.Add(new SelectListItem() { Text = "Dealer", Value = "Dealer" });
-                lstdesg.Add(new SelectListItem() { Text = "Reseller", Value = "Reseller" });
-                lstdesg.Add(new SelectListItem() { Text = "BOTH", Value = "BOTH" });
-
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
+                }
                 return lstdesg;
             }
             catch (Exception ex)
@@ -469,11 +460,28 @@ namespace Arasan.Controllers.Master
         {
             try
             {
-                DataTable dtDesg = PartyMasterService.GetCity();
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='CITY' ");
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CITYNAME"].ToString(), Value = dtDesg.Rows[i]["CITYNAME"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindPartyGroup()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='PARTYGROUP' ");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
                 }
                 return lstdesg;
             }
@@ -632,6 +640,58 @@ namespace Arasan.Controllers.Master
                 });
 
             }
+
+        public IActionResult AddPartyType(string id)
+        {
+            PartyMaster ca = new PartyMaster();
+            // ca.Brlst = BindBranch();
+
+            return View(ca);
+        }
+        public JsonResult SavePartyType(string category)
+        {
+            string Strout = PartyMasterService.PartyTypeCRUD(category);
+            var result = new { msg = Strout };
+            return Json(result);
+        }
+        public JsonResult GetPartyTypeJSON()
+        {
+            return Json(Bindpartytype());
+        }
+        public IActionResult AddCity(string id)
+        {
+            PartyMaster ca = new PartyMaster();
+            // ca.Brlst = BindBranch();
+
+            return View(ca);
+        }
+        public JsonResult SaveCity(string category)
+        {
+            string Strout = PartyMasterService.CityCRUD(category);
+            var result = new { msg = Strout };
+            return Json(result);
+        }
+        public JsonResult GetCityJSON()
+        {
+            return Json(BindCity());
+        }
+        public IActionResult AddPartyGroup(string id)
+        {
+            PartyMaster ca = new PartyMaster();
+            // ca.Brlst = BindBranch();
+
+            return View(ca);
+        }
+        public JsonResult SavePartyGroup(string category)
+        {
+            string Strout = PartyMasterService.PartyGroup(category);
+            var result = new { msg = Strout };
+            return Json(result);
+        }
+        public JsonResult GetPartyGroupJSON()
+        {
+            return Json(BindPartyGroup());
+        }
     }
  }
 

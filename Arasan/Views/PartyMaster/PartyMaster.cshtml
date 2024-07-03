@@ -73,10 +73,11 @@
                                  <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Party Type<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-7">
                                                                                                     @Html.DropDownListFor(C => C.Type, Model.typelst," -- Please Select -- ", new { @id = "Type", @Class = "form-control _select", @TabIndex = 18})<br />
 
                                     </div>
+                                                                                        <div class="col-sm-1"><a href="@Url.Action("AddPartyType", "PartyMaster")"  class='fancybox' data-fancybox-type='iframe'><img src='../Images/plus.png' alt='Add' /></a></div>
 
                                  </div>
                                 </div>
@@ -102,7 +103,7 @@
 
                                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Party Name<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.PartyName, new { @id = "PartyName", @class = "form-control", @TabIndex = 2,autocomplete="off"}) <br />
+                                                        @Html.TextBoxFor(C => C.PartyName, new { @id = "PartyName", @class = "form-control", @TabIndex = 2,autocomplete="off"})  
                                     </div>
 
                                 </div>
@@ -113,7 +114,7 @@
                                                     <div class="form-group">
                                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Account Name<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
-                                                            @Html.DropDownListFor(C => C.Ledger, Model.Ledgerlst," -- Please Select -- ", new { @id = "ddlLedger", @Class = "form-control _select", @TabIndex = 3 })<br />
+                                                            @Html.DropDownListFor(C => C.Ledger, Model.Ledgerlst," -- Please Select -- ", new { @id = "ddlLedger", @Class = "form-control _select", @TabIndex = 3 }) 
                                                         </div>
 
                                                     </div>
@@ -139,10 +140,12 @@
                                   <div class="form-group">
 
                                          <label for="inputName3" class="col-sm-4 control-label">Party Group<label class="mandatory">*</label></label>
-                                    <div class="col-sm-8">
-                                          @Html.TextBoxFor(C => C.PartyGroup, new { @id = "PartyGroup", @class = "form-control", autocomplete="off", @TabIndex = 5})<br />
-                                          @Html.HiddenFor(C => C.ID)
+                                    <div class="col-sm-7">
+                                                          @Html.DropDownListFor(C => C.PartyGroup, Model.grouplist," -- Please Select -- ", new { @id = "PartyGroup", @Class = "form-control _select", @TabIndex = 6})<br />
+
+                                           @Html.HiddenFor(C => C.ID)
                                     </div>
+                                                    <div class="col-sm-1"><a href="@Url.Action("AddPartyGroup", "PartyMaster")"  class='fancybox' data-fancybox-type='iframe'><img src='../Images/plus.png' alt='Add' /></a></div>
 
                                   </div>
                                 </div>
@@ -154,7 +157,7 @@
                                     <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">GST Number<label class="Mandatory"></label></label>
+                                  <br />  <label for="inputName3" class="col-sm-4 control-label">GST Number<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                          @Html.TextBoxFor(C => C.GST, new { @id = "GST", @class = "form-control",@maxlength="15", @TabIndex = 17})<br />
                                     </div>
@@ -164,7 +167,7 @@
                               <div class="col-md-6">
                                 <div class="form-group">
 
-                                                    <label for="inputName3" class="col-sm-4 control-label">Join Date<label class="mandatory">*</label></label>
+                                              <br />      <label for="inputName3" class="col-sm-4 control-label">Join Date<label class="mandatory">*</label></label>
                                     
                                          <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                                         @Html.TextBoxFor(C => C.JoinDate, new { @id = "JoinDate", @class = "form-control", @TabIndex = 11,@size="30",@readonly=true })
@@ -393,6 +396,7 @@
                                                         @Html.DropDownListFor(C => C.Country, Model.Countrylst," -- Please Select -- ", new { @id = "ddlCountry", @Class = "form-control _select", @TabIndex = 1,style = "width: 260px;" ,@onchange="changeCode(this.value)"})<br />
 
                                                     </div>
+ 
                                                 </div>
                                             </div>
                                                       
@@ -428,9 +432,10 @@
                                 <div class="form-group">
 
                                                    <br />  <label for="inputName3" class="col-sm-4 control-label">City<label class="mandatory">*</label></label>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-7">
                                                         @Html.DropDownListFor(C => C.City, Model.Citylst," -- Please Select -- ", new { @id = "ddlCity", @Class = "form-control _select", @TabIndex = 1,style = "width: 260px;"})<br />
                                     </div>
+                                                                                                                            <div class="col-sm-1"><a href="@Url.Action("AddCity", "PartyMaster")"  class='fancybox' data-fancybox-type='iframe'><img src='../Images/plus.png' alt='Add' /></a></div>
 
                                 </div>
                              </div>
@@ -1183,8 +1188,51 @@
 </script>
 
 <script>
-   
-   
+    function Addpartytype(category) {
+  $.ajax({
+            url: "GetPartyTypeJSON",
+            type: "post",
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#Type", response);
+                $(Type).select2().val(category).trigger("change");
+              //  document.getElementById("Type").value =category;
+            },
+            error: function () {
+                alert("Please Select Party Type");
+            }
+        });
+    }
+      function AddCity(category) {
+  $.ajax({
+            url: "GetCityJSON",
+            type: "post",
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#ddlCity", response);
+                $(ddlCity).select2().val(category).trigger("change");
+              //  document.getElementById("ddlCity").value =category;
+            },
+            error: function () {
+                alert("Please Select City");
+            }
+        });
+    }
+    function AddPartyGroup(category) {
+  $.ajax({
+            url: "GetPartyGroupJSON",
+            type: "post",
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#PartyGroup", response);
+                $(PartyGroup).select2().val(category).trigger("change");
+              //  document.getElementById("ddlCity").value =category;
+            },
+            error: function () {
+                alert("Please Select Party Group");
+            }
+        });
+    }
     $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -1382,3 +1430,28 @@
         });
      }
 </script>
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false
+        });
+        fancybox123 = $.fancybox;
+    });
+
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
+    </script>

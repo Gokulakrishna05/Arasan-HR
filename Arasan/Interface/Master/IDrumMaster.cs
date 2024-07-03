@@ -14,8 +14,12 @@ namespace Arasan.Interface
         DataTable GetDrumType();
         DataTable GetDrumMaster(string id);
 
+
+        string CategoryCRUD(string id);
+      
         string StatusChange(string tag, string id);
         string RemoveChange(string tag, string id);
+
 
 
     }

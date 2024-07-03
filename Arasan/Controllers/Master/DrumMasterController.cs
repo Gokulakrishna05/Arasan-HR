@@ -35,10 +35,22 @@ namespace Arasan.Controllers
             DM.Categorylst = BindCategory();
             DM.Locationlst = BindLocation();
             DM.DrumTypelst = BindDrumType();
-
+            List<drumloc> TData = new List<drumloc>();
+            drumloc tda = new drumloc();
             //for edit & delete
-            if (id != null)
+            if (id == null)
             {
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new drumloc();
+                    tda.locationlst = BindLocation();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+            else
+            {
+
                 DataTable dt = new DataTable();
                 double total = 0;
                 dt = DrumMasterService.GetDrumMaster(id);
@@ -52,7 +64,24 @@ namespace Arasan.Controllers
                     DM.DrumType = dt.Rows[0]["DRUMTYPE"].ToString();
                     DM.TargetWeight = dt.Rows[0]["TAREWT"].ToString();
                 }
+                DataTable dt2 = new DataTable();
+                dt2 = datatrans.GetData("SELECT USEDLOCATION FROM DRUMDET WHERE DRUMMASTID='" + id + "'");
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new drumloc();
+                        tda.locationlst = BindLocation();
+                        tda.location = dt2.Rows[i]["USEDLOCATION"].ToString();
+
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+
+
+                    }
+                }
             }
+            DM.Loclst = TData;
             return View(DM);
         }
 
@@ -60,11 +89,11 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = DrumMasterService.GetCategory();
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='DRUMCATEGORY'");
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COLUMN1"].ToString(), Value = dtDesg.Rows[i]["COLUMN1"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
                 }
                 return lstdesg;
             }
@@ -98,11 +127,11 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = DrumMasterService.GetDrumType();
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='DRUMTYPE'");
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COLUMN1"].ToString(), Value = dtDesg.Rows[i]["COLUMN1"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
                 }
                 return lstdesg;
             }
@@ -232,6 +261,30 @@ namespace Arasan.Controllers
                 Reg
             });
 
+        }
+        public IActionResult AddCategory(string id)
+        {
+            DrumMaster ca = new DrumMaster();
+            // ca.Brlst = BindBranch();
+
+            return View(ca);
+        }
+
+        public JsonResult GetCategoryJSON()
+        {
+            return Json(BindCategory());
+        }
+        public JsonResult SaveAddCategory(string category)
+        {
+            string Strout = DrumMasterService.CategoryCRUD(category);
+            var result = new { msg = Strout };
+            return Json(result);
+        }
+        public JsonResult GetLocJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindLocation());
         }
     }
 }

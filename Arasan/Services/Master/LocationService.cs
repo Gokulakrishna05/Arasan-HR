@@ -28,6 +28,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetState()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select STATE,STATEMASTID from STATEMAST";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetSupplier()
         {
             string SvSql = string.Empty;
@@ -165,8 +175,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.City;
                     objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = cy.State;
                     objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = cy.PinCode;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
-
+ 
                     if (cy.ID == null)
                     {
                         objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
@@ -346,7 +355,7 @@ namespace Arasan.Services
             return msg;
         }
 
-        public string StatusChange(string tag, int id)
+        public string StatusChange(string tag, string id)
         {
 
             try
@@ -369,7 +378,7 @@ namespace Arasan.Services
             return "";
 
         }
-        public string RemoveChange(string tag, int id)
+        public string RemoveChange(string tag, string id)
         {
 
             try
@@ -461,6 +470,42 @@ namespace Arasan.Services
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+        public string CityCRUD(string category)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                svSQL = " SELECT Count(COMMON_VALUE) as cnt FROM COMMONMASTER WHERE COMMON_VALUE =LTRIM(RTRIM('" + category + "')) AND COMMON_TEXT='CITY'";
+                if (datatrans.GetDataId(svSQL) > 0)
+                {
+                    msg = "SUB CITY Already Existed";
+                    return msg;
+                }
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    svSQL = "Insert into COMMONMASTER (COMMON_TEXT,COMMON_VALUE) VALUES ('CITY','" + category + "')";
+
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                    objConn.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConn.Close();
+                }
+
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
         }
     }
 
