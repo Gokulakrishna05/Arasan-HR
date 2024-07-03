@@ -41,7 +41,7 @@ namespace Arasan.Services
         //                    Type = rdr["CUSTOMER_TYPE"].ToString(),
         //                    Des = rdr["DESCRIPTION"].ToString(),
         //                    status = rdr["STATUS"].ToString()
-                           
+
         //                };
         //                staList.Add(sta);
         //            }
@@ -54,21 +54,21 @@ namespace Arasan.Services
             string msg = "";
             try
             {
-                string StatementType = string.Empty;string svSQL = "";
+                string StatementType = string.Empty; string svSQL = "";
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(CUSTOMER_TYPE) as cnt FROM CUSTOMERTYPE WHERE CUSTOMER_TYPE =LTRIM(RTRIM('" + cy.Type + "'))";
+                    svSQL = " SELECT Count(CUSTOMER_GROUP) as cnt FROM CUSTOMERGROUP WHERE CUSTOMER_GROUP =LTRIM(RTRIM('" + cy.Type + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "CustomerType Already Existed";
+                        msg = "CustomerGroup Already Existed";
                         return msg;
                     }
                 }
-               
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("CUSTOMERTYPEPROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("CUSTOMERGROUPPROC", objConn);
                     /*objCmd.Connection = objConn;
                     objCmd.CommandText = "COMPANYPROC";*/
 
@@ -84,7 +84,7 @@ namespace Arasan.Services
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
 
-                    objCmd.Parameters.Add("CUSTOMER_TYPE", OracleDbType.NVarchar2).Value = cy.Type;
+                    objCmd.Parameters.Add("CUSTOMER_GROUP", OracleDbType.NVarchar2).Value = cy.Type;
                     objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = cy.Des;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     if (cy.ID == null)
@@ -122,7 +122,7 @@ namespace Arasan.Services
         public DataTable GetCustomerType(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPE.CUSTOMERTYPEID  from CUSTOMERTYPE where CUSTOMERTYPE.CUSTOMERTYPEID= '" + id + "' ";
+            SvSql = "Select CUSTOMER_GROUP,DESCRIPTION,CUSTOMERGROUP.CUSTOMERGROUPID  from CUSTOMERGROUP where CUSTOMERGROUP.CUSTOMERGROUPID= '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -138,7 +138,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CUSTOMERTYPE SET IS_ACTIVE ='N' WHERE CUSTOMERTYPEID='" + id + "'";
+                    svSQL = "UPDATE CUSTOMERGROUP SET IS_ACTIVE ='N' WHERE CUSTOMERGROUPID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -152,7 +152,8 @@ namespace Arasan.Services
             }
             return "";
 
-        }public string RemoveChange(string tag, int id)
+        }
+        public string RemoveChange(string tag, int id)
         {
 
             try
@@ -160,7 +161,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CUSTOMERTYPE SET IS_ACTIVE ='Y' WHERE CUSTOMERTYPEID='" + id + "'";
+                    svSQL = "UPDATE CUSTOMERGROUP SET IS_ACTIVE ='Y' WHERE CUSTOMERGROUPID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -181,11 +182,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select CUSTOMERTYPE.IS_ACTIVE,CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPEID  from CUSTOMERTYPE  WHERE CUSTOMERTYPE.IS_ACTIVE = 'Y' ORDER BY CUSTOMERTYPEID DESC";
+                SvSql = "Select CUSTOMERGROUP.IS_ACTIVE,CUSTOMER_GROUP,DESCRIPTION,CUSTOMERGROUPID  from CUSTOMERGROUP  WHERE CUSTOMERGROUP.IS_ACTIVE = 'Y' ORDER BY CUSTOMERGROUPID DESC";
             }
             else
             {
-                SvSql = "Select CUSTOMERTYPE.IS_ACTIVE,CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPEID  from CUSTOMERTYPE  WHERE CUSTOMERTYPE.IS_ACTIVE = 'N' ORDER BY CUSTOMERTYPEID DESC";
+                SvSql = "Select CUSTOMERGROUP.IS_ACTIVE,CUSTOMER_GROUP,DESCRIPTION,CUSTOMERGROUPID  from CUSTOMERGROUP  WHERE CUSTOMERGROUP.IS_ACTIVE = 'N' ORDER BY CUSTOMERGROUPID DESC";
 
             }
             DataTable dtt = new DataTable();

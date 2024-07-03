@@ -409,14 +409,12 @@ namespace Arasan.Controllers.Master
                     ProdCapday = "<a href=ProdCapPerDay?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     ApSive = "<a href=ApSive?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     paste = "<a href=PasteRun?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "";
                 }
                 else
                 {
-
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
-
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "";
                 }
 
                 

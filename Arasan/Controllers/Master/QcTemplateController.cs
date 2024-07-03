@@ -133,8 +133,7 @@ namespace Arasan.Controllers.Master
         }
         public IActionResult ListQcTemplate()
         {
-            IEnumerable<QcTemplate> br = QcTemplateService.GetAllQcTemplate();
-            return View(br);
+             return View();
         }
         public IActionResult ViewQcTemplate(string id)
         {
@@ -242,6 +241,81 @@ namespace Arasan.Controllers.Master
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<QcTemplateItemGrid> Reg = new List<QcTemplateItemGrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = QcTemplateService.GetAllQCTemp(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+                string View = string.Empty;
+
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
+                    View = "<a href=ViewQcTemplate?id=" + dtUsers.Rows[i]["TESTTBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='Edit' /></a>";
+                    EditRow = "<a href=QcTemplate?id=" + dtUsers.Rows[i]["TESTTBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["TESTTBASICID"].ToString() + "";
+                }
+
+                else
+                {
+
+                    EditRow = "";
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["TESTTBASICID"].ToString() + "";
+                }
+                Reg.Add(new QcTemplateItemGrid
+                {
+                    id = dtUsers.Rows[i]["TESTTBASICID"].ToString(),
+                    qc = dtUsers.Rows[i]["TEMPLATEID"].ToString(),
+                    test = dtUsers.Rows[i]["TESTTYPE"].ToString(),
+                    description = dtUsers.Rows[i]["TEMPLATEDESC"].ToString(),
+                    view = View,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public ActionResult DeleteMR(string tag, string id)
+        {
+
+            string flag = QcTemplateService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListQcTemplate");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListQcTemplate");
+            }
+        }
+        public ActionResult Remove(string tag, string id)
+        {
+
+            string flag = QcTemplateService.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListQcTemplate");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListQcTemplate");
             }
         }
     }

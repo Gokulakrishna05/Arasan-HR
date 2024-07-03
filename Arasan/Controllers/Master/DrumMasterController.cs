@@ -155,7 +155,7 @@ namespace Arasan.Controllers
             return View();
         }
 
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteMR(string tag, string id)
         {
 
             string flag = DrumMasterService.StatusChange(tag, id);
@@ -170,7 +170,7 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListDrumMaster");
             }
         } 
-        public ActionResult Remove(string tag, int id)
+        public ActionResult Remove(string tag, string id)
         {
 
             string flag = DrumMasterService.RemoveChange(tag, id);
@@ -202,14 +202,13 @@ namespace Arasan.Controllers
                 {
 
                     EditRow = "<a href=DrumMaster?id=" + dtUsers.Rows[i]["DRUMMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["DRUMMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["DRUMMASTID"].ToString() + "";
                 }
                 else
                 {
 
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["DRUMMASTID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
-
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["DRUMMASTID"].ToString() + "";
                 }
 
                

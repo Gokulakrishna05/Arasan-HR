@@ -10,8 +10,8 @@ namespace Arasan.Interface.Master
         string CategoryCRUD(ItemCategory iy);
         //IEnumerable<ItemCategory> GetAllItemCategory(string status);
         ItemCategory GetCategoryById(string id);
-        string StatusChange(string tag, int id);
-        string RemoveChange(string tag, int id);
+        string StatusChange(string tag, string id);
+        string RemoveChange(string tag, string id);
 
         DataTable GetAllItemCategory(string strStatus);
     }

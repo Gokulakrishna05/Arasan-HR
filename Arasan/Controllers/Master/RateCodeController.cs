@@ -124,10 +124,17 @@ namespace Arasan.Controllers.Master
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
 
-                //View = "<a href=ViewSalesTarget?id=" + dtUsers.Rows[i]["SALFCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                EditRow = "<a href=RateCode?id=" + dtUsers.Rows[i]["RATECODEMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["RATECODEMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
+                    //View = "<a href=ViewSalesTarget?id=" + dtUsers.Rows[i]["SALFCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                    EditRow = "<a href=RateCode?id=" + dtUsers.Rows[i]["RATECODEMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["RATECODEMASTID"].ToString() + "";
+                }
+                else
+                {
+                    EditRow = "";
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["RATECODEMASTID"].ToString() + "";
+                }
                 Reg.Add(new ListRateCodeItem
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["RATECODEMASTID"].ToString()),
@@ -151,6 +158,21 @@ namespace Arasan.Controllers.Master
         {
 
             string flag = RateCodeService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListRateCode");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListRateCode");
+            }
+        }
+        public ActionResult Remove(string tag, string id)
+        {
+
+            string flag = RateCodeService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

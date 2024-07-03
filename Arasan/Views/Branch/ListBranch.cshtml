@@ -58,6 +58,9 @@
                 }
             }
             );
+            var linkrenderer1 = function (row, column, value) {
+                    return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+            }
 
             $("#grid").jqxGrid(
                 {
@@ -86,7 +89,7 @@
                         { text: 'Branch', filtertype: 'input', datafield: 'branchname', width: 200 },
                         { text: 'State', filtertype: 'input', datafield: 'statename', width: 200 },
                         { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, cellsrenderer: linkrenderer1, formatter: returnMyLink, edittype: 'select' },
                     ]
                 });
             $("#ddlStatus").change(function () {
@@ -151,6 +154,9 @@
 
 
 <script>
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
     function changeStatus(status) {
         var url = "/Branch/ListBranch?status=" + status;
         window.location.href = url;

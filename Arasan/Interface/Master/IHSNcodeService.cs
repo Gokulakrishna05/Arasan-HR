@@ -21,8 +21,8 @@ namespace Arasan.Interface.Master
         DataTable GettariffItem(string id);
 
         DataTable GetHSNcode(string id);
-        string StatusChange(string tag, int id);
-        string RemoveChange(string tag, int id);
+        string StatusChange(string tag, string id);
+        string RemoveChange(string tag, string id);
 
         DataTable GetAllhsncode(string strStatus);
         DataTable Gethsnitem(string PRID, string strStatus);

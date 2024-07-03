@@ -69,13 +69,13 @@ namespace Arasan.Controllers.Master
 
             return View(Ic);
         }
-      
+
         public IActionResult ListItemCategory()
         {
             return View();
         }
 
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteMR(string tag, string id)
         {
 
             string flag = ItemCategoryService.StatusChange(tag, id);
@@ -90,7 +90,7 @@ namespace Arasan.Controllers.Master
                 return RedirectToAction("ListItemCategory");
             }
         }
-        public ActionResult Remove(string tag, int id)
+        public ActionResult Remove(string tag, string id)
         {
 
             string flag = ItemCategoryService.RemoveChange(tag, id);
@@ -121,14 +121,13 @@ namespace Arasan.Controllers.Master
                 {
 
                     EditRow = "<a href=ItemCategory?id=" + dtUsers.Rows[i]["ITEMCATEGORYID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ITEMCATEGORYID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ITEMCATEGORYID"].ToString() + "";
                 }
                 else
                 {
 
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["ITEMCATEGORYID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
-
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["ITEMCATEGORYID"].ToString() + "";
                 }
                 
                 Reg.Add(new ItemCategoryGrid

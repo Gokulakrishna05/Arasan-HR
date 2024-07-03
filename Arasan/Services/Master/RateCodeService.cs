@@ -24,29 +24,7 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public string StatusChange(string tag, string id)
-        {
-
-            try
-            {
-                string svSQL = string.Empty;
-                using (OracleConnection objConnT = new OracleConnection(_connectionString))
-                {
-                    svSQL = "UPDATE RATECODEMAST SET IS_ACTIVE ='N' WHERE RATECODEMASTID='" + id + "'";
-                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
-                    objConnT.Open();
-                    objCmds.ExecuteNonQuery();
-                    objConnT.Close();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return "";
-
-        }
+        
         public string RateCodeCRUD(RateCode cy)
         {
             string msg = "";
@@ -100,11 +78,11 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "SELECT RATECODEMASTID,RATECODE,RATEDESC FROM RATECODEMAST WHERE RATECODEMAST.IS_ACTIVE='Y' ORDER BY RATECODEMAST.RATECODEMASTID DESC";
+                SvSql = "SELECT RATECODEMASTID,RATECODE,RATEDESC,IS_ACTIVE FROM RATECODEMAST WHERE RATECODEMAST.IS_ACTIVE='Y' ORDER BY RATECODEMAST.RATECODEMASTID DESC";
             }
             else
             {
-                SvSql = "SELECT RATECODEMASTID,RATECODE,RATEDESC FROM RATECODEMAST WHERE RATECODEMAST.IS_ACTIVE='N' ORDER BY RATECODEMAST.RATECODEMASTID DESC";
+                SvSql = "SELECT RATECODEMASTID,RATECODE,RATEDESC,IS_ACTIVE FROM RATECODEMAST WHERE RATECODEMAST.IS_ACTIVE='N' ORDER BY RATECODEMAST.RATECODEMASTID DESC";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -122,6 +100,52 @@ namespace Arasan.Services.Master
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+        public string StatusChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE RATECODEMAST SET IS_ACTIVE ='N' WHERE RATECODEMASTID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+        public string RemoveChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE RATECODEMAST SET IS_ACTIVE = 'Y' WHERE RATECODEMASTID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
         }
     }
 }
