@@ -94,6 +94,29 @@ namespace Arasan.Services.Master
             return "";
 
         }
+        public string RemoveChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE WCSPRODDETAIL SET IS_ACTIVE = 'Y' WHERE WCSPRODDETAILID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
         public DataTable GetAllWCSieve(string strStatus)
         {
             string SvSql = string.Empty;

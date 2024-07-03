@@ -17,6 +17,10 @@ namespace Arasan.Interface.Master
         DataTable GetEmpMultipleItem(string PRID, string strStatus);
         DataTable GetMlocation();
         long GetMregion(string? v, string id);
+        string StatusChange(string tag, int id);
+
+        string RemoveChange(string tag, int id);
+
         string ReassignEmpMultipleAllocation(EmpReasign cy);
     }
 }

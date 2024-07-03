@@ -144,14 +144,13 @@ namespace Arasan.Controllers
                 {
 
                     EditRow = "<a href=EmailConfig?id=" + dtUsers.Rows[i]["EMAILCONFIG_ID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["EMAILCONFIG_ID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["EMAILCONFIG_ID"].ToString() + "";
                 }
 
                 else
                 {
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["EMAILCONFIG_ID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
-
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["EMAILCONFIG_ID"].ToString() + "";
                 }
                 Reg.Add(new EmailConfigGrid
                 {

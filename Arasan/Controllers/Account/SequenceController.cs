@@ -123,12 +123,12 @@ namespace Arasan.Controllers
             if (string.IsNullOrEmpty(flag))
             {
 
-                return RedirectToAction("ListItemGroup");
+                return RedirectToAction("ListSequence");
             }
             else
             {
                 TempData["notice"] = flag;
-                return RedirectToAction("ListItemGroup");
+                return RedirectToAction("ListSequence");
             }
         }
 
@@ -148,14 +148,13 @@ namespace Arasan.Controllers
                 {
 
                     EditRow = "<a href=Sequence?id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteSeq?tag=Del&id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "DeleteSeq?tag=Del&id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "";
                 }
                 else
                 {
 
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
-
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "";
                 }
 
                

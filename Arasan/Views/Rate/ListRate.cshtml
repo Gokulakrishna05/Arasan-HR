@@ -86,7 +86,7 @@
                     { text: 'Rate Name', filtertype: 'checkedlist', datafield: 'ratename', width: 250 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Edit', datafield: 'edit', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, cellsrenderer: linkrenderer1, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                 ]
             });
         $("#ddlStatus").change(function () {
@@ -100,6 +100,9 @@
             $("#grid").jqxGrid({ source: source });
         });
     });
+    var linkrenderer1 = function (row, column, value) {
+        return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+    }
 </script>
 <div class="wrapper-content ">
     <div class="row">

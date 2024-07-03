@@ -12,5 +12,6 @@ namespace Arasan.Interface.Master
         DataTable GetEditNatofwork(string id);
         string NatofworkCRUD(Natofwork cy);
         string StatusChange(string tag, int id);
+        string RemoveChange(string tag, int id);
     }
 }

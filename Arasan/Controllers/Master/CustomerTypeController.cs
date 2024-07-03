@@ -34,7 +34,7 @@ namespace Arasan.Controllers
                 dt = Customer.GetCustomerType(id);
                 if (dt.Rows.Count > 0)
                 {
-                    cu.Type = dt.Rows[0]["CUSTOMER_TYPE"].ToString();
+                    cu.Type = dt.Rows[0]["CUSTOMER_GROUP"].ToString();
                     cu.Des = dt.Rows[0]["DESCRIPTION"].ToString();
                     cu.ID = id;
                 }
@@ -53,18 +53,18 @@ namespace Arasan.Controllers
                 {
                     if (Cy.ID == null)
                     {
-                        TempData["notice"] = "CustomerType Inserted Successfully...!";
+                        TempData["notice"] = "CustomerGroup Inserted Successfully...!";
                     }
                     else
                     {
-                        TempData["notice"] = "CustomerType Updated Successfully...!";
+                        TempData["notice"] = "CustomerGroup Updated Successfully...!";
                     }
                     return RedirectToAction("ListCustomerType");
                 }
 
                 else
                 {
-                    ViewBag.PageTitle = "Edit CustomerType";
+                    ViewBag.PageTitle = "Edit CustomerGroup";
                     TempData["notice"] = Strout;
                     //return View();
                 }
@@ -97,7 +97,8 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListCustomerType");
             }
-        } public ActionResult Remove(string tag, int id)
+        }
+        public ActionResult Remove(string tag, int id)
         {
 
             string flag = Customer.RemoveChange(tag, id);
@@ -128,20 +129,19 @@ namespace Arasan.Controllers
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
 
-                    EditRow = "<a href=CustomerType?id=" + dtUsers.Rows[i]["CUSTOMERTYPEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CUSTOMERTYPEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    EditRow = "<a href=CustomerType?id=" + dtUsers.Rows[i]["CUSTOMERGROUPID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CUSTOMERGROUPID"].ToString() + "";
                 }
                 else
                 {
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["CUSTOMERTYPEID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
-
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["CUSTOMERGROUPID"].ToString() + "";
                 }
-               
+
                 Reg.Add(new CustomerGrid
                 {
-                    id = dtUsers.Rows[i]["CUSTOMERTYPEID"].ToString(),
-                    type = dtUsers.Rows[i]["CUSTOMER_TYPE"].ToString(),
+                    id = dtUsers.Rows[i]["CUSTOMERGROUPID"].ToString(),
+                    type = dtUsers.Rows[i]["CUSTOMER_GROUP"].ToString(),
                     des = dtUsers.Rows[i]["DESCRIPTION"].ToString(),
                     editrow = EditRow,
                     delrow = DeleteRow,

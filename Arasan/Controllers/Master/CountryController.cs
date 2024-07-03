@@ -77,7 +77,7 @@ namespace Arasan.Controllers
             return View();
         }
 
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteMR(string tag, string id)
         {
 
             string flag = CountryService.StatusChange(tag, id);
@@ -92,7 +92,7 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListCountry");
             }
         }
-        public ActionResult Remove(string tag, int id)
+        public ActionResult Remove(string tag, string id)
         {
 
             string flag = CountryService.RemoveChange(tag, id);
@@ -123,14 +123,12 @@ namespace Arasan.Controllers
                 {
 
                     EditRow = "<a href=Country?id=" + dtUsers.Rows[i]["COUNTRYMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["COUNTRYMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["COUNTRYMASTID"].ToString() + "";
                 }
                 else
                 {
-
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["COUNTRYMASTID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
-
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["COUNTRYMASTID"].ToString() + "";
                 }
 
                

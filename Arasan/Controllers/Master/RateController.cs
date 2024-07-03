@@ -165,10 +165,17 @@ namespace Arasan.Controllers.Master
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
 
-                View = "<a href=ViewRate?id=" + dtUsers.Rows[i]["RATEBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
-                EditRow = "<a href=Rate?id=" + dtUsers.Rows[i]["RATEBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["RATEBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
+                    View = "<a href=ViewRate?id=" + dtUsers.Rows[i]["RATEBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                    EditRow = "<a href=Rate?id=" + dtUsers.Rows[i]["RATEBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["RATEBASICID"].ToString() + "";
+                }
+                else
+                {
+                    EditRow = "";
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["RATEBASICID"].ToString() + "";
+                }
                 Reg.Add(new ListRateItem
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["RATEBASICID"].ToString()),
@@ -241,6 +248,21 @@ namespace Arasan.Controllers.Master
         {
 
             string flag = RateService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListRate");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListRate");
+            }
+        }
+        public ActionResult Remove(string tag, string id)
+        {
+
+            string flag = RateService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 
