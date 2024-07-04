@@ -141,13 +141,13 @@ namespace Arasan.Controllers
                 {
 
                     EditRow = "<a href=ETariff?id=" + dtUsers.Rows[i]["TARIFFMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["TARIFFMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["TARIFFMASTERID"].ToString() + "";
                 }
                 else
                 {
 
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["TARIFFMASTERID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["TARIFFMASTERID"].ToString() + "";
 
                 }
 

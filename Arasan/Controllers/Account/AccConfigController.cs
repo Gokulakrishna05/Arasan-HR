@@ -226,7 +226,7 @@ namespace Arasan.Controllers
             }
         }
 
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteMR(string tag, string id)
         {
 
             string flag = AccConfigService.StatusChange(tag, id);
@@ -242,7 +242,7 @@ namespace Arasan.Controllers
             }
         }
 
-        public ActionResult Remove(string tag, int id)
+        public ActionResult Remove(string tag, string id)
         {
 
             string flag = AccConfigService.RemoveChange(tag, id);
@@ -315,18 +315,19 @@ namespace Arasan.Controllers
                 
 
 
-                if (dtUsers.Rows[i]["ACTIVE"].ToString() == "Yes")
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
 
                     ViewRow = "<a href=ViewAccConfig?id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View' /></a>";
                     EditRow = "<a href=AccConfig?id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "";
                 }
                 else
                 {
                     ViewRow = "";
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "";
+
 
                 }
                

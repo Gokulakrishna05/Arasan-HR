@@ -22,8 +22,8 @@ namespace Arasan.Interface.Master
         DataTable GetCurrentUser(string id);
         string GetMultipleLocation(MultipleLocation mp);
         long GetMregion(string regionid, string id);
-        string StatusChange(string tag, int id);
-        string RemoveChange(string tag, int id);
+        string StatusChange(string tag, string id);
+        string RemoveChange(string tag, string id);
 
         DataTable GetAllEmployee(string strStatus);
     }

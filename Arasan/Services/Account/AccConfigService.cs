@@ -97,7 +97,6 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("CURRENT_DATE", OracleDbType.Date).Value = DateTime.Now;
 
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 
@@ -196,7 +195,7 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public string StatusChange(string tag, int id)
+        public string StatusChange(string tag, string id)
         {
             try
             {
@@ -219,7 +218,7 @@ namespace Arasan.Services
 
         }
 
-        public string RemoveChange(string tag, int id)
+        public string RemoveChange(string tag, string id)
         {
 
             try
@@ -270,12 +269,12 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select ACTIVE,ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID FROM ADCOMPH WHERE ACTIVE = 'Yes' ORDER BY ADCOMPHID ASC";
+                SvSql = "Select ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID,IS_ACTIVE FROM ADCOMPH WHERE IS_ACTIVE = 'Y' ORDER BY ADCOMPHID ASC";
 
             }
             else
             {
-                SvSql = "Select ACTIVE,ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID FROM ADCOMPH WHERE ACTIVE = 'No' ORDER BY ADCOMPHID ASC";
+                SvSql = "Select ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID,IS_ACTIVE FROM ADCOMPH WHERE IS_ACTIVE = 'N' ORDER BY ADCOMPHID ASC";
 
             }
             DataTable dtt = new DataTable();

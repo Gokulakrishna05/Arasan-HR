@@ -214,11 +214,11 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "SELECT TESTTBASICID,TEMPLATEID,TESTTYPE,TEMPLATEDESC,IS_ACTIVE FROM TESTTBASIC  order by TESTTBASIC.TESTTBASICID DESC ";
+                SvSql = "SELECT TESTTBASICID,TEMPLATEID,TESTTYPE,TEMPLATEDESC,IS_ACTIVE FROM TESTTBASIC  WHERE IS_ACTIVE='Y' order by TESTTBASIC.TESTTBASICID DESC ";
             }
             else
             {
-                SvSql = "SELECT TESTTBASICID, TEMPLATEID, TESTTYPE, TEMPLATEDESC,IS_ACTIVE FROM TESTTBASIC  order by TESTTBASIC.TESTTBASICID DESC ";
+                SvSql = "SELECT TESTTBASICID, TEMPLATEID, TESTTYPE, TEMPLATEDESC,IS_ACTIVE FROM TESTTBASIC WHERE IS_ACTIVE='N' order by TESTTBASIC.TESTTBASICID DESC ";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);

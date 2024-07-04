@@ -398,7 +398,7 @@ namespace Arasan.Controllers.Master
             return View();
         }
 
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteMR(string tag, string id)
         {
 
             string flag = EmployeeService.StatusChange(tag, id);
@@ -412,7 +412,7 @@ namespace Arasan.Controllers.Master
                 TempData["notice"] = flag;
                 return RedirectToAction("ListEmployee");
             }
-        } public ActionResult Remove(string tag, int id)
+        } public ActionResult Remove(string tag, string id)
         {
 
             string flag = EmployeeService.RemoveChange(tag, id);
@@ -446,13 +446,15 @@ namespace Arasan.Controllers.Master
 
                     Multi = "<a href=MultipleLocationSelect?id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/plus.png' alt='Edit' /></a>";
                     EditRow = "<a href=Employee?id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "";
+
                 }
                 else
                 {
                     Multi = "";
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "";
+
 
                 }
                
