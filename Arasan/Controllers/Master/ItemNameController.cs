@@ -43,6 +43,8 @@ namespace Arasan.Controllers.Master
             ca.costlst = Bindcostcate();
             ca.classlst = Bindclasscode();
             ca.valuelst = Bindvalue();
+            ca.subcategorylst = BindSubCategory();
+            ca.RawMateriallst = BindRawCategory();
             ca.createdby = Request.Cookies["UserId"];
             ca.Selling = "0";
             ca.runhrs = "0";
@@ -58,6 +60,7 @@ namespace Arasan.Controllers.Master
             ca.Drumyn = "NO";
             ca.major = "N";
             ca.autocon = "No";
+            ca.imgpath = "";
             List<SupItem> TData = new List<SupItem>();
             SupItem tda = new SupItem();
 
@@ -116,7 +119,8 @@ namespace Arasan.Controllers.Master
                     ca.ItemG = dt.Rows[0]["ITEMGROUP"].ToString();
                     ca.Isglst = BindItemSubGroup(ca.ItemG);
                     ca.ItemSub = dt.Rows[0]["ISUBGROUP"].ToString();
-                    ca.SubCat = dt.Rows[0]["SUBCATEGORY"].ToString();
+                    ca.SubCat = dt.Rows[0]["SNCATEGORY"].ToString();
+                    ca.subcategory = dt.Rows[0]["SUBCATEGORY"].ToString();
                     
                     ca.Item = dt.Rows[0]["ITEMID"].ToString();
                     ca.ItemDes = dt.Rows[0]["ITEMDESC"].ToString();
@@ -266,219 +270,248 @@ namespace Arasan.Controllers.Master
         }
         public IActionResult ItemCreate(string id)
         {
-            ItemName ca = new ItemName();
-            ca.IgLst = BindItemGroup();
-            ca.IgLst = BindItemGroup();
-            ca.Iclst = BindItemCategory();
-            ca.Isglst = BindItemSubGroup("");
-            ca.Tarrifflst = BindTarrif();
-            ca.Hsn = BindHSNcode();
-            ca.Bin = BindBinID();
-            ca.qclst = BindQCTemp();
-            ca.fqclst = BindQCTemp();
-            ca.Ledgerlst = BindLedger();
-            ca.Itemlst = BindItem();
-            ca.unitlst = BindUnit();
-            ca.purlst = Bindpurchase();
-            ca.costlst = Bindcostcate();
-            ca.createdby = Request.Cookies["UserId"];
-            List<SupItem> TData = new List<SupItem>();
-            SupItem tda = new SupItem();
+            
+                ItemName ca = new ItemName();
+                ca.IgLst = BindItemGroup();
+                ca.Iclst = BindItemCategory();
+                ca.Isglst = BindItemSubGroup("");
+                ca.Tarrifflst = BindTarrif();
+                ca.Hsn = BindHSNcode();
+                ca.Bin = BindBinID();
+                ca.qclst = BindQCTemp();
+                ca.fqclst = BindQCTemp();
+                ca.Ledgerlst = BindLedger();
+                ca.Itemlst = BindItem();
+                ca.unitlst = BindUnit();
+                ca.purlst = Bindpurchase();
+                ca.costlst = Bindcostcate();
+                ca.classlst = Bindclasscode();
+                ca.valuelst = Bindvalue();
+                ca.subcategorylst = BindSubCategory();
+                ca.RawMateriallst = BindRawCategory();
+                ca.createdby = Request.Cookies["UserId"];
+                ca.Selling = "0";
+                ca.runhrs = "0";
+                ca.runhrsqty = "0";
+                ca.rundet = "NO";
+                ca.Auto = "N";
+                ca.Expiry = "NO";
+                ca.lot = "NO";
+                ca.Serial = "NO";
+                ca.QCRequired = "NO";
+                ca.Batch = "Y";
+                ca.qctest = "NO";
+                ca.Drumyn = "NO";
+                ca.major = "N";
+                ca.autocon = "No";
+                ca.imgpath = "";
+                List<SupItem> TData = new List<SupItem>();
+                SupItem tda = new SupItem();
 
-            List<BinItem> TDatab = new List<BinItem>();
-            BinItem tdaB = new BinItem();
+                List<BinItem> TDatab = new List<BinItem>();
+                BinItem tdaB = new BinItem();
+                List<UnitItem> TDatau = new List<UnitItem>();
+                UnitItem tdau = new UnitItem();
+                List<LocdetItem> TDatal = new List<LocdetItem>();
+                LocdetItem tdal = new LocdetItem();
 
-            List<UnitItem> TDatau = new List<UnitItem>();
-            UnitItem tdau = new UnitItem();
-            List<LocdetItem> TDatal = new List<LocdetItem>();
-            LocdetItem tdal = new LocdetItem();
+                List<uplodItem> TDataup = new List<uplodItem>();
+                uplodItem tdaup = new uplodItem();
 
-            List<uplodItem> TDataup = new List<uplodItem>();
-            uplodItem tdaup = new uplodItem();
+                if (id == null)
 
-            if (id == null)
-
-            {
-                for (int i = 0; i < 1; i++)
                 {
-                    tdau = new UnitItem();
-                    tdau.UnitLst = BindUnit();
-                    tdau.Isvalid = "Y";
-                    TDatau.Add(tdau);
-                }
-                for (int i = 0; i < 1; i++)
-                {
-                    tda = new SupItem();
-                    tda.Suplierlst = BindSupplier();
-                    tda.Isvalid = "Y";
-                    TData.Add(tda);
-                }
-                for (int i = 0; i < 1; i++)
-                {
-                    tdal = new LocdetItem();
-                    tdal.locLst = BindLoc();
-                    tdal.Isvalid = "Y";
-                    TDatal.Add(tdal);
-                }
-                for (int i = 0; i < 1; i++)
-                {
-                    tdaB = new BinItem();
-                    tdaB.Isvalid = "Y";
-                    TDatab.Add(tdaB);
-                }
-
-            }
-            else
-            {
-                // ca = ItemNameService.GetSupplierDetailById(id);
-
-                DataTable dt = new DataTable();
-                dt = ItemNameService.GetItemNameDetails(id);
-                if (dt.Rows.Count > 0)
-                {
-                    ca.ItemG = dt.Rows[0]["IGROUP"].ToString();
-                    ca.ItemSub = dt.Rows[0]["ISUBGROUP"].ToString();
-                    ca.SubCat = dt.Rows[0]["SUBCATEGORY"].ToString();
-
-                    ca.Item = dt.Rows[0]["ITEMID"].ToString();
-                    ca.ItemDes = dt.Rows[0]["ITEMDESC"].ToString();
-                    ca.Reorderqu = dt.Rows[0]["REORDERQTY"].ToString();
-                    ca.Reorderlvl = dt.Rows[0]["REORDERLVL"].ToString();
-                    ca.lot = dt.Rows[0]["LOTYN"].ToString();
-                    ca.qctest = dt.Rows[0]["QCT"].ToString();
-                    ca.Drumyn = dt.Rows[0]["DRUMYN"].ToString();
-
-                    ca.Minlvl = dt.Rows[0]["MINSTK"].ToString();
-
-                    ca.Unit = dt.Rows[0]["PRIUNIT"].ToString();
-                    ca.Hcode = dt.Rows[0]["HSN"].ToString();
-                    ca.Selling = dt.Rows[0]["SELLINGPRICE"].ToString();
-                    ca.itemfrom = dt.Rows[0]["ITEMFROM"].ToString();
-                    ca.Tarriff = dt.Rows[0]["TARIFFID"].ToString();
-                    ca.purchasecate = dt.Rows[0]["PURCAT"].ToString();
-                    ca.major = dt.Rows[0]["MAJORYN"].ToString();
-                    ca.lastdate = dt.Rows[0]["LATPURDT"].ToString();
-
-                    ca.Expiry = dt.Rows[0]["EXPYN"].ToString();
-                    ca.ValuationMethod = dt.Rows[0]["VALMETHOD"].ToString();
-                    ca.Serial = dt.Rows[0]["SERIALYN"].ToString();
-                    ca.Batch = dt.Rows[0]["BSTATEMENTYN"].ToString();
-                    ca.QCTemp = dt.Rows[0]["TEMPLATEID"].ToString();
-                    ca.QCRequired = dt.Rows[0]["QCCOMPFLAG"].ToString();
-                    ca.Latest = dt.Rows[0]["LATPURPRICE"].ToString();
-
-                    ca.Rejection = dt.Rows[0]["REJRAWMATPER"].ToString();
-                    ca.Percentage = dt.Rows[0]["RAWMATPER"].ToString();
-                    ca.PercentageAdd = dt.Rows[0]["ADD1PER"].ToString();
-                    ca.AddItem = dt.Rows[0]["ADD1"].ToString();
-                    ca.RawMaterial = dt.Rows[0]["RAWMATCAT"].ToString();
-                    ca.Ledger = dt.Rows[0]["ITEMACC"].ToString();
-
-
-                    ca.FQCTemp = dt.Rows[0]["PTEMPLATEID"].ToString();
-
-                    //ca.QCTemp = dt.Rows[0]["IQCTEMP"].ToString();
-                    //ca.FQCTemp = dt.Rows[0]["FGQCTEMP"].ToString();
-
-                    ca.BinId = dt.Rows[0]["BINNO"].ToString();
-                    ca.BinYN = dt.Rows[0]["BINYN"].ToString();
-                    ca.Curing = dt.Rows[0]["CURINGDAY"].ToString();
-                    ca.Auto = dt.Rows[0]["AUTOINDENT"].ToString();
-                    ca.rundet = dt.Rows[0]["RHYN"].ToString();
-                    ca.runhrs = dt.Rows[0]["RUNHRS"].ToString();
-                    ca.runhrsqty = dt.Rows[0]["RUNPERQTY"].ToString();
-                    ca.costcat = dt.Rows[0]["COSTCATEGORY"].ToString();
-                    ca.autocon = dt.Rows[0]["AUTOCONSYN"].ToString();
-                    ca.createdby = Request.Cookies["UserId"];
-                }
-                DataTable dt2 = new DataTable();
-                dt2 = ItemNameService.GetBinDeatils(id);
-                if (dt2.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dt2.Rows.Count; i++)
-                    {
-                        tdaB = new BinItem();
-                        tdaB.BinID = dt2.Rows[0]["BINID"].ToString();
-                        tdaB.BinYN = dt2.Rows[0]["BINYN"].ToString();
-                        tdaB.Isvalid = "Y";
-                        TDatab.Add(tdaB);
-                    }
-                }
-
-                DataTable dtt = new DataTable();
-                dtt = ItemNameService.GetAllSupplier(id);
-
-                if (dtt.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dtt.Rows.Count; i++)
-                    {
-                        tda = new SupItem();
-                        tda.Suplierlst = BindSupplier();
-                        tda.SupName = dtt.Rows[i]["SUPPLIERID"].ToString();
-                        tda.SupplierPart = dtt.Rows[i]["SUPPLIERPARTNO"].ToString();
-                        tda.PurchasePrice = dtt.Rows[i]["SPURPRICE"].ToString();
-                        tda.Delivery = dtt.Rows[i]["DELDAYS"].ToString();
-                        tda.Isvalid = "Y";
-                        TData.Add(tda);
-                    }
-                }
-                DataTable dtt1 = new DataTable();
-                dtt1 = ItemNameService.GetAllUnit(id);
-
-                if (dtt1.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dtt1.Rows.Count; i++)
+                    for (int i = 0; i < 1; i++)
                     {
                         tdau = new UnitItem();
                         tdau.UnitLst = BindUnit();
-                        tdau.Unit = dtt1.Rows[i]["UNIT"].ToString();
-                        tdau.cf = dtt1.Rows[i]["CF"].ToString();
-                        tdau.unittype = dtt1.Rows[i]["UNITTYPE"].ToString();
-                        tdau.uniqid = dtt1.Rows[i]["UNITUNIQUEID"].ToString();
+                        tdau.UnittypeLst = BindUnitType();
+                        tdau.cf = "1";
                         tdau.Isvalid = "Y";
                         TDatau.Add(tdau);
                     }
-                }
-                DataTable dtt2 = new DataTable();
-                dtt2 = datatrans.GetData("SELECT ITEMMASTERID,LOCID,REORDERLEVEL,MINQTYN,MAXQTYN,BSTMGROUP,LOCINVDETAILROW FROM LOCINVDETAIL WHERE ITEMMASTERID='" + id + "'");
-
-                if (dtt2.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dtt2.Rows.Count; i++)
+                    for (int i = 0; i < 1; i++)
+                    {
+                        tda = new SupItem();
+                        tda.Suplierlst = BindSupplier();
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
+                    for (int i = 0; i < 1; i++)
                     {
                         tdal = new LocdetItem();
                         tdal.locLst = BindLoc();
-                        tdal.loc = dtt2.Rows[i]["LOCID"].ToString();
-                        tdal.minlevel = dtt2.Rows[i]["MINQTYN"].ToString();
-                        tdal.maxlevel = dtt2.Rows[i]["MAXQTYN"].ToString();
-                        tdal.bank = dtt2.Rows[i]["BSTMGROUP"].ToString();
-                        tdal.reorder = dtt2.Rows[i]["REORDERLEVEL"].ToString();
                         tdal.Isvalid = "Y";
                         TDatal.Add(tdal);
                     }
-                }
-                DataTable dttu = new DataTable();
-                dttu = datatrans.GetData("SELECT ITEMMASTERID,DOCPATH FROM ITEMMASTERDOC WHERE ITEMMASTERID='" + id + "'");
-
-                if (dttu.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dttu.Rows.Count; i++)
+                    for (int i = 0; i < 1; i++)
                     {
-                        tdaup = new uplodItem();
-                        tdaup.docpath = dttu.Rows[i]["DOCPATH"].ToString();
+                        tdaB = new BinItem();
+                        tdaB.Isvalid = "Y";
+                        TDatab.Add(tdaB);
+                    }
 
-                        TDataup.Add(tdaup);
+                }
+                else
+                {
+                    // ca = ItemNameService.GetSupplierDetailById(id);
+
+                    DataTable dt = new DataTable();
+                    dt = ItemNameService.GetItemNameDetails(id);
+                    if (dt.Rows.Count > 0)
+                    {
+                        ca.ItemG = dt.Rows[0]["ITEMGROUP"].ToString();
+                        ca.Isglst = BindItemSubGroup(ca.ItemG);
+                        ca.ItemSub = dt.Rows[0]["ISUBGROUP"].ToString();
+                        ca.SubCat = dt.Rows[0]["SNCATEGORY"].ToString();
+                        ca.subcategory = dt.Rows[0]["SUBCATEGORY"].ToString();
+
+                        ca.Item = dt.Rows[0]["ITEMID"].ToString();
+                        ca.ItemDes = dt.Rows[0]["ITEMDESC"].ToString();
+                        ca.Reorderqu = dt.Rows[0]["REORDERQTY"].ToString();
+                        ca.Reorderlvl = dt.Rows[0]["REORDERLVL"].ToString();
+                        ca.lot = dt.Rows[0]["LOTYN"].ToString();
+                        ca.qctest = dt.Rows[0]["QCT"].ToString();
+                        ca.Drumyn = dt.Rows[0]["DRUMYN"].ToString();
+
+                        ca.Minlvl = dt.Rows[0]["MINSTK"].ToString();
+
+                        ca.Unit = dt.Rows[0]["PRIUNIT"].ToString();
+                        ca.Hcode = dt.Rows[0]["HSN"].ToString();
+                        ca.Selling = dt.Rows[0]["SELLINGPRICE"].ToString();
+                        ca.itemfrom = dt.Rows[0]["ITEMFROM"].ToString();
+                        ca.Tarriff = dt.Rows[0]["TARIFFID"].ToString();
+                        ca.purchasecate = dt.Rows[0]["PURCAT"].ToString();
+                        ca.major = dt.Rows[0]["MAJORYN"].ToString();
+                        ca.lastdate = dt.Rows[0]["LATPURDT"].ToString();
+
+                        ca.Expiry = dt.Rows[0]["EXPYN"].ToString();
+                        ca.valuelst = Bindvalue();
+                        ca.ValuationMethod = dt.Rows[0]["VALMETHDES"].ToString();
+                        ca.Serial = dt.Rows[0]["SERIALYN"].ToString();
+                        ca.Batch = dt.Rows[0]["BSTATEMENTYN"].ToString();
+                        ca.QCTemp = dt.Rows[0]["TEMPLATEID"].ToString();
+                        ca.QCRequired = dt.Rows[0]["QCCOMPFLAG"].ToString();
+                        ca.Latest = dt.Rows[0]["LATPURPRICE"].ToString();
+                        ca.clssscode = dt.Rows[0]["ABCGRADE"].ToString();
+                        ca.imgpath = dt.Rows[0]["IMGPATH"].ToString();
+
+                        ca.Rejection = dt.Rows[0]["REJRAWMATPER"].ToString();
+                        ca.Percentage = dt.Rows[0]["RAWMATPER"].ToString();
+                        ca.PercentageAdd = dt.Rows[0]["ADD1PER"].ToString();
+                        ca.AddItem = dt.Rows[0]["ADD1"].ToString();
+                        ca.RawMaterial = dt.Rows[0]["RAWMATCAT"].ToString();
+                        ca.Ledger = dt.Rows[0]["ITEMACC"].ToString();
+                        ca.leadtime = dt.Rows[0]["LEADDAYS"].ToString();
+                        ca.flow = dt.Rows[0]["FLWORD"].ToString();
+
+
+                        ca.FQCTemp = dt.Rows[0]["PTEMPLATEID"].ToString();
+
+                        //ca.QCTemp = dt.Rows[0]["IQCTEMP"].ToString();
+                        //ca.FQCTemp = dt.Rows[0]["FGQCTEMP"].ToString();
+
+                        ca.BinID = dt.Rows[0]["BINNO"].ToString();
+                        ca.BinYN = dt.Rows[0]["BINYN"].ToString();
+                        ca.Curing = dt.Rows[0]["CURINGDAY"].ToString();
+                        ca.Auto = dt.Rows[0]["AUTOINDENT"].ToString();
+                        ca.rundet = dt.Rows[0]["RHYN"].ToString();
+                        ca.runhrs = dt.Rows[0]["RUNHRS"].ToString();
+                        ca.runhrsqty = dt.Rows[0]["RUNPERQTY"].ToString();
+                        ca.costcat = dt.Rows[0]["COSTCATEGORY"].ToString();
+                        ca.autocon = dt.Rows[0]["AUTOCONSYN"].ToString();
+                        ca.createdby = Request.Cookies["UserId"];
+                    }
+                    DataTable dt2 = new DataTable();
+                    dt2 = ItemNameService.GetBinDeatils(id);
+                    if (dt2.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt2.Rows.Count; i++)
+                        {
+                            tdaB = new BinItem();
+                            tdaB.BinID = dt2.Rows[0]["BINID"].ToString();
+                            tdaB.BinYN = dt2.Rows[0]["BINYN"].ToString();
+                            tdaB.Isvalid = "Y";
+                            TDatab.Add(tdaB);
+                        }
+                    }
+
+                    DataTable dtt = new DataTable();
+                    dtt = ItemNameService.GetAllSupplier(id);
+
+                    if (dtt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dtt.Rows.Count; i++)
+                        {
+                            tda = new SupItem();
+                            tda.Suplierlst = BindSupplier();
+                            tda.SupName = dtt.Rows[i]["SUPPLIERID"].ToString();
+                            tda.SupplierPart = dtt.Rows[i]["SUPPLIERPARTNO"].ToString();
+                            tda.PurchasePrice = dtt.Rows[i]["SPURPRICE"].ToString();
+                            tda.Delivery = dtt.Rows[i]["DELDAYS"].ToString();
+                            tda.Isvalid = "Y";
+                            TData.Add(tda);
+                        }
+                    }
+                    DataTable dtt1 = new DataTable();
+                    dtt1 = ItemNameService.GetAllUnit(id);
+
+                    if (dtt1.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dtt1.Rows.Count; i++)
+                        {
+                            tdau = new UnitItem();
+                            tdau.UnitLst = BindUnit();
+
+                            tdau.Unit = dtt1.Rows[i]["UNIT"].ToString();
+                            tdau.cf = dtt1.Rows[i]["CF"].ToString();
+                            tdau.UnittypeLst = BindUnitType();
+                            tdau.unittype = dtt1.Rows[i]["UNITTYPE"].ToString();
+                            tdau.uniqid = dtt1.Rows[i]["UNITUNIQUEID"].ToString();
+                            tdau.Isvalid = "Y";
+                            TDatau.Add(tdau);
+                        }
+                    }
+                    DataTable dtt2 = new DataTable();
+                    dtt2 = datatrans.GetData("SELECT ITEMMASTERID,LOCID,REORDERLEVEL,MINQTYN,MAXQTYN,BSTMGROUP,LOCINVDETAILROW FROM LOCINVDETAIL WHERE ITEMMASTERID='" + id + "'");
+
+                    if (dtt2.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dtt2.Rows.Count; i++)
+                        {
+                            tdal = new LocdetItem();
+                            tdal.locLst = BindLoc();
+                            tdal.loc = dtt2.Rows[i]["LOCID"].ToString();
+                            tdal.minlevel = dtt2.Rows[i]["MINQTYN"].ToString();
+                            tdal.maxlevel = dtt2.Rows[i]["MAXQTYN"].ToString();
+                            tdal.bank = dtt2.Rows[i]["BSTMGROUP"].ToString();
+                            tdal.reorder = dtt2.Rows[i]["REORDERLEVEL"].ToString();
+                            tdal.Isvalid = "Y";
+                            TDatal.Add(tdal);
+                        }
+                    }
+                    DataTable dttu = new DataTable();
+                    dttu = datatrans.GetData("SELECT ITEMMASTERID,DOCPATH FROM ITEMMASTERDOC WHERE ITEMMASTERID='" + id + "'");
+
+                    if (dttu.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dttu.Rows.Count; i++)
+                        {
+                            tdaup = new uplodItem();
+                            tdaup.docpath = dttu.Rows[i]["DOCPATH"].ToString();
+
+                            TDataup.Add(tdaup);
+                        }
                     }
                 }
+                ca.Binlst = TDatab;
+                ca.Suplst = TData;
+                ca.locdetlst = TDatal;
+                ca.unititemlst = TDatau;
+                ca.Uplst = TDataup;
+                ca.locdetlst = TDatal;
+                return View(ca);
             }
-            ca.Binlst = TDatab;
-            ca.Suplst = TData;
-            ca.locdetlst = TDatal;
-            ca.unititemlst = TDatau;
-            ca.Uplst = TDataup;
-            ca.locdetlst = TDatal;
-            return View(ca);
-        }
         public ActionResult GetSupDetail(string SupId)
         {
             try
@@ -540,15 +573,29 @@ namespace Arasan.Controllers.Master
         {
             try
             {
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='PURCHASECATEGORY'");
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
-                lstdesg.Add(new SelectListItem() { Text = "OTHERS", Value = "OTHERS" });
-                lstdesg.Add(new SelectListItem() { Text = "CONSUMABLES", Value = "CONSUMABLES" });
-                lstdesg.Add(new SelectListItem() { Text = "MAJOR RAW MATERIALS", Value = "MAJOR RAW MATERIALS" });
-                lstdesg.Add(new SelectListItem() { Text = "PACKING OLD DRUMS", Value = "PACKING OLD DRUMS" });
-                lstdesg.Add(new SelectListItem() { Text = "MAJOR CONSUMABLES", Value = "MAJOR CONSUMABLES" });
-                lstdesg.Add(new SelectListItem() { Text = "MAJOR FUEL", Value = "MAJOR FUEL" });
-                lstdesg.Add(new SelectListItem() { Text = "MAJOR PACKING MATERIAL", Value = "MAJOR PACKING MATERIAL" });
-
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindRawCategory()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='RAWCATEGORY'");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
+                }
                 return lstdesg;
             }
             catch (Exception ex)
@@ -751,6 +798,23 @@ namespace Arasan.Controllers.Master
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CATEGORY"].ToString(), Value = dtDesg.Rows[i]["CATEGORY"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindSubCategory()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='SUBCATEGORY'");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
                 }
                 return lstdesg;
             }
@@ -1130,10 +1194,12 @@ namespace Arasan.Controllers.Master
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
                 string Upload = string.Empty;
+                string delrow = string.Empty;
 
 
 
                 Upload = "<a href='/" + dtUsers.Rows[i]["DOCPATH"].ToString() + "' target='_blank' title='Attachement'>" + dtUsers.Rows[i]["DOCNAME"].ToString() + "</a>";
+                delrow = "DeleteDoc?tag=Del&ida=" + dtUsers.Rows[i]["ITEMMASTERDOCID"].ToString() + "&id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "";
 
 
                 Reg.Add(new itemupload
@@ -1141,6 +1207,7 @@ namespace Arasan.Controllers.Master
                     id =  dtUsers.Rows[i]["ITEMMASTERDOCID"].ToString(),
 
                     upload = Upload,
+                    delrow = delrow,
 
 
 
@@ -1153,6 +1220,73 @@ namespace Arasan.Controllers.Master
                 Reg
             });
 
+        }
+        public ActionResult DeleteDoc(string tag, string ida,string id)
+        {
+
+            string flag = ItemNameService.deletedoc(tag, ida);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ItemName", new{id = id});
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ItemName", new { id = id });
+            }
+        }
+        public IActionResult AddCategory(string id)
+        {
+            ItemName ca = new ItemName();
+            // ca.Brlst = BindBranch();
+           
+            return View(ca);
+        }
+
+        public JsonResult GetCategoryJSON()
+        {
+            return Json(BindSubCategory());
+        }
+        public JsonResult SaveAddCategory(string category)
+        {
+            string Strout = ItemNameService.CategoryCRUD(category);
+            var result = new { msg = Strout };
+            return Json(result);
+        }
+        public IActionResult AddPurCategory(string id)
+        {
+            ItemName ca = new ItemName();
+            // ca.Brlst = BindBranch();
+
+            return View(ca);
+        }
+        public JsonResult SavePurCategory(string category)
+        {
+            string Strout = ItemNameService.PurCategoryCRUD(category);
+            var result = new { msg = Strout };
+            return Json(result);
+        }
+        public JsonResult GetPurCategoryJSON()
+        {
+            return Json(Bindpurchase());
+        }
+        public IActionResult AddRawCategory(string id)
+        {
+            ItemName ca = new ItemName();
+            // ca.Brlst = BindBranch();
+
+            return View(ca);
+        }
+        public JsonResult SaveRawCategory(string category)
+        {
+            string Strout = ItemNameService.AddRawCategoryCRUD(category);
+            var result = new { msg = Strout };
+            return Json(result);
+        }
+        public JsonResult GetRawCategoryJSON()
+        {
+            return Json(BindRawCategory());
         }
     }
 }

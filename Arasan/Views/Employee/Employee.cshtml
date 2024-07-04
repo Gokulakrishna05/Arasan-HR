@@ -26,6 +26,22 @@
         top: 2px;
         left: 5px;
     }
+         .preview {
+        display: inline-block;
+        margin: 10px;
+         padding-left:900px;
+    }
+
+        .preview img {
+            width: 70px;
+            height: 70px;
+            margin-right: 10px;
+            
+        }
+      input[type=file] {
+    display: block;
+    padding-left:700px;
+}
 </style>
 
 <script type="text/javascript">
@@ -48,6 +64,20 @@
                             @Html.AntiForgeryToken()
 
                     <form>
+                                          <div class="row">
+                            <div class="col-md-6">
+                      
+               <lable style="padding-left:500px;">Upload an Image</lable>
+    <input type="file" id="file" name="file1"
+        onchange="return fileValidation()" />
+ 
+    <!-- Image preview -->
+    <div id="preview-container" class="preview"></div>
+                 
+               
+                 
+            </div> 
+            </div> 
                         <div class="tabs-container">
               <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab-1" data-toggle="tab" >Employee Details</a></li>
@@ -896,7 +926,41 @@
         $(dropDownId).trigger("liszt:updated");
     }
            
-
+    function fileValidation() {
+            var fileInput = 
+                document.getElementById('file');
+             
+            var filePath = fileInput.value;
+         
+            // Allowing file type
+            var allowedExtensions = 
+                    /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+             
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Invalid file type (Please Select Image Type is .jpg,.jpeg,.png )');
+                fileInput.value = '';
+                return false;
+            } 
+            else 
+            {
+             
+                // Image preview
+                if (fileInput.files && fileInput.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById(
+                            'preview-container').innerHTML = 
+                            '<img src="' + e.target.result
+                            + '"/>';
+                    };
+                     
+                    reader.readAsDataURL(fileInput.files[0]);
+                   
+                }
+            }
+            
+        });
+        }
 </script>
 
 

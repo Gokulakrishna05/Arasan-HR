@@ -32,14 +32,17 @@ namespace Arasan.Models
 
         public List<SelectListItem> Locationlst;
         public string Location { get; set; }
+        public string DeLocation { get; set; }
 
         public List<SelectListItem> DrumTypelst;
         public string DrumType { get; set; }
+        public string capacity { get; set; }
 
         public string TargetWeight { get; set; }
         public string status { get; set; }
         public string ddlStatus { get; set; }
         public string createby { get; set; }
+        public List<drumloc> Loclst { get; set; }
 
 
     }
@@ -59,6 +62,15 @@ namespace Arasan.Models
         public string editrow { get; set; }
         public string delrow { get; set; }
     }
+    public class drumloc
+    {
+        public string id { get; set; }
+        public List<SelectListItem> locationlst { get; set; }
 
+        public string location { get; set; }
 
+      
+        public string Isvalid { get; set; }
     }
+
+}

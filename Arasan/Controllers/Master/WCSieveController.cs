@@ -184,11 +184,18 @@ namespace Arasan.Controllers.Master
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
                 string view = string.Empty;
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
+                    view = "<a href=ViewWCSieve?id=" + dtUsers.Rows[i]["WCSPRODDETAILID"].ToString() + "><img src='../Images/view_icon.png' alt='View' /></a>";
+                    EditRow = "<a href=WCSieve?id=" + dtUsers.Rows[i]["WCSPRODDETAILID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["WCSPRODDETAILID"].ToString() + "";
+                }
+                else
+                {
 
-                view = "<a href=ViewWCSieve?id=" + dtUsers.Rows[i]["WCSPRODDETAILID"].ToString() + "><img src='../Images/view_icon.png' alt='View' /></a>";
-                EditRow = "<a href=WCSieve?id=" + dtUsers.Rows[i]["WCSPRODDETAILID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["WCSPRODDETAILID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-
+                    EditRow = "";
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["WCSPRODDETAILID"].ToString() + "";
+                }
                 Reg.Add(new WCSieveItem
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["WCSPRODDETAILID"].ToString()),
@@ -256,6 +263,21 @@ namespace Arasan.Controllers.Master
         {
 
             string flag = WCSieveService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListWCSieve");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListWCSieve");
+            }
+        }
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = WCSieveService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

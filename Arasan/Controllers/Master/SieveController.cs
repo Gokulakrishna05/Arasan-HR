@@ -164,15 +164,14 @@ namespace Arasan.Controllers
 
                    ViewRow = "<a href=ViewSieve?id=" + dtUsers.Rows[i]["SIEVEMASTID"].ToString() + "><img src='../Images/view_icon.png' alt='View Details' /></a>";
                     EditRow = "<a href=Sieve?id=" + dtUsers.Rows[i]["SIEVEMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["SIEVEMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["SIEVEMASTID"].ToString() + "";
                 }
                 else
                 {
 
                     ViewRow = "";
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["SIEVEMASTID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
-
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["SIEVEMASTID"].ToString() + "";
                 }
 
                 Reg.Add(new Sievegrid

@@ -122,8 +122,9 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("LOCATION", OracleDbType.NVarchar2).Value = ss.Location;
                     objCmd.Parameters.Add("DRUMTYPE", OracleDbType.NVarchar2).Value = ss.DrumType;
                     objCmd.Parameters.Add("TAREWT", OracleDbType.NVarchar2).Value = ss.TargetWeight;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
-                    if (ss.ID == null)
+                    objCmd.Parameters.Add("CAPACITY", OracleDbType.NVarchar2).Value = ss.capacity;
+                    objCmd.Parameters.Add("DRUMSLOCID", OracleDbType.NVarchar2).Value = ss.DeLocation;
+                     if (ss.ID == null)
                     {
                         objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.createby;
                         objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
@@ -134,12 +135,56 @@ namespace Arasan.Services
                         objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     }
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+
 
                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        if (ss.ID != null)
+                        {
+                            Pid = ss.ID;
+                        }
+                        if (ss.Loclst != null)
+                        {
+                            if (ss.ID == null)
+                            {
+                                foreach (drumloc cp in ss.Loclst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.location != "0")
+                                    {
+                                        int i = 1;
+                                        svSQL = "Insert into DRUMDET (DRUMMASTID,DRUMDETROW,USEDLOCATION) VALUES ('" + Pid + "','" + i + "','" + cp.location + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
 
+                                        i++;
+                                    }
+
+                                }
+                            }
+                            else
+                            {
+                                svSQL = "Delete DRUMDET WHERE DRUMMASTID='" + ss.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+                                foreach (drumloc cp in ss.Loclst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.location != "0")
+                                    {
+                                        int i = 1;
+                                        svSQL = "Insert into DRUMDET (DRUMMASTID,DRUMDETROW,USEDLOCATION) VALUES ('" + Pid + "','" + i + "','" + cp.location + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                        i++;
+                                    }
+
+                                }
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -168,7 +213,7 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public string StatusChange(string tag, int id) 
+        public string StatusChange(string tag, string id) 
         {
 
             try
@@ -190,7 +235,7 @@ namespace Arasan.Services
             }
             return "";
         } 
-        public string RemoveChange(string tag, int id)
+        public string RemoveChange(string tag, string id)
         {
 
             try
@@ -232,6 +277,43 @@ namespace Arasan.Services
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+        public string CategoryCRUD(string category)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                svSQL = " SELECT Count(COMMON_VALUE) as cnt FROM COMMONMASTER WHERE COMMON_VALUE =LTRIM(RTRIM('" + category + "')) AND COMMON_TEXT='DRUMCATEGORY'";
+                if (datatrans.GetDataId(svSQL) > 0)
+                {
+                    msg = "SUB CATEGORY Already Existed";
+                    return msg;
+                }
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    svSQL = "Insert into COMMONMASTER (COMMON_TEXT,COMMON_VALUE) VALUES ('DRUMCATEGORY','" + category + "')";
+
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                    objConn.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConn.Close();
+                }
+
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
         }
     }
 }

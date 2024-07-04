@@ -176,7 +176,7 @@
                     { text: 'Supervisor',filtertype: 'checkedlist', datafield: 'emp', width: 250 },
                     { text: 'Created Date',filtertype: 'input', datafield: 'edate', width: 150 },
                     { text: 'Edit', datafield: 'editrow', width: 70, align: 'center', cellsalign: 'center' },
-                    { text: 'Delete', datafield: 'delrow', width: 70, align: 'center', cellsalign: 'center' },
+                    { text: 'Delete', datafield: 'delrow', width: 70, align: 'center', cellsrenderer: linkrenderer1, cellsalign: 'center' },
                     { text: 'View', datafield: 'view', width: 70, align: 'center', cellsalign: 'center' },
                     { text: 'ReAssign', datafield: 'reassign', width: 70, align: 'center', cellsalign: 'center' },
 
@@ -197,6 +197,9 @@
                 $("#grid").jqxGrid({ source: source });
             });
     });
+    var linkrenderer1 = function (row, column, value) {
+        return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+    }
 </script>
 
 @*<script type="text/javascript">

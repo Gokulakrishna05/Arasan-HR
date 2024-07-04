@@ -64,7 +64,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("LUTNO", OracleDbType.NVarchar2).Value = cy.LUTNumber;
                     objCmd.Parameters.Add("LUTDT", OracleDbType.NVarchar2).Value = cy.LUTDate;
                     objCmd.Parameters.Add("PJOINDATE", OracleDbType.NVarchar2).Value = cy.JoinDate;
-                    //objCmd.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = cy.PartyType;
+                    objCmd.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = cy.Type;
                     objCmd.Parameters.Add("CREDITLIMIT", OracleDbType.NVarchar2).Value = cy.CreditLimit;
                     objCmd.Parameters.Add("CREDITDAYS", OracleDbType.NVarchar2).Value = cy.CreditDate;
                     objCmd.Parameters.Add("SECTIONID", OracleDbType.NVarchar2).Value = cy.SectionID;
@@ -86,7 +86,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("COMMISIONERATE", OracleDbType.NVarchar2).Value = cy.Commisionerate;
                     objCmd.Parameters.Add("RANGEDIVISION", OracleDbType.NVarchar2).Value = cy.Range;
                     objCmd.Parameters.Add("ECCNO", OracleDbType.NVarchar2).Value = cy.EccID;
-                    objCmd.Parameters.Add("EXCISEAPPLICABLE", OracleDbType.NVarchar2).Value = cy.Excise;
+                    objCmd.Parameters.Add("EXCISEAPPLICABLE", OracleDbType.NVarchar2).Value ="NO";
                     objCmd.Parameters.Add("HTTP", OracleDbType.NVarchar2).Value = cy.Http;
                     objCmd.Parameters.Add("OVERDUEINTEREST", OracleDbType.NVarchar2).Value = cy.OverDueInterest;
                     objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = cy.Address;
@@ -234,6 +234,50 @@ namespace Arasan.Services.Master
                                 }
                             }
                         }
+                        if (cy.shLst != null)
+                        {
+                            if (cy.ID == null)
+                            {
+                                int r = 1;
+                                foreach (shipping cp in cy.shLst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.addtype != "")
+                                    {
+
+                                        svSQL = "Insert into PARTYMASTADDRESS (PARTYMASTID,PARTYMASTADDRESSROW,ADDBOOKTYPE,ADDBOOKCOMPANY,SPHONE,SEMAIL,SADD1,SADD2,SADD3,SCITY,SSTATE,SPINCODE,SGSTNO) VALUES ('" + Pid + "','" + r + "','" + cp.addtype + "','" + cp.consingn + "','" + cp.phone + "','" + cp.email + "','" + cp.add1 + "','" + cp.add2 + "','" + cp.add3 + "','" + cp.city + "','" + cp.state + "','" + cp.pincode + "','" + cp.gstno + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+
+
+                                    }
+                                    r++;
+                                }
+                            }
+
+                            else
+                            {
+                                svSQL = "Delete PARTYMASTADDRESS WHERE PARTYMASTID='" + cy.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+                                int r = 1;
+                                foreach (shipping cp in cy.shLst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.addtype != "0")
+                                    {
+
+                                        svSQL = "Insert into PARTYMASTADDRESS (PARTYMASTID,PARTYMASTADDRESSROW,ADDBOOKTYPE,ADDBOOKCOMPANY,SPHONE,SEMAIL,SADD1,SADD2,SADD3,SCITY,SSTATE,SPINCODE,SGSTNO) VALUES ('" + Pid + "','" + r + "','" + cp.addtype + "','" + cp.consingn + "','" + cp.phone + "','" + cp.email + "','" + cp.add1 + "','" + cp.add2 + "','" + cp.add3 + "','" + cp.city + "','" + cp.state + "','" + cp.pincode + "','" + cp.gstno + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+
+
+
+                                    }
+                                    r++;
+                                }
+                            }
+                        }
 
                     }
                     
@@ -256,7 +300,7 @@ namespace Arasan.Services.Master
         public DataTable GetParty(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYMAST.PARTYID,PARTYMAST.PARTYNAME,PARTYMAST.PARTYCAT,SALPERNAME,SALLOC,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,PARTYMAST.ACCOUNTNAME,PARTYMAST.PARTYGROUP,PARTYMAST.COMMCODE,PARTYMAST.REGULARYN,PARTYMAST.LUTNO,PARTYMAST.TYPE,PARTYMAST.CREDITLIMIT,PARTYMAST.CREDITDAYS,PARTYMAST.SECTIONID,PARTYMAST.CSGNPARTYID,PARTYMAST.TRANSLMT,PARTYMAST.GSTNO,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,CONCODE COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,HTTP,OVERDUEINTEREST,ADD1,ADD2,ADD3,REMARKS,INTRODUCEDBY,ACTIVE,PARTYMASTID  from PARTYMAST where PARTYMAST.PARTYMASTID=" + id + "";
+            SvSql = "Select PARTYMAST.PARTYID,PARTYMAST.PARTYNAME,PARTYMAST.PARTYCAT,SALPERNAME,SALLOC,TYPE,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,PARTYMAST.ACCOUNTNAME,PARTYMAST.PARTYGROUP,PARTYMAST.COMMCODE,PARTYMAST.REGULARYN,PARTYMAST.LUTNO,PARTYMAST.TYPE,PARTYMAST.CREDITLIMIT,PARTYMAST.CREDITDAYS,PARTYMAST.SECTIONID,PARTYMAST.CSGNPARTYID,PARTYMAST.TRANSLMT,PARTYMAST.GSTNO,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,CONCODE COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,HTTP,OVERDUEINTEREST,ADD1,ADD2,ADD3,REMARKS,INTRODUCEDBY,ACTIVE,PARTYMASTID  from PARTYMAST where PARTYMAST.PARTYMASTID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -398,6 +442,115 @@ namespace Arasan.Services.Master
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+        public string PartyTypeCRUD(string category)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                svSQL = " SELECT Count(COMMON_VALUE) as cnt FROM COMMONMASTER WHERE COMMON_VALUE =LTRIM(RTRIM('" + category + "')) AND COMMON_TEXT='RAWCATEGORY'";
+                if (datatrans.GetDataId(svSQL) > 0)
+                {
+                    msg = "SUB RAWMATERIAL CATEGORY Already Existed";
+                    return msg;
+                }
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    svSQL = "Insert into COMMONMASTER (COMMON_TEXT,COMMON_VALUE) VALUES ('PARTYTYPE','" + category + "')";
+
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                    objConn.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConn.Close();
+                }
+
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string CityCRUD(string category)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                svSQL = " SELECT Count(COMMON_VALUE) as cnt FROM COMMONMASTER WHERE COMMON_VALUE =LTRIM(RTRIM('" + category + "')) AND COMMON_TEXT='CITY'";
+                if (datatrans.GetDataId(svSQL) > 0)
+                {
+                    msg = "SUB CITY Already Existed";
+                    return msg;
+                }
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    svSQL = "Insert into COMMONMASTER (COMMON_TEXT,COMMON_VALUE) VALUES ('CITY','" + category + "')";
+
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                    objConn.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConn.Close();
+                }
+
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string PartyGroup(string category)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                svSQL = " SELECT Count(COMMON_VALUE) as cnt FROM COMMONMASTER WHERE COMMON_VALUE =LTRIM(RTRIM('" + category + "')) AND COMMON_TEXT='PARTYGROUP'";
+                if (datatrans.GetDataId(svSQL) > 0)
+                {
+                    msg = "SUB PARTY GROUP Already Existed";
+                    return msg;
+                }
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    svSQL = "Insert into COMMONMASTER (COMMON_TEXT,COMMON_VALUE) VALUES ('PARTYGROUP','" + category + "')";
+
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                    objConn.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConn.Close();
+                }
+
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
         }
     }
 }

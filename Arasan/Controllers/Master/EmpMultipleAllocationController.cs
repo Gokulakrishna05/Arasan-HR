@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
 using System.Reflection;
 using System;
+using Intuit.Ipp.Data;
 
 namespace Arasan.Controllers.Master
 {
@@ -138,12 +139,18 @@ namespace Arasan.Controllers.Master
                 string EditRow = string.Empty;
                 string ReAssign = string.Empty;
 
-                EditRow = "<a href=EmpMultipleAllocation?piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                ViewPage = "<a href=ViewEmpMultipleAllocation?piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
-                ReAssign = "<a href=ReassignEmpMultipleAllocation?piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + "><img src='../Images/D2.png' alt='Waiting for approval' /></a>";
-                DeleteRow = "<a href=EmpMultipleAllocation?tag=Del&piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-
-
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
+                    EditRow = "<a href=EmpMultipleAllocation?piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    ViewPage = "<a href=ViewEmpMultipleAllocation?piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
+                    ReAssign = "<a href=ReassignEmpMultipleAllocation?piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + "><img src='../Images/D2.png' alt='Waiting for approval' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + "";
+                }
+                else
+                {
+                    EditRow = "";
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + "";
+                }
                 Reg.Add(new EmpBindList
                 {
                     piid = Convert.ToInt64(dtUsers.Rows[i]["EMPALLOCATIONID"].ToString()),
@@ -286,6 +293,38 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = EmpMultipleAllocationService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListEmpMultipleAllocation");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListEmpMultipleAllocation");
+            }
+        }
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = EmpMultipleAllocationService.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListEmpMultipleAllocation");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListEmpMultipleAllocation");
+            }
+        }
+
     }
 }
 

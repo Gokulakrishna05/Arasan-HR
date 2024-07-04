@@ -87,13 +87,17 @@
                             <div class="row">
                             <div class="col-md-6">
                       
-               <lable style="padding-left:600px;">Upload an Image</lable>
-    <input type="file" id="file" name="file1"
+     <input type="file" id="file" name="file1"
         onchange="return fileValidation()" />
  
     <!-- Image preview -->
     <div id="preview-container" class="preview"></div>
-                
+                 @if(Model.imgpath!="")
+                 {
+                                        <a class="example-image-link" href="@Html.DisplayFor(C => C.imgpath)" data-lightbox="example-set" data-title="@Html.DisplayFor(C => C.Item)"><img class="example-image" src="@Html.DisplayFor(C => C.imgpath)" alt="" style="width:70px;height:70px" /></a>
+
+                     @*<img src='@Html.DisplayFor(C => C.imgpath)' style="width:70px;height:70px"/>*@
+                 }
                
                  
             </div> 
@@ -149,18 +153,23 @@
                                                         @Html.DropDownListFor(C => C.SubCat, Model.Iclst," -- Please Select -- ", new { @id = "ddlSubCat", @Class = "form-control _select", @TabIndex = 1 })
 
                                                     </div>
+
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                             <div class="col-md-6">
                                                 <div class="form-group">
 
-                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Item<label class="mandatory">*</label></label>
-                                                    <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.Item, new { @id = "txtItem", @class = "form-control", @TabIndex = 1 })
-                                                    </div>
+                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Sub Category<label class="mandatory"></label></label>
+                                                    <div class="col-sm-7">
+                                                     @Html.DropDownListFor(C => C.subcategory, Model.subcategorylst," -- Please Select -- ", new { @id = "txtsubcategory", @Class = "form-control _select", @TabIndex = 1  })
 
+ 
+                                                    </div>
+                                                    <div class="col-sm-1"><a href="@Url.Action("AddCategory", "ItemName")"  class='fancybox' data-fancybox-type='iframe'><img src='../Images/plus.png' alt='Add' /></a></div>
+ 
                                                 </div>
                                             </div>
+                                          
                                                 @*<div class="col-md-6">
                                                     <div class="form-group">
 
@@ -174,7 +183,16 @@
                                                 </div>*@
                                             </div>
                                             <div class="row">
-                                               
+                                                 <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Item<label class="mandatory">*</label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Item, new { @id = "txtItem", @class = "form-control", @TabIndex = 1 })
+                                                    </div>
+
+                                                </div>
+                                            </div>
 
                                                 <div class="col-md-6">
                                                     <div class="form-group">
@@ -186,7 +204,11 @@
 
                                                     </div>
                                                 </div>
-                                            <div class="col-md-6">
+                                           
+                                            </div>
+
+                                            <div class="row">
+                                                 <div class="col-md-6">
                                                 <div class="form-group">
 
                                                     <br />  <label for="inputName3" class="col-sm-4 control-label">Minimum Stock Level<label class="mandatory">*</label></label>
@@ -196,9 +218,6 @@
 
                                                 </div>
                                             </div>
-                                            </div>
-
-                                            <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
 
@@ -210,16 +229,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-
-                                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Reorder Level<label class="mandatory"></label></label>
-                                                        <div class="col-sm-8">
-                                                            @Html.TextBoxFor(C => C.Reorderlvl, new { @id = "txtReorderlvl", @class = "form-control", @TabIndex = 1})
-                                                        </div>
-
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
 
                                             @*<div class="row">
@@ -247,7 +257,16 @@
                                             </div>*@
 
                                             <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
 
+                                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Reorder Level<label class="mandatory"></label></label>
+                                                        <div class="col-sm-8">
+                                                            @Html.TextBoxFor(C => C.Reorderlvl, new { @id = "txtReorderlvl", @class = "form-control", @TabIndex = 1})
+                                                        </div>
+
+                                                    </div>
+                                                </div>
                                               @*  <div class="col-md-6">
                                                     <div class="form-group">
 
@@ -270,7 +289,10 @@
 
                                                     </div>
                                                 </div>
-                                            <div class="col-md-6">
+                                          
+                                            </div>
+                                            <div class="row">
+                                                 <div class="col-md-6">
                                                 <div class="form-group">
 
                                                     <br /> <label for="inputName3" class="col-sm-4 control-label">HSN Code <label class="mandatory">*</label></label>
@@ -280,9 +302,6 @@
 
                                                 </div>
                                             </div>
-                                            </div>
-                                            <div class="row">
-                                               
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Selling Price<label class="Mandatory"></label></label>
@@ -292,6 +311,9 @@
 
                                                     </div>
                                                 </div>
+                                            
+                                            </div>
+                                        <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <br /> <label for="inputName3" class="col-sm-4 control-label">Curing Days<label class="mandatory"></label></label>
@@ -301,8 +323,6 @@
 
                                                 </div>
                                             </div>
-                                            </div>
-                                        <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
 
@@ -313,18 +333,7 @@
 
                                                 </div>
                                             </div>
-                                             <div class="col-md-6">
-                                                <div class="form-group">
-
-                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Valuation Method <label class="Mandatory"></label></label>
-                                                    <div class="col-sm-8">
-                                                                         @Html.DropDownListFor(C => C.ValuationMethod, Model.valuelst," -- Please Select -- ", new { @id = "txtValuationMethod", @Class = "form-control _select", @TabIndex = 1 })
-
-                                                        @*@Html.TextBoxFor(C => C.ValuationMethod , new { @id = "txtValuationMethod", @class = "form-control", @TabIndex = 1 , @maxlength = 1})*@
-                                                    </div>
-
-                                                </div>
-                                            </div>
+                                            
                                         </div>
                                          <div class="row">
                                             <div class="col-md-6">
@@ -631,10 +640,11 @@
                                                 <div class="form-group">
 
                                                     <br /> <label for="inputName3" class="col-sm-4 control-label">Raw Material Category<label class="mandatory"></label></label>
-                                                    <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.RawMaterial , new { @id = "txtRawMaterial", @class = "form-control", @TabIndex = 1 })
+                                                    <div class="col-sm-7">
+                                                                 @Html.DropDownListFor(C => C.RawMaterial, Model.RawMateriallst," -- Please Select -- ", new { @id = "txtRawMaterial", @Class = "form-control _select", @TabIndex = 1  })
 
                                                     </div>
+                                                        <div class="col-sm-1"><a href="@Url.Action("AddRawCategory", "ItemName")"  class='fancybox' data-fancybox-type='iframe'><img src='../Images/plus.png' alt='Add' /></a></div>
 
                                                 </div>
                                             </div>
@@ -655,10 +665,11 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
 
-                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Rejection Input%<label class="Mandatory"></label></label>
+                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Valuation Method <label class="Mandatory"></label></label>
                                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.Rejection , new { @id = "txtRejection", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                                         @Html.DropDownListFor(C => C.ValuationMethod, Model.valuelst," -- Please Select -- ", new { @id = "txtValuationMethod", @Class = "form-control _select", @TabIndex = 1 })
 
+                                                        @*@Html.TextBoxFor(C => C.ValuationMethod , new { @id = "txtValuationMethod", @class = "form-control", @TabIndex = 1 , @maxlength = 1})*@
                                                     </div>
 
                                                 </div>
@@ -678,7 +689,17 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            
+                                             <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Rejection Input%<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Rejection , new { @id = "txtRejection", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
 
@@ -690,7 +711,10 @@
 
                                                 </div>
                                             </div>
-                                             <div class="col-md-6">
+                                             
+                                        </div>
+                                        <div class="row">
+                                           <div class="col-md-6">
                                                 <div class="form-group">
 
                                                     <br /> <label for="inputName3" class="col-sm-4 control-label">Additive 1<label class="Mandatory"></label></label>
@@ -701,9 +725,6 @@
 
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                           
                                             <div class="col-md-6">
                                                 <div class="form-group">
 
@@ -715,20 +736,21 @@
 
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                           
+                                        </div>
+                                         <div class="row">
+                                             <div class="col-md-6">
                                                 <div class="form-group">
 
                                                     <br /> <label for="inputName3" class="col-sm-4 control-label">Purchase Category<label class="Mandatory"></label></label>
-                                                    <div class="col-sm-8">
+                                                    <div class="col-sm-7">
                                                         @Html.DropDownListFor(C => C.purchasecate, Model.purlst," -- Please Select -- ", new { @id = "ddlpurchasecate", @Class = "form-control _select", @TabIndex = 1 })
 
                                                     </div>
+                                                    <div class="col-sm-1"><a href="@Url.Action("AddPurCategory", "ItemName")"  class='fancybox' data-fancybox-type='iframe'><img src='../Images/plus.png' alt='Add' /></a></div>
 
                                                 </div>
                                             </div>
-                                        </div>
-                                         <div class="row">
-                                            
                                              <div class="col-md-6">
                                                 <div class="form-group">
 
@@ -740,6 +762,9 @@
 
                                                 </div>
                                             </div>
+                                            
+                                            </div>
+                                             <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
 
@@ -750,9 +775,6 @@
 
                                                 </div>
                                             </div>
-                                            </div>
-                                             <div class="row">
-                                            
                                              <div class="col-md-6">
                                                 <div class="form-group">
 
@@ -811,31 +833,31 @@
                                                             foreach (var item in Model.unititemlst.ToList())
                                                             {
 
-                                                                                        <tr id="trBookun@(j)" class="chkitemlstun" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                            <tr id="trBookun@(j)" class="chkitemlstun" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                                                            <td>
-                                                                                                @Html.DropDownListFor(o => o.unititemlst[j].Unit, Model.unititemlst[j].UnitLst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlUnit" + j, style = "width: 200px;"})
+                                                                                                <td>
+                                                                                                    @Html.DropDownListFor(o => o.unititemlst[j].Unit, Model.unititemlst[j].UnitLst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlUnit" + j, style = "width: 200px;"})
 
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                @Html.TextBoxFor(o => o.unititemlst[j].cf, new { @id = "txtcf" + j, @class = "form-control", style = "width: 90px;"})
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                                  @Html.DropDownListFor(o => o.unititemlst[j].unittype, Model.unititemlst[j].UnittypeLst, "Please Select", new { @class = "form-control _select newcss", @id = "txtunittype" + j, style = "width: 200px;",onchange = "changeItem(this.value," + j + ")"})
-                         @Html.HiddenFor(o => o.unititemlst[j].uniqid, new { @id = "txtuniqid" + j })
-                                                                                            </td>
-                                                                                           @* <td>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.unititemlst[j].cf, new { @id = "txtcf" + j, @class = "form-control", style = "width: 90px;"})
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                                      @Html.DropDownListFor(o => o.unititemlst[j].unittype, Model.unititemlst[j].UnittypeLst, "Please Select", new { @class = "form-control _select newcss", @id = "txtunittype" + j, style = "width: 200px;",onchange = "changeItem(this.value," + j + ")"})
+                             @Html.HiddenFor(o => o.unititemlst[j].uniqid, new { @id = "txtuniqid" + j })
+                                                                                                </td>
+                                                                                               @* <td>
                                                                         @Html.TextBoxFor(o => o.Suplst[i].Preforder, new { @id = "txtPreforder" + i, @class = "form-control", style = "width: 90px;" })
                                                                     </td>
                                                                     <td>
                                                                         @Html.TextBoxFor(o => o.unititemlst[j].uniqid, new { @id = "txtuniqid" + j, @class = "form-control", style = "width: 140px;" })
                                                                     </td>*@
-                                                                                            <td>
-                                                                                                @Html.HiddenFor(o => o.unititemlst[j].Isvalid, new { @id = "Isvalid" + j })
-                                                                                                <img onclick="removeRowun(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="unititemlst.Index" type="hidden" value="@(j)" />
-                                                                                            </td>
-                                                                                            
-                                                                                        </tr>
+                                                                                                <td>
+                                                                                                    @Html.HiddenFor(o => o.unititemlst[j].Isvalid, new { @id = "Isvalid" + j })
+                                                                                                    <img onclick="removeRowun(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="unititemlst.Index" type="hidden" value="@(j)" />
+                                                                                                </td>
+                                                                                                
+                                                                                            </tr>
                                                                 j = j + 1;
 
                                                             }
@@ -846,291 +868,7 @@
                                        
                                 </div>
                             </div>
-                                    @*<div class="tab-pane" id="tab-2">
-
-                                        @*2nd tab 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-
-                                                    <label for="inputName3" class="col-sm-4 control-label">Ledger <label class="mandatory">*</label></label>
-                                                    <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.Ledger, Model.Ledgerlst," -- Please Select -- ", new { @id = "ddlLedger", @Class = "form-control _select", @TabIndex = 1,style = "width: 250px;" })
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-
-                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Expiry Control? <label class="mandatory">*</label></label>
-                                                    <div class="col-sm-8">
-                                                        <div class="input-group">
-
-                                                            @Html.RadioButtonFor(C => C.Expiry, "YES", new { @TabIndex = 2 })
-                                                            <label id="mt-radio">Yes</label>&emsp;
-
-                                                            @Html.RadioButtonFor(C => C.Expiry, "NO", new { @TabIndex = 3 })
-                                                            <label id="mt-radio">No</label>
-
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-
-                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Valuation Method <label class="Mandatory"></label></label>
-                                                    <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.ValuationMethod , new { @id = "txtValuationMethod", @class = "form-control", @TabIndex = 1 , @maxlength = 1})
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-
-                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Serial Control? <label class="mandatory">*</label></label>
-                                                    <div class="col-sm-8">
-                                                        <div class="input-group">
-
-                                                            @Html.RadioButtonFor(C => C.Serial, "YES", new { @TabIndex = 2 })
-                                                            <label id="mt-radio">Yes</label>&emsp;
-                                                            @Html.RadioButtonFor(C => C.Serial, "NO", new { @TabIndex = 3 })
-                                                            <label id="mt-radio">No</label>
-
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-
-                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Batch Control? <label class="mandatory">*</label></label>
-                                                    <div class="col-sm-8">
-                                                        <div class="input-group">
-
-                                                            @Html.RadioButtonFor(C => C.Batch, "Y", new { @TabIndex = 2 })
-                                                            <label id="mt-radio">Yes</label>&emsp;
-                                                            @Html.RadioButtonFor(C => C.Batch, "N", new { @TabIndex = 3 })
-                                                            <label id="mt-radio">No</label>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                                   <div class="col-md-6">
-                                                <div class="form-group">
-
-                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Q.C Required? <label class="mandatory">*</label></label>
-                                                    <div class="col-sm-8">
-                                                        <div class="input-group">
-
-                                                            @Html.RadioButtonFor(C => C.QCRequired, "YES", new { @TabIndex = 2 })
-                                                            <label id="mt-radio">Yes</label>&emsp;
-                                                            @Html.RadioButtonFor(C => C.QCRequired, "NO", new { @TabIndex = 3 })
-                                                            <label id="mt-radio">No</label>
-
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                          
-                                        </div>
-                                        <div class="row">
-                                             <div class="col-md-6">
-                                                <br /> <div class="form-group">
-
-                                                    <label for="inputName3" class="col-sm-4 control-label">Q.C Template for Prod<label class="Mandatory"></label></label>
-                                                    <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.QCTemp, Model.qclst," -- Please Select -- ", new { @id = "ddlLedger", @Class = "form-control _select", @TabIndex = 1,style = "width: 250px;" })
-
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <br /> <label for="inputName3" class="col-sm-4 control-label"> QC Template for FG<label class="mandatory">*</label></label>
-                                                    <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.FQCTemp, Model.fqclst," -- Please Select -- ", new { @id = "ddlLedger", @Class = "form-control _select", @TabIndex = 1,style = "width: 250px;" })
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            @*<div class="col-md-6">
-                                                <div class="form-group">
-
-                                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Sub Heading No<label class="Mandatory"></label></label>
-                                                    <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.SubHeading , new { @id = "txtSubHeading", @class = "form-control", @TabIndex = 1 })
-
-                                                    </div>
-
-                                                </div> 
-                                            </div>
-                                            @*<div class="col-md-6">
-                                        <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">QC Template for Pack<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
-
-                                        </div>
-
-                                        </div>
-                                        </div>*@
-                                       
-                                        @*<div class="row">
-
-                                    <div class="col-md-6">
-                                    <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Sub Heading No<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                    @Html.TextBoxFor(C => C.SubHeading , new { @id = "txtSubHeading", @class = "form-control", @TabIndex = 1 })<br />
-
-                                    </div>
-
-                                    </div>
-                                    </div>
-                                    </div>*@
-                                        @*<div class="col-md-6">
-                                    <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Purchase Catecory<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                    <select class=" _select js-states form-control">
-
-                                    `
-
-                                    </select><br />
-
-                                    </div>
-
-                                    </div>
-                                    </div> 
-
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-
-                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Latest Purchase Price/Date<label class="Mandatory"></label></label>
-                                                    <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.Latest , new { @id = "txtLatest", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-
-                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Percentage(RM)<label class="mandatory">*</label></label>
-                                                    <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.Percentage , new { @id = "txtPercentage", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            @*<div class="col-md-6">
-                                        <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">SubCatecory<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                        <select class=" _select js-states form-control">
-                                        </select><br />
-
-                                        </div>
-
-                                        </div>
-                                        </div> 
-                                        </div>
-                                        @*<div class="row">*@
-                                        @*<div class="col-md-6">
-                                    <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Item From<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                    <input class="form-control" id="inputEmail3" type="text"><br />
-                                    </div>
-
-                                    </div>
-                                    </div>*@
-                                        @* <div class="col-md-6">
-                                    <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Percentage(RM)<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                    @Html.TextBoxFor(C => C.Percentage , new { @id = "txtPercentage", @class = "form-control", @TabIndex = 1 })<br />
-                                    </div>
-
-                                    </div>
-                                    </div>
-                                    </div> 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-
-                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Raw Material Category<label class="mandatory">*</label></label>
-                                                    <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.RawMaterial , new { @id = "txtRawMaterial", @class = "form-control", @TabIndex = 1 })
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-
-                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Rejection Input%<label class="Mandatory"></label></label>
-                                                    <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.Rejection , new { @id = "txtRejection", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-
-                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Additive 1<label class="Mandatory"></label></label>
-                                                    <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.AddItem, Model.Itemlst," -- Please Select -- ", new { @id = "ddlLedger", @Class = "form-control _select", @TabIndex = 1 ,style = "width: 250px;"})
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-
-                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Percentage(Additive)<label class="mandatory">*</label></label>
-                                                    <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.PercentageAdd , new { @id = "txtPercentageAdd", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        @* 2 nd tab
-                                    </div>*@
+                                
 
                                     <div class="tab-pane" id="tab-3">
                                         @*3rd tab*@
@@ -1154,8 +892,13 @@
                                             <div class="col-md-8">
                                                 <div class="form-group">
                                                     <br /><label for="inputName3" class="col-sm-4 control-label">Bin ID<label class="mandatory">*</label></label>
-
-                                                    <div class="col-sm-8" id="go">
+                                                    @if (Model.BinYN == "YES")
+                                                    {
+                                                        <div class="col-sm-8" id="go">
+                                                            @Html.DropDownListFor(C => C.BinID, Model.Bin, new { @id = "ddlBinID", @Class = "form-control _select", @TabIndex = 2,@style="width: 300px !important;" })
+                                                        </div>
+                                                    }
+                                                    <div class="col-sm-8" id="go" hidden>
                                                         @Html.DropDownListFor(C => C.BinID, Model.Bin, new { @id = "ddlBinID", @Class = "form-control _select", @TabIndex = 2,@style="width: 300px !important;" })
                                                     </div>
 
@@ -1189,11 +932,11 @@
 
                                                                             foreach (var item in Model.Binlst)
                                                                             {
-                                                                                                        <tr>
+                                                                                                            <tr>
 
-                                                                                                            <td>@Html.DisplayFor(modelItem => item.BinID)</td>
-                                                                                                            <td>@Html.DisplayFor(modelItem => item.BinYN)</td>
-                                                                                                        </tr>
+                                                                                                                <td>@Html.DisplayFor(modelItem => item.BinID)</td>
+                                                                                                                <td>@Html.DisplayFor(modelItem => item.BinYN)</td>
+                                                                                                            </tr>
                                                                                 a++;
                                                                             }
                                                                         }
@@ -1253,30 +996,30 @@
                                                             foreach (var item in Model.Suplst.ToList())
                                                             {
 
-                                                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                            <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                                                            <td>
-                                                                                                @Html.DropDownListFor(o => o.Suplst[i].SupName, Model.Suplst[i].Suplierlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlSuplierlst" + i, style = "width: 200px;"})
+                                                                                                <td>
+                                                                                                    @Html.DropDownListFor(o => o.Suplst[i].SupName, Model.Suplst[i].Suplierlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlSuplierlst" + i, style = "width: 200px;"})
 
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                @Html.TextBoxFor(o => o.Suplst[i].SupplierPart, new { @id = "txtSupplierPart" + i, @class = "form-control", style = "width: 90px;"})
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                @Html.TextBoxFor(o => o.Suplst[i].PurchasePrice, new { @id = "txtPurchasePrice" + i, @class = "form-control", style = "width: 90px;" })
-                                                                                            </td>
-                                                                                           @* <td>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.Suplst[i].SupplierPart, new { @id = "txtSupplierPart" + i, @class = "form-control", style = "width: 90px;"})
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.Suplst[i].PurchasePrice, new { @id = "txtPurchasePrice" + i, @class = "form-control", style = "width: 90px;" })
+                                                                                                </td>
+                                                                                               @* <td>
                                                                         @Html.TextBoxFor(o => o.Suplst[i].Preforder, new { @id = "txtPreforder" + i, @class = "form-control", style = "width: 90px;" })
                                                                     </td>*@
-                                                                                            <td>
-                                                                                                @Html.TextBoxFor(o => o.Suplst[i].Delivery, new { @id = "txtDelivery" + i, @class = "form-control", style = "width: 90px;" })
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                @Html.HiddenFor(o => o.Suplst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Suplst.Index" type="hidden" value="@(i)" />
-                                                                                            </td>
-                                                                                            
-                                                                                        </tr>
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.Suplst[i].Delivery, new { @id = "txtDelivery" + i, @class = "form-control", style = "width: 90px;" })
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    @Html.HiddenFor(o => o.Suplst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                                    <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Suplst.Index" type="hidden" value="@(i)" />
+                                                                                                </td>
+                                                                                                
+                                                                                            </tr>
 
                                                                 i = i + 1;
                                                             }
@@ -1326,28 +1069,28 @@
                                                             foreach (var item in Model.locdetlst.ToList())
                                                             {
 
-                                                                                        <tr id="trBooklo@(l)" class="chkitemlstlo" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                            <tr id="trBooklo@(l)" class="chkitemlstlo" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                                                            <td>
-                                                                                                @Html.DropDownListFor(o => o.locdetlst[l].loc, Model.locdetlst[l].locLst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlloc" + l, style = "width: 200px;"})
+                                                                                                <td>
+                                                                                                    @Html.DropDownListFor(o => o.locdetlst[l].loc, Model.locdetlst[l].locLst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlloc" + l, style = "width: 200px;"})
 
-                                                                                            </td>
-                                                                                           
-                                                                                            <td>
-                                                                                                @Html.TextBoxFor(o => o.locdetlst[l].minlevel, new { @id = "txtminlevel" + l, @class = "form-control", style = "width: 120px;",onchange = "changeItem(this.value," + j + ")"  })
-                                                                                            </td>
-                                                                                           <td>
-                                                                                                @Html.TextBoxFor(o => o.locdetlst[l].reorder, new { @id = "txtreorder" + l, @class = "form-control", style = "width: 90px;" })
-                                                                                            </td> 
-                                                                                            <td>
-                                                                                                @Html.TextBoxFor(o => o.locdetlst[l].maxlevel, new { @id = "txtmaxlevel" + l, @class = "form-control", style = "width: 140px;" })
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                @Html.HiddenFor(o => o.locdetlst[l].Isvalid, new { @id = "Isvalid" + l })
-                                                                                                <img onclick="removeRowlo(@(l));" src="../Images/delete.png" style="cursor:pointer" /> <input name="locdetlst.Index" type="hidden" value="@(l)" />
-                                                                                            </td>
-                                                                                            
-                                                                                        </tr>
+                                                                                                </td>
+                                                                                               
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.locdetlst[l].minlevel, new { @id = "txtminlevel" + l, @class = "form-control", style = "width: 120px;",onchange = "changeItem(this.value," + j + ")"  })
+                                                                                                </td>
+                                                                                               <td>
+                                                                                                    @Html.TextBoxFor(o => o.locdetlst[l].reorder, new { @id = "txtreorder" + l, @class = "form-control", style = "width: 90px;" })
+                                                                                                </td> 
+                                                                                                <td>
+                                                                                                    @Html.TextBoxFor(o => o.locdetlst[l].maxlevel, new { @id = "txtmaxlevel" + l, @class = "form-control", style = "width: 140px;" })
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    @Html.HiddenFor(o => o.locdetlst[l].Isvalid, new { @id = "Isvalid" + l })
+                                                                                                    <img onclick="removeRowlo(@(l));" src="../Images/delete.png" style="cursor:pointer" /> <input name="locdetlst.Index" type="hidden" value="@(l)" />
+                                                                                                </td>
+                                                                                                
+                                                                                            </tr>
                                                                 l = l + 1;
 
                                                             }
@@ -1370,9 +1113,9 @@
                                                     <div class="col-sm-8">
                                                         <div class="input-group">
 
-                                                            @Html.RadioButtonFor(C => C.rundet, "YES", new { @TabIndex = 2 })
+                                                            @Html.RadioButtonFor(C => C.rundet, "YES", new { @TabIndex = 2 ,@onchange="changerun(this.value)"})
                                                             <label id="mt-radio">Yes</label>&emsp;
-                                                            @Html.RadioButtonFor(C => C.rundet, "NO", new { @TabIndex = 3 })
+                                                            @Html.RadioButtonFor(C => C.rundet, "NO", new { @TabIndex = 3,@onchange="changerun(this.value)" })
                                                             <label id="mt-radio">No</label>
 
 
@@ -1382,7 +1125,7 @@
                                                 </div>
                                             </div>
                                             </div>
-                                             <div class="row">
+                                             <div class="row" id="run" hidden>
                                             <div class="col-md-6">
                                                 <div class="form-group">
 
@@ -1466,7 +1209,7 @@
                                                     <thead>
                                                         <tr>
 
-                                                            <th>Uplode </th>
+                                                            <th>Upload </th>
                                                             
                                                         </tr>
                                                     </thead>
@@ -1476,14 +1219,15 @@
                                                             
                                                              
 
-                                                                                        <tr>
+                                                                                            <tr>
 
-                                                                                            <td>
-                                                                        <input type="file" name="file" multiple />
-                                                                        @Html.HiddenFor(C => C.ID,new{@id="basicid"})
-                                                                    </td>
-                                                                                            
-                                                                                        </tr>
+                                                                                                <td>
+                                                                            <input type="file" name="file" id="files" multiple onchange="myFunction()"/>
+                                                                            <lable id="demo"></lable>
+                                                                            @Html.HiddenFor(C => C.ID,new{@id="basicid"})
+                                                                        </td>
+                                                                                                
+                                                                                            </tr>
 
 
 
@@ -1729,7 +1473,7 @@
                 var uniqueid = "<td><input class='form-control' id='txtuniqidy" + index + "' name='unititemlst[" + index + "].uniqid'  style='width: 140px;' type='text'   /></td>";
 
 
-        var removeCell = "<td><input id='Isvalid" + index + "' name='Purpose[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRowun(" + index + ");'  style='cursor:pointer' /><input name='Suplst.Index' type='hidden' value='" + index + "'  /></td>";
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Purpose[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRowun(" + index + ");'  style='cursor:pointer' /><input name='unititemlst.Index' type='hidden' value='" + index + "'  /></td>";
 
      
         var newRow = "<tr class='chkitemlstun'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookun" + index + "'>" + unit + cf + type + removeCell + "</tr>";
@@ -1973,11 +1717,58 @@
             }
         });
     }
-
-
+     function AddCategory(category) {
+  $.ajax({
+            url: "GetCategoryJSON",
+            type: "post",
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#txtsubcategory", response);
+                $(txtsubcategory).select2().val(category).trigger("change");
+              //  document.getElementById("txtsubcategory").value =category;
+            },
+            error: function () {
+                alert("Please Select Sub Category");
+            }
+        });
+    }
+     function AddPurCategory(category) {
+  $.ajax({
+            url: "GetPurCategoryJSON",
+            type: "post",
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#ddlpurchasecate", response);
+                $(ddlpurchasecate).select2().val(category).trigger("change");
+              //  document.getElementById("ddlpurchasecate").value =category;
+            },
+            error: function () {
+                alert("Please Select Purchase Category");
+            }
+        });
+    }
+     function AddRawCategory(category) {
+  $.ajax({
+            url: "GetRawCategoryJSON",
+            type: "post",
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#txtRawMaterial", response);
+                $(txtRawMaterial).select2().val(category).trigger("change");
+              //  document.getElementById("txtRawMaterial").value =category;
+            },
+            error: function () {
+                alert("Please Select Raw Material Category");
+            }
+        });
+    }
      function changesubgroup(itemid) {
                //alert(itemid);
                //debugger;
+              
+          $('#ddlItemSub').select2("val", "");
+
+              
                 $.ajax({
                     url: "GetSubGroupJSON",
                     type: "post",
@@ -2002,7 +1793,14 @@
                     document.getElementById("go").style.display = "none";
                 }
     }
-
+           function changerun(typeid) {
+                if (typeid == "YES") {
+                    document.getElementById("run").style.display = "block";
+                }
+                else{
+                    document.getElementById("run").style.display = "none";
+                }
+    }
 @*     $(document).ready(function () {
         $("#file-input").on("change", function () {
             var files = $(this)[0].files;
@@ -2058,9 +1856,44 @@ function fileValidation() {
             }
             $("#preview-container").on("click", ".delete", function () {
             $(this).parent(".preview").remove();
-            $("#file-input").val(""); // Clear input value if needed
+            $("#file").val(""); // Clear input value if needed
         });
         }
+
+        function myFunction(){
+  var x = document.getElementById("files");
+           
+  var txt = "";
+  if ('files' in x) {
+    if (x.files.length == 0) {
+      txt = "Select one or more files.";
+    } else {
+      for (var i = 0; i < x.files.length; i++) {
+        txt += "<br><strong>" + (i+1) + ". file</strong><br>";
+        var file = x.files[i];
+        if ('name' in file) {
+          txt += "name: " + file.name + "<br>";
+           $("files").on("click", ".delete", function () {
+            $(this).parent(".preview").remove();
+            $("#files").val(""); 
+             });// Clear input value if needed
+        }
+       @* if ('size' in file) {
+          txt += "size: " + file.size + " bytes <br>";
+        }*@
+      }
+    }
+  } 
+  else {
+    if (x.value == "") {
+      txt += "Select one or more files.";
+    } else {
+      txt += "The files property is not supported by your browser!";
+      txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead. 
+    }
+  }
+  document.getElementById("demo").innerHTML = txt;
+}
 </script>
                 <script type="text/javascript">
     $(document).ready(function () {
@@ -2081,6 +1914,7 @@ function fileValidation() {
             datafields: [
                 //{ name: 'branch', type: 'string' },
                 { name: 'upload', type: 'string' },
+                { name: 'delrow', type: 'string' },
                 
 
             ],
@@ -2093,7 +1927,9 @@ function fileValidation() {
             }
         }
         );
-
+         var linkrenderer1 = function (row, column, value) {
+            return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+        }
         $("#grid").jqxGrid(
             {
                 width: '70%',
@@ -2113,6 +1949,7 @@ function fileValidation() {
                 columns: [
                     //{ text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
                     { text: 'Doc Name', filtertype: 'input', datafield: 'upload', width: 500 },
+                    { text: 'Remove', sortable: false,datafield: 'delrow', exportable: false, filterable: false, groupable: false, autoshowfiltericon: false,cellsrenderer: linkrenderer1, cellsalign: 'center', width: 70 },
                     
                 ]
             });
@@ -2121,5 +1958,34 @@ function fileValidation() {
 
    
 </script>
+<script>
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
+</script>
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false
+        });
+        fancybox123 = $.fancybox;
+    });
 
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
+    </script>
 <script src="~/src/js/lightbox.js"></script>

@@ -12,6 +12,7 @@ namespace Arasan.Interface.Master
         DataTable GetSieve();
         DataTable GetViewEditWCSieve(string id);
         string StatusChange(string tag, int id);
+        string RemoveChange(string tag, int id);
         string WCSieveCRUD(WCSieve ss);
         DataTable WCSieveDeatils(string id);
         DataTable WCSieveViewDeatils(string id);

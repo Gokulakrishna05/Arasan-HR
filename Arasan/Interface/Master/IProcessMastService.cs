@@ -14,8 +14,9 @@ namespace Arasan.Interface.Master
         DataTable GetViewEditWrkDeatils(string id);
         DataTable GetWc();
         DataTable GetUnit();
-        string ProcessMastCRUD(ProcessMast cy);
         string StatusChange(string tag, string id);
+        string RemoveChange(string tag, string id);
+        string ProcessMastCRUD(ProcessMast cy);
 
     }
 }

@@ -37,6 +37,8 @@ namespace Arasan.Models
         public List<SelectListItem> emplst;
         //public List<SelectListItem> Loclst;
         public List<SelectListItem> Suplst;
+        public List<SelectListItem> Statelst;
+        public List<SelectListItem> Citylst;
         public string Branch { get; set; }
         public string Party { get; set; }
         public string createby { get; set; }

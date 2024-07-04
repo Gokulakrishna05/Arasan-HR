@@ -85,7 +85,7 @@
                     { text: 'Category Type', filtertype: 'checkedlist', datafield: 'catetype', width: 200 },
                     { text: 'Description', filtertype: 'input', datafield: 'description', width: 200 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, cellsrenderer: linkrenderer1, formatter: returnMyLink, edittype: 'select' },
                 ]
             });
         $("#ddlStatus").change(function () {
@@ -103,7 +103,9 @@
      function returnMyLink(cellValue, options, rowdata, action) {
         return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
     }
-
+    var linkrenderer1 = function (row, column, value) {
+        return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+    }
 </script>
 
 <div class="wrapper-content ">
@@ -149,6 +151,9 @@
 </div>
 
 <script>
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
     $(document).ready(function () {
         $('#example7').DataTable({
             dom: 'Bfrtip',

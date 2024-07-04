@@ -10,5 +10,6 @@ namespace Arasan.Interface.Master
         DataTable GetEditRateCode(string id);
         string RateCodeCRUD(RateCode cy);
         string StatusChange(string tag, string id);
+        string RemoveChange(string tag, string id);
     }
 }

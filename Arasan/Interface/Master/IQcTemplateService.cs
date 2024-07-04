@@ -15,6 +15,9 @@ namespace Arasan.Interface.Master
         DataTable GetQcTemplateItemEdit(string id);
         DataTable GetQcTemplateViewEdit(string id);
         DataTable GetQcTemplateViewItemEdit(string id);
+        DataTable GetAllQCTemp(string id);
+        string StatusChange(string tag, string id);
+        string RemoveChange(string tag, string id);
         DataTable GetQCTestDetails(string itemId);
         string QcTemplateCRUD(QcTemplate cy);
     }

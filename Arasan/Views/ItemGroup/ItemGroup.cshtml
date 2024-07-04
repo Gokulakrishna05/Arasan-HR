@@ -119,7 +119,7 @@
 
                                                             <th>SubGroup </th>
                                                            @* <th>SubGroup Desc</th>*@
-                                                            <th>ConsYN </th>
+                                                            <th>Consumpal Y/N </th>
                                                           
                                                         </tr>
                                                     </thead>
@@ -270,7 +270,7 @@
 
  
 
-        var consyn = "<td>  <div class='input-group'><input id='txtconsyn" + index + "' name='Sublst[" + index + "].consyn' type='radio' value='Y'/>  <label id='mt-radio'>Yes</label><input id='txtconsyn" + index + "' name='Sublst[" + index + "].consyn' type='radio' value='N'/>  <label id='mt-radio'>No</label><div></td>";
+        var consyn = "<td>  <div class='input-group'><input id='txtconsyn" + index + "' name='Sublst[" + index + "].consyn' type='radio' value='Y'/>  <label id='mt-radio'>Yes</label><input id='txtconsyn" + index + "' name='Sublst[" + index + "].consyn' type='radio' checked='checked' value='N'/>  <label id='mt-radio'>No</label><div></td>";
 
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='Sublst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Sublst.Index' type='hidden' value='" + index + "'  /></td>";

@@ -24,13 +24,13 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "SELECT PROCESSMASTID, PROCESSID, PROCESSNAME, PRODHRTYPE,BATCHORAVGCOST FROM PROCESSMAST WHERE PROCESSMAST.IS_ACTIVE = 'Y' ORDER BY PROCESSMASTID DESC ";
+                SvSql = "SELECT PROCESSMASTID, PROCESSID, PROCESSNAME, PRODHRTYPE,BATCHORAVGCOST,IS_ACTIVE FROM PROCESSMAST WHERE PROCESSMAST.IS_ACTIVE = 'Y' ORDER BY PROCESSMASTID DESC ";
 
             }
             else
             {
-                SvSql = "SELECT PROCESSMASTID,PROCESSID, PROCESSNAME, PRODHRTYPE,BATCHORAVGCOST FROM PROCESSMAST WHERE PROCESSMAST.IS_ACTIVE = 'N' ORDER BY PROCESSMASTID DESC ";
-                SvSql = "SELECT PROCESSMASTID,PROCESSID, PROCESSNAME, PRODHRTYPE,BATCHORAVGCOST FROM PROCESSMAST WHERE PROCESSMAST.IS_ACTIVE = 'N' ORDER BY PROCESSMASTID DESC ";
+                SvSql = "SELECT PROCESSMASTID,PROCESSID, PROCESSNAME, PRODHRTYPE,BATCHORAVGCOST,IS_ACTIVE FROM PROCESSMAST WHERE PROCESSMAST.IS_ACTIVE = 'N' ORDER BY PROCESSMASTID DESC ";
+                SvSql = "SELECT PROCESSMASTID,PROCESSID, PROCESSNAME, PRODHRTYPE,BATCHORAVGCOST,IS_ACTIVE FROM PROCESSMAST WHERE PROCESSMAST.IS_ACTIVE = 'N' ORDER BY PROCESSMASTID DESC ";
 
             }
 
@@ -233,6 +233,29 @@ namespace Arasan.Services.Master
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
                     svSQL = "UPDATE PROCESSMAST SET IS_ACTIVE ='N' WHERE PROCESSMASTID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+        public string RemoveChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE PROCESSMAST SET IS_ACTIVE ='Y' WHERE PROCESSMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

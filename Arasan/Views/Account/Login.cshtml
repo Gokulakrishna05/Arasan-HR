@@ -64,7 +64,7 @@
 					@Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @TabIndex = 3, @id = "Password" })
 					@*<input type="password" required="" placeholder="Password" class="form-control">*@
 				</div>
-				<button class="btn aqua block full-width  bottom15" type="submit">Login</button>
+				<button class="btn aqua block full-width  bottom15" type="submit" id="btnSave">Login</button>
 			@*	<a href="forgot_password.html"><small>Forgot password?</small></a>
 				<p class="text-muted text-center"><small>Do not have an account?</small></p>
 				<a href="register.html" class="btn btn-sm btn-white btn-block">Create an account</a>*@
@@ -75,3 +75,51 @@
 </body>
 
 </html>
+<script src="~/assets/js/vendor/jquery.min.js"></script>
+<script> 
+ $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+             if (document.getElementById("UserName").value == "" || document.getElementById("UserName").value == 0) {
+                isValid = false;
+                $(UserName).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter User Name");
+                return false;
+            }
+            else {
+                $(UserName).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("Password").value == "" || document.getElementById("Password").value == 0) {
+                isValid = false;
+                $(Password).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Password");
+                return false;
+            }
+            else {
+                $(Password).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+           
+           
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
+    </script>
+
+                   	
+

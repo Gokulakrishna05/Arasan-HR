@@ -98,9 +98,16 @@ namespace Arasan.Controllers.Master
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                EditRow = "<a href=Natofwork?id=" + dtUsers.Rows[i]["NATOFWORKID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["NATOFWORKID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-
+                if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
+                {
+                    EditRow = "<a href=Natofwork?id=" + dtUsers.Rows[i]["NATOFWORKID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["NATOFWORKID"].ToString() + "";
+                }
+                else
+                {
+                    EditRow = "";
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["NATOFWORKID"].ToString() + "";
+                }
 
                 Reg.Add(new NatofworkItem
                 {
@@ -122,6 +129,21 @@ namespace Arasan.Controllers.Master
         {
 
             string flag = NatofworkService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListNatofwork");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListNatofwork");
+            }
+        }
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = NatofworkService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

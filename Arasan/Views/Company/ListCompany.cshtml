@@ -88,7 +88,7 @@
                         { text: 'Company', filtertype: 'input', datafield: 'compname', width: 200 },
                         { text: 'Description', filtertype: 'input', datafield: 'compdesc', width: 200 },
                         { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, cellsrenderer: linkrenderer1, formatter: returnMyLink, edittype: 'select' },
                     ]
                 });
             $("#ddlStatus").change(function () {
@@ -106,6 +106,9 @@
     function returnMyLink(cellValue, options, rowdata, action) {
         return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
     }
+    var linkrenderer1 = function (row, column, value) {
+        return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+    }
 </script>
 
 
@@ -121,8 +124,8 @@
                             <div class="col-md-2 ">
 
                                 @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
-                                { new SelectListItem() {Text = "Opened", Value="ACTIVE"},
-                                new SelectListItem() {Text = "Closed", Value="INACTIVE"}},
+                                { new SelectListItem() {Text = "Enabled", Value="ACTIVE"},
+                                new SelectListItem() {Text = "Disabled", Value="INACTIVE"}},
                                 new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
                             </div>
 
@@ -151,6 +154,9 @@
 </div>
 
 <script type="text/javascript">
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
 
     function changeStatus(status) {
         var url = "/Company/ListCompany?status=" + status;

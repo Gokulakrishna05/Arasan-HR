@@ -163,16 +163,15 @@ namespace Arasan.Controllers.Master
 
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
-                    EditRow = "<a href=ItemDescription?id=" + dtUsers.Rows[i]["TESTDESCMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["TESTDESCMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    EditRow = "<a href=ItemDescription?id=" + dtUsers.Rows[i]["TESTDESCMASTERID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["TESTDESCMASTERID"].ToString() + "";
                 }
 
                 else
                 {
 
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["TESTDESCMASTERID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
-
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["TESTDESCMASTERID"].ToString() + "";
                 }
                 Reg.Add(new ItemDescriptiongrid
                 {

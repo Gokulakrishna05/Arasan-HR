@@ -112,7 +112,52 @@ namespace Arasan.Services.Master
         }
 
 
+        public string StatusChange(string tag, int id)
+        {
 
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE EMPALLOCATION SET IS_ACTIVE ='N' WHERE EMPALLOCATIONID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+        public string RemoveChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE EMPALLOCATION SET IS_ACTIVE ='Y' WHERE EMPALLOCATIONID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
         public DataTable GetEmp(string action)
         {
             string SvSql = string.Empty;
@@ -136,11 +181,11 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "select EMPMAST.EMPNAME,to_char(CREATEDDATE,'dd-MON-yyyy') EMPDATE,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=EMPALLOCATION.EMPID WHERE EMPALLOCATION.IS_ACTIVE = 'Y' Order by EMPALLOCATIONID DESC  ";
+                SvSql = "select EMPMAST.EMPNAME,to_char(CREATEDDATE,'dd-MON-yyyy') EMPDATE,EMPALLOCATION.IS_ACTIVE,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=EMPALLOCATION.EMPID WHERE EMPALLOCATION.IS_ACTIVE = 'Y' Order by EMPALLOCATIONID DESC  ";
             }
             else
             {
-                SvSql = "select EMPMAST.EMPNAME,to_char(CREATEDDATE,'dd-MON-yyyy') EMPDATE,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=EMPALLOCATION.EMPID WHERE EMPALLOCATION.IS_ACTIVE = 'N' Order by EMPALLOCATIONID DESC   ";
+                SvSql = "select EMPMAST.EMPNAME,to_char(CREATEDDATE,'dd-MON-yyyy') EMPDATE,EMPALLOCATION.IS_ACTIVE,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=EMPALLOCATION.EMPID WHERE EMPALLOCATION.IS_ACTIVE = 'N' Order by EMPALLOCATIONID DESC   ";
 
             }
             DataTable dtt = new DataTable();
