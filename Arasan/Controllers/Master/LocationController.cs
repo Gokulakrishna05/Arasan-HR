@@ -29,9 +29,14 @@ namespace Arasan.Controllers
             Location ca = new Location();
             ca.Brlst = BindBranch();
             ca.Suplst = BindSupplier();
+            ca.Statelst = BindState();
+            ca.Citylst = BindCity();
             ca.Branch = Request.Cookies["BranchId"];
             //ca.Loclst = GetLoc();
             ca.createby = Request.Cookies["UserId"];
+
+            ca.Trader = "No";
+            ca.Requried = "NO";
             List<LocationItem> TData = new List<LocationItem>();
             LocationItem tda = new LocationItem();
             List<LocItem> TData1 = new List<LocItem>();
@@ -268,6 +273,40 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public List<SelectListItem> BindState()
+        {
+            try
+            {
+                DataTable dtDesg = LocationService.GetState();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindCity()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='CITY' ");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindSupplier()
         {
             try
@@ -356,7 +395,7 @@ namespace Arasan.Controllers
             return Json(GetLoc());
 
         }
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteMR(string tag, string id)
         {
 
             string flag = LocationService.StatusChange(tag, id);
@@ -372,7 +411,7 @@ namespace Arasan.Controllers
             }
         }
 
-        public ActionResult Remove(string tag, int id)
+        public ActionResult Remove(string tag, string id)
         {
 
             string flag = LocationService.RemoveChange(tag, id);
@@ -399,18 +438,18 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                View = "<a href=ViewLocation?id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "><img src='../Images/view_icon.png' alt='Edit' /></a>";
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
+                    View = "<a href=ViewLocation?id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "><img src='../Images/view_icon.png' alt='Edit' /></a>";
 
                     EditRow = "<a href=Location?id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "";
                 }
                 else
                 {
 
                     EditRow = "";
-                    DeleteRow = "<a href=Remove?tag=Del&id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "";
 
                 }
 
@@ -521,6 +560,23 @@ namespace Arasan.Controllers
             {
                 throw ex;
             }
+        }
+        public IActionResult AddCity(string id)
+        {
+            Location ca = new Location();
+            // ca.Brlst = BindBranch();
+
+            return View(ca);
+        }
+        public JsonResult SaveCity(string category)
+        {
+            string Strout = LocationService.CityCRUD(category);
+            var result = new { msg = Strout };
+            return Json(result);
+        }
+        public JsonResult GetCityJSON()
+        {
+            return Json(BindCity());
         }
     }
 }

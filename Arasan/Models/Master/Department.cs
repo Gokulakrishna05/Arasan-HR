@@ -17,7 +17,7 @@ namespace Arasan.Models
         public string ddlStatus { get; set; }
 
 
-        //public List<Designation> Designationlst { get; set; }
+        public List<Designationdet> Designationlst { get; set; }
     }
    public class Departmentgrid
     {
@@ -30,6 +30,15 @@ namespace Arasan.Models
 
         public string pos { get; set; }
     }
- 
+    public class Designationdet
+    {
+        public string id { get; set; }
+        public List<SelectListItem> deslst { get; set; }
+
+        public string designation { get; set; }
+        public string Isvalid { get; set; }
+      
+    }
+
 }
 

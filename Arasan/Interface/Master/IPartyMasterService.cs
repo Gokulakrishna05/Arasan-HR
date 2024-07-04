@@ -18,6 +18,9 @@ namespace Arasan.Interface.Master
         DataTable GetPartyContact(string id);
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
+        string PartyTypeCRUD(string id);
+        string CityCRUD(string id);
+        string PartyGroup(string id);
         DataTable GetLedger();
         DataTable Getratecode();
 

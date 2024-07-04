@@ -9,6 +9,7 @@ namespace Arasan.Interface
         string DepartmentCRUD(Department ss);
 
         DataTable GetDepartment(string id);
+        DataTable GetDesign();
 
         //DataTable GetDepartmentDetail(string id);
 

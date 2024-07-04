@@ -56,6 +56,8 @@ namespace Arasan.Models
         public List<SelectListItem> costlst;
         public List<SelectListItem> classlst;
         public List<SelectListItem> valuelst;
+        public List<SelectListItem> subcategorylst;
+        public List<SelectListItem> RawMateriallst;
         public string ID { get; set; }
         public string Unit { get; set; }
         public string ItemG { get; set; }
@@ -72,6 +74,7 @@ namespace Arasan.Models
         public string QCTemp { get; set; }
         public string FQCTemp { get; set; }
         public string SubCat { get; set; }
+        public string subcategory { get; set; }
         public string ItemCode { get; set; }
         //public List<SelectListItem> Itemlst;
         public string Item { get; set; }

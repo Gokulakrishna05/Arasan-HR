@@ -72,7 +72,7 @@ namespace Arasan.Services
                 if (ss.ID == null)
                 {
 
-                    svSQL = " SELECT Count(DEPARTMENT_CODE) as cnt FROM DEPARTMENTMAST WHERE DEPARTMENT_CODE = LTRIM(RTRIM('" + ss.Departmentcode + "')) ";
+                    svSQL = " SELECT Count(DEPTCODE) as cnt FROM DDBASIC WHERE DEPTCODE = LTRIM(RTRIM('" + ss.Departmentcode + "')) ";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Departmentcode Already Existed";
@@ -97,21 +97,9 @@ namespace Arasan.Services
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
                     }
                     objCmd.Parameters.Add("DEPARTMENT_CODE", OracleDbType.NVarchar2).Value = ss.Departmentcode;
-                    objCmd.Parameters.Add("DEPARTMENT_NAME", OracleDbType.NVarchar2).Value = ss.DepartmentName;
-                    objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = ss.Descrip;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
-
-                    if (ss.ID == null)
-                    {
-                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.createby;
-                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                    }
-                    else
-                    {
-                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = ss.createby;
-                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                    }
-
+                    objCmd.Parameters.Add("DEPARTMENT_NAME", OracleDbType.NVarchar2).Value = ss.Departmentcode;
+                    objCmd.Parameters.Add("USERID", OracleDbType.NVarchar2).Value = ss.createby;
+                    
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 
@@ -119,7 +107,55 @@ namespace Arasan.Services
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (ss.ID != null)
+                        {
+                            Pid = ss.ID;
+                        }
+                        if (ss.Designationlst != null)
+                        {
+                            if (ss.ID == null)
+                            {
+                                int r = 1;
+                                foreach (Designationdet cp in ss.Designationlst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.designation != "")
+                                    {
 
+                                        svSQL = "Insert into DDDETAIL (DDBASICID,DDDETAILROW,DEPARTMENT,DESIGNATION,DESGBASICROW,COUNT1) VALUES ('" + Pid + "','" + r + "','" + ss.Departmentcode + "','" + cp.designation + "','0','0')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+
+
+                                    }
+                                    r++;
+                                }
+                            }
+
+                            else
+                            {
+                                svSQL = "Delete DDDETAIL WHERE DDBASICID='" + ss.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+                                int r = 1;
+                                foreach (Designationdet cp in ss.Designationlst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.designation != "")
+                                    {
+
+                                        svSQL = "Insert into DDDETAIL (DDBASICID,DDDETAILROW,DEPARTMENT,DESIGNATION,DESGBASICROW,COUNT1) VALUES ('" + Pid + "','" + r + "','" + ss.Departmentcode + "','" + cp.designation + "','0','0')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+
+
+                                    }
+                                    r++;
+                                }
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -232,7 +268,7 @@ namespace Arasan.Services
         public DataTable GetDepartment(string id)
                  {
                     string SvSql = string.Empty;
-                    SvSql = "Select DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME,DESCRIPTION from DEPARTMENTMAST where DEPARTMENTMASTID = '" + id + "' ";
+                    SvSql = "Select DDBASICID,DEPTCODE,DEPTNAME,USERID from DDBASIC where DDBASICID = '" + id + "' ";
                     DataTable dtt = new DataTable();
                     OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
                     OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -257,7 +293,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE DEPARTMENTMAST SET IS_ACTIVE ='N' WHERE DEPARTMENTMASTID='" + id + "'";
+                    svSQL = "UPDATE DDBASIC SET IS_ACTIVE ='N' WHERE DDBASICID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -271,8 +307,21 @@ namespace Arasan.Services
             }
             return "";
 
-        } 
+ 
         
+ 
+        }
+        public DataTable GetDesign()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='DESIGNATION'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+ 
         public string RemoveChange(string tag, string id)
         {
 
@@ -281,7 +330,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE DEPARTMENTMAST SET IS_ACTIVE ='Y' WHERE DEPARTMENTMASTID='" + id + "'";
+                    svSQL = "UPDATE DDBASIC SET IS_ACTIVE ='Y' WHERE DDBASICID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -302,11 +351,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select DEPARTMENTMAST.IS_ACTIVE,DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME from DEPARTMENTMAST  WHERE DEPARTMENTMAST.IS_ACTIVE = 'Y' ORDER BY DEPARTMENTMASTID DESC";
+                SvSql = "Select DDBASIC.IS_ACTIVE,DDBASICID,DEPTCODE,DEPTNAME,USERID from DDBASIC  WHERE DDBASIC.IS_ACTIVE = 'Y' ORDER BY DDBASICID DESC";
             }
             else
             {
-                SvSql = "Select DEPARTMENTMAST.IS_ACTIVE,DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME from DEPARTMENTMAST  WHERE DEPARTMENTMAST.IS_ACTIVE = 'N' ORDER BY DEPARTMENTMASTID DESC";
+                SvSql = "Select DDBASIC.IS_ACTIVE,DDBASICID,DEPTCODE,DEPTNAME,USERID from DDBASIC  WHERE DDBASIC.IS_ACTIVE = 'N' ORDER BY DDBASICID DESC";
 
             }
             DataTable dtt = new DataTable();

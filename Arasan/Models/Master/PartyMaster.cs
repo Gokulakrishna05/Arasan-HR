@@ -46,6 +46,7 @@ namespace Arasan.Models
         public List<SelectListItem> saleloclst;
         public List<SelectListItem> saleperlst;
         public List<SelectListItem> concodelst;
+        public List<SelectListItem> grouplist;
 
         public string salloc { get; set; }
         public string salper { get; set; }
