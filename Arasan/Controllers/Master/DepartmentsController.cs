@@ -220,7 +220,8 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListDepartment");
             }
-        }public ActionResult Remove(string tag, string id)
+        }
+        public ActionResult Remove(string tag, string id)
         {
 
             string flag = DepartmentService.RemoveChange(tag, id);
