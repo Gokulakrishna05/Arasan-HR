@@ -94,6 +94,61 @@ namespace Arasan.Controllers.Master
             ca.RATElist = TData;
             return View(ca);
         }
+        public IActionResult RateRivision(string id)
+        {
+            Rate ca = new Rate();
+            ca.Brlst = BindBranch();
+            ca.Ratelst = BindRateCode();
+            ca.Branch = Request.Cookies["BranchId"];
+            ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence("ratem");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
+            List<RateItem> TData = new List<RateItem>();
+            RateItem tda = new RateItem();
+       
+                DataTable dt = new DataTable();
+                //double total = 0;
+                dt = RateService.GetEditRate(id);
+                if (dt.Rows.Count > 0)
+                {
+
+                   // ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                    ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.Ratecode = dt.Rows[0]["RATECODE"].ToString();
+                    ca.RateName = dt.Rows[0]["RATENAME"].ToString();
+                    ca.ValidFrom = dt.Rows[0]["VALIDFROM"].ToString();
+                    ca.ValidTo = dt.Rows[0]["VALIDTO"].ToString();
+                    ca.UF = dt.Rows[0]["UF"].ToString();
+                    ca.RateType = dt.Rows[0]["RATETYPE"].ToString();
+                    ca.ID = id;
+               }
+                DataTable dt2 = new DataTable();
+
+                dt2 = RateService.GetEditRateDeatil(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new RateItem();
+                        //tda.Ratelst = BindRateCode();
+                        tda.RCode = dt2.Rows[i]["RCODE"].ToString();
+                        //tda.Itemlst = BindItemlst();
+                        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.Unit = dt2.Rows[i]["UNIT"].ToString();
+                        tda.rate = dt2.Rows[i]["RATE"].ToString();
+                        tda.Validfrom = dt2.Rows[i]["VFROM"].ToString();
+                        tda.Validto = dt2.Rows[i]["VTO"].ToString();
+                        tda.Type = dt2.Rows[i]["RTYPE"].ToString();
+                        TData.Add(tda);
+                    }
+                ca.RATElist = TData;
+                }       
+          
+                       return View(ca);
+        }
         public JsonResult GetRateJSON()
         {
             return Json(BindRateCode());
@@ -164,11 +219,12 @@ namespace Arasan.Controllers.Master
                 string View = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
+                string revision = string.Empty;
 
                 View = "<a href=ViewRate?id=" + dtUsers.Rows[i]["RATEBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
                 EditRow = "<a href=Rate?id=" + dtUsers.Rows[i]["RATEBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["RATEBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-
+                revision = "<a href=RateRivision?id=" + dtUsers.Rows[i]["RATEBASICID"].ToString() + "><img src='../Images/revision.png' alt='Edit' /></a>";
                 Reg.Add(new ListRateItem
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["RATEBASICID"].ToString()),
@@ -179,9 +235,7 @@ namespace Arasan.Controllers.Master
                     view = View,
                     edit = EditRow,
                     delrow = DeleteRow,
-
-
-
+                    revision= revision
                 });
             }
 

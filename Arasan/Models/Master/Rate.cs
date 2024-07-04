@@ -59,5 +59,6 @@ namespace Arasan.Models
         public string view { get; set; }
         public string edit { get; set; }
         public string delrow { get; set; }
+        public string revision { get; set; }
     }
 }
