@@ -228,6 +228,7 @@ internal class Program
         builder.Services.TryAddSingleton<IDrumChange, DrumChangeService>();
         builder.Services.TryAddSingleton<IStockReconcilation, StockReconcilationService>();
         builder.Services.TryAddSingleton<IMaterialSplit, MaterialSplitService>();
+        builder.Services.TryAddSingleton<IMchine, MchineServices>();
 
 
 
