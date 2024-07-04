@@ -220,6 +220,7 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListDepartment");
             }
+
         }
         public ActionResult Remove(string tag, string id)
         {
@@ -253,12 +254,14 @@ namespace Arasan.Controllers
                 {
 
                     EditRow = "<a href=PDept?id=" + dtUsers.Rows[i]["PDEPTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "<a href=DeletePDept?tag=Del&id=" + dtUsers.Rows[i]["PDEPTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["PDEPTID"].ToString() + "";
+
                 }
                 else
                 {
                     EditRow = "";
-                    DeleteRow = "<a href=DeletePDept?tag=Del&id=" + dtUsers.Rows[i]["PDEPTID"].ToString() + "><img src='../Images/close_icon.png' alt='Deactivate' /></a>";
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["PDEPTID"].ToString() + "";
+
                 }
 
                 Reg.Add(new Departmentgrid
