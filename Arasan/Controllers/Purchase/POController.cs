@@ -463,9 +463,8 @@ namespace Arasan.Controllers
                     tda = new GateInwardItem();
                     tda.Supplier = dt.Rows[i]["PARTYNAME"].ToString();
                     tda.Status = dt.Rows[i]["STATUS"].ToString();
-                    tda.GateInDate = dt.Rows[i]["GATE_IN_DATE"].ToString();
-                    tda.GateInTime = dt.Rows[i]["GATE_IN_TIME"].ToString();
-                    tda.PONo = dt.Rows[i]["DOCID"].ToString();
+                    tda.GateInDate = dt.Rows[0]["GATE_IN_DATE"].ToString() + "&" + dt.Rows[0]["GATE_IN_TIME"].ToString();
+                     tda.PONo = dt.Rows[i]["DOCID"].ToString();
                     tda.POID = dt.Rows[i]["GATE_IN_ID"].ToString();
                     tda.TotalQty = dt.Rows[i]["TOTAL_QTY"].ToString() == "" ? 0 : Convert.ToDouble(dt.Rows[i]["TOTAL_QTY"].ToString());
                     TData.Add(tda);
@@ -1147,8 +1146,8 @@ namespace Arasan.Controllers
             {
                 ca.Supplier = dt.Rows[0]["PARTYNAME"].ToString();
                 ca.POId = dt.Rows[0]["DOCID"].ToString();
-                ca.GateInDate = dt.Rows[0]["GATE_IN_DATE"].ToString();
-                ca.GateInTime = dt.Rows[0]["GATE_IN_TIME"].ToString();
+                ca.GateInDate = dt.Rows[0]["GATE_IN_DATE"].ToString() + "&"+ dt.Rows[0]["GATE_IN_TIME"].ToString();
+         
                 ca.ID = id;
                 ca.TotalQty = Convert.ToDouble(dt.Rows[0]["TOTAL_QTY"].ToString());
                 ca.Narration = dt.Rows[0]["NARRATION"].ToString();
@@ -1164,7 +1163,7 @@ namespace Arasan.Controllers
                     {
                         tda.ItemId = dtt.Rows[0]["ITEMID"].ToString();
                         tda.QC = dtt.Rows[0]["QCFLAG"].ToString();
-                        //  tda.Unit = dtt.Rows[0]["UNITID"].ToString();
+                        tda.Unit = dtt.Rows[0]["UNITID"].ToString();
                         tda.Quantity = ca.TotalQty.ToString();
                         tda.inQuantity = dtt.Rows[0]["IN_QTY"].ToString();
 

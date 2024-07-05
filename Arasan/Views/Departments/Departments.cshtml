@@ -22,7 +22,7 @@
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a href="@Url.Action("ListDepartment", "Department")">Dept/Desig</a> </li>
+            <li> <a href="@Url.Action("ListDepartment", "Departments")">Dept/Desig</a> </li>
             <li class="active"> <strong> Dept/Desig  </strong> </li>
         </ol>
     </div>
@@ -117,7 +117,7 @@
                                                             {
                                                                     <tr id="trBook@(j)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                        
-                                                                      <td>@Html.DropDownListFor(o => o.Designationlst[j].designation,Model.Designationlst[j].deslst, new { @id = "txtDesign" + j, @class = "form-control _select", style = "width: 200px;" })</td>
+                                                                      <td>@Html.DropDownListFor(o => o.Designationlst[j].designation,Model.Designationlst[j].deslst,"Please Select", new { @id = "txtDesign" + j, @class = "form-control _select", style = "width: 200px;" })</td>
                                                                         <td>
                                                                 @Html.HiddenFor(o => o.Designationlst[j].Isvalid, new { @id = "Isvalid" + j })
                                                                             <img onclick="removeRow(@(j));" src="../Images/delete.png" style="cursor:pointer" />  <input name="Designationlst.Index" type="hidden" value="@(j)" />
@@ -273,7 +273,7 @@
      function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var design = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='txtDesign" + index + "' name='Designationlst[" + index + "].Design' ><option value=''>Please select</option>" + opt + "</select></td>";
+        var design = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='txtDesign" + index + "' name='Designationlst[" + index + "].Design' ><option value=''>Please Select</option>" + opt + "</select></td>";
          var no = index;
 
  

@@ -229,6 +229,7 @@ internal class Program
         builder.Services.TryAddSingleton<IStockReconcilation, StockReconcilationService>();
         builder.Services.TryAddSingleton<IMaterialSplit, MaterialSplitService>();
         builder.Services.TryAddSingleton<IMchine, MchineServices>();
+        builder.Services.TryAddSingleton<ICommission, CommissionService>();
 
 
 

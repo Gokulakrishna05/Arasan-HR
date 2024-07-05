@@ -623,7 +623,7 @@ namespace Arasan.Services
         public DataTable GetViewGateItems(string Poid)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,ITEMMASTER.QCT,QCFLAG,IN_QTY,QTY from GATE_INWARD_DETAILS left outer join ITEMMASTER on ITEMMASTERID=GATE_INWARD_DETAILS.ITEM_ID   where GATE_INWARD_DETAILS.GATE_IN_ID  ='" + Poid + "'";
+            SvSql = "select ITEMMASTER.ITEMID,ITEMMASTER.QCT,QCFLAG,IN_QTY,UNITMAST.UNITID from GATE_INWARD_DETAILS left outer join ITEMMASTER on ITEMMASTERID=GATE_INWARD_DETAILS.ITEM_ID left outer join UNITMAST on UNITMASTID=ITEMMASTER.PRIUNIT   where GATE_INWARD_DETAILS.GATE_IN_ID  ='" + Poid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

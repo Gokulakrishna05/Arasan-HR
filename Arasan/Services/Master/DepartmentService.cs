@@ -120,7 +120,7 @@ namespace Arasan.Services
                                 int r = 1;
                                 foreach (Designationdet cp in ss.Designationlst)
                                 {
-                                    if (cp.Isvalid == "Y" && cp.designation != "")
+                                    if (cp.Isvalid == "Y" && cp.designation != null)
                                     {
 
                                         svSQL = "Insert into DDDETAIL (DDBASICID,DDDETAILROW,DEPARTMENT,DESIGNATION,DESGBASICROW,COUNT1) VALUES ('" + Pid + "','" + r + "','" + ss.Departmentcode + "','" + cp.designation + "','0','0')";

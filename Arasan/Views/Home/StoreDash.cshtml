@@ -59,7 +59,7 @@
                         <i class="fa fa-user fa-2x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <span>Total Customes</span>
+                        <span>Total Customers</span>
                         <h2 class="font-bold">610</h2>
                     </div>
                 </div>
@@ -235,13 +235,13 @@
                                                      foreach (var item in Model.GateInlst.ToList())
                                                                         {
                                                                                         <tr>
-                                                                                            <td>@Html.DisplayFor(o => o.GateInlst[g].GateDate)</td>
+                                                                                            <td>@Html.DisplayFor(o => o.GateInlst[g].GateDate)@Html.HiddenFor(o => o.GateInlst[g].gateid)</td>
                                                                                             <td>@Html.DisplayFor(o => o.GateInlst[g].PartyName)</td>
                                                                                             <td>@Html.DisplayFor(o => o.GateInlst[g].ItemName)</td>
                                                                                             <td>@Html.DisplayFor(o => o.GateInlst[g].TotalQty)</td>
                                                                                             <td>@Html.DisplayFor(o => o.GateInlst[g].Unit)</td>
-                                                                                            @*<td> <a class="nav-link" href="@Url.Action("POQcTesting", "QCTesting",new { id=item.id,tag=1})"> <img src='../Images/GoTo.jpg' alt='View Details' width='80' /></a></td>*@
-                                                                                            <td> <a class="nav-link" href="@Url.Action("ListGateInward", "PO")"> <img src='../Images/right-arrow.png' width='20' /> </a></td>
+                                                                                            @*<td> <a class="nav-link" href="@Url.Action("POQcTesting", "QCTesting"/*,new { id=item.id,tag=1}*/)"> <img src='../Images/GoTo.jpg' alt='View Details' width='80' /></a></td>*@
+                                                                                            <td> <a class="nav-link" href="@Url.Action("ListGateInward", "PO",new { fromdate=item.GateinDate,todate=item.GateinDate})"> <img src='../Images/right-arrow.png' width='20' /> </a></td>
                                                                                         </tr>
                                                                             g = g + 1;
 
@@ -521,7 +521,7 @@ var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
     "dataProvider": chartData,
     "valueAxes": [{
-        "title": "Store Stock"
+         
     }],
     "graphs": [{
         "balloonText": "Stock in [[category]]:[[value]]",

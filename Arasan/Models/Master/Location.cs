@@ -30,7 +30,8 @@ namespace Arasan.Models
             this.Brlst = new List<SelectListItem>();
             this.emplst = new List<SelectListItem>();
             this.Suplst = new List<SelectListItem>();
-            //this.Loclst = new List<SelectListItem>();
+            this.Citylst = new List<SelectListItem>();
+            this.Statelst = new List<SelectListItem>();
 
         }
         public List<SelectListItem> Brlst;
