@@ -84,17 +84,17 @@
                     enablebrowserselection: true,
                     columns: [
 
-                    { text: 'Work Center ID', filtertype: 'checkedlist', datafield: 'wid', width: 200 },
+                    { text: 'Work Center', filtertype: 'checkedlist', datafield: 'wid', width: 200 },
                     { text: 'Work Center Type', filtertype: 'input', datafield: 'wtype', width: 200 },
                     { text: 'Issuse Location',datafield: 'iloc', width: 200 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'prod Rate', datafield: 'productionrate', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Regection Det', datafield: 'rejdet', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Prod Cap', datafield: 'prodcap', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Prod Cap Per Day', datafield: 'prodcapday', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'AP Sieve', datafield: 'apsive', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'paste', datafield: 'paste', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, cellsrenderer: linkrenderer1, formatter: returnMyLink, edittype: 'select' },
+                    { text: 'prod Rate', datafield: 'productionrate', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
+                    { text: 'Rejection Det', datafield: 'rejdet', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
+                    { text: 'Prod Cap', datafield: 'prodcap', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
+                    { text: 'Prod Cap Per Day', datafield: 'prodcapday', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 130 },
+                    { text: 'AP Sieve', datafield: 'apsive', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
+                    { text: 'paste', datafield: 'paste', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
+                        { text: 'Enable/Disable', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100, cellsrenderer: linkrenderer1, formatter: returnMyLink, edittype: 'select' },
                 ]
         });
         $("#ddlStatus").change(function () {

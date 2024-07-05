@@ -147,7 +147,7 @@ namespace Arasan.Controllers
                 {
                     ViewBag.PageTitle = "Edit Location";
                     TempData["notice"] = Strout;
-                    //return View();
+                    return View("Location");
                 }
 
                 // }

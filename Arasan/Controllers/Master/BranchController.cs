@@ -29,7 +29,7 @@ namespace Arasan.Controllers
             br.Compalst = BindCompany();
             //br.cuntylst = BindCountry();
             br.statlst = BindState();
-            br.Citylst = BindCity("");
+            br.Citylst = BindCity( );
 
 
 
@@ -45,7 +45,7 @@ namespace Arasan.Controllers
                     br.BranchName = dt.Rows[0]["BRANCHID"].ToString();
                     br.Address = dt.Rows[0]["ADDRESS1"].ToString();
                     br.StateName = dt.Rows[0]["STATE"].ToString();
-                    br.Citylst = BindCity(br.StateName);
+                    br.Citylst = BindCity( );
                     br.City = dt.Rows[0]["CITY"].ToString();
                     br.PinCode = dt.Rows[0]["PINCODE"].ToString();
                     br.GSTNo = dt.Rows[0]["CSTNO"].ToString();
@@ -95,7 +95,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMPANYID"].ToString(), Value = dtDesg.Rows[i]["COMPANYID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMPANYID"].ToString(), Value = dtDesg.Rows[i]["COMPANYMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -138,15 +138,15 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindCity(String id)
+        public List<SelectListItem> BindCity( )
         {
             try
             {
-                DataTable dtDesg = BranchService.GetCity(id);
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='CITY'");
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CITYNAME"].ToString(), Value = dtDesg.Rows[i]["CITYNAME"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
                 }
                 return lstdesg;
             }
@@ -193,14 +193,14 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public JsonResult GetCityJSON(string supid)
-        {
-            //string CityID = datatrans.GetDataString("Select STATEMASTID from STATEMAST where STATE='" + supid + "' ");
-            Branch model = new Branch();
-            model.Citylst = BindCity(supid);
-            return Json(BindCity(supid));
+        //public JsonResult GetCityJSON(string supid)
+        //{
+        //    string CityID = datatrans.GetDataString("Select STATEMASTID from STATEMAST where STATE='" + supid + "' ");
+        //    Branch model = new Branch();
+        //    model.Citylst = BindCity(supid);
+        //    return Json(BindCity(supid));
 
-        }
+        //}
         public IActionResult ListBranch(string status)
         {
             //IEnumerable<Branch> br = BranchService.GetAllBranch(status);
@@ -279,6 +279,23 @@ namespace Arasan.Controllers
                 Reg
             });
 
+        }
+        public IActionResult AddCity(string id)
+        {
+            Branch ca = new Branch();
+            // ca.Brlst = BindBranch();
+
+            return View(ca);
+        }
+        public JsonResult SaveCity(string category)
+        {
+            string Strout = BranchService.CityCRUD(category);
+            var result = new { msg = Strout };
+            return Json(result);
+        }
+        public JsonResult GetCityJSON()
+        {
+            return Json(BindCity());
         }
     }
 }

@@ -17,7 +17,7 @@
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Master</a> </li>
+            <li> <a href="@Url.Action("ListQCTemplate", "QCTemplate")">QC Template</a> </li>
             <li class="active"> <strong> QC Template  </strong> </li>
         </ol>
     </div>
@@ -80,7 +80,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                               @* <div class="col-md-6">
                                     <div class="form-group">
 
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Qc Type<label class="mandatory">*</label></label>
@@ -89,7 +89,7 @@
                                         </div>
 
                                     </div>
-                                </div>
+                                </div>*@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -106,7 +106,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Samplingper<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Sampling %<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
 
                                             @Html.TextBoxFor(C => C.Samplingper, new { @id = "txtSamplingper", @class = "form-control", @TabIndex = 2 })
@@ -326,7 +326,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter QcTemplate");
+                alert("Please Enter Qc Template");
                 return false;
             }
             else {
@@ -342,7 +342,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter TestType");
+                alert("Please Enter Test Type");
                 return false;
             }
             else {
@@ -358,7 +358,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select SetBy ");
+                alert("Please Select Set By ");
                 return false;
             }
             else {
@@ -374,7 +374,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter QcType");
+                alert("Please Enter Qc Type");
                 return false;
             }
             else {

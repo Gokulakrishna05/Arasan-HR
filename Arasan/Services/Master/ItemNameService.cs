@@ -866,7 +866,7 @@ namespace Arasan.Services.Master
         public DataTable BindBinID()
         {
             string SvSql = string.Empty;
-            SvSql = "Select BINID,BINBASICID from BINBASIC";
+            SvSql = "Select BINID,BINBASICID from BINBASIC Where CAPACITY='0' AND IS_ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -900,7 +900,7 @@ namespace Arasan.Services.Master
         public DataTable GetItemCategory()
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMCATEGORYID,CATEGORY from ITEMCATEGORY ";
+            SvSql = "Select ITEMCATEGORYID,CATEGORY from ITEMCATEGORY WHERE IS_ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -950,7 +950,7 @@ namespace Arasan.Services.Master
         public DataTable GetQCTemp()
         {
             string SvSql = string.Empty;
-            SvSql = "Select TEMPLATEID,TESTTBASICID from TESTTBASIC";
+            SvSql = "Select TEMPLATEID,TESTTBASICID from TESTTBASIC WHERE IS_ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -960,7 +960,7 @@ namespace Arasan.Services.Master
         public DataTable GetSupplier()
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYMAST.PARTYMASTID,PARTYMAST.PARTYNAME  PARTY from PARTYMAST  Where PARTYMAST.TYPE IN ('Supplier','BOTH')";
+            SvSql = "Select PARTYMAST.PARTYMASTID,PARTYMAST.PARTYNAME  PARTY from PARTYMAST  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND   IS_ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -1,10 +1,19 @@
 ﻿@model Arasan.Models.Home
 
     <link rel="stylesheet" type="text/css" href="~/css/Profile.css">
- 
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li class="active"> <strong>Profile</strong> </li>
+        </ol>
+    </div>
+</div>
+
                 <div class="wrapper-content">
                     <div class="row">
-                        <!-- Left Container (Image & Basic Info) -->
                         <div class="col-sm-4">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-content profile-box">
@@ -12,14 +21,32 @@
                                         <img src="~/Images/profileicon.png" height="250" width="250" class="full-width" alt="image">
                                     </div>
                                     <div class="widgets-container">
-                                        <h4><strong>Rishi</strong></h4>
-                                        <h5>Employee ID: 12345</h5>
-                                        <p>Designation: Software Engineer</p>
+                                        <h4><strong>@Html.DisplayFor(c => c.Empname)</strong></h4>0
+                                        <h5>Employee ID: @Html.DisplayFor(c => c.Empid)</h5>
+                                        @*<p><strong>Designation:</strong> Software Engineer</p>*@
+                                    </div>
+                                </div>
+                            </div>
+                              <div class="ibox">
+                                <div class="widgets-container">
+                                    <div class="feed-element">
+                                        <div class="media-body">
+                                            <h3>LOCATION DETAILS</h3>
+                                            @{
+                                                int i = 0;
+
+                                                foreach (var item in Model.Locdet.ToList())
+                                                {
+                                                    <p><strong>•</strong> @Html.DisplayFor(c => c.Locdet[i].Loc)</p>
+                                                    i = i + 1;
+                                                }
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                      
                         <div class="col-sm-5">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
@@ -49,22 +76,21 @@
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
                                     <h3>PAY CODE</h3>
-
-                                    <p><strong>Pay Category: </strong> @Html.DisplayFor(c => c.Ecat)</p>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="widgets-container">
+                                        <p><strong>Pay Category: </strong> @Html.DisplayFor(c => c.Ecat)</p>
                                     <p><strong>Employee Basic: </strong> @Html.DisplayFor(c => c.Ebas)</p>
                                     <p><strong>PF NO: </strong> @Html.DisplayFor(c => c.PFN)</p>
                                     <p><strong>ESI NO: </strong> @Html.DisplayFor(c => c.ESIN)</p>
                                     <p><strong>PF Date: </strong> @Html.DisplayFor(c => c.PFD)</p>
                                     <p><strong>ESI Date: </strong> @Html.DisplayFor(c => c.ESID)</p>
                                     <p><strong>Emp Cost: </strong> @Html.DisplayFor(c => c.ECOST)</p>
-                                </div>
-                                <div class="ibox-content">
-                                    <div class="widgets-container">
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="ibox float-e-margins">
+                       <!-- <div class="ibox float-e-margins">
                                 <div class="ibox-title">
                                     <h3>Extra Container</h3>
                                 </div>
@@ -72,7 +98,7 @@
                                     <div class="widgets-container">
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
 
                         <div class="col-sm-3">
@@ -122,40 +148,21 @@
                             </div>
 
 
-                            <div class="ibox">
-                                <div class="widgets-container">
-                                    <div class="feed-element">
-                                        <div class="media-body">
-                                            <h3>LOCATION DETAILS</h3>
-                                            @{
-                                                int i = 0;
-
-                                                foreach (var item in Model.Locdet.ToList())
-                                                {
-                                                    <p><strong>Location: </strong> @Html.DisplayFor(c => c.Locdet[i].Loc)</p>
-                                                    i = i + 1;
-                                                }
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
 
 
-                            <div class="ibox">
+                            
+                       <!--   <div class="ibox">
                                 <div class="widgets-container">
                                     <div class="feed-element">
                                         <div class="media-body">
                                             <h3>Additional Container 2</h3>
-                                            <!-- Add content here if needed in the future -->
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                              </div>-->
                         </div>
 
                     </div>
                 </div>
-          
-
-
+            

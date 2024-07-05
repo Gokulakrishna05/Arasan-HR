@@ -139,7 +139,7 @@ namespace Arasan.Services.Master
                     }
 
                     objCmd.Parameters.Add("TEMPLATEID", OracleDbType.NVarchar2).Value = cy.Qc;
-                    objCmd.Parameters.Add("TESTTYPE", OracleDbType.NVarchar2).Value = cy.Test;
+                    objCmd.Parameters.Add("TESTTYPE", OracleDbType.NVarchar2).Value = "NO DIS";
                     objCmd.Parameters.Add("SETBY", OracleDbType.NVarchar2).Value = cy.Set;
                     objCmd.Parameters.Add("TEMPLATEDESC", OracleDbType.NVarchar2).Value = cy.Description;
                     objCmd.Parameters.Add("QCTYPE", OracleDbType.NVarchar2).Value = cy.Type;

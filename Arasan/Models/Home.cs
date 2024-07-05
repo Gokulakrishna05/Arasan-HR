@@ -129,11 +129,13 @@ public class salesdash {
     public class GateIn
     {
         public string GateDate { get; set; }
+        public string GateinDate { get; set; }
         public string PartyName { get; set; }
         public string ItemName { get; set; }
         public string TotalQty { get; set; }
         public string Unit { get; set; }
         public string id { get; set; }
+        public string gateid { get; set; }
     }
     public class indentsup
     {

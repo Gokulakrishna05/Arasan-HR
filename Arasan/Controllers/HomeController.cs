@@ -386,19 +386,15 @@ namespace Arasan.Controllers
                     tad2.ItemName = Idt3.Rows[i]["ITEMID"].ToString();
                     tad2.qty = Idt3.Rows[i]["QTY"].ToString();
                     tad2.basicid = Idt3.Rows[i]["STORESREQBASICID"].ToString();
-                    DataTable dt1 = new DataTable();
-                    dt1 = HomeService.GetMat(tad2.basicid);
-                    if (dt1.Rows.Count > 0)
-                    {
-                        tad2.docid = dt1.Rows[0]["DOCID"].ToString();
-                        tad2.Date = dt1.Rows[0]["DOCDATE"].ToString();
-                        tad2.location = dt1.Rows[0]["LOCID"].ToString();
-                    }
-                    else
-                    {
-                        tad2.Date = DateTime.Now.ToString("dd-MMM-yyyy");
-                    }
-                    DateTime Current = DateTime.Parse(tad2.Date);
+
+                    tad2.docid = Idt3.Rows[i]["DOCID"].ToString();
+                    tad2.Date = Idt3.Rows[i]["DOCDATE"].ToString();
+                    tad2.location = Idt3.Rows[i]["LOCID"].ToString();
+
+
+                    string Dates = DateTime.Now.ToString("dd-MMM-yyyy");
+
+                    DateTime Current = DateTime.Parse(Dates);
 
                     TimeSpan difference = DateTime.Now - Current;
                     int daysAgo = (int)difference.TotalDays;
@@ -413,18 +409,22 @@ namespace Arasan.Controllers
                     Data2.Add(tad2);
                 }
             }
-           DataTable dtg = datatrans.GetData("select to_char(GATE_IN_DATE,'dd-MON-yyyy') GATE_IN_DATE,GATE_IN_TIME,TOTAL_QTY,PARTYMAST.PARTYNAME,ITEMMASTER.ITEMID,UNITMAST.UNITID,POBASICID from GATE_INWARD_DETAILS LEFT OUTER JOIN GATE_INWARD on GATE_INWARD.GATE_IN_ID=GATE_INWARD_DETAILS.GATE_IN_ID LEFT OUTER JOIN  PARTYMAST on GATE_INWARD.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GATE_INWARD_DETAILS.ITEM_ID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT WHERE GATE_INWARD.STATUS='Waiting' AND GATE_INWARD_DETAILS.QCFLAG='YES' AND PARTYMAST.TYPE IN ('Supplier','BOTH')");
+                
+            
+           DataTable dtg = datatrans.GetData("select to_char(GATE_IN_DATE,'dd-MON-yyyy') GATE_IN_DATE,GATE_IN_TIME,TOTAL_QTY,PARTYMAST.PARTYNAME,ITEMMASTER.ITEMID,UNITMAST.UNITID,POBASICID,GATE_INWARD.GATE_IN_ID from GATE_INWARD_DETAILS LEFT OUTER JOIN GATE_INWARD on GATE_INWARD.GATE_IN_ID=GATE_INWARD_DETAILS.GATE_IN_ID LEFT OUTER JOIN  PARTYMAST on GATE_INWARD.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GATE_INWARD_DETAILS.ITEM_ID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT WHERE GATE_INWARD.STATUS='Waiting' AND GATE_INWARD_DETAILS.QCFLAG='YES' AND PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY to_date(GATE_IN_DATE)  DESC ");
             if (dtg.Rows.Count > 0)
             {
                 for (int i = 0; i < dtg.Rows.Count; i++)
                 {
                     tdag = new GateIn();
                     tdag.GateDate = dtg.Rows[i]["GATE_IN_DATE"].ToString() + " & " + dtg.Rows[i]["GATE_IN_TIME"].ToString();
+                    tdag.GateinDate = dtg.Rows[i]["GATE_IN_DATE"].ToString();
                     tdag.PartyName = dtg.Rows[i]["PARTYNAME"].ToString();
                     tdag.ItemName = dtg.Rows[i]["ITEMID"].ToString();
                     tdag.TotalQty = dtg.Rows[i]["TOTAL_QTY"].ToString();
                     tdag.Unit = dtg.Rows[i]["UNITID"].ToString();
                     tdag.id = dtg.Rows[i]["POBASICID"].ToString();
+                    tdag.gateid = dtg.Rows[i]["GATE_IN_ID"].ToString();
                     TDatag.Add(tdag);
                 }
             }

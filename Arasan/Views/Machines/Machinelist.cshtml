@@ -33,7 +33,7 @@
                 url: "/Machines/MyListMachinegrid",
                 //url: "/ItemName/ItemName",
                 data: {
-                    strstatus: "Yes"
+                    strstatus: "Y"
                 },
                 datatype: "json",
                 updaterow: function (rowid, rowdata) {
@@ -87,11 +87,11 @@
                     columns: [
                         // { text: 'Item Category', filtertype: 'checkedlist', datafield: 'itemcate', width: 150 },
                         // { text: 'Machine ID', filtertype: 'checkedlist', datafield: 'id', width: 150 },
-                        { text: 'Machine Code', filtertype: 'checkedlist', datafield: 'mcode', width: 150 },
-                        { text: 'Machine Name', filtertype: 'input', datafield: 'mname', width: 300 },
-                        { text: 'Machine Location', filtertype: 'input', datafield: 'mloc', width: 300 },
-                        { text: 'Machine Serial Number', filtertype: 'input', datafield: 'mserialno', width: 300 },
-                        { text: 'Machine Model', filtertype: 'input', datafield: 'mmodel', width: 300 },
+                        { text: 'Machine Code', filtertype: 'checkedlist', datafield: 'mcode', width: 130 },
+                        { text: 'Machine Name', filtertype: 'input', datafield: 'mname', width: 290 },
+                        { text: 'Machine Location', filtertype: 'input', datafield: 'mloc', width: 180 },
+                      //  { text: 'Machine Serial Number', filtertype: 'input', datafield: 'mserialno', width: 180 },
+                       // { text: 'Machine Model', filtertype: 'input', datafield: 'mmodel', width: 180 },
 
                         { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                         { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },

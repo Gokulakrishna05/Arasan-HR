@@ -403,12 +403,12 @@ namespace Arasan.Controllers.Master
                 {
 
                     EditRow = "<a href=WorkCenters?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    ProductionRate = "<a href=ProductionRate?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + " ><img src='../Images/edit.png' alt='Edit' /></a>";
-                    rejdet = "<a href=Rejdet?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    ProdCap ="<a href=ProdCap?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    ProdCapday = "<a href=ProdCapPerDay?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    ApSive = "<a href=ApSive?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    paste = "<a href=PasteRun?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    ProductionRate = "<a href=ProductionRate?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + " ><img src='../Images/plus.png' alt='Edit' /></a>";
+                    rejdet = "<a href=Rejdet?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/plus.png' alt='Edit' /></a>";
+                    ProdCap ="<a href=ProdCap?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/plus.png' alt='Edit' /></a>";
+                    ProdCapday = "<a href=ProdCapPerDay?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/plus.png' alt='Edit' /></a>";
+                    ApSive = "<a href=ApSive?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/plus.png' alt='Edit' /></a>";
+                    paste = "<a href=PasteRun?id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "><img src='../Images/plus.png' alt='Edit' /></a>";
                     DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["WCBASICID"].ToString() + "";
                 }
                 else
