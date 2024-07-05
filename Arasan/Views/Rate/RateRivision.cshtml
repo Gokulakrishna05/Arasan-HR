@@ -172,7 +172,66 @@
                                 </div>
                             </div>
                             </div>
-                                    <div class="tab-pane active" id="tab-2">
+                                    <div class="tab-pane" id="tab-2">
+
+                                        <div style="height:30px;"></div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <a href="#" id="editclick" class='fancybox' data-fancybox-type='iframe'></a>
+                                                <div class="btn-group">
+                                                    <p style="float:right;"> <input id="button" type="button" value="Edit" onclick="EditRow()" class="btn sbold green" /></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="height:30px;"></div>
+
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="ibox float-e-margins">
+
+                                                    <div class="ibox-content collapse in">
+                                                        <div class="widgets-container">
+                                                            <div>
+                                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th></th>
+                                                                            <th>Item</th>
+                                                                            <th>Unit</th>
+                                                                            <th>Rate</th>
+                                                                            <th>Edit</th>
+                                                                            <th>Delete</th>
+                                                                        </tr>
+                                                                    </thead>
+
+                                                                    <tbody>
+                                                                        @{
+                                                                            int j = 0;
+
+                                                                            foreach (var item in Model.VRATElist.ToList())
+                                                                            {
+
+                                                                                <tr id="trBookedot@(i)" class="chkitemlst1" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                    <td>@Html.CheckBoxFor(o => o.VRATElist[j].checkselect, new { @id = "drumslect_" + j ,@class="checkbox"} )@Html.HiddenFor(o => o.VRATElist[j].ID, new { @id = "stardetid" + j })</td>
+                                                                                    <td>@Html.DisplayFor(o => o.VRATElist[j].ItemId)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.VRATElist[j].Unit)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.VRATElist[j].rate)</td>
+                                                                                    <td><a href="EditRow?id=@item.ID" class='fancybox' data-fancybox-type='iframe'><img src='../Images/edit.png' alt='Edit' /></a></td>
+                                                                                    <td><a href="Delrow?id=@item.ID" onclick="return ConfirmDelete()"><img src="../Images/Inactive.png" style="text-align: center; margin-top: 5px;padding-left:25px;" /></a></td>
+                                                                                </tr>
+                                                                                j++;
+                                                                            }
+                                                                        }
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
 
                                 </div>

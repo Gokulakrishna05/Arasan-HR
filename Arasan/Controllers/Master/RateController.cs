@@ -144,10 +144,17 @@ namespace Arasan.Controllers.Master
                         tda.Type = dt2.Rows[i]["RTYPE"].ToString();
                         TData.Add(tda);
                     }
-                ca.RATElist = TData;
-                }       
-          
-                       return View(ca);
+                ca.VRATElist = TData;
+                }
+            List<RateItem> TData2 = new List<RateItem>();
+            RateItem tda2 = new RateItem();
+            tda2 = new RateItem();
+            tda2.Itemlst = BindItemlst();
+            tda2.Isvalid = "Y";
+            TData2.Add(tda2);
+
+            ca.RATElist = TData2;
+            return View(ca);
         }
         public JsonResult GetRateJSON()
         {

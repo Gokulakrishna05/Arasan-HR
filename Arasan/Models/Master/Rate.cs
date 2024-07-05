@@ -24,11 +24,12 @@ namespace Arasan.Models
         public string UF { get; set; }
         public string RateType { get; set; }
         public string ddlStatus { get; set; }
-
+        public List<RateItem> VRATElist { get; set; }
         public List<RateItem> RATElist { get; set; }
     }
     public class RateItem
     {
+        public bool checkselect { get; set; }
         public string ID { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
         public string ItemId { get; set; }
