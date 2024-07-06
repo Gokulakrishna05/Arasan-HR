@@ -13,5 +13,11 @@ namespace Arasan.Interface.Master
         string StatusChange(string tag, string id);
         string RemoveChange(string tag, string id);
         DataTable GetAllCountryGRID(string strStatus);
+        DataTable GetEditCountDetail(string id);
+        DataTable GetEditPortDetail(string id);
+
+        DataTable GetCur();
+        DataTable GetSta();
+
     }
 }

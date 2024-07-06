@@ -74,7 +74,26 @@ namespace Arasan.Services.Master
             }
             return country;
         }
-
+        public DataTable GetEditCountDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select COUNTRYMASTID, COUNTRY,COUNTRYCODE,CURRENCY from CONMAST where COUNTRYMASTID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetEditPortDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PORTC,PORTN,PPINC,PORTS from CONPORTDET where CONMASTID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string CountryCRUD(Country cy)
         {
             string msg = "";
@@ -94,7 +113,7 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
-               
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("COUNTRYPROC", objConn);
@@ -115,7 +134,7 @@ namespace Arasan.Services.Master
 
                     objCmd.Parameters.Add("COUNTRY", OracleDbType.NVarchar2).Value = cy.ConName;
                     objCmd.Parameters.Add("COUNTRYCODE", OracleDbType.NVarchar2).Value = cy.ConCode;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    objCmd.Parameters.Add("CURRENCY", OracleDbType.NVarchar2).Value = cy.Curr;
                     if (cy.ID == null)
                     {
                         objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
@@ -127,13 +146,52 @@ namespace Arasan.Services.Master
                         objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     }
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 
                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                       
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (cy.ID != null)
+                        {
+                            Pid = cy.ID;
+                        }
+                        if (cy.Curlst != null)
+                    {
+                        if (cy.ID == null)
+                        {
+                            foreach (CurItem cp in cy.Curlst)
+                            {
+                                if (cp.Isvalid == "Y" && cp.pcode != "0")
+                                {
+                                    svSQL = "Insert into CONPORTDET (CONMASTID,PORTC,PORTN,PPINC,PORTS) VALUES ('" + Pid + "','" + cp.pcode + "','" + cp.pnum + "','" + cp.ppin + "','" + cp.psta + "')";
+                                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                    objCmds.ExecuteNonQuery();
+
+                                }
+                            }
+                        }
+                        else
+                        {
+                            svSQL = "Delete CONPORTDET WHERE CONMASTID='" + cy.ID + "'";
+                            OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                            objCmdd.ExecuteNonQuery();
+                            foreach (CurItem cp in cy.Curlst)
+                            {
+                                if (cp.Isvalid == "Y" && cp.pcode != "0")
+                                {
+                                        svSQL = "Insert into CONPORTDET (CONMASTID,PORTC,PORTN,PPINC,PORTS) VALUES ('" + Pid + "','" + cp.pcode + "','" + cp.pnum + "','" + cp.ppin + "','" + cp.psta + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                    objCmds.ExecuteNonQuery();
+
+                                }
+                            }
+                        }
+
                     }
+                }
                     catch (Exception ex)
                     {
                         System.Console.WriteLine("Exception: {0}", ex.ToString());
@@ -212,6 +270,26 @@ namespace Arasan.Services.Master
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
-        } 
+        }
+        public DataTable GetCur()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select CURRENCYID,MAINCURR from CURRENCY  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetSta()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select STATEMASTID,STATE from STATEMAST  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
