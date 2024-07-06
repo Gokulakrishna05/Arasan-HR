@@ -141,7 +141,7 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtbinid").value == "") {
+            if (document.getElementById("txtbinid").value == "" || document.getElementById("txtbinid").value == 0) {
                     isValid = false;
                 $(txtbinid).css({
                         "border": "1px solid red",

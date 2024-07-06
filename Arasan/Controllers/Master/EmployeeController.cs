@@ -77,6 +77,7 @@ namespace Arasan.Controllers.Master
                     E.EMPDeptCode = dt.Rows[0]["EMPDEPTCODE"].ToString();
                     E.JoinDate = dt.Rows[0]["JOINDATE"].ToString();
                     E.ResignDate = dt.Rows[0]["RESIGNDATE"].ToString();
+                    E.imgpath = "";
 
                 }
                 DataTable dt2 = new DataTable();

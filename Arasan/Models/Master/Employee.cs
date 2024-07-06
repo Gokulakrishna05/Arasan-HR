@@ -21,6 +21,7 @@ namespace Arasan.Models
         public string MultipleLoc { get; set; }
         public string Region { get; set; }
         public string Gender { get; set; }
+        public string imgpath { get; set; }
         public string DOB { get; set; }
 
         public string Address { get; set; }

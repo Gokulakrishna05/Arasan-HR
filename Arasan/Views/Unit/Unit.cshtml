@@ -83,7 +83,7 @@
         $('#btnSave').click(function (e) {
             var isValid = true;
 
-            if (document.getElementById("txtUnit").value == "") {
+            if (document.getElementById("txtUnit").value == "" ||document.getElementById("txtUnit").value == 0) {
                 isValid = false;
                 $(txtUnit).css({
                     "border": "1px solid red",
@@ -99,22 +99,22 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtUnitCode").value == "") {
-                isValid = false;
-                $(txtUnitCode).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+            //if (document.getElementById("txtUnitCode").value == "") {
+            //    isValid = false;
+            //    $(txtUnitCode).css({
+            //        "border": "1px solid red",
+            //        "background": "#FFCECE"
+            //    });
 
-                alert("Please Enter Unit Code");
-                return false;
-            }
-            else {
-                $(txtUnitCode).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+            //    alert("Please Enter Unit Code");
+            //    return false;
+            //}
+            //else {
+            //    $(txtUnitCode).css({
+            //        "border": "",
+            //        "background": ""
+            //    });
+            //}
 
 
             if (isValid == false)
