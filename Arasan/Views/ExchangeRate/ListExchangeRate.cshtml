@@ -40,10 +40,11 @@
                     // synchronize with the server - send update command
                 },
                 datafields: [
-                    { name: 'qc', type: 'string' },
-                    { name: 'test', type: 'string' },
-                    { name: 'description', type: 'string' },
-                    { name: 'view', type: 'string' },
+                    { name: 'csym', type: 'string' },
+                    { name: 'cname', type: 'string' },
+                    { name: 'rtype', type: 'string' },
+                    { name: 'erate', type: 'string' },
+                    { name: 'date', type: 'string' },
                     { name: 'editrow', type: 'string' },
                     { name: 'delrow', type: 'string' },
 
@@ -79,10 +80,11 @@
                     enablebrowserselection: true,
                     columns: [
 
-                        { text: 'Qc Template', filtertype: 'checkedlist', datafield: 'qc', width: 200 },
-                        { text: 'Test Type', filtertype: 'input', datafield: 'test', width: 200 },
-                        { text: 'Template Description', datafield: 'description', width: 200 },
-                        { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'Currency Symbol', filtertype: 'checkedlist', datafield: 'csym', width: 200 },
+                        { text: 'Currency Name', filtertype: 'input', datafield: 'cname', width: 200 },
+                        { text: 'Rate Type', datafield: 'rtype', width: 200 },
+                        { text: 'Exchange Rate', datafield: 'erate', width: 200 },
+                        { text: 'Date', datafield: 'date', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                         { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                         { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsrenderer: linkrenderer1, cellsalign: 'center', width: 70 },
                     ]
