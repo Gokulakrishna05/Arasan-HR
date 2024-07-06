@@ -7,5 +7,7 @@ namespace Arasan.Models
         public string CurrencyName { get; set; }
         public string Exchange { get; set; }
         public string ExchangeDate { get; set; }
+        public string ddlStatus { get; set; }
+
     }
 }

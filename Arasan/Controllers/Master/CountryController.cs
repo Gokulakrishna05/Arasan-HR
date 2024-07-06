@@ -22,17 +22,100 @@ namespace Arasan.Controllers
         {
             Country ic = new Country();
             ic.createby = Request.Cookies["UserId"];
+            ic.Cur = BindCurrency();
+
+            CurItem pr = new CurItem();
+            List<CurItem> TData = new List<CurItem>();
+
             if (id == null)
             {
-
+                for (int i = 0; i < 1; i++)
+                {
+                    pr = new CurItem();
+                    pr.pur = BindState();
+                    pr.Isvalid = "Y";
+                    TData.Add(pr);
+                }
             }
             else  
             {
-                //DataTable dt = new DataTable();
-                ic = CountryService.GetCountryById(id);
+                DataTable dt = new DataTable();
+
+                //double total = 0;
+                dt = CountryService.GetEditCountDetail(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ic.ID = dt.Rows[0]["COUNTRYMASTID"].ToString();
+                    ic.ConName = dt.Rows[0]["COUNTRY"].ToString();
+                    ic.ConCode = dt.Rows[0]["COUNTRYCODE"].ToString();
+                    ic.Curr = dt.Rows[0]["CURRENCY"].ToString();                  
+
+                }
 
             }
+            DataTable dt2 = new DataTable();
+            dt2 = CountryService.GetEditPortDetail(id);
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    pr = new CurItem();
+
+                    pr.pcode = dt2.Rows[i]["PORTC"].ToString();
+                    pr.pnum = dt2.Rows[i]["PORTN"].ToString();
+                    pr.ppin = dt2.Rows[i]["PPINC"].ToString();
+                    pr.psta = dt2.Rows[i]["PORTS"].ToString();
+                    pr.Isvalid = "Y";
+                    TData.Add(pr);
+                }
+            }
+
+        
+            ic.Curlst = TData;
             return View(ic);
+        }
+
+        public JsonResult GetItemJSON()
+        {
+            CurItem model = new CurItem();
+            //model.Itemlst = BindItemlst(itemid);
+            return Json(BindState());
+
+        }
+        public List<SelectListItem> BindCurrency()
+        {
+            try
+            {
+                DataTable dtDesg = CountryService.GetCur();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MAINCURR"].ToString(), Value = dtDesg.Rows[i]["CURRENCYID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SelectListItem> BindState()
+        {
+            try
+            {
+                DataTable dtDesg = CountryService.GetSta();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         [HttpPost]
         public ActionResult Country(Country Ic, string id)
