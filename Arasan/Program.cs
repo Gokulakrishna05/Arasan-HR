@@ -294,12 +294,14 @@ internal class Program
       
         app.Run();
     }
+    
     public void ConfigureServices(IServiceCollection service)
     {
         service.AddMvc();
         service.AddOptions();
         service.AddTransient<IPO, POService>();
         service.AddTransient<ISalesQuotationService, SalesQuotationService>();
+        service.AddControllersWithViews().AddRazorRuntimeCompilation();
     }
     public void Configure(IApplicationBuilder app,IWebHostEnvironment env)
     {

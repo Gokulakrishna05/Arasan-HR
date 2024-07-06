@@ -25,6 +25,7 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
+        
         public string StatusChange(string tag, string id)
         {
 

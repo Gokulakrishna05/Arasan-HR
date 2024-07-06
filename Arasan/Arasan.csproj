@@ -5,10 +5,11 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <Platforms>AnyCPU;x64</Platforms>
+	  <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\DirectPurchase\DPAccount.cshtml" />
     <Content Remove="wwwroot\Reports\APProductionDailyReport.rdlc" />
     <Content Remove="wwwroot\Reports\Basic.rdlc" />
     <Content Remove="wwwroot\Reports\EnqReport.rdlc" />
@@ -75,6 +76,7 @@
     <PackageReference Include="IppDotNetSdkForQuickBooksApiV3" Version="14.6.3.6" />
     <PackageReference Include="iTextSharp" Version="5.5.13.3" />
     <PackageReference Include="jsTree" Version="3.1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.0.1" />
@@ -415,12 +417,6 @@
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/artifacthub-repo.json" /></VisualStudio></ProjectExtensions>
 
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\DirectPurchase\DPAccount.cshtml" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\DirectPurchase\DPAccount.cshtml" />
-  </ItemGroup>
 
 </Project>

@@ -221,7 +221,7 @@ namespace Arasan.Controllers.Master
             ca.RATElist = TData2;
             return View(ca);
         }
-        public IActionResult RateEdit(string id)
+        public IActionResult RateRev(string id)
         {
             Rate ca = new Rate();
             ca.Brlst = BindBranch();
