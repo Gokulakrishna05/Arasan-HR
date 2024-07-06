@@ -1078,38 +1078,7 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListEnquiry");
             }
         }
-        public IActionResult GRN_CUM_BILL()
-        {
-            return View();
-        }
-        public IActionResult Purchase_Order()
-        {
-
-            return View();
-        }
-        public IActionResult Purchse_Order_close()
-        {
-            return View();
-        }
-        public IActionResult Purchse_Indent()
-        {
-            return View();
-        }
-
-        public IActionResult Purchase_Order_ament()
-        {
-            return View();
-        }
-
-
-        public IActionResult ListPO()
-        {
-            return View();
-        }
-        public IActionResult ListGRN()
-        {
-            return View();
-        }
+       
 
     }
 }

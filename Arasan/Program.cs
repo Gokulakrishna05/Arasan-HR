@@ -84,7 +84,7 @@ internal class Program
         builder.Services.TryAddSingleton<IStockIn, StockInService>();
         builder.Services.TryAddSingleton<IPurchaseReturn, PurchaseReturnService>();
         builder.Services.TryAddSingleton<IQCTestValueEntryService, QCTestValueEntryService>();
-        builder.Services.TryAddSingleton<IAccGroup, AccGroupService>();
+        //builder.Services.TryAddSingleton<IAccGroup, AccGroupService>();
         builder.Services.TryAddSingleton<IStoresReturnService, StoresReturnService>();
         builder.Services.TryAddSingleton<IReasonCodeService, ReasonCodeService>();
 
@@ -129,13 +129,13 @@ internal class Program
         builder.Services.TryAddSingleton<IPaymentVoucher, PaymentVoucherService>();
         builder.Services.TryAddSingleton<ISequence, SequenceService>();
 
-        builder.Services.TryAddSingleton<IAccountGroup, AccountGroupService>();
+        //builder.Services.TryAddSingleton<IAccountGroup, AccountGroupService>();
 
 
         builder.Services.TryAddSingleton<IPaymentRequest, PaymentRequestService>();
 
 
-        builder.Services.TryAddSingleton<IAccountType, AccountTypeService>();
+        //builder.Services.TryAddSingleton<IAccountType, AccountTypeService>();
 
         builder.Services.TryAddSingleton<IAccConfig, AccConfigService>();
 
@@ -170,7 +170,7 @@ internal class Program
         builder.Services.TryAddSingleton<IPackingQCFinalValueEntry, PackingQCFinalValueEntryService>();
         builder.Services.TryAddSingleton<IORSAT, ORSATService>();
         builder.Services.TryAddSingleton<IItemConversionEntryService,ItemConversionEntryService>();
-        builder.Services.TryAddSingleton<IAccClass, AccClassService>();
+        //builder.Services.TryAddSingleton<IAccClass, AccClassService>();
         builder.Services.TryAddSingleton<IPackDrumAllocation, PackDrumAllocationService>();
 
         builder.Services.TryAddSingleton<IPackingEntry, PackingEntryService>();
@@ -294,12 +294,14 @@ internal class Program
       
         app.Run();
     }
+    
     public void ConfigureServices(IServiceCollection service)
     {
         service.AddMvc();
         service.AddOptions();
         service.AddTransient<IPO, POService>();
         service.AddTransient<ISalesQuotationService, SalesQuotationService>();
+        service.AddControllersWithViews().AddRazorRuntimeCompilation();
     }
     public void Configure(IApplicationBuilder app,IWebHostEnvironment env)
     {

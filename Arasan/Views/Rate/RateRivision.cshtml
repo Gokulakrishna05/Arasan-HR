@@ -16,7 +16,7 @@
 
         <ol class="breadcrumb">
             <li> <a href="#">Master</a> </li>
-            <li> <a href="@Url.Action("RateRivision", "Rate")">Rate</a> </li>
+            <li> <a href="@Url.Action("ListRate", "Rate")">Rate</a> </li>
             <li class="active"> <strong>Rate Revision</strong> </li>
         </ol>
     </div>
@@ -149,7 +149,7 @@
                                                         </td>
                                                     
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.RATElist[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly = "readonly", @onkeyup = "changeQty(this," + i + ")" })
+                                                            @Html.TextBoxFor(o => o.RATElist[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                         </td>
                                                     
                                                         <td>
@@ -179,7 +179,7 @@
                                             <div class="col-md-12">
                                                 <a href="#" id="editclick" class='fancybox' data-fancybox-type='iframe'></a>
                                                 <div class="btn-group">
-                                                    <p style="float:right;"> <input id="button" type="button" value="Edit" onclick="EditRow()" class="btn sbold green" /></p>
+                                                    <p style="float:right;"> <input id="button" type="button" value="Edit"  class="btn sbold green" /></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -215,8 +215,10 @@
                                                                                     <td>@Html.CheckBoxFor(o => o.VRATElist[j].checkselect, new { @id = "drumslect_" + j ,@class="checkbox"} )@Html.HiddenFor(o => o.VRATElist[j].ID, new { @id = "stardetid" + j })</td>
                                                                                     <td>@Html.DisplayFor(o => o.VRATElist[j].ItemId)</td>
                                                                                     <td>@Html.DisplayFor(o => o.VRATElist[j].Unit)</td>
-                                                                                    <td>@Html.DisplayFor(o => o.VRATElist[j].rate)</td>
-                                                                                    <td><a href="EditRow?id=@item.ID" class='fancybox' data-fancybox-type='iframe'><img src='../Images/edit.png' alt='Edit' /></a></td>
+                                                                                    <td>
+                                                                                        @Html.TextBoxFor(o => o.VRATElist[j].rate, new { @id = "txtvrate" + j, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                                                    </td>
+                                                                                    <td><a href="EditRate?id=@item.ID" class='fancybox' data-fancybox-type='iframe'><img src='../Images/edit.png' alt='Edit' /></a></td>
                                                                                     <td><a href="Delrow?id=@item.ID" onclick="return ConfirmDelete()"><img src="../Images/Inactive.png" style="text-align: center; margin-top: 5px;padding-left:25px;" /></a></td>
                                                                                 </tr>
                                                                                 j++;
@@ -422,7 +424,7 @@
 
             var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='RATElist[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
-            var rate = "<td><input class='form-control' id='txtrate" + index + "' name='RATElist[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text' value='0' onkeyup = 'changeQty(this.value," + index + ")'  readonly='True' /></td>";
+            var rate = "<td><input class='form-control' id='txtrate" + index + "' name='RATElist[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;' type='text' /></td>";
 
             var removeCell = "<td><input id='Isvalid" + index + "' name='RATElist[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='RATElist.Index' type='hidden' value='" + index + "'  /></td>";
 
@@ -462,6 +464,9 @@
 
             });
         }
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
 </script>
 <script>
       $(document).ready(function () {
@@ -563,7 +568,11 @@
         $(".fancybox").fancybox({
             width: '80%',
             height: '10%',
-            arrows: false
+            arrows: false,
+            afterClose: function () {
+                location.reload();
+                return;
+            }
         });
         fancybox123 = $.fancybox;
     });
@@ -577,4 +586,24 @@
         });
         $(".fancybox1").eq(0).trigger('click');
     }
+    $("#button").click(function () {
+        var ar1 = "";
+        var j = 0;
+        $('tr.chkitemlst1').each(function () {
+            if ($(this).css('display') !== 'none') {
+                var checkBox = document.getElementById('drumslect_' + j);
+                if (checkBox.checked == true) {
+                    var invid = document.getElementById('stardetid' + j).value;
+                    ar1 += invid + ",";
+                }
+            }
+            j += 1;
+        });
+        var indid = ar1.substring(0, ar1.length - 1);
+
+        document.getElementById("editclick").href = "EditRate?id=" + indid;
+        document.getElementById('editclick').click();
+
+       
+    });
 </script>
