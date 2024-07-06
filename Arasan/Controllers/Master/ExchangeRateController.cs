@@ -49,7 +49,7 @@ namespace Arasan.Controllers
                     ic.CurrencyName = dt.Rows[0]["CURRNAME"].ToString();
                     ic.Exchange = dt.Rows[0]["EXRATE"].ToString();                  
                     ic.RateType = dt.Rows[0]["RTYPE"].ToString();
-                    ic.ExchangeDate = dt.Rows[0]["RATETD"].ToString();
+                    ic.ExchangeDate = dt.Rows[0]["RATEDT"].ToString();
 
                 }
 
@@ -84,8 +84,8 @@ namespace Arasan.Controllers
 
                 Reg.Add(new Exchangegrid
                 {
-                    id = dtUsers.Rows[i]["CURRENCYID"].ToString(),
-                    csym = dtUsers.Rows[i]["COUNTRY"].ToString(),
+                    id = dtUsers.Rows[i]["CRATEID"].ToString(),
+                    csym = dtUsers.Rows[i]["CURRID"].ToString(),
                     cname = dtUsers.Rows[i]["CURRNAME"].ToString(),
                     rtype = dtUsers.Rows[i]["RTYPE"].ToString(),
                     erate = dtUsers.Rows[i]["EXRATE"].ToString(),
@@ -101,6 +101,31 @@ namespace Arasan.Controllers
                 Reg
             });
 
+        }
+        public ActionResult Getcurrencydetails(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string sym = "";
+
+                dt = datatrans.GetData("SELECT MAINCURR FROM CURRENCY WHERE CURRENCYID='" + ItemId+"'");
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    sym = dt.Rows[0]["MAINCURR"].ToString();
+
+                }
+
+                var result = new { sym = sym };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<SelectListItem> BindSymbol()
@@ -205,10 +230,7 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListExchangeRate");
             }
         }
-        public IActionResult ExchangeRate()
-        {
-            return View();
-        }
+      
         public IActionResult ListExchangeRate()
         {
             return View();

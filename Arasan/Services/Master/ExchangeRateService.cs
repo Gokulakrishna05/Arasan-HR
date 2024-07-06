@@ -69,11 +69,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = " Select IS_ACTIVE,CRATEID,CURRID,CURRNAME,EXRATE,RTYPE,RATETD from CRATE WHERE IS_ACTIVE = 'Y' ";
+                SvSql = " Select IS_ACTIVE,CRATEID,CURRID,CURRNAME,EXRATE,RTYPE,to_char(RATEDT,'dd-MON-yyyy')RATEDT from CRATE WHERE IS_ACTIVE = 'Y' ";
             }
             else
             {
-                SvSql = " Select IS_ACTIVE,CRATEID,CURRID,CURRNAME,EXRATE,RTYPE,RATETD from CRATE WHERE IS_ACTIVE = 'N' ";
+                SvSql = " Select IS_ACTIVE,CRATEID,CURRID,CURRNAME,EXRATE,RTYPE,to_char(RATEDT,'dd-MON-yyyy')RATEDT from CRATE WHERE IS_ACTIVE = 'N' ";
 
             }
             DataTable dtt = new DataTable();
@@ -96,7 +96,7 @@ namespace Arasan.Services
         public DataTable GetEditExchangeDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select CRATEID,CURRID,CURRNAME,EXRATE,RTYPE,RATETD from CRATE where CRATEID = '" + id + "' ";
+            SvSql = "select CRATEID,CURRID,CURRNAME,EXRATE,RTYPE,to_char(RATEDT,'dd-MON-yyyy')RATEDT from CRATE where CRATEID = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -104,108 +104,34 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public string ExchangeRateCRUD(ExchangeRate cy)
+        public string ExchangeRateCRUD(ExchangeRate cp)
         {
             string msg = "";
+            string bsid = "";
             try
             {
-                string StatementType = string.Empty;
-
-                string svSQL = "";
-
-                if (cy.ID == null)
-                {
-
-                    //svSQL = " SELECT Count(COUNTRYCODE) as cnt FROM CONMAST WHERE COUNTRYCODE = LTRIM(RTRIM('" + cy.ConCode + "')) and COUNTRYCODE = LTRIM(RTRIM('" + cy.ConCode + "'))";
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "Country Code Already Existed";
-                        return msg;
-                    }
-                }
+                string StatementType = string.Empty; string svSQL = "";
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("COUNTRYPROC", objConn);
-                    /*objCmd.Connection = objConn;
-                    objCmd.CommandText = "COUNTRYPROC";*/
-
-                    objCmd.CommandType = CommandType.StoredProcedure;
-                    if (cy.ID == null)
+                    objConn.Open();
+                    if (cp.ID == null)
                     {
-                        StatementType = "Insert";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+
+                        svSQL = "Insert into CRATE (CURRID,CURRENCYID,CURRNAME,EXRATE,RTYPE,RATEDT) VALUES ('" + cp.CurrencySymbol + "','" + cp.CurrencySymbol + "','" + cp.CurrencyName + "','" + cp.Exchange + "','" + cp.RateType + "','" + cp.ExchangeDate + "') ";
+                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        objCmds.ExecuteNonQuery();
+
                     }
                     else
                     {
-                        StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                        svSQL = "UPDATE  CRATE set CURRID='" + cp.CurrencySymbol + "',CURRENCYID='" + cp.CurrencySymbol + "',CURRNAME='" + cp.CurrencyName + "',EXRATE='" + cp.Exchange + "',RTYPE='" + cp.RateType + "',RATEDT='" + cp.ExchangeDate + "' Where CRATEID='" + cp.ID + "'";
+                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        objCmds.ExecuteNonQuery();
                     }
 
-                    //objCmd.Parameters.Add("COUNTRY", OracleDbType.NVarchar2).Value = cy.ConName;
-                    //objCmd.Parameters.Add("COUNTRYCODE", OracleDbType.NVarchar2).Value = cy.ConCode;
-                    //objCmd.Parameters.Add("CURRENCY", OracleDbType.NVarchar2).Value = cy.Curr;
-                    if (cy.ID == null)
-                    {
-                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
-                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                    }
-                    else
-                    {
-                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
-                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                    }
-                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
-
-                    try
-                    {
-                        objConn.Open();
-                        objCmd.ExecuteNonQuery();
-                        Object Pid = objCmd.Parameters["OUTID"].Value;
-                        //string Pid = "0";
-                        if (cy.ID != null)
-                        {
-                            Pid = cy.ID;
-                        }
-                        //if (cy.Curlst != null)
-                        {
-                            if (cy.ID == null)
-                            {
-                                //foreach (CurItem cp in cy.Curlst)
-                                {
-                                    //if (cp.Isvalid == "Y" && cp.pcode != "0")
-                                    //{
-                                    //    svSQL = "Insert into CONPORTDET (CONMASTID,PORTC,PORTN,PPINC,PORTS) VALUES ('" + Pid + "','" + cp.pcode + "','" + cp.pnum + "','" + cp.ppin + "','" + cp.psta + "')";
-                                    //    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                    //    objCmds.ExecuteNonQuery();
-
-                                    //}
-                                }
-                            }
-                            else
-                            {
-                                svSQL = "Delete CONPORTDET WHERE CONMASTID='" + cy.ID + "'";
-                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
-                                objCmdd.ExecuteNonQuery();
-                                //foreach (CurItem cp in cy.Curlst)
-                                {
-                                    //if (cp.Isvalid == "Y" && cp.pcode != "0")
-                                    //{
-                                    //    svSQL = "Insert into CONPORTDET (CONMASTID,PORTC,PORTN,PPINC,PORTS) VALUES ('" + Pid + "','" + cp.pcode + "','" + cp.pnum + "','" + cp.ppin + "','" + cp.psta + "')";
-                                    //    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                    //    objCmds.ExecuteNonQuery();
-
-                                    //}
-                                }
-                            }
-
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Console.WriteLine("Exception: {0}", ex.ToString());
-                    }
+                    
                     objConn.Close();
                 }
             }
@@ -217,5 +143,6 @@ namespace Arasan.Services
 
             return msg;
         }
+
     }
 }
