@@ -14,5 +14,8 @@ namespace Arasan.Interface.Master
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
         DataTable GetAllCurrencygrid(string strStatus);
+
+
+ 
     }
 }

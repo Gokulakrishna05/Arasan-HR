@@ -5,29 +5,85 @@ using Arasan.Models;
 using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Arasan.Controllers.Master
 {
     public class CurrencyController : Controller
     {
         ICurrencyService CurrencyService;
-        public CurrencyController(ICurrencyService _CurrencyService)
+        IConfiguration? _configuratio;
+        private string? _connectionString;
+
+        DataTransactions datatrans;
+        public CurrencyController(ICurrencyService _CurrencyService, IConfiguration _configuratio)
         {
             CurrencyService = _CurrencyService;
+            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IActionResult Currency(string id)
         {
             Currency cu = new Currency();
+
+            List<UsedCountries> TData = new List<UsedCountries>();
+            UsedCountries tda = new UsedCountries();
+
+
             cu.createby = Request.Cookies["UserId"];
             if (id == null)
             {
 
+
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new UsedCountries();
+                    tda.Currencylst = BindCountries();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+
+                }
             }
             else
             {
-                cu = CurrencyService.GetCurrencyById(id);
+                //  cu = CurrencyService.GetCurrencyById(id);
+                DataTable dt = new DataTable();
+                //double total = 0;
+                dt = datatrans.GetData("select SYMBOL,MAINCURR,CURREP,CURWIDTH From  CURRENCY");
+                if (dt.Rows.Count > 0)
+                {
+
+                    cu.CurrencyCode = dt.Rows[0]["SYMBOL"].ToString();
+                    cu.CurrencyName = dt.Rows[0]["MAINCURR"].ToString();
+                    cu.CurrencyCodes = dt.Rows[0]["CURREP"].ToString();
+                    cu.CurrencyInteger = dt.Rows[0]["CURWIDTH"].ToString();
+
+                    cu.ID = id;
+
+                }
+                DataTable dt2 = new DataTable();
+
+                dt2 = datatrans.GetData("SELECT CONCODE,COUNTRY FROM CONCURR ");
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new UsedCountries();
+
+                      
+                        tda.ConCode = dt2.Rows[i]["CONCODE"].ToString();
+                       
+                        tda.Country = dt2.Rows[i]["COUNTRY"].ToString();
+                       
+                        TData.Add(tda);
+                    }
+                }
+
+
 
             }
+
+            cu.Currencylst = TData;
             return View(cu);
         }
         [HttpPost]
@@ -127,7 +183,7 @@ namespace Arasan.Controllers.Master
                     EditRow = "";
                     DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["CURRENCYID"].ToString() + "";
                 }
-               
+
                 Reg.Add(new Currencygrid
                 {
                     id = dtUsers.Rows[i]["CURRENCYID"].ToString(),
@@ -138,12 +194,55 @@ namespace Arasan.Controllers.Master
 
                 });
             }
-
             return Json(new
             {
                 Reg
             });
 
         }
+
+        public List<SelectListItem> BindCountries()
+            {
+                try
+                {
+                    DataTable dtDesg = datatrans.GetData("select COUNTRYCODE From  CONMAST"  );
+                    List<SelectListItem> lstdesg = new List<SelectListItem>();
+                    for (int i = 0; i < dtDesg.Rows.Count; i++)
+                    {
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRYCODE"].ToString(), Value = dtDesg.Rows[i]["COUNTRYCODE"].ToString() });
+                    }
+                    return lstdesg;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        public ActionResult GetCountry(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string country = "";
+
+                dt = datatrans.GetData("SELECT COUNTRY FROM CONMAST WHERE COUNTRYCODE='"+ItemId+"'");
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    country = dt.Rows[0]["COUNTRY"].ToString();
+
+                }
+
+                var result = new { country = country };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
