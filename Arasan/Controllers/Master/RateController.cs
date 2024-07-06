@@ -94,6 +94,75 @@ namespace Arasan.Controllers.Master
             ca.RATElist = TData;
             return View(ca);
         }
+        [HttpPost]
+        public ActionResult EditRate(Rate Cy, string id)
+        {
+
+            try
+            {
+
+                string Strout = RateService.RateDetailCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    TempData["notice"] = "SalesTarget Inserted Successfully...!";
+                    return RedirectToAction("EditSalesTarget", new { id = Cy.ID });
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit SalesTarget";
+                    TempData["notice"] = Strout;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
+        [HttpPost]
+        public ActionResult RateRivision(Rate Cy, string id)
+        {
+            try
+            {
+                string Strout = RateService.RateRevisionCRUD(Cy);
+                          }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("ListRate");
+        }
+        public IActionResult EditRate(string id)
+        {
+            Rate ca = new Rate();
+            List<RateItem> TData = new List<RateItem>();
+            RateItem tda = new RateItem();
+
+            DataTable dt2 = new DataTable();
+            // ca.ID= id;
+            dt2 = datatrans.GetData("select ITEMID,RCODE,UNIT,RATE,RATEBASICID,RATEDETAILID from RATEDETAIL where RATEDETAILID IN(" + id + ")");
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new RateItem();
+                    tda.Itemlst = BindItemlst();
+                    tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                    tda.Unit = dt2.Rows[i]["UNIT"].ToString();
+                    tda.rate = dt2.Rows[i]["RATE"].ToString();
+                    tda.ID = dt2.Rows[i]["RATEDETAILID"].ToString();
+                    ca.RID = dt2.Rows[i]["RATEBASICID"].ToString();
+                    TData.Add(tda);
+                }
+            }
+
+            ca.RATElist = TData;
+            return View(ca);
+        }
+      
         public IActionResult RateRivision(string id)
         {
             Rate ca = new Rate();
@@ -127,25 +196,79 @@ namespace Arasan.Controllers.Master
                }
                 DataTable dt2 = new DataTable();
 
-                dt2 = RateService.GetEditRateDeatil(id);
+                dt2 = RateService.GetEditRateDeatils(id);
                 if (dt2.Rows.Count > 0)
                 {
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new RateItem();
-                        //tda.Ratelst = BindRateCode();
                         tda.RCode = dt2.Rows[i]["RCODE"].ToString();
-                        //tda.Itemlst = BindItemlst();
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.Unit = dt2.Rows[i]["UNIT"].ToString();
                         tda.rate = dt2.Rows[i]["RATE"].ToString();
-                        tda.Validfrom = dt2.Rows[i]["VFROM"].ToString();
-                        tda.Validto = dt2.Rows[i]["VTO"].ToString();
-                        tda.Type = dt2.Rows[i]["RTYPE"].ToString();
-                        TData.Add(tda);
+                     tda.ID= dt2.Rows[i]["RATEDETAILID"].ToString();
+                    TData.Add(tda);
                     }
                 ca.VRATElist = TData;
                 }
+            List<RateItem> TData2 = new List<RateItem>();
+            RateItem tda2 = new RateItem();
+            tda2 = new RateItem();
+            tda2.Itemlst = BindItemlst();
+            tda2.Isvalid = "Y";
+            TData2.Add(tda2);
+
+            ca.RATElist = TData2;
+            return View(ca);
+        }
+        public IActionResult RateEdit(string id)
+        {
+            Rate ca = new Rate();
+            ca.Brlst = BindBranch();
+            ca.Ratelst = BindRateCode();
+            ca.Branch = Request.Cookies["BranchId"];
+            ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence("ratem");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
+            List<RateItem> TData = new List<RateItem>();
+            RateItem tda = new RateItem();
+
+            DataTable dt = new DataTable();
+            //double total = 0;
+            dt = RateService.GetEditRate(id);
+            if (dt.Rows.Count > 0)
+            {
+
+                // ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.Ratecode = dt.Rows[0]["RATECODE"].ToString();
+                ca.RateName = dt.Rows[0]["RATENAME"].ToString();
+                ca.ValidFrom = dt.Rows[0]["VALIDFROM"].ToString();
+                ca.ValidTo = dt.Rows[0]["VALIDTO"].ToString();
+                ca.UF = dt.Rows[0]["UF"].ToString();
+                ca.RateType = dt.Rows[0]["RATETYPE"].ToString();
+                ca.ID = id;
+            }
+            DataTable dt2 = new DataTable();
+
+            dt2 = RateService.GetEditRateDeatils(id);
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new RateItem();
+                    tda.RCode = dt2.Rows[i]["RCODE"].ToString();
+                    tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                    tda.Unit = dt2.Rows[i]["UNIT"].ToString();
+                    tda.rate = dt2.Rows[i]["RATE"].ToString();
+                    tda.ID = dt2.Rows[i]["RATEDETAILID"].ToString();
+                    TData.Add(tda);
+                }
+                ca.VRATElist = TData;
+            }
             List<RateItem> TData2 = new List<RateItem>();
             RateItem tda2 = new RateItem();
             tda2 = new RateItem();
@@ -380,7 +503,7 @@ namespace Arasan.Controllers.Master
         {
             try
             {
-                DataTable dtDesg = datatrans.GetItem();
+                DataTable dtDesg = datatrans.GetFinishedItem();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {

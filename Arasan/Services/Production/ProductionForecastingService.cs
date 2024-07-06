@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text.RegularExpressions;
+using System.Resources.NetStandard;
 
 namespace Arasan.Services.Production
 {
@@ -19,6 +20,7 @@ namespace Arasan.Services.Production
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
+
 
 //        public IEnumerable<ProductionForecasting> GetAllProductionForecasting()
 //        {
@@ -364,6 +366,7 @@ namespace Arasan.Services.Production
 //                    cmd.Parameters.Add("MONTH",mnth);
 //                    cmd.BindByName = true;
 //                    OracleDataReader rdr = cmd.ExecuteReader();
+
                   
 //                    while (rdr.Read())
 //                    {
