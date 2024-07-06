@@ -125,8 +125,11 @@ namespace Arasan.Services.Master
                     }
 
                     objCmd.Parameters.Add("SYMBOL", OracleDbType.NVarchar2).Value = cy.CurrencyCode;
+                    objCmd.Parameters.Add("CURREP6", OracleDbType.NVarchar2).Value = cy.CurrencyCodes;
+                    objCmd.Parameters.Add("CURWIDTH", OracleDbType.NVarchar2).Value = cy.CurrencyInteger;
                     objCmd.Parameters.Add("MAINCURR", OracleDbType.NVarchar2).Value = cy.CurrencyName;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+
+
                     if (cy.ID == null)
                     {
                         objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
@@ -138,12 +141,67 @@ namespace Arasan.Services.Master
                         objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     }
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+
                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (cy.ID != null)
+                        {
+                            Pid = cy.ID;
+                        }
+
+                        if (cy.Currencylst != null)
+                        {
+                            if (cy.ID == null)
+                            {
+                                int r = 1;
+                                foreach (UsedCountries cp in cy.Currencylst)
+                                {
+                                    if (cp.Isvalid == "Y")
+                                    {
+
+                                        svSQL = "Insert into CONCURR (CURRENCYID,CONCURRROW,CONCODE,COUNTRY) VALUES ('" + Pid + "','" + r + "','" + cp.ConCode + "','" + cp.Country + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                    }
+                                    r++;
+                                }
+
+                            }
+                            else
+                            {
+                                svSQL = "Delete CONCURR WHERE CURRENCYID='" + cy.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+
+                                foreach (UsedCountries cp in cy.Currencylst)
+                                {
+                                    int r = 1;
+                                    if (cp.Isvalid == "Y")
+                                    {
+                                        svSQL = "Insert into CONCURR (CURRENCYID,CONCURRROW,CONCODE,COUNTRY) VALUES ('" + Pid + "','" + r + "','" + cp.ConCode + "','" + cp.Country + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                    }
+                                    r++;
+                                }
+                            }
+
+                        }
+                   
                     }
+
+
+
+
+
+                 
                     catch (Exception ex)
                     {
                         
@@ -159,6 +217,8 @@ namespace Arasan.Services.Master
 
             return msg;
         }
+
+
 
         public string StatusChange(string tag, int id)
         {
@@ -217,6 +277,18 @@ namespace Arasan.Services.Master
                 SvSql = " Select IS_ACTIVE,SYMBOL,MAINCURR,CURRENCYID from CURRENCY WHERE IS_ACTIVE = 'N' ORDER BY CURRENCYID DESC";
 
             }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+
+        public DataTable GetCItem()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMMASTER.ITEMMASTERID,ITEMMASTER.ITEMID  from ITEMMASTER ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

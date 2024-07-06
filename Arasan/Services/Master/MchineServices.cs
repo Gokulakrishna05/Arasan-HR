@@ -12,6 +12,8 @@ namespace Arasan.Services.Master
         DataTransactions datatrans;
 
         public MchineServices(IConfiguration _configuratio)
+
+
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);

@@ -161,7 +161,10 @@ namespace Arasan.Controllers.Master
                         tda.PartNumber = dt2.Rows[0]["PARTNO"].ToString();
                         tda.LifeTimeInHrs = dt2.Rows[0]["LIFETIME"].ToString();
                         tda.DateOfIssue = dt2.Rows[0]["WARRANTYTILLDT"].ToString();
-                        tda.Itemlst = BindItem();
+                        //tda.Itemlst = 
+                            
+                            
+                         
                         tda.Isvalid = "Y";
                         TData.Add(tda);
                     }
