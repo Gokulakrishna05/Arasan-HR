@@ -882,7 +882,7 @@
 
                                                         @Html.RadioButtonFor(C => C.BinYN, "YES", new { @TabIndex = 2 ,onchange = "changebin(this.value)"})
                                                         <label id="mt-radio">Yes</label>&emsp;
-                                                        @Html.RadioButtonFor(C => C.BinYN, "NO", new { @TabIndex = 3 ,onchange = "changebin(this.value)"})
+                                                        @Html.RadioButtonFor(C => C.BinYN, "NO", new { @TabIndex = 3 ,onchange = "changebin(this.value)",@checked="checked"})
                                                         <label id="mt-radio">No</label>
 
 
@@ -891,7 +891,7 @@
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Bin ID<label class="mandatory">*</label></label>
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Bin ID<label class="mandatory"></label></label>
                                                     @if (Model.BinYN == "YES")
                                                     {
                                                         <div class="col-sm-8" id="go">
@@ -1505,7 +1505,7 @@
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
-            if (document.getElementById("ddlItemG").value == "") {
+            if (document.getElementById("ddlItemG").value == "" ||document.getElementById("ddlItemG").value == 0) {
                 isValid = false;
                 $(ddlItemG).css({
                     "border": "1px solid red",
@@ -1521,7 +1521,7 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("ddlItemSub").value == "") {
+            if (document.getElementById("ddlItemSub").value == ""||document.getElementById("ddlItemSub").value == 0) {
                 isValid = false;
                 $(ddlItemSub).css({
                     "border": "1px solid red",
@@ -1538,7 +1538,7 @@
                 });
             }
     
-            if (document.getElementById("txtItem").value == "") {
+            if (document.getElementById("txtItem").value == ""||document.getElementById("txtItem").value == 0) {
                 isValid = false;
                 $(txtItem).css({
                     "border": "1px solid red",
@@ -1554,7 +1554,7 @@
                     "background": ""
                 });
             }
-             if (document.getElementById("txtItemDes").value == "") {
+             if (document.getElementById("txtItemDes").value == ""||document.getElementById("txtItemDes").value == 0) {
                 isValid = false;
                 $(txtItemDes).css({
                     "border": "1px solid red",
@@ -1571,7 +1571,7 @@
                 });
             }
             
-            if (document.getElementById("txtMinlvl").value == "") {
+            if (document.getElementById("txtMinlvl").value == ""||document.getElementById("txtMinlvl").value ==0) {
                 isValid = false;
                 $(txtMinlvl).css({
                     "border": "1px solid red",
@@ -1588,7 +1588,7 @@
                 });
             }
 
-            if (document.getElementById("ddlUnitid").value == "") {
+            if (document.getElementById("ddlUnitid").value == ""||document.getElementById("ddlUnitid").value == 0) {
                 isValid = false;
                 $(ddlUnitid).css({
                     "border": "1px solid red",
@@ -1604,7 +1604,7 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("ddlHcode").value == "") {
+            if (document.getElementById("ddlHcode").value == ""||document.getElementById("ddlHcode").value == 0) {
                 isValid = false;
                 $(ddlHcode).css({
                     "border": "1px solid red",
@@ -1620,7 +1620,7 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("ddlLedger").value == "") {
+            if (document.getElementById("ddlLedger").value == ""||document.getElementById("ddlLedger").value == 0) {
                 isValid = false;
                 $(ddlLedger).css({
                     "border": "1px solid red",
@@ -1636,7 +1636,7 @@
                     "background": ""
                 });
             }
-              if (document.getElementById("ddlitemfrom").value == "") {
+              if (document.getElementById("ddlitemfrom").value == ""||document.getElementById("ddlitemfrom").value == 0) {
                 isValid = false;
                 $(ddlitemfrom).css({
                     "border": "1px solid red",
@@ -1652,22 +1652,22 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("ddlBinID").value == "") {
-                isValid = false;
-                $(ddlBinID).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+            //if (document.getElementById("ddlBinID").value == "") {
+            //    isValid = false;
+            //    $(ddlBinID).css({
+            //        "border": "1px solid red",
+            //        "background": "#FFCECE"
+            //    });
 
-                alert("Please Select BinID ");
-                return false;
-            }
-            else {
-                $(ddlBinID).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+            //    alert("Please Select BinID ");
+            //    return false;
+            //}
+            //else {
+            //    $(ddlBinID).css({
+            //        "border": "",
+            //        "background": ""
+            //    });
+            //}
 
              
             

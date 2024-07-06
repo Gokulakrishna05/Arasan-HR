@@ -590,7 +590,7 @@ namespace Arasan.Controllers.Master
         {
             try
             {
-                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='RAWCATEGORY'");
+                DataTable dtDesg = datatrans.GetData(Resource.rawcategory);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -810,7 +810,9 @@ namespace Arasan.Controllers.Master
         {
             try
             {
-                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='SUBCATEGORY'");
+ 
+
+                 DataTable dtDesg = datatrans.GetData(Resource.subcategory);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {

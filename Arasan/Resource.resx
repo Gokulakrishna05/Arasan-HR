@@ -117,8 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GetMnth" xml:space="preserve">
-    <value>select MONTH from SALFCBASIC where IS_ACTIVE='Y' AND FCTYPE='MONTHLY'</value>
-    <comment>hjh</comment>
+ 
+  <data name="rawcategory" xml:space="preserve">
+    <value>SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='RAWCATEGORY'</value>
+  </data>
+  <data name="subcategory" xml:space="preserve">
+    <value>SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT  ='SUBCATEGORY'</value>
+ 
+   
   </data>
 </root>

@@ -26,7 +26,8 @@
         top: 2px;
         left: 5px;
     }
-         .preview {
+      
+     .preview {
         display: inline-block;
         margin: 10px;
          padding-left:900px;
@@ -68,12 +69,24 @@
                             <div class="col-md-6">
                       
 @*               <lable style="padding-left:500px;">Upload an Image</lable>
-*@    <input type="file" id="file" name="file1"
+*@                <div class="row">
+                            <div class="col-md-6">
+                      
+     <input type="file" id="file" name="file1"
         onchange="return fileValidation()" />
  
     <!-- Image preview -->
     <div id="preview-container" class="preview"></div>
+                 @if(Model.imgpath!="")
+                 {
+                                        <a class="example-image-link" href="@Html.DisplayFor(C => C.imgpath)" data-lightbox="example-set" data-title="@Html.DisplayFor(C => C.EmpName)"><img class="example-image" src="@Html.DisplayFor(C => C.imgpath)" alt="" style="width:70px;height:70px" /></a>
+
+                     @*<img src='@Html.DisplayFor(C => C.imgpath)' style="width:70px;height:70px"/>*@
+                 }
+               
                  
+            </div> 
+            </div> 
                
                  
             </div> 
@@ -920,8 +933,8 @@
         }
         $(dropDownId).trigger("liszt:updated");
     }
-           
-    function fileValidation() {
+  
+function fileValidation() {
             var fileInput = 
                 document.getElementById('file');
              
@@ -950,10 +963,11 @@
                     };
                      
                     reader.readAsDataURL(fileInput.files[0]);
-                   
                 }
             }
-            
+            $("#preview-container").on("click", ".delete", function () {
+            $(this).parent(".preview").remove();
+            $("#file").val(""); // Clear input value if needed
         });
         }
 </script>
