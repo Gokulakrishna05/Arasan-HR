@@ -122,7 +122,9 @@
                                         </thead>
                                         <tbody id="tbBooks">
                                             @{
-
+                                                <div class="btn-group">
+                                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow1()" class="btn sbold green" /></p>
+                                                </div>
                                                 int j = 0;
 
                                                 foreach (var item in Model.Currencylst.ToList())
@@ -177,6 +179,57 @@
 </div>
 
 <script>
+
+
+    $(".chosen-select").chosen();
+
+    function AddRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetCountryJSON',
+            success: function (data) {
+
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow(opt);
+            }
+        })
+    }
+    function AppendRow(opt) {
+        var index = $("#trBook").children("tr").length;
+
+        var Concode = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ConCode" + index + "' name='Currencylst[" + index + "].ConCode'  onchange = 'changeItem(value, "+index+")' > <option value='' > Please select < /option>" + opt + "</select > </td>";
+
+
+        var Country = "<td><input class='form-control' id='Country" + index + "' name='Currencylst[" + index + "].Country'  style='width: 90px;' type='text'  /></td>";
+
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Currencylst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Currencylst.Index' type='hidden' value='" + index + "'  /></td>";
+
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Concode + Country  + removeCell + "</tr>";
+        //alert(Packing);
+
+        $("#trBook").append(newRow);
+
+        $(function () {
+            $('._select').select2();
+        })
+        $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+    }
+
+
 
 
     function changeItem(ItemId, i) {

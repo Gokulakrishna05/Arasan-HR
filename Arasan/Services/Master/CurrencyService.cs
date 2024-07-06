@@ -285,6 +285,22 @@ namespace Arasan.Services.Master
         }
 
 
+
+
+        public DataTable GetCurrencyEdit(string id)
+        {
+            string SvSql = string.Empty;
+
+            SvSql = "Select CURRENCYID,SYMBOL,MAINCURR,CURREP,CURWIDTH from CURRENCY WHERE CURRENCYID='" + id + "'";
+
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
         public DataTable GetCItem()
         {
             string SvSql = string.Empty;
