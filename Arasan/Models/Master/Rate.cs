@@ -10,7 +10,7 @@ namespace Arasan.Models
             this.Ratelst = new List<SelectListItem>();
         }
         public string ID { get; set; }
-
+        public string RID { get; set; }
         public List<SelectListItem> Brlst;
 
         public List<SelectListItem> Ratelst;

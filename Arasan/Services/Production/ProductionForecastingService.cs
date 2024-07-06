@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text.RegularExpressions;
+using System.Resources.NetStandard;
 
 namespace Arasan.Services.Production
 {
@@ -237,7 +238,7 @@ namespace Arasan.Services.Production
         public DataTable GetMnth()
         {
             string SvSql = string.Empty;
-            SvSql = "select MONTH from SALFCBASIC where IS_ACTIVE='Y' AND FCTYPE='MONTHLY'";
+            SvSql ="select MONTH from SALFCBASIC where IS_ACTIVE='Y' AND FCTYPE='MONTHLY'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

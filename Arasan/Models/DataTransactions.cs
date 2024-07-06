@@ -390,6 +390,16 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetFinishedItem()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT ITEMMASTERID,ITEMID FROM ITEMMASTER Where GROUPTYPE='Finished Goods'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetProdLog()
         {
             string SvSql = string.Empty;

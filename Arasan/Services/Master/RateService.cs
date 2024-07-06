@@ -12,6 +12,7 @@ using Microsoft.VisualBasic;
 using System.Globalization;
 using System;
 using Arasan.Interface.Master;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace Arasan.Services.Master
 {
@@ -145,7 +146,82 @@ namespace Arasan.Services.Master
             adapter.Fill(dtt);
             return dtt;
         }
+        public string RateDetailCRUD(Rate cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
 
+                datatrans = new DataTransactions(_connectionString);
+
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    string Pid = cy.RID;
+                   
+                    foreach (RateItem cp in cy.RATElist)
+                    {
+                        if (cp.ItemId != "0")
+                        {
+
+                            svSQL = "UPDATE RATEDETAIL SET ITEMID ='"+ cp.ItemId + "',RATE='"+ cp.rate + "' WHERE RATEDETAILID='" + cp.ID + "'";
+                            OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                            objConn.Open();
+                            objCmds.ExecuteNonQuery();
+                            objConn.Close();
+                        }
+                    }
+                    objConn.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string RateRevisionCRUD(Rate cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                datatrans = new DataTransactions(_connectionString);
+
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    string Pid = cy.RID;
+
+                    foreach (RateItem cp in cy.RATElist)
+                    {
+                        if (cp.ItemId != "0")
+                        {
+
+                            svSQL = "UPDATE RATEDETAIL SET ITEMID ='" + cp.ItemId + "',RATE='" + cp.rate + "' WHERE RATEDETAILID='" + cp.ID + "'";
+                            OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                            objConn.Open();
+                            objCmds.ExecuteNonQuery();
+                            objConn.Close();
+                        }
+                    }
+                    objConn.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
         public string RateCRUD(Rate cy)
         {
             string msg = "";
@@ -285,7 +361,7 @@ namespace Arasan.Services.Master
         public DataTable GetEditRateDeatils(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT RATEBASICID,RCODE,ITEMMASTER.ITEMID,UNIT,RATE,to_char(RATEDETAIL.VFROM,'dd-MON-yyyy')VFROM,to_char(RATEDETAIL.VTO,'dd-MON-yyyy')VTO,RTYPE FROM RATEDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=RATEDETAIL.ITEMID Where RATEBASICID='" + id + "'";
+            SvSql = "SELECT RATEBASICID,RCODE,ITEMMASTER.ITEMID,UNIT,RATE,to_char(RATEDETAIL.VFROM,'dd-MON-yyyy')VFROM,to_char(RATEDETAIL.VTO,'dd-MON-yyyy')VTO,RTYPE,RATEDETAILID FROM RATEDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=RATEDETAIL.ITEMID Where RATEBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
