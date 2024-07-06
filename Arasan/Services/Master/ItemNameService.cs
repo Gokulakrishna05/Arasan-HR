@@ -866,7 +866,7 @@ namespace Arasan.Services.Master
         public DataTable BindBinID()
         {
             string SvSql = string.Empty;
-            SvSql = "Select BINID,BINBASICID from BINBASIC Where CAPACITY='0' AND IS_ACTIVE='Y'";
+            SvSql = "Select BINID,BINBASICID from BINBASIC Where CAPACITY='0' AND  ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
