@@ -705,59 +705,7 @@ namespace Arasan.Controllers
             }
 
         }
-        public IActionResult Sales_Quotation()
-        {
-            return View();
-        }
-        public IActionResult Proforma_Invoice()
-        {
-            return View();
-        }
-        public IActionResult Excise_Invoice()
-        {
-            return View();
-        }
-        public IActionResult Supplimantry_Invoice()
-        {
-            return View();
-        }
-        public IActionResult Depot_Invoice()
-        {
-            return View();
-        }
-
-        public IActionResult Work_Order()
-        {
-            return View();
-        }
-        public IActionResult Work_Order_Amedment()
-        {
-            return View();
-        }
-        public IActionResult Work_Orde_ShortClose()
-        {
-            return View();
-        }
-        public IActionResult Sales_Return()
-        {
-            return View();
-        }
-        public IActionResult Debit_Note_Bill()
-        {
-            return View();
-        }
-        public IActionResult Credit_Note_Bill()
-        {
-            return View();
-        }
-        public IActionResult Credit_Note_Approval()
-        {
-            return View();
-        }
-        public IActionResult Sales_Forecasting()
-        {
-            return View();
-        }
+      
 
         public ActionResult DeleteMR(string tag, int id)
         {
