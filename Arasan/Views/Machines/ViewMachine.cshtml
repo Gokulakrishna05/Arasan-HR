@@ -76,7 +76,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <br />   <label for="inputName3" class="col-sm-4 control-label">Machine Id<label class="mandatory">*</label></label>
+                                                <br />   <label for="inputName3" class="col-sm-4 control-label">Machine Id<label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.MId, new { @id = "MId", @class = "form-control", @TabIndex = 1 })
                                                 </div>
@@ -103,7 +103,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.MWrkCent, new { @id = "MWrkCent", @Class = "form-control _select", @TabIndex = 1 })
                                                     @* @Html.HiddenFor(C => C.ID)
@@ -115,7 +115,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Supplied By<label class="mandatory">*</label></label>
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Supplied By<label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.MSupply, new { @id = "MSupply", @class = "form-control", @TabIndex = 1 })
 
@@ -130,7 +130,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Sub Process Id<label class="mandatory">*</label></label>
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Sub Process Id<label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.MSubProc, new { @id = "MSubProc", @Class = "form-control _select", @TabIndex = 1 })
                                                     @Html.HiddenFor(C => C.ID)
@@ -179,7 +179,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <br />  <label for="inputName3" class="col-sm-4 control-label">Made In <label class="mandatory">*</label></label>
+                                                <br />  <label for="inputName3" class="col-sm-4 control-label">Made In <label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.MMade, new { @id = "MMade", @Class = "form-control _select", @TabIndex = 1 })
                                                 </div>
@@ -189,7 +189,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Mode Of Purchase <label class="mandatory">*</label></label>
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Mode Of Purchase <label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.MPur, new { @id = "MPur", @Class = "form-control _select", @TabIndex = 1 })
                                                 </div>
@@ -227,7 +227,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <br /><label for="inputName3" class="col-sm-4 control-label">Machine Type <label class="mandatory">*</label></label>
+                                                <br /><label for="inputName3" class="col-sm-4 control-label">Machine Type <label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.MMType, new { @id = "MMType", @Class = "form-control _select", @TabIndex = 1 })
                                                 </div>
@@ -288,7 +288,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <br /><label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory">*</label></label>
+                                                <br /><label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.MLoc, new { @id = "MLoc", @Class = "form-control _select", @TabIndex = 1 })
 
@@ -425,11 +425,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <br /> <label for="inputName3" class="col-sm-4 control-label"> Date Of Purchase<label class="mandatory"></label></label>
-                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-
+    <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.DOP, new { @id = "DOP", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
-                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                    <br />
+                                                     <br />
 
                                                 </div>
                                             </div>
@@ -444,11 +442,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <br /> <label for="inputName3" class="col-sm-4 control-label">Date Of Supply<label class="mandatory"></label></label>
-                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-
+    <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.DOS, new { @id = "DOS", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
-                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                    <br />
+                                                     <br />
 
                                                 </div>
 
@@ -462,11 +458,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <br /> <label for="inputName3" class="col-sm-4 control-label">Installation Date<label class="mandatory"></label></label>
-                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-
+    <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.InsDate, new { @id = "InsDate", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
-                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                    <br />
+                                                     <br />
 
                                                 </div>
 
@@ -479,11 +473,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <br /> <label for="inputName3" class="col-sm-4 control-label">Date Of Last Maintenance<label class="mandatory"></label></label>
-                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-
+    <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.DOLMain, new { @id = "DOLMain", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
-                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                    <br />
+                                                     <br />
 
                                                 </div>
 
@@ -497,11 +489,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <br /> <label for="inputName3" class="col-sm-4 control-label">Next Mintenance Date<label class="mandatory"></label></label>
-                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-
+    <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.NMainDate, new { @id = "NMainDate", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
-                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                    <br />
+                                                     <br />
 
                                                 </div>
 
@@ -626,7 +616,7 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Fixed Cost Per/Houre(12hr)<label class="mandatory">*</label></label>
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Fixed Cost Per/Houre(12hr)<label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.FixCost, new { @id = "FixCost", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                 </div>
@@ -656,7 +646,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Depriciation Value<label class="mandatory">*</label></label>
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Depriciation Value<label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.DepValue, new { @id = "DepValue", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                 </div>
@@ -669,7 +659,7 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Interest Value<label class="mandatory">*</label></label>
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Interest Value<label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.IntValue, new { @id = "IntValue", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                 </div>
@@ -678,7 +668,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Insurance Value<label class="mandatory">*</label></label>
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Insurance Value<label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.InsValue, new { @id = "InsValue", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                 </div>
@@ -691,7 +681,7 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Power Cost Per Houre<label class="mandatory">*</label></label>
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Power Cost Per Houre<label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.PCostH, new { @id = "PCostH", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                 </div>
@@ -701,7 +691,7 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Additional Maintenance Cost<label class="mandatory">*</label></label>
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Additional Maintenance Cost<label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     @Html.DisplayFor(C => C.AddMCost, new { @id = "AddMCost", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                 </div>

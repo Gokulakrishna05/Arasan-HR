@@ -53,7 +53,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Unit<label class="mandatory">*</label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Unit<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Unit , Model.Unitlst,"---Please Select---",  new { @id = "ddlUnit", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
@@ -69,10 +69,10 @@
                                         <div class="col-sm-8">
                                             <div class="input-group">
 
-                                                @Html.RadioButtonFor(C => C.Value, "MANUAL", new { @TabIndex = 2 })
+                                                @Html.RadioButtonFor(C => C.Value, "MANUAL", new { @TabIndex = 2 ,@id="Value"})
                                                 <label id="mt-radio">MANUAL</label>&emsp;
 
-                                                @Html.RadioButtonFor(C => C.Value, "VALUE", new { @TabIndex = 3 })
+                                                @Html.RadioButtonFor(C => C.Value, "VALUE", new { @TabIndex = 3  ,@id="Value",@checked="checked"})
                                                 <label id="mt-radio">VALUE</label>
 
 
@@ -127,4 +127,47 @@
         }
         $(dropDownId).trigger("liszt:updated");
     }
+
+
+       $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("txtDes").value == "") {
+                isValid = false;
+                $(txtDes).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Test Description");
+                return false;
+            }
+            else {
+                $(txtDes).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Value").value == "") {
+                isValid = false;
+                $(Value).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Value Or Manual");
+                return false;
+            }
+            else {
+                $(Value).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+         
+           
+
+        });
+
+    });
 </script>

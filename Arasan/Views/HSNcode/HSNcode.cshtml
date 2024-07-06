@@ -263,7 +263,7 @@
         $('#btnSave').click(function (e) {
             var isValid = true;
 
-            if (document.getElementById("txtHCode").value == "") {
+            if (document.getElementById("txtHCode").value == ""|| document.getElementById("txtHCode").value == 0) {
                 isValid = false;
                 $(txtHCode).css({
                     "border": "1px solid red",
@@ -279,23 +279,38 @@
                     "background": ""
                 });
             }
-            //if (document.getElementById("txtDec").value == "") {
-            //    isValid = false;
-            //    $(txtDec).css({
-            //        "border": "1px solid red",
-            //        "background": "#FFCECE"
-            //    });
+            if (document.getElementById("txtDec").value == ""|| document.getElementById("txtDec").value == 0) {
+                isValid = false;
+                $(txtDec).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
-            //    alert("Please Enter Description");
-            //    return false;
-            //}
-            //else {
-            //    $(txtDec).css({
-            //        "border": "",
-            //        "background": ""
-            //    });
-            //}
+                alert("Please Enter Description");
+                return false;
+            }
+            else {
+                $(txtDec).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+              if (document.getElementById("txtPer").value == ""||document.getElementById("txtPer").value == 0) {
+                isValid = false;
+                $(txtPer).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
+                alert("Please Enter Percentage");
+                return false;
+            }
+            else {
+                $(txtPer).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
            
             if (document.getElementById("ddltariff").value == "" || document.getElementById("ddltariff").value == 0) {
                 isValid = false;

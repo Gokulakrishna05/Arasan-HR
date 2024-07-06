@@ -240,6 +240,42 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public string CityCRUD(string category)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                svSQL = " SELECT Count(COMMON_VALUE) as cnt FROM COMMONMASTER WHERE COMMON_VALUE =LTRIM(RTRIM('" + category + "')) AND COMMON_TEXT='CITY'";
+                if (datatrans.GetDataId(svSQL) > 0)
+                {
+                    msg = "SUB CITY Already Existed";
+                    return msg;
+                }
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    svSQL = "Insert into COMMONMASTER (COMMON_TEXT,COMMON_VALUE) VALUES ('CITY','" + category + "')";
+
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                    objConn.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConn.Close();
+                }
+
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
     }
 }
    

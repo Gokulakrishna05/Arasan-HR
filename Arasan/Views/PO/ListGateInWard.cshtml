@@ -3,6 +3,15 @@
 @{
     ViewData["Title"] = "Gate Inward";
 }
+<style>
+    
+    .mandatory{
+	color: red;
+	position:relative;
+	top:2px;
+	left:5px;
+}
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -27,7 +36,7 @@
                         <div class="row">
                               <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">From Date <label class="mandatory">*</label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">From Date <label class="mandatory"></label></label>
                                               
 													<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
                                                          @Html.TextBoxFor(C => C.fromdate, new { @id = "dtFrom", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
@@ -40,7 +49,7 @@
                                         </div> 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">To Date <label class="mandatory">*</label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">To Date <label class="mandatory"></label></label>
                                               
 													<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
                                                          @Html.TextBoxFor(C => C.todate, new { @id = "dtTo", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
@@ -73,11 +82,11 @@
                     <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                       <thead>
                         <tr>
-                          <th>Supplier Name</th>
+                         
                           <th>PO No.</th>
-                          <th>IN Date</th>
-                          <th>IN Time</th>
-                          <th>Total Qty.</th>
+                          <th>IN Date & Time </th>
+                           <th>Supplier Name</th>
+                          <th>Total Qty</th>
                           <th>View</th>
                           
                           
@@ -94,11 +103,12 @@
                                                                 
 
                                 <tr>
+                                 <td>@Html.DisplayFor(modelItem => item.PONo)</td>
+                                  <td>@Html.DisplayFor(modelItem => item.GateInDate)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.Supplier)</td>
-                                                                              <td>@Html.DisplayFor(modelItem => item.PONo)</td>
-                                                                            <td>@Html.DisplayFor(modelItem => item.GateInDate)</td>
-                                                                            <td>@Html.DisplayFor(modelItem => item.GateInTime)</td>
-                                                                            <td>@Html.DisplayFor(modelItem => item.TotalQty)</td>
+                                                                             
+                                                                           
+                                                                             <td>@Html.DisplayFor(modelItem => item.TotalQty)</td>
 
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewGateInward", "PO",new { id=item.POID})" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
 

@@ -97,7 +97,7 @@
 
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">State<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C. StateName , Model.statlst,"---Please Select---",  new { @id = "ddlState", @Class = "form-control _select", @TabIndex = 1,onchange = "CityChange(value)" })
+                                            @Html.DropDownListFor(C => C. StateName , Model.statlst,"---Please Select---",  new { @id = "ddlState", @Class = "form-control _select", @TabIndex = 1/*,onchange = "CityChange(value)"*/ })
                                         </div>
 
                                     </div>
@@ -106,10 +106,11 @@
                                     <div class="form-group">
 
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">City<label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
+                                        <div class="col-sm-7">
                                            @* <input class="form-control" id="inputEmail3" placeholder="" type="text" ><br />*@
                                             @Html.DropDownListFor(C => C. City , Model.Citylst,"---Please Select---",  new { @id = "ddlCity", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
+                                                                                                                                                                    <div class="col-sm-1"><a href="@Url.Action("AddCity", "Branch")"  class='fancybox' data-fancybox-type='iframe'><img src='../Images/plus.png' alt='Add' /></a></div>
 
                                     </div>
                                 </div>
@@ -314,5 +315,45 @@
         });
 
     });
-
+    function AddCity(category) {
+  $.ajax({
+            url: "GetCityJSON",
+            type: "post",
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#ddlCity", response);
+                $(ddlCity).select2().val(category).trigger("change");
+              //  document.getElementById("ddlCity").value =category;
+            },
+            error: function () {
+                alert("Please Select City");
+            }
+        });
+    }
 </script>
+
+    <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false
+        });
+        fancybox123 = $.fancybox;
+    });
+
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
+    </script>

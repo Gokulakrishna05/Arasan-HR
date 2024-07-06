@@ -67,8 +67,8 @@
                                           <div class="row">
                             <div class="col-md-6">
                       
-               <lable style="padding-left:500px;">Upload an Image</lable>
-    <input type="file" id="file" name="file1"
+@*               <lable style="padding-left:500px;">Upload an Image</lable>
+*@    <input type="file" id="file" name="file1"
         onchange="return fileValidation()" />
  
     <!-- Image preview -->
@@ -667,12 +667,7 @@
 
                                         </div>
 
-                                        <div style="height:30px;"></div>
-                                        <div class="col-lg-10"></div>
-                                        <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
-                                        <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListEmployee", "Employee")'">Cancel</button>
-                           
-
+                                      
 
                                         @* 2nd tab*@
                                     </div>
@@ -681,10 +676,10 @@
            
 
         
-                            @*<div style="height:30px;"></div>
+                            <div style="height:30px;"></div>
                                 <div class="col-lg-10"></div>
                                 <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
-                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListEmployee", "Employee")'">Cancel</button>*@
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListEmployee", "Employee")'">Cancel</button> 
   </div>
                         
                     </form>

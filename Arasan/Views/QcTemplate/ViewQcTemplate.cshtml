@@ -30,7 +30,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    <h5 style="font-size:14px">Production Schedule</h5>
+                    <h5 style="font-size:14px">Qc Template</h5>
                     <hr>
                     @using (Html.BeginForm("ViewQcTemplate", "QcTemplate", FormMethod.Post))
                     {
@@ -40,7 +40,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Qc Template<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Qc Template<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.HiddenFor(C => C.ID)
                                             @Html.DisplayFor(C => C.Qc)
@@ -51,7 +51,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Test Type<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Test Type<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.Test)
                                           
@@ -64,7 +64,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Set By<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Set By<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.Set)
                                            
@@ -88,7 +88,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Qc Type<label class="mandatory">*</label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Qc Type<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.Type)
                                             
@@ -99,7 +99,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Test Procedure<label class="mandatory">*</label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Test Procedure<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.Procedure)
                                         </div>
@@ -111,7 +111,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Samplingper<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Samplingper<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.Samplingper)
                                         </div>
@@ -189,8 +189,8 @@
                            </div>
 
                             <div style="height:30px;"></div>
-                            <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onclick="location.href='@Url.Action("ListQcTemplate", "QcTemplate")'">Submit</button>
-                            <button class="btn btn-danger" type="button" causesvalidation="false" onClick="window.parent.jQuery.fancybox.close();">Cancel</button>
+@*                            <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onclick="location.href='@Url.Action("ListQcTemplate", "QcTemplate")'">Submit</button>
+*@                            <button class="btn btn-danger" type="button" causesvalidation="false" onClick="window.parent.jQuery.fancybox.close();">Cancel</button>
                         </form>
                     }
                 </div>
