@@ -3,7 +3,20 @@
 @{
     ViewData["Title"] = "Exchange Rate";
 }
-
+<style>
+    .Mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -31,9 +44,9 @@
                                         <div class="col-md-7">
                                             <div class="form-group">
 
-                                                <label for="inputName3" class="col-sm-4 control-label">Currency Symbol<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Currency Symbol<label class="Mandatory">*</label></label>
                                                 <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.CurrencySymbol, Model.Symlst, "Please Select", new { @id = "ddlCurSym", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.CurrencySymbol, Model.Symlst, "Please Select", new { @id = "ddlCurSym", @Class = "form-control _select", @TabIndex = 1, @onchange = "changecurr(this.value)" })
 
                                                     @Html.HiddenFor(C => C.ID)
                                                 </div>
@@ -46,9 +59,9 @@
                                            <div class="form-group">
 
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Currency Name<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Currency Name<label class="Mandatory">*</label></label>
                                             <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.CurrencyName, new { @id = "txterate", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.TextBoxFor(C => C.CurrencyName, new { @id = "txtCurrencyName", @class = "form-control", @TabIndex = 1,@readonly="readonly" })<br />
                                             <br>
                                             </div>
                                            </div>
@@ -61,7 +74,7 @@
                                     <div class="form-group">
 
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Rate Type<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Rate Type<label class="Mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.RateType, Model.Rtlst, "Please Select", new { @id = "ddlrtyp", @Class = "form-control _select", @TabIndex = 1 })
                                             <br>
@@ -76,7 +89,7 @@
                                     <div class="form-group">
 
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Exchange, new { @id = "txterate", @class = "form-control", @TabIndex = 1 })<br />
                                             <br>
@@ -92,7 +105,7 @@
                                 <div class="col-md-7">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Exchange Date<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Exchange Date<label class="Mandatory">*</label></label>
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                                 @Html.TextBoxFor(C => C.ExchangeDate, new { @id = "ExchangeDate", @class = "form-control", @TabIndex = 2,@size="30",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -136,7 +149,23 @@
         $('#btnSave').click(function (e) {
             var isValid = true;
 
-            if (document.getElementById("txtCurrencyName").value == "") {
+            if (document.getElementById("ddlCurSym").value == "" || document.getElementById("ddlCurSym").value == 0) {
+                isValid = false;
+                $(ddlCurSym).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Symbol");
+                return false;
+            }
+            else {
+                $(ddlCurSym).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("txtCurrencyName").value == "" || document.getElementById("txtCurrencyName").value == 0) {
                 isValid = false;
                 $(txtCurrencyName).css({
                     "border": "1px solid red",
@@ -152,18 +181,50 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtExchange").value == "") {
+             if (document.getElementById("ddlrtyp").value == "" || document.getElementById("ddlrtyp").value == 0) {
                 isValid = false;
-                $(txtExchange).css({
+                $(ddlrtyp).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Exchange Rate");
+                alert("Please Select Rate Type");
                 return false;
             }
             else {
-                $(txtExchange).css({
+                $(ddlrtyp).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("txterate").value == "" || document.getElementById("txterate").value == 0) {
+                isValid = false;
+                $(txterate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Exchange Rate");
+                return false;
+            }
+            else {
+                $(txterate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("ExchangeDate").value == "" || document.getElementById("ExchangeDate").value == 0) {
+                isValid = false;
+                $(ExchangeDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Exchange Date");
+                return false;
+            }
+            else {
+                $(ExchangeDate).css({
                     "border": "",
                     "background": ""
                 });
@@ -178,4 +239,27 @@
         });
 
     });
+    $(function () {
+        $('._select').select2();
+    });
+     function changecurr(ItemId) {
+    
+
+          
+           $.ajax({
+            url: 'Getcurrencydetails',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+
+                document.getElementById("txtCurrencyName").value = result.sym;
+
+
+            },
+            error: function () {
+            alert("Data Not Found");
+            }
+            });
+    }
 </script>

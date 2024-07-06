@@ -30,7 +30,7 @@
         $(document).ready(function () {
             var source =
             {
-                url: "/ExchangeRate/ListExchangeRate",
+                url: "/ExchangeRate/MyListExchangegrid",
 
                 data: {
                     strstatus: ""
@@ -80,11 +80,11 @@
                     enablebrowserselection: true,
                     columns: [
 
-                        { text: 'Currency Symbol', filtertype: 'checkedlist', datafield: 'csym', width: 200 },
-                        { text: 'Currency Name', filtertype: 'input', datafield: 'cname', width: 200 },
-                        { text: 'Rate Type', datafield: 'rtype', width: 200 },
-                        { text: 'Exchange Rate', datafield: 'erate', width: 200 },
-                        { text: 'Date', datafield: 'date', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                       // { text: 'Currency Symbol', filtertype: 'checkedlist', datafield: 'csym', width: 200 },
+                        { text: 'Currency Name', filtertype: 'input', datafield: 'cname', width: 150 },
+                        { text: 'Rate Type', datafield: 'rtype', width: 150 },
+                        { text: 'Exchange Rate', datafield: 'erate', width: 150 },
+                        { text: 'Date', datafield: 'date', width: 150 },
                         { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                         { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsrenderer: linkrenderer1, cellsalign: 'center', width: 70 },
                     ]
@@ -212,7 +212,7 @@
         $(".fancybox1").eq(0).trigger('click');
     }
     function changeStatus(status) {
-        var url = "/ExchangeRate/ListExchangeRate?status=" + status;
+        var url = "/ExchangeRate/MyListExchangegrid?status=" + status;
         window.location.href = url;
     }
 </script>
