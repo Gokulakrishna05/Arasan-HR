@@ -46,6 +46,53 @@ namespace Arasan.Controllers.Master
             }
             else
             {
+
+
+
+                DataTable dtt = new DataTable();
+                //DataTable dtt = new DataTable();
+                dtt = CurrencyService.GetCurrencyEdit(id);
+                if (dtt.Rows.Count > 0)
+                {
+                    cu.ID = dtt.Rows[0]["CURRENCYID"].ToString();
+                    cu.CurrencyCode = dtt.Rows[0]["SYMBOL"].ToString();
+                    cu.CurrencyName = dtt.Rows[0]["MAINCURR"].ToString();
+                    cu.CurrencyCodes = dtt.Rows[0]["CURREP"].ToString();
+                    cu.CurrencyInteger = dtt.Rows[0]["CURWIDTH"].ToString();
+
+                  
+
+                }
+                DataTable dtt2 = new DataTable();
+
+                dtt2 = datatrans.GetData("SELECT CURRENCYID, CONCODE,COUNTRY FROM CONCURR Where CURRENCYID='" + id + "'");
+
+                if (dtt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt2.Rows.Count; i++)
+                    {
+
+
+
+                        tda = new UsedCountries();
+                        tda.ConCode = dtt2.Rows[0]["CONCODE"].ToString();
+                        tda.Country = dtt2.Rows[0]["COUNTRY"].ToString();
+                        //tda.Itemlst = 
+
+
+
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
+                }
+
+
+
+
+
+
+
+
                 //  cu = CurrencyService.GetCurrencyById(id);
                 DataTable dt = new DataTable();
                 //double total = 0;
@@ -85,6 +132,14 @@ namespace Arasan.Controllers.Master
 
             cu.Currencylst = TData;
             return View(cu);
+        }
+
+
+        public JsonResult GetCountryJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindCountries());
         }
         [HttpPost]
         public ActionResult Currency(Currency Cy, string id)
