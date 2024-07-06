@@ -38,7 +38,7 @@ namespace Arasan.Controllers.Master
                 for (int i = 0; i < 1; i++)
                 {
                     tda = new UsedCountries();
-                    tda.Currencylst = BindCountries();
+                    tda.Currencieslst = BindCountries();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
 
@@ -75,6 +75,7 @@ namespace Arasan.Controllers.Master
 
 
                         tda = new UsedCountries();
+                        tda.Currencieslst = BindCountries();
                         tda.ConCode = dtt2.Rows[0]["CONCODE"].ToString();
                         tda.Country = dtt2.Rows[0]["COUNTRY"].ToString();
                         //tda.Itemlst = 
@@ -94,37 +95,8 @@ namespace Arasan.Controllers.Master
 
 
                 //  cu = CurrencyService.GetCurrencyById(id);
-                DataTable dt = new DataTable();
-                //double total = 0;
-                dt = datatrans.GetData("select SYMBOL,MAINCURR,CURREP,CURWIDTH From  CURRENCY");
-                if (dt.Rows.Count > 0)
-                {
+               
 
-                    cu.CurrencyCode = dt.Rows[0]["SYMBOL"].ToString();
-                    cu.CurrencyName = dt.Rows[0]["MAINCURR"].ToString();
-                    cu.CurrencyCodes = dt.Rows[0]["CURREP"].ToString();
-                    cu.CurrencyInteger = dt.Rows[0]["CURWIDTH"].ToString();
-
-                    cu.ID = id;
-
-                }
-                DataTable dt2 = new DataTable();
-
-                dt2 = datatrans.GetData("SELECT CONCODE,COUNTRY FROM CONCURR ");
-                if (dt2.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dt2.Rows.Count; i++)
-                    {
-                        tda = new UsedCountries();
-
-                      
-                        tda.ConCode = dt2.Rows[i]["CONCODE"].ToString();
-                       
-                        tda.Country = dt2.Rows[i]["COUNTRY"].ToString();
-                       
-                        TData.Add(tda);
-                    }
-                }
 
 
 
@@ -166,7 +138,7 @@ namespace Arasan.Controllers.Master
                 {
                     ViewBag.PageTitle = "Edit Currency";
                     TempData["notice"] = Strout;
-                    //return View();
+                    return View("Currency");
                 }
 
                 // }
@@ -225,11 +197,19 @@ namespace Arasan.Controllers.Master
 
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
+                string ViewRow = string.Empty;
 
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
 
                     EditRow = "<a href=Currency?id=" + dtUsers.Rows[i]["CURRENCYID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+
+                    ViewRow = "<a href=ViewCurrency?id=" + dtUsers.Rows[i]["CURRENCYID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
+
+
+
+
                     DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CURRENCYID"].ToString() + "";
                 }
                 else
@@ -245,6 +225,7 @@ namespace Arasan.Controllers.Master
                     currencycode = dtUsers.Rows[i]["SYMBOL"].ToString(),
                     currencyname = dtUsers.Rows[i]["MAINCURR"].ToString(),
                     editrow = EditRow,
+                    viewrow = ViewRow,
                     delrow = DeleteRow,
 
                 });
@@ -260,11 +241,11 @@ namespace Arasan.Controllers.Master
             {
                 try
                 {
-                    DataTable dtDesg = datatrans.GetData("select COUNTRYCODE From  CONMAST"  );
+                    DataTable dtDesg = datatrans.GetData("select COUNTRYCODE,COUNTRYMASTID From  CONMAST"  );
                     List<SelectListItem> lstdesg = new List<SelectListItem>();
                     for (int i = 0; i < dtDesg.Rows.Count; i++)
                     {
-                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRYCODE"].ToString(), Value = dtDesg.Rows[i]["COUNTRYCODE"].ToString() });
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRYCODE"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
                     }
                     return lstdesg;
                 }
@@ -281,7 +262,7 @@ namespace Arasan.Controllers.Master
 
                 string country = "";
 
-                dt = datatrans.GetData("SELECT COUNTRY FROM CONMAST WHERE COUNTRYCODE='"+ItemId+"'");
+                dt = datatrans.GetData("SELECT COUNTRY FROM CONMAST WHERE COUNTRYMASTID='" + ItemId+"'");
 
                 if (dt.Rows.Count > 0)
                 {
@@ -299,5 +280,78 @@ namespace Arasan.Controllers.Master
             }
         }
 
-    }
+
+
+        public IActionResult ViewCurrency(string id)
+        {
+            List<UsedCountries> TData = new List<UsedCountries>();
+            UsedCountries tda = new UsedCountries();
+            List<UsedCountry> TDatab = new List<UsedCountry>();
+            UsedCountry tdab = new UsedCountry();
+            DataTable dt = new DataTable();
+
+            dt = datatrans.GetData("Select CURRENCYID,SYMBOL,MAINCURR,CURREP,CURWIDTH from CURRENCY WHERE CURRENCYID='" + id + "'");
+
+            //"Select IGROUP,ISUBGROUP,ITEMGROUP,SUBGROUPCODE,SUBCATEGORY,BINNO,BINYN,LOTYN,RHYN,RUNPERQTY,RUNHRS,COSTCATEGORY,AUTOCONSYN,QCT,DRUMYN,ITEMFROM,ETARIFFMASTER.TARIFFID,PURCAT,MAJORYN,to_char(LATPURDT,'dd-MON-yyyy')LATPURDT,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MINSTK,UNITMAST.UNITID,MASTER.MNAME,HSN,SELLINGPRICE,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,TESTTBASIC.TEMPLATEID,QCCOMPFLAG,LATPURPRICE,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMACC,PTEMPLATEID,CURINGDAY,AUTOINDENT from ITEMMASTER LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT LEFT OUTER JOIN MASTER ON MASTER.MASTERID=ITEMMASTER.ITEMACC LEFT OUTER JOIN TESTTBASIC ON TESTTBASIC.TESTTBASICID=ITEMMASTER.TEMPLATEID LEFT OUTER JOIN ETARIFFMASTER ON ETARIFFMASTER.ETARIFFMASTERID=ITEMMASTER.TARIFFID   where ITEMMASTERID=" + id + "");
+            Currency cu = new Currency();
+            if (dt.Rows.Count > 0)
+            {
+                cu.ID = dt.Rows[0]["CURRENCYID"].ToString();
+                cu.CurrencyCode = dt.Rows[0]["SYMBOL"].ToString();
+                cu.CurrencyName = dt.Rows[0]["MAINCURR"].ToString();
+                cu.CurrencyCodes = dt.Rows[0]["CURREP"].ToString();
+                cu.CurrencyInteger = dt.Rows[0]["CURWIDTH"].ToString();
+
+
+            }
+            DataTable dt2 = new DataTable();
+
+            dt2 = datatrans.GetData("SELECT CURRENCYID, CONCURR.CONCODE,CONCURR.COUNTRY,CONMAST.COUNTRYCODE FROM CONCURR  left outer join CONMAST ON COUNTRYMASTID=CONCURR.CONCODE Where CURRENCYID='" + id + "'");
+
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+
+
+                    tda = new UsedCountries();
+                    tda.Currencieslst = BindCountries();
+                    tda.ConCode = dt2.Rows[0]["COUNTRYCODE"].ToString();
+                    tda.Country = dt2.Rows[0]["COUNTRY"].ToString();
+                    //tda.Itemlst = 
+
+
+
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+
+
+
+            DataTable dtt2 = new DataTable();
+
+            dtt2 = datatrans.GetData("SELECT EXRATE,RATEDT FROM CRATE WHERE CURRENCYID='" + id +"' ");
+
+            if (dtt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt2.Rows.Count; i++)
+                {
+
+
+                    tdab = new UsedCountry();
+                    tdab.UsedCurrencylst = BindCountries();
+                    tdab.exrate = dtt2.Rows[0]["EXRATE"].ToString();
+                    tdab.ratedt = dtt2.Rows[0]["RATEDT"].ToString();
+                    tdab.Isvalid = "Y";
+                    TDatab.Add(tdab);
+                }
+            }
+            cu.Currencylst = TData;
+            cu.UsedCurrencieslst = TDatab;
+
+            return View(cu);
+            }
+
+        }
 }

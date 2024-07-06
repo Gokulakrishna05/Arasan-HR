@@ -91,10 +91,9 @@ namespace Arasan.Services.Master
                         msg = " Symbol Already Existed";
                         return msg;
                     }
-                    
-                }
-               
-               else
+
+
+                    else
                     {
                         svSQL = " SELECT Count(MAINCURR) as cnt FROM CURRENCY WHERE MAINCURR = LTRIM(RTRIM('" + cy.CurrencyName + "')) ";
                         if (datatrans.GetDataId(svSQL) > 0)
@@ -103,7 +102,8 @@ namespace Arasan.Services.Master
                             return msg;
                         }
 
-               }
+                    }
+                }
 
                
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
@@ -161,7 +161,7 @@ namespace Arasan.Services.Master
                                 int r = 1;
                                 foreach (UsedCountries cp in cy.Currencylst)
                                 {
-                                    if (cp.Isvalid == "Y")
+                                    if (cp.Isvalid == "Y" && cp.ConCode != "")
                                     {
 
                                         svSQL = "Insert into CONCURR (CURRENCYID,CONCURRROW,CONCODE,COUNTRY) VALUES ('" + Pid + "','" + r + "','" + cp.ConCode + "','" + cp.Country + "')";
@@ -182,7 +182,7 @@ namespace Arasan.Services.Master
                                 foreach (UsedCountries cp in cy.Currencylst)
                                 {
                                     int r = 1;
-                                    if (cp.Isvalid == "Y")
+                                    if (cp.Isvalid == "Y" && cp.ConCode!= "")
                                     {
                                         svSQL = "Insert into CONCURR (CURRENCYID,CONCURRROW,CONCODE,COUNTRY) VALUES ('" + Pid + "','" + r + "','" + cp.ConCode + "','" + cp.Country + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
