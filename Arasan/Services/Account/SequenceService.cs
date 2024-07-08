@@ -124,7 +124,7 @@ namespace Arasan.Services
         public DataTable GetSequence(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE where SEQUENCEID=" + id + "";
+            SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDT,'dd-MON-yyyy')STDATE,to_char(EDDT,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE where SEQUENCEID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
