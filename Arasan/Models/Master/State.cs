@@ -19,9 +19,19 @@ namespace Arasan.Models
         public String createby { get; set; }
         public string status { get; set; }
         public string ddlStatus { get; set; }
+        public List<Stmst> Stlst { get; set; }
+
 
     }
-    public class StateGrid
+    public class Stmst
+    {
+        public string ID { get; set; }
+        public string state { get; set; }
+        public string Isvalid { get; set; }
+     
+        public string code { get; set; }
+    }
+        public class StateGrid
     {
         public string id { get; set; }
         public string statename { get; set; }
