@@ -30,7 +30,11 @@ namespace Arasan.Controllers.Master
             pm.Date = DateTime.Now.ToString("dd-MMM-yyyy");
             pm.Valid = DateTime.Now.ToString("dd-MMM-yyyy");
             //pm.Costtypelst = BindCosttype();
-
+            DataTable dtv = datatrans.GetSequence("CommM");
+            if (dtv.Rows.Count > 0)
+            {
+                pm.Cid = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
             comlst pr = new comlst();
             List<comlst> TData = new List<comlst>();
 
@@ -287,5 +291,33 @@ namespace Arasan.Controllers.Master
                 return RedirectToAction("ListCommission");
             }
         }
+
+
+        public ActionResult GetUnitDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string unit = "";
+
+                dt = datatrans.GetItemDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    unit = dt.Rows[0]["UNITID"].ToString();
+
+                }
+
+                var result = new { unit = unit };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

@@ -31,7 +31,7 @@ namespace Arasan.Controllers.Master
             E.EMPDesignlst = BindEMPDesign();
             E.Statelst = BindState();
             E.Citylst = BindCity("");
-
+            E.imgpath = "";
             E.Branch = Request.Cookies["BranchId"];
 
             //List<EduDeatils> TData = new List<EduDeatils>();60759
@@ -77,7 +77,7 @@ namespace Arasan.Controllers.Master
                     E.EMPDeptCode = dt.Rows[0]["EMPDEPTCODE"].ToString();
                     E.JoinDate = dt.Rows[0]["JOINDATE"].ToString();
                     E.ResignDate = dt.Rows[0]["RESIGNDATE"].ToString();
-                    E.imgpath = "";
+                    E.imgpath = dt.Rows[0]["IMGPATH"].ToString();
 
                 }
                 DataTable dt2 = new DataTable();
@@ -127,13 +127,13 @@ namespace Arasan.Controllers.Master
 
         }
         [HttpPost]
-        public ActionResult Employee(Employee emp, string id)
+        public ActionResult Employee(Employee emp, string id, List<IFormFile> file1)
         {
 
             try
             {
                 emp.ID = id;
-                string Strout = EmployeeService.EmployeeCRUD(emp);
+                string Strout = EmployeeService.EmployeeCRUD(emp, file1);
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (emp.ID == null)

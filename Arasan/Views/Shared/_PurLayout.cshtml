@@ -129,7 +129,7 @@
 
 
                 </div>
-
+                  <ul class="nav navbar-nav pull-right">
                 <div class="hor-menu  hor-menu-light hidden-sm hidden-xs">
                     <ul class="nav navbar-nav pull-left" style="padding-left: 5px;padding-bottom: 5px;">
                         <li class="dropdown">
@@ -164,18 +164,18 @@
                 </div>
 
                 <!--  TOP NAVIGATION MENU -->
-                <ul class="nav navbar-nav pull-right">
+              
                     <!-- START USER LOGIN DROPDOWN -->
                     <li class="dropdown dropdown-user">
-                        <a data-close-others="true" data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle" href="javascript:;"> <img src="~/assets/images/teem/placeholders.jpg" class="img-circle" alt=""> <span class="username username-hide-on-mobile"> @strName  </span> <i class="fa fa-angle-down"></i> </a>
+                        <a data-close-others="true" data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle" href="javascript:;"> <img src="~/Images/profileicon.png" class="img-circle" alt=""> <span class="username username-hide-on-mobile"> @strName  </span> <i class="fa fa-angle-down"></i> </a>
                         <ul class="dropdown-menu dropdown-menu-default">
                             <li>
-                                <a href="profile.html"> <i class="icon-user"></i> My Profile </a>
+                                <a href="@Url.Action("Profile", "Home")"> <i class="icon-user"></i> My Profile </a>
                             </li>
                             <li class="divider"> </li>
-                            <li>
+                          @*  <li>
                                 <a href="lockscreen.html"> <i class="icon-lock"></i> Lock Screen </a>
-                            </li>
+                            </li>*@
                             <li>
                                 <a href="@Url.ActionLink("Login","Account")"> <i class="icon-key"></i> Log Out </a>
                             </li>

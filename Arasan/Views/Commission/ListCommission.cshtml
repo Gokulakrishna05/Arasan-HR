@@ -1,7 +1,7 @@
-﻿@model Arasan.Models.Branch
+﻿@model Arasan.Models.Commission
 
 @{
-    ViewData["Title"] = "Branch";
+    ViewData["Title"] = "Commission";
     //string query = ViewContext.HttpContext.Request.Query["status"];
     string Qid = string.Empty;
     //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
@@ -23,7 +23,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong>Branch</strong> </li>
+            <li class="active"> <strong>Commission</strong> </li>
         </ol>
     </div>
 </div>
@@ -32,7 +32,7 @@
         $(document).ready(function () {
             var source =
             {
-                url: "/Branch/MyListBranchgrid",
+                url: "/Commission/MyListCommissiongrid",
 
                 data: {
                     strstatus: ""
@@ -42,9 +42,10 @@
                     // synchronize with the server - send update command
                 },
                 datafields: [
-                    { name: 'companyname', type: 'string' },
-                    { name: 'branchname', type: 'string' },
-                    { name: 'statename', type: 'string' },
+                    { name: 'id', type: 'string' },
+                    { name: 'cid', type: 'string' },
+                    { name: 'date', type: 'string' },
+                    { name: 'code', type: 'string' },
 
                     { name: 'editrow', type: 'string' },
                     { name: 'delrow', type: 'string' },
@@ -58,9 +59,6 @@
                 }
             }
             );
-            var linkrenderer1 = function (row, column, value) {
-                    return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
-            }
 
             $("#grid").jqxGrid(
                 {
@@ -85,15 +83,15 @@
                     keyboardnavigation: false,
                     columns: [
 
-                        { text: 'Company', filtertype: 'input', datafield: 'companyname', width: 200 },
-                        { text: 'Branch', filtertype: 'input', datafield: 'branchname', width: 200 },
-                        { text: 'State', filtertype: 'input', datafield: 'statename', width: 200 },
+                        { text: 'DOCID', filtertype: 'input', datafield: 'cid', width: 200 },
+                        { text: 'DOCDATE', filtertype: 'input', datafield: 'date', width: 200 },
+                        { text: 'COMMISSION CODE', filtertype: 'input', datafield: 'code', width: 200 },
                         { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                         { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, cellsrenderer: linkrenderer1, formatter: returnMyLink, edittype: 'select' },
                     ]
                 });
             $("#ddlStatus").change(function () {
-                var value = "ACTIVE";
+                var value = "Y";
                 if ($(this).val() != "") {
                     value = $(this).val();
                 }
@@ -107,7 +105,9 @@
     function returnMyLink(cellValue, options, rowdata, action) {
         return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
     }
-
+    var linkrenderer1 = function (row, column, value) {
+        return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+    }
 </script>
 
 <div class="wrapper-content ">
@@ -116,19 +116,20 @@
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
 
+
+
                     <form>
                         <div class="row">
-                            <div class="col-md-2 ">
-
-                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
-                                { new SelectListItem() {Text = "Enabled", Value="ACTIVE"},
-                                new SelectListItem() {Text = "Disabled", Value="INACTIVE"}},
-                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
-                            </div>
+                              <div class="col-md-2 ">
+                            @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                            { new SelectListItem() {Text = "Enabled", Value="Y"},
+                            new SelectListItem() {Text = "Disabled", Value="N"}},
+                            new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                        </div>
 
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("Branch","Branch")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Branch</a>
+                                    <a href="@Url.Action("Commission","Commission")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Commission</a>
                                     <br>
                                 </div>
 
@@ -144,8 +145,8 @@
                         </div>
 
 
-
                     </form>
+
                 </div>
             </div>
         </div>
@@ -158,7 +159,7 @@
         return confirm("Are you sure you want to delete?");
     }
     function changeStatus(status) {
-        var url = "/Branch/ListBranch?status=" + status;
+        var url = "/Commission/ListCommission?status=" + status;
         window.location.href = url;
         //$.ajax({
         //    url: 'AssignSession',

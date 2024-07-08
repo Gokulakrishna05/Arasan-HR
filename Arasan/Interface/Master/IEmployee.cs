@@ -9,7 +9,7 @@ namespace Arasan.Interface.Master
     public interface IEmployee
     {
 
-        string EmployeeCRUD(Employee emp);
+        string EmployeeCRUD(Employee emp, List<IFormFile> file1);
         DataTable GetState();
         DataTable GetCity(string id);
         DataTable GetCityst(string id);

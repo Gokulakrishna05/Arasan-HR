@@ -28,7 +28,7 @@
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-             <li> <a href="WorkCeneter/ListWorkCenter">Work Center</a> </li>
+             <li> <a href="@Url.Action("LisWorkCenters", "WorkCenter")">Work Center</a> </li>
             <li class="active"> <strong> Production Rate  </strong> </li>
         </ol>
     </div>
@@ -46,7 +46,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                           
                                              @Html.DisplayFor(C => C.Wid, new { @id = "txtWid", @class = "form-control", @TabIndex = 1})

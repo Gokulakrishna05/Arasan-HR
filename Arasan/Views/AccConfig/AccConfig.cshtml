@@ -325,14 +325,14 @@
             var isValid = true;
 
            
-            if (document.getElementById("txtSchemeDes").value == "") {
+            if (document.getElementById("txtSchemeDes").value == ""|| document.getElementById("txtSchemeDes").value ==0) {
                 isValid = false;
                 $(txtSchemeDes).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter SchemeDescrip");
+                alert("Please Enter Scheme Description");
                 return false;
             }
             else {
@@ -341,14 +341,14 @@
                     "background": ""
                 });
             } 
-            if (document.getElementById("txtScheme").value == "") {
+            if (document.getElementById("txtScheme").value == ""||document.getElementById("txtScheme").value == 0) {
                 isValid = false;
                 $(txtScheme).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Scheme");
+                alert("Please Enter Scheme Name");
                 return false;
             }
             else {
@@ -357,7 +357,7 @@
                     "background": ""
                 });
             } 
-            if (document.getElementById("txtTrasactionName").value == "") {
+            if (document.getElementById("txtTrasactionName").value == ""||document.getElementById("txtTrasactionName").value == 0) {
                 isValid = false;
                 $(txtTrasactionName).css({
                     "border": "1px solid red",
@@ -373,7 +373,7 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtTrasactionID").value == "") {
+            if (document.getElementById("txtTrasactionID").value == ""||document.getElementById("txtTrasactionID").value == 0) {
                 isValid = false;
                 $(txtTrasactionID).css({
                     "border": "1px solid red",

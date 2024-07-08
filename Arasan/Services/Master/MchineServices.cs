@@ -23,7 +23,7 @@ namespace Arasan.Services.Master
         public DataTable GetUnit()
         {
             string SvSql = string.Empty;
-            SvSql = "Select UNITID,UNITMASTID from UNITMAST";
+            SvSql = "Select UNITID,UNITMASTID from UNITMAST WHERE IS_ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -73,7 +73,7 @@ namespace Arasan.Services.Master
                         {
                             foreach (Compdetails cp in ka.Complst)
                             {
-                                if (cp.Isvalid == "Y")
+                                if (cp.Isvalid == "Y" && cp.PartNumber!="")
                                 {
 
                                     svSQL = "Insert into COMPDETAILS (MACHINEINFOBASICID,PARTNO,LIFETIME,WARRANTYTILLDT) VALUES ('" + Pid + "','" + cp.PartNumber + "','" + cp.DateOfIssue + "','" + cp.LifeTimeInHrs + "')";
@@ -91,7 +91,7 @@ namespace Arasan.Services.Master
                             objCmdd.ExecuteNonQuery();
                             foreach (Compdetails cp in ka.Complst)
                             {
-                                if (cp.Isvalid == "Y")
+                                if (cp.Isvalid == "Y" && cp.PartNumber != "")
                                 {
                                     svSQL = "Insert into COMPDETAILS (MACHINEINFOBASICID,PARTNO,LIFETIME,WARRANTYTILLDT) VALUES ('" + Pid + "','" + cp.PartNumber + "','" + cp.DateOfIssue + "','" + cp.LifeTimeInHrs + "')";
                                     OracleCommand objCmds = new OracleCommand(svSQL, objconn);
@@ -108,7 +108,7 @@ namespace Arasan.Services.Master
                             int r = 1;
                             foreach (Majorpart cp in ka.Majorlst)
                             {
-                                if (cp.Isvalid == "Y")
+                                if (cp.Isvalid == "Y" && cp.Majorparts!="")
                                 {
 
                                     svSQL = "Insert into MCMAJORPARTS (MACHINEINFOBASICID,MCMAJORPARTSROW,MPARTID,ACTIVEYN,CRYN) VALUES ('" + Pid + "','"+r+"','" + cp.Majorparts + "','" + cp.Active + "','" + cp.Critical + "')";
@@ -128,7 +128,7 @@ namespace Arasan.Services.Master
                             foreach (Majorpart cp in ka.Majorlst)
                             {
                                 int r = 1;
-                                if (cp.Isvalid == "Y")
+                                if (cp.Isvalid == "Y" && cp.Majorparts != "")
                                 {
                                     svSQL = "Insert into MCMAJORPARTS (MACHINEINFOBASICID,MCMAJORPARTSROW,MPARTID,ACTIVEYN,CRYN) VALUES ('" + Pid + "','"+r+"','" + cp.Majorparts + "','" + cp.Active + "','" + cp.Critical + "')";
                                     OracleCommand objCmds = new OracleCommand(svSQL, objconn);
@@ -146,7 +146,7 @@ namespace Arasan.Services.Master
                             int r = 1;
                             foreach (Checklistdetails cp in ka.Checklistlst)
                             {
-                                if (cp.Isvalid == "Y")
+                                if (cp.Isvalid == "Y" && cp.Service!="")
                                 {
 
                                     svSQL = "Insert into MACHINECHECK (MACHINEINFOBASICID,MACHINECHECKROW,SERVICE,CHTYPE) VALUES ('" + Pid + "','"+r+"','" + cp.Service + "','" + cp.Type + "')";
@@ -166,7 +166,7 @@ namespace Arasan.Services.Master
                             foreach (Checklistdetails cp in ka.Checklistlst)
                             {
                                 int r = 1;
-                                if (cp.Isvalid == "Y")
+                                if (cp.Isvalid == "Y" && cp.Service != "")
                                 {
                                     svSQL = "Insert into MACHINECHECK (MACHINEINFOBASICID,MACHINECHECKROW,SERVICE,CHTYPE) VALUES ('" + Pid + "','"+r+"','" + cp.Service + "','" + cp.Type + "')";
                                     OracleCommand objCmds = new OracleCommand(svSQL, objconn);
@@ -227,7 +227,7 @@ namespace Arasan.Services.Master
         public DataTable GetItem()
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMMASTERID,ITEMMASTER.ITEMID  from ITEMMASTER ";
+            SvSql = "Select ITEMMASTER.ITEMMASTERID,ITEMMASTER.ITEMID  from ITEMMASTER  WHERE ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -238,7 +238,7 @@ namespace Arasan.Services.Master
         public DataTable GetMajor()
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMMASTERID,ITEMMASTER.ITEMID  from ITEMMASTER ";
+            SvSql = "Select ITEMMASTER.ITEMMASTERID,ITEMMASTER.ITEMID  from ITEMMASTER  WHERE ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -249,7 +249,7 @@ namespace Arasan.Services.Master
         public DataTable GetCheck()
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMMASTERID,ITEMMASTER.ITEMID  from ITEMMASTER ";
+            SvSql = "Select ITEMMASTER.ITEMMASTERID,ITEMMASTER.ITEMID  from ITEMMASTER  WHERE ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

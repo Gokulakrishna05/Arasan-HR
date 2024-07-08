@@ -512,16 +512,9 @@ namespace Arasan.Services.Master
                     objCmd.CommandText = "ITEMMASTERPROC";*/
 
                     objCmd.CommandType = CommandType.StoredProcedure;
-                    if (ss.ID == null)
-                    {
-                        StatementType = "Insert";
+                       StatementType = "Insert";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
-                    }
+                     
 
                     objCmd.Parameters.Add("ITEMGROUP", OracleDbType.NVarchar2).Value = ss.ItemG;
                     objCmd.Parameters.Add("ISUBGROUP", OracleDbType.NVarchar2).Value = ss.ItemSub;
@@ -670,8 +663,7 @@ namespace Arasan.Services.Master
                         }
                         if (ss.unititemlst != null)
                         {
-                            if (ss.ID == null)
-                            {
+                             
                                 foreach (UnitItem cp in ss.unititemlst)
                                 {
                                     if (cp.Isvalid == "Y" && cp.Unit != "0")
@@ -684,32 +676,31 @@ namespace Arasan.Services.Master
                                         i++;
                                     }
 
-                                }
+                                
                             }
-                            else
-                            {
-                                svSQL = "Delete ITEMMASTERPUNIT WHERE ITEMMASTERID='" + ss.ID + "'";
-                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
-                                objCmdd.ExecuteNonQuery();
-                                foreach (UnitItem cp in ss.unititemlst)
-                                {
-                                    if (cp.Isvalid == "Y" && cp.Unit != "0")
-                                    {
-                                        int i = 1;
-                                        svSQL = "Insert into ITEMMASTERPUNIT (ITEMMASTERID,ITEMMASTERPUNITROW,UNIT,CF,VALIDROW3,UNITTYPE,UNITUNIQUEID) VALUES ('" + Pid + "','" + i + "','" + cp.Unit + "','" + cp.cf + "','T','" + cp.unittype + "','" + cp.uniqid + "')";
-                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                        objCmds.ExecuteNonQuery();
+                            //else
+                            //{
+                            //    svSQL = "Delete ITEMMASTERPUNIT WHERE ITEMMASTERID='" + ss.ID + "'";
+                            //    OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                            //    objCmdd.ExecuteNonQuery();
+                            //    foreach (UnitItem cp in ss.unititemlst)
+                            //    {
+                            //        if (cp.Isvalid == "Y" && cp.Unit != "0")
+                            //        {
+                            //            int i = 1;
+                            //            svSQL = "Insert into ITEMMASTERPUNIT (ITEMMASTERID,ITEMMASTERPUNITROW,UNIT,CF,VALIDROW3,UNITTYPE,UNITUNIQUEID) VALUES ('" + Pid + "','" + i + "','" + cp.Unit + "','" + cp.cf + "','T','" + cp.unittype + "','" + cp.uniqid + "')";
+                            //            OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                            //            objCmds.ExecuteNonQuery();
 
-                                        i++;
-                                    }
+                            //            i++;
+                            //        }
 
-                                }
-                            }
+                            //    }
+                            //}
                         }
                         if (ss.locdetlst != null)
                         {
-                            if (ss.ID == null)
-                            {
+                            
                                 foreach (LocdetItem cp in ss.locdetlst)
                                 {
                                     if (cp.Isvalid == "Y" && cp.loc != null)
@@ -725,26 +716,26 @@ namespace Arasan.Services.Master
 
                                 }
                             }
-                            else
-                            {
-                                svSQL = "Delete LOCINVDETAIL WHERE ITEMMASTERID='" + ss.ID + "'";
-                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
-                                objCmdd.ExecuteNonQuery();
-                                foreach (LocdetItem cp in ss.locdetlst)
-                                {
-                                    if (cp.Isvalid == "Y" && cp.loc != "0")
-                                    {
-                                        int i = 1;
-                                        svSQL = "Insert into LOCINVDETAIL (ITEMMASTERID,LOCID,REORDERLEVEL,MINQTYN,MAXQTYN,BSTMGROUP,LOCINVDETAILROW) VALUES ('" + Pid + "','" + cp.loc + "','" + cp.reorder + "','" + cp.minlevel + "','" + cp.maxlevel + "','" + cp.bank + "','" + i + "')";
-                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                        objCmds.ExecuteNonQuery();
+                        //    else
+                        //    {
+                        //        svSQL = "Delete LOCINVDETAIL WHERE ITEMMASTERID='" + ss.ID + "'";
+                        //        OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        //        objCmdd.ExecuteNonQuery();
+                        //        foreach (LocdetItem cp in ss.locdetlst)
+                        //        {
+                        //            if (cp.Isvalid == "Y" && cp.loc != "0")
+                        //            {
+                        //                int i = 1;
+                        //                svSQL = "Insert into LOCINVDETAIL (ITEMMASTERID,LOCID,REORDERLEVEL,MINQTYN,MAXQTYN,BSTMGROUP,LOCINVDETAILROW) VALUES ('" + Pid + "','" + cp.loc + "','" + cp.reorder + "','" + cp.minlevel + "','" + cp.maxlevel + "','" + cp.bank + "','" + i + "')";
+                        //                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        //                objCmds.ExecuteNonQuery();
 
-                                        i++;
-                                    }
+                        //                i++;
+                        //            }
 
-                                }
-                            }
-                        }
+                        //        }
+                        //    }
+                        //}
                         if (files != null && files.Count > 0)
                         {
                             int r = 1;

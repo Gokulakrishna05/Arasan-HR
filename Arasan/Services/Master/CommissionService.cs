@@ -55,7 +55,25 @@ namespace Arasan.Services.Master
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
+                if (cp.ID == null)
+                {
+                    datatrans = new DataTransactions(_connectionString);
 
+
+                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'Com#' AND ACTIVESEQUENCE = 'T'");
+                    string docid = string.Format("{0}{1}", "Com#", (idc + 1).ToString());
+
+                    string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='Com#' AND ACTIVESEQUENCE ='T'";
+                    try
+                    {
+                        datatrans.UpdateStatus(updateCMd);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    cp.Cid = docid;
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     objConn.Open();

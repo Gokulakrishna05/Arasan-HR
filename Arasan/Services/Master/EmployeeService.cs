@@ -28,7 +28,7 @@ namespace Arasan.Services.Master
             long user_id = datatrans.GetDataIdlong(SvSql);
             return user_id;
         }
-        public string EmployeeCRUD(Employee cy)
+        public string EmployeeCRUD(Employee cy, List<IFormFile> files1)
         {
             string msg = ""; 
             try
@@ -114,9 +114,8 @@ namespace Arasan.Services.Master
                         }
 
 
-                        using (OracleConnection objConns = new OracleConnection(_connectionString))
-                        {
-                            OracleCommand objCmds = new OracleCommand("EMPEDUCATIONPROC", objConns);
+                       
+                            OracleCommand objCmds = new OracleCommand("EMPEDUCATIONPROC", objConn);
                             if (cy.ID == null)
                             {
                                 StatementType = "Insert";
@@ -140,13 +139,10 @@ namespace Arasan.Services.Master
 
                             objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
-                            objConns.Open();
+                            
                             objCmds.ExecuteNonQuery();
-                            objConns.Close();
-                        }
-                        using (OracleConnection objConns = new OracleConnection(_connectionString))
-                        {
-                            OracleCommand objCmds = new OracleCommand("EMPOTHERINFOPROC", objConns);
+                           
+                             objCmds = new OracleCommand("EMPOTHERINFOPROC", objConn);
                             if (cy.ID == null)
                             {
                                 StatementType = "Insert";
@@ -169,14 +165,12 @@ namespace Arasan.Services.Master
                             objCmds.Parameters.Add("DISP", OracleDbType.NVarchar2).Value = cy.Disp;
                             objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
-                            objConns.Open();
+                           
                             objCmds.ExecuteNonQuery();
-                            objConns.Close();
-                        }
-                        using (OracleConnection objConns = new OracleConnection(_connectionString))
-                        {
-
-                            OracleCommand objCmds = new OracleCommand("EMPSKILLPROC", objConns);
+                           
+                        
+                        
+                             objCmds = new OracleCommand("EMPSKILLPROC", objConn);
                             if (cy.ID == null)
                             {
                                 StatementType = "Insert";
@@ -194,9 +188,44 @@ namespace Arasan.Services.Master
                             objCmds.Parameters.Add("SKILL", OracleDbType.NVarchar2).Value = cy.SkillSet;
                             objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
-                            objConns.Open();
+                            
                             objCmds.ExecuteNonQuery();
-                            objConns.Close();
+
+                        if (files1 != null && files1.Count > 0)
+                        {
+                            int r = 1;
+                            foreach (var file in files1)
+                            {
+                                if (file.Length > 0)
+                                {
+                                    // Get the file name and combine it with the target folder path
+                                    String strLongFilePath1 = file.FileName;
+                                    String sFileType1 = "";
+                                    sFileType1 = System.IO.Path.GetExtension(file.FileName);
+                                    sFileType1 = sFileType1.ToLower();
+
+                                    String strFleName = strLongFilePath1.Replace(sFileType1, "") + String.Format("{0:ddMMMyyyy-hhmmsstt}", DateTime.Now) + sFileType1;
+                                    var fileName = Path.Combine("wwwroot/itemdoc", strFleName);
+                                    var fileName1 = "../itemdoc/" + strFleName;
+                                    var name = file.FileName;
+                                    // Save the file to the target folder
+
+                                    using (var fileStream = new FileStream(fileName, FileMode.Create))
+                                    {
+                                        file.CopyTo(fileStream);
+
+
+
+                                        svSQL = "UPDATE EMPMAST SET IMGPATH='" + fileName1 + "' WHERE EMPMASTID='" + Pid + "'";
+                                        OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+                                        objCmdss.ExecuteNonQuery();
+
+                                        r++;
+                                    }
+                                }
+
+                            }
+
                         }
 
 
@@ -251,7 +280,7 @@ namespace Arasan.Services.Master
         public DataTable GetEmployee(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select EMPMAST.EMPNAME,EMPMAST.EMPID,EMPMAST.EMPSEX,to_char(EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,EMPMAST.ECADD1,EMPMAST.ECCITY,EMPMAST.ECSTATE,EMPMAST.ECMAILID,EMPMAST.ECPHNO,EMPMAST.FATHERNAME,EMPMAST.MOTHERNAME,EMPMAST.EMPPAYCAT,EMPMAST.EMPBASIC,EMPMAST.PFNO,EMPMAST.ESINO,EMPMAST.EMPCOST,to_char(EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char(EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char(EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char(EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EMPMASTID  from EMPMAST where EMPMAST.EMPMASTID= '" + id + "' ";
+            SvSql = "Select EMPMAST.EMPNAME,EMPMAST.EMPID,IMGPATH,EMPMAST.EMPSEX,to_char(EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,EMPMAST.ECADD1,EMPMAST.ECCITY,EMPMAST.ECSTATE,EMPMAST.ECMAILID,EMPMAST.ECPHNO,EMPMAST.FATHERNAME,EMPMAST.MOTHERNAME,EMPMAST.EMPPAYCAT,EMPMAST.EMPBASIC,EMPMAST.PFNO,EMPMAST.ESINO,EMPMAST.EMPCOST,to_char(EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char(EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char(EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char(EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EMPMASTID  from EMPMAST where EMPMAST.EMPMASTID= '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
