@@ -31,6 +31,7 @@ namespace Arasan.Controllers.Master
             M.MMadelst = BindMade();
             M.MMTypelst = BindType();
             M.MMModelst = Bindmode();
+            M.Purlst = BindmodeS();
 
             M.MCaplst = Bindcap();
             M.MELifeLst = Bindcap();
@@ -394,7 +395,23 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-
+        public List<SelectListItem> BindmodeS()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='MODEOFPURCHASE' ");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> Bindwrkcent()
         {
             try
@@ -436,10 +453,12 @@ namespace Arasan.Controllers.Master
         {
             try
             {
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='MADEIN' ");
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
-                lstdesg.Add(new SelectListItem() { Text = "TIWAN", Value = "TIWAN" });
-                lstdesg.Add(new SelectListItem() { Text = "USA", Value = "USA" });
-                lstdesg.Add(new SelectListItem() { Text = "INDIA", Value = "INDIA" });
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
+                }
                 return lstdesg;
             }
             catch (Exception ex)
@@ -705,7 +724,41 @@ namespace Arasan.Controllers.Master
             M.Checklistlst = TDatau;
             return View(M);
         }
+        public IActionResult AddPurchase(string id)
+        {
+            Machine ca = new Machine();
+            // ca.Brlst = BindBranch();
 
+            return View(ca);
+        }
+        public JsonResult SavePurchase(string category)
+        {
+            string Strout = Mach.AddPurchaseCRUD(category);
+            var result = new { msg = Strout };
+            return Json(result);
+        }
+        public JsonResult GetPurchaseJSON()
+        {
+            return Json(Bindmode());
+        }
+
+        public IActionResult AddMade(string id)
+        {
+            Machine ca = new Machine();
+            // ca.Brlst = BindBranch();
+
+            return View(ca);
+        }
+        public JsonResult SaveMade(string category)
+        {
+            string Strout = Mach.AddMadeCRUD(category);
+            var result = new { msg = Strout };
+            return Json(result);
+        }
+        public JsonResult GetMadeJSON()
+        {
+            return Json(BindMade());
+        }
     }
 
 

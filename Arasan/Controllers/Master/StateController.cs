@@ -19,12 +19,21 @@ namespace Arasan.Controllers.Master
         }
         public IActionResult State(string id)
         {
+
+            Stmst wc = new Stmst();
+            List<Stmst> Data = new List<Stmst>();
+
             State st = new State();
             st.createby = Request.Cookies["UserId"];
             st.cuntylst = BindCountry();
             if (id == null)
             {
-
+                for (int i = 0; i < 1; i++)
+                {
+                    wc = new Stmst();
+                    wc.Isvalid = "Y";
+                    Data.Add(wc);
+                }
             }
             else
             {
@@ -33,15 +42,25 @@ namespace Arasan.Controllers.Master
                 dt = StateService.GetEditState(id);
                 if (dt.Rows.Count > 0)
                 {
-                    st.StateName = dt.Rows[0]["STATE"].ToString();
-                    st.StateCode = dt.Rows[0]["STCODE"].ToString();
-                    st.countryid = dt.Rows[0]["COUNTRYMASTID"].ToString();
-                    st.ID = id;
 
+                    st.countryid = dt.Rows[0]["COUNTRYMASTID"].ToString();
+
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        wc = new Stmst();
+                        wc.Isvalid = "Y";
+                        wc.state = dt.Rows[i]["STATE"].ToString();
+                        wc.code = dt.Rows[i]["STCODE"].ToString();
+                        wc.ID = id;
+                        Data.Add(wc);
+
+                    }
 
                 }
 
             }
+            st.Stlst = Data;
+
             return View(st);
         }
         [HttpPost]
@@ -104,6 +123,13 @@ namespace Arasan.Controllers.Master
             }
         }
 
+        public JsonResult GetItemJSON()
+        {
+            Stmst model = new Stmst();
+            //model.Itemlst = BindItemlst(itemid);
+            return Json(model);
+
+        }
         public ActionResult DeleteMR(string tag, int id)
         {
 

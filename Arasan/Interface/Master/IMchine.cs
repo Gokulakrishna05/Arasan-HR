@@ -17,6 +17,8 @@ namespace Arasan.Interface.Master
         //DataTable GetComp(string id); 
         //DataTable GetMajor(string id);
         DataTable GetCheck();
+        string AddPurchaseCRUD(string id);
+        string AddMadeCRUD(string id);
 
 
 

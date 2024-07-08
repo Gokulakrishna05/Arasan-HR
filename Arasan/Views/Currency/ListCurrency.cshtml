@@ -42,6 +42,7 @@
                 { name: 'currencycode', type: 'string' },
                 { name: 'currencyname', type: 'string' },
                 { name: 'editrow', type: 'string' },
+                    { name: 'viewrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
 
 
@@ -82,7 +83,9 @@
                     { text: 'Symbol', filtertype: 'checkedlist', datafield: 'currencycode', width: 200 },
                     { text: 'Currency Name', filtertype: 'input', datafield: 'currencyname', width: 200 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, cellsrenderer: linkrenderer1, formatter: returnMyLink, edittype: 'select' },
+                    { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, cellsrenderer: linkrenderer1, formatter: returnMyLink, edittype: 'select' },
                 ]
             });
         $("#ddlStatus").change(function () {

@@ -118,47 +118,53 @@ namespace Arasan.Services.Master
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString)) 
                 {
-                    OracleCommand objCmd = new OracleCommand("STATEPROC", objConn);
-                    /*objCmd.Connection = objConn;
-                    objCmd.CommandText = "STATEPROC";*/
+                    foreach (Stmst cp in ss.Stlst)
+                    {
+                        if (cp.Isvalid == "Y" && cp.state != "")
+                        {
+                            OracleCommand objCmd = new OracleCommand("STATEPROC", objConn);
+                            /*objCmd.Connection = objConn;
+                            objCmd.CommandText = "STATEPROC";*/
 
-                    objCmd.CommandType = CommandType.StoredProcedure;
-                    if (ss.ID == null)
-                    {
-                        StatementType = "Insert";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
-                    }
+                            objCmd.CommandType = CommandType.StoredProcedure;
+                            if (ss.ID == null)
+                            {
+                                StatementType = "Insert";
+                                objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                            }
+                            else
+                            {
+                                StatementType = "Update";
+                                objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
+                            }
 
-                    objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = ss.StateName;
-                    //objCmd.Parameters.Add("STCODE", OracleDbType.NVarchar2).Value = ss.StateCode;
-                    objCmd.Parameters.Add("COUNTRYMASTID", OracleDbType.NVarchar2).Value = ss.countryid;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                            objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = cp.state;
+                            objCmd.Parameters.Add("STCODE", OracleDbType.NVarchar2).Value = cp.code;
+                            objCmd.Parameters.Add("COUNTRYMASTID", OracleDbType.NVarchar2).Value = ss.countryid;
+                            objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
 
-                    if (ss.ID == null)
-                    {
-                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.createby;
-                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                    }
-                    else
-                    {
-                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = ss.createby;
-                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                    }
-                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                    try
-                    {
-                        objConn.Open();
-                        objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
-                    }
-                    catch (Exception ex)
-                    {
-                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                            if (ss.ID == null)
+                            {
+                                objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.createby;
+                                objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                            }
+                            else
+                            {
+                                objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = ss.createby;
+                                objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                            }
+                            objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                            try
+                            {
+                                objConn.Open();
+                                objCmd.ExecuteNonQuery();
+                                //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                            }
+                            catch (Exception ex)
+                            {
+                                //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                            }
+                        }
                     }
                     objConn.Close();
                 }
