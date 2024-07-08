@@ -58,7 +58,7 @@ namespace Arasan.Services.Master
         public DataTable GetSupplier()
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYNAME,PARTYMASTID from PARTYMAST  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND PARTYNAME IS NOT NULL";
+            SvSql = "Select PARTYNAME,PARTYMASTID from PARTYMAST  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND IS_ACTIVE ='Y'";
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
@@ -114,6 +114,16 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
+                string[] sdateList = cy.Docdate.Split(" - ");
+                string sdate = "";
+                string stime = "";
+                if (sdateList.Length > 0)
+                {
+                    sdate = sdateList[0];
+                    stime = sdateList[1];
+                }
+               
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("WCBASICPROC", objConn);
@@ -134,12 +144,12 @@ namespace Arasan.Services.Master
                     }
                     objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.Wid;
                     objCmd.Parameters.Add("WCTYPE", OracleDbType.NVarchar2).Value = cy.WType;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Docdate);
+                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = sdate;
                     objCmd.Parameters.Add("ILOCATION", OracleDbType.NVarchar2).Value = cy.Iloc;
                     objCmd.Parameters.Add("QCLOCATION", OracleDbType.NVarchar2).Value = cy.QcLoc;
-                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Party;
-                    objCmd.Parameters.Add("WIPITEMID", OracleDbType.NVarchar2).Value = cy.WipItemid;
-                    objCmd.Parameters.Add("WIPLOCID", OracleDbType.NVarchar2).Value =cy.WipLocid;
+                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Party == null ? "0" : cy.Party;
+                    objCmd.Parameters.Add("WIPITEMID", OracleDbType.NVarchar2).Value = cy.WipItemid == null ? "0" : cy.WipItemid;
+                    objCmd.Parameters.Add("WIPLOCID", OracleDbType.NVarchar2).Value =cy.WipLocid == null ? "0" : cy.WipLocid;
                     objCmd.Parameters.Add("CONVITEMID", OracleDbType.NVarchar2).Value = cy.ConvItem;
                     objCmd.Parameters.Add("CONVLOCID", OracleDbType.NVarchar2).Value = cy.ConvLoc;
                     objCmd.Parameters.Add("BUNKERYN", OracleDbType.NVarchar2).Value = cy.Bunker;
@@ -151,10 +161,10 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("PRODSCHYN", OracleDbType.NVarchar2).Value = cy.ProdSch;
                     objCmd.Parameters.Add("UTILPERCENT", OracleDbType.NVarchar2).Value = cy.Uttl;
                     objCmd.Parameters.Add("PRODYN", OracleDbType.NVarchar2).Value = cy.Production;
-                    objCmd.Parameters.Add("DRUMILOCATION", OracleDbType.NVarchar2).Value = cy.DrumLoc;
+                    objCmd.Parameters.Add("DRUMILOCATION", OracleDbType.NVarchar2).Value = cy.DrumLoc == "" ? "0" : cy.DrumLoc;
                     objCmd.Parameters.Add("ENRMETF", OracleDbType.NVarchar2).Value = cy.Energy;
                     objCmd.Parameters.Add("MANREQ", OracleDbType.NVarchar2).Value = cy.Man;
-                    objCmd.Parameters.Add("COST", OracleDbType.NVarchar2).Value = cy.Cost;
+                    objCmd.Parameters.Add("COST", OracleDbType.NVarchar2).Value = cy.Cost == null ? "0" : cy.Cost;
                     objCmd.Parameters.Add("COSTUNIT", OracleDbType.NVarchar2).Value = cy.Unit;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remarks;
                     objCmd.Parameters.Add("CONTTYPE", OracleDbType.NVarchar2).Value = cy.ContType;
@@ -169,6 +179,11 @@ namespace Arasan.Services.Master
                         objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
                         objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     }
+                    objCmd.Parameters.Add("DOCTIME", OracleDbType.NVarchar2).Value = stime;
+                    objCmd.Parameters.Add("USERNAME", OracleDbType.NVarchar2).Value = cy.username;
+                    objCmd.Parameters.Add("RLOCATION", OracleDbType.NVarchar2).Value = cy.rloc;
+                    objCmd.Parameters.Add("REJLOCATION", OracleDbType.NVarchar2).Value = cy.rjloc;
+
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -243,11 +258,12 @@ namespace Arasan.Services.Master
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    
+                    objConn.Open();
+
                     if (cy.ProdRatelst != null)
                     {
-                       
-                            svSQL = "Delete WCPRODDETAIL WHERE WCBASICID='" + cy.ID + "'";
+                      
+                             svSQL = "Delete WCPRODDETAIL WHERE WCBASICID='" + cy.ID + "'";
                             OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
                             objCmdd.ExecuteNonQuery();
                             int r = 1;
@@ -258,7 +274,7 @@ namespace Arasan.Services.Master
 
                                     svSQL = "Insert into WCPRODDETAIL (WCBASICID,WCPRODDETAILROW,ITEMID,PRATE,ITEMTYPE,REJPERCENT) VALUES ('" + cy.ID + "','" + r + "','" + cp.itemid + "','" + cp.outputrate + "','" + cp.inputtype + "','0')";
                                     OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                objConn.Open();
+                                
                                 objCmds.ExecuteNonQuery();
 
 
@@ -297,6 +313,7 @@ namespace Arasan.Services.Master
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
+                    objConn.Open();
 
                     if (cy.ProdRatelst != null)
                     {
@@ -312,7 +329,6 @@ namespace Arasan.Services.Master
 
                                 svSQL = "Insert into WCREJDETAIL (WCBASICID,WCREJDETAILROW,REJTYPE,REJPER) VALUES ('" + cy.ID + "','" + r + "','" + cp.rejtype + "','" + cp.rejection + "')";
                                 OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                objConn.Open();
                                 objCmds.ExecuteNonQuery();
 
 
@@ -351,6 +367,7 @@ namespace Arasan.Services.Master
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
+                    objConn.Open();
 
                     if (cy.ProdCaplst != null)
                     {
@@ -370,7 +387,7 @@ namespace Arasan.Services.Master
 
                                 svSQL = "Insert into WCPRODCAPDETAIL (WCBASICID,WCPRODCAPDETAILROW,PROCESSID,PITEMID,OUTPUTCAPACITY,CAPUNIQUE) VALUES ('" + cy.ID + "','" + r + "','" + cp.process + "','" + cp.itemid + "','" + cp.outputcap + "','" + capuniq + "')";
                                 OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                objConn.Open();
+                             
                                 objCmds.ExecuteNonQuery();
 
 
@@ -409,6 +426,8 @@ namespace Arasan.Services.Master
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
+                    objConn.Open();
+
 
                     if (cy.ProdCaplst != null)
                     {
@@ -425,7 +444,7 @@ namespace Arasan.Services.Master
 
                                 svSQL = "Insert into WCCAPDET (WCBASICID,CAPITEMID,CAPQTY) VALUES ('" + cy.ID + "' ,'" + cp.itemid + "','" + cp.Qty + "')";
                                 OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                objConn.Open();
+                               
                                 objCmds.ExecuteNonQuery();
 
 
@@ -464,6 +483,7 @@ namespace Arasan.Services.Master
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
+                    objConn.Open();
 
                     if (cy.ProdCaplst != null)
                     {
@@ -480,7 +500,7 @@ namespace Arasan.Services.Master
 
                                 svSQL = "Insert into WCAPSDETAIL (WCBASICID,WCAPSDETAILROW,SIEVE,FUELQTY,METTQTY,MINSIEVE) VALUES ('" + cy.ID + "','r' ,'" + cp.siveid + "','" + cp.fuelqty + "','" + cp.mettqty + "','" + cp.minsive + "')";
                                 OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                objConn.Open();
+                               
                                 objCmds.ExecuteNonQuery();
 
 
@@ -519,6 +539,7 @@ namespace Arasan.Services.Master
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
+                    objConn.Open();
 
                     if (cy.ProdCaplst != null)
                     {
@@ -535,7 +556,7 @@ namespace Arasan.Services.Master
 
                                 svSQL = "Insert into PARUNDET (WCBASICID,PARUNDETROW,RUNITEM,RUNHRS,MTOLOSSPER,CAKEOP,APPOWKG,NOOFCHGSPDAY) VALUES ('" + cy.ID + "','r' ,'" + cp.itemid + "','" + cp.runhrs + "','" + cp.mtoloss + "','" + cp.cake + "','" + cp.appowder + "','" + cp.noofchange + "')";
                                 OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                objConn.Open();
+                               
                                 objCmds.ExecuteNonQuery();
 
 

@@ -28,7 +28,7 @@
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a href="@Url.Action("ListWorkCenters", "Sequence")">WorkCenters</a> </li>
+            <li> <a href="@Url.Action("ListWorkCenters", "WorkCenters")">WorkCenters</a> </li>
             <li class="active"> <strong> WorkCenters  </strong> </li>
         </ol>
     </div>
@@ -49,12 +49,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Work Center ID<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Work Center <label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                           
                                              @Html.TextBoxFor(C => C.Wid, new { @id = "txtWid", @class = "form-control", @TabIndex = 1})
                                             @Html.HiddenFor(C => C.ID)
                                             @Html.HiddenFor(C => C.createby)
+                                            @Html.HiddenFor(C => C.username)
                                         </div>
                                     </div>
                                 </div>
@@ -95,7 +96,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                      <br/>  <label for="inputName3" class="col-sm-4 control-label">Issuse Location<label class="Mandatory"></label></label>
+                                      <br/>  <label for="inputName3" class="col-sm-4 control-label">Issue Location<label class="Mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Iloc, Model.Loc,"-- Please Select --", new { @id = "ddIloc", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
@@ -116,7 +117,7 @@
                                     <div class="form-group">
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Reject Location<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.rjloc, Model.Loc," -- Please Select -- ", new { @id = "ddIrloc", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.rjloc, Model.Loc," -- Please Select -- ", new { @id = "ddIrjloc", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
 
                                     </div>
@@ -149,7 +150,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">WIP Item ID<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">WIP Item <label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.WipItemid , Model.Itemlst,"-- Please Select --", new { @id = "ddlWipItemid", @Class = "form-control _select", @TabIndex = 1 })
 
@@ -158,7 +159,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">WIP Loc ID<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">WIP Loc <label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.WipLocid , Model.WIPLst,"-- Please Select --", new { @id = "ddlWipLocid", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
@@ -218,7 +219,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                      <br />  <label for="inputName3" class="col-sm-4 control-label">Mill Load ?<label class="mandatory">*</label></label>
+                                      <br />  <label for="inputName3" class="col-sm-4 control-label">Mill Load ?<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             
                                              <div class="input-group">
@@ -297,7 +298,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Utilization[%]<label class="mandatory">*</label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Utilization[%]<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Uttl, new { @id = "txtUttl",@class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                             </div>
@@ -408,7 +409,7 @@
                                                             @Html.DropDownListFor(o => o.WorkCenterlst[i].MId,Model.WorkCenterlst[i].mlst, new { @id = "txtMId" + i, @class = "form-control _select", style = "width: 200px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.WorkCenterlst[i].MCost, new { @id = "txtMCost" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 120px;" })
+                                                            @Html.TextBoxFor(o => o.WorkCenterlst[i].MCost,"Please Select", new { @id = "txtMCost" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 120px;" })
                                                         </td>
                                                        
                                                         <td>
@@ -434,7 +435,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Cost<label class="mandatory">*</label></label>
+                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Cost<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Cost, new { @id = "txtCost",@class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                         </div>
@@ -444,9 +445,10 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Cost Unit<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Cost Unit<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Unit, new { @id = "txtUnit",@class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                                                    @Html.DropDownListFor(C => C.Unit , Model.costlst,"-- Please Select --", new { @id = "txtUnit", @Class = "form-control _select", @TabIndex = 1 })
+
                                         </div>
 
                                     </div>
@@ -598,14 +600,14 @@
         $('#btnSave').click(function (e) {
             var isValid = true;
 
-            if (document.getElementById("txtWid").value == "") {
+            if (document.getElementById("txtWid").value == ""||document.getElementById("txtWid").value == 0) {
                 isValid = false;
                 $(txtWid).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Work Center ID");
+                alert("Please Enter Work Center");
                 return false;
             }
             else {
@@ -615,14 +617,14 @@
                 });
             }
 
-          if (document.getElementById("Docdate").value == "") {
+          if (document.getElementById("Docdate").value == ""||document.getElementById("Docdate").value == 0) {
                 isValid = false;
                 $(Docdate).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Docdate");
+                alert("Please Select Doc date");
                 return false;
           }
             else {
@@ -631,15 +633,14 @@
                     "background": ""
                 });
             } 
-            
-            if (document.getElementById("ddlQcLoc").value == "") {
+                if (document.getElementById("ddlQcLoc").value == "" ||document.getElementById("ddlQcLoc").value == 0) {
                 isValid = false;
                 $(ddlQcLoc).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter QC Location");
+                alert("Please Select QC Location");
                 return false;
             }
             else {
@@ -648,14 +649,62 @@
                     "background": ""
                 });
             } 
-            if (document.getElementById("ddlWipItemid").value == "") {
+                if (document.getElementById("ddIloc").value == ""||document.getElementById("ddIloc").value == 0) {
+                isValid = false;
+                $(ddIloc).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Slect Issue Location");
+                return false;
+            }
+            else {
+                $(ddIloc).css({
+                    "border": "",
+                    "background": ""
+                });
+            } 
+                if (document.getElementById("ddIrloc").value == ""||document.getElementById("ddIrloc").value == 0) {
+                isValid = false;
+                $(ddIrloc).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Receipt Location");
+                return false;
+            }
+            else {
+                $(ddIrloc).css({
+                    "border": "",
+                    "background": ""
+                });
+            } 
+            if (document.getElementById("ddIrjloc").value == ""|| document.getElementById("ddIrjloc").value == 0) {
+                isValid = false;
+                $(ddIrjloc).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Reject Location");
+                return false;
+            }
+            else {
+                $(ddIrjloc).css({
+                    "border": "",
+                    "background": ""
+                });
+            } 
+            if (document.getElementById("ddlWipItemid").value == "" ||document.getElementById("ddlWipItemid").value == 0) {
                 isValid = false;
                 $(ddlWipItemid).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Wip Itemid");
+                alert("Please Enter Wip Item");
                 return false;
             }
             else {
@@ -664,14 +713,14 @@
                     "background": ""
                 });
             } 
-            if (document.getElementById("ddlConvItem").value == "") {
+            if (document.getElementById("ddlConvItem").value == ""||document.getElementById("ddlConvItem").value == 0) {
                 isValid = false;
                 $(ddlConvItem).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Conv ItemName");
+                alert("Please Enter Conv Item Name");
                 return false;
             }
             else {
@@ -681,70 +730,70 @@
                 });
             } 
 
-            if (document.getElementById("txtUttl").value == "") {
-                isValid = false;
-                $(txtUttl).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+          //  if (document.getElementById("txtUttl").value == "") {
+          //      isValid = false;
+          //      $(txtUttl).css({
+          //          "border": "1px solid red",
+          //          "background": "#FFCECE"
+          //      });
 
-                alert("Please Enter Utilization");
-                return false;
-          }
-            else {
-                $(txtUttl).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-             if (document.getElementById("txtCost").value == "") {
-                isValid = false;
-                $(txtCost).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+          //      alert("Please Enter Utilization");
+          //      return false;
+          //}
+          //  else {
+          //      $(txtUttl).css({
+          //          "border": "",
+          //          "background": ""
+          //      });
+          //  }
+          //   if (document.getElementById("txtCost").value == "") {
+          //      isValid = false;
+          //      $(txtCost).css({
+          //          "border": "1px solid red",
+          //          "background": "#FFCECE"
+          //      });
 
-                alert("Please Enter Cost");
-                return false;
-          }
-            else {
-                $(txtCost).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtUnit").value == "") {
-                isValid = false;
-                $(txtUnit).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+          //      alert("Please Enter Cost");
+          //      return false;
+          //}
+          //  else {
+          //      $(txtCost).css({
+          //          "border": "",
+          //          "background": ""
+          //      });
+          //  }
+          //  if (document.getElementById("txtUnit").value == "") {
+          //      isValid = false;
+          //      $(txtUnit).css({
+          //          "border": "1px solid red",
+          //          "background": "#FFCECE"
+          //      });
 
-                alert("Please Enter Unit");
-                return false;
-          }
-            else {
-                $(txtUnit).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddIContType").value == "") {
-                isValid = false;
-                $(ddIContType).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+          //      alert("Please Enter Unit");
+          //      return false;
+          //}
+          //  else {
+          //      $(txtUnit).css({
+          //          "border": "",
+          //          "background": ""
+          //      });
+          //  }
+          //  if (document.getElementById("ddIContType").value == "") {
+          //      isValid = false;
+          //      $(ddIContType).css({
+          //          "border": "1px solid red",
+          //          "background": "#FFCECE"
+          //      });
 
-                alert("Please Enter ContType");
-                return false;
-            }
-            else {
-                $(ddIContType).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+          //      alert("Please Enter ContType");
+          //      return false;
+          //  }
+          //  else {
+          //      $(ddIContType).css({
+          //          "border": "",
+          //          "background": ""
+          //      });
+          //  }
 
 
 

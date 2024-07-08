@@ -1,7 +1,7 @@
-﻿@model Arasan.Models.ETariff
+﻿@model Arasan.Models.Contract
 
 @{
-    ViewData["Title"] = "ETariff";
+    ViewData["Title"] = "Contract";
 }
 <style>
     .mandatory {
@@ -11,30 +11,35 @@
         left: 5px;
     }
 </style>
+
 <script type="text/javascript">
     @if (TempData["notice"] != null)
     {
         @:alert('@TempData["notice"]');
     }
 </script>
+
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Master</a> </li>
-            <li class="active"> <strong> ETariff </strong> </li>
+            <li> <a href="@Url.Action("LisContract", "Contract")">Contract</a> </li>
+            <li class="active"> <strong>Contract</strong> </li>
         </ol>
     </div>
 </div>
+
+
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
 
+
                     <hr>
-                    @using (Html.BeginForm("ETariff", "ETariff", FormMethod.Post))
+                    @using (Html.BeginForm("Contract", "Contract", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         <form>
@@ -44,26 +49,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Tariff ID<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Contract Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.HiddenFor(C => C.ID)
-                                            @Html.HiddenFor(C => C.createby)
-                                            @Html.TextBoxFor(C => C.Tariff, new { @id = "txtTariff", @class = "form-control", @TabIndex = 2, @size="30" })<br>
+
+                                            @Html.DropDownListFor(C => C.Contype, Model.conlst, " -- Please Select -- ", new { @id = "ddlpurchasecate", @Class = "form-control _select", @TabIndex = 1 })
+                                                                                   @Html.HiddenFor(C => C.ID)
 
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row"> 
-                                <div class="col-lg-3"></div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Tariff Des<label class="mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Tariffdes, new { @id = "txtTariffdes", @class = "form-control", @TabIndex = 2  })<br>
-                                        </div>
-
 
                                     </div>
                                 </div>
@@ -73,146 +65,132 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label"> Percentage<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Salary Perday<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Per, new { @id = "txtPer", @class = "form-control", @TabIndex = 3, @maxlength=3,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br>
+                                            @Html.TextBoxFor(C => C.Salpd, new { @id = "txtSalpd", @class = "form-control", @TabIndex = 1 })
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
-                            
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Day Or KG<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Dkg, Model.kglst, " -- Please Select -- ", new { @id = "ddlDkg", @Class = "form-control _select", @TabIndex = 1 })
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div style="height:30px;"></div>
                             <div class="col-lg-8"></div>
+
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
-                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ListETariff", "ETariff")">Cancel</a>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("Contract", "Contract")'">Cancel</button>
+
+
 
                         </form>
-
-
                     }
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
-<script>
-    $('.form_date').datetimepicker({
-        //   language:  'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-    });
-</script>
 
-<script>
-
-    $(function () {
+                            <script>
+     
+       $(function () {
         $('._select').select2();
     });
-
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
-
-
-            if (document.getElementById("txtTariff").value == ""||document.getElementById("txtTariff").value == 0) {
+            if (document.getElementById("ddlpurchasecate").value == ""||document.getElementById("ddlpurchasecate").value == 0) {
                 isValid = false;
-                $(txtTariff).css({
+                $(ddlpurchasecate).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Tariff ID");
+                alert("Please Select Contract Type");
                 return false;
             }
             else {
-                $(txtTariff).css({
+                $(ddlpurchasecate).css({
                     "border": "",
                     "background": ""
                 });
             }
-            //if (document.getElementById("txtTariffdes").value == "") {
-            //    isValid = false;
-            //    $(txtTariffdes).css({
-            //        "border": "1px solid red",
-            //        "background": "#FFCECE"
-            //    });
-
-            //    alert("Please Enter Tariff des");
-            //    return false;
-            //}
-            //else {
-            //    $(txtTariffdes).css({
-            //        "border": "",
-            //        "background": ""
-            //    });
-            //}
-            if (document.getElementById("txtPer").value == ""||document.getElementById("txtPer").value == 0) {
+            if (document.getElementById("txtSalpd").value == ""||document.getElementById("txtSalpd").value == 0) {
                 isValid = false;
-                $(txtPer).css({
+                $(txtSalpd).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Percentage");
+                alert("Please Enter Salary Perday");
                 return false;
             }
             else {
-                $(txtPer).css({
+                $(txtSalpd).css({
                     "border": "",
                     "background": ""
                 });
             }
-            //if (document.getElementById("txtCgst").value == "") {
+            if (document.getElementById("ddlDkg").value == "") {
+                isValid = false;
+                $(ddlDkg).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Day Or KG");
+                return false;
+            }
+            else {
+                $(ddlDkg).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            //if (document.getElementById("txtStart").value == "") {
             //    isValid = false;
-            //    $(txtCgst).css({
+            //    $(txtStart).css({
             //        "border": "1px solid red",
             //        "background": "#FFCECE"
             //    });
 
-            //    alert("Please Enter Cgst");
+            //    alert("Please Select Start Date");
             //    return false;
             //}
             //else {
-            //    $(txtCgst).css({
+            //    $(txtStart).css({
             //        "border": "",
             //        "background": ""
             //    });
             //}
-            //if (document.getElementById("txtIgst").value == "") {
+            //if (document.getElementById("txtEnd").value == "") {
             //    isValid = false;
-            //    $(txtIgst).css({
+            //    $(txtEnd).css({
             //        "border": "1px solid red",
             //        "background": "#FFCECE"
             //    });
 
-            //    alert("Please Enter Igst");
+            //    alert("Please Select End Date");
             //    return false;
             //}
             //else {
-            //    $(txtIgst).css({
+            //    $(txtEnd).css({
             //        "border": "",
             //        "background": ""
             //    });
             //}
-
-
-            if (isValid == false)
-                e.preventDefault();
 
         });
 
     });
-
 </script>

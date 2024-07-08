@@ -258,7 +258,7 @@ namespace Arasan.Controllers.Master
 
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
-                    View = "<a href=ViewQcTemplate?id=" + dtUsers.Rows[i]["TESTTBASICID"].ToString() + "><img src='../Images/view_icon.png' alt='Edit' /></a>";
+                    View = "<a href=ViewQcTemplate?id=" + dtUsers.Rows[i]["TESTTBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Edit' /></a>";
                     EditRow = "<a href=QcTemplate?id=" + dtUsers.Rows[i]["TESTTBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["TESTTBASICID"].ToString() + "";
                 }

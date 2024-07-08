@@ -228,7 +228,7 @@ namespace Arasan.Models
         public DataTable GetBinMaster()
         {
             string SvSql = string.Empty;
-            SvSql = "select * from BINBASIC";
+            SvSql = "select * from BINBASIC WHERE IS_ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -250,7 +250,7 @@ namespace Arasan.Models
         public DataTable GetLocation()
         {
             string SvSql = string.Empty;
-            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS ";
+            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS WHERE IS_ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -260,7 +260,7 @@ namespace Arasan.Models
         public DataTable GetFGLOC()
         {
             string SvSql = string.Empty;
-            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS where LOCATIONTYPE IN('FG GODOWN','STORES') ";
+            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS where LOCATIONTYPE IN('FG GODOWN','STORES') AND IS_ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -270,7 +270,7 @@ namespace Arasan.Models
         public DataTable GetPyroLocation()
         {
             string SvSql = string.Empty;
-            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS where LOCATIONTYPE='BALL MILL' order by LOCDETAILSID asc";
+            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS where LOCATIONTYPE='BALL MILL' AND IS_ACTIVE='Y' order by LOCDETAILSID asc";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -298,7 +298,7 @@ namespace Arasan.Models
         public DataTable GetSupplier()
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYMAST.PARTYMASTID,PARTYMAST.PARTYNAME from PARTYMAST  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND PARTYMAST.PARTYNAME IS NOT NULL";
+            SvSql = "Select PARTYMAST.PARTYMASTID,PARTYMAST.PARTYNAME from PARTYMAST  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND IS_ACTIVE='Y'";
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
 
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -310,11 +310,11 @@ namespace Arasan.Models
             string SvSql = string.Empty;
             if (putype== "AGAINST PURCHASE INDENT")
             {
-                SvSql = "select PARTYMASTID,PARTYID from PARTYMAST where PARTYCAT IN ('SUPPLIER','BOTH')";
+                SvSql = "select PARTYMASTID,PARTYID from PARTYMAST where PARTYCAT IN ('SUPPLIER','BOTH') AND IS_ACTIVE='Y'";
             }
             else if (putype == "AGAINST CONSUMABLES RETURN")
             {
-                SvSql = "select PARTYMASTID,PARTYID from PARTYMAST where PARTYCAT IN ('CUSTOMER','BOTH')";
+                SvSql = "select PARTYMASTID,PARTYID from PARTYMAST where PARTYCAT IN ('CUSTOMER','BOTH') AND IS_ACTIVE='Y'";
             }
             //else if (putype == "AGAINST EXCISE INVOICE")
             //{
@@ -350,7 +350,7 @@ namespace Arasan.Models
         public DataTable GetCustomer()
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYMAST.PARTYMASTID,PARTYMAST.PARTYNAME from PARTYMAST  Where PARTYMAST.TYPE IN ('Customer','BOTH') AND PARTYMAST.PARTYNAME IS NOT NULL";
+            SvSql = "Select PARTYMAST.PARTYMASTID,PARTYMAST.PARTYNAME from PARTYMAST  Where PARTYMAST.TYPE IN ('Customer','BOTH') AND IS_ACTIVE='Y'";
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
 
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -383,7 +383,7 @@ namespace Arasan.Models
         public DataTable GetItemSubGrp()
         {
             string SvSql = string.Empty;
-            SvSql = "Select SGCODE,ITEMSUBGROUPID FROM ITEMSUBGROUP";
+            SvSql = "Select SGCODE,ITEMSUBGROUPID FROM ITEMSUBGROUP WHERE IS_ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

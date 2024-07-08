@@ -23,6 +23,7 @@ namespace Arasan.Models
         public string ID { get; set; }
 
         public List<SelectListItem> Typelst;
+        public List<SelectListItem> costlst;
         public string Wid { get; set; }
         public string status { get; set; }
         public string WType { get; set; }
@@ -40,7 +41,9 @@ namespace Arasan.Models
         public string Party { get; set; }
 
         public List<SelectListItem> Itemlst;
+        public List<SelectListItem> processlst;
         public string WipItemid { get; set; }
+        public string process { get; set; }
 
         public string WipLocid { get; set; }
 
@@ -70,6 +73,7 @@ namespace Arasan.Models
         public string Remarks { get; set; }
         public string ddlStatus { get; set; }
         public string createby { get; set; }
+        public string username { get; set; }
 
         public List<WorkCentersDetail> WorkCenterlst { get; set; }
         public List<ProdRate> ProdRatelst { get; set; }

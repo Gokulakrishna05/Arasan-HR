@@ -65,9 +65,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("ListDepartment", "Departments")"> <span class="title">Dept/Desig</span> </a>
                     </li>
-                   @* <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("ListDesignation", "Designation")"> <span class="title">Designation</span> </a>
-                    </li>*@
+                   <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListContract", "Contract")"> <span class="title">Contract Workers</span> </a>
+                    </li> 
 
                 </ul>
             </li>
@@ -132,9 +132,7 @@
                         <a class="nav-link" href="@Url.Action("ListTax", "Tax")"> <span class="title">Tax</span> </a>
                     </li>*@
                     
-                    <li class="nav-item active">
-                        <a class="nav-link" href="@Url.Action("ListETariff", "ETariff")"> <span class="title">ETariff</span> </a>
-                    </li>
+                 
                 </ul>
             </li>
 
@@ -188,7 +186,7 @@
                         <a class="nav-link" href="@Url.Action("ListRate", "Rate")"> <span class="title">Rate</span> </a>
                     </li> 
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("ListCommission", "Commission")"> <span class="title">Rate</span> </a>
+                        <a class="nav-link" href="@Url.Action("ListCommission", "Commission")"> <span class="title">Commission</span> </a>
                     </li> 
                 </ul>
             </li>
@@ -207,7 +205,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("ListParty", "PartyMaster")"> <span class="title">Party Master</span> </a>
                     </li>
-                    
+                       <li class="nav-item active">
+                        <a class="nav-link" href="@Url.Action("ListETariff", "ETariff")"> <span class="title">ETariff</span> </a>
+                    </li>
                     @*<li class="nav-item">
                         <a class="nav-link" href="@Url.Action("ListCustomerType", "CustomerType")"> <span class="title">Party Group</span> </a>
                     </li>*@
@@ -228,13 +228,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("ListCity", "City")"> <span class="title">City </span> </a>
                     </li>*@
-                      <li class="nav-item">
+                    @*  <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("ListWorkCenters", "WorkCenters")"> <span class="title">Work Center </span> </a>
-                    </li>
+                    </li>*@
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("ListCountry", "Country")"> <span class="title">Country</span> </a>
                     </li>
-                  
+                        <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListState", "State")"> <span class="title">State </span> </a>
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("ListExchangeRate", "ExchangeRate")"> <span class="title">Exchange Rate</span> </a>
@@ -253,9 +255,7 @@
                         <a class="nav-link" href="@Url.Action("ListSieve", "Sieve")"> <span class="title">Sieve </span> </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("ListState", "State")"> <span class="title">State </span> </a>
-                    </li>
+              
                   
                    @* <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("ListWCSieve", "WCSieve")"> <span class="title">WC Sieve</span> </a>

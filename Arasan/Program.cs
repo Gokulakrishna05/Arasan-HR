@@ -230,6 +230,7 @@ internal class Program
         builder.Services.TryAddSingleton<IMaterialSplit, MaterialSplitService>();
         builder.Services.TryAddSingleton<IMchine, MchineServices>();
         builder.Services.TryAddSingleton<ICommission, CommissionService>();
+        builder.Services.TryAddSingleton<IContract, ContractService>();
 
 
 

@@ -174,7 +174,7 @@
         $('#btnSave').click(function (e) {
             var isValid = true;
 
-            if (document.getElementById("txtConName").value == "") {
+            if (document.getElementById("txtConName").value == ""||document.getElementById("txtConName").value == 0) {
                 isValid = false;
                 $(txtConName).css({
                     "border": "1px solid red",
@@ -190,7 +190,7 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtConCode").value == "") {
+            if (document.getElementById("txtConCode").value == ""||document.getElementById("txtConCode").value == 0) {
                 isValid = false;
                 $(txtConCode).css({
                     "border": "1px solid red",

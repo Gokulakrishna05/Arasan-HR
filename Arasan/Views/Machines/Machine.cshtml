@@ -320,9 +320,13 @@
 
                                                     <br /><label for="inputName3" class="col-sm-4 control-label">Machine Capascity<label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.MCap, new { @id = "MCap", @class = "form-control", @TabIndex = 1 })
+                                                         <div class="col-sm-6">
+                                                        @Html.TextBoxFor(C => C.MCap, new { @id = "MCap", @class = "form-control", @TabIndex = 1 , onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                         </div>
+                                                        <div class="col-sm-6">
+                                                           @Html.DropDownListFor(C => C.MCapUnit, Model.MCaplst, " -- Please Select -- ", new { @id = "MCapUnit", @Class = "form-control _select", @TabIndex = 1 , style = "width: 140px;"})
 
-                                                        @Html.DropDownListFor(C => C.MCapUnit, Model.MCaplst, " -- Please Select -- ", new { @id = "MCapUnit", @Class = "form-control _select", @TabIndex = 1 })
+                                                         </div>
                                                     </div>
 
                                                 </div>
@@ -332,10 +336,13 @@
 
                                                     <br /><label for="inputName3" class="col-sm-4 control-label">Estimated Life<label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
+                                                         <div class="col-sm-6">
                                                         @Html.TextBoxFor(C => C.MELife, new { @id = "MELife", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                            </div>
+                                                        <div class="col-sm-6">
+                                                        @Html.DropDownListFor(C => C.MELifeUnit, Model.MELifeLst, " -- Please Select -- ", new { @id = "MELifeUnit", @Class = "form-control _select", @TabIndex = 1 , style = "width: 140px;" })
 
-                                                        @Html.DropDownListFor(C => C.MELifeUnit, Model.MELifeLst, " -- Please Select -- ", new { @id = "MELifeUnit", @Class = "form-control _select", @TabIndex = 1 })
-
+                                                    </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -347,9 +354,12 @@
 
                                                     <br /><label for="inputName3" class="col-sm-4 control-label">Power Consumption Per Hour<label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
+                                                         <div class="col-sm-6">
                                                         @Html.TextBoxFor(C => C.MPower, new { @id = "MPower", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
-
-                                                        @Html.DropDownListFor(C => C.MPowerUnit, Model.MPowerlst, " -- Please Select -- ", new { @id = "MPowerUnit", @Class = "form-control _select", @TabIndex = 1 })
+                                                            </div>
+                                                        <div class="col-sm-6">
+                                                        @Html.DropDownListFor(C => C.MPowerUnit, Model.MPowerlst, " -- Please Select -- ", new { @id = "MPowerUnit", @Class = "form-control _select", @TabIndex = 1 , style = "width: 140px;"})
+                                                    </div>
                                                     </div>
 
                                                 </div>
@@ -373,9 +383,12 @@
 
                                                     <br /><label for="inputName3" class="col-sm-4 control-label">Cum.Run Hours<label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
+                                                         <div class="col-sm-6">
                                                         @Html.TextBoxFor(C => C.MRun, new { @id = "MRun", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
-
-                                                        @Html.DropDownListFor(C => C.MRunUnit, Model.MRunlst, " -- Please Select -- ", new { @id = "MRunUnit", @Class = "form-control _select", @TabIndex = 1 })
+                                                          </div>
+                                                        <div class="col-sm-6">
+                                                        @Html.DropDownListFor(C => C.MRunUnit, Model.MRunlst, " -- Please Select -- ", new { @id = "MRunUnit", @Class = "form-control _select", @TabIndex = 1 , style = "width: 140px;"})
+                                                    </div>
                                                     </div>
 
                                                 </div>
@@ -385,10 +398,13 @@
 
                                                     <br /><label for="inputName3" class="col-sm-4 control-label">So.Far Run Hours<label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
+                                                          <div class="col-sm-6">
                                                         @Html.TextBoxFor(C => C.MRunH, new { @id = "MRunH", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                         </div>
+                                                        <div class="col-sm-6">
+                                                        @Html.DropDownListFor(C => C.MRunHUnit, Model.MRunHLst, " -- Please Select -- ", new { @id = "MRunHUnit", @Class = "form-control _select", @TabIndex = 1 , style = "width: 140px;"})
 
-                                                        @Html.DropDownListFor(C => C.MRunHUnit, Model.MRunHLst, " -- Please Select -- ", new { @id = "MRunHUnit", @Class = "form-control _select", @TabIndex = 1 })
-
+                                                    </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -400,9 +416,12 @@
 
                                                     <br /><label for="inputName3" class="col-sm-4 control-label">Lead Hours<label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
+                                                        <div class="col-sm-6">
                                                         @Html.TextBoxFor(C => C.MLead, new { @id = "MLead", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
-
-                                                        @Html.DropDownListFor(C => C.MLeadUnit, Model.MLeadlst, " -- Please Select -- ", new { @id = "MLeadUnit", @Class = "form-control _select", @TabIndex = 1 })
+                                                           </div>
+                                                        <div class="col-sm-6">
+                                                        @Html.DropDownListFor(C => C.MLeadUnit, Model.MLeadlst, " -- Please Select -- ", new { @id = "MLeadUnit", @Class = "form-control _select", @TabIndex = 1 , style = "width: 140px;"})
+                                                    </div>
                                                     </div>
 
                                                 </div>
@@ -412,10 +431,13 @@
 
                                                     <br /><label for="inputName3" class="col-sm-4 control-label">Maintenance Houre<label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
+                                                         <div class="col-sm-6">
                                                         @Html.TextBoxFor(C => C.MMaintain, new { @id = "MMaintain", @class = "form-control", @TabIndex = 1, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                         </div>
+                                                        <div class="col-sm-6">
+                                                        @Html.DropDownListFor(C => C.MMaintainUnit, Model.MMaintainLst, " -- Please Select -- ", new { @id = "MMaintainUnit", @Class = "form-control _select", @TabIndex = 1 , style = "width: 140px;"})
 
-                                                        @Html.DropDownListFor(C => C.MMaintainUnit, Model.MMaintainLst, " -- Please Select -- ", new { @id = "MMaintainUnit", @Class = "form-control _select", @TabIndex = 1 })
-
+                                                    </div>
                                                     </div>
                                                 </div>
                                             </div>

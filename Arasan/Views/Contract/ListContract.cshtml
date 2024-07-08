@@ -1,7 +1,7 @@
-﻿@model Arasan.Models.Branch
+﻿@model Arasan.Models.Contract
 
 @{
-    ViewData["Title"] = "Branch";
+    ViewData["Title"] = "Contract";
     //string query = ViewContext.HttpContext.Request.Query["status"];
     string Qid = string.Empty;
     //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
@@ -23,7 +23,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong>Branch</strong> </li>
+            <li class="active"> <strong>Contract</strong> </li>
         </ol>
     </div>
 </div>
@@ -32,7 +32,7 @@
         $(document).ready(function () {
             var source =
             {
-                url: "/Branch/MyListBranchgrid",
+                url: "/Contract/MyListContractgrid",
 
                 data: {
                     strstatus: ""
@@ -42,9 +42,9 @@
                     // synchronize with the server - send update command
                 },
                 datafields: [
-                    { name: 'companyname', type: 'string' },
-                    { name: 'branchname', type: 'string' },
-                    { name: 'statename', type: 'string' },
+                    { name: 'contype', type: 'string' },
+                    { name: 'salpd', type: 'string' },
+                    { name: 'dkg', type: 'string' },
 
                     { name: 'editrow', type: 'string' },
                     { name: 'delrow', type: 'string' },
@@ -58,9 +58,6 @@
                 }
             }
             );
-            var linkrenderer1 = function (row, column, value) {
-                    return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
-            }
 
             $("#grid").jqxGrid(
                 {
@@ -85,11 +82,11 @@
                     keyboardnavigation: false,
                     columns: [
 
-                        { text: 'Company', filtertype: 'input', datafield: 'companyname', width: 200 },
-                        { text: 'Branch', filtertype: 'input', datafield: 'branchname', width: 200 },
-                        { text: 'State', filtertype: 'input', datafield: 'statename', width: 200 },
+                        { text: 'Contract', filtertype: 'input', datafield: 'contype', width: 200 },
+                        { text: 'Salary%', filtertype: 'input', datafield: 'salpd', width: 200 },
+                        { text: 'DayORKg', filtertype: 'input', datafield: 'dkg', width: 200 },
                         { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, cellsrenderer: linkrenderer1, formatter: returnMyLink, edittype: 'select' },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                     ]
                 });
             $("#ddlStatus").change(function () {
@@ -116,19 +113,21 @@
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
 
-                    <form>
+
+               
+                        <form>
                         <div class="row">
-                            <div class="col-md-2 ">
+                           @*  <div class="col-md-2 ">
 
                                 @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
-                                { new SelectListItem() {Text = "Enabled", Value="ACTIVE"},
-                                new SelectListItem() {Text = "Disabled", Value="INACTIVE"}},
-                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
-                            </div>
+                                         { new SelectListItem() {Text = "Opened", Value="ACTIVE"},
+                                new SelectListItem() {Text = "Closed", Value="INACTIVE"}},
+                                         new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                            </div> *@
 
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("Branch","Branch")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Branch</a>
+                                    <a href="@Url.Action("Contract","Contract")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Contract</a>
                                     <br>
                                 </div>
 
@@ -144,8 +143,8 @@
                         </div>
 
 
-
-                    </form>
+                        </form>
+                    
                 </div>
             </div>
         </div>
@@ -154,11 +153,8 @@
 
 
 <script>
-    function ConfirmDelete() {
-        return confirm("Are you sure you want to delete?");
-    }
     function changeStatus(status) {
-        var url = "/Branch/ListBranch?status=" + status;
+        var url = "/Contract/ListContract?status=" + status;
         window.location.href = url;
         //$.ajax({
         //    url: 'AssignSession',

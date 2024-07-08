@@ -44,6 +44,8 @@
 
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="Views\Contract\Contract.cshtml" />
+    <None Include="Views\Contract\ListContract.cshtml" />
     <None Include="Views\DirectPurchase\DPAccount.cshtml" />
     <None Include="Views\ProFormaInvoice\ListProFormaInvoice.cshtml" />
     <None Include="Views\ProFormaInvoice\ProFormaInvoice.cshtml" />

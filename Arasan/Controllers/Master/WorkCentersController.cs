@@ -28,27 +28,30 @@ namespace Arasan.Controllers.Master
             WorkCenters ca = new WorkCenters();
 
             ca.createby = Request.Cookies["UserId"];
+            ca.username = Request.Cookies["UserName"];
             ca.Loc = BindLocation();
             ca.QCLst = BindQCLocation();
             ca.WIPLst = BindLocation();
             ca.CONLst = BindLocations();
             ca.Drumlst = BindLocation();
             ca.Contlst = BindContType();
-            ca.Itemlst = BindItemlst();
+            ca.Itemlst = BindProcess();
+            ca.processlst = BindItemlst();
             ca.ConItemlst = BindItemlst("");
             ca.Suplst = BindSupplier();
             ca.Typelst = BindType();
+            ca.costlst = BindCostUnit();
             ca.Bunker = "NO";
             ca.Mill = "NO";
             ca.ProcLot = "NO";
             ca.ProdSch = "NO";
-            ca.Production = "NO";
+            ca.Production = "YES";
             ca.Energy = "NO";
             List<WorkCentersDetail> TData = new List<WorkCentersDetail>();
             WorkCentersDetail tda = new WorkCentersDetail();
             if (id == null)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tda = new WorkCentersDetail();
                     tda.mlst = BindMeachine();
@@ -84,7 +87,7 @@ namespace Arasan.Controllers.Master
                     ca.ProcLot = dt.Rows[0]["PROCLOTYN"].ToString();
                     ca.Cap = dt.Rows[0]["CAPACITY"].ToString();
                     ca.ProdSch = dt.Rows[0]["PRODSCHYN"].ToString();
-                    ca.Uttl = dt.Rows[0]["PRODSCHYN"].ToString();
+                    ca.Uttl = dt.Rows[0]["UTILPERCENT"].ToString();
                     ca.Production = dt.Rows[0]["PRODYN"].ToString();
                     ca.DrumLoc = dt.Rows[0]["DRUMILOCATION"].ToString();
                     ca.Energy = dt.Rows[0]["ENRMETF"].ToString();
@@ -106,7 +109,7 @@ namespace Arasan.Controllers.Master
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new WorkCentersDetail();
-
+                        tda.mlst = BindMeachine();
                         tda.MId = dt2.Rows[i]["MACHINEID"].ToString();
                         tda.MCost = dt2.Rows[i]["MCOST"].ToString();
                         tda.ID = id;
@@ -172,6 +175,20 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 lstdesg.Add(new SelectListItem() { Text = "INTERNAL", Value = "INTERNAL" });
                 lstdesg.Add(new SelectListItem() { Text = "EXTERNAL", Value = "EXTERNAL" });
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindCostUnit()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "PER HOUR", Value = "PER HOUR" });
+                lstdesg.Add(new SelectListItem() { Text = "PER UNIT", Value = "PER UNIT" });
                 return lstdesg;
             }
             catch (Exception ex)
@@ -489,6 +506,7 @@ namespace Arasan.Controllers.Master
                     tda.inputtype = dt2.Rows[i]["ITEMTYPE"].ToString();
                     tda.outputrate = dt2.Rows[i]["PRATE"].ToString();
                     tda.ID = id;
+                    tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
 
@@ -587,7 +605,7 @@ namespace Arasan.Controllers.Master
                     tda.rejtype = dt2.Rows[i]["REJTYPE"].ToString();
                     
                     tda.rejection = dt2.Rows[i]["REJPER"].ToString();
-                
+                    tda.Isvalid = "Y";
                     tda.ID = id;
                     TData.Add(tda);
                 }
@@ -699,7 +717,7 @@ namespace Arasan.Controllers.Master
                     tda.prolst = BindProcess();
                     tda.process = dt2.Rows[i]["PROCESSID"].ToString();
                     tda.outputcap = dt2.Rows[i]["OUTPUTCAPACITY"].ToString();
-
+                    tda.Isvalid = "Y";
                     tda.ID = id;
                     TData.Add(tda);
                 }
@@ -801,8 +819,8 @@ namespace Arasan.Controllers.Master
                     tda.itemid = dt2.Rows[i]["CAPITEMID"].ToString();
                   
                     tda.Qty = dt2.Rows[i]["CAPQTY"].ToString();
-                   
 
+                    tda.Isvalid = "Y";
                     tda.ID = id;
                     TData.Add(tda);
                 }
@@ -899,7 +917,7 @@ namespace Arasan.Controllers.Master
                     tda.fuelqty = dt2.Rows[i]["FUELQTY"].ToString();
                     tda.mettqty = dt2.Rows[i]["METTQTY"].ToString();
                     tda.minsive = dt2.Rows[i]["MINSIEVE"].ToString();
-
+                    tda.Isvalid = "Y";
 
                     tda.ID = id;
                     TData.Add(tda);
@@ -1016,7 +1034,7 @@ namespace Arasan.Controllers.Master
                     tda.cake = dt2.Rows[i]["CAKEOP"].ToString();
                     tda.appowder = dt2.Rows[i]["APPOWKG"].ToString();
                     tda.noofchange = dt2.Rows[i]["NOOFCHGSPDAY"].ToString();
-
+                    tda.Isvalid = "Y";
 
                     tda.ID = id;
                     TData.Add(tda);
