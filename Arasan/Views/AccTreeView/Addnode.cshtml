@@ -1,0 +1,132 @@
+﻿@model Arasan.Models.Accounttree
+
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "Add Node";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Add Node</h5>
+                    <hr>
+                    @using (Html.BeginForm("Addnode", "AccTreeView", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                         <label for="inputName3" class="col-sm-4 control-label">Parent<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.parent)
+                                            @Html.HiddenFor(C => C.id)
+@*                                            @Html.DropDownListFor(C => C.parent, Model.itemlst,"Please Select", new { @id = "ddlparent", @Class = "form-control _select", @TabIndex = 1 })
+*@                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Group or Account<label class="mandatory"></label></label>
+                                         <div class="col-sm-8">
+                                                        <div class="input-group">
+
+                                                            @Html.RadioButtonFor(C => C.group, "Group", new { @TabIndex = 2 })
+                                                            <label id="mt-radio">Group</label>&emsp;
+                                                            @Html.RadioButtonFor(C => C.group, "Account", new { @TabIndex = 3 })
+                                                            <label id="mt-radio">Account</label>
+
+
+                                                        </div>
+                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Group/ Account Name<label class="mandatory">*</label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.accname, new { @id = "txtaccname", @class = "form-control", @TabIndex = 1 })
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Category<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.cate, Model.catelst,"Please Select", new { @id = "ddlparent", @Class = "form-control _select", @TabIndex = 1 })
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                            <div style="height:30px;"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onClick="window.parent.jQuery.fancybox.close();" >Submit</button>
+                            <input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $('._select').select2();
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+
+            if (document.getElementById("txtaccname").value == "") {
+                isValid = false;
+                $(txtaccname).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Group / Account Name");
+                return false;
+            }
+            else {
+                $(txtaccname).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+
+
+
+        });
+
+    });
+</script>
