@@ -24,7 +24,7 @@ namespace Arasan.Services
             bool isValidUser = false;
             try
             {
-                string _selUser = @"Select Username,password,eactive,empdept,EMPMASTID from empmast where  eactive='" + username + "' and  username='"+ password + "' and password   ='Arasan'";
+                string _selUser = @"Select Username,password,eactive,empdept,EMPMASTID,IMGPATH from empmast where  eactive='" + username + "' and  username='"+ password + "' and password   ='Arasan'";
                 DataTable _dtUser = new DataTable();
                 _dtUser = _dtransactions.GetData(_selUser);
                 if (_dtUser.Rows.Count > 0)

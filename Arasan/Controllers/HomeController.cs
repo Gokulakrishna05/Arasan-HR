@@ -735,7 +735,7 @@ namespace Arasan.Controllers
 
             DataTable dt = new DataTable();
             string username = Request.Cookies["UserId"];
-            dt = datatrans.GetData("SELECT EMPID,EMPNAME,EMPSEX,TO_CHAR(EMPDOB,'dd-MON-yyyy')EMPDOB,ECPHNO,ECMAILID,ECADD1,ECSTATE,ECCITY,USERNAME,EMPDEPT,EMPDESIGN,TO_CHAR(JOINDATE,'dd-MON-yyyy')JOINDATE,FATHERNAME,MOTHERNAME,EMPPAYCAT,EMPBASIC,PFNO,ESINO,TO_CHAR(PFDT,'dd-MON-yyyy')PFDT,TO_CHAR(ESIDT,'dd-MON-yyyy')ESIDT,EMPCOST FROM EMPMAST WHERE EMPMASTID='" + username + "'");
+            dt = datatrans.GetData("SELECT EMPID,EMPNAME,EMPSEX,TO_CHAR(EMPDOB,'dd-MON-yyyy')EMPDOB,ECPHNO,ECMAILID,ECADD1,ECSTATE,ECCITY,USERNAME,EMPDEPT,EMPDESIGN,TO_CHAR(JOINDATE,'dd-MON-yyyy')JOINDATE,FATHERNAME,MOTHERNAME,EMPPAYCAT,EMPBASIC,PFNO,ESINO,TO_CHAR(PFDT,'dd-MON-yyyy')PFDT,TO_CHAR(ESIDT,'dd-MON-yyyy')ESIDT,EMPCOST,IMGPATH FROM EMPMAST WHERE EMPMASTID='" + username + "'");
             if (dt.Rows.Count > 0)
             {
                 ca.Empid = dt.Rows[0]["EMPID"].ToString();
@@ -765,6 +765,7 @@ namespace Arasan.Controllers
                 ca.PFD = dt.Rows[0]["PFDT"].ToString();
                 ca.ESID = dt.Rows[0]["ESIDT"].ToString();
                 ca.ECOST = dt.Rows[0]["EMPCOST"].ToString();
+                ca.imgpath = dt.Rows[0]["IMGPATH"].ToString();
 
             }
             DataTable dt1 = datatrans.GetData("SELECT MARITALSTATUS,BLOODGROUP,COMMUNITY FROM EMPMOI WHERE EMPMASTID='" + username + "'");

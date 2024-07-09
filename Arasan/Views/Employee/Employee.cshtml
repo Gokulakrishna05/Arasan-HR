@@ -59,7 +59,7 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">Employee</h5>
                     <hr>
-                    @using (Html.BeginForm("Employee", "Employee", FormMethod.Post))
+                    @using (Html.BeginForm("Employee", "Employee", FormMethod.Post, new { @id = "form1", @enctype = "multipart/form-data"}))
                     
                       {
                             @Html.AntiForgeryToken()
@@ -72,7 +72,7 @@
 *@                <div class="row">
                             <div class="col-md-6">
                       
-     <input type="file" id="file" name="file1"
+     <input type="file" id="file1" name="file1"
         onchange="return fileValidation()" />
  
     <!-- Image preview -->
@@ -98,6 +98,15 @@
                 <li ><a href="#tab-4" data-toggle="tab" >Pay Code </a></li>
                 <li ><a href="#tab-5" data-toggle="tab" >Personal Details</a></li>
                 <li><a href="#tab-2" data-toggle="tab">Login Details</a></li>
+                      <li ><a href="#tab-6" data-toggle="tab" >General Info</a></li>
+                      <li ><a href="#tab-7" data-toggle="tab" >Other Info</a></li>
+                      <li ><a href="#tab-8" data-toggle="tab" >Previous History</a></li>
+                      <li ><a href="#tab-9" data-toggle="tab" >Insurance Detail</a></li>
+                      <li ><a href="#tab-10" data-toggle="tab" >Emergency Contact</a></li>
+                      <li ><a href="#tab-11" data-toggle="tab" >Performance</a></li>
+                      <li ><a href="#tab-12" data-toggle="tab" >Dept Control</a></li>
+                      <li ><a href="#tab-13" data-toggle="tab" >Branch Control</a></li>
+                      <li ><a href="#tab-14" data-toggle="tab" >Employee Attendance</a></li>
                               
               </ul>
               <div class="tab-content">
@@ -944,7 +953,7 @@
   
 function fileValidation() {
             var fileInput = 
-                document.getElementById('file');
+                document.getElementById('file1');
              
             var filePath = fileInput.value;
          
@@ -980,7 +989,7 @@ function fileValidation() {
         }
 </script>
 
-
+<script src="~/src/js/lightbox.js"></script>
 
 
 
