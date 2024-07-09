@@ -341,8 +341,8 @@ namespace Arasan.Controllers.Master
 
                     tdab = new UsedCountry();
                     tdab.UsedCurrencylst = BindCountries();
-                    tdab.exrate = dtt2.Rows[0]["EXRATE"].ToString();
-                    tdab.ratedt = dtt2.Rows[0]["RATEDT"].ToString();
+                    tdab.exrate = dtt2.Rows[i]["EXRATE"].ToString();
+                    tdab.ratedt = dtt2.Rows[i]["RATEDT"].ToString();
                     tdab.Isvalid = "Y";
                     TDatab.Add(tdab);
                 }
