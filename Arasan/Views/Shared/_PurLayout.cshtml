@@ -75,6 +75,7 @@
         string Brname = "";
         string Locname = "";
         string Empid = "";
+        string img = "";
         if (HttpContextAccessor.HttpContext.Request.Cookies["UserName"] != null || HttpContextAccessor.HttpContext.Request.Cookies["UserName"] != "")
         {
             strName = HttpContextAccessor.HttpContext.Request.Cookies["UserName"];
@@ -90,6 +91,13 @@
         if (HttpContextAccessor.HttpContext.Request.Cookies["UserId"] != null || HttpContextAccessor.HttpContext.Request.Cookies["UserId"] != "")
         {
             Empid = HttpContextAccessor.HttpContext.Request.Cookies["UserId"];
+        }
+         if (HttpContextAccessor.HttpContext.Request.Cookies["ImgPath"] != null || HttpContextAccessor.HttpContext.Request.Cookies["ImgPath"] != "")
+        {
+            img = HttpContextAccessor.HttpContext.Request.Cookies["ImgPath"];
+        }
+        else{
+            img = "~/Images/profileicon.png";
         }
         //Arasan.Models.PriCom.getmenu(Empid)
     }
@@ -167,7 +175,7 @@
               
                     <!-- START USER LOGIN DROPDOWN -->
                     <li class="dropdown dropdown-user">
-                        <a data-close-others="true" data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle" href="javascript:;"> <img src="~/Images/profileicon.png" class="img-circle" alt=""> <span class="username username-hide-on-mobile"> @strName  </span> <i class="fa fa-angle-down"></i> </a>
+                        <a data-close-others="true" data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle" href="javascript:;"> <img src=@img class="img-circle" alt=""> <span class="username username-hide-on-mobile"> @strName  </span> <i class="fa fa-angle-down"></i> </a>
                         <ul class="dropdown-menu dropdown-menu-default">
                             <li>
                                 <a href="@Url.Action("Profile", "Home")"> <i class="icon-user"></i> My Profile </a>

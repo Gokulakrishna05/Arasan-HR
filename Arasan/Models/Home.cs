@@ -80,6 +80,7 @@ namespace Arasan.Models
         public string PFD { get; set; }
         public string ESID { get; set; }
         public string ECOST { get; set; }
+        public string imgpath { get; set; }
 
     }
     public class LocDetail

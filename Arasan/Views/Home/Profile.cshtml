@@ -18,7 +18,15 @@
                             <div class="ibox float-e-margins">
                                 <div class="ibox-content profile-box">
                                     <div class="profile-img-box">
-                                        <img src="~/Images/profileicon.png" height="250" width="250" class="full-width" alt="image">
+                                        @if(Model.imgpath=="")
+                        {
+                            <img src="~/Images/profileicon.png" height="250" width="250" class="full-width" alt="image">
+                        }
+                        else
+                        {
+                              <img src="@Html.DisplayFor(C => C.imgpath)" height="250" width="250" class="full-width" alt="image">
+                        }
+                      
                                     </div>
                                     <div class="widgets-container">
                                         <h4><strong>@Html.DisplayFor(c => c.Empname)</strong></h4>
