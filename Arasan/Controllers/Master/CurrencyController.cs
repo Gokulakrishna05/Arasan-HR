@@ -241,11 +241,11 @@ namespace Arasan.Controllers.Master
             {
                 try
                 {
-                    DataTable dtDesg = datatrans.GetData("select COUNTRYCODE,COUNTRYMASTID From  CONMAST"  );
+                    DataTable dtDesg = datatrans.GetData("select COUNTRYCODE,CONMASTID From  CONMAST");
                     List<SelectListItem> lstdesg = new List<SelectListItem>();
                     for (int i = 0; i < dtDesg.Rows.Count; i++)
                     {
-                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRYCODE"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CONCODE"].ToString(), Value = dtDesg.Rows[i]["CONMASTID"].ToString() });
                     }
                     return lstdesg;
                 }
@@ -262,7 +262,7 @@ namespace Arasan.Controllers.Master
 
                 string country = "";
 
-                dt = datatrans.GetData("SELECT COUNTRY FROM CONMAST WHERE COUNTRYMASTID='" + ItemId+"'");
+                dt = datatrans.GetData("SELECT COUNTRY FROM CONMAST WHERE CONMASTID='" + ItemId+"'");
 
                 if (dt.Rows.Count > 0)
                 {
@@ -306,7 +306,7 @@ namespace Arasan.Controllers.Master
             }
             DataTable dt2 = new DataTable();
 
-            dt2 = datatrans.GetData("SELECT CURRENCYID, CONCURR.CONCODE,CONCURR.COUNTRY,CONMAST.COUNTRYCODE FROM CONCURR  left outer join CONMAST ON COUNTRYMASTID=CONCURR.CONCODE Where CURRENCYID='" + id + "'");
+            dt2 = datatrans.GetData("SELECT CURRENCYID, CONCURR.CONCODE,CONCURR.COUNTRY,CONMAST.CONCODE FROM CONCURR  left outer join CONMAST ON CONMASTID=CONCURR.CONCODE Where CURRENCYID='" + id + "'");
 
             if (dt2.Rows.Count > 0)
             {
@@ -331,7 +331,7 @@ namespace Arasan.Controllers.Master
 
             DataTable dtt2 = new DataTable();
 
-            dtt2 = datatrans.GetData("SELECT EXRATE,RATEDT FROM CRATE WHERE CURRENCYID='" + id +"' ");
+            dtt2 = datatrans.GetData("SELECT EXRATE,to_char(RATEDT,'dd-MON-yyyy')RATEDT FROM CRATE WHERE CURRENCYID='" + id +"' ");
 
             if (dtt2.Rows.Count > 0)
             {

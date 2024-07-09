@@ -176,7 +176,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["UNITID"].ToString(), Value = dtDesg.Rows[i]["UNITMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["UNITID"].ToString(), Value = dtDesg.Rows[i]["UNITID"].ToString() });
                 }
                 return lstdesg;
             }

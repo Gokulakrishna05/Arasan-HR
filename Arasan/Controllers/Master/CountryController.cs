@@ -45,9 +45,9 @@ namespace Arasan.Controllers
                 dt = CountryService.GetEditCountDetail(id);
                 if (dt.Rows.Count > 0)
                 {
-                    ic.ID = dt.Rows[0]["COUNTRYMASTID"].ToString();
+                    ic.ID = dt.Rows[0]["CONMASTID"].ToString();
                     ic.ConName = dt.Rows[0]["COUNTRY"].ToString();
-                    ic.ConCode = dt.Rows[0]["COUNTRYCODE"].ToString();
+                    ic.ConCode = dt.Rows[0]["CONCODE"].ToString();
                     ic.Curr = dt.Rows[0]["CURRENCY"].ToString();                  
 
                 }
@@ -205,21 +205,21 @@ namespace Arasan.Controllers
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
 
-                    EditRow = "<a href=Country?id=" + dtUsers.Rows[i]["COUNTRYMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["COUNTRYMASTID"].ToString() + "";
+                    EditRow = "<a href=Country?id=" + dtUsers.Rows[i]["CONMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CONMASTID"].ToString() + "";
                 }
                 else
                 {
                     EditRow = "";
-                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["COUNTRYMASTID"].ToString() + "";
+                    DeleteRow = "Remove?tag=Del&id=" + dtUsers.Rows[i]["CONMASTID"].ToString() + "";
                 }
 
                
                 Reg.Add(new Countrygrid
                 {
-                    id = dtUsers.Rows[i]["COUNTRYMASTID"].ToString(),
+                    id = dtUsers.Rows[i]["CONMASTID"].ToString(),
                     coname = dtUsers.Rows[i]["COUNTRY"].ToString(),
-                    concode = dtUsers.Rows[i]["COUNTRYCODE"].ToString(),
+                    concode = dtUsers.Rows[i]["CONCODE"].ToString(),
                     editrow = EditRow,
                     delrow = DeleteRow,
 

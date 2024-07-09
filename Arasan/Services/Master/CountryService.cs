@@ -106,7 +106,7 @@ namespace Arasan.Services.Master
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(COUNTRYCODE) as cnt FROM CONMAST WHERE COUNTRYCODE = LTRIM(RTRIM('" + cy.ConCode + "')) and COUNTRYCODE = LTRIM(RTRIM('" + cy.ConCode + "'))";
+                    svSQL = " SELECT Count(CONCODE) as cnt FROM CONMAST WHERE CONCODE = LTRIM(RTRIM('" + cy.ConCode + "')) and CONCODE = LTRIM(RTRIM('" + cy.ConCode + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Country Code Already Existed";
@@ -216,7 +216,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CONMAST SET IS_ACTIVE ='N' WHERE COUNTRYMASTID='" + id + "'";
+                    svSQL = "UPDATE CONMAST SET IS_ACTIVE ='N' WHERE CONMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -238,7 +238,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CONMAST SET IS_ACTIVE = 'Y' WHERE COUNTRYMASTID='" + id + "'";
+                    svSQL = "UPDATE CONMAST SET IS_ACTIVE = 'Y' WHERE CONMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -258,11 +258,11 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = " Select IS_ACTIVE,COUNTRY,COUNTRYCODE,COUNTRYMASTID from CONMAST WHERE IS_ACTIVE = 'Y' ORDER BY COUNTRYMASTID DESC";
+                SvSql = " Select IS_ACTIVE,COUNTRY,CONCODE,CONMASTID from CONMAST WHERE IS_ACTIVE = 'Y' ORDER BY CONMASTID DESC";
             }
             else
             {
-                SvSql = " Select IS_ACTIVE,COUNTRY,COUNTRYCODE,COUNTRYMASTID from CONMAST WHERE IS_ACTIVE = 'N' ORDER BY COUNTRYMASTID DESC";
+                SvSql = "  Select IS_ACTIVE,COUNTRY,CONCODE,CONMASTID from CONMAST WHERE IS_ACTIVE = 'N' ORDER BY CONMASTID DESC";
 
             }
             DataTable dtt = new DataTable();

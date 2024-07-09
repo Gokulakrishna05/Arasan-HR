@@ -784,7 +784,7 @@ namespace Arasan.Controllers
                 ca.EduPlc = dt2.Rows[0]["ECPLACE"].ToString();
                 ca.YOP = dt2.Rows[0]["YRPASSING"].ToString();
                 ca.Grade = dt2.Rows[0]["MPER"].ToString();
-                ca.Skill = dt2.Rows[0][""].ToString();
+                //ca.Skill = dt2.Rows[0][""].ToString();
             }
 
             LocDetail tad = new LocDetail();

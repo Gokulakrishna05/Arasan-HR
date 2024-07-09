@@ -83,14 +83,14 @@ namespace Arasan.Controllers.Master
                         pr = new comlst();
                         pr.ilst = BindItem();
 
-                        pr.item = dt1.Rows[0]["ITEMID"].ToString();
+                        pr.item = dt1.Rows[i]["ITEMID"].ToString();
                         pr.ulst = BindUnit();
 
-                        pr.unit = dt1.Rows[0]["UNIT"].ToString();
+                        pr.unit = dt1.Rows[i]["UNIT"].ToString();
                         pr.commtypelst = BindCommtype();
 
-                        pr.type = dt1.Rows[0]["COMMTYPE"].ToString();
-                        pr.val = dt1.Rows[0]["COMMVALUE"].ToString();
+                        pr.type = dt1.Rows[i]["COMMTYPE"].ToString();
+                        pr.val = dt1.Rows[i]["COMMVALUE"].ToString();
                         pr.Isvalid = "Y";
 
                         TData.Add(pr);
