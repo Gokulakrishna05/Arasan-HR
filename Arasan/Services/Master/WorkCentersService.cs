@@ -167,7 +167,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("COST", OracleDbType.NVarchar2).Value = cy.Cost == null ? "0" : cy.Cost;
                     objCmd.Parameters.Add("COSTUNIT", OracleDbType.NVarchar2).Value = cy.Unit;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remarks;
-                    objCmd.Parameters.Add("CONTTYPE", OracleDbType.NVarchar2).Value = cy.ContType;
+                   // objCmd.Parameters.Add("CONTTYPE", OracleDbType.NVarchar2).Value = cy.ContType;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     if (cy.ID == null)
                     {
