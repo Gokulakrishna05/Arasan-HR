@@ -12,5 +12,7 @@ namespace Arasan.Interface
         DataTable GetAccType(string id);
         DataTable GetAccGroup(string id);
         DataTable GetAccLedger(string id);
+        string NodeCreation(Accounttree cy);
+        string NodeDelete(string id);
     }
 }
