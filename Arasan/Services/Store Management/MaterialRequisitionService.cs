@@ -111,7 +111,7 @@ namespace Arasan.Services
         public DataTable GetLocation(string id)
         {
             string SvSql = string.Empty;
-            SvSql = " select locdetails.LOCID ,EMPLOYEELOCATION.LOCID loc from EMPLOYEELOCATION  left outer join locdetails on locdetails.locdetailsid=EMPLOYEELOCATION.LOCID where EMPID='" + id + "' ";
+            SvSql = " select locdetails.LOCID ,EMPLOYEELOCATION.LOCID loc from EMPLOYEELOCATION  left outer join locdetails on locdetails.locdetailsid=EMPLOYEELOCATION.LOCID where EMPID='" + id + "'GROUP BY locdetails.LOCID ,EMPLOYEELOCATION.LOCID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1057,25 +1057,25 @@ namespace Arasan.Services
                                 string VALMETHOD = datatrans.GetDataString("Select VALMETHOD from ITEMMASTER where ITEMMASTERID='" + cp.ItemId + "' ");
 
 
-                                svSQL = "Insert into STORESREQDETAIL (STORESREQBASICID,ITEMID,UNIT,QTY,STOCK,NARR,ITEMMASTERID,ITEMDESC,STATUS,STORESREQDETAILROW,ISSQTY,SGCODE,TYPE,VALMETHOD,SCHCLQTY,SCHISSQTY,SCHQTY) VALUES ('" + reqid + "','" + cp.ItemId + "','" + unitID + "','" + cp.ReqQty + "','" + cp.ClosingStock + "','" + cy.Narration + "','" + cp.ItemId + "','" + desc + "','OPEN','0','0','0','Stores Issue','"+ VALMETHOD + "','" + cp.ReqQty + "','0','0') RETURNING STORESREQDETAILID INTO :LASTCID";
+                                svSQL = "Insert into STORESREQDETAIL (STORESREQBASICID,ITEMID,UNIT,QTY,STOCK,NARR,ITEMMASTERID,ITEMDESC,STATUS,STORESREQDETAILROW,ISSQTY,SGCODE,TYPE,VALMETHOD,SCHCLQTY,SCHISSQTY,SCHQTY) VALUES ('" + reqid + "','" + cp.ItemId + "','" + unitID + "','" + cp.ReqQty + "','" + cp.ClosingStock + "','" + cy.Narration + "','" + cp.ItemId + "','" + desc + "','OPEN','0','0','0','Stores Issue','"+ VALMETHOD + "','" + cp.ReqQty + "','0','0') ";
                                 OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                    objCmds.ExecuteNonQuery();
-                                string detailid = objCmds.Parameters["LASTCID"].Value.ToString();
-                                double stock = Convert.ToDouble(cp.ReqQty);
-                                double clstock = Convert.ToDouble(cp.ClosingStock);
-                                if (stock > clstock)
-                                {
+                                //string detailid = objCmds.Parameters["LASTCID"].Value.ToString();
+                                //double stock = Convert.ToDouble(cp.ReqQty);
+                                //double clstock = Convert.ToDouble(cp.ClosingStock);
+                                //if (stock > clstock)
+                                //{
 
-                                    DateTime currentdate = DateTime.Now;
-                                    DateTime expiry = currentdate.AddDays(10);
-                                    string notifidate = currentdate.ToString("dd-MMM-yyyy");
-                                    string expirydate = expiry.ToString("dd-MMM-yyyy");
+                                //    DateTime currentdate = DateTime.Now;
+                                //    DateTime expiry = currentdate.AddDays(10);
+                                //    string notifidate = currentdate.ToString("dd-MMM-yyyy");
+                                //    string expirydate = expiry.ToString("dd-MMM-yyyy");
 
-                                    svSQL = "Insert into PURNOTIFICATION (T1SOURCEID,TYPE,NOTIFYDATE,DISPLAY,ACK,EXPIRYDATE) VALUES ('" + detailid + "','MR','" + notifidate + "','INDENT CREATE','N','" + expirydate + "')";
+                                //    svSQL = "Insert into PURNOTIFICATION (T1SOURCEID,TYPE,NOTIFYDATE,DISPLAY,ACK,EXPIRYDATE) VALUES ('" + detailid + "','MR','" + notifidate + "','INDENT CREATE','N','" + expirydate + "')";
 
-                                    objCmds = new OracleCommand(svSQL, objConn);
-                                    objCmds.ExecuteNonQuery();
-                                }
+                                //    objCmds = new OracleCommand(svSQL, objConn);
+                                //    objCmds.ExecuteNonQuery();
+                                //}
                             }
                         }
                     }
