@@ -26,5 +26,37 @@ namespace Arasan.Controllers
         {
             return View();
         }
+        public ActionResult IndentApproved(string id)
+        {
+            datatrans = new DataTransactions(_connectionString);
+            string app1 = datatrans.GetDataString("SELECT APPROVED1 FROM PINDDETAIL WHERE  PINDDETAILID='" + id + "'");
+            if (app1 == "")
+            {
+                bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED1='YES',APPROVAL1U='NAGES',APP1DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id + "'");
+
+            }
+            else
+            {
+                bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED2='YES',APPROVAL2U='SRRAJAN',APP2DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id + "'");
+
+            }
+            return RedirectToAction("List_PI_Approval");
+        }
+        public ActionResult IndentDisApproved(string id)
+        {
+            PurchaseIndent p = new PurchaseIndent();
+            p.closereasonid = id;
+            //string user= Request.Cookies["UserId"];
+            //datatrans = new DataTransactions(_connectionString);
+            //bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED1=' ',MODIFY_BY='"+ user+"',MODIFY_ON='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id + "'");
+            return View(p);
+        }
+        public ActionResult IndentDisApprove(string detid, string reason)
+        {
+            string user = Request.Cookies["UserId"];
+            datatrans = new DataTransactions(_connectionString);
+            bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED1=' ',MODIFY_BY='" + user + "',MODIFY_ON='" + DateTime.Now.ToString("dd-MMM-yyyy") + "',CLOSEREASON='"+reason+"' Where PINDDETAILID='" + detid + "'");
+            return RedirectToAction("List_PI_Approval");
+        }
     }
 }

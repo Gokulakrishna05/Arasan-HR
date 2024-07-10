@@ -35,14 +35,14 @@ namespace Arasan.Controllers.Store_Management
             var userId = Request.Cookies["UserId"];
             MR.Loclst = GetLoc(userId);
             //MR.Loclst = GetLocation();
-            MR.Worklst = BindWorkCenter("");
-            MR.Processlst = BindProcess("");
+             MR.Processlst = BindProcess("");
             MR.assignList = BindEmp();
             MR.Statuslst = BindStatus();
             MR.Branch = Request.Cookies["BranchId"];
             MR.Entered = Request.Cookies["UserName"];
             MR.EnteredId = Request.Cookies["UserId"];
-            MR.Location = Request.Cookies["LocationName"];
+            MR.Location = datatrans.GetDataString("Select LOCDETAILSID FROM LOCDETAILS WHERE LOCID ='" + Request.Cookies["LocationName"] + "'");
+            MR.Worklst = BindWorkCenter(MR.Location);
             MR.Storeid = storeid;
             MR.DocDa = DateTime.Now.ToString("dd-MMM-yyyy");
 
