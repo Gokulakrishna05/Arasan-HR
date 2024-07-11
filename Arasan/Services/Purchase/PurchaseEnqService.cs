@@ -554,7 +554,7 @@ namespace Arasan.Services
                      
                     string parent = "Enq " +cy.EnqNo+" "+cy.Supplier;
                     string active = "Quotation " + QuoNo + " is received for " + cy.EnqNo;
-                    svSQL = "Insert into PURQUOTBASIC (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,ENQNO,BRANCHID,EXRATE,MAINCURRENCY,PARTYID,DOCID,DOCDATE,IS_ACTIVE,CREATEDBY,CREATEDON,ENQDATE,USERID,PARENTACTIVITYID,ORGANISERID,PARENTJOBSID,ACTIVITYDONE,RECDBY,FUDATE,RECID,NARR) (Select '0','0','F','0','0', PURENQBASICID,BRANCHID,EXRATE,MAINCURR,PARTYMASTID,'" + QuoNo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "' ,'Y','"+cy.user + "','" + DateTime.Now.ToString("dd\\/MM\\/yyyy hh:mm:ss tt") + "',DOCDATE,'"+cy.user +"','"+ parent +"','0','0','"+ active + "','" + cy.Recid + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','0','-' from PURENQBASIC where PURENQBASICID='" + cy.ID + "')";
+                    svSQL = "Insert into PURQUOTBASIC (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,ENQNO,BRANCHID,EXRATE,MAINCURRENCY,PARTYID,DOCID,DOCDATE,IS_ACTIVE,CREATED_BY,CREATED_ON,ENQDATE,USERID,PARENTACTIVITYID,ORGANISERID,PARENTJOBSID,ACTIVITYDONE,RECDBY,FUDATE,RECID,NARR) (Select '0','0','F','0','0', PURENQBASICID,BRANCHID,EXRATE,MAINCURR,PARTYMASTID,'" + QuoNo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "' ,'Y','"+cy.Recid + "','" + DateTime.Now.ToString("dd\\/MM\\/yyyy hh:mm:ss tt") + "',DOCDATE,'"+cy.user +"','"+ parent +"','0','0','"+ active + "','" + cy.Recid + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','0','-' from PURENQBASIC where PURENQBASICID='" + cy.ID + "')";
                     OracleCommand objCmd = new OracleCommand(svSQL, objConn);
                     try
                     {
@@ -569,7 +569,7 @@ namespace Arasan.Services
                     objConn.Close();
                 }
 
-                string quotid = datatrans.GetDataString("Select PURQUOTBASICID from PURQUOTBASIC Where ENQNO=" + cy.ID + "");
+                string quotid = datatrans.GetDataString("Select PURQUOTBASICID from PURQUOTBASIC Where ENQNO=" + cy.ID + " AND DOCDATE='"+ DateTime.Now.ToString("dd-MMM-yyyy") + "'");
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
                     string Sql = "Insert into PURQUOTDETAIL (PURQUOTBASICID,ITEMID,RATE,QTY,UNIT,CF,PRIQTY,ITEMDESC,ORDSTATUS,SCHQTY) (Select '" + quotid + "',P.ITEMID,P.RATE,P.QTY,P.UNIT,P.CF,P.PRIQTY,I.ITEMDESC,'0','0' from PURENQDETAIL P,ITEMMASTER I WHERE P.ITEMID=I.ITEMMASTERID AND  PURENQBASICID=" + cy.ID + ")";

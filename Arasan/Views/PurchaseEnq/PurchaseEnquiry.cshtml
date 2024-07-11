@@ -444,7 +444,7 @@ function changeItem(ItemId, i) {
                    $('tr.chkitemlst').each(function () {
                        if ($(this).css('display') !== 'none') {
                            var unit = $(this).find('#txtQuantity' + j.toString()).val();
-                    var unit = $(this).find('#txtTotalAmount' + j.toString()).val();
+                    //var unit = $(this).find('#txtTotalAmount' + j.toString()).val();
                            var qtys = $(this).find('#txtrate' + j.toString()).val();
                            var CFs = $(this).find('#txtConversionfactor' + j.toString()).val();
                             if (CFs == "")

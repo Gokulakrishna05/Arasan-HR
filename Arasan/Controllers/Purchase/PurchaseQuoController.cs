@@ -97,8 +97,9 @@ namespace Arasan.Controllers
                         {
                             tda.Desc = dt4.Rows[0]["ITEMDESC"].ToString();
                             tda.ConsFa = dt4.Rows[0]["CF"].ToString();
-                            tda.rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
+                          
                         }
+                        tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString());
                         tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         toaamt = tda.rate * tda.Quantity;
                         total += toaamt;

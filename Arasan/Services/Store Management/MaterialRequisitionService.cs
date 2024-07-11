@@ -1075,7 +1075,11 @@ namespace Arasan.Services
 
                                 //    objCmds = new OracleCommand(svSQL, objConn);
                                 //    objCmds.ExecuteNonQuery();
+
+                               // }
+
                                 //}
+
                             }
                         }
                     }
