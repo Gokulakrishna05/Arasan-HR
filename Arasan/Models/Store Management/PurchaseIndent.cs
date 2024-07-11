@@ -35,6 +35,8 @@ namespace Arasan.Models
         public string ddlStatus { get; set; }
 
         public string IndentDate { get; set; }
+        public string closereasonid { get; set; }
+        public string closereason { get; set; }
 
         public string RefDate { get; set; }
 

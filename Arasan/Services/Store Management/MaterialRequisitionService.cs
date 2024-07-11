@@ -111,7 +111,7 @@ namespace Arasan.Services
         public DataTable GetLocation(string id)
         {
             string SvSql = string.Empty;
-            SvSql = " select locdetails.LOCID ,EMPLOYEELOCATION.LOCID loc from EMPLOYEELOCATION  left outer join locdetails on locdetails.locdetailsid=EMPLOYEELOCATION.LOCID where EMPID='" + id + "' ";
+            SvSql = " select locdetails.LOCID ,EMPLOYEELOCATION.LOCID loc from EMPLOYEELOCATION  left outer join locdetails on locdetails.locdetailsid=EMPLOYEELOCATION.LOCID where EMPID='" + id + "'GROUP BY locdetails.LOCID ,EMPLOYEELOCATION.LOCID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1075,7 +1075,11 @@ namespace Arasan.Services
 
                                 //    objCmds = new OracleCommand(svSQL, objConn);
                                 //    objCmds.ExecuteNonQuery();
+
                                // }
+
+                                //}
+
                             }
                         }
                     }

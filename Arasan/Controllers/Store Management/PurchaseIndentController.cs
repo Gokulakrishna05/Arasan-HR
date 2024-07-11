@@ -222,7 +222,7 @@ namespace Arasan.Controllers.Store_Management
                     if (dtUsers.Rows[i]["APPROVED1"].ToString() == "NO" || dtUsers.Rows[i]["APPROVED1"].ToString() == "")
                     {
                         View = "";
-                        EditRow = "";
+                        EditRow = "<a href=Purchase_Indent?id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
 
 
 
@@ -233,7 +233,7 @@ namespace Arasan.Controllers.Store_Management
                     {
                         View = "<a href=ViewIndent?id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/close_icon.png' alt='View Details' width='20' /></a>";
 
-                        EditRow = "<a href=Purchase_Indent?id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                        EditRow = "";
                         DeleteRow = "DeleteIndent?tag=Del&id=" + dtUsers.Rows[i]["PINDBASICID"].ToString() + "";
                     }
                 }
@@ -417,11 +417,11 @@ namespace Arasan.Controllers.Store_Management
             string app2 = datatrans.GetDataString("SELECT AUSERNAME FROM APPROVBASIC B, APPROVDETAIL D WHERE B.APPROVBASICID=D.APPROVBASICID AND B.ATRANSDESC='Purchase Indent' AND ALEVEL='LEVEL2'");
             if (Request.Cookies["UserName"] == app1)
             {
-                dtEnq = datatrans.GetData("Select ITEMMASTER.ITEMID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,NARRATION,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN PINDBASIC ON PINDBASIC.PINDBASICID=PINDDETAIL.PINDBASICID WHERE PINDDETAIL.APPROVED1 IS NULL  ORDER BY DOCID DESC");
+                dtEnq = datatrans.GetData("Select ITEMMASTER.ITEMID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,NARRATION,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN PINDBASIC ON PINDBASIC.PINDBASICID=PINDDETAIL.PINDBASICID WHERE PINDDETAIL.APPROVED1 IS NULL AND PINDDETAIL.MODIFY_BY IS NULL  ORDER BY DOCID DESC");
             }
             if (Request.Cookies["UserName"] == app2)
             {
-                dtEnq = datatrans.GetData("Select ITEMMASTER.ITEMID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,NARRATION,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN PINDBASIC ON PINDBASIC.PINDBASICID=PINDDETAIL.PINDBASICID WHERE PINDDETAIL.APPROVED2 IS NULL  ORDER BY DOCID DESC");
+                dtEnq = datatrans.GetData("Select ITEMMASTER.ITEMID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,NARRATION,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN PINDBASIC ON PINDBASIC.PINDBASICID=PINDDETAIL.PINDBASICID WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL AND PINDDETAIL.MODIFY_BY IS NULL  ORDER BY DOCID DESC");
             }
           
             //dtEnq = PurIndent.GetIndentItemApprove();
@@ -430,7 +430,7 @@ namespace Arasan.Controllers.Store_Management
                 string Approval = string.Empty;
                 string DisApproval = string.Empty;
                Approval = "IndentApproved?id="+ dtEnq.Rows[i]["PINDDETAILID"].ToString()+"";
-                DisApproval = "IndentDisApproved?id="+ dtEnq.Rows[i]["PINDDETAILID"].ToString()+"";
+                DisApproval = "<a href=IndentDisApproved?id=" + dtEnq.Rows[i]["PINDDETAILID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/cancel.png' alt='View Details' width='20' /></a>";
                 EnqChkItem.Add(new IndentItemBindList
                 {
                     indentid = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
