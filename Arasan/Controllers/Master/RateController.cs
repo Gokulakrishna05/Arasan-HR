@@ -127,7 +127,7 @@ namespace Arasan.Controllers.Master
             try
             {
                 string Strout = RateService.RateRevisionCRUD(Cy);
-                          }
+             }
             catch (Exception ex)
             {
                 throw ex;
