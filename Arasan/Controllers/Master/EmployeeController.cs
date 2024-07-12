@@ -34,6 +34,22 @@ namespace Arasan.Controllers.Master
             E.imgpath = "";
             E.Branch = Request.Cookies["BranchId"];
 
+            E.BranchsLst = BindBranch();
+            E.DeptLst = BindDept();
+            E.PayCateLst = BindPayCate();
+            E.WeekLst = BindWeek();
+            E.PaymentLst = BindPayment();
+            E.BankLst = BindBank();
+            E.ShiftLst = BindShift();
+           // E.BankNameLst = BindBankName();
+            E.DesigLst = BindDesig();
+            E.UserNameLst = BindUserName();
+            E.BloodGroupLst = BindBloodGroup();
+            E.CommunityLst = BindCommunity();
+            E.DispLst = BindDisp();
+
+            E.AdAccountLst = BindAdvancecount();
+           
             //List<EduDeatils> TData = new List<EduDeatils>();60759
             //EduDeatils tda = new EduDeatils();
             if (id == null)
@@ -54,7 +70,7 @@ namespace Arasan.Controllers.Master
                     E.Gender = dt.Rows[0]["EMPSEX"].ToString();
                     E.DOB = dt.Rows[0]["EMPDOB"].ToString();
                     E.ID = id;
-                    E.Address = dt.Rows[0]["ECADD1"].ToString();
+                    //E.Address = dt.Rows[0]["ECADD1"].ToString();
                     E.StateId = dt.Rows[0]["ECSTATE"].ToString();
                     E.Citylst = BindCity(E.StateId);
                     E.CityId = dt.Rows[0]["ECCITY"].ToString();
@@ -63,6 +79,15 @@ namespace Arasan.Controllers.Master
                     E.PhoneNo = dt.Rows[0]["ECPHNO"].ToString();
                     E.FatherName = dt.Rows[0]["FATHERNAME"].ToString();
                     E.MotherName = dt.Rows[0]["MOTHERNAME"].ToString();
+                    E.GaurdName = dt.Rows[0]["GAURDNAME"].ToString();
+                  //  E.Voucher = dt.Rows[0]["MOTHERNAME"].ToString();
+                    E.Address1= dt.Rows[0]["EMPADD1"].ToString();
+                    E.Address2 = dt.Rows[0]["EMPADD2"].ToString();
+                    E.PinCode = dt.Rows[0]["EPINCODE"].ToString();
+                  //  E.EmailId = dt.Rows[0]["ECMAILID"].ToString();
+
+
+
                     E.EMPPayCategory = dt.Rows[0]["EMPPAYCAT"].ToString();
                     E.EMPBasic = dt.Rows[0]["EMPBASIC"].ToString();
                     E.PFNo = dt.Rows[0]["PFNO"].ToString();
@@ -79,6 +104,36 @@ namespace Arasan.Controllers.Master
                     E.ResignDate = dt.Rows[0]["RESIGNDATE"].ToString();
                     E.imgpath = dt.Rows[0]["IMGPATH"].ToString();
 
+
+
+                    E.Branchs = dt.Rows[0]["BRANCHID"].ToString();
+                    E.Dept = dt.Rows[0]["EMPDEPTCODE"].ToString();
+                    E.PayCate = dt.Rows[0]["EMPPAYCAT"].ToString();
+                    E.Payment = dt.Rows[0]["PAYMODE"].ToString();
+                    E.Bank = dt.Rows[0]["BANK"].ToString();
+                    E.Shift = dt.Rows[0]["SHIFTCATEGORY"].ToString();
+                    E.ESI = dt.Rows[0]["ESINO"].ToString();
+                    E.Active = dt.Rows[0]["EACTIVE"].ToString();
+                    E.Bonus = dt.Rows[0]["BONAPP"].ToString();
+                    E.CL = dt.Rows[0]["CLAPP"].ToString();
+                   // E.IFSC = dt.Rows[0]["IMGPATH"].ToString();
+                   // E.EPF = dt.Rows[0]["IMGPATH"].ToString();
+                    E.pfclose = dt.Rows[0]["PFCLOSE"].ToString();
+                  //  E.UAN = dt.Rows[0]["IMGPATH"].ToString();
+                    E.Cost = dt.Rows[0]["EMPCOST"].ToString();
+                    E.OT = dt.Rows[0]["OTYN"].ToString();
+                    E.BAccount = dt.Rows[0]["BANKACCNO"].ToString();
+                    E.Meals = dt.Rows[0]["MEALSYN"].ToString();
+                    E.Appren = dt.Rows[0]["APPRENTICE"].ToString();
+                    E.LOP = dt.Rows[0]["LOPYN"].ToString();
+                    //E.Desig = dt.Rows[0]["IMGPATH"].ToString();
+                   // E.createby = dt.Rows[0]["BindBranch"].ToString();
+                  //  E.MultipleLoc = dt.Rows[0]["IMGPATH"].ToString();
+                   // E.Region = dt.Rows[0]["IMGPATH"].ToString();
+                    E.Phychal = dt.Rows[0]["HANDICAPPED"].ToString();
+                   /// E.Aadhar = dt.Rows[0]["IMGPATH"].ToString();
+                    E.PF = dt.Rows[0]["PFNO"].ToString();
+                  
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = EmployeeService.GetEmpEduDeatils(id);
@@ -107,6 +162,16 @@ namespace Arasan.Controllers.Master
                     E.PayType = dt3.Rows[0]["PAYTYPE"].ToString();
                     E.EmpType = dt3.Rows[0]["EMPTYPE"].ToString();
                     E.Disp = dt3.Rows[0]["DISP"].ToString();
+
+
+
+                    E.oldpf = dt3.Rows[0]["OPFNO"].ToString();
+                    E.dependantes = dt3.Rows[0]["NOOFDEP"].ToString();
+                   // E.Mainexp = dt3.Rows[0]["DISP"].ToString();
+                    E.Pffrom = dt3.Rows[0]["OPFFDT"].ToString();
+                    E.Pfto = dt3.Rows[0]["OPFTODT"].ToString();
+                   // E.Adbal = dt3.Rows[0]["DISP"].ToString();
+                    E.AdAccount = dt3.Rows[0]["ADVACC"].ToString();
 
 
                 }
@@ -202,25 +267,243 @@ namespace Arasan.Controllers.Master
                     }
                 }
                 return items;
-
-
-
-
-
-
-                //DataTable dtDesg = datatrans.GetLocation();
-                //List<SelectListItem> lstdesg = new List<SelectListItem>();
-                //for (int i = 0; i < dtDesg.Rows.Count; i++)
-                //{
-                //    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
-                //}
-                //return lstdesg;
+               
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
+
+        public List<SelectListItem> BindBranch()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetBranch();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BRANCHID"].ToString(), Value = dtDesg.Rows[i]["BRANCHMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindDept()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT DDBASICID,DEPTNAME FROM DDBASIC WHERE IS_ACTIVE='Y' ");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DEPTNAME"].ToString(), Value = dtDesg.Rows[i]["DDBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindPayCate()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='MADEIN' ");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindWeek()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "MONDAY", Value = "CASH" });
+                lstdesg.Add(new SelectListItem() { Text = "TUESDAY", Value = "BANK" });
+                lstdesg.Add(new SelectListItem() { Text = "WEDNESDAY", Value = "BANK" });
+                lstdesg.Add(new SelectListItem() { Text = "THURSDAY", Value = "BANK" });
+                lstdesg.Add(new SelectListItem() { Text = "FRIDAY", Value = "BANK" });
+                lstdesg.Add(new SelectListItem() { Text = "SATUREDAY", Value = "BANK" });
+                lstdesg.Add(new SelectListItem() { Text = "SUNDAY", Value = "BANK" });
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindPayment()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "CASH", Value = "CASH" });
+                lstdesg.Add(new SelectListItem() { Text = "BANK", Value = "BANK" });
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindBank()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='BANKNAME' ");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindShift()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.ShiftDeatils();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SHIFTNO"].ToString(), Value = dtDesg.Rows[i]["SHIFTMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+      
+        public List<SelectListItem> BindDesig()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT DDDETAILID,DESIGNATION FROM DDDETAIL ");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DESIGNATION"].ToString(), Value = dtDesg.Rows[i]["DESIGNATION"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+      
+        public List<SelectListItem> BindUserName()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='MADEIN' ");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SelectListItem> BindBloodGroup()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='BLOODGROUP' ");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindCommunity()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='COMMUNITY' ");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindDisp()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='CITY' ");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SelectListItem> BindAdvancecount()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT MASTERID,MNAME FROM MASTER ");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MNAME"].ToString(), Value = dtDesg.Rows[i]["MASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
+
         public ActionResult MultipleLocationSelect(string id)
         {
             MultipleLocation E = new MultipleLocation();
@@ -429,6 +712,76 @@ namespace Arasan.Controllers.Master
             }
         }
 
+
+
+        public IActionResult AddBank(string id)
+        {
+            Employee E = new Employee();
+            // ca.Brlst = BindBranch();
+
+            return View(E);
+        }
+        public JsonResult SaveBank(string category)
+        {
+            string Strout = EmployeeService.AddBankCRUD(category);
+            var result = new { msg = Strout };
+            return Json(result);
+        }
+        public JsonResult GetBankJSON()
+        {
+            return Json(BindBank());
+        }
+        public IActionResult AddBloodGroup(string id)
+        {
+            Employee E = new Employee();
+            // ca.Brlst = BindBranch();
+
+            return View(E);
+        }
+        public JsonResult SaveBlodGroup(string category)
+        {
+            string Strout = EmployeeService.AddBloodGroupCRUD(category);
+            var result = new { msg = Strout };
+            return Json(result);
+        }
+        public JsonResult GetBlodGroup()
+        {
+            return Json(BindBloodGroup());
+        }
+        public IActionResult AddCommunity(string id)
+        {
+            Employee E = new Employee();
+            // ca.Brlst = BindBranch();
+
+            return View(E);
+        }
+        public JsonResult SaveCommunity(string category)
+        {
+            string Strout = EmployeeService.AddCommunityCRUD(category);
+            var result = new { msg = Strout };
+            return Json(result);
+        }
+        public JsonResult GetCommunityJSON()
+        {
+            return Json(BindCommunity());
+        }
+        public IActionResult AddDisp(string id)
+        {
+            Employee ca = new Employee();
+            // ca.Brlst = BindBranch();
+
+            return View(ca);
+        }
+        public JsonResult SaveDisp(string category)
+        {
+            string Strout = EmployeeService.AddDispCRUD(category);
+            var result = new { msg = Strout };
+            return Json(result);
+        }
+        public JsonResult GetDispJSON()
+        {
+            return Json(BindDisp());
+        }
         public ActionResult MyListItemgrid(string strStatus)
         {
             List<EmployeeGrid> Reg = new List<EmployeeGrid>();

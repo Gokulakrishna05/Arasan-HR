@@ -26,5 +26,13 @@ namespace Arasan.Interface.Master
         string RemoveChange(string tag, string id);
 
         DataTable GetAllEmployee(string strStatus);
+
+
+        string AddBankCRUD(string id);
+        string AddBloodGroupCRUD(string id);
+        string AddCommunityCRUD(string id);
+        string AddDispCRUD(string id);
+
+
     }
 }
