@@ -21,6 +21,9 @@ namespace Arasan.Services.Master
 
         }
 
+      
+
+
         public long GetMregion(string regionid, string id)
         {
             string SvSql = "SELECT LOCID from EMPLOYEELOCATION where LOCID=" + regionid + " and EMPID=" + id + "";
@@ -63,33 +66,39 @@ namespace Arasan.Services.Master
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
 
                     }
-                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
+                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branchs;
                     objCmd.Parameters.Add("EMPNAME", OracleDbType.NVarchar2).Value = cy.EmpName;
                     objCmd.Parameters.Add("EMPID", OracleDbType.NVarchar2).Value = cy.EmpNo;
                     objCmd.Parameters.Add("EMPSEX", OracleDbType.NVarchar2).Value = cy.Gender;
                     objCmd.Parameters.Add("EMPDOB", OracleDbType.NVarchar2).Value =cy.DOB;
-                    objCmd.Parameters.Add("ECADD1", OracleDbType.NVarchar2).Value = cy.Address;
                     objCmd.Parameters.Add("ECCITY", OracleDbType.NVarchar2).Value = cy.CityId;
                     objCmd.Parameters.Add("ECSTATE", OracleDbType.NVarchar2).Value = cy.StateId;
                     objCmd.Parameters.Add("ECMAILID", OracleDbType.NVarchar2).Value = cy.EmailId;
                     objCmd.Parameters.Add("ECPHNO", OracleDbType.NVarchar2).Value = cy.PhoneNo;
                     objCmd.Parameters.Add("FATHERNAME", OracleDbType.NVarchar2).Value = cy.FatherName;
                     objCmd.Parameters.Add("MOTHERNAME", OracleDbType.NVarchar2).Value = cy.MotherName;
-                    objCmd.Parameters.Add("EMPPAYCAT", OracleDbType.NVarchar2).Value = cy.EMPPayCategory;
+                    objCmd.Parameters.Add("GAURDNAME", OracleDbType.NVarchar2).Value = cy.GaurdName;
+                    objCmd.Parameters.Add("EMPADD1", OracleDbType.NVarchar2).Value = cy.Address1;
+                    objCmd.Parameters.Add("EMPADD2", OracleDbType.NVarchar2).Value = cy.Address2;
+                    objCmd.Parameters.Add("EPINCODE", OracleDbType.NVarchar2).Value = cy.PinCode;
+                    objCmd.Parameters.Add("EMPPAYCAT", OracleDbType.NVarchar2).Value = cy.PayCate;
                     objCmd.Parameters.Add("EMPBASIC", OracleDbType.NVarchar2).Value = cy.EMPBasic;
-                    objCmd.Parameters.Add("PFNO", OracleDbType.NVarchar2).Value = cy.PFNo;
-                    objCmd.Parameters.Add("ESINO", OracleDbType.NVarchar2).Value = cy.ESINo;
-                    objCmd.Parameters.Add("EMPCOST", OracleDbType.NVarchar2).Value = cy.EMPCost;
+                    objCmd.Parameters.Add("PFNO", OracleDbType.NVarchar2).Value = cy.PF;
+                    objCmd.Parameters.Add("ESINO", OracleDbType.NVarchar2).Value = cy.ESI;
+                    objCmd.Parameters.Add("EMPCOST", OracleDbType.NVarchar2).Value = cy.Cost;
                     objCmd.Parameters.Add("PFDT", OracleDbType.NVarchar2).Value = cy.PFdate;
                     objCmd.Parameters.Add("ESIDT", OracleDbType.NVarchar2).Value = cy.ESIDate;
                     objCmd.Parameters.Add("USERNAME", OracleDbType.NVarchar2).Value = cy.UserName;
                     objCmd.Parameters.Add("PASSWORD", OracleDbType.NVarchar2).Value = cy.Password;
                     objCmd.Parameters.Add("EMPDEPT", OracleDbType.NVarchar2).Value = cy.EMPDeptment;
                     objCmd.Parameters.Add("EMPDESIGN", OracleDbType.NVarchar2).Value = cy.EMPDesign;
-                    objCmd.Parameters.Add("EMPDEPTCODE", OracleDbType.NVarchar2).Value = cy.EMPDeptCode;
+                    objCmd.Parameters.Add("EMPDEPTCODE", OracleDbType.NVarchar2).Value = cy.Dept;
                     objCmd.Parameters.Add("JOINDATE", OracleDbType.NVarchar2).Value = cy.JoinDate;
                     objCmd.Parameters.Add("RESIGNDATE", OracleDbType.NVarchar2).Value = cy.ResignDate;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+
+                 
+
                     if (cy.ID == null)
                     {
                         objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
@@ -100,6 +109,22 @@ namespace Arasan.Services.Master
                         objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.createby;
                         objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     }
+                    objCmd.Parameters.Add("PAYMODE", OracleDbType.NVarchar2).Value = cy.Payment;
+                    objCmd.Parameters.Add("BANK", OracleDbType.NVarchar2).Value = cy.Bank;
+                    objCmd.Parameters.Add("SHIFTCATEGORY", OracleDbType.NVarchar2).Value = cy.Shift;
+                    objCmd.Parameters.Add("EACTIVE", OracleDbType.NVarchar2).Value = cy.Active;
+                    objCmd.Parameters.Add("BONAPP", OracleDbType.NVarchar2).Value = cy.Bonus;
+                    objCmd.Parameters.Add("CLAPP", OracleDbType.NVarchar2).Value = cy.CL;
+                    objCmd.Parameters.Add("PFCLOSE", OracleDbType.NVarchar2).Value = cy.pfclose;
+                    objCmd.Parameters.Add("OTYN", OracleDbType.NVarchar2).Value = cy.OT;
+                    objCmd.Parameters.Add("BANKACCNO", OracleDbType.NVarchar2).Value = cy.BAccount;
+                    objCmd.Parameters.Add("MEALSYN", OracleDbType.NVarchar2).Value = cy.Meals;
+                    objCmd.Parameters.Add("APPRENTICE", OracleDbType.NVarchar2).Value = cy.Appren;
+                    objCmd.Parameters.Add("LOPYN", OracleDbType.NVarchar2).Value = cy.LOP;
+                    //objCmd.Parameters.Add("BindBranch", OracleDbType.NVarchar2).Value = cy.createby;
+                    //objCmd.Parameters.Add("EMPSEX", OracleDbType.NVarchar2).Value = cy.Gender;
+                    objCmd.Parameters.Add("HANDICAPPED", OracleDbType.NVarchar2).Value = cy.Phychal;
+
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -165,8 +190,17 @@ namespace Arasan.Services.Master
                             objCmds.Parameters.Add("DISP", OracleDbType.NVarchar2).Value = cy.Disp;
                             objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
-                           
-                            objCmds.ExecuteNonQuery();
+                            objCmds.Parameters.Add("OPFNO", OracleDbType.NVarchar2).Value = cy.oldpf;
+                            objCmds.Parameters.Add("NOOFDEP", OracleDbType.NVarchar2).Value = cy.dependantes;
+                            objCmds.Parameters.Add("OPFFDT", OracleDbType.NVarchar2).Value = cy.Pffrom;
+                            objCmds.Parameters.Add("OPFTODT", OracleDbType.NVarchar2).Value = cy.Pfto;
+                            objCmds.Parameters.Add("ADVACC", OracleDbType.NVarchar2).Value = cy.AdAccount;
+                        //  objCmds.Parameters.Add("ADVACC", OracleDbType.NVarchar2).Value = cy.Mainexp;
+                        // objCmds.Parameters.Add("ADVACC", OracleDbType.NVarchar2).Value = cy.Adbal;
+
+
+
+                        objCmds.ExecuteNonQuery();
                            
                         
                         
@@ -280,7 +314,7 @@ namespace Arasan.Services.Master
         public DataTable GetEmployee(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select EMPMAST.EMPNAME,EMPMAST.EMPID,IMGPATH,EMPMAST.EMPSEX,to_char(EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,EMPMAST.ECADD1,EMPMAST.ECCITY,EMPMAST.ECSTATE,EMPMAST.ECMAILID,EMPMAST.ECPHNO,EMPMAST.FATHERNAME,EMPMAST.MOTHERNAME,EMPMAST.EMPPAYCAT,EMPMAST.EMPBASIC,EMPMAST.PFNO,EMPMAST.ESINO,EMPMAST.EMPCOST,to_char(EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char(EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char(EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char(EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EMPMASTID  from EMPMAST where EMPMAST.EMPMASTID= '" + id + "' ";
+            SvSql = "Select EMPMAST.EMPNAME,EMPMAST.EMPID,IMGPATH,EMPMAST.EMPSEX,to_char(EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,EMPMAST.ECADD1,EMPMAST.ECCITY,EMPMAST.ECSTATE,EMPMAST.ECMAILID,EMPMAST.ECPHNO,EMPMAST.FATHERNAME,EMPMAST.MOTHERNAME,EMPMAST.GAURDNAME,EMPMAST.EMPADD1,EMPMAST.EMPADD2,EMPMAST.EPINCODE,EMPMAST.EMPPAYCAT,EMPMAST.EMPBASIC,EMPMAST.PFNO,EMPMAST.ESINO,EMPMAST.EMPCOST,to_char(EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char(EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char(EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char(EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EMPMASTID,BRANCHID,EMPDEPTCODE,EMPPAYCAT,PAYMODE,BANK,SHIFTCATEGORY,ESINO,EACTIVE,BONAPP,CLAPP,PFCLOSE,EMPCOST,OTYN,BANKACCNO,MEALSYN,APPRENTICE,LOPYN,HANDICAPPED  from EMPMAST where EMPMAST.EMPMASTID= '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -304,7 +338,7 @@ namespace Arasan.Services.Master
         public DataTable GetEmpPersonalDeatils(string  data)
         {
             string SvSql = string.Empty;
-            SvSql = "Select EMPMOI.MARITALSTATUS,EMPMOI.BLOODGROUP,EMPMOI.COMMUNITY,EMPMOI.PAYTYPE,EMPMOI.EMPTYPE,EMPMOI.DISP,EMPMOIID  from EMPMOI where EMPMOI.EMPMASTID=" + data + "";
+            SvSql = "Select EMPMOI.MARITALSTATUS,EMPMOI.BLOODGROUP,EMPMOI.COMMUNITY,EMPMOI.PAYTYPE,EMPMOI.EMPTYPE,EMPMOI.DISP,EMPMOIID,OPFNO,NOOFDEP,OPFFDT,OPFTODT,ADVACC  from EMPMOI where EMPMOI.EMPMASTID=" + data + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -478,7 +512,7 @@ namespace Arasan.Services.Master
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select EMPMAST.IS_ACTIVE,EMPMAST.EMPNAME,EMPMAST.EMPID,EMPMAST.EMPSEX,to_char(EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,EMPMAST.ECMAILID,EMPMAST.ECPHNO,EMPMASTID  from EMPMAST WHERE EMPMAST.IS_ACTIVE = 'Y' ORDER BY EMPMASTID DESC ";
+                SvSql = "Select EMPMAST.IS_ACTIVE,EMPMAST.EMPNAME,EMPMAST.EMPID,EMPMAST.EMPSEX,to_char(EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,EMPMAST.ECMAILID,EMPMAST.ECPHNO,EMPMASTID,GAURDNAME,EMPADD1,EMPADD2,EPINCODE,ECMAILID  from EMPMAST WHERE EMPMAST.IS_ACTIVE = 'Y' ORDER BY EMPMASTID DESC ";
 
             }
             else
@@ -491,6 +525,150 @@ namespace Arasan.Services.Master
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+        public string AddBloodGroupCRUD(string category)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                svSQL = " SELECT Count(COMMON_VALUE) as cnt FROM COMMONMASTER WHERE COMMON_VALUE =LTRIM(RTRIM('" + category + "')) AND COMMON_TEXT='BLOODGROUP'";
+                if (datatrans.GetDataId(svSQL) > 0)
+                {
+                    msg = "SUB CATEGORY Already Existed";
+                    return msg;
+                }
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    svSQL = "Insert into COMMONMASTER (COMMON_TEXT,COMMON_VALUE) VALUES ('BLOODGROUP','" + category + "')";
+
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                    objConn.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConn.Close();
+                }
+
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string AddCommunityCRUD(string category)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                svSQL = " SELECT Count(COMMON_VALUE) as cnt FROM COMMONMASTER WHERE COMMON_VALUE =LTRIM(RTRIM('" + category + "')) AND COMMON_TEXT='COMMUNITY'";
+                if (datatrans.GetDataId(svSQL) > 0)
+                {
+                    msg = "SUB CATEGORY Already Existed";
+                    return msg;
+                }
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    svSQL = "Insert into COMMONMASTER (COMMON_TEXT,COMMON_VALUE) VALUES ('COMMUNITY','" + category + "')";
+
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                    objConn.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConn.Close();
+                }
+
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string AddDispCRUD(string category)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                svSQL = " SELECT Count(COMMON_VALUE) as cnt FROM COMMONMASTER WHERE COMMON_VALUE =LTRIM(RTRIM('" + category + "')) AND COMMON_TEXT='CITY'";
+                if (datatrans.GetDataId(svSQL) > 0)
+                {
+                    msg = "SUB CATEGORY Already Existed";
+                    return msg;
+                }
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    svSQL = "Insert into COMMONMASTER (COMMON_TEXT,COMMON_VALUE) VALUES ('CITY','" + category + "')";
+
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                    objConn.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConn.Close();
+                }
+
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string AddBankCRUD(string category)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                svSQL = " SELECT Count(COMMON_VALUE) as cnt FROM COMMONMASTER WHERE COMMON_VALUE =LTRIM(RTRIM('" + category + "')) AND COMMON_TEXT='BANKNAME'";
+                if (datatrans.GetDataId(svSQL) > 0)
+                {
+                    msg = "SUB CATEGORY Already Existed";
+                    return msg;
+                }
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    svSQL = "Insert into COMMONMASTER (COMMON_TEXT,COMMON_VALUE) VALUES ('BANKNAME','" + category + "')";
+
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                    objConn.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConn.Close();
+                }
+
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
         }
 
     }
