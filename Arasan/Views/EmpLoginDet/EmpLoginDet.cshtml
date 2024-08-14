@@ -1,0 +1,848 @@
+﻿@model Arasan.Models.EmpLoginDetModel
+
+@{
+    ViewData["Title"] = "Employee Login Detail";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action("EmpLoginDetlist", "EmpLoginDet")">HR</a> </li>  
+            <li class="active"> <strong>Employee Attendance Detail</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Employee LoginDetail</h5>
+                    <hr>
+                    @using (Html.BeginForm("EmpLoginDet", "EmpLoginDet", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                            @Html.HiddenFor(C => C.ID)
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <br /><label for="inputName3" class="col-sm-4 control-label">For Status<label class="mandatory"></label></label>
+                                <br /><label for="inputName3" class="col-sm-4 control-label">F-Full Day   &nbsp;&nbsp;&nbsp;&nbsp;      W-Week Off   &nbsp;&nbsp;&nbsp;&nbsp;    OD-On Duty<label class="mandatory"></label></label>
+                                <br /><label for="inputName3" class="col-sm-4 control-label">H-Half Day   &nbsp;&nbsp;&nbsp;&nbsp;    O-OT    &nbsp;&nbsp;&nbsp;&nbsp;    NH/OT-National Holiday with O.T <label class="mandatory"></label></label>
+                                
+
+                                </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Doc.Date<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                @Html.TextBoxFor(C => C.DocDate, new { @id = "DocDate", @class = "form-control", @TabIndex = 1, @size = "32", @readonly = "readonly" })
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            </div>
+
+                                            <br />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <label for="inputName3" class="col-sm-4 control-label">L-Leave &nbsp;&nbsp;&nbsp;&nbsp; W/O-Week Off With O.T. <label class="mandatory"></label>
+                                </label>
+                                <br /><label for="inputName3" class="col-sm-4 control-label">A-Absent  &nbsp;&nbsp;&nbsp;&nbsp;      NH-National Holiday<label class="mandatory"></label></label>
+                                <br /><label for="inputName3" class="col-sm-4 control-label">NH/W-NH With Week Off  &nbsp;&nbsp;&nbsp;&nbsp;    Left-Left from Service<label class="mandatory"></label></label>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Att.Date<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                @Html.TextBoxFor(C => C.AttDate, new { @id = "AttDate", @class = "form-control", @TabIndex = 1, @size = "32", @readonly = "readonly" })
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            </div>
+
+                                            <br />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Holiday Y/N? <label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+
+                                                @Html.RadioButtonFor(C => C.Holiday, "Y", new { @TabIndex = 2 })
+                                                <label id="mt-radio">Yes</label>&emsp;
+                                                @Html.RadioButtonFor(C => C.Holiday, "N", new { @TabIndex = 3 })
+                                                <label id="mt-radio">No</label>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Month<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Month, Model.MonthLst, "Please Select", new { @id = "Month", @Class = "form-control _select newcss", @TabIndex = 1 })
+                                            <br />
+                                            <br />
+                                        </div>
+                                    </div>
+
+                                </div>
+                          
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Pay Category<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.PayCategory, Model.PayCategoryLst, "Please Select", new { @id = "EmpCategory", @Class = "form-control _select newcss", @TabIndex = 1 })
+                                            <br />
+                                            <br />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                </div>
+                           
+                            
+                           
+
+
+
+                            @* Table *@
+
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="btn-group">
+                                        <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+
+
+                                    <table class="table table-striped table-hover" id="dataTable">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Employee Name</th>
+                                                <th>Mission/Mo</th>
+                                                <th>OD Taken</th>
+                                                <th>OD Hrs</th>
+                                                <th>Week Off.</th>
+                                                <th>Shift Log In Date</th>
+                                                <th>Shift Log In Time</th>
+                                                <th>Log In[Date]</th>
+                                                <th>Log In[Time]</th>
+                                                <th>Shift Log Out Date</th>
+                                                <th>Shift Log Out Time</th>
+                                                <th>Log Out[Date]</th>
+                                                <th>Log Out[Time]</th>
+                                                <th>InttDiff</th>
+                                                <th>OutDiff/Mo</th>
+                                                <th>Time Diff.</th>
+                                                <th>rmission Av</th>
+                                                <th>WHrs1</th>
+                                                <th>WHrs2</th>
+                                                <th>Worked Hours</th>
+                                                <th>HA</th>
+                                                <th>OT Hours</th>
+                                                <th>ensation Re</th>
+                                                <th>Status</th>
+
+
+                                            </tr>
+
+                                        </thead>
+                                        <tbody id="tbBooks">
+                                            @{
+
+                                                int i = 0;
+
+                                                foreach (var item in Model.EmpLoginDetlists.ToList())
+                                                {
+                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+
+
+                                                        <td>
+                                                            @Html.DropDownListFor(o => o.EmpLoginDetlists[i].EmpName, Model.EmpLoginDetlists[i].EmpNamelst, "Please Select", new { @class = "form-control _select newcss", @id = "txtEmpName" + i, style = "width: 100px;"  })
+
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.EmpLoginDetlists[i].Mission, new { @id = "txtMission" + i, @class = "form-control", style = "width: 100px;" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.EmpLoginDetlists[i].ODTaken, new { @id = "txtODTaken" + i, @class = "form-control", style = "width: 100px;"})
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.EmpLoginDetlists[i].ODHrs, new { @id = "txtODHrs" + i, @class = "form-control", style = "width: 100px;" })
+                                                        </td>
+                                                        <td>
+                                                             <div class="input-group">
+
+                                                                @Html.RadioButtonFor(C => C.EmpLoginDetlists[i].WeekOff, "YES", new { @TabIndex = 2 })
+                                                                <label id="mt-radio">Yes</label>&emsp;
+                                                                @Html.RadioButtonFor(C => C.EmpLoginDetlists[i].WeekOff, "NO", new { @TabIndex = 3 })
+                                                                <label id="mt-radio">No</label>
+
+
+                                                            </div>
+
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].ShiftLoginDate, new { @id = "txtShiftLoginDate" + i, @class = "form-control", style = "width: 100px;" })<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh.ii">
+                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].ShiftLoginTime, new { @id = "txtShiftLoginTime" + i, @class = "form-control", style = "width: 100px; " })
+                                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                            </div>
+                                                            <input type="hidden" id="dtp_input3" value="" />
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].LoginDate, new { @id = "txtLoginDate" + i, @class = "form-control", style = "width: 100px;" })<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh.ii">
+                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].LoginTime, new { @id = "txtLoginTime" + i, @class = "form-control", style = "width: 100px; " })
+                                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                            </div>
+                                                            <input type="hidden" id="dtp_input3" value="" />
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].ShiftLogoutDate, new { @id = "txtShiftLogoutDate" + i, @class = "form-control", style = "width: 100px;" })<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh.ii">
+                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].ShiftLogoutTime, new { @id = "txtShiftLogoutTime" + i, @class = "form-control", style = "width: 100px; " })
+                                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                            </div>
+                                                            <input type="hidden" id="dtp_input3" value="" />
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].LogoutDate, new { @id = "txtLogoutDate" + i, @class = "form-control", style = "width: 100px;" })<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh.ii">
+                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].LogoutTime, new { @id = "txtLogoutTime" + i, @class = "form-control", style = "width: 100px; " })
+                                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                            </div>
+                                                            <input type="hidden" id="dtp_input3" value="" />
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.EmpLoginDetlists[i].IntDiff, new { @id = "txtIntDiff" + i, @class = "form-control", style = "width: 100px;" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.EmpLoginDetlists[i].OuttDiff, new { @id = "txtOuttDiff" + i, @class = "form-control", style = "width: 100px;"})
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.EmpLoginDetlists[i].TimeDiff, new { @id = "txtTimeDiff" + i, @class = "form-control", style = "width: 100px;" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.EmpLoginDetlists[i].rmission, new { @id = "txtrmission" + i, @class = "form-control", style = "width: 100px;" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.EmpLoginDetlists[i].WHrs1, new { @id = "txtWHrs1" + i, @class = "form-control", style = "width: 100px;" })
+                                                        </td>
+                                                         <td>
+                                                            @Html.TextBoxFor(o => o.EmpLoginDetlists[i].WHrs2, new { @id = "txtWHrs2" + i, @class = "form-control", style = "width: 100px;"})
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.EmpLoginDetlists[i].WorkedHrs, new { @id = "txtWorkedHrs" + i, @class = "form-control", style = "width: 100px;" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.DropDownListFor(o => o.EmpLoginDetlists[i].HA, Model.EmpLoginDetlists[i].HAlst, "Please Select", new { @class = "form-control _select newcss", @id = "txtWeekOff" + i, style = "width: 100px;"  })
+
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.EmpLoginDetlists[i].OTHrs, new { @id = "txtOTHrs" + i, @class = "form-control", style = "width: 100px;"})
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.EmpLoginDetlists[i].ensation, new { @id = "txtensation" + i, @class = "form-control", style = "width: 100px;" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.DropDownListFor(o => o.EmpLoginDetlists[i].Status, Model.EmpLoginDetlists[i].Statuslst, "Please Select", new { @class = "form-control _select newcss", @id = "txtStatus" + i, style = "width: 100px;"  })
+
+                                                        </td>
+                                                        <td>
+                                                            @Html.HiddenFor(o => o.EmpLoginDetlists[i].Isvalid, new { @id = "Isvalid" + i })
+                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EmpLoginDetlists.Index" type="hidden" value="@(i)" />
+                                                        </td>
+
+                                                    </tr>
+                                                    i = i + 1;
+
+
+                                                }
+                                            }
+
+                                        </tbody>
+
+
+
+
+                                    </table>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("EmpLoginDetlist", "EmpLoginDet")'">Cancel</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    // function changeItem(ItemId, i) {
+
+    //     $.ajax({
+    //         url: 'GetEmpDetails',
+    //         data: { "ItemId": ItemId },
+    //         type: "GET",
+    //         success: function (result) {
+
+    //             document.getElementById("txtEmpName" + i).value = result.emp;
+    //             document.getElementById("txtEmpId" + i).value = result.dep;
+
+    //         },
+    //         error: function () {
+    //             alert("Data Not Found");
+    //         }
+    //     });
+    // }
+
+    $('.form_time').datetimepicker({
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 1,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
+    });
+
+
+    $('.to_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+
+    });
+
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('.to_date').datetimepicker('setStartDate', minDate);
+
+    });
+</script>
+
+      
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("txtDocId").value == "") {
+                isValid = false;
+                $(txtDocId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DocID");
+                return false;
+            }
+            else {
+                $(txtDocId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+            if (document.getElementById("DocDate").value == "") {
+                isValid = false;
+                $(DocDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DocDate");
+                return false;
+            }
+            else {
+                $(DocDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("AttDate").value == "") {
+                isValid = false;
+                $(AttDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select AttDate");
+                return false;
+            }
+            else {
+                $(AttDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Month").value == "") {
+                isValid = false;
+                $(Month).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Month");
+                return false;
+            }
+            else {
+                $(Month).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("EmpCategory").value == "") {
+                isValid = false;
+                $(EmpCategory).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select EmpCategory");
+                return false;
+            }
+            else {
+                $(EmpCategory).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            //Grid validation
+            var i = 0;
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+
+
+                    if ($(this).find('#txtEmpName' + i.toString()).val() == "" || $(this).find('#txtEmpName' + i.toString()).val() == 0) {
+                        isValid = false;
+                        $(this).find('#txtEmpName' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        alert("Please Select Employee Name");
+                        $(this).find('#txtEmpName' + i.toString()).focus();
+                        return false;
+                    }
+                    else {
+                        $(this).find('#txtEmpName' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#txtShiftLoginDate' + i.toString()).val() == "" || $(this).find('#txtShiftLoginDate' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtShiftLoginDate' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter ShiftLoginDate");
+                        $(this).find('#txtShiftLoginDate' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtShiftLoginDate' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+
+
+
+                    if ($(this).find('#txtShiftLoginTime' + i.toString()).val() == "" || $(this).find('#txtShiftLoginTime' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtShiftLoginTime' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select ShiftLoginTime");
+                        $(this).find('#txtShiftLoginTime' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtShiftLoginTime' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                     
+                }
+                i += 1;
+            });
+
+
+            if (isValid == false)
+                e.preventDefault();
+
+
+
+        });
+
+    });
+
+
+
+
+
+
+</script>
+
+<script>
+    $(function () {
+        $('._select').select2();
+    });
+
+    $(".chosen-select").chosen();
+    $('.for_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+
+
+    
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+
+
+
+
+
+    function AddRow() {
+        var opt = "";
+        var remopt = "";
+        var remsopt = "";
+        var opts = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetEmpShiftJSON',
+            success: function (data) {
+
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                $.ajax({
+                    type: "POST",
+                    url: 'GetEmpShift2JSON',
+                    success: function (data) {
+
+                        $.each(data, function () {
+                            remopt += "<option value=" + this.value + ">" + this.text + "</option>";
+                        });
+                        $.ajax({
+                            type: "POST",
+                            url: 'GetEmpShift3JSON',
+                            success: function (data) {
+
+                                $.each(data, function () {
+                                    remsopt += "<option value=" + this.value + ">" + this.text + "</option>";
+                                });
+                        $.ajax({
+                            type: "POST",
+                            url: 'GetEmpShift4JSON',
+                            success: function (data) {
+
+                                $.each(data, function () {
+                                    opts += "<option value=" + this.value + ">" + this.text + "</option>";
+                                });
+                                        AppendRow(opt, remopt, remsopt, opts);
+                            }
+                        })
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    }
+
+
+    function AppendRow(opt, remopt, remsopt,opts) {
+        var index = $("#tbBooks").children("tr").length;
+
+
+        var EmployeeName = "<td><select style = 'width: 100px;' class='form-control _select newcss' id='txtEmpName" + index + "' name='EmpLoginDetlists[" + index + "].EmpName' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var Mission = "<td><input class='form-control' id='txtMission" + index + "' name='EmpLoginDetlists[" + index + "].Mission'  style='width: 100px;' type='text'  /></td>";
+        var ODTaken = "<td><input class='form-control' id='txtODTaken" + index + "' name='EmpLoginDetlists[" + index + "].ODTaken'  style='width: 100px;' type='text'  /></td>";
+        var ODHrs = "<td><input class='form-control' id='txtODHrs" + index + "' name='EmpLoginDetlists[" + index + "].ODHrs'  style='width: 100px;' type='text'  /></td>";
+        var WorkOff = "<td>  <div class='input-group'><input id='txtWeekOff" + index + "' name='EmpLoginDetlists[" + index + "].WeekOff' type='radio' value='Y'/>  <label id='mt-radio'>Yes</label><input id='txtWeekOff" + index + "' name='EmpLoginDetlists[" + index + "].txtWeekOff' type='radio' value='N'/>  <label id='mt-radio'>No</label><div></td>";
+         var ShiftLoginDate = "<td> <div class='input-group date form_date col-sm-8'  data - date - format='dd-M-yyyy'><input class='form-control' id='txtShiftLoginDate" + index + "' name='EmpLoginDetlists[" + index + "].ShiftLoginDate'  style='width: 100px;' type='text'   />          <span class='input-group-addon' > <span class='glyphicon glyphicon-remove' > </span></span > <span class='input-group-addon'> <span class='glyphicon glyphicon-calendar' > </span></span> </div></td>";
+
+
+        var ShiftLoginTime = " <td> <div class='form-group'><div class='input-group date form_time col-md-4' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control' id = 'txtShiftLoginTime' '" + index + "' name = 'EmpLoginDetlists[" + index + "].ShiftLoginTime'  style = 'width: 80px;' readonly = 'true'><span class='input-group-addon'> <span class='glyphicon glyphicon-remove'></span></span><span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div><input type='hidden' id='dtp_input3' value='' /></div></td> ";
+
+         
+         // var ShiftLoginTime = "<td><div class='input-group date form_time col - md - 5' data - date='' data - date - format='hh.ii' data - link - field='dtp_input3' data - link - format='hh.ii'><input class='form-control' id = 'txtShiftLoginTime" + index + "' name = 'EmpLoginDetlists[" + index + "].ShiftLoginTime'  style = 'width: 100px;' type = 'text' /> <span class='input-group-addon'> <span class='glyphicon glyphicon-remove'> </span></span> <span class='input-group-addon'> <span class='glyphicon glyphicon-time'> </span></span></div></td> ";
+        var LoginDate = "<td> <div class='input-group date form_date col-sm-8'  data - date - format='dd-M-yyyy'><input class='form-control' id='txtLoginDate" + index + "' name='EmpLoginDetlists[" + index + "].LoginDate'  style='width: 100px;' type='text'   />          <span class='input-group-addon' > <span class='glyphicon glyphicon-remove' > </span></span > <span class='input-group-addon'> <span class='glyphicon glyphicon-calendar' > </span></span> </div></td>";
+        
+        var LoginTime = " <td> <div class='form-group'><div class='input-group date form_time col-md-4' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control' id = 'txtLoginTime' '" + index + "' name = 'EmpLoginDetlists[" + index + "].LoginTime'  style = 'width: 80px;' readonly = 'true'><span class='input-group-addon'> <span class='glyphicon glyphicon-remove'></span></span><span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div><input type='hidden' id='dtp_input3' value='' /></div></td> ";
+        // var LoginTime = "<td><div class='input-group date form_time col - md - 5' data - date='' data - date - format='hh.ii' data - link - field='dtp_input3' data - link - format='hh.ii'><input class='form-control' id = 'txtLoginTime" + index + "' name = 'EmpLoginDetlists[" + index + "].LoginTime'  style = 'width: 100px;' type = 'text' /> <span class='input-group-addon'> <span class='glyphicon glyphicon-remove'> </span></span> <span class='input-group-addon'> <span class='glyphicon glyphicon-time'> </span></span></div></td> ";
+        var ShiftLogoutDate = "<td> <div class='input-group date form_date col-sm-8'  data - date - format='dd-M-yyyy'><input class='form-control' id='txtShiftLogoutDate" + index + "' name='EmpLoginDetlists[" + index + "].ShiftLogoutDate'  style='width: 100px;' type='text'   />          <span class='input-group-addon' > <span class='glyphicon glyphicon-remove' > </span></span > <span class='input-group-addon'> <span class='glyphicon glyphicon-calendar' > </span></span> </div></td>";
+        
+
+        var ShiftLogoutTime = " <td> <div class='form-group'><div class='input-group date form_time col-md-4' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control' id = 'txtShiftLogoutTime' '" + index + "' name = 'EmpLoginDetlists[" + index + "].ShiftLogoutTime'  style = 'width: 80px;' readonly = 'true'><span class='input-group-addon'> <span class='glyphicon glyphicon-remove'></span></span><span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div><input type='hidden' id='dtp_input3' value='' /></div></td> ";
+
+        // var ShiftLogoutTime = "<td><div class='input-group date form_time col - md - 5' data - date='' data - date - format='hh.ii' data - link - field='dtp_input3' data - link - format='hh.ii'><input class='form-control' id = 'txtShiftLogoutTime" + index + "' name = 'EmpLoginDetlists[" + index + "].ShiftLogoutTime'  style = 'width: 100px;' type = 'text' /> <span class='input-group-addon'> <span class='glyphicon glyphicon-remove'> </span></span> <span class='input-group-addon'> <span class='glyphicon glyphicon-time'> </span></span></div></td> ";
+        var LogoutDate = "<td> <div class='input-group date form_date col-sm-8'  data - date - format='dd-M-yyyy'><input class='form-control' id='txtLogoutDate" + index + "' name='EmpLoginDetlists[" + index + "].LogoutDate'  style='width: 100px;' type='text'   />          <span class='input-group-addon' > <span class='glyphicon glyphicon-remove' > </span></span > <span class='input-group-addon'> <span class='glyphicon glyphicon-calendar' > </span></span> </div></td>";
+        
+        var LogoutTime = " <td> <div class='form-group'><div class='input-group date form_time col-md-4' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control' id = 'txtLogoutTime' '" + index + "' name = 'EmpLoginDetlists[" + index + "].LogoutTime'  style = 'width: 80px;' readonly = 'true'><span class='input-group-addon'> <span class='glyphicon glyphicon-remove'></span></span><span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div><input type='hidden' id='dtp_input3' value='' /></div></td> ";
+        
+        // var LogoutTime = "<td><div class='input-group date form_time col - md - 5' data - date='' data - date - format='hh.ii' data - link - field='dtp_input3' data - link - format='hh.ii'><input class='form-control' id = 'txtLogoutTime" + index + "' name = 'EmpLoginDetlists[" + index + "].LogoutTime'  style = 'width: 100px;' type = 'text' /> <span class='input-group-addon'> <span class='glyphicon glyphicon-remove'> </span></span> <span class='input-group-addon'> <span class='glyphicon glyphicon-time'> </span></span></div></td> ";
+        var IntDiff = "<td><input class='form-control' id='txtIntDiff" + index + "' name='EmpLoginDetlists[" + index + "].IntDiff'  style='width: 100px;' type='text'   /></td>";
+        var OuttDiff = "<td><input class='form-control' id='txtOuttDiff" + index + "' name='EmpLoginDetlists[" + index + "].OuttDiff'  style='width: 100px;' type='text'    /></td>";
+        var TimeDiff = "<td><input class='form-control' id='txtTimeDiff" + index + "' name='EmpLoginDetlists[" + index + "].TimeDiff'  style='width: 100px;' type='text'    /></td>";
+        var rMission = "<td><input class='form-control' id='txtrMission" + index + "' name='EmpLoginDetlists[" + index + "].rmission'  style='width: 100px;' type='text'   /></td>";
+        var WHrs1 = "<td><input class='form-control' id='txtWHrs1" + index + "' name='EmpLoginDetlists[" + index + "].WHrs1'  style='width: 100px;' type='text'   /></td>";
+        var WHrs2 = "<td><input class='form-control' id='txtWHrs2" + index + "' name='EmpLoginDetlists[" + index + "].WHrs2'  style='width: 100px;' type='text'   /></td>";
+        var WorkedHrs = "<td><input class='form-control' id='txtWorkedHrs" + index + "' name='EmpLoginDetlists[" + index + "].WorkedHrs'  style='width: 100px;' type='text'   /></td>";
+        var HA = "<td><select style = 'width: 100px;' class='form-control _select newcss' id='txtHA" + index + "' name='EmpLoginDetlists[" + index + "].HA' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + remsopt + "</select></td>";
+        var OTHrs = "<td><input class='form-control' id='txtOTHrs" + index + "' name='EmpLoginDetlists[" + index + "].OTHrs'  style='width: 100px;' type='text'   /></td>";
+        var ensation = "<td><input class='form-control' id='txtensation" + index + "' name='EmpLoginDetlists[" + index + "].ensation'  style='width: 100px;' type='text'   /></td>";
+        var Status = "<td><select style = 'width: 100px;' class='form-control _select newcss' id='txtStatus" + index + "' name='EmpLoginDetlists[" + index + "].Status' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + opts + "</select></td>";
+      
+        var removeCell = "<td><input id='Isvalid" + index + "' name='EmpLoginDetlists[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='EmpLoginDetlists.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + EmployeeName + Mission + ODTaken + ODHrs + WorkOff + ShiftLoginDate + ShiftLoginTime + LoginDate + LoginTime + ShiftLogoutDate + ShiftLogoutTime + LogoutDate + LogoutTime + IntDiff + OuttDiff + TimeDiff + rMission + WHrs1 + WHrs2 + WorkedHrs + HA + OTHrs + ensation + Status+removeCell + "</tr>";
+        $("#tbBooks").append(newRow);
+
+        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
+        $('.form_time').datetimepicker({
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 1,
+            minView: 0,
+            maxView: 1,
+            forceParse: 0
+        });
+        $('.to_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            endDate: new Date(),
+            forceParse: 0
+
+        });
+        $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            endDate: new Date(),
+            forceParse: 0
+        }).on('changeDate', function (selected) {
+            var minDate = new Date(selected.date.valueOf());
+            $('.to_date').datetimepicker('setStartDate', minDate);
+
+        });
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("txtDocId").value == "") {
+                isValid = false;
+                $(txtDocId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DocID");
+                return false;
+            }
+            else {
+                $(txtDocId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtDocdate").value == "") {
+                isValid = false;
+                $(txtDocdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DocDate");
+                return false;
+            }
+            else {
+                $(txtDocdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            //Grid validation
+
+            if (isValid == false)
+                e.preventDefault();
+
+
+
+        });
+
+    });
+    function AddRatecode(ratecode) {
+        $.ajax({
+            url: "GetRateJSON",
+            type: "post",
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#ddlRatecode", response);
+                $(ddlRatecode).select2().val(ratecode).trigger("change");
+                //  document.getElementById("ddlRatecode").value =ratecode;
+            },
+            error: function () {
+                alert("Please Select Rate");
+            }
+        });
+    }
+</script>
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false
+        });
+        fancybox123 = $.fancybox;
+    });
+
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
+</script>

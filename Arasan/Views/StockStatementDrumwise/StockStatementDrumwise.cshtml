@@ -1,0 +1,394 @@
+﻿@model Arasan.Models.StockStatementDrumwiseModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<partial name="JqxGridPartial" />
+@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+
+</script>
+<style>
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+
+    div.scroll {
+        width: 100 %;
+        height: 400px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        /* text-align: center;*/
+        /*padding: 20px;*/
+    }
+
+</style>
+
+<script type="text/javascript" src="../../jqwidgets/jqxdata.export.js"></script>
+<script type="text/javascript" src="../../jqwidgets/jqxgrid.export.js"></script>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Reports</a> </li>
+            <li class="active"> <strong>StockStatementDrumwise</strong> </li>
+        </ol>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var dtFrom = document.getElementById("dtFrom").value;
+            var SN = document.getElementById("ddlSN").value;
+            var Location = document.getElementById("ddlLocation").value;
+            var WEDyn = document.getElementById("ddlWEDyn").value;
+
+
+
+
+
+            var source =
+            {
+                url: "/StockStatementDrumwise/MyListStockStatementDrumwiseGrid",
+                //url: "/ItemName/ItemName",
+                data: {
+                    strstatus: "",
+                    dtFrom: dtFrom,
+                    WEDyn: WEDyn,
+                    SN: SN,
+                    Location: Location,
+
+                },
+                datatype: "json",
+                updaterow: function (rowid, rowdata) {
+                    // synchronize with the server - send update command
+                },
+                datafields: [
+
+                    { name: 'drummastid', type: 'string' },
+                    { name: 'drumno', type: 'string' },
+                    { name: 'itemid', type: 'string' },
+                    { name: 'batchno', type: 'string' },
+                    { name: 'qty', type: 'string' },
+                    { name: 'rate', type: 'string' },
+                    { name: 'locid', type: 'string' },
+                    { name: 'completed', type: 'string' },
+                    { name: 'inspection', type: 'string' },
+                    { name: 'curinginward', type: 'string' },
+                    { name: 'curinges', type: 'string' },
+                    { name: 'curingoutward', type: 'string' },
+                    { name: 'recharge', type: 'string' },
+                    { name: 'ncrelease', type: 'string' },
+                    { name: 'packing', type: 'string' },
+                    { name: 'packings', type: 'string' },
+                    { name: 'docdate', type: 'string' },
+                    { name: 'subcategory', type: 'string' },
+                    { name: 'batch', type: 'string' },
+                    { name: 'fidrms', type: 'string' },
+                    { name: 'curdays', type: 'string' },
+                    { name: 'idle', type: 'string' },
+                    { name: 'igroup', type: 'string' },
+                    { name: 'status', type: 'string' },
+                ],
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source,
+                { contentType: 'application/json; charset=utf-8' }, {
+                loadComplete: function () {
+
+                }
+            }
+            );
+            $("#grid").jqxGrid(
+                {
+                    width: '100%',
+                    source: dataAdapter,
+                    height: 450,
+                    source: source,
+                    //autoheight: true,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
+                    theme: 'ui-start',
+                    autorowheight: true,
+                    filterbarmode: 'simple',
+                    enablebrowserselection: true,
+                    columnsresize: true,
+                    selectionmode: 'multiplerowsextended',
+                    keyboardnavigation: false,
+                    columns: [
+                        { text: 'drummastid', filtertype: 'input', datafield: 'drummastid', width: 100 },
+                        { text: 'drumno', filtertype: 'input', datafield: 'drumno', width: 100 },
+                        { text: 'itemid', filtertype: 'input', datafield: 'itemid', width: 100 },
+                        { text: 'batchno', filtertype: 'input', datafield: 'batchno', width: 100 },
+                        { text: 'qty', filtertype: 'input', datafield: 'qty', width: 200 },
+                        { text: 'rate', filtertype: 'input', datafield: 'rate', width: 100 },
+                        { text: 'locid', filtertype: 'input', datafield: 'locid', width: 100 },
+                        { text: 'completed', filtertype: 'input', datafield: 'completed', width: 100 },
+                        { text: 'inspection', filtertype: 'input', datafield: 'inspection', width: 350 },
+                        { text: 'curinginward', filtertype: 'input', datafield: 'curinginward', width: 350 },
+                        { text: 'curinges', filtertype: 'input', datafield: 'curinges', width: 350 },
+                        { text: 'curingoutward', filtertype: 'input', datafield: 'curingoutward', width: 350 },
+                        { text: 'ncrelease', filtertype: 'input', datafield: 'ncrelease', width: 350 },
+                        { text: 'packing', filtertype: 'input', datafield: 'packing', width: 350 },
+                        { text: 'packings', filtertype: 'input', datafield: 'packings', width: 350 },
+                        { text: 'docdate', filtertype: 'input', datafield: 'docdate', width: 350 },
+                        { text: 'subcategory', filtertype: 'input', datafield: 'subcategory', width: 350 },
+                        { text: 'batch', filtertype: 'input', datafield: 'batch', width: 350 },
+                        { text: 'fidrms', filtertype: 'input', datafield: 'fidrms', width: 350 },
+                        { text: 'curdays', filtertype: 'input', datafield: 'curdays', width: 350 },
+                        { text: 'idle', filtertype: 'input', datafield: 'idle', width: 350 },
+                        { text: 'igroup', filtertype: 'input', datafield: 'igroup', width: 350 },
+                        { text: 'status', filtertype: 'input', datafield: 'status', width: 350 },
+                        
+                    ]
+                });
+
+            // $("#pdfExport").click(function () {
+            //     $("#grid").jqxGrid('exportdata', 'pdf', 'jqxGrid');
+            // });
+            // $("#pdfExport").click(function () {
+            //     var gridData = $("#grid").jqxGrid('exportdata', 'pdf', 'jqxGrid');
+            //     var data = JSON.parse(gridData);
+
+            //     // Create a new jsPDF instance
+            //     const { jsPDF } = window.jspdf;
+            //     const doc = new jsPDF();
+
+            //     // Set column widths
+            //     const columnWidths = {
+            //         docid: 30,    // Width for the ID column
+            //         docdate: 70,  // Width for the Name column
+            //         itemid: 30    // Width for the Age column
+            //     };
+
+            //     // Add table headers with custom widths
+            //     doc.text('DocId', 20, 20);
+            //     doc.text('DocDate', 20 + columnWidths.docid, 20);
+            //     doc.text('ItemId', 20 + columnWidths.docid + columnWidths.docdate, 20);
+            //     doc.save('jqxGrid_data.pdf');
+            // });
+            //$("#excelExport").click(function () {
+            //    $("#grid").jqxGrid('exportdata', 'xls', 'jqxGrid');
+            //});
+            $("#ddlStatus").change(function () {
+                var value = "Y";
+                if ($(this).val() != "") {
+                    value = $(this).val();
+                }
+                source.data = {
+                    strstatus: value
+                };
+                $("#grid").jqxGrid({ source: source });
+            });
+        });
+    });
+
+</script>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12 ">
+                            <center><h4><b>Batch Report Deatils</b></h4></center>
+                        </div>
+                    </div>
+                    <div style="height:10px;"></div>
+                    @using (Html.BeginForm("StockStatementDrumwise", "StockStatementDrumwise", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label"> Date<label class="mandatory"></label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.dtFrom, new { @id = "dtFrom", @class = "form-control", @TabIndex = 2, @size = "31", @readonly = true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                        <input type="hidden" id="dtp_input2" value="" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">WEDyn<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+
+                                                @Html.RadioButtonFor(C => C.WEDyn, "Yes", new { @TabIndex = 2, @id = "ddlWEDyn" })
+                                                <label id="mt-radio">Yes</label>&emsp;
+                                                @Html.RadioButtonFor(C => C.WEDyn, "No", new { @TabIndex = 3, @id = "ddlWEDyn" })
+                                                <label id="mt-radio">No</label>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                             <div style="height:20px;"></div>
+                            <div style="height:20px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Location, Model.Locationlst, " -- Please Select -- ", new { @id = "ddlLocation", @class = "form-control _select", @Width = "200px" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">SN Category<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.SN, Model.SNlst, " -- Please Select -- ", new { @id = "ddlSN", @class = "form-control _select", @Width = "200px" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                         
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-9"></div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-success  marginright" id="btnSave" value="Run">Run</button>
+                                    <button type="button" class="btn btn-danger marginright" onclick="location.href='@Url.Action("StockStatementDrumwise", "StockStatementDrumwise")'" value="Reset" causesvalidation="false">Reset</button>
+
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-9"></div>
+                                <button type="button" class="btn btn-primary marginright" onclick="trChange()" value="Reset" causesvalidation="false">Export To Excel</button>
+                                @*                                 <button type="button" class="btn btn-primary marginright" value="Export to Excel" id="pdfExport">Export PDF</button>
+                            *@
+                            </div>
+
+                            <div style="height:30px;"></div>
+                            <div class="row">
+
+
+                                @*  <div class="col-md-10 ">*@
+                                <div id="grid">
+                                </div>
+
+                                @* </div>*@
+
+                            </div>
+
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function trChange() {
+        var dtFrom = document.getElementById("dtFrom").value;
+        var WEDyn = document.getElementById("ddlWEDyn").value;
+        var SNCategory = document.getElementById("ddlSN").value;
+        var Location = document.getElementById("ddlLocation").value;
+
+        var url = '@Url.Action("ExportToExcel", "StockStatementDrumwise")?dtFrom=' + dtFrom;
+        var $form = $('<form method="post"/>').attr('action', url).appendTo('body');
+        $form.append($('#allPages').clone());
+        $form.submit();
+        $form.remove();
+    }
+</script>
+@*<link href="@Url.Content("~/assets/js/bootstrap-multiselect.css")" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap.multiselect.js")"></script>*@
+<script>
+    $('.to_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    });
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('.to_date').datetimepicker('setStartDate', minDate);
+    });
+    //function Grup_Change(itemid) {
+    //    //alert(itemid);
+    //    //debugger;
+    //    $.ajax({
+    //        url: "GetItemJSON",
+    //        type: "post",
+    //        data: { 'itemid': itemid },
+    //        cache: false,
+    //        success: function (response) {
+    //            var newlist;
+    //            //alert(JSON.stringify(response));
+    //            newlist = response.Ilst;
+    //            PopulateDropDown("#ddlItem", response);
+    //        },
+    //        error: function () {
+    //            debugger;
+    //            alert("Please Select Item Group");
+    //        }
+    //    });
+    //}
+</script>
+<script>
+    $(function () {
+        $('._select').select2();
+    });
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
+
+    $('.for_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>

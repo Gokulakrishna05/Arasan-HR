@@ -46,7 +46,7 @@ namespace Arasan.Controllers
             Response.Cookies.Append("LocationName", locname, option);
             Response.Cookies.Append("BranchName", brname, option);
             //ViewBag.UserId = userId;
-            return RedirectToAction(actionName: "PurchaseDash", controllerName: "Home");
+            return RedirectToAction(actionName: "EmployeeAttendancelist", controllerName: "EmployeeAttendanceDetails");
         }
         public JsonResult GetLocDetail(string branch)
         {

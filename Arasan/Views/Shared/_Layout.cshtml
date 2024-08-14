@@ -178,8 +178,50 @@
                             </form>
                             <!-- END RESPONSIVE SEARCH FORM -->
                         </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-th-large"></i> <span class="title">Hr</span> <span class="arrow"></span> </a>
+                        <ul class="sub-menu">
+ 
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="@Url.Action("EmployeeAttendancelist", "EmployeeAttendanceDetails")">  <i class="fa fa-shopping-cart"></i><span class="title">Employee Attendance Details</span> </a>
+                                    </li>
+                                    <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("EmpShiftSchedulelist", "EmpShiftSchedule")">  <i class="fa fa-database"></i><span class="title">Employee Shift Schedule</span> </a>
+                                    </li>
+                                
+                                     <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("Resignationlist", "Resignation")"> <i class="fa fa-flask"></i> <span class="title">Resignation</span> </a>
+                                    </li>
 
-                    @await Component.InvokeAsync("CategoryMenu");
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("EmpLoginDetlist", "EmpLoginDet")"> <i class="fa fa-table"></i> <span class="title">EmpLoginDet</span> </a>
+                                    </li>
+
+                                <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("JournalVoucher", "JournalVoucher")">  <i class="fa fa-shopping-cart"></i><span class="title">JournalVoucher</span> </a>
+                                    </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("ServicePOlist", "ServicePO")">  <i class="fa fa-shopping-cart"></i><span class="title">ServicePO</span> </a>
+                            </li>
+                           
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        
+                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-th-large"></i> <span class="title">Reports</span> <span class="arrow"></span> </a>
+                        <ul class="sub-menu">
+
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("PendingIndentApprove", "PendingIndentApprove")">  <i class="fa fa-shopping-cart"></i><span class="title">PendingIndentApprove</span> </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("AssetStock", "AssetStock")">  <i class="fa fa-shopping-cart"></i><span class="title">AssetStock</span> </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("StockStatementDrumwise", "StockStatementDrumwise")">  <i class="fa fa-shopping-cart"></i><span class="title">StockStatementDrumwise</span> </a>
+                            </li>
+                        </ul>
+                    </li>
                         </ul>
 
                

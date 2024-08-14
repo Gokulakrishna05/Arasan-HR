@@ -1,0 +1,1145 @@
+﻿@model Arasan.Models.JournalVoucherModel
+
+@{
+    ViewData["Title"] = "Journal Voucher Model";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action("JournalVoucher", "JournalVoucher")">ACCOUNTS</a> </li>
+            <li class="active"> <strong>Journal Voucher</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Journal Voucher</h5>
+                    <hr>
+                    @using (Html.BeginForm("JournalVoucher", "JournalVoucher", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Voucher No<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.VocNo, new { @id = "txtVocNo", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Branch)
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Voucher Date<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                @Html.TextBoxFor(C => C.VocDate, new { @id = "txtVocDate", @class = "form-control", @TabIndex = 1, @size = "32", @readonly = "readonly" })
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            </div>
+
+                                            <br />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Reference No<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.RefNo, new { @id = "txtRefNo", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                            @Html.HiddenFor(C => C.ID)
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Reference Date<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                @Html.TextBoxFor(C => C.RefDate, new { @id = "txtRefDate", @class = "form-control", @TabIndex = 1, @size = "32", @readonly = "readonly" })
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            </div>
+
+                                            <br />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Loc, Model.LocLst, "Please Select", new { @id = "txtLoc", @Class = "form-control _select newcss", @TabIndex = 1 })
+                                            <br />
+                                            <br />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">V Type<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.VType, Model.VTypeLst, "Please Select", new { @id = "txtVType", @Class = "form-control _select newcss", @TabIndex = 1 })
+                                            <br />
+                                            <br />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Currency<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Cur, Model.CurLst, "Please Select", new { @id = "txtCur", @Class = "form-control _select newcss", @TabIndex = 1 })
+                                            <br />
+                                            <br />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.ExcRate, new { @id = "txtExcRate", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                            @Html.HiddenFor(C => C.ID)
+                                            <br />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            @* Table *@
+
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="btn-group">
+                                        <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+
+
+                                    <table class="table table-striped table-hover" id="dataTable">
+                                        <thead>
+                                            <tr>
+
+                                                <th>DB/CR</th>
+                                                <th>Account Name</th>
+                                                <th>Debit Amount</th>
+                                                <th>Credit Amount</th>
+                                                <th>Balance</th>
+                                                
+                                            </tr>
+
+                                        </thead>
+                                        <tbody id="tbBooks">
+                                            @{
+
+                                                int i = 0;
+
+                                                foreach (var item in Model.JournalVoucherlist.ToList())
+                                                {
+                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+
+
+                                                        <td>
+                                                            @Html.DropDownListFor(o => o.JournalVoucherlist[i].DBCR, Model.JournalVoucherlist[i].DBCRlst, "Please Select", new { @class = "form-control _select newcss", @id = "txtDBCR" + i, style = "width: 100px;" })
+
+                                                        </td>
+                                                        <td>
+                                                            @Html.DropDownListFor(o => o.JournalVoucherlist[i].AccName, Model.JournalVoucherlist[i].AccNamelst, "Please Select", new { @class = "form-control _select newcss", @id = "txtAccName" + i, style = "width: 100px;" })
+
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.JournalVoucherlist[i].DebitAmt, new { @id = "txtDebitAmt" + i, @class = "form-control", style = "width: 100px;" })
+                                                        </td>
+
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.JournalVoucherlist[i].CreditAmt, new { @id = "txtCreditAmt" + i, @class = "form-control", style = "width: 100px;" })
+
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.JournalVoucherlist[i].Balance, new { @id = "txtBalance" + i, @class = "form-control", style = "width: 100px;"})
+
+                                                        </td>
+                                                         
+                                                        <td>
+                                                            @Html.HiddenFor(o => o.JournalVoucherlist[i].Isvalid, new { @id = "Isvalid" + i })
+                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Complst.Index" type="hidden" value="@(i)" />
+                                                        </td>
+                                                          
+
+                                                    </tr>
+                                                    i = i + 1;
+
+
+                                                }
+                                            }
+
+                                        </tbody>
+
+
+
+
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+                            <div class="tabs-container">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"></li>
+                                    <li><a href="#tab-1" data-toggle="tab">Footer Voucher</a></li>
+                                    <li><a href="#tab-2" data-toggle="tab">OtherDetails</a></li>
+ 
+                                </ul>
+                               <div class="tab-content">
+                                    <div class="tab-pane active" id="tab-1">
+                                        @*1st atb*@
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <div class="form-group">
+
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Narration<label class="mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextAreaFor(C => C.Narr, new { @id = "txtNarr", @class = "form-control", @TabIndex = 2 })
+                                                        @Html.HiddenFor(C => C.ID)
+                                                        <br />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <div class="form-group">
+
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Supplier/Service Provider<label class="mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.SSP, new { @id = "txtSSP", @class = "form-control", @TabIndex = 2 })
+                                                        @Html.HiddenFor(C => C.ID)
+                                                        <br />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                <div class="form-group">
+
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Expensive Account<label class="mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Expensive, new { @id = "txtExpensive", @class = "form-control", @TabIndex = 2})
+                                                        @Html.HiddenFor(C => C.ID)
+                                                        <br />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <div class="form-group">
+
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">GST Amount<label class="mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.GST, new { @id = "txtGST", @class = "form-control", @TabIndex = 2})
+                                                        @Html.HiddenFor(C => C.ID)
+                                                        <br />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                <div class="form-group">
+
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Input Credit Account<label class="mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.ICredit, new { @id = "txtICredit", @class = "form-control", @TabIndex = 2 })
+                                                        @Html.HiddenFor(C => C.ID)
+                                                        <br />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <div class="form-group">
+
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">AmtWd<label class="mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.AmtWd, new { @id = "txtAmtWd", @class = "form-control", @TabIndex = 2 })
+                                                        @Html.HiddenFor(C => C.ID)
+                                                        <br />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        @*1st atb*@
+                                       
+                                     </div>
+                                    <div class="tab-pane" id="tab-2">
+                                        @*2st atb*@
+                                        <br>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <div class="form-group">
+
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Voucher No<label class="mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.VocNo, new { @id = "txtVocNo", @class = "form-control", @TabIndex = 2, style = "width: 200px;", @readonly = "readonly" })
+                                                        @Html.HiddenFor(C => C.ID)
+                                                        <br />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Voucher Date<label class="mandatory">*</label></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                            @Html.TextBoxFor(C => C.VocDate, new { @id = "txtVocDate", @class = "form-control", @TabIndex = 1, @size = "32", @readonly = "readonly" })
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        </div>
+
+                                                        <br />
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Section Id<label class="mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.SecID, Model.SecIDLst, "Please Select", new { @id = "txtSecID", @Class = "form-control _select newcss", style = "width: 200px;", @TabIndex = 1 })
+                                                        <br />
+                                                     </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Percentage<label class="mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Per, new { @id = "txtPer", @class = "form-control", @TabIndex = 2, style = "width: 200px;", @readonly = "readonly" })
+                                                        @Html.HiddenFor(C => C.ID)
+                                                        <br />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <div class="form-group">
+
+                                                    <br /><label for="inputName3" class="col-sm-4 control-label">Amount<label class="mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Amt, new { @id = "txtAmt", @class = "form-control", style = "width: 200px;", @TabIndex = 2 })
+                                                        @Html.HiddenFor(C => C.ID)
+                                                        <br />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                             
+                                                <div class="col-md-6">
+
+                                                    <div class="form-group">
+
+                                                        <br /><label for="inputName3" class="col-sm-4 control-label">TDS Amount<label class="mandatory"></label></label>
+                                                        <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.TDS, new { @id = "txtTDS", @class = "form-control", style = "width: 200px;", @TabIndex = 2 })
+                                                            @Html.HiddenFor(C => C.ID)
+                                                            <br />
+                                                        </div>
+                                                    </div>
+                                                </div>
+ 
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Party Id<label class="mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.PartyID, Model.PartyIDLst, "Please Select", new { @id = "txtPartyID", @Class = "form-control _select newcss", style = "width: 200px;", @TabIndex = 1 })
+                                                        <br />
+                                                     </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-6">
+
+                                            <div class="form-group">
+
+                                                <br /><label for="inputName3" class="col-sm-4 control-label">Due Date<label class="mandatory">*</label></label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                        @Html.TextBoxFor(C => C.DueDate, new { @id = "txtDueDate", @class = "form-control", @TabIndex = 1, @size = "32", @readonly = "readonly" })
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                    </div>
+
+                                                    <br />
+                                                </div>
+                                                </div>
+
+                                            </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <div class="form-group">
+
+                                                        <br /><label for="inputName3" class="col-sm-4 control-label">TDC Amount<label class="mandatory"></label></label>
+                                                        <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.TDCAmt, new { @id = "txtTDCAmt", @class = "form-control", style = "width: 200px;", @TabIndex = 2 })
+                                                            @Html.HiddenFor(C => C.ID)
+                                                            <br />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group">
+
+                                                            <br /><label for="inputName3" class="col-sm-4 control-label">Service Tax [%]<label class="mandatory"></label></label>
+                                                            <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Service, new { @id = "txtService", @class = "form-control", style = "width: 200px;", @TabIndex = 2 })
+                                                                @Html.HiddenFor(C => C.ID)
+                                                                <br />
+                                                            </div>
+                                                        </div>
+                                                
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <div class="form-group">
+
+                                                        <br /><label for="inputName3" class="col-sm-4 control-label">Cess [%]<label class="mandatory"></label></label>
+                                                        <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Cess, new { @id = "txtCess", @class = "form-control", style = "width: 200px;", @TabIndex = 2 })
+                                                            @Html.HiddenFor(C => C.ID)
+                                                            <br />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                   
+
+                                                        <div class="form-group">
+
+                                                            <br /><label for="inputName3" class="col-sm-4 control-label">SHE Cess[%]<label class="mandatory"></label></label>
+                                                            <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.SHECess, new { @id = "txtSHECess", @class = "form-control", style = "width: 200px;", @TabIndex = 2 })
+                                                                @Html.HiddenFor(C => C.ID)
+                                                                <br />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                
+                                            </div>
+ 
+                                        @*2st atb*@
+                                    </div>
+                                   
+
+
+                               </div>
+                            </div>
+
+                            <div style="height:30px;"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("JournalVoucher", "JournalVoucher")'">Cancel</button>
+                         
+                        
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function changeItem(ItemId, i) {
+
+        $.ajax({
+            url: 'GetCurDetails',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtExcRate" + i).value = result.emp;
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+
+    $('.form_time').datetimepicker({
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 1,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
+    });
+
+
+    $('.to_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+
+    });
+
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('.to_date').datetimepicker('setStartDate', minDate);
+
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("txtDocId").value == "") {
+                isValid = false;
+                $(txtDocId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DocID");
+                return false;
+            }
+            else {
+                $(txtDocId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Month").value == "") {
+                isValid = false;
+                $(Month).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Month");
+                return false;
+            }
+            else {
+                $(Month).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("EmpCategory").value == "") {
+                isValid = false;
+                $(EmpCategory).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select EmpCategory");
+                return false;
+            }
+            else {
+                $(EmpCategory).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Dep").value == "") {
+                isValid = false;
+                $(Dep).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Dep");
+                return false;
+            }
+            else {
+                $(Dep).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            //Grid validation
+            var i = 0;
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+
+
+                    if ($(this).find('#txtEmplId' + i.toString()).val() == "" || $(this).find('#txtEmplId' + i.toString()).val() == 0) {
+                        isValid = false;
+                        $(this).find('#txtEmplId' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        alert("Please Select EmpID");
+                        $(this).find('#txtEmplId' + i.toString()).focus();
+                        return false;
+                    }
+                    else {
+                        $(this).find('#txtEmplId' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#txtEmpId' + i.toString()).val() == "" || $(this).find('#txtEmpId' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtEmpId' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter EmpId");
+                        $(this).find('#txtEmpId' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtEmpId' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+
+
+
+                    if ($(this).find('#txtEmpName' + i.toString()).val() == "" || $(this).find('#txtEmpName' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtEmpName' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select EmpName");
+                        $(this).find('#txtEmpName' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtEmpName' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#txtStartDate' + i.toString()).val() == "" || $(this).find('#txtStartDate' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtStartDate' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select StartDate");
+                        $(this).find('#txtStartDate' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtStartDate' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+
+                    if ($(this).find('#txtEndDate' + i.toString()).val() == "" || $(this).find('#txtEndDate' + i.toString()).val() == 0) {
+                        isValid = false;
+                        $(this).find('#txtEndDate' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        alert("Please Select EndDate");
+                        $(this).find('#txtEndDate' + i.toString()).focus();
+                        return false;
+                    }
+                    else {
+                        $(this).find('#txtEndDate' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+
+
+                    if ($(this).find('#txtShVal' + i.toString()).val() == "" || $(this).find('#txtShVal' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtShVal' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select ShVal");
+                        $(this).find('#txtShVal' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtShVal' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+
+                    if ($(this).find('#txtShift' + i.toString()).val() == "" || $(this).find('#txtShift' + i.toString()).val() == 0) {
+                        isValid = false;
+                        $(this).find('#txtShift' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        alert("Please Select EndDate");
+                        $(this).find('#txtShift' + i.toString()).focus();
+                        return false;
+                    }
+                    else {
+                        $(this).find('#txtShift' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#txtStTime' + i.toString()).val() == "" || $(this).find('#txtStTime' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtStTime' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select StTime");
+                        $(this).find('#txtStTime' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtStTime' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+
+                    if ($(this).find('#txtEndTime' + i.toString()).val() == "" || $(this).find('#txtEndTime' + i.toString()).val() == 0) {
+                        isValid = false;
+                        $(this).find('#txtEndTime' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        alert("Please Select EndTime");
+                        $(this).find('#txtEndTime' + i.toString()).focus();
+                        return false;
+                    }
+                    else {
+                        $(this).find('#txtEndTime' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#txtWOFF' + i.toString()).val() == "" || $(this).find('#txtWOFF' + i.toString()).val() == 0) {
+                        isValid = false;
+                        $(this).find('#txtWOFF' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        alert("Please Select WOFF");
+                        $(this).find('#txtWOFF' + i.toString()).focus();
+                        return false;
+                    }
+                    else {
+                        $(this).find('#txtWOFF' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+
+
+
+                }
+                i += 1;
+            });
+
+
+            if (isValid == false)
+                e.preventDefault();
+
+
+
+        });
+
+    });
+
+
+
+
+
+
+</script>
+
+<script>
+    $(function () {
+        $('._select').select2();
+    });
+
+    $(".chosen-select").chosen();
+    $('.for_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+
+
+    function changeQty(_this, i) {
+        try {
+
+            var j = 0;
+            var qty = 0;
+            var tot = 0;
+    @* var totfrieght = 0;*@
+
+                                    var totamt = 0;
+    @* var totamount = 0;*@
+                                    var qty = document.getElementById("txtQuantity" + i).value;
+            var up = document.getElementById("txtrate" + i).value;
+
+
+
+            if (qty == "")
+                qty = 0;
+
+            if (up == "")
+                up = 0;
+
+
+            var tot = eval(qty) * eval(up);
+            document.getElementById("txtAmount" + i).value = tot.toFixed(2);
+
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+
+
+                    var amt = $(this).find('#txtAmount' + j.toString()).val();
+                    if (amt == "")
+                        amt = 0;
+
+
+                    totamt += eval(amt);
+
+
+                }
+                j += 1;
+            });
+
+    @*document.getElementById("gross").value = totamt.toFixed(2);
+                document.getElementById("net").value = totamt.toFixed(2);*@
+
+                            }
+        catch (ex) {
+            alert(ex.message);
+        }
+    }
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+
+
+
+
+
+    function AddRow() {
+        var opt = "";
+        var remopt = "";
+        var remsopt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetDebJSON',
+            success: function (data) {
+
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                $.ajax({
+                    type: "POST",
+                    url: 'GetAccJSON',
+                    success: function (data) {
+
+                        $.each(data, function () {
+                            remopt += "<option value=" + this.value + ">" + this.text + "</option>";
+                        });
+
+                        AppendRow(opt, remopt);
+                    }
+                })
+
+            }
+        })
+    }
+
+
+       function AppendRow(opt, remopt) {
+        var index = $("#tbBooks").children("tr").length;
+
+        var db = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='txtDBCR" + index + "' name='Conlst[" + index + "].DBCR'><option value=''>-- Please Select --</option>" + opt + "</select></td>";
+        var acnam = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='txtAccName" + index + "' name='Conlst[" + index + "].AccName'><option value=''>-- Please Select --</option>" + remopt + "</select></td>";
+        var damo = "<td><input class='form-control' id='txtDebitAmt" + index + "' name='Conlst[" + index + "].DebitAmt'  style='width: 150px;' type='text' /></td>";
+        var camo = "<td><input class='form-control' id='txtCreditAmt" + index + "' name='Conlst[" + index + "].CreditAmt'  style='width: 150px;' type='text' /></td>";
+        var bal = "<td><input class='form-control' id='txtBalance" + index + "' name='Conlst[" + index + "].Balance'  style='width: 150px;' type='text' /></td>";
+
+
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Conlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Conlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + db + acnam + damo + camo + bal + removeCell + "</tr>"; $("#tbBooks").append(newRow);
+
+        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
+        $('.form_time').datetimepicker({
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 1,
+            minView: 0,
+            maxView: 1,
+            forceParse: 0
+        });
+        $('.to_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            endDate: new Date(),
+            forceParse: 0
+
+        });
+        $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            endDate: new Date(),
+            forceParse: 0
+        }).on('changeDate', function (selected) {
+            var minDate = new Date(selected.date.valueOf());
+            $('.to_date').datetimepicker('setStartDate', minDate);
+
+        });
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("txtDocId").value == "") {
+                isValid = false;
+                $(txtDocId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DocID");
+                return false;
+            }
+            else {
+                $(txtDocId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtDocdate").value == "") {
+                isValid = false;
+                $(txtDocdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DocDate");
+                return false;
+            }
+            else {
+                $(txtDocdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            //Grid validation
+
+            if (isValid == false)
+                e.preventDefault();
+
+
+
+        });
+
+    });
+    function AddRatecode(ratecode) {
+        $.ajax({
+            url: "GetRateJSON",
+            type: "post",
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#ddlRatecode", response);
+                $(ddlRatecode).select2().val(ratecode).trigger("change");
+                //  document.getElementById("ddlRatecode").value =ratecode;
+            },
+            error: function () {
+                alert("Please Select Rate");
+            }
+        });
+    }
+</script>
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false
+        });
+        fancybox123 = $.fancybox;
+    });
+
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
+</script>
