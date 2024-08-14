@@ -58,7 +58,16 @@ internal class Program
         builder.Services.TryAddSingleton<IServicePO, ServicePOService>();
         builder.Services.TryAddSingleton<IPendingIndentApprove, PendingIndentApproveService>();
         builder.Services.TryAddSingleton<IAssetStock, AssetStockService>();
-        builder.Services.TryAddSingleton<IStockStatementDrumwise, StockStatementDrumwiseService>();
+        builder.Services.TryAddSingleton<IBatchReportService, BatchReportService>();
+        builder.Services.TryAddSingleton<IDirectPurchaseReportService, DirectPurchaseReportService>();
+        builder.Services.TryAddSingleton<IGRNReportService, GRNReportService>();
+        builder.Services.TryAddSingleton<IPurchasePend, PurchasePendService>();
+        builder.Services.TryAddSingleton<IPurchaseRepItemReportService, PurchaseRepItemReportService>();
+        builder.Services.TryAddSingleton<IPurchaseReportService, PurchaseReportService>();
+        builder.Services.TryAddSingleton<IPurchaseRepPartyReportService, PurchaseRepPartyReportService>();
+        builder.Services.TryAddSingleton<IPurMonReport, PurMonReportService>();
+        builder.Services.TryAddSingleton<IReceiptReport, ReceiptReportService>();
+        builder.Services.TryAddSingleton<IWorkCenterReportService, WorkCenterReportService>();
          
 
         //builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();

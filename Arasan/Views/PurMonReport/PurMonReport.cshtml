@@ -1,0 +1,382 @@
+﻿@model Arasan.Models.PurMonReport
+
+@{
+    ViewData["Title"] = "Index";
+}
+<partial name="JqxGridPartial" />
+@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+
+</script>
+<style>
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+
+    div.scroll {
+        width: 100 %;
+        height: 400px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        /* text-align: center;*/
+        /*padding: 20px;*/
+    }
+
+</style>
+
+@*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>*@
+
+<script type="text/javascript" src="../../jqwidgets/jqxdata.export.js"></script>
+<script type="text/javascript" src="../../jqwidgets/jqxgrid.export.js"></script>
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Reports</a> </li>
+            <li class="active"> <strong>Purchase Monthwise Report</strong> </li>
+        </ol>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var SFINYR = document.getElementById("ddlSFINYR").value;
+            //var Sdate = document.getElementById("Sdate").value;
+            //var Edate = document.getElementById("Edate").value;
+
+            var source =
+            {
+                url: "/PurMonReport/MyListPurMonReportGrid",
+                //url: "/ItemName/ItemName",
+                data: {
+                    strstatus: "",
+                    SFINYR: SFINYR,
+                    //Sdate: Sdate,
+                    //Edate: Edate,
+
+                    //Item: Item,
+
+                },
+                datatype: "json",
+                updaterow: function (rowid, rowdata) {
+                    // synchronize with the server - send update command
+                },
+                datafields: [
+                    { name: 'part', type: 'string' },
+                    { name: 'item', type: 'string' },
+                    { name: 'unit', type: 'string' },
+                    { name: 'jan', type: 'string' },
+                    { name: 'feb', type: 'string' },
+                    { name: 'mar', type: 'string' },
+                    { name: 'april', type: 'string' },
+                    { name: 'may', type: 'string' },
+                    { name: 'june', type: 'string' },
+                    { name: 'july', type: 'string' },
+                    { name: 'aug', type: 'string' },
+                    { name: 'sep', type: 'string' },
+                    { name: 'oct', type: 'string' },
+                    { name: 'nov', type: 'string' },
+                    { name: 'dec', type: 'string' },
+                ],
+                
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source,
+                { contentType: 'application/json; charset=utf-8' }, {
+                loadComplete: function () {
+
+                }
+            }
+            );
+
+            $("#grid").jqxGrid(
+                {
+                    width: '100%',
+                    source: dataAdapter,
+                    height: 450,
+                    source: source,
+                    //autoheight: true,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
+                    theme: 'ui-start',
+                    autorowheight: true,
+                    filterbarmode: 'simple',
+                    enablebrowserselection: true,
+                    columnsresize: true,
+                    selectionmode: 'multiplerowsextended',
+                    keyboardnavigation: false,
+                    columns: [
+                        { text: 'Party Name', filtertype: 'input', datafield: 'part', width: 300 },
+                        { text: 'Item ', filtertype: 'input', datafield: 'item', width: 200 },
+                        { text: 'Unit', filtertype: 'input', datafield: 'unit', width: 100 },
+                        { text: 'Jan', filtertype: 'input', datafield: 'jan', width: 80 },
+                        { text: 'Feb', filtertype: 'input', datafield: 'feb', width: 80 },
+                        { text: 'Mar', filtertype: 'input', datafield: 'mar', width: 80 },
+                        { text: 'April', filtertype: 'input', datafield: 'april', width: 80 },
+                        { text: 'May', filtertype: 'input', datafield: 'may', width: 80 },
+                        { text: 'June', filtertype: 'input', datafield: 'june', width: 80 },
+                        { text: 'July', filtertype: 'input', datafield: 'july', width: 80 },
+                        { text: 'Aug', filtertype: 'input', datafield: 'aug', width: 80 },
+                        { text: 'Sep', filtertype: 'input', datafield: 'sep', width: 80 },
+                        { text: 'Oct', filtertype: 'input', datafield: 'oct', width: 80 },
+                        { text: 'Nov', filtertype: 'input', datafield: 'nov', width: 80 },
+                        { text: 'Dec', filtertype: 'input', datafield: 'dec', width: 80 },
+
+                    ]
+                });
+
+            $("#pdfExport").click(function () {
+                $("#grid").jqxGrid('exportdata', 'pdf', 'jqxGrid');
+            });
+
+            //$("#excelExport").click(function () {
+            //    $("#grid").jqxGrid('exportdata', 'xls', 'jqxGrid');
+            //});
+
+            $("#ddlStatus").change(function () {
+                var value = "Y";
+                if ($(this).val() != "") {
+                    value = $(this).val();
+                }
+                source.data = {
+                    strstatus: value
+                };
+                $("#grid").jqxGrid({ source: source });
+            });
+        });
+    });
+</script>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <hr>
+                    @using (Html.BeginForm("PurMonReport", "PurMonReport", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+                            @* <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                       <label for="inputName3" class="col-sm-4 control-label">Start Date<label class="mandatory"></label></label>
+
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.Sdate, new { @id = "Sdate", @class = "form-control", @TabIndex = 2,@size="30",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">End Date<label class="mandatory"></label></label>
+
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.Edate, new { @id = "Edate", @class = "form-control", @TabIndex = 2,@size="30",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+
+
+
+                            @*<div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst,"Please Select", new { @id = "ddlbranch", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+                            
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Year <label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.DropDownListFor(C => C.SFINYR, Model.Finyrlst,"Please Select", new { @id = "ddlSFINYR", @Class = "form-control _select", @TabIndex = 1 })
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-9"></div>      
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-success  marginright" id="btnSave" value="Run">Run</button>
+                                    <button type="button" class="btn btn-primary marginright" value="Export to Excel" id="pdfExport">Pdf</button>
+                                    <button type="button" class="btn btn-primary marginright" onclick="trChange()" value="Export" causesvalidation="false">Export</button>
+@*                                  <button type="button" class="btn btn-success marginright" value="Export to Excel" id="excelExport">Excel</button>
+*@
+                                     <button type="button" class="btn btn-danger marginright" onclick="location.href='@Url.Action("PurMonReport", "PurMonReport")'" value="Reset" causesvalidation="false">Reset</button>
+
+                                </div> 
+                            </div>
+                            <br>
+                            <div class="row">
+
+                                <div id="grid"> 
+                                </div>
+
+                            </div>
+
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<link href="@Url.Content("~/assets/js/bootstrap-multiselect.css")" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap.multiselect.js")"></script>*@
+<script>
+    //function exportToExcel() {
+    //    /* Get the HTML table element */
+    //    var table = document.getElementById("ddlBranch");
+
+    //    /* Convert table to workbook */
+    //    var workbook = XLSX.utils.table_to_book(table);
+
+    //    /* Create Excel file and trigger download */
+    //    XLSX.writeFile(workbook, "exported_data.xlsx");
+    //}
+    $('.to_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    });
+    //$(function () {
+    //    $('.listbox').multiselect({
+    //        includeSelectAllOption: true
+    //    });
+    //});
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('.to_date').datetimepicker('setStartDate', minDate);
+    });
+   
+
+
+    function trChange() {
+            var SFINYR = document.getElementById("ddlSFINYR").value;
+
+            var url = '@Url.Action("ExportLeadProReport", "PurMonReport")?SFINYR=' + SFINYR;
+            var $form = $('<form method="post"/>').attr('action', url).appendTo('body');
+
+                $form.append($('#allPages').clone()); 
+                $form.submit();
+                $form.remove();
+    }
+
+</script>
+
+<script>
+    $(function () {
+        $('._select').select2();
+    });
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
+
+
+</script>
+<script>
+
+    $(function () {
+        $('._select').select2();
+    });
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+
+            if (document.getElementById("ddlSFINYR").value == "" || document.getElementById("ddlSFINYR").value == 0) {
+                isValid = false;
+                $(ddlSFINYR).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Year");
+                return false;
+            }
+            else {
+                $(ddlSFINYR).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+
+</script>
