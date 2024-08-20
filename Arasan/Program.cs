@@ -58,6 +58,12 @@ internal class Program
         builder.Services.TryAddSingleton<IServicePO, ServicePOService>();
         builder.Services.TryAddSingleton<IPendingIndentApprove, PendingIndentApproveService>();
         builder.Services.TryAddSingleton<IAssetStock, AssetStockService>();
+        builder.Services.TryAddSingleton<ITrialBalanceReport, TrialBalanceReportService>();
+
+
+
+
+
         builder.Services.TryAddSingleton<IBatchReportService, BatchReportService>();
         builder.Services.TryAddSingleton<IDirectPurchaseReportService, DirectPurchaseReportService>();
         builder.Services.TryAddSingleton<IGRNReportService, GRNReportService>();
@@ -68,7 +74,8 @@ internal class Program
         builder.Services.TryAddSingleton<IPurMonReport, PurMonReportService>();
         builder.Services.TryAddSingleton<IReceiptReport, ReceiptReportService>();
         builder.Services.TryAddSingleton<IWorkCenterReportService, WorkCenterReportService>();
-         
+
+
 
         //builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();
 

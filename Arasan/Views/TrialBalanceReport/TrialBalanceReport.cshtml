@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.AssetStockModel
+﻿@model Arasan.Models.TrialBalanceReportModel
 
 @{
     ViewData["Title"] = "Index";
@@ -42,7 +42,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Reports</a> </li>
-            <li class="active"> <strong>Asset Stock</strong> </li>
+            <li class="active"> <strong>Trial Balance Report</strong> </li>
         </ol>
     </div>
 </div>
@@ -51,23 +51,21 @@
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var dtFrom = document.getElementById("dtFrom").value;
-            var dtTo = document.getElementById("dtTo").value;
             var Branch = document.getElementById("ddlBranch").value;
-            var Location = document.getElementById("ddlLocation").value;
- 
+             var Master = document.getElementById("ddlMaster").value;
+
 
 
 
             var source =
             {
-                url: "/AssetStock/MyListPurchaseRepItemReportGrid",
+                url: "/TrialBalanceReport/MyListPurchaseRepItemReportGrid",
                 //url: "/ItemName/ItemName",
                 data: {
                     strstatus: "",
                     dtFrom: dtFrom,
-                    dtTo: dtTo,
                     Branch: Branch,
-                    Location: Location,
+                     Master: Master,
  
                 },
                 datatype: "json",
@@ -75,21 +73,16 @@
                     // synchronize with the server - send update command
                 },
                 datafields: [
-                    { name: 'itemid', type: 'string' },
-                    { name: 'unitid', type: 'string' },
-                    { name: 'banchid', type: 'string' },
-                    { name: 'locid', type: 'string' },
-                    { name: 'oq', type: 'string' },
-                    { name: 'ov', type: 'string' },
-                    { name: 'rq', type: 'string' },
-                    { name: 'rv', type: 'string' },
-                    { name: 'iq', type: 'string' },
-                    { name: 'iv', type: 'string' },
-
-
-
+                    { name: 'groupname', type: 'string' },
+                    { name: 'mname', type: 'string' },
+                    { name: 'debit', type: 'string' },
+                    { name: 'credit', type: 'string' },
+                    { name: 'masterid', type: 'string' },
+                    { name: 'mstatus', type: 'string' },
+                    { name: 'malie', type: 'string' },
+                    
                 ],
-                
+
             };
             var dataAdapter = new $.jqx.dataAdapter(source,
                 { contentType: 'application/json; charset=utf-8' }, {
@@ -120,16 +113,14 @@
                     selectionmode: 'multiplerowsextended',
                     keyboardnavigation: false,
                     columns: [
-                        { text: 'ItemID', filtertype: 'input', datafield: 'itemid', width: 150 },
-                        { text: 'UnitID', filtertype: 'input', datafield: 'unitid', width: 150 },
-                        { text: 'BranchID', filtertype: 'input', datafield: 'branchid', width: 150 },
-                        { text: 'LocID', filtertype: 'input', datafield: 'locid', width: 300 },
-                        { text: 'OQ', filtertype: 'input', datafield: 'oq', width: 300 },
-                        { text: 'OV', filtertype: 'input', datafield: 'ov', width: 150 },
-                        { text: 'RQ', filtertype: 'input', datafield: 'rq', width: 150 },
-                        { text: 'RV', filtertype: 'input', datafield: 'rv', width: 150 },
-                        { text: 'IQ', filtertype: 'input', datafield: 'iq', width: 150 },
-                        { text: 'IV', filtertype: 'input', datafield: 'iv', width: 150 },
+                        { text: 'GroupName', filtertype: 'input', datafield: 'groupname', width: 150 },
+                        { text: 'MName', filtertype: 'input', datafield: 'mname', width: 150 },
+                        { text: 'Debit', filtertype: 'input', datafield: 'debit', width: 150 },
+                        { text: 'Credit', filtertype: 'input', datafield: 'credit', width: 300 },
+                        { text: 'MasterID', filtertype: 'input', datafield: 'masterid', width: 300 },
+                        { text: 'MStaus', filtertype: 'input', datafield: 'mstatus', width: 150 },
+                        { text: 'MaliE', filtertype: 'input', datafield: 'malie', width: 150 },
+                        
                     ]
                 });
 
@@ -158,36 +149,28 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-12 ">
-                            <center><h4><b>AssetStock</b></h4></center>
+                            <center><h4><b>TrialBalanceReport</b></h4></center>
                         </div>
                     </div>
                     <div style="height:10px;"></div>
-                    @using (Html.BeginForm("PurchaseRepItemReport", "PurchaseRepItemReport", FormMethod.Post))
+                    @using (Html.BeginForm("TrialBalanceReport", "TrialBalanceReport", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         <form>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">From Date<label class="mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Date<label class="mandatory"></label></label>
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @Html.TextBoxFor(C => C.dtFrom, new { @id = "dtFrom", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            @Html.TextBoxFor(C => C.dtFrom, new { @id = "dtFrom", @class = "form-control", @TabIndex = 2, @size = "31", @readonly = true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
                                         <input type="hidden" id="dtp_input2" value="" />
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">To Date<label class="mandatory"></label></label>
-                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @Html.TextBoxFor(C => C.dtTo, new { @id = "dtTo", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
-                                        <input type="hidden" id="dtp_input2" value="" />
 
-                                    </div>
-                                </div>
+                                
+                                
                             </div>
                             <div style="height:20px;"></div>
                             <div class="row">
@@ -201,22 +184,23 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Master<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Location, Model.Loclst," -- Please Select -- ", new { @id = "ddlLocation", @class = "form-control _select", @Width = "200px" })
+                                            @Html.DropDownListFor(C => C.Master, Model.Masterlst, " -- Please Select -- ", new { @id = "ddlMaster", @class = "form-control _select", @Width = "200px" })
                                         </div>
                                     </div>
                                 </div>
                             </div>
+ 
                             <div style="height:20px;"></div>
-                           
+
                             <div style="height:30px;"></div>
                             <div class="row">
                                 <div class="col-md-9"></div>
                                 <div class="col-md-3">
                                     <button type="button" class="btn btn-success  marginright" id="btnSave" value="Run">Run</button>
                                     <button type="button" class="btn btn-primary marginright" onclick="trChange()" value="Reset" causesvalidation="false">Export</button>
-                                    <button type="button" class="btn btn-danger marginright" onclick="location.href='@Url.Action("AssetStock", "AssetStock")'" value="Reset" causesvalidation="false">Reset</button>
+                                    <button type="button" class="btn btn-danger marginright" onclick="location.href='@Url.Action("TrialBalanceReport", "TrialBalanceReport")'" value="Reset" causesvalidation="false">Reset</button>
 
 
                                 </div>
@@ -255,36 +239,37 @@
                 //alert(JSON.stringify(response));
                 newlist = response.Ilst;
                 // var i = 0;
-               
-                        PopulateDropDown("#ddlLocation", response);
-                        
+
+                PopulateDropDown("#ddlMaster", response);
+
             },
             error: function () {
                 debugger;
-                alert("Please Select Location");
+                alert("Please Select Master");
             }
         });
     }
 
+</script>
+<script>
 
 
 
-
- function trChange() {
+    function trChange() {
         var dtFrom = document.getElementById("dtFrom").value;
-        var dtTo = document.getElementById("dtTo").value;
+
         var Branch = document.getElementById("ddlBranch").value;
-        var Location = document.getElementById("ddlLocation").value;
- 
-        var url = '@Url.Action("ExportToExcel", "AssetStock")?dtFrom=' + dtFrom + '&dtTo=' + dtTo + '&Branch=' + Branch + '&Location=' + Location ;
+         var Master = document.getElementById("ddlMaster").value;
+
+        var url = '@Url.Action("ExportToExcel", "TrialBalanceReport")?dtFrom=' + dtFrom + '&Branch=' + Branch + '&Master=' + Master;
 
         var $form = $('<form method="post"/>').attr('action', url).appendTo('body');
 
         $form.append($('#allPages').clone());
         $form.submit();
         $form.remove();
-            }
-    </script>
+    }
+</script>
 @*<link href="@Url.Content("~/assets/js/bootstrap-multiselect.css")" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap.multiselect.js")"></script>*@
 <script>
@@ -313,7 +298,7 @@
         var minDate = new Date(selected.date.valueOf());
         $('.to_date').datetimepicker('setStartDate', minDate);
     });
-    
+
 </script>
 <script>
     $(function () {
