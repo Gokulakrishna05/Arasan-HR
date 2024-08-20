@@ -67,9 +67,8 @@ namespace Arasan.Controllers
                     mname = dtUsers.Rows[i]["MNAME"].ToString(),
                     debit = dtUsers.Rows[i]["DEBIT"].ToString(),
                     credit = dtUsers.Rows[i]["CREDIT"].ToString(),
-                    masterid = dtUsers.Rows[i]["MASTERID"].ToString(),
-                    mstatus = dtUsers.Rows[i]["MSTATUS"].ToString(),
-                    malie = dtUsers.Rows[i]["MALIE"].ToString(),
+                    //mstatus = dtUsers.Rows[i]["MSTATUS"].ToString(),
+                    //malie = dtUsers.Rows[i]["MALIE"].ToString(),
                   
                 });
             }
