@@ -76,6 +76,19 @@ internal class Program
         builder.Services.TryAddSingleton<IWorkCenterReportService, WorkCenterReportService>();
         builder.Services.TryAddSingleton<IBalanceSheet, BalanceSheetService>();
         builder.Services.TryAddSingleton<IReceiptAgainstReturnableGoods, ReceiptAgainstReturnableGoodsService>();
+        builder.Services.TryAddSingleton<ICuringShedStockPyro, CuringShedStockPyroService>();
+
+
+
+        builder.Services.TryAddSingleton<IActivitiesCO, ActivitiesCOService>();
+        builder.Services.TryAddSingleton<IActPlanning, ActPlanningService>();
+        builder.Services.TryAddSingleton<IFGDailyStockReport, FGDailyStockReportService>();
+        builder.Services.TryAddSingleton<IOnDuty, OnDutyService>();
+        builder.Services.TryAddSingleton<IPayTransaction, PayTransactionService>();
+        builder.Services.TryAddSingleton<IStockStatement, StockStatementService>();
+        builder.Services.TryAddSingleton<IStockStatementLotwise, StockStatementLotwiseService>();
+        builder.Services.TryAddSingleton<ISubContractingMonthwiseReport, SubContractingMonthwiseReportService>();
+        builder.Services.TryAddSingleton<ISubContractingReport, SubContractingReportService>();
 
 
 

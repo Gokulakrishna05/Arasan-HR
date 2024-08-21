@@ -1,0 +1,313 @@
+﻿@model Arasan.Models.SubContractingReport
+
+@{
+    ViewData["Title"] = "Index";
+}
+<partial name="JqxGridPartial" />
+@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+
+</script>
+<style>
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+
+    div.scroll {
+        width: 100 %;
+        height: 400px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        /* text-align: center;*/
+        /*padding: 20px;*/
+    }
+
+</style>
+
+<script type="text/javascript" src="../../jqwidgets/jqxdata.export.js"></script>
+<script type="text/javascript" src="../../jqwidgets/jqxgrid.export.js"></script>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Reports</a> </li>
+            <li class="active"> <strong>Sub Contracting Material Receipt Details</strong> </li>
+        </ol>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var dtFrom = document.getElementById("dtFrom").value;
+            var dtTo = document.getElementById("dtTo").value;
+
+            var source = {
+                url: "/SubContractingReport/MyListSubConReportGrid",
+                data: {
+                    strstatus: "",
+                    dtFrom: dtFrom,
+                    dtTo: dtTo,
+                },
+                datatype: "json",
+                datafields: [
+                    { name: 'pid', type: 'string' },
+                    { name: 'dno', type: 'string' },
+                    { name: 'ddt', type: 'string' },
+                    { name: 'rno', type: 'string' },
+                    { name: 'rdt', type: 'string' },
+                    { name: 'typ', type: 'string' },
+                    { name: 'iid', type: 'string' },
+                    { name: 'ides', type: 'string' },
+                    { name: 'uid', type: 'string' },
+                    { name: 'mqty', type: 'string' },
+                    { name: 'brat', type: 'string' },
+                    { name: 'icat', type: 'string' },
+                    { name: 'lid', type: 'string' },
+                    { name: 'net', type: 'string' },
+                ],
+            };
+
+            var dataAdapter = new $.jqx.dataAdapter(source, { contentType: 'application/json; charset=utf-8' }, {
+                loadComplete: function () { }
+            });
+
+            $("#grid").jqxGrid({
+                width: '100%',
+                source: dataAdapter,
+                height: 450,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterbar: true,
+                theme: 'ui-start',
+                autorowheight: true,
+                filterbarmode: 'simple',
+                enablebrowserselection: true,
+                columnsresize: true,
+                selectionmode: 'multiplerowsextended',
+                keyboardnavigation: false,
+                columns: [
+                    { text: 'PARTYID', filtertype: 'input', datafield: 'pid', width: 150 },
+                    { text: 'DCNO', filtertype: 'input', datafield: 'dno', width: 150 },
+                    { text: 'DCDATE', filtertype: 'input', datafield: 'ddt', width: 150 },
+                    { text: 'REFNO', filtertype: 'input', datafield: 'rno', width: 150 },
+                    { text: 'REFDATE', filtertype: 'input', datafield: 'rdt', width: 150 },
+                    { text: 'TYPE', filtertype: 'input', datafield: 'typ', width: 150 },
+                    { text: 'ITEMID', filtertype: 'input', datafield: 'iid', width: 150 },
+                    { text: 'ITEMDESC', filtertype: 'input', datafield: 'ides', width: 150 },
+                    { text: 'UNITID', filtertype: 'input', datafield: 'uid', width: 150 },
+                    { text: 'MRQTY', filtertype: 'input', datafield: 'mqty', width: 150 },
+                    { text: 'BRATE', filtertype: 'input', datafield: 'brat', width: 150 },
+                    { text: 'ICAT', filtertype: 'input', datafield: 'icat', width: 150 },
+                    { text: 'LOCID', filtertype: 'input', datafield: 'lid', width: 150 },
+                    { text: 'NET', filtertype: 'input', datafield: 'net', width: 150 },
+                ]
+            });
+
+            // $("#pdfExport").click(function () {
+            //     var exportSettings = {
+            //         fileName: 'jqxGrid',
+            //         format: 'pdf',
+            //         columnsHeader: true,
+            //         recordsInView: true,
+            //         hiddenColumns: false,
+            //         serverURL: null,
+            //         charSet: null,
+            //         customData: null,
+            //         rowDelimiter: '\n',
+            //         pageOrientation: 'landscape',
+            //         pageSize: 'A4'
+            //     };
+            //     $("#grid").jqxGrid('exportdata', 'pdf', exportSettings);
+            // });
+
+            $("#ddlStatus").change(function () {
+                var value = "Y";
+                if ($(this).val() != "") {
+                    value = $(this).val();
+                }
+                source.data = {
+                    strstatus: value
+                };
+                $("#grid").jqxGrid({ source: source });
+            });
+        });
+    });
+</script>
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12 ">
+                            <center><h4><b>Sub Contracting Material Receipt Details</b></h4></center>
+                        </div>
+                    </div>
+                    <div style="height:10px;"></div>
+                    @using (Html.BeginForm("SubContractingReport", "SubContractingReport", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">From Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.dtFrom, new { @id = "dtFrom", @class = "form-control", @TabIndex = 2, @size = "31", @readonly = true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                        <input type="hidden" id="dtp_input2" value="" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">To Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.dtTo, new { @id = "dtTo", @class = "form-control", @TabIndex = 2, @size = "31", @readonly = true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                        <input type="hidden" id="dtp_input2" value="" />
+
+                                    </div>
+                                </div>
+                            </div>
+                  
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-9"></div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-success  marginright" id="btnSave" value="Run">Run</button>
+                                    <button type="button" class="btn btn-danger marginright" onclick="location.href='@Url.Action("SubContractingReport", "SubContractingReport")'" value="Reset" causesvalidation="false">Reset</button>
+
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-9"></div>
+                                <button type="button" class="btn btn-primary marginright" onclick="trChange()" value="Reset" causesvalidation="false">Export To Excel</button>
+@*                                 <button type="button" class="btn btn-primary marginright" value="Export to Excel" id="pdfExport">Export PDF</button>
+ *@
+                            </div>
+
+                            <div style="height:30px;"></div>
+                            <div class="row">
+
+
+                                <div id="grid">
+
+                            </div>
+
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function trChange() {
+        var dtFrom = document.getElementById("dtFrom").value;
+        var dtTo = document.getElementById("dtTo").value;
+        //var WorkCenter = document.getElementById("ddlWorkCenter").value;
+        //var Process = document.getElementById("ddlProcess").value;
+
+        var url = '@Url.Action("ExportToExcel", "SubContractingReport")?dtFrom=' + dtFrom + '&dtTo=' + dtTo;
+        var $form = $('<form method="post"/>').attr('action', url).appendTo('body');
+        $form.append($('#allPages').clone());
+        $form.submit();
+        $form.remove();
+    }
+</script>
+@*<link href="@Url.Content("~/assets/js/bootstrap-multiselect.css")" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap.multiselect.js")"></script>*@
+<script>
+    $('.to_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    });
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('.to_date').datetimepicker('setStartDate', minDate);
+    });
+    //function Grup_Change(itemid) {
+    //    //alert(itemid);
+    //    //debugger;
+    //    $.ajax({
+    //        url: "GetItemJSON",
+    //        type: "post",
+    //        data: { 'itemid': itemid },
+    //        cache: false,
+    //        success: function (response) {
+    //            var newlist;
+    //            //alert(JSON.stringify(response));
+    //            newlist = response.Ilst;
+    //            PopulateDropDown("#ddlItem", response);
+    //        },
+    //        error: function () {
+    //            debugger;
+    //            alert("Please Select Item Group");
+    //        }
+    //    });
+    //}
+</script>
+<script>
+    $(function () {
+        $('._select').select2();
+    });
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
+
+    $('.for_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>

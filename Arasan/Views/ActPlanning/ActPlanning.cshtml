@@ -1,0 +1,955 @@
+﻿@model Arasan.Models.ActPlanning
+@{
+    ViewData["Title"] = " Activity Planning";
+}
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+        <style>
+            .newwidth {
+                width: 90px;
+            }
+
+            .mandatory {
+                color: red;
+                position: relative;
+                top: 2px;
+                left: 5px;
+            }
+        </style>
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>HR</a> </li>
+            <li class="active"> <strong> Activity Planning </strong> </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Activity Planning</h5>
+                    <hr>
+
+                     @using (Html.BeginForm("ActPlanning", "ActPlanning", FormMethod.Post))
+
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <form>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Document No.<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Docno, new { @id = "txtDocno", @class = "form-control", @TabIndex = 2, @readonly = true })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date to_date col-sm-4" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.DocDate, new { @id = "txtDocDate", @class = "form-control", @TabIndex = 2, @size = "32", style = "width: 200px", @readonly = true })
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <br /><label for="inputName3" class="col-sm-4 control-label">Machine / Tool ID.<label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(C => C.MtId, Model.McTolst, " -- Please Select -- ", new { @id = "ddlMtId", @Class = "form-control _select", @TabIndex = 1 })
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Activity Type<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                        @Html.DropDownListFor(C => C.AcTyp, Model.ActTyplst, " -- Please Select -- ", new { @id = "ddlAcTyp", @Class = "form-control _select", @TabIndex = 1 })
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Activity Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date to_date col-sm-4" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.AcDat, new { @id = "txtAcDat", @class = "form-control", @TabIndex = 2, @size = "32", style = "width: 200px", @readonly = true })
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <br /><label for="inputName3" class="col-sm-4 control-label">Activity Ferq (Hrs)<label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.AcFre, new { @id = "txtAcFre", @class = "form-control", @TabIndex = 2 })
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <br /><label for="inputName3" class="col-sm-4 control-label">Dept. Type<label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(C => C.DeTyp, Model.DepTyplst, " -- Please Select -- ", new { @id = "ddlDeTyp", @Class = "form-control _select", @TabIndex = 1 })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <br /><label for="inputName3" class="col-sm-4 control-label">Maint. Type<label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(C => C.MaTyp, Model.MaiTyplst, " -- Please Select -- ", new { @id = "ddlMaTyp", @Class = "form-control _select", @TabIndex = 1 })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <br />  <label for="inputName3" class="col-sm-4 control-label">From Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date to_date col-sm-4" data-date="" data-date-format="dd-M-yyyy">
+                                        @Html.TextBoxFor(C => C.FrDat, new { @id = "txtFrDat", @class = "form-control", @TabIndex = 2, @size = "32", style = "width: 200px", @readonly = true })
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <br />  <label for="inputName3" class="col-sm-4 control-label">To Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date to_date col-sm-4" data-date="" data-date-format="dd-M-yyyy">
+                                        @Html.TextBoxFor(C => C.ToDat, new { @id = "txtToDat", @class = "form-control", @TabIndex = 2, @size = "32", style = "width: 200px", @readonly = true })
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <br />  <label for="inputName3" class="col-sm-4 control-label">From Time (HH:MM)<label class="mandatory">*</label></label>
+                                    <div class="input-group date form_time col-md-4" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh.ii">
+                                        @Html.TextBoxFor(C => C.FrTim, new { @id = "txtFrTim", @class = "form-control", style = "width: 80px; ", @readonly = true })
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    </div>
+                                    <input type="hidden" id="dtp_input3" value="" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <br />  <label for="inputName3" class="col-sm-4 control-label">To Time (HH:MM)<label class="mandatory">*</label></label>
+                                    <div class="input-group date form_time col-md-4" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh.ii">
+                                        @Html.TextBoxFor(C => C.ToTim, new { @id = "txtToTim", @class = "form-control", style = "width: 80px; ", @readonly = true })
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    </div>
+                                    <input type="hidden" id="dtp_input3" value="" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <br /><label for="inputName3" class="col-sm-4 control-label">P/B<label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(C => C.PB, Model.PBlst, " -- Please Select -- ", new { @id = "ddlPB", @Class = "form-control _select", @TabIndex = 1 })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <br /><label for="inputName3" class="col-sm-4 control-label">Alloted To<label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(C => C.AlTo, Model.AlTolst, " -- Please Select -- ", new { @id = "ddlAlTo", @Class = "form-control _select", @TabIndex = 1 })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <br /><label for="inputName3" class="col-sm-4 control-label">Job Type<label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.JTyp, Model.JTyplst, " -- Please Select -- ", new { @id = "ddlJTyplst", @Class = "form-control _select", @TabIndex = 1 })
+                                    </div>
+                                </div>
+                            </div>                                                  
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <br /><label for="inputName3" class="col-sm-4 control-label">Break Down Ref.<label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(C => C.BrDow, Model.BrDowlst, " -- Please Select -- ", new { @id = "ddlBrDow", @Class = "form-control _select", @TabIndex = 1 })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <br /><label for="inputName3" class="col-sm-4 control-label">Activity Description<label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextAreaFor(C => C.ADes, new { @id = "txtADes", @class = "form-control", @TabIndex = 2 })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div style="height:30px;"></div>
+                           
+
+                            <div id="divitem" style="display:none;">
+                                <div style="height:30px;"></div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="btn-group">
+                                            <p style="float:right;">
+                                                <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" />
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                          <div style="height:30px;"></div>
+
+                            <!--new table-->
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="tabs-container">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a href="#tab-1" data-toggle="tab">Spares To Be Maintained</a></li>
+                                            <li><a href="#tab-2" data-toggle="tab">Status</a></li>
+
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab-1">
+                                                <!-- 1st tab  -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-group">
+                                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                        <table class="table table-striped table-hover" id="dataTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Tools</th>
+                                                               
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooks">
+                                                                @{
+
+                                                                    int i = 0;
+                                                                    int j = 0;
+
+
+                                                                    foreach (var item in Model.Prolst.ToList())
+                                                                    {
+                                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                            <td>
+                                                                                @Html.DropDownListFor(o => o.Prolst[i].tools, Model.Prolst[i].ulst, " -- Please Select -- ", new { @id = "ddltools", @Class = "form-control _select newcss", @TabIndex = 1, style = "width: 200px;" })
+
+                                                                            </td>
+                                                                            
+                                                                            <td>
+                                                                                @Html.HiddenFor(o => o.Prolst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Prolst.Index" type="hidden" value="@(i)" />
+                                                                            </td>
+                                                                        </tr>
+                                                                        i = i + 1;
+                                                                        j = j + 1;
+
+
+                                                                    }
+                                                                }
+
+                                                            </tbody>
+                                                        </table>
+                                                        @*   </div>
+                                                    </div>
+                                                    </div>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- 1st tab  -->
+                                            <div class="tab-pane" id="tab-2">
+                                                <!-- 2nd tab  -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-group">
+                                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow1()" class="btn sbold green" /></p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                            <table class="table table-striped table-hover" id="dataTable1">
+                                                                <thead>
+                                                                    <tr>
+
+                                                                        <th>Date</th>
+                                                                        <th>Reason</th>
+
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="tbBooks1">
+                                                                    @{
+
+                                                                        int a = 0;
+                                                                        int b = 1;
+
+                                                                        foreach (var item in Model.wclst.ToList())
+                                                                        {
+                                                                            <tr id="trBook1@(a)" class="chkitemlst1" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                                <td>
+                                                                                    <div class="input-group date form_date col-sm-4" data-date="" data-date-format="dd-M-yyyy">
+                                                                                        @Html.TextBoxFor(o => o.wclst[a].date, new { @id = "txtdate" + a, @class = "form-control", style = "width: 200px;" })<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                    </div>
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.wclst[a].rea, new { @id = "txtrea" + a, @class = "form-control", style = "width: 200px;" })
+
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    @Html.HiddenFor(o => o.wclst[a].Isvalid1, new { @id = "Isvalid1" + a })
+                                                                                    <img onclick="removeRow1(@(a));" src="../Images/delete.png" style="cursor:pointer" /> <input name="wclst.Index" type="hidden" value="@(a)" />
+                                                                                </td>
+                                                                            </tr>
+                                                                            a = a + 1;
+                                                                            b = b + 1;
+
+                                                                        }
+                                                                    }
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- 2nd tab  -->
+                                        @*  </div>*@
+                                        </div>
+
+
+                            </div>
+                            </div>
+                            </div>
+                            <!--new table  end-->
+
+
+                            <div class="col-lg-10"></div>
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
+                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ListActPlanning", "ActPlanning")">Cancel</a>
+
+                        </form>
+                    }
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+
+    <script>
+
+            $(function () {
+                $('._select').select2();
+            });
+
+
+        function PopulateDropDown(dropDownId, list) {
+            //alert(list);
+            $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+            if (list != null && list.length > 0) {
+                $(dropDownId).removeAttr("disabled");
+                $.each(list, function () {
+                    $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+                });
+            }
+            $(dropDownId).trigger("liszt:updated");
+        }
+        $(".chosen-select").chosen();
+        
+    $('.form_time').datetimepicker({
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 1,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
+    });
+
+
+    $('.to_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+
+    });
+
+        function AddRow() {
+            var opt = "";
+            $.ajax({
+                type: "POST",
+                url: 'GetItemJSON',
+                success: function (data) {
+
+                    $.each(data, function () {
+                        opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                    });
+                    AppendRow(opt);
+                }
+            })
+        }
+        function AppendRow(opt) {
+            var index = $("#tbBooks").children("tr").length;
+
+            var tool = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddltools" + index + "' name='Prolst[" + index + "].tools'><option value=''>-- Please Select --</option>" + opt + "</select></td>";
+
+            var removeCell = "<td><input id='Isvalid" + index + "' name='Prolst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Prolst.Index' type='hidden' value='" + index + "'  /></td>";
+
+            var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + tool  + removeCell + "</tr>";
+            //alert(Packing);
+            $("#tbBooks").append(newRow);
+
+            $(".chosen-select").chosen();
+            $(function () {
+                $('._select').select2();
+            });
+        }
+        function removeRow(id) {
+            var table = document.getElementById("dataTable");
+            var rowCount = table.rows.length;
+            var row = document.getElementById('trBook' + id);
+            var j = 0;
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    j += 1;
+                }
+            });
+            if (j > 1) {
+                row.style.display = "none";
+                document.getElementById('Isvalid' + id).value = "N";
+            }
+            else {
+                alert("Cannot delete all the rows.")
+            }
+        }
+
+        function AddRow1() {
+            var opt = "";
+            $.ajax({
+                type: "POST",
+                url: 'GetItemJSON1',
+                success: function (data) {
+
+                    $.each(data, function () {
+                        opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                    });
+                    AppendRow1(opt);
+                }
+            })
+        }
+        function AppendRow1(opt) {
+            var index = $("#tbBooks1").children("tr").length;
+
+            var date = "<td><div class='input-group date form_date col-sm-4'  data - date - format='dd-M-yyyy'><input class='form-control' id='txtdate" + index + "' name='wclst[" + index + "].date'  style='width: 200px;' type='text'/><span class='input-group-addon'><span class='glyphicon glyphicon-remove' ></span></span><span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+
+            var reason = "<td><input class='form-control' id='txtrea" + index + "' name='wclst[" + index + "].rea'  style='width: 200px;' type='text' /></td>";
+
+            var removeCell = "<td><input id='Isvalid1" + index + "' name='wclst[" + index + "].Isvalid1' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='wclst.Index' type='hidden' value='" + index + "'  /></td>";
+
+            var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + date + reason + removeCell + "</tr>";
+            //alert(Packing);
+            $("#tbBooks1").append(newRow);
+
+            $(".chosen-select").chosen();
+            $(function () {
+                $('._select').select2();
+            });
+        $('.to_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            endDate: new Date(),
+            forceParse: 0
+
+        });
+        }   
+
+        function removeRow1(id) {
+            var table = document.getElementById("dataTable1");
+            var rowCount = table.rows.length;
+            var row = document.getElementById('trBook1' + id);
+            var j = 0;
+            $('tr.chkitemlst1').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    j += 1;
+                }
+            });
+            if (j > 1) {
+                row.style.display = "none";
+                document.getElementById('Isvalid1' + id).value = "N";
+            }
+            else {
+                alert("Cannot delete all the rows.")
+            }
+        }
+
+    </script>
+
+
+    <script>
+        $(function () {
+            $('._select').select2();
+        });
+        $(".chosen-select").chosen();
+
+    </script>
+
+
+    <script>
+
+        $(function () {
+            $('._select').select2();
+
+        });
+
+        $(document).ready(function () {
+            $('#btnSave').click(function (e) {
+                var isValid = true;
+
+            if (document.getElementById("txtDocDate").value == "") {
+                    isValid = false;
+                $(txtDocDate).css({
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+
+                    alert("Please Select  Date");
+                    return false;
+                }
+                else {
+                $(txtDocDate).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
+
+            if (document.getElementById("ddlMtId").value == "") {
+                isValid = false;
+                $(ddlMtId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Machine ID");
+                return false;
+            }
+            else {
+                $(ddlMtId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlAcTyp").value == "") {
+                isValid = false;
+                $(ddlAcTyp).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Activity Type");
+                return false;
+            }
+            else {
+                $(ddlAcTyp).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtAcDat").value == "") {
+                isValid = false;
+                $(txtAcDat).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Activity Date");
+                return false;
+            }
+            else {
+                $(txtAcDat).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtAcFre").value == "") {
+                isValid = false;
+                $(txtAcFre).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Activity Freq");
+                return false;
+            }
+            else {
+                $(txtAcFre).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlDeTyp").value == "") {
+                isValid = false;
+                $(ddlDeTyp).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Department Type");
+                return false;
+            }
+            else {
+                $(ddlDeTyp).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlMaTyp").value == "") {
+                isValid = false;
+                $(ddlMaTyp).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Maint. Type");
+                return false;
+            }
+            else {
+                $(ddlMaTyp).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtToTim").value == "") {
+                isValid = false;
+                $(txtToTim).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  To Time");
+                return false;
+            }
+            else {
+                $(txtToTim).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtFrDat").value == "") {
+                isValid = false;
+                $(txtFrDat).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  From Date");
+                return false;
+            }
+            else {
+                $(txtFrDat).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtToDat").value == "") {
+                isValid = false;
+                $(txtToDat).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  To Date");
+                return false;
+            }
+            else {
+                $(txtToDat).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtFrTim").value == "") {
+                isValid = false;
+                $(txtFrTim).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  From Time");
+                return false;
+            }
+            else {
+                $(txtFrTim).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlPB").value == "") {
+                isValid = false;
+                $(ddlPB).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  P/B");
+                return false;
+            }
+            else {
+                $(ddlPB).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlAlTo").value == "") {
+                isValid = false;
+                $(ddlAlTo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Alloted TO");
+                return false;
+            }
+            else {
+                $(ddlAlTo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlJTyplst").value == "") {
+                isValid = false;
+                $(ddlJTyplst).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Job Type");
+                return false;
+            }
+            else {
+                $(ddlJTyplst).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlBrDow").value == "") {
+                isValid = false;
+                $(ddlBrDow).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Break down");
+                return false;
+            }
+            else {
+                $(ddlBrDow).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtADes").value == "") {
+                isValid = false;
+                $(txtADes).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Activity Description");
+                return false;
+            }
+            else {
+                $(txtADes).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            var i = 0;
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+
+
+                    if ($(this).find('#ddltools' + i.toString()).val() == "" || $(this).find('#ddltools' + i.toString()).val() == 0) {
+                        isValid = false;
+                        $(this).find('#ddltools' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        alert("Please Select Tools");
+                        $(this).find('#ddltools' + i.toString()).focus();
+                        return false;
+                    }
+                    else {
+                        $(this).find('#ddltools' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#txtdate' + i.toString()).val() == "" || $(this).find('#txtdate' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtdate' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select Date");
+                        $(this).find('#txtdate' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtdate' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+
+
+
+                    if ($(this).find('#txtrea' + i.toString()).val() == "" || $(this).find('#txtrea' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtrea' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Reason");
+                        $(this).find('#txtrea' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtrea' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                }
+                i += 1;
+            });
+
+            });
+        });
+
+        $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+
+        function fetchindent(indentid) {
+            document.getElementById("tbBooks").innerHTML = "";
+            $.ajax({
+                url: 'GetIndentDetail',
+                data: { "indentid": indentid },
+                type: "GET",
+                success: function (list) {
+                    if (list != null && list.length > 0) {
+                        list.forEach((item) => {
+                            loadindent(item)
+                        });
+                    }
+                    //document.getElementById("txtDocNo").value = result.doc;
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+        }
+    </script>
+
+
+    <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+    <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+    <link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+    <script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+    <script type="text/javascript">
+        var fancybox123;
+        jQuery(document).ready(function ($) {
+            $(".fancybox").fancybox({
+                width: '80%',
+                height: '10%',
+                arrows: false,
+
+            });
+            fancybox123 = $.fancybox;
+        });
+        function close_popup() {
+            fancybox123.close();
+            $(".fancybox1").fancybox({
+                width: '100%',
+                height: '100%',
+                arrows: false,
+            });
+            $(".fancybox1").eq(0).trigger('click');
+        }
+    </script>
