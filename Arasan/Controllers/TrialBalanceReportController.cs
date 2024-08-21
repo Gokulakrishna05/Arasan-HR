@@ -29,7 +29,7 @@ namespace Arasan.Controllers
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult TrialBalanceReport(string strfrom, string strTo)
+        public IActionResult TrialBalanceReport(string strfrom)
         {
             try
             {
