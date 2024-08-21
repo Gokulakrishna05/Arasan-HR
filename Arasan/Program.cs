@@ -74,6 +74,8 @@ internal class Program
         builder.Services.TryAddSingleton<IPurMonReport, PurMonReportService>();
         builder.Services.TryAddSingleton<IReceiptReport, ReceiptReportService>();
         builder.Services.TryAddSingleton<IWorkCenterReportService, WorkCenterReportService>();
+        builder.Services.TryAddSingleton<IBalanceSheet, BalanceSheetService>();
+        builder.Services.TryAddSingleton<IReceiptAgainstReturnableGoods, ReceiptAgainstReturnableGoodsService>();
 
 
 
