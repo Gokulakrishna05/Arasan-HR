@@ -1,16 +1,4 @@
-﻿//using Microsoft.AspNetCore.Mvc;
-
-//namespace Arasan.Controllers
-//{
-//    public class ReceiptAgainstReturnableGoodsController : Controller
-//    {
-//        public IActionResult ReceiptAgainstReturnableGoods()
-//        {
-//            return View();
-//        }
-//    }
-//}
-using Arasan.Interface.Report;
+﻿using Arasan.Interface.Report;
 using Arasan.Models;
 using Arasan.Services;
 using Microsoft.AspNetCore.Mvc;
