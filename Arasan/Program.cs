@@ -90,6 +90,12 @@ internal class Program
         builder.Services.TryAddSingleton<ISubContractingMonthwiseReport, SubContractingMonthwiseReportService>();
         builder.Services.TryAddSingleton<ISubContractingReport, SubContractingReportService>();
 
+        builder.Services.TryAddSingleton<IFGStockDetailReport, FGStockDetailReportService>();
+        builder.Services.TryAddSingleton<IOpeningSql, OpeningSqlService>();
+        builder.Services.TryAddSingleton<IItemsToBeReceived, ItemsToBeReceivedService>();
+        builder.Services.TryAddSingleton<IFinishedGoodsStockDetailsDrumwise, FinishedGoodsStockDetailsDrumwiseService>();
+        builder.Services.TryAddSingleton<IApsIdleStock, ApsIdleStockService>();
+
 
 
         //builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();
