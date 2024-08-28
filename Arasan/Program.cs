@@ -95,11 +95,24 @@ internal class Program
         builder.Services.TryAddSingleton<IItemsToBeReceived, ItemsToBeReceivedService>();
         builder.Services.TryAddSingleton<IFinishedGoodsStockDetailsDrumwise, FinishedGoodsStockDetailsDrumwiseService>();
         builder.Services.TryAddSingleton<IApsIdleStock, ApsIdleStockService>();
+        builder.Services.TryAddSingleton<IAPPowderStockInPyro, APPowderStockInPyroService>();
+        builder.Services.TryAddSingleton<IAPSDailyReport, APSDailyReportService>();
+        builder.Services.TryAddSingleton<IRVDPowderStockInPaste, RVDPowderStockInPasteService>();
+        builder.Services.TryAddSingleton<ICakeStockInPaste, CakeStockInPasteService>();
+        builder.Services.TryAddSingleton<IPasteStockInMixing, PasteStockInMixingService>();
+        builder.Services.TryAddSingleton<IBatchProductionSummary, BatchProductionSummaryService>();
+        builder.Services.TryAddSingleton<ICuringShedStockPolish, CuringShedStockPolishService>();
+        builder.Services.TryAddSingleton<ICuringShedStockPyroPolished, CuringShedStockPyroPolishedService>();
+        builder.Services.TryAddSingleton<IFGStockSivakasiDepot, FGStockSivakasiDepotService>();
+        builder.Services.TryAddSingleton<IPurchaseIndentPendingForApproval, PurchaseIndentPendingForApprovalService>();
+        builder.Services.TryAddSingleton<IRVDPowderStockInPolish, RVDPowderStockInPolishService>();
+        builder.Services.TryAddSingleton<IPendingPaymentOrReceiptBillWise, PendingPaymentOrReceiptBillWiseService>();
+        builder.Services.TryAddSingleton<IFGBalancePowderStock, FGBalancePowderStockService>();
+        builder.Services.TryAddSingleton<IBatchProductionSummaryReportBatchwise, BatchProductionSummaryReportBatchwiseService>();
 
 
 
-        //builder.Services.TryAddSingleton<ISubContractingMaterialReceipt, SubContractingMaterialReceiptService>();
-
+ 
 
 
 

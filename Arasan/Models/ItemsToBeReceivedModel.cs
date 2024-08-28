@@ -3,16 +3,9 @@
 namespace Arasan.Models
 {
     public class ItemsToBeReceivedModel
-    {
-
-
-
-        
+    { 
         public string ID { get; set; }
-
-       
-
-
+         
         public string dtFrom { get; set; }
     }
     public class ItemsToBeReceivedModelItems
