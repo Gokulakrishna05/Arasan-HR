@@ -13,13 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\NewFolder1\**" />
-    <Content Remove="Views\NewFolder1\**" />
-    <EmbeddedResource Remove="Views\NewFolder1\**" />
-    <None Remove="Views\NewFolder1\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="wwwroot\Reports\APProductionDailyReport.rdlc" />
     <Content Remove="wwwroot\Reports\Basic.rdlc" />
     <Content Remove="wwwroot\Reports\EnqReport.rdlc" />
@@ -38,10 +31,6 @@
   <ItemGroup>
     <None Remove="Models\DataTransactions.cs~RF6bf757.TMP" />
     <None Remove="Services\Production\euok0plw.tmv~" />
-    <None Remove="Views\Account\1agfobwd.bjs~" />
-    <None Remove="Views\APProductionentry\0xhmotfp.sma~" />
-    <None Remove="Views\QCFinalValueEntry\QCFinalValueEntry.cshtml~RF5db3da.TMP" />
-    <None Remove="Views\WorkOrder\ep0r2hud.dag~" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,11 +41,6 @@
 
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
-    <None Include="Views\Contract\Contract.cshtml" />
-    <None Include="Views\Contract\ListContract.cshtml" />
-    <None Include="Views\DirectPurchase\DPAccount.cshtml" />
-    <None Include="Views\ProFormaInvoice\ListProFormaInvoice.cshtml" />
-    <None Include="Views\ProFormaInvoice\ProFormaInvoice.cshtml" />
     <None Include="wwwroot\Reports\APProductionDailyReport.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -428,7 +412,6 @@
    </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\PartyMaster\" />
     <Folder Include="wwwroot\assets\js\vendor\editorsjs\" />
     <Folder Include="wwwroot\pdfdownload\" />
   </ItemGroup>

@@ -205,14 +205,17 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                <div class="form-group">
+                                    <div class="form-group">
 
-                                    <br /><label for="inputName3" class="col-sm-4 control-label">Tax Template<label class="mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Tax, new { @id = "txtTax", @class = "form-control", @TabIndex = 2 })
-                                        
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Terms Template<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Term, Model.TermLst, "Please Select", new { @id = "txtTerm", @Class = "form-control _select newcss", @TabIndex = 1 })
+
+                                            <br />
+                                            <br />
+                                        </div>
                                     </div>
-                                </div>
+
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -228,19 +231,7 @@
                                
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Terms Template<label class="mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Term, Model.TermLst, "Please Select", new { @id = "txtTerm", @Class = "form-control _select newcss", @TabIndex = 1 })
- 
-                                            <br />
-                                            <br />
-                                        </div>
-                                    </div>
-
-                                </div>
+                               
                                 <div class="col-md-6">
 
                                 <div class="form-group">
@@ -495,7 +486,7 @@
                                                             {
                                                                 <tr id="trBooksss@(k)" class="chkitemlst2" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                     <td>
-                                                                        @Html.DropDownListFor(o => o.TermsAndConditionlist[k].TAC, Model.TermsAndConditionlist[k].TAClst, "Please Select", new { @class = "form-control _select newcss", @id = "txtTAC" + i, style = "width: 100px;", onchange = "changeItem(this.value," + i + ")" })
+                                                                        @Html.DropDownListFor(o => o.TermsAndConditionlist[k].TAC, Model.TermsAndConditionlist[k].TAClst, "Please Select", new { @class = "form-control _select newcss", @id = "txtTAC" + i, style = "width: 300px;", onchange = "changeItem(this.value," + i + ")" })
 
                                                                          @Html.HiddenFor(o => o.TermsAndConditionlist[k].Isvalid, new { @id = "Isvalid" + k })
 
