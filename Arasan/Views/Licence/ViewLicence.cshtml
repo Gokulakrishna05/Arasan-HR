@@ -1,0 +1,215 @@
+﻿@model Arasan.Models.Licence
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "Licence Closing Entry";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+</style>
+<div class="wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    @using (Html.BeginForm("ViewLicence", "Licence", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Doc No<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.DocId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.DocDate)
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Licence No<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.LicenceNo)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Licence Date<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.LicenceDate)
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="tabs-container">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active" id="liinp"><a href="#tab-1" data-toggle="tab" id="ainp">Import Deatis</a></li>
+                                            <li id="liinpC"> <a href="#tab-2" data-toggle="tab" id="ainpc">Export Deatis</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab-1">
+                                                <!-- 1st tab  -->
+                                                <div style="height:30px;"></div>
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                        <table class="table table-striped table-hover" id="dataTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Import Bill No</th>
+                                                                    <th>Import Bill Date</th>
+                                                                    <th>Item Id </th>
+                                                                    <th> Unit </th>
+                                                                    <th> Qty </th>
+                                                                    <th>Amount </th>
+                                                            </thead>
+                                                            <tbody id="tbBooks">
+                                                                @{
+
+                                                                    int i = 0;
+                                                                    int j = 1;
+
+                                                                    foreach (var item in Model.ImportLst.ToList())
+                                                                    {
+                                                                        <tr>
+
+
+                                                                            <td>@Html.DisplayFor(o => o.ImportLst[i].InvNo)</td>
+                                                                            <td>@Html.DisplayFor(o => o.ImportLst[i].InvDate)</td>
+                                                                            <td>@Html.DisplayFor(o => o.ImportLst[i].ItemId)</td>
+                                                                            <td>@Html.DisplayFor(o => o.ImportLst[i].Unit)</td>
+                                                                            <td>@Html.DisplayFor(o => o.ImportLst[i].Qty)</td>
+                                                                            <td>@Html.DisplayFor(o => o.ImportLst[i].Amount)</td>
+                                                                            
+                                                                        </tr>
+                                                                        i = i + 1;
+                                                                        j = j + 1;
+
+                                                                    }
+                                                                }
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 1st tab  -->
+                                            </div>
+                                            <div class="tab-pane" id="tab-2">
+                                                <!-- 2nd tab  -->
+                                                <div style="height:30px;"></div>
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+
+                                                        <table class="table table-striped table-hover" id="dataTable1">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th> Export Inv.No </th>
+                                                                    <th> Export Inv.Date </th>
+                                                                    <th> Customer Name </th>
+                                                                    <th> Export Item Desc </th>
+                                                                    <th> Unit </th>
+                                                                    <th> Qty </th>
+                                                                    <th> Amount </th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooks1">
+                                                                @{
+                                                                    int k = 0;
+
+                                                                    foreach (var item in Model.ExportLst.ToList())
+                                                                    {
+                                                                        <tr>
+
+
+                                                                            <td>@Html.DisplayFor(o => o.ExportLst[k].ExpNo)</td>
+                                                                            <td>@Html.DisplayFor(o => o.ExportLst[k].ExpDate)</td>
+                                                                            <td>@Html.DisplayFor(o => o.ExportLst[k].Customer)</td>
+                                                                            <td>@Html.DisplayFor(o => o.ExportLst[k].ItemId)</td>
+                                                                            <td>@Html.DisplayFor(o => o.ExportLst[k].Unit)</td>
+                                                                            <td>@Html.DisplayFor(o => o.ExportLst[k].Qty)</td>
+                                                                            <td>@Html.DisplayFor(o => o.ExportLst[k].Amount)</td>
+
+                                                                        </tr>
+                                                                        k = k + 1;
+
+
+                                                                    }
+
+                                                                }
+
+
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                </div>
+                                                <!-- 2nd tab  -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Narration)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                           
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
+
+                            <input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />
+
+
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $(document).on('click', '.closeFancybox', function () {
+            $.fancybox.close();
+        })
+    })
+</script>
+
+

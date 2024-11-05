@@ -393,15 +393,25 @@
 
                     </ul>
                         </li>
-              
-                           
-                       
-                   @*  </li>
-                        </ul> *@
 
-               
-             
-               
+                <li class="nav-item">
+                    <a class="nav-link nav-toggle" href="javascript:;"><i class="fa fa-money"></i> <span class="title">Sales Export</span> <span class="arrow"></span> </a>
+                    <ul class="sub-menu">
+
+
+                        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListExport_Enquiry", "ExportEnquiry")">Export Enquiry</a></li>
+                        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListEnquiry_Quotation", "EnquiryQuotation")">Export Quotation</a></li>
+                        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListExportWorkOrder", "ExportWorkOrder")">Export WorkOrder</a></li>
+                        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListExportDC", "ExportDC")">Export DC</a></li>
+                        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListLicence", "Licence")">Licence Closing Entry</a></li>
+                        <li class="nav-item"><a class="nav-link" href="@Url.Action("ListWorkOrder", "WorkOrder")">Export WorkOrder ShortClose </a></li>
+
+
+
+
+
+                    </ul>
+                </li>
             </div>
   </div>
   <!-- End page sidebar wrapper -->

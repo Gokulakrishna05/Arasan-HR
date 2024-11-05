@@ -1,0 +1,245 @@
+﻿@model Arasan.Models.ExportWorkOrder
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "Export WorkOrder";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+</style>
+<div class="wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    @using (Html.BeginForm("ViewExportWorkOrder", "ExportWorkOrder", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Job No<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Job)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Job Date<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.jobDate)
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Active Status<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.active)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Currency)
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Customer Name<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Customer)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Order Or Sample<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Order)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Customer Ref.No<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Refno)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Customer Ref.Date <label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Refdate)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Quotation No<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.QuoNo)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Offer Type<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Officer)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="ibox float-e-margins">
+
+                                        <div class="ibox-content collapse in">
+                                            <div class="widgets-container">
+                                                <div>
+                                                    <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Item Id </th>
+                                                                <th>Description</th>
+                                                                <th> Unit </th>
+                                                                <th> Qty </th>
+                                                                <th>Rate </th>
+                                                                <th>Amount </th>
+
+                                                                <th> Qty Disc </th>
+                                                                <th> Cash Disc </th>
+                                                                <th> Introduction Disc </th>
+                                                                <th> Trade Disc </th>
+                                                                <th> Addition Disc </th>
+                                                                <th> Special Disc </th>
+                                                                <th> Discount </th>
+                                                                <th> Bed </th>
+                                                                <th> Due Date </th>
+                                                                <th> Mat Supply</th>
+                                                                <th> Packing Spec </th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            @{
+                                                                int i = 0;
+
+                                                                foreach (var item in Model.WorkOrderLst.ToList())
+                                                                {
+
+                                                                    <tr>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].ItemId)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].Des)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].Unit)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].Qty)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].Rate)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].Amount)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].QtyDisc)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].CashDisc)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].Introduction)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].Trade)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].Addition)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].Special)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].Discount)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].Bed)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].Due)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].Supply)</td>
+                                                                        <td>@Html.DisplayFor(o => o.WorkOrderLst[i].Packing)</td>
+
+
+                                                                    </tr>
+                                                                    //i = i + 1;
+                                                                    i++;
+                                                                }
+                                                            }
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Assign To<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Assign)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Recieved By<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Recieved)
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="height:30px;"></div>
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
+
+                            <input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />
+
+
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $(document).on('click', '.closeFancybox', function () {
+            $.fancybox.close();
+        })
+    })
+</script>
+
+

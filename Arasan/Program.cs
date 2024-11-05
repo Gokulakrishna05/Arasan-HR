@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Arasan.Controllers;
 using Arasan.Interface.Report;
 using Arasan.Services.Report;
+using Arasan.Services.Sales_Export;
 
 
 
@@ -109,10 +110,17 @@ internal class Program
         builder.Services.TryAddSingleton<IPendingPaymentOrReceiptBillWise, PendingPaymentOrReceiptBillWiseService>();
         builder.Services.TryAddSingleton<IFGBalancePowderStock, FGBalancePowderStockService>();
         builder.Services.TryAddSingleton<IBatchProductionSummaryReportBatchwise, BatchProductionSummaryReportBatchwiseService>();
+        builder.Services.TryAddSingleton<IExportEnquiry, ExportEnquiryService>();
+        builder.Services.TryAddSingleton<IEnquiryQuotation, EnquiryQuotationService>();
+        builder.Services.TryAddSingleton<IExportWorkOrder, ExportWorkOrderService>();
+        builder.Services.TryAddSingleton<IExportDC, ExportDCService>();
+        builder.Services.TryAddSingleton<ILicence, LicenceService>();
+        builder.Services.TryAddSingleton<IWorkOrder, WorkOrderService>();
 
 
 
- 
+
+
 
 
 
