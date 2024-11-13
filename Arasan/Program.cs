@@ -116,6 +116,7 @@ internal class Program
         builder.Services.TryAddSingleton<IExportDC, ExportDCService>();
         builder.Services.TryAddSingleton<ILicence, LicenceService>();
         builder.Services.TryAddSingleton<IWorkOrder, WorkOrderService>();
+        builder.Services.TryAddSingleton<ICustomerComplaint, CustomerComplaintService>();
 
 
 
