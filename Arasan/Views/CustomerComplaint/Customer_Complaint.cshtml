@@ -1,0 +1,234 @@
+﻿ @model Arasan.Models.CustomerComplaint
+@{
+    ViewData["Title"] = "Customer Complaint";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Sales Export</a> </li>
+            <li class="active"> <strong> Customer Complaint </strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Customer Complaint</h5>
+                    <hr>
+                    @using (Html.BeginForm("Customer_Complaint", "CustomerComplaint", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Complaint No<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.ComplaintNo, new { @id = "txtComplaintNo", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">Complaint Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.ComplaintDate, new { @id = "txtComplaintDate", @class = "form-control", @TabIndex = 2, @size = "30", @readonly = true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br>
+                                        <label for="inputName3" class="col-sm-4 control-label">CCIRINIT Name<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.CCIRINITNAME, Model.CcirintName, "---Please Select---", new { @id = "ddlCCIRINITNAME", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.HiddenFor(C => C.ID)
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br>
+                                        <label for="inputName3" class="col-sm-4 control-label">Investigated By<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.INVESTIGATEDBY, Model.InvestigatedBy, "---Please Select---", new { @id = "ddlINVESTIGATEDBY", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.HiddenFor(C => C.ID)
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">CCIR No<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.CCIRNo, new { @id = "txtCCIRNo", @class = "form-control", @TabIndex = 2 })
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br>
+                                        <label for="inputName3" class="col-sm-4 control-label">CCIR Name<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.CCIRNAME, Model.CcirName, "---Please Select---", new { @id = "ddlCCIRNAME", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.HiddenFor(C => C.ID)
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Result Of Investigation<label class="mandatory">*</label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.TextAreaFor(C => C.Result, new { @id = "txtResult", @class = "form-control", @TabIndex = 2 })
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Nature Of Disposition<label class="mandatory">*</label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.TextAreaFor(C => C.Nature, new { @id = "txtNature", @class = "form-control", @TabIndex = 2 })
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br>
+                                        <label for="inputName3" class="col-sm-4 control-label">Investigated By<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.DISINVESTIGATEDBY, Model.DisInvestigatedBy, "---Please Select---", new { @id = "ddlDISINVESTIGATEDBY", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.HiddenFor(C => C.ID)
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br>
+                                        <label for="inputName3" class="col-sm-4 control-label">Reviewed By<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.REVIEWEDBY, Model.ReviewBy, "---Please Select---", new { @id = "ddlREVIEWEDBY", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.HiddenFor(C => C.ID)
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Remarks<label class="mandatory">*</label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.TextAreaFor(C => C.Remarks, new { @id = "txtRemarks", @class = "form-control", @TabIndex = 2 })
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("Customer_Complaint", "CustomerComplaint")'">Cancel</button>
+
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('._select').select2();
+    });
+    $(".chosen-select").chosen();
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("EnqDate").value == "") {
+                isValid = false;
+                $(EnqDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Enq Date");
+                return false;
+            }
+            else {
+                $(EnqDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+        });
+
+    });
+</script>
