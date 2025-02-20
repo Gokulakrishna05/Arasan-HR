@@ -251,6 +251,9 @@
 
     }
     function changeItemDetails(ItemId, i) {
+        var party = document.getElementById("ddlCustomer").value;
+        var ratec = document.getElementById("txtRateC").value;
+        var ordtype = document.getElementById("lblordtype").value;
         $.ajax({
             url: 'GetItemDetails',
             data: { "ItemId": ItemId },
@@ -258,13 +261,40 @@
             success: function (result) {
                 document.getElementById("txtDes" + i).value = result.desc;
                 document.getElementById("txtUnit" + i).value = result.unit;
-                document.getElementById("txtRate" + i).value = result.price;
+                 
 
             },
             error: function () {
                 alert("Data Not Found");
             }
         });
+         $.ajax({
+                         url: 'GetItemRate',
+                    data: { "ItemId": ItemId, "custid": party ,"ratec": ratec,"ordtype":ordtype },
+                        type: "GET",
+                        success: function (result) {
+              
+               
+                if (typeid == "SAMPLE") {
+
+
+
+                    document.getElementById("txtRate" + i).value = 0;
+
+
+
+
+                }
+                else{
+                    document.getElementById("txtRate" + i).value = result.price;
+                }
+              
+
+                        },
+                        error: function () {
+                            alert("Data Not Found");
+                        }
+                    });
     }
     function changeQty(_this, i) {
         try {

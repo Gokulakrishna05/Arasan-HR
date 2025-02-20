@@ -36,16 +36,20 @@ namespace Arasan.Controllers.Sales_Export
             ca.RecList = BindEmp();
             ca.assignList = BindEmp();
             ca.Assign = Request.Cookies["UserId"];
+            ca.user = Request.Cookies["UserName"];
             ca.active = "1";
             ca.Prilst = BindPriority();
             ca.Officelst = BindOfficerType();
+            ca.Testlst = BindTest();
+            ca.Order = "ORDER";
+            ca.trancelst = BindTranceport();
             ca.jobDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Refdate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Emaildate = DateTime.Now.ToString("dd-MMM-yyyy");
-            DataTable dtv = datatrans.GetSequence("vchsl");
+            DataTable dtv = datatrans.GetSequence("eso");
             if (dtv.Rows.Count > 0)
             {
-                ca.Job = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+                ca.Job = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
             }
 
             List<WorkOrderItem> TData = new List<WorkOrderItem>();
@@ -62,6 +66,7 @@ namespace Arasan.Controllers.Sales_Export
 
                     //tda.ItemGrouplst = BindItemGrplst();
                     tda.Itemlst = BindItemlst();
+                    tda.itemspeclst = Bindpec();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -69,7 +74,7 @@ namespace Arasan.Controllers.Sales_Export
                 {
                     tda1 = new TermsDeatils();
 
-                    tda1.Tandclst = BindTandclst();
+                    //tda1.Tandclst = BindTandclst();
                     tda1.Condlst = BindCondlst();
                     tda1.Isvalid1 = "Y";
                     TData1.Add(tda1);
@@ -144,6 +149,37 @@ namespace Arasan.Controllers.Sales_Export
 
             return View(ca);
         }
+        public List<SelectListItem> BindTest()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "NOT TO BE SENT", Value = "NOT TO BE SENT" });
+                lstdesg.Add(new SelectListItem() { Text = "TO BE SENT", Value = "TO BE SENT" });
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindTranceport()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT PARTYMASTID,PARTYNAME FROM PARTYMAST WHERE TYPE='TRANSPORTER' union select 1,'None' from dual union select 2,'Customer Vehicle' from dual union all select 3,'Own Vechicle' from dual");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         [HttpPost]
         public ActionResult Export_WorkOrder(ExportWorkOrder Cy, string id)
         {
@@ -215,6 +251,30 @@ namespace Arasan.Controllers.Sales_Export
             {
                 throw ex;
             }
+        }
+        public List<SelectListItem> Bindpec()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT COMMON_VALUE FROM COMMONMASTER WHERE COMMON_TEXT='JOSPEC'");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMMON_VALUE"].ToString(), Value = dtDesg.Rows[i]["COMMON_VALUE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public JsonResult GetItemspecJSON()
+        {
+            //BatchItem model = new BatchItem();
+            //model.Processidlst = BindProcessid(itemid);
+            return Json(Bindpec());
+
         }
         public List<SelectListItem> BindCurrency()
         {
@@ -327,32 +387,16 @@ namespace Arasan.Controllers.Sales_Export
                 throw ex;
             }
         }
-        public List<SelectListItem> BindTandclst()
-        {
-            try
-            {
-                DataTable dtDesg = ExportWorkOrder.Gettemplete();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TEMPID"].ToString(), Value = dtDesg.Rows[i]["TANDCBASICID"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+       
         public List<SelectListItem> BindCondlst()
         {
             try
             {
-                DataTable dtDesg = ExportWorkOrder.GetCondition();
+                DataTable dtDesg = datatrans.GetData("SELECT TANDC FROM TANDCDETAIL,TANDCBASIC WHERE TANDCBASIC.TANDCBASICID=TANDCDETAIL.TANDCBASICID AND TANDCBASIC.TEMPID='Sales Terms'");
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TANDC"].ToString(), Value = dtDesg.Rows[i]["TANDCDETAILID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TANDC"].ToString(), Value = dtDesg.Rows[i]["TANDC"].ToString() });
                 }
                 return lstdesg;
             }
@@ -361,6 +405,7 @@ namespace Arasan.Controllers.Sales_Export
                 throw ex;
             }
         }
+         
         public ActionResult GetItemDetails(string ItemId)
         {
             try
@@ -394,12 +439,12 @@ namespace Arasan.Controllers.Sales_Export
             model.Itemlst = BindItemlst();
             return Json(BindItemlst());
         }
-        public JsonResult GetTandclstJSON()
-        {
-            TermsDeatils model = new TermsDeatils();
-            model.Tandclst = BindTandclst();
-            return Json(BindTandclst());
-        }
+        //public JsonResult GetTandclstJSON()
+        //{
+        //    TermsDeatils model = new TermsDeatils();
+        //    model.Tandclst = BindTandclst();
+        //    return Json(BindTandclst());
+        //}
         public JsonResult GetCondlstJSON()
         {
             TermsDeatils model = new TermsDeatils();
@@ -608,6 +653,92 @@ namespace Arasan.Controllers.Sales_Export
                 throw ex;
             }
 
+        }
+        public ActionResult GetAdvDetails(string custid)
+        {
+            try
+            {
+                ExportWorkOrder cy = new ExportWorkOrder();
+                DataTable dtParty = datatrans.GetData("select distinct P.CREDITDAYS,P.CREDITLIMIT,P.GSTNO,P.PARTYNAME,P.ACCOUNTNAME,P.PartyGroup,A.ratecode,a.limit from PARTYMAST P,PartyAdvDisc A Where P.PartyMastID =A.PartyMastID(+) and A.active = 'Yes' and P.PARTYMASTID='" + custid + "' union select distinct P.CREDITDAYS,P.CREDITLIMIT,P.GSTNO,P.PARTYNAME,P.ACCOUNTNAME,P.PartyGroup,A.Bratecode,0 from PARTYMAST P,PartymastBRCode A Where P.PartyMastID =A.PartyMastID(+) and P.PARTYMASTID='" + custid + "' and 0=(select count(A.ratecode) from PARTYMAST P,PartyAdvDisc A Where P.PartyMastID =A.PartyMastID(+) and A.active = 'Yes' and P.PARTYMASTID='" + custid + "')");
+                cy.arc = dtParty.Rows[0]["ratecode"].ToString();
+                 
+               // cy.crd = (long)Convert.ToDouble(dtParty.Rows[0]["CREDITDAYS"].ToString());
+                
+                
+
+                var result = new { arc = cy.arc };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult Getdociddetails(string typeid)
+        {
+            try
+            {
+                string docid = "";
+                DataTable did = new DataTable();
+                if (typeid == "ORDER")
+                {
+                    did = datatrans.GetData("SELECT PREFIX,LASTNO as last FROM SEQUENCE WHERE PREFIX='ESO#'");
+                    docid = did.Rows[0]["PREFIX"].ToString() + "" + did.Rows[0]["last"].ToString();
+                }
+                else
+                {
+                    did = datatrans.GetData("SELECT PREFIX,LASTNO as last FROM SEQUENCE WHERE PREFIX='ESJF'");
+                    docid = did.Rows[0]["PREFIX"].ToString() + "" + did.Rows[0]["last"].ToString();
+                }
+
+
+
+                var result = new { docid = docid };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetItemRate(string ItemId, string custid, string ratec, string ordtype)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                string price = datatrans.GetDataString("Select nvl(sum(rate),0) rate , 1 AS SNO from (SELECT D.RATE FROM RATEBASIC B, RATEDETAIL D, ITEMMASTER I WHERE D.RCODE = '" + ratec + "' AND I.ITEMMASTERID = '" + ItemId + "' AND 'ORDER' ='" + ordtype + "' AND D.ITEMID = I.ITEMMASTERID AND B.RATEBASICID = D.RATEBASICID ANd B.VALIDFROM = (Select max(Validfrom) from Ratebasic R1 Where R1.RATECODE = '" + ratec + "' ANd R1.VALIDFROM <='" + DateTime.Now.ToString("dd-MMM-yyyy") + "') Union SELECT(-disc) FROM PARTYADVDISC WHERE PARTYMASTID ='" + custid + "' and active = 'Yes' and RATECODE = '" + ratec + "')");
+
+
+                var result = new { price = price };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public IActionResult ScheduleCreate(string Itemid, string qty, string rowid, string duedate)
+        {
+            ExportWorkOrder ca = new ExportWorkOrder();
+            string itemname = datatrans.GetDataString("SELECT ITEMID FROM ITEMMASTER WHERE ITEMMASTERID='" + Itemid + "'");
+            ca.item = itemname;
+            ca.qty = qty;
+            ca.duedate = duedate;
+
+            List<SchItem> TData = new List<SchItem>();
+            SchItem tda = new SchItem();
+
+            for (int i = 0; i < 1; i++)
+            {
+                tda = new SchItem();
+
+                tda.Isvalid = "Y";
+                TData.Add(tda);
+            }
+
+
+            ca.schlst = TData;
+            return View(ca);
         }
     }
 }

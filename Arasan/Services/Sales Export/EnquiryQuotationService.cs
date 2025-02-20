@@ -234,10 +234,10 @@ namespace Arasan.Services.Sales_Export
                 string StatementType = string.Empty; string svSQL = "";
                 datatrans = new DataTransactions(_connectionString);
 
-                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE TRANSTYPE = 'Ex-F' AND ACTIVESEQUENCE = 'T'");
-                string QuoNo = string.Format("{0}{1}", "Ex-F", (idc + 1).ToString());
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE TRANSTYPE = 'EQuo' AND ACTIVESEQUENCE = 'T'");
+                string QuoNo = string.Format("{0}{1}", "EQuo", (idc + 1).ToString());
 
-                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE = 'Ex-F' AND ACTIVESEQUENCE ='T'";
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE = 'EQuo' AND ACTIVESEQUENCE ='T'";
                 try
                 {
                     datatrans.UpdateStatus(updateCMd);

@@ -40,10 +40,10 @@ namespace Arasan.Controllers.Sales_Export
 			ca.Typelst = BindCusType();
 			ca.EnqDate = DateTime.Now.ToString("dd-MMM-yyyy");
 			ca.Currency = "1";
-			DataTable dtv = datatrans.GetSequence("vchsl");
+			DataTable dtv = datatrans.GetSequence("EEnq");
 			if (dtv.Rows.Count > 0)
 			{
-				ca.EnqNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+				ca.EnqNo = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
 			}
 			List<ExportItem> TData = new List<ExportItem>();
             ExportItem tda = new ExportItem();

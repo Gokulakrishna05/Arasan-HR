@@ -1,5 +1,7 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
+using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
@@ -19,7 +21,7 @@ namespace Arasan.Services
         public DataTable GetSupplier()
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT PARTYMASTID,PARTYNAME FROM PARTYMAST WHERE PARTYMAST.TYPE IN ('Customer','BOTH')";
+            SvSql = "SELECT PARTYMASTID,PARTYNAME FROM PARTYMAST WHERE PARTYMAST.TYPE IN ('Customer','BOTH')  AND COUNTRY NOT IN ('INDIA','null')";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -193,144 +195,220 @@ namespace Arasan.Services
         public string ExportWorkOrderCRUD(ExportWorkOrder cy)
         {
             string msg = "";
+            string updateCMd = "";
             try
             {
 
                 string StatementType = string.Empty; string svSQL = "";
                 datatrans = new DataTransactions(_connectionString);
-
-                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE TRANSTYPE = 'Ex-F' AND ACTIVESEQUENCE = 'T'");
-                string Job = string.Format("{0}{1}", "Ex-F", (idc + 1).ToString());
-
-                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE = 'Ex-F' AND ACTIVESEQUENCE ='T'";
-                try
+                if(cy.Order=="ORDER")
                 {
-                    datatrans.UpdateStatus(updateCMd);
+                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE TRANSTYPE = 'ESO#' AND ACTIVESEQUENCE = 'T'");
+                    string Job = string.Format("{0}{1}", "ESO#", (idc + 1).ToString());
+
+                    updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE = 'ESO#' AND ACTIVESEQUENCE ='T'";
+
+                    cy.Job = Job;
                 }
-                catch (Exception ex)
+                else
                 {
-                    throw ex;
+                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE TRANSTYPE = 'ESJF' AND ACTIVESEQUENCE = 'T'");
+                    string Job = string.Format("{0}{1}", "ESJF", (idc + 1).ToString());
+
+                    updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE = 'ESJF' AND ACTIVESEQUENCE ='T'";
+
+                    cy.Job = Job;
                 }
-                cy.Job = Job;
+                
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("EJOBASICPROC", objConn);
-                    /*objCmd.Connection = objConn;
-                    objCmd.CommandText = "DIRECTPURCHASEPROC";*/
+                    objConn.Open();
 
-                    objCmd.CommandType = CommandType.StoredProcedure;
-                    if (cy.ID == null)
+                    using (OracleCommand command = objConn.CreateCommand())
                     {
-                        StatementType = "Insert";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-
-                    }
-                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
-                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.Job;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.jobDate;
-                    objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = cy.active;
-                    
-                    objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
-                    objCmd.Parameters.Add("EXRATE", OracleDbType.NVarchar2).Value = cy.Rate;
-                    objCmd.Parameters.Add("ORDTYPE", OracleDbType.NVarchar2).Value = cy.Order;
-                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Customer;
-                    objCmd.Parameters.Add("CREFNO", OracleDbType.NVarchar2).Value = cy.Refno;
-                    objCmd.Parameters.Add("CREFDATE", OracleDbType.NVarchar2).Value = cy.Refdate;
-                    //objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.QuoNo;
-                    objCmd.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = cy.Officer;
-
-                    objCmd.Parameters.Add("SMSDATE", OracleDbType.NVarchar2).Value = cy.Emaildate;
-                    objCmd.Parameters.Add("SENDSMS", OracleDbType.NVarchar2).Value = cy.Send;
-
-                    objCmd.Parameters.Add("ASSIGNTO", OracleDbType.NVarchar2).Value = cy.Assign;
-                    objCmd.Parameters.Add("RECDBY", OracleDbType.NVarchar2).Value = cy.Recieved;
-
-                    objCmd.Parameters.Add("FOLLOWUPTIME", OracleDbType.NVarchar2).Value = cy.Time;
-                    objCmd.Parameters.Add("FOLLOWDT", OracleDbType.NVarchar2).Value = cy.FollowUp;
-                    objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Deatails;
-                    objCmd.Parameters.Add("TRANSPORTER", OracleDbType.NVarchar2).Value = cy.Transporter;
-                    objCmd.Parameters.Add("TEST", OracleDbType.NVarchar2).Value = cy.Test;
-
-                    objCmd.Parameters.Add("CREATED_BY", OracleDbType.Date).Value = DateTime.Now;
-                    objCmd.Parameters.Add("CREATED_ON", OracleDbType.NVarchar2).Value = cy.CreatedOn;
-                    objCmd.Parameters.Add("UPDATED_BY", OracleDbType.Date).Value = DateTime.Now;
-                    objCmd.Parameters.Add("UPDATED_ON", OracleDbType.NVarchar2).Value = cy.UpdatedOn;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Y";
-                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
-                    try
-                    {
-
-                        objConn.Open();
-                        objCmd.ExecuteNonQuery();
-                        Object Pid = objCmd.Parameters["OUTID"].Value;
-                        //string Pid = "0";
-                        if (cy.ID != null)
+                        using (OracleTransaction transaction = objConn.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
                         {
-                            Pid = cy.ID;
-                        }
-                        foreach (WorkOrderItem cp in cy.WorkOrderLst)
-                        {
-                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                            try
                             {
-                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                command.Transaction = transaction;
+                                //OracleCommand objCmd = new OracleCommand("EJOBASICPROC", objConn);
+                                ///*objCmd.Connection = objConn;
+                                //objCmd.CommandText = "DIRECTPURCHASEPROC";*/
+
+                                //objCmd.CommandType = CommandType.StoredProcedure;
+                                //if (cy.ID == null)
+                                //{
+                                //    StatementType = "Insert";
+                                //    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                //}
+                                //else
+                                //{
+                                //    StatementType = "Update";
+                                //    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+
+                                //}
+                                //objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
+                                //objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.Job;
+                                //objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.jobDate;
+                                //objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = cy.active;
+
+                                //objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
+                                //objCmd.Parameters.Add("EXRATE", OracleDbType.NVarchar2).Value = cy.Rate;
+                                //objCmd.Parameters.Add("ORDTYPE", OracleDbType.NVarchar2).Value = cy.Order;
+                                //objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Customer;
+                                //objCmd.Parameters.Add("CREFNO", OracleDbType.NVarchar2).Value = cy.Refno;
+                                //objCmd.Parameters.Add("CREFDATE", OracleDbType.NVarchar2).Value = cy.Refdate;
+                                ////objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.QuoNo;
+                                //objCmd.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = cy.Officer;
+
+                                //objCmd.Parameters.Add("SMSDATE", OracleDbType.NVarchar2).Value = cy.Emaildate;
+                                //objCmd.Parameters.Add("SENDSMS", OracleDbType.NVarchar2).Value = cy.Send;
+
+                                //objCmd.Parameters.Add("ASSIGNTO", OracleDbType.NVarchar2).Value = cy.Assign;
+                                //objCmd.Parameters.Add("RECDBY", OracleDbType.NVarchar2).Value = cy.Recieved;
+
+                                //objCmd.Parameters.Add("FOLLOWUPTIME", OracleDbType.NVarchar2).Value = cy.Time;
+                                //objCmd.Parameters.Add("FOLLOWDT", OracleDbType.NVarchar2).Value = cy.FollowUp;
+                                //objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Deatails;
+                                //objCmd.Parameters.Add("TRANSPORTER", OracleDbType.NVarchar2).Value = cy.Transporter;
+                                //objCmd.Parameters.Add("TEST", OracleDbType.NVarchar2).Value = cy.Test;
+
+                                //objCmd.Parameters.Add("CREATED_BY", OracleDbType.Date).Value = DateTime.Now;
+                                //objCmd.Parameters.Add("CREATED_ON", OracleDbType.NVarchar2).Value = cy.CreatedOn;
+                                //objCmd.Parameters.Add("UPDATED_BY", OracleDbType.Date).Value = DateTime.Now;
+                                //objCmd.Parameters.Add("UPDATED_ON", OracleDbType.NVarchar2).Value = cy.UpdatedOn;
+                                //objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Y";
+                                //objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                //objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                                string parentid = "Job Order " + cy.Job;
+                                string partyname=datatrans.GetDataString("SELECT PARTYNAME FROM PARTYMAST WHERE PARTYMASTID='"+ cy.Customer +"'");
+                                command.CommandText = "Insert into EJOBASIC (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,BRANCHID,DOCID,DOCDATE,ACTIVE,MAINCURRENCY,EXRATE,ORDTYPE,PARTYID,CREFNO,CREFDATE,TYPE,SMSDATE,SENDSMS,ASSIGNTO,RECDBY,FOLLOWUPTIME,FOLLOWDT,REMARKS,TRANSPORTER,TEST,CREATED_BY,CREATED_ON,STATUS,USERID,TRANSID,PARTYNAME,RATECODE,TEMPID,REFNO,PARENTACTIVITYID,PTERMS)" +
+                    " VALUES ('0','0','F','0','0' ,'" + cy.Branch + "','" + cy.Job + "','" + cy.jobDate + "','0','" + cy.Currency + "','" + cy.Rate + "','" + cy.Order + "','"+cy.Customer + "','" + cy.Refno + "','" + cy.Refdate + "','" + cy.Officer + "','" + cy.Emaildate + "','" + cy.Send + "','" + cy.Assign + "' ,'" + cy.Recieved + "','" + cy.Time + "','" + cy.FollowUp + "','" + cy.Deatails + "','" + cy.Transporter + "','" + cy.Test + "','" + DateTime.Now + "','" +  cy.user + "','Y','" + cy.user + "','eso','" + partyname + "','" + cy.arc + "','10074001335751','NONE','" + parentid + "','" + cy.payterms + "') RETURNING EJOBASICID INTO :OUTID";
+                                command.Parameters.Add("OUTID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                                command.ExecuteNonQuery();
+                               string Pid = command.Parameters["OUTID"].Value.ToString();
+                                command.Parameters.Clear();
+
+                                 
+                                
+                                //string Pid = "0";
+                                if (cy.ID != null)
                                 {
-                                    OracleCommand objCmds = new OracleCommand("EJODETAILPROC", objConns);
+                                    Pid = cy.ID;
+                                }
+                                int row = 1;
+                                foreach (WorkOrderItem cp in cy.WorkOrderLst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                                    {
+                                        //using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                        //{
+                                        //    OracleCommand objCmds = new OracleCommand("EJODETAILPROC", objConns);
+                                        //    if (cy.ID == null)
+                                        //    {
+                                        //        StatementType = "Insert";
+                                        //        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                        //    }
+                                        //    else
+                                        //    {
+                                        //        StatementType = "Update";
+                                        //        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                        //    }
+
+                                             string unit = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.Unit + "' ");
+
+
+                                        //    objCmds.CommandType = CommandType.StoredProcedure;
+                                        //    objCmds.Parameters.Add("EENQUIRYBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                        //    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
+                                        //    objCmds.Parameters.Add("ITEMSPEC", OracleDbType.NVarchar2).Value = cp.Des;
+                                        //    objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = unit;
+                                        //    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Qty;
+                                        //    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.Rate;
+                                        //    objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
+                                        //    objCmds.Parameters.Add("QDISC", OracleDbType.NVarchar2).Value = cp.QtyDisc;
+                                        //    objCmds.Parameters.Add("CDISC", OracleDbType.NVarchar2).Value = cp.CashDisc;
+                                        //    objCmds.Parameters.Add("IDISC", OracleDbType.NVarchar2).Value = cp.Introduction;
+                                        //    objCmds.Parameters.Add("TDISC", OracleDbType.NVarchar2).Value = cp.Trade;
+                                        //    objCmds.Parameters.Add("ADISC", OracleDbType.NVarchar2).Value = cp.Addition;
+                                        //    objCmds.Parameters.Add("SDISC", OracleDbType.NVarchar2).Value = cp.Special;
+                                        //    objCmds.Parameters.Add("DISCOUNT", OracleDbType.NVarchar2).Value = cp.Discount;
+                                        //    objCmds.Parameters.Add("BED", OracleDbType.NVarchar2).Value = cp.Bed;
+                                        //    //objCmds.Parameters.Add("DUEDATE", OracleDbType.NVarchar2).Value = cp.Due;
+                                        //    objCmds.Parameters.Add("MATSUPP", OracleDbType.NVarchar2).Value = cp.Supply;
+                                        //    objCmds.Parameters.Add("PACKSPEC", OracleDbType.NVarchar2).Value = cp.Packing;
+                                        //    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                            string itemname = datatrans.GetDataString("SELECT ITEMID FROM ITEMMASTER WHERE ITEMMASTERID='"+cp.ItemId+"'");
+                                           string itemsep = cp.itemspec + " " + itemname;
+                                            command.CommandText = "Insert into EJODETAIL (EJOBASICID,ITEMID,ITEMSPEC,UNIT,QTY,RATE,AMOUNT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,DISCOUNT,MATSUPP,PACKSPEC,ITEMTYPE,EJODETAILROW,DUEDATE,PARTYCTRL,BLOCKQTY,PEQTY,POQTY,PRECLQTY,DCQTY,MRPQTY,EXCISEQTY,REWORKQTY,REJQTY,INVQTY,FREIGHT,FREIGHTAMT) " +
+                                   "VALUES ('" + Pid + "','" + cp.ItemId + "','" + itemsep + "','" + unit + "','" + cp.Qty + "','" + cp.Rate + "','" + cp.Amount + "','" + cp.QtyDisc + "','" + cp.CashDisc + "','" + cp.Introduction + "','" + cp.Trade + "','" + cp.Addition + "','" + cp.Special + "','" + cp.Discount + "','OWN','" + cp.Packing + "','" + cp.itemspec + "','" + row + "','" + cp.Due + "','F','0','0','0','" + cp.Qty + "','0','0','0','0','0','0','0') RETURNING EJODETAIL INTO :OUTID";
+                                            command.Parameters.Add("OUTID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                                            command.ExecuteNonQuery();
+                                            string did = command.Parameters["OUTID"].Value.ToString();
+
+                                            command.Parameters.Clear();
+                                        if (!string.IsNullOrEmpty(cp.schqty))
+                                        {
+                                            string[] sqty = cp.schqty.Split('/');
+                                            string[] sdate = cp.schdate.Split('/');
+                                            int r = 1;
+
+
+                                            for (int i = 0; i < sqty.Length; i++)
+                                            {
+                                                itemname = datatrans.GetDataString("Select ITEMID from ITEMMASTER where ITEMMASTERID='" + cp.ItemId + "' ");
+
+                                                string schno = cy.Job + " - " + itemname + " - " + r;
+                                                string ssqty = sqty[i];
+                                                string scdate = sdate[i];
+
+
+
+                                                command.CommandText = "Insert into EJOSCHEDULE(EJOBASICID,PARENTRECORDID,EJOSCHEDULEROW,SCHNO,SCHQTY,SCHDATE,SCHSUPPQTY,PARENTROW,SCHITEMID) VALUES ('" + Pid + "','" + did + "','" + r + "','" + schno + "','" + ssqty + "','" + scdate + "','0','" + r + "','" + cp.ItemId + "')";
+                                                command.ExecuteNonQuery();
+
+                                                r++;
+                                            }
+                                        }
+                                    }
+                                    row++;
+
+                                    }
+                                if (cy.TermsDeaLst != null)
+                                {
                                     if (cy.ID == null)
                                     {
-                                        StatementType = "Insert";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                        int r = 1;
+                                        foreach (TermsDeatils cp in cy.TermsDeaLst)
+                                        {
+
+                                            if (cp.Isvalid1 == "Y" && cp.Conditions != "")
+                                            {
+
+                                                command.CommandText = "Insert into EJOTANDC(EJOBASICID,EJOTANDCROW,TERMSANDCONDITION,JOTANDCROW) VALUES ('" + Pid + "','" + r + "','" + cp.Conditions + "','"+r+"')";
+                                                command.ExecuteNonQuery();
+
+                                                r++;
+                                            }
+                                        }
                                     }
-                                    else
-                                    {
-                                        StatementType = "Update";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                    }
-
-                                    string unit = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.Unit + "' ");
-
-
-                                    objCmds.CommandType = CommandType.StoredProcedure;
-                                    objCmds.Parameters.Add("EENQUIRYBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                    objCmds.Parameters.Add("ITEMSPEC", OracleDbType.NVarchar2).Value = cp.Des;
-                                    objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = unit;
-                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Qty;
-                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.Rate;
-                                    objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
-                                    objCmds.Parameters.Add("QDISC", OracleDbType.NVarchar2).Value = cp.QtyDisc;
-                                    objCmds.Parameters.Add("CDISC", OracleDbType.NVarchar2).Value = cp.CashDisc;
-                                    objCmds.Parameters.Add("IDISC", OracleDbType.NVarchar2).Value = cp.Introduction;
-                                    objCmds.Parameters.Add("TDISC", OracleDbType.NVarchar2).Value = cp.Trade;
-                                    objCmds.Parameters.Add("ADISC", OracleDbType.NVarchar2).Value = cp.Addition;
-                                    objCmds.Parameters.Add("SDISC", OracleDbType.NVarchar2).Value = cp.Special;
-                                    objCmds.Parameters.Add("DISCOUNT", OracleDbType.NVarchar2).Value = cp.Discount;
-                                    objCmds.Parameters.Add("BED", OracleDbType.NVarchar2).Value = cp.Bed;
-                                    //objCmds.Parameters.Add("DUEDATE", OracleDbType.NVarchar2).Value = cp.Due;
-                                    objCmds.Parameters.Add("MATSUPP", OracleDbType.NVarchar2).Value = cp.Supply;
-                                    objCmds.Parameters.Add("PACKSPEC", OracleDbType.NVarchar2).Value = cp.Packing;
-                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                    objConns.Open();
-                                    objCmds.ExecuteNonQuery();
-                                    objConns.Close();
                                 }
 
-                            }
 
+                                transaction.Commit();
+                                datatrans.UpdateStatus(updateCMd);
+
+                            }
+                            catch (Exception ex)
+                            {
+                                transaction.Rollback();
+                                Console.WriteLine(ex.ToString());
+                                Console.WriteLine("Neither record was written to database.");
+                            }
                         }
                     }
-
-                    catch (Exception ex)
-                    {
-                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
-                    }
-                    //objConn.Close();
+                    objConn.Close();
                 }
             }
             catch (Exception ex)

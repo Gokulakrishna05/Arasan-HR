@@ -35,10 +35,10 @@ namespace Arasan.Controllers.Sales_Export
             ca.Typelst = BindCusType();
             ca.QuoDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Currency = "1";
-            DataTable dtv = datatrans.GetSequence("vchsl");
+            DataTable dtv = datatrans.GetSequence("EQuot");
             if (dtv.Rows.Count > 0)
             {
-                ca.QuoNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+                ca.QuoNo = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
             }
 
             List<QuotationItem> TData = new List<QuotationItem>();

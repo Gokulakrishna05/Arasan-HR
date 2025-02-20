@@ -20,6 +20,9 @@ namespace Arasan.Models
         public List<SelectListItem> Brlst;
         public string Branch { get; set; }
         public string Customer { get; set; }
+        public string arc { get; set; }
+        public string txttype { get; set; }
+        public double crd { get; set; }
 
         public List<SelectListItem> Suplst;
         public string Currency { get; set; }
@@ -28,8 +31,11 @@ namespace Arasan.Models
 
         public List<SelectListItem> RecList;
         public string Assign { get; set; }
+        public string user { get; set; }
 
         public List<SelectListItem> assignList;
+        public List<SelectListItem> Testlst;
+        public List<SelectListItem> trancelst;
         public string Recieved { get; set; }
         public List<SelectListItem> Prilst;
         public string Order { get; set; }
@@ -38,7 +44,11 @@ namespace Arasan.Models
         public string Job { get; set; }
         public string jobDate { get; set; }
         public string active { get; set; }
+        public string item { get; set; }
+        public string qty { get; set; }
+        public string duedate { get; set; }
         public string Rate { get; set; }
+        public string payterms { get; set; }
         public string Refno { get; set; }
         public string Refdate { get; set; }
         public string QuoNo { get; set; }
@@ -59,14 +69,19 @@ namespace Arasan.Models
 
         public List<WorkOrderItem> WorkOrderLst { get; set; }
         public List<TermsDeatils> TermsDeaLst { get; set; }
+        public List<SchItem> schlst { get; set; }
 
     }
     public class WorkOrderItem
     {
         public string ID { get; set; }
         public string ItemId { get; set; }
+        public string itemspec { get; set; }
         public string saveItemId { get; set; }
+        public string schqty { get; set; }
+        public string schdate { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
+        public List<SelectListItem> itemspeclst { get; set; }
         public string Des { get; set; }
         public string Isvalid { get; set; }
         public string Unit { get; set; }
@@ -107,5 +122,18 @@ namespace Arasan.Models
         public string editrow { get; set; }
         public string delrow { get; set; }
         public string view { get; set; }
+    }
+    public class SchItem
+    {
+        public string ID { get; set; }
+        public string item { get; set; }
+
+        public string schdate { get; set; }
+        public string schqty { get; set; }
+        public string schno { get; set; }
+
+        public string Isvalid { get; set; }
+
+
     }
 }

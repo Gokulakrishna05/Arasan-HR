@@ -19,7 +19,7 @@ namespace Arasan.Services
 		public DataTable GetSupplier()
 		{
 			string SvSql = string.Empty;
-			SvSql = "SELECT PARTYMASTID,PARTYNAME FROM PARTYMAST WHERE PARTYMAST.TYPE IN ('Customer','BOTH')";
+			SvSql = "SELECT PARTYMASTID,PARTYNAME FROM PARTYMAST WHERE PARTYMAST.TYPE IN ('Customer','BOTH') AND COUNTRY NOT IN ('INDIA','null')";
 			DataTable dtt = new DataTable();
 			OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
 			OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -295,10 +295,10 @@ namespace Arasan.Services
                 string StatementType = string.Empty; string svSQL = "";
                 datatrans = new DataTransactions(_connectionString);
 
-                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE TRANSTYPE = 'Ex-F' AND ACTIVESEQUENCE = 'T'");
-                string EnqNo = string.Format("{0}{1}", "Ex-F", (idc + 1).ToString());
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE TRANSTYPE = 'EEnq' AND ACTIVESEQUENCE = 'T'");
+                string EnqNo = string.Format("{0}{1}", "EEnq", (idc + 1).ToString());
 
-                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE = 'Ex-F' AND ACTIVESEQUENCE ='T'";
+                string updateCMd = "UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE = 'EEnq' AND ACTIVESEQUENCE ='T'";
                 try
                 {
                     datatrans.UpdateStatus(updateCMd);
@@ -363,39 +363,73 @@ namespace Arasan.Services
                         {
                             Pid = cy.ID;
                         }
-                        foreach (ExportItem cp in cy.ExportLst)
+
+                        using (OracleConnection objConns = new OracleConnection(_connectionString))
                         {
-                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
+
+                            if (cy.ID == null)
                             {
-                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                int r = 1;
+                                foreach (ExportItem cp in cy.ExportLst)
                                 {
-                                    OracleCommand objCmds = new OracleCommand("EXPORTENQDETAILPROC", objConns);
-                                    if (cy.ID == null)
+                                    if (cp.Isvalid == "Y" && cp.ItemId != "0")
                                     {
+                                        OracleCommand objCmds = new OracleCommand("EXPORTENQDETAILPROC", objConns);
+
                                         StatementType = "Insert";
                                         objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                        objCmds.CommandType = CommandType.StoredProcedure;
+                                        objCmds.Parameters.Add("EENQUIRYBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                        objCmds.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = cp.ItemId;
+                                        objCmds.Parameters.Add("ITEMDETAILS", OracleDbType.NVarchar2).Value = cp.Des;
+                                        objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
+                                        objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Qty;
+                                        objCmds.Parameters.Add("EENQUIRYDETAILROW", OracleDbType.NVarchar2).Value =r;
+                                        objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                        objConns.Open();
+                                        objCmds.ExecuteNonQuery();
+                                        objConns.Close();
                                     }
-                                    else
-                                    {
-                                        StatementType = "Update";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                    }
-                                    objCmds.CommandType = CommandType.StoredProcedure;
-                                    objCmds.Parameters.Add("EENQUIRYBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                    objCmds.Parameters.Add("ITEMDETAILS", OracleDbType.NVarchar2).Value = cp.Des;
-                                    objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
-                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Qty;
-                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                    objConns.Open();
-                                    objCmds.ExecuteNonQuery();
-                                    objConns.Close();
+                                    r++;
                                 }
 
                             }
 
-                        }
-                    }
+                            else
+                            {
+                                svSQL = "Delete PINDDETAIL WHERE PINDBASICID='" + cy.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+                                int r = 1;
+                                foreach (ExportItem cp in cy.ExportLst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                                    {
+                                        OracleCommand objCmds = new OracleCommand("EXPORTENQDETAILPROC", objConns);
+                                         
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                        objCmds.CommandType = CommandType.StoredProcedure;
+                                        objCmds.Parameters.Add("EENQUIRYBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                        objCmds.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = cp.ItemId;
+                                        objCmds.Parameters.Add("ITEMDETAILS", OracleDbType.NVarchar2).Value = cp.Des;
+                                        objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
+                                        objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Qty;
+                                        objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                        objConns.Open();
+                                        objCmds.ExecuteNonQuery();
+                                        objConns.Close();
+                                    }
+                                    r++;
+                                }
+                            }
+                                   
+                                   
+                                }
+
+                            }
+ 
+                
 
                     catch (Exception ex)
                     {
