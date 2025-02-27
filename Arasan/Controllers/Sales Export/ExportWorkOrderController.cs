@@ -42,7 +42,7 @@ namespace Arasan.Controllers.Sales_Export
             ca.Officelst = BindOfficerType();
             ca.Testlst = BindTest();
             ca.Order = "ORDER";
-            ca.trancelst = BindTranceport();
+            ca.trancelst = BindDesp();
             ca.jobDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Refdate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Emaildate = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -205,15 +205,16 @@ namespace Arasan.Controllers.Sales_Export
                 else
                 {
                     ViewBag.PageTitle = "Edit Export WorkOrder";
-                    TempData["notice"] = Strout;
-                    //return View();
+                    TempData["notice"] = "Not Inserted";
+                    return RedirectToAction("ListExportWorkOrder");
                 }
 
                 // }
             }
             catch (Exception ex)
             {
-                throw ex;
+                TempData["notice"] = "Not Inserted";
+                return RedirectToAction("ListExportWorkOrder");
             }
 
             return View(Cy);
@@ -228,6 +229,25 @@ namespace Arasan.Controllers.Sales_Export
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BRANCHID"].ToString(), Value = dtDesg.Rows[i]["BRANCHMASTID"].ToString() });
                 }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindDesp()
+        {
+            try
+            {
+
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "NONE", Value = "NONE" });
+                lstdesg.Add(new SelectListItem() { Text = "BY AIR", Value = "BY AIR" });
+                lstdesg.Add(new SelectListItem() { Text = "BY VAN", Value = "BY VAN" });
+               
+                lstdesg.Add(new SelectListItem() { Text = "SHIP", Value = "SHIP" });
+                
                 return lstdesg;
             }
             catch (Exception ex)
@@ -467,12 +487,15 @@ namespace Arasan.Controllers.Sales_Export
                 string ViewRow = string.Empty;
                 string EditRow = string.Empty;
                 string DeleteRow = string.Empty;
+                string Close = string.Empty;
 
                 if (dtUsers.Rows[i]["STATUS"].ToString() == "Y")
                 {
                     SendMail = "<a href=SendMail?id=" + dtUsers.Rows[i]["EJOBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
                     EditRow = "<a href=Export_WorkOrder?id=" + dtUsers.Rows[i]["EJOBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                     ViewRow = "<a href=ViewExportWorkOrder?id=" + dtUsers.Rows[i]["EJOBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View' /></a>";
+                    Close = "<a href=/ExWorkOrderClose/ExWorkOrderClose?id=" + dtUsers.Rows[i]["EJOBASICID"].ToString() + "><img src='../Images/close_icon.png' alt='close' /></a>";
+
                     DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["EJOBASICID"].ToString() + "";
 
                 }
@@ -490,6 +513,7 @@ namespace Arasan.Controllers.Sales_Export
                     view = ViewRow,
                     editrow = EditRow,
                     delrow = DeleteRow,
+                    close = Close,
 
 
 
@@ -739,6 +763,415 @@ namespace Arasan.Controllers.Sales_Export
 
             ca.schlst = TData;
             return View(ca);
+        }
+
+        public IActionResult DispatchDrumAllo(string id)
+        {
+            ExportWorkOrder ca = new ExportWorkOrder();
+            ca.Branch = Request.Cookies["BranchId"];
+
+            ca.JopDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            ca.Location = Request.Cookies["LocationId"];
+            ca.Emp = Request.Cookies["UserId"];
+            ca.user = Request.Cookies["UserName"];
+
+            
+            DataTable dtv = datatrans.GetSequence("EJDP");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.JopId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
+            }
+            List<ExWorkItem> TData = new List<ExWorkItem>();
+            ExWorkItem tda = new ExWorkItem();
+
+            if (id == null)
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new ExWorkItem();
+                    
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+
+
+            }
+
+
+            ca.Worklst = TData;
+
+            return View(ca);
+        }
+        [HttpPost]
+
+        public ActionResult DispatchDrumAllo(ExportWorkOrder cy, string id)
+        {
+
+            try
+            {
+                cy.ID = id;
+                string Strout = ExportWorkOrder.DispDrumCRUD(cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (cy.ID == null)
+                    {
+                        TempData["notice"] = "DrumAllocation Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "DrumAllocation Updated Successfully...!";
+                    }
+                    return RedirectToAction("DispatchDrumAllo");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit Schselect";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(cy);
+        }
+        public List<SelectListItem> BindLocation(string id, string emp)
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData(" select L.LOCDETAILSID,L.LOCID from LOCDETAILS L,EMPLOYEELOCATION E WHERE L.BRANCHID='"+id+ "' AND E.LOCID=L.LOCDETAILSID AND E.EMPID='"+emp+"' AND L.TRADEYN='Yes'");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public JsonResult GetstkitemDetail(string indentid)
+        {
+            ExportWorkOrder ca = new ExportWorkOrder();
+            List<SchItem> TDatab = new List<SchItem>();
+            SchItem tdab = new SchItem();
+            DataTable dt = new DataTable();
+            DataTable dt1 = new DataTable();
+            //string[] lotno = indentid.Split(',');
+            //string[] lotqty = doctype.Split(',');
+
+
+            dt = datatrans.GetData("Select JS.EJOSCHEDULEID,JS.SCHNO,JS.SCHQTY,J.DOCID,J.PARTYNAME,to_char(JS.SCHDATE,'dd-MON-yyyy')SCHDATE,to_char(J.DOCDATE,'dd-MON-yyyy')DOCDATE,JD.QTY,JS.IS_ALLOCATE,ITEMMASTER.ITEMID from EJOSCHEDULE JS LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=JS.SCHITEMID,EJOBASIC J,EJODETAIL JD    WHERE J.EJOBASICID =JS.EJOBASICID AND JS.PARENTRECORDID =JD.EJODETAILID AND JS.EJOSCHEDULEID IN (" + indentid + ") ");
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    tdab = new SchItem();
+
+                    tdab.jobno = dt.Rows[i]["DOCID"].ToString();
+
+                    tdab.suppliar = dt.Rows[i]["PARTYNAME"].ToString();
+                    tdab.schno = dt.Rows[i]["SCHNO"].ToString();
+                    tdab.schdate = dt.Rows[i]["SCHDATE"].ToString();
+                    tdab.qty = dt.Rows[i]["SCHQTY"].ToString();
+                    tdab.schid = dt.Rows[i]["EJOSCHEDULEID"].ToString();
+                    tdab.itemid = dt.Rows[i]["ITEMID"].ToString();
+
+                    TDatab.Add(tdab);
+                }
+            }
+
+            ca.schlst = TDatab;
+            return Json(ca.schlst);
+        }
+        public IActionResult Schselect()
+        {
+            ExportWorkOrder ca = new ExportWorkOrder();
+            List<SchItem> TDatab = new List<SchItem>();
+            SchItem tdab = new SchItem();
+            DataTable dt = new DataTable();
+            dt = datatrans.GetData(" Select JS.EJOSCHEDULEID,JS.SCHNO,JS.SCHQTY-JS.SCHSUPPQTY SCHQTY,J.DOCID,J.PARTYNAME,to_char(JS.SCHDATE,'dd-MON-yyyy')SCHDATE,to_char(J.DOCDATE,'dd-MON-yyyy')DOCDATE,JD.QTY,JS.IS_ALLOCATE from EJOSCHEDULE JS,EJOBASIC J,EJODETAIL JD    WHERE J.EJOBASICID =JS.EJOBASICID AND JS.PARENTRECORDID =JD.EJODETAILID AND   J.STATUS='Y' AND J.ACTIVE='0'  AND  JD.QTY-JD.PRECLQTY-EXCISEQTY > 0 AND JS.SCHQTY-JS.SCHSUPPQTY>0 AND JS.IS_DRUMDISP='N' ORDER BY to_date(J.DOCDATE) DESC,J.DOCID DESC");
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    tdab = new SchItem();
+                    // tdab.item = dt.Rows[i]["ITEMID"].ToString();
+                    //tdab.invid = dt.Rows[i]["EMPNAME"].ToString();
+                    tdab.qty = dt.Rows[i]["SCHQTY"].ToString();
+                    //tdab.item = dt.Rows[i]["EMPMASTID"].ToString();
+                    tdab.schdate = dt.Rows[i]["SCHDATE"].ToString();
+                    tdab.schid = dt.Rows[i]["EJOSCHEDULEID"].ToString();
+                    tdab.schno = dt.Rows[i]["SCHNO"].ToString();
+                    tdab.suppliar = dt.Rows[i]["PARTYNAME"].ToString();
+                    tdab.jobno = dt.Rows[i]["DOCID"].ToString();
+
+
+                    TDatab.Add(tdab);
+                }
+            }
+            ca.schlst = TDatab;
+            return View(ca);
+        }
+
+        public IActionResult ListWorkSchedule()
+        {
+            //IEnumerable<WorkOrder> cmp = WorkOrderService.GetAllWorkOrder(status);
+            return View();
+        }
+        public ActionResult MyListWorkScheduleGrid()
+        {
+            List<ListEWSchItems> Reg = new List<ListEWSchItems>();
+            DataTable dtUsers = new DataTable();
+            //strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)ExportWorkOrder.GetAllListWorkScheduleItems();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string View = string.Empty;
+                string deactive = string.Empty;
+                string Drum = string.Empty;
+                if (dtUsers.Rows[i]["IS_ALLOCATE"].ToString() == "Y")
+                {
+                    Drum = "";
+                    View = "<a href=ViewDrumAllocation?id=" + dtUsers.Rows[i]["EJOSCHEDULEID"].ToString() + " class='fancybox' data-fancybox-type='iframe' ><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                    deactive = "<a href=StockRelease?id=" + dtUsers.Rows[i]["EJOSCHEDULEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                }
+                else
+                {
+                    Drum = "<a href=WDrumAllocation?id=" + dtUsers.Rows[i]["EJOSCHEDULEID"].ToString() + "><img src='../Images/checklist.png' alt='Allocate' /></a>";
+                    View = "";
+                    deactive = "";
+                }
+
+
+
+                Reg.Add(new ListEWSchItems
+                {
+
+                    id = dtUsers.Rows[i]["EJOSCHEDULEID"].ToString(),
+                    jobid = dtUsers.Rows[i]["DOCID"].ToString(),
+                    schid = dtUsers.Rows[i]["SCHNO"].ToString(),
+                    qty = dtUsers.Rows[i]["QTY"].ToString(),
+
+                    customername = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    schdate = dtUsers.Rows[i]["SCHDATE"].ToString(),
+                    schqty = dtUsers.Rows[i]["SCHQTY"].ToString(),
+
+                    docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    dispdate = dtUsers.Rows[i]["dispdate"].ToString(),
+                    dispid = dtUsers.Rows[i]["dipid"].ToString(),
+                    view = View,
+                    deactive = deactive,
+                    drum = Drum,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public ActionResult StockRelease(string id)
+        {
+            string shid = datatrans.GetDataString("SELECT EJODRUMALLOCATIONBASICID FROM EJODRUMALLOCATIONBASIC WHERE EJOSCHEDULEID='" + id + "' AND IS_ALLOCATE='Y'");
+
+            DataTable lot = datatrans.GetData("SELECT PLSTOCKID FROM EJODRUMALLOCATIONDETAIL WHERE EJODRUMALLOCATIONBASICID='" + shid + "'");
+            string joid = datatrans.GetDataString("SELECT JOPID FROM EJODRUMALLOCATIONBASIC WHERE EJODRUMALLOCATIONBASICID='" + shid + "'");
+            string flag = "";
+            if (lot.Rows.Count > 0)
+            {
+                for (int i = 0; i < lot.Rows.Count; i++)
+                {
+                    string lotno = lot.Rows[i]["PLSTOCKID"].ToString();
+                    flag = ExportWorkOrder.StatusStockRelease(lotno, joid, id);
+                }
+            }
+
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListWorkSchedule");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListWorkSchedule");
+            }
+        }
+        public ActionResult ViewDrumAllocation(string id)
+        {
+            EWDrumAllocation ca = new EWDrumAllocation();
+            DataTable dt = new DataTable();
+            string shid = datatrans.GetDataString("SELECT EJODRUMALLOCATIONBASICID FROM EJODRUMALLOCATIONBASIC WHERE EJOSCHEDULEID='" + id + "' AND IS_ALLOCATE='Y'");
+            dt = ExportWorkOrder.GetDrumAllByID(shid);
+            if (dt.Rows.Count > 0)
+            {
+                //ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.Location = dt.Rows[0]["LOCID"].ToString();
+                ca.JobId = dt.Rows[0]["jobid"].ToString();
+                //ca.JobDate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.Customername = dt.Rows[0]["PARTYNAME"].ToString();
+
+
+                //ca.JOId = dt.Rows[0]["JOBASICID"].ToString();
+                ca.DOCId = dt.Rows[0]["DOCID"].ToString();
+                ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+            }
+
+            List<EWorkItem> TData = new List<EWorkItem>();
+            EWorkItem tda = new EWorkItem();
+            DataTable dtt = new DataTable();
+            dtt = ExportWorkOrder.GetDrumAllDetails(shid);
+            if (dtt.Rows.Count > 0)
+            {
+
+                tda = new EWorkItem();
+
+                tda.items = dtt.Rows[0]["ITEMID"].ToString();
+                //tda.orderqty = dtt.Rows[i]["QTY"].ToString();
+
+                List<EDrumdetails> tlstdrum = new List<EDrumdetails>();
+                EDrumdetails tdrum = new EDrumdetails();
+                DataTable dt3 = new DataTable();
+                dt3 = ExportWorkOrder.GetAllocationDrumDetails(shid);
+                if (dt3.Rows.Count > 0)
+                {
+                    int sn = 1;
+                    for (int j = 0; j < dt3.Rows.Count; j++)
+                    {
+                        tdrum = new EDrumdetails();
+                        tdrum.sno = sn.ToString();
+                        tdrum.lotno = dt3.Rows[j]["LOTNO"].ToString();
+                        tdrum.drumno = dt3.Rows[j]["DRUMNO"].ToString();
+                        tdrum.qty = dt3.Rows[j]["QTY"].ToString();
+                        tdrum.rate = dt3.Rows[j]["RATE"].ToString();
+                        sn++;
+                        tlstdrum.Add(tdrum);
+                    }
+                }
+                tda.drumlst = tlstdrum;
+                TData.Add(tda);
+
+            }
+            ca.Worklst = TData;
+            return View(ca);
+        }
+        public ActionResult WDrumAllocation(string id)
+        {
+            EWDrumAllocation ca = new EWDrumAllocation();
+            DataTable dt = new DataTable();
+            dt = ExportWorkOrder.GetWorkOrderByID(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                //ca.Location = dt.Rows[0]["LOCID"].ToString();
+                ca.JobId = dt.Rows[0]["DOCID"].ToString();
+                ca.JobDate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.Customername = dt.Rows[0]["PARTYNAME"].ToString();
+                ca.CustomerId = dt.Rows[0]["CUSTOMERID"].ToString();
+               // ca.Locid = dt.Rows[0]["LOCMASTERID"].ToString();
+                ca.Schno = dt.Rows[0]["SCHNO"].ToString();
+                ca.Schdate = dt.Rows[0]["SCHDATE"].ToString();
+                ca.JOId = dt.Rows[0]["EJOBASICID"].ToString();
+            }
+            ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence("eJod");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DOCId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
+            }
+            List<EWorkItem> TData = new List<EWorkItem>();
+            EWorkItem tda = new EWorkItem();
+            DataTable dtt = new DataTable();
+            dtt = ExportWorkOrder.GetWorkOrderDetailsss(id);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new EWorkItem();
+                    tda.itemid = dtt.Rows[i]["item"].ToString();
+                    tda.items = dtt.Rows[i]["ITEMID"].ToString();
+                    tda.orderqty = dtt.Rows[i]["SCHQTY"].ToString();
+                    tda.Jodetailid = dtt.Rows[i]["EJODETAILID"].ToString();
+
+                    List<EDrumdetails> tlstdrum = new List<EDrumdetails>();
+                    EDrumdetails tdrum = new EDrumdetails();
+                    DataTable dt3 = new DataTable();
+                    dt3 = ExportWorkOrder.GetDrumDetails(tda.itemid, "12423000000238");
+                    if (dt3.Rows.Count > 0)
+                    {
+                        for (int j = 0; j < dt3.Rows.Count; j++)
+                        {
+                            tdrum = new EDrumdetails();
+                            tdrum.lotno = dt3.Rows[j]["LOTNO"].ToString();
+                            tdrum.drumno = dt3.Rows[j]["DRUMNO"].ToString();
+                            tdrum.qty = dt3.Rows[j]["QTY"].ToString();
+                            //tdrum.rate = dt3.Rows[j]["RATE"].ToString();
+                            tdrum.invid = datatrans.GetDataString("SELECT PLSTOCKVALUEID FROM PLSTOCKVALUE WHERE LOTNO='" + tdrum.lotno + "'");
+                            tlstdrum.Add(tdrum);
+                        }
+                    }
+                    tda.drumlst = tlstdrum;
+                    TData.Add(tda);
+                }
+            }
+            ca.Worklst = TData;
+            return View(ca);
+        }
+        [HttpPost]
+        [RequestFormLimits(ValueCountLimit = int.MaxValue)]
+
+        public ActionResult EWDrumAllocation(EWDrumAllocation cy, string id)
+        {
+
+            try
+            {
+                cy.ID = id;
+                string Strout = ExportWorkOrder.DrumAllocationCRUD(cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (cy.ID == null)
+                    {
+                        TempData["notice"] = "DrumAllocation Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "DrumAllocation Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListWorkSchedule");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit WDrumAllocation";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(cy);
         }
     }
 }

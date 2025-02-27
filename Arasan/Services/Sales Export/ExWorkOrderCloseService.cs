@@ -8,11 +8,11 @@ using System.Data;
 
 namespace Arasan.Services
 {
-    public class WorkOrderService : IWorkOrder
+    public class ExWorkOrderCloseService : IWorkOrder
     {
         private readonly string _connectionString;
         DataTransactions datatrans;
-        public WorkOrderService(IConfiguration _configuratio)
+        public ExWorkOrderCloseService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
@@ -169,7 +169,7 @@ namespace Arasan.Services
             }
             return Saved;
         }
-        public string WorkOrderCRUD(WorkOrder cy)
+        public string WorkOrderCRUD(ExWorkOrderClose cy)
         {
             string msg = "";
             try
@@ -316,5 +316,6 @@ namespace Arasan.Services
             return dtt;
         }
 
+        
     }
 }

@@ -14,7 +14,7 @@ namespace Arasan.Interface
         DataTable GetAllListWorkOrder(string strStatus);
         string StatusChange(string tag, string id);
         string ActStatusChange(string tag, string id);
-        string WorkOrderCRUD(WorkOrder cy);
+        string WorkOrderCRUD(ExWorkOrderClose cy);
         DataTable GetWorkOrder(string id);
         DataTable GetWorkOrderItem(string id);
     }

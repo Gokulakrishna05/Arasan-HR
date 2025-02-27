@@ -1,0 +1,349 @@
+﻿@model Arasan.Models.ExportWorkOrder
+@{
+    ViewData["Title"] = "Arasan";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="@Url.Action("SalesDash", "Home")">Home</a> </li>
+            <li> <a href="@Url.Action("Export_WorkOrder", "ExportWorkOrder")">Work Order</a> </li>
+            <li class="active"> <strong> Ready To Dispatch</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px"> Ready To Dispatch </h5>
+                    <hr>
+                    @using (Html.BeginForm("DispatchDrumAllo", "ExportWorkOrder", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            @* <div class="row">
+                        <div class="col-md-6">
+                        <div class="form-group">
+
+                        <label for="inputName3" class="col-sm-4 control-label">Branch <label class="Mandatory"></label></label>
+                        <div class="col-sm-8">
+                        @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
+                        </div>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-group">
+
+                        <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory">*</label></label>
+                        <div class="col-sm-8">
+
+                        @Html.DropDownListFor(C => C.Location, Model.Loc,"---Please Select---", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 ,@onchange="subitem(this.value)" })<br />
+
+                        </div>
+                        </div>
+                        </div>
+                        </div>*@
+                            <div style="height:15px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.JopId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1, @readonly = true })
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Branch)
+                                            @Html.HiddenFor(C => C.user)
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                            @Html.TextBoxFor(C => C.JopDate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2, @size = "31", @readonly = true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class='fa-hover col-md-2 col-sm-4'>
+                                        <a href='@Url.Action("Schselect", "ExportWorkOrder")' class='fancybox' data-fancybox-type="iframe"><img src='../Images/view_icon.png' /></a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:150px;">
+
+                                    @* <div class="ibox float-e-margins">*@
+
+                                    <!-- / ibox-title -->
+                                    @* <div id="demo3" class="ibox-content collapse in">
+                                <div class="borderedTable">
+                                <div class="table-scrollable">*@
+                                    <table class="table table-striped table-hover" id="dataTable">
+                                        <thead>
+                                            <tr>
+
+
+
+                                                <th> Job No </th>
+                                                <th>  Coustomer </th>
+                                                <th> Item </th>
+                                                <th> Schedule No </th>
+
+
+                                                @* <th>Con.Fac</th>
+                                            <th> Bin ID </th>
+                                            <th> Batch </th>
+                                            <th> Serial </th>*@
+
+                                                <th> Sch Date </th>
+                                                <th> Qty </th>
+
+                                                @*<th> Drum serial Number </th>
+                                            <th> Serial Number </th>
+                                            <th> Process ID</th>*@
+
+                                                @*<th>Batch</th>*@
+                                            </tr>
+
+                                        </thead>
+                                        <tbody id="tbBooks">
+
+
+                                            @* @{
+
+                                        int i = 0;
+
+                                        foreach (var item in Model.Itlst.ToList())
+                                        {
+
+                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+
+
+                                        <td>
+                                        @Html.DropDownListFor(o => o.Itlst[i].ItemId, Model.Itlst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 350px;", onchange = "changeItem(this.value," + i + ")" })
+                                        @Html.HiddenFor(o => o.Itlst[i].saveItemId)
+                                        @Html.HiddenFor(o => o.Itlst[i].dqty,new{@id="dqty" + i})
+                                        @Html.HiddenFor(o => o.Itlst[i].drate,new{@id="drate" + i})
+                                        @Html.HiddenFor(o => o.Itlst[i].Lotno, new { @id = "lotno" + i })
+                                        @Html.HiddenFor(o => o.Itlst[i].ddrum, new { @id = "ddrum" + i })
+                                        @Html.HiddenFor(o => o.Itlst[i].damount, new { @id = "damount" + i })
+                                        @Html.HiddenFor(o => o.Itlst[i].dstock, new { @id = "dstock" + i })
+                                        </td>
+                                        <td><label id="lot@(i)"></label></td>
+                                        <td>
+                                        @Html.TextBoxFor(o => o.Itlst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})@Html.HiddenFor(o => o.Itlst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
+                                        </td>
+                                        @* <td>
+                                        @Html.TextBoxFor(o => o.Itlst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
+                                        </td>
+                                        <td>
+                                        @Html.TextBoxFor(o => o.Itlst[i]. BinID, new { @id = "txtBinID" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;", @readonly = "readonly" })
+                                        </td>
+                                        <td>
+                                        @Html.TextBoxFor(o => o.Itlst[i]. Batch, new { @id = "txtBatch" + i, @class = "form-control", style = "width: 90px;"})
+                                        </td>*@
+                                            @*<td>
+                                        @Html.TextBoxFor(o => o.Itlst[i]. serial, new { @id = "txtserial" + i, @class = "form-control", style = "width: 90px;"})
+                                        </td>
+                                        @*<td>
+                                        @Html.TextBoxFor(o => o.Itlst[i]. CurrentStock, new { @id = "txtCurrentStock" + i, @class = "form-control", style = "width: 90px;"})
+                                        </td>
+                                        <td>
+                                        @Html.TextBoxFor(o => o.Itlst[i]. CurrentStock, new { @id = "txtCurrentStock" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", style = "width: 80px;", @readonly = "readonly" })
+                                        </td>
+                                        <td>
+                                        @Html.TextBoxFor(o => o.Itlst[i]. Quantity, new { @id = "txtQuantity" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", style = "width: 80px;" })
+                                        </td>
+                                        <td>
+                                        @Html.TextBoxFor(o => o.Itlst[i].rate, new { @id = "txtRate" + i, @class = "form-control", style = "width: 80px;",@readonly="readonly",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
+                                        </td>
+                                        <td>
+                                        @Html.TextBoxFor(o => o.Itlst[i].Amount, new { @id = "txtAmount" + i , @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;" ,@readonly = "readonly" })
+                                        </td>
+
+
+
+                                        <td>
+                                        @Html.HiddenFor(o => o.Itlst[i].Isvalid, new { @id = "Isvalid" + i })
+                                        <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Suplst.Index" type="hidden" value="@(i)" />
+                                        </td>
+
+
+                                        </tr>
+                                        i = i + 1;
+
+                                        }
+                                        }*@
+
+                                        </tbody>
+
+
+
+
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                             
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('._select').select2();
+    });
+
+</script>
+<script>
+
+
+    function fetchindent(indentid) {
+        document.getElementById("tbBooks").innerHTML = "";
+         $.ajax({
+            url: 'GetstkitemDetail',
+            data: { "indentid": indentid },
+            type: "GET",
+            success: function (list) {
+                if (list != null && list.length > 0) {
+
+                    list.forEach((item) => {
+
+
+
+
+                                loadindent(item)
+
+
+                    });
+
+                }
+                //document.getElementById("txtDocNo").value = result.doc;
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+    function loadindent(item) {
+
+        var index = $("#tbBooks").children("tr").length;
+
+        var JobNo = "<td><label style='width: 100px;'>" + item.jobno + "</label><input type='hidden' value=" + item.jobno + " id='jobno" + index + "' name='schlst[" + index + "].jobno'><input type='hidden' value=" + item.schid + " id='schid" + index + "' name='schlst[" + index + "].schid'></td>";
+
+
+
+        var customer = "<td><label style='width: 200px;'>" + item.suppliar + "</label><input type='hidden' value=" + item.suppliar + " id='suppliar" + index + "' name='schlst[" + index + "].suppliar'></td>";
+
+        var itemid = "<td><label style='width: 200px;'>" + item.itemid + "</label><input class='form-control' id='itemid" + index + "' name='schlst[" + index + "].itemid'  style='width: 80px;' type='hidden' readonly='True'   value=" + item.itemid + "  /></td>";
+        var schno = "<td><label style='width: 200px;'>" + item.schno + "</label><input class='form-control' id='schno" + index + "' name='schlst[" + index + "].schno'  style='width: 80px;' type='hidden' readonly='True'   value=" + item.schno + "  /></td>";
+        var schdate = "<td><label style='width: 100px;'>" + item.schdate + "</label><input class='form-control' id='schdate" + index + "' name='schlst[" + index + "].schdate'  style='width: 80px;' type='hidden'    value=" + item.schdate + "  /></td>";
+
+        var qty = "<td><label style='width: 70px;'>" + item.qty + "</label><input class='form-control' id='qty" + index + "' name='schlst[" + index + "].qty' style='width: 100px;' type='hidden'  value=" + item.qty + "  /></td>";
+
+
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='schlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='schlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + JobNo + customer + itemid + schno + schdate + qty + removeCell + "</tr>";
+        $("#tbBooks").append(newRow);
+
+
+        $(function () {
+            $('._select').select2();
+        });
+    }
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+
+</script>
+
+
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false,
+
+        });
+        fancybox123 = $.fancybox;
+    });
+
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
+
+
+</script>

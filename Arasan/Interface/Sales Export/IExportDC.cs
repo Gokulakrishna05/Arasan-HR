@@ -21,5 +21,6 @@ namespace Arasan.Interface
         DataTable GetExportDCView(string id);
         DataTable GetExportDCItemview(string id);
         DataTable GetExportDCScrapview(string id);
+        DataTable GetDrumDetails(string id);
     }
 }

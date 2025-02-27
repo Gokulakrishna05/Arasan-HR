@@ -3,9 +3,9 @@
 
 namespace Arasan.Models
 {
-    public class WorkOrder
+    public class ExWorkOrderClose
     {
-        public WorkOrder()
+        public ExWorkOrderClose()
         {
             this.Brlst = new List<SelectListItem>();
             this.Suplst = new List<SelectListItem>();
@@ -23,6 +23,7 @@ namespace Arasan.Models
         public string Location { get; set; }
         public string DocId { get; set; }
         public string DocDate { get; set; }
+        public string Customername { get; set; }
 
         public List<SelectListItem> Reasonlst;
         public string Reason { get; set; }

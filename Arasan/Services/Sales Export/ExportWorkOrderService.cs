@@ -84,7 +84,7 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "SELECT DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,CURRENCY.MAINCURR,EJOBASICID,STATUS FROM EJOBASIC LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=EJOBASIC.MAINCURRENCY  WHERE STATUS='Y' ORDER BY  EJOBASIC.EJOBASICID DESC";
+                SvSql = "SELECT DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,CURRENCY.MAINCURR,EJOBASIC.EJOBASICID,STATUS FROM EJOBASIC LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=EJOBASIC.MAINCURRENCY,EJODETAIL  WHERE EJOBASIC.STATUS='Y' AND EJODETAIL.QTY > 0 AND EJODETAIL.QTY-EJODETAIL.PRECLQTY > 0 AND EJOBASIC.EJOBASICID=EJODETAIL.EJOBASICID ORDER BY to_date(EJOBASIC.DOCDATE) DESC,EJOBASIC.DOCID DESC";
             }
             else
             {
@@ -203,19 +203,19 @@ namespace Arasan.Services
                 datatrans = new DataTransactions(_connectionString);
                 if(cy.Order=="ORDER")
                 {
-                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE TRANSTYPE = 'ESO#' AND ACTIVESEQUENCE = 'T'");
+                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'ESO#' AND ACTIVESEQUENCE = 'T'");
                     string Job = string.Format("{0}{1}", "ESO#", (idc + 1).ToString());
 
-                    updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE = 'ESO#' AND ACTIVESEQUENCE ='T'";
+                    updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX = 'ESO#' AND ACTIVESEQUENCE ='T'";
 
                     cy.Job = Job;
                 }
                 else
                 {
-                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE TRANSTYPE = 'ESJF' AND ACTIVESEQUENCE = 'T'");
+                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'ESJF' AND ACTIVESEQUENCE = 'T'");
                     string Job = string.Format("{0}{1}", "ESJF", (idc + 1).ToString());
 
-                    updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE = 'ESJF' AND ACTIVESEQUENCE ='T'";
+                    updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX = 'ESJF' AND ACTIVESEQUENCE ='T'";
 
                     cy.Job = Job;
                 }
@@ -283,8 +283,8 @@ namespace Arasan.Services
                                 //objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                 string parentid = "Job Order " + cy.Job;
                                 string partyname=datatrans.GetDataString("SELECT PARTYNAME FROM PARTYMAST WHERE PARTYMASTID='"+ cy.Customer +"'");
-                                command.CommandText = "Insert into EJOBASIC (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,BRANCHID,DOCID,DOCDATE,ACTIVE,MAINCURRENCY,EXRATE,ORDTYPE,PARTYID,CREFNO,CREFDATE,TYPE,SMSDATE,SENDSMS,ASSIGNTO,RECDBY,FOLLOWUPTIME,FOLLOWDT,REMARKS,TRANSPORTER,TEST,CREATED_BY,CREATED_ON,STATUS,USERID,TRANSID,PARTYNAME,RATECODE,TEMPID,REFNO,PARENTACTIVITYID,PTERMS)" +
-                    " VALUES ('0','0','F','0','0' ,'" + cy.Branch + "','" + cy.Job + "','" + cy.jobDate + "','0','" + cy.Currency + "','" + cy.Rate + "','" + cy.Order + "','"+cy.Customer + "','" + cy.Refno + "','" + cy.Refdate + "','" + cy.Officer + "','" + cy.Emaildate + "','" + cy.Send + "','" + cy.Assign + "' ,'" + cy.Recieved + "','" + cy.Time + "','" + cy.FollowUp + "','" + cy.Deatails + "','" + cy.Transporter + "','" + cy.Test + "','" + DateTime.Now + "','" +  cy.user + "','Y','" + cy.user + "','eso','" + partyname + "','" + cy.arc + "','10074001335751','NONE','" + parentid + "','" + cy.payterms + "') RETURNING EJOBASICID INTO :OUTID";
+                                command.CommandText = "Insert into EJOBASIC (APPROVAL,MAXAPPROVED,CANCEL,T1SOURCEID,LATEMPLATEID,BRANCHID,DOCID,DOCDATE,ACTIVE,MAINCURRENCY,EXRATE,ORDTYPE,PARTYID,CREFNO,CREFDATE,TYPE,SMSDATE,SENDSMS,ASSIGNTO,RECDBY,FOLLOWUPTIME,FOLLOWDT,REMARKS,TRANSPORTER,TEST,CREATED_ON,CREATED_BY,STATUS,USERID,TRANSID,PARTYNAME,RATECODE,TEMPID,REFNO,PARENTACTIVITYID,PTERMS,SALESREP)" +
+                    " VALUES ('0','0','F','0','0' ,'" + cy.Branch + "','" + cy.Job + "','" + cy.jobDate + "','0','" + cy.Currency + "','" + cy.Rate + "','" + cy.Order + "','"+cy.Customer + "','" + cy.Refno + "','" + cy.Refdate + "','" + cy.Officer + "','" + cy.Emaildate + "','" + cy.Send + "','" + cy.Assign + "' ,'" + cy.Recieved + "','" + cy.Time + "','" + cy.FollowUp + "','" + cy.Deatails + "','" + cy.Transporter + "','" + cy.Test + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" +  cy.user + "','Y','" + cy.user + "','eso','" + partyname + "','" + cy.arc + "','10074001335751','NONE','" + parentid + "','" + cy.payterms + "','"+cy.salesrep+"') RETURNING EJOBASICID INTO :OUTID";
                                 command.Parameters.Add("OUTID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                 command.ExecuteNonQuery();
                                string Pid = command.Parameters["OUTID"].Value.ToString();
@@ -342,7 +342,7 @@ namespace Arasan.Services
                                             string itemname = datatrans.GetDataString("SELECT ITEMID FROM ITEMMASTER WHERE ITEMMASTERID='"+cp.ItemId+"'");
                                            string itemsep = cp.itemspec + " " + itemname;
                                             command.CommandText = "Insert into EJODETAIL (EJOBASICID,ITEMID,ITEMSPEC,UNIT,QTY,RATE,AMOUNT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,DISCOUNT,MATSUPP,PACKSPEC,ITEMTYPE,EJODETAILROW,DUEDATE,PARTYCTRL,BLOCKQTY,PEQTY,POQTY,PRECLQTY,DCQTY,MRPQTY,EXCISEQTY,REWORKQTY,REJQTY,INVQTY,FREIGHT,FREIGHTAMT) " +
-                                   "VALUES ('" + Pid + "','" + cp.ItemId + "','" + itemsep + "','" + unit + "','" + cp.Qty + "','" + cp.Rate + "','" + cp.Amount + "','" + cp.QtyDisc + "','" + cp.CashDisc + "','" + cp.Introduction + "','" + cp.Trade + "','" + cp.Addition + "','" + cp.Special + "','" + cp.Discount + "','OWN','" + cp.Packing + "','" + cp.itemspec + "','" + row + "','" + cp.Due + "','F','0','0','0','" + cp.Qty + "','0','0','0','0','0','0','0') RETURNING EJODETAIL INTO :OUTID";
+                                   "VALUES ('" + Pid + "','" + cp.ItemId + "','" + itemsep + "','" + unit + "','" + cp.Qty + "','" + cp.Rate + "','" + cp.Amount + "','" + cp.QtyDisc + "','" + cp.CashDisc + "','" + cp.Introduction + "','" + cp.Trade + "','" + cp.Addition + "','" + cp.Special + "','" + cp.Discount + "','OWN','" + cp.Packing + "','" + cp.itemspec + "','" + row + "','" + cp.Due + "','F','0','0','0','0','" + cp.Qty + "','0','0','0','0','0','0','0') RETURNING EJODETAILID INTO :OUTID";
                                             command.Parameters.Add("OUTID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                                             command.ExecuteNonQuery();
                                             string did = command.Parameters["OUTID"].Value.ToString();
@@ -404,6 +404,7 @@ namespace Arasan.Services
                             {
                                 transaction.Rollback();
                                 Console.WriteLine(ex.ToString());
+                                msg = ex.ToString();
                                 Console.WriteLine("Neither record was written to database.");
                             }
                         }
@@ -414,6 +415,7 @@ namespace Arasan.Services
             catch (Exception ex)
             {
                 msg = "Error Occurs, While inserting / updating Data";
+
                 throw ex;
             }
 
@@ -480,6 +482,295 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "SELECT EJOBASICID,ITEMID,ITEMSPEC,UNIT,QTY,RATE,AMOUNT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,DISCOUNT,BED,MATSUPP,PACKSPEC FROM EJODETAIL   where EJODETAIL.EJOBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public string DrumAllocationCRUD(EWDrumAllocation cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+
+
+
+
+
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'EJDL' AND ACTIVESEQUENCE = 'T'  ");
+                string DocId = string.Format("{0}{1}", "EJDL", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='EJDL' AND ACTIVESEQUENCE ='T'  ";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                cy.DOCId = DocId;
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("EDRUMALLOPROC", objConn);
+                    /*objCmd.Connection = objConn;
+                    objCmd.CommandText = "PURQUOPROC";*/
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+
+                    StatementType = "Insert";
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DOCId;
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDate;
+                    objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Locid;
+                    objCmd.Parameters.Add("JOPID", OracleDbType.NVarchar2).Value = cy.JOId;
+                    objCmd.Parameters.Add("CUSTOMERID", OracleDbType.NVarchar2).Value = cy.CustomerId;
+                    objCmd.Parameters.Add("EJOSCHEDULEID", OracleDbType.NVarchar2).Value = cy.ID;
+                    objCmd.Parameters.Add("TRUCKNO", OracleDbType.NVarchar2).Value = cy.truckno;
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                    objConn.Open();
+                    objCmd.ExecuteNonQuery();
+                    Object Pid = objCmd.Parameters["OUTID"].Value;
+                    //if (cy.ID != null)
+                    //{
+                    //    Pid = cy.ID;
+                    //}
+                    foreach (EWorkItem cp in cy.Worklst)
+                    {
+                        foreach (EDrumdetails ca in cp.drumlst)
+                        {
+                            if (ca.drumselect == true)
+                            {
+                                OracleCommand objCmds = new OracleCommand("EDRUMALLODETPROC", objConn);
+                                objCmds.CommandType = CommandType.StoredProcedure;
+                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.itemid;
+                                objCmds.Parameters.Add("EJODRUMALLOCATIONBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                objCmds.Parameters.Add("PLSTOCKID", OracleDbType.NVarchar2).Value = ca.invid;
+                                objCmds.Parameters.Add("JOPDETAILID", OracleDbType.NVarchar2).Value = cp.Jodetailid;
+                                objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ca.drumno;
+                                objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = ca.qty;
+                                objCmds.Parameters.Add("LOTNO", OracleDbType.NVarchar2).Value = ca.lotno;
+                                objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = ca.rate;
+                                objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                objCmds.ExecuteNonQuery();
+                                string svql = "Update PLSTOCKVALUE SET  IS_LOCK='Y' WHERE PLSTOCKVALUEID='" + ca.invid + "'";
+                                OracleCommand objCmdss = new OracleCommand(svql, objConn);
+                                objCmdss.ExecuteNonQuery();
+
+                            }
+
+                        }
+                    }
+                    string allocate = "Update EJOBASIC SET  IS_ALLOCATE='Y' WHERE EJOBASICID='" + cy.JOId + "'";
+                    OracleCommand objCmdssa = new OracleCommand(allocate, objConn);
+                    objCmdssa.ExecuteNonQuery();
+                    allocate = "Update EJOSCHEDULE SET  IS_ALLOCATE='Y' WHERE EJOSCHEDULEID='" + cy.ID + "'";
+                    objCmdssa = new OracleCommand(allocate, objConn);
+                    objCmdssa.ExecuteNonQuery();
+                    allocate = "Update EJODISPDRUMDET SET  IS_ALLOCATE='Y' WHERE SCHID='" + cy.ID + "'";
+                    objCmdssa = new OracleCommand(allocate, objConn);
+                    objCmdssa.ExecuteNonQuery();
+
+                    objConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string DispDrumCRUD(ExportWorkOrder cy)
+        {
+            string msg = "";
+            string StatementType = string.Empty; string svSQL = "";
+            datatrans = new DataTransactions(_connectionString);
+
+
+
+
+
+            int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'EJDP'    ");
+            string DocId = string.Format("{0}{1}", "EJDP", (idc + 1).ToString());
+
+            string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='EJDP'   ";
+
+            cy.JopId = DocId;
+
+            using (OracleConnection objConn = new OracleConnection(_connectionString))
+            {
+                objConn.Open();
+                using (OracleCommand command = objConn.CreateCommand())
+                {
+                    using (OracleTransaction transaction = objConn.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
+                    {
+                        try
+                        {
+                            command.Transaction = transaction;
+                            command.CommandText = "Insert into EJODISPDRUMBASIC(DOCID,DOCDATE) VALUES ('" + cy.JopId + "','" + cy.JopDate + "') RETURNING EJODISPDRUMBASICID INTO :STKID";
+
+
+                            command.Parameters.Add("STKID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                            command.ExecuteNonQuery();
+
+
+                            string Pid = command.Parameters["STKID"].Value.ToString();
+                            command.Parameters.Clear();
+
+                            foreach (SchItem cp in cy.schlst)
+                            {
+                                if (cp.Isvalid == "Y" && cp.itemid != "0")
+                                {
+                                    command.CommandText = "Insert into EJODISPDRUMDET(EJODISPDRUMBASICID,JOPID,SCHNO,SCHDATE,SCHQTY,SCHID,ITEM) VALUES ('" + Pid + "','" + cp.jobno + "','" + cp.schno + "','" + cp.schdate + "','" + cp.qty + "','" + cp.schid + "','" + cp.itemid + "')";
+
+
+                                    command.ExecuteNonQuery();
+
+                                    command.CommandText = "Update EJOSCHEDULE SET  IS_DRUMDISP='Y' WHERE EJOSCHEDULEID='" + cp.schid + "'";
+                                    command.ExecuteNonQuery();
+                                }
+
+                            }
+
+                            //allocate = "Update JOSCHEDULE SET  IS_ALLOCATE='Y' WHERE JOSCHEDULEID='" + cy.ID + "'";
+                            //objCmdssa = new OracleCommand(allocate, objConn);
+                            //objCmdssa.ExecuteNonQuery();
+
+
+                            transaction.Commit();
+                            datatrans.UpdateStatus(updateCMd);
+                        }
+
+                        catch (Exception ex)
+                        {
+                            transaction.Rollback();
+                            Console.WriteLine(ex.ToString());
+                            Console.WriteLine("Neither record was written to database.");
+                        }
+                    }
+                }
+                objConn.Close();
+            }
+
+            return msg;
+        }
+        public DataTable GetAllListWorkScheduleItems()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select JS.EJOSCHEDULEID,JS.SCHNO,JS.SCHQTY-JS.SCHSUPPQTY SCHQTY,J.DOCID,J.PARTYNAME,to_char(JS.SCHDATE,'dd-MON-yyyy')SCHDATE,to_char(J.DOCDATE,'dd-MON-yyyy')DOCDATE,JD.QTY-JD.EXCISEQTY-JD.PRECLQTY QTY,JS.IS_ALLOCATE,JB.DOCID dipid,to_char(JB.DOCDATE,'dd-MON-yyyy')dispdate from EJOSCHEDULE JS,EJOBASIC J,EJODETAIL JD,EJODISPDRUMDET JP,EJODISPDRUMBASIC JB    WHERE JB.EJODISPDRUMBASICID=JP.EJODISPDRUMBASICID AND JP.SCHID=JS.EJOSCHEDULEID AND J.EJOBASICID =JS.EJOBASICID AND JS.PARENTRECORDID =JD.EJODETAILID AND   J.ACTIVE='0'  AND  JD.QTY-JD.PRECLQTY > 0  AND JP.STATUS IS null   ORDER BY  JB.DOCID DESC";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public string StatusStockRelease(string id, string jid, string bid)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    objConnT.Open();
+                    svSQL = "UPDATE PLSTOCKVALUE SET IS_LOCK ='' WHERE PLSTOCKVALUEID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+
+                    objCmds.ExecuteNonQuery();
+                    svSQL = "UPDATE EJOBASIC SET IS_ALLOCATE ='N' WHERE EJOBASICID='" + jid + "'";
+                    objCmds = new OracleCommand(svSQL, objConnT);
+
+                    objCmds.ExecuteNonQuery();
+                    svSQL = "UPDATE EJODRUMALLOCATIONBASIC  SET IS_ALLOCATE ='N' WHERE EJOSCHEDULEID='" + bid + "'";
+                    objCmds = new OracleCommand(svSQL, objConnT);
+
+                    objCmds.ExecuteNonQuery();
+
+                    objCmds.ExecuteNonQuery();
+                    svSQL = "UPDATE EJOSCHEDULE  SET IS_ALLOCATE ='N' WHERE EJOSCHEDULEID='" + bid + "'";
+                    objCmds = new OracleCommand(svSQL, objConnT);
+
+                    objCmds.ExecuteNonQuery();
+                    svSQL = "UPDATE EJOSCHEDULE  SET SCHSUPPQTY ='0' WHERE EJOSCHEDULEID='" + bid + "'";
+                    objCmds = new OracleCommand(svSQL, objConnT);
+
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+        }
+        public DataTable GetDrumAllByID(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select Ejodrumallocationbasic.DOCID,to_char(Ejodrumallocationbasic.DOCDATE,'dd-MON-yyyy')DOCDATE,Ejobasic.DOCID as jobid,PARTYMAST.PARTYNAME ,LOCDETAILS.LOCID,EJODRUMALLOCATIONBASICID from Ejodrumallocationbasic  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=Ejodrumallocationbasic.LOCID  LEFT OUTER JOIN  PARTYMAST on Ejodrumallocationbasic.CUSTOMERID=PARTYMAST.PARTYMASTID left outer join Ejobasic on Ejobasic.Ejobasicid= Ejodrumallocationbasic.JOPID WHERE  Ejodrumallocationbasic.Ejodrumallocationbasicid='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetDrumAllDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMMASTER.ITEMID,EJODRUMALLOCATIONDETAIL.EJODRUMALLOCATIONDETAILID from EJODRUMALLOCATIONDETAIL left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID=EJODRUMALLOCATIONDETAIL.ITEMID  Where Ejodrumallocationbasicid='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAllocationDrumDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select EJODRUMALLOCATIONDETAIL.DRUMNO,EJODRUMALLOCATIONDETAIL.RATE,LOTNO,EJODRUMALLOCATIONDETAIL.QTY,EJODRUMALLOCATIONDETAILID from EJODRUMALLOCATIONDETAIL     Where Ejodrumallocationbasicid='" + id + "' ORDER BY EJODRUMALLOCATIONDETAIL.DRUMNO ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetWorkOrderByID(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select J.DOCID,to_char(J.DOCDATE,'dd-MON-yyyy')DOCDATE,J.PARTYNAME,BRANCHMAST.BRANCHID,JS.EJOBASICID,J.STATUS,J.PARTYID as CUSTOMERID,J.EJOBASICID,JS.SCHNO,to_char(JS.SCHDATE,'dd-MON-yyyy')SCHDATE from EJOSCHEDULE JS, EJOBASIC J   left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=J.BRANCHID  WHERE J.EJOBASICID =JS.EJOBASICID AND  JS.EJOSCHEDULEID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetWorkOrderDetailsss(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select JD.EJOBASICID,JD.QTY-JD.PRECLQTY-JD.EXCISEQTY QTY,JS.SCHQTY-JS.SCHSUPPQTY SCHQTY,JD.ITEMID as item,ITEMMASTER.ITEMID,DCQTY,RATE,AMOUNT,UNITMAST.UNITID,ITEMSPEC,PACKSPEC,DISCOUNT,FREIGHTAMT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,FREIGHT,JD.EJODETAILID from EJODETAIL JD left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID=JD.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT,EJOSCHEDULE JS  Where JD.EJODETAILID =JS.PARENTRECORDID AND EJOSCHEDULEID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+
+        
+            return dtt;
+        }
+        public DataTable GetDrumDetails(string Itemid, string locid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DRUMNO,SUM(PLUSQTY-MINUSQTY) QTY,lotno from plstockvalue where ITEMID='" + Itemid + "' AND LOCID='" + locid + "' AND IS_LOCK IS NULL group by DRUMNO,lotno having sum(Plusqty-Minusqty)>0 order by DRUMNO";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

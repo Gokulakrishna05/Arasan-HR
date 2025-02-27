@@ -7,6 +7,7 @@ using Arasan.Models;
 using Arasan.Services;
 using AspNetCore.Reporting;
 using Intuit.Ipp.Data;
+using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -32,6 +33,7 @@ namespace Arasan.Controllers.Sales_Export
             ca.Branch = Request.Cookies["BranchId"];
             ca.Suplst = BindSupplier();
             ca.Loclst = BindWorkCenter();
+            ca.joplst = BindJobno();
             ca.Location = Request.Cookies["LocationId"];
             ca.RecList = BindEmp();
             ca.Despatchlst = BindDespatch();
@@ -41,10 +43,10 @@ namespace Arasan.Controllers.Sales_Export
             ca.DCdate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Refdate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Emaildate = DateTime.Now.ToString("dd-MMM-yyyy");
-            DataTable dtv = datatrans.GetSequence("vchsl");
+            DataTable dtv = datatrans.GetSequence("edelc");
             if (dtv.Rows.Count > 0)
             {
-                ca.DCNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+                ca.DCNo = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
             }
 
             List<ExportDCItem> TData = new List<ExportDCItem>();
@@ -108,43 +110,43 @@ namespace Arasan.Controllers.Sales_Export
 
 
                 }
-                DataTable dt2 = new DataTable();
+                //DataTable dt2 = new DataTable();
 
-                dt2 = ExportDC.GetExportDCItem(id);
-                if (dt2.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dt2.Rows.Count; i++)
-                    {
-                        tda = new ExportDCItem();
-                        tda.Itemlst = BindItemlst();
-                        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
-                        tda.Des = dt2.Rows[0]["PACKSPEC"].ToString();
-                        tda.Unit = dt2.Rows[i]["UNITID"].ToString();
-                        tda.Qty = dt2.Rows[i]["MQTY"].ToString();
-                        tda.Rate = dt2.Rows[i]["ISSRATE"].ToString();
-                        tda.Amount = dt2.Rows[i]["ISSAMT"].ToString();
-                        tda.Lot = dt2.Rows[i]["LOTYN"].ToString();
-                        tda.Serial = dt2.Rows[i]["SERIALYN"].ToString();
-                        tda.Seal = dt2.Rows[i]["SEALNO"].ToString();
-                        tda.Order = dt2.Rows[i]["ORDQTY"].ToString();
-                        tda.Current = dt2.Rows[i]["CLSTOCK"].ToString();
-                        tda.DC = dt2.Rows[i]["DCQTY"].ToString();
-                        tda.QtyPrimary = dt2.Rows[i]["QTY"].ToString();
-                        tda.Quantity = dt2.Rows[i]["QDISC"].ToString();
-                        tda.CashDisc = dt2.Rows[i]["CDISC"].ToString();
-                        tda.Introduction = dt2.Rows[i]["IDISC"].ToString();
-                        tda.Trade = dt2.Rows[i]["TDISC"].ToString();
-                        tda.Addition = dt2.Rows[i]["ADISC"].ToString();
-                        tda.Special = dt2.Rows[i]["SDISC"].ToString();
-                        tda.Fright = dt2.Rows[i]["FREIGHT"].ToString();
-                        tda.Drum = dt2.Rows[i]["DRUMDESC"].ToString();
-                        tda.Container = dt2.Rows[i]["CNO"].ToString();
-                        tda.Tare = dt2.Rows[i]["TWT"].ToString();
-                        tda.Vechile = dt2.Rows[i]["VECHILENO"].ToString();
-                        tda.Material = dt2.Rows[i]["MATSUPP"].ToString();
-                        TData.Add(tda);
-                    }
-                }
+                //dt2 = ExportDC.GetExportDCItem(id);
+                //if (dt2.Rows.Count > 0)
+                //{
+                //    for (int i = 0; i < dt2.Rows.Count; i++)
+                //    {
+                //        tda = new ExportDCItem();
+                //        tda.Itemlst = BindItemlst();
+                //        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                //        tda.Des = dt2.Rows[0]["PACKSPEC"].ToString();
+                //        tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                //        tda.qty = dt2.Rows[i]["MQTY"].ToString();
+                //        tda.Rate = dt2.Rows[i]["ISSRATE"].ToString();
+                //        tda.Amount = dt2.Rows[i]["ISSAMT"].ToString();
+                //        tda.Lot = dt2.Rows[i]["LOTYN"].ToString();
+                //        tda.Serial = dt2.Rows[i]["SERIALYN"].ToString();
+                //        tda.Seal = dt2.Rows[i]["SEALNO"].ToString();
+                //        tda.Order = dt2.Rows[i]["ORDQTY"].ToString();
+                //        tda.Current = dt2.Rows[i]["CLSTOCK"].ToString();
+                //        tda.DC = dt2.Rows[i]["DCQTY"].ToString();
+                //        tda.QtyPrimary = dt2.Rows[i]["QTY"].ToString();
+                //        tda.Quantity = dt2.Rows[i]["QDISC"].ToString();
+                //        tda.CashDisc = dt2.Rows[i]["CDISC"].ToString();
+                //        tda.Introduction = dt2.Rows[i]["IDISC"].ToString();
+                //        tda.Trade = dt2.Rows[i]["TDISC"].ToString();
+                //        tda.Addition = dt2.Rows[i]["ADISC"].ToString();
+                //        tda.Special = dt2.Rows[i]["SDISC"].ToString();
+                //        tda.Fright = dt2.Rows[i]["FREIGHT"].ToString();
+                //        tda.Drum = dt2.Rows[i]["DRUMDESC"].ToString();
+                //        tda.Container = dt2.Rows[i]["CNO"].ToString();
+                //        tda.Tare = dt2.Rows[i]["TWT"].ToString();
+                //        tda.Vechile = dt2.Rows[i]["VECHILENO"].ToString();
+                //        tda.Material = dt2.Rows[i]["MATSUPP"].ToString();
+                //        TData.Add(tda);
+                //    }
+                //}
                 DataTable dt3 = new DataTable();
 
                 dt3 = ExportDC.GetExportDCScrap(id);
@@ -196,15 +198,16 @@ namespace Arasan.Controllers.Sales_Export
                 else
                 {
                     ViewBag.PageTitle = "Edit ExportDC";
-                    TempData["notice"] = Strout;
-                    //return View();
+                    TempData["notice"] = "Not Inserted";
+                    return RedirectToAction("ListExportDC");
                 }
 
                 // }
             }
             catch (Exception ex)
             {
-                throw ex;
+                TempData["notice"] = "Not Inserted";
+                return RedirectToAction("ListExportDC");
             }
 
             return View(Cy);
@@ -269,6 +272,23 @@ namespace Arasan.Controllers.Sales_Export
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindJobno()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("SELECT P.DOCID,J.JOPID  FROM EJODRUMALLOCATIONBASIC J,EJOBASIC P WHERE J.JOPID=P.EJOBASICID AND J.IS_ALLOCATE='Y' GROUP BY P.DOCID,J.JOPID ");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["JOPID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -502,10 +522,10 @@ namespace Arasan.Controllers.Sales_Export
                     tda = new ExportDCItem();
                     tda.Itemlst = BindItemlst();
                     tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
-                    tda.Des = dt2.Rows[0]["PACKSPEC"].ToString();
+                    tda.des = dt2.Rows[0]["PACKSPEC"].ToString();
                     tda.Unit = dt2.Rows[i]["UNITID"].ToString();
-                    tda.Qty = dt2.Rows[i]["MQTY"].ToString();
-                    tda.Rate = dt2.Rows[i]["ISSRATE"].ToString();
+                    tda.qty = Convert.ToDouble(dt2.Rows[i]["MQTY"].ToString());
+                    tda.rate = Convert.ToDouble(dt2.Rows[i]["ISSRATE"].ToString());
                     tda.Amount = dt2.Rows[i]["ISSAMT"].ToString();
                     tda.Lot = dt2.Rows[i]["LOTYN"].ToString();
                     tda.Serial = dt2.Rows[i]["SERIALYN"].ToString();
@@ -514,7 +534,7 @@ namespace Arasan.Controllers.Sales_Export
                     tda.Current = dt2.Rows[i]["CLSTOCK"].ToString();
                     tda.DC = dt2.Rows[i]["DCQTY"].ToString();
                     tda.QtyPrimary = dt2.Rows[i]["QTY"].ToString();
-                    tda.Quantity = dt2.Rows[i]["QDISC"].ToString();
+                    tda.quantity = Convert.ToDouble(dt2.Rows[i]["QDISC"].ToString());
                     tda.CashDisc = dt2.Rows[i]["CDISC"].ToString();
                     tda.Introduction = dt2.Rows[i]["IDISC"].ToString();
                     tda.Trade = dt2.Rows[i]["TDISC"].ToString();
@@ -578,5 +598,162 @@ namespace Arasan.Controllers.Sales_Export
                 return RedirectToAction("ListExportDC");
             }
         }
+        public ActionResult GetJoDetails(string custid)
+        {
+            try
+            {
+                string pono = "";
+                string order = "";
+                string vno = "";
+                string disp = "";
+                string trans = "";
+                string shipdis = "";
+                string cust = "";
+                string partyid = "";
+                string adress = "";
+                string narr = "";
+                DataTable did = new DataTable();
+               // DataTable detid1 = datatrans.GetData("select JOPID FROM EJODRUMALLOCATIONBASIC WHERE CUSTOMERID='" + custid + "' GROUP BY JOPID");
+                DataTable detid2 = datatrans.GetData("select JB.ORDTYPE,JB.CREFNO,JD.TRUCKNO,P.SDIST,JD.CUSTOMERID,P.PARTYNAME,P.PARTYMASTID,P.ADD1||','||P.ADD2||','||P.ADD2||','||P.CITY||','||P.STATE as address FROM EJODRUMALLOCATIONBASIC JD,EJOBASIC JB,PARTYMAST P WHERE P.PARTYMASTID=JB.PARTYID AND JD.JOPID=JB.EJOBASICID  AND JB.EJOBASICID='" + custid + "'");
+
+                if (detid2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < detid2.Rows.Count; i++)
+                    {
+
+                         pono = detid2.Rows[0]["CREFNO"].ToString();
+                      //  order = detid2.Rows[0]["ORDTYPE"].ToString();
+                      //  vno = detid2.Rows[0]["TRUCKNO"].ToString();
+                      //  disp = detid2.Rows[0]["DESPTHROUGH"].ToString();
+                      //  trans = detid2.Rows[0]["TRANSP"].ToString();
+                      //  shipdis = detid2.Rows[0]["SDIST"].ToString();
+                        cust = detid2.Rows[0]["PARTYNAME"].ToString();
+                        partyid = detid2.Rows[0]["PARTYMASTID"].ToString();
+                        adress = detid2.Rows[0]["address"].ToString();
+
+                        narr = "Delivered to " + detid2.Rows[0]["PARTYNAME"].ToString();
+                    }
+                }
+
+              
+                var result = new { pono = pono, cust= cust, custid= partyid, adress= adress, narr= narr/*, order = order, vno = vno, disp = disp, trans = trans, shipdis = shipdis*/ };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult Getdrumdetails(string schid)
+        {
+            try
+            {
+                string drumid = "";
+                DataTable dtEnq = ExportDC.GetDrumDetails(schid);
+                for (int i = 0; i < dtEnq.Rows.Count; i++)
+                {
+                    string dmid = dtEnq.Rows[i]["PLSTOCKID"].ToString();
+                    drumid = String.Format("{0},{1}", dmid, drumid);
+                }
+                drumid = drumid.TrimEnd(',');
+
+                var result = new { drumid = drumid };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetInvoiceDetails(string id)
+        {
+            ExportDC model = new ExportDC();
+
+            List<ExportDCItem> Data = new List<ExportDCItem>();
+            ExportDCItem tda = new ExportDCItem();
+            //SalesInvoiceItem tda1 = new SalesInvoiceItem();
+            DataTable detid1 = datatrans.GetData("select EJOSCHEDULE.EJOSCHEDULEID,EJOSCHEDULE.EJOBASICID FROM EJODRUMALLOCATIONBASIC,EJOSCHEDULE WHERE EJOSCHEDULE.EJOSCHEDULEID=EJODRUMALLOCATIONBASIC.EJOSCHEDULEID AND JOPID='" + id + "' AND EJODRUMALLOCATIONBASIC.IS_ALLOCATE='Y' AND EJODRUMALLOCATIONBASIC.STATUS IS Null");
+            if (detid1.Rows.Count > 0)
+            {
+                for (int i = 0; i < detid1.Rows.Count; i++)
+                {
+                    string detid = datatrans.GetDataString("select PARENTRECORDID FROM EJOSCHEDULE WHERE EJOSCHEDULEID='" + detid1.Rows[i]["EJOSCHEDULEID"].ToString() + "'");
+                    string sch = datatrans.GetDataString("select SCHDATE FROM EJOSCHEDULE WHERE EJOSCHEDULEID='" + detid1.Rows[i]["EJOSCHEDULEID"].ToString() + "'");
+                    DataTable dt2 = datatrans.GetData("SELECT JD.EJODETAILID,JB.DOCID work,QTY,MATSUPP,JD.ITEMID item,ITEMMASTER.ITEMID,RATE,AMOUNT,UNITMAST.UNITID,ITEMSPEC,PACKSPEC,DISCOUNT,ITEMTYPE,FREIGHTAMT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,FREIGHT,DUEDATE,DCQTY,PRECLQTY,MRPQTY,BLOCKQTY,POQTY,PEQTY,REWORKQTY,REJQTY,INVQTY,EJODETAILROW,JS.SCHNO,JS.EJOSCHEDULEID FROM EJODETAIL JD LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID =JD.UNIT LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID =JD.ITEMID ,EJOBASIC JB,EJOSCHEDULE JS WHERE JB.EJOBASICID=JD.EJOBASICID AND JD.EJODETAILID=JS.PARENTRECORDID AND  JD.EJODETAILID='" + detid + "' AND JS.IS_ALLOCATE='Y'");
+                    //DataTable fri = datatrans.GetData("SELECT ITEMID,JODETAILID FROM JODETAIL WHERE JOBASICID='" + dti.Rows[0]["JOBASICID"].ToString() + "'");
+
+                    tda = new ExportDCItem();
+                    tda.work = dt2.Rows[0]["work"].ToString();
+                    tda.jobschid = dt2.Rows[0]["SCHNO"].ToString();
+                    tda.jodetid = dt2.Rows[0]["EJODETAILID"].ToString();
+                    tda.schid = dt2.Rows[0]["EJOSCHEDULEID"].ToString();
+                    tda.itemss = dt2.Rows[0]["ITEMID"].ToString();
+                    tda.saveitem = dt2.Rows[0]["item"].ToString();
+                    tda.unitname = dt2.Rows[0]["UNITID"].ToString();
+                    tda.itemtypes = dt2.Rows[0]["ITEMTYPE"].ToString();
+                    tda.itemdesc = dt2.Rows[0]["ITEMSPEC"].ToString();
+                    tda.des = dt2.Rows[0]["PACKSPEC"].ToString();
+                    DateTime ssd = DateTime.Parse(sch);
+                    tda.shedate = ssd.ToString("dd-MMM-yyyy");
+                    
+                    string totqty = datatrans.GetDataString("SELECT SUM(QTY) FROM EJODRUMALLOCATIONDETAIL JD,EJODRUMALLOCATIONBASIC JB WHERE JB.EJODRUMALLOCATIONBASICID=JD.EJODRUMALLOCATIONBASICID AND JB.EJOSCHEDULEID='" + detid1.Rows[i]["EJOSCHEDULEID"].ToString() + "' AND JB.IS_ALLOCATE='Y'");
+
+                    //string tarrif = datatrans.GetDataString("select ETARIFFMASTERID from ETARIFFMASTER WHERE TARIFFID='"+ tt + "'");
+
+                   
+                    tda.frigcharges = Convert.ToDouble(dt2.Rows[0]["FREIGHTAMT"].ToString() == "" ? "0" : dt2.Rows[0]["FREIGHTAMT"].ToString());
+                    tda.discamt = Convert.ToDouble(dt2.Rows[0]["QDISC"].ToString() == "" ? "0" : dt2.Rows[0]["QDISC"].ToString());
+                   
+                    tda.introdisc = Convert.ToDouble(dt2.Rows[0]["IDISC"].ToString() == "" ? "0" : dt2.Rows[0]["IDISC"].ToString());
+                    tda.cashdis = Convert.ToDouble(dt2.Rows[0]["CDISC"].ToString() == "" ? "0" : dt2.Rows[0]["CDISC"].ToString());
+                    tda.tradedis = Convert.ToDouble(dt2.Rows[0]["TDISC"].ToString() == "" ? "0" : dt2.Rows[0]["TDISC"].ToString());
+                    tda.adddis = Convert.ToDouble(dt2.Rows[0]["ADISC"].ToString() == "" ? "0" : dt2.Rows[0]["ADISC"].ToString());
+                    tda.specdis = Convert.ToDouble(dt2.Rows[0]["SDISC"].ToString() == "" ? "0" : dt2.Rows[0]["SDISC"].ToString());
+                    //tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
+                    tda.rate = Convert.ToDouble(dt2.Rows[0]["RATE"].ToString() == "" ? "0" : dt2.Rows[0]["RATE"].ToString());
+                    tda.amountt = Convert.ToDouble(dt2.Rows[0]["AMOUNT"].ToString() == "" ? "0" : dt2.Rows[0]["AMOUNT"].ToString());
+                    tda.quantity = Convert.ToDouble(totqty);
+
+
+
+                    Data.Add(tda);
+
+                }
+ 
+
+
+            }
+
+
+
+            model.ExportDCLst = Data;
+            return Json(model.ExportDCLst);
+
+        }
+
+        public ActionResult DrumSelection(string schid, string rowid)
+        {
+            EWorkItem ca = new EWorkItem();
+            List<EDrumdetails> TData = new List<EDrumdetails>();
+            EDrumdetails tda = new EDrumdetails();
+            DataTable dtEnq = new DataTable();
+            dtEnq = datatrans.GetData("select DRUMNO,QTY,RATE,LOTNO,EJODRUMALLOCATIONDETAILID,PLSTOCKID from EJODRUMALLOCATIONDETAIL D,EJODRUMALLOCATIONBASIC B where B.EJODRUMALLOCATIONBASICID=D.EJODRUMALLOCATIONBASICID AND B.EJOSCHEDULEID= '" + schid + "' AND B.IS_ALLOCATE='Y' ORDER BY DRUMNO");
+            int sn = 1;
+            for (int i = 0; i < dtEnq.Rows.Count; i++)
+            {
+                tda = new EDrumdetails();
+                tda.sno = sn.ToString();
+                tda.lotno = dtEnq.Rows[i]["LOTNO"].ToString();
+                tda.drumno = dtEnq.Rows[i]["DRUMNO"].ToString();
+                tda.qty = dtEnq.Rows[i]["QTY"].ToString();
+                tda.rate = dtEnq.Rows[i]["RATE"].ToString();
+                //tda.invid = dtEnq.Rows[i]["PLotmastID"].ToString();
+                sn++;
+                TData.Add(tda);
+            }
+            ca.drumlst = TData;
+            return View(ca);
+        }
+
     }
 }

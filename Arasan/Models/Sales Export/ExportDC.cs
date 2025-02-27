@@ -18,8 +18,10 @@ namespace Arasan.Models
         public string ID { get; set; }
         public string Branch { get; set; }
         public string Customer { get; set; }
+        public string Customerid { get; set; }
 
         public List<SelectListItem> Suplst;
+        public List<SelectListItem> joplst;
 
         public List<SelectListItem> Loclst;
         public string Location { get; set; }
@@ -59,7 +61,7 @@ namespace Arasan.Models
         public List<ExportDCItem> ExportDCLst { get; set; }
         public List<ScrapItem> ScrapLst { get; set; }
 
-
+       
 
     }
     public class ExportDCItem
@@ -68,11 +70,11 @@ namespace Arasan.Models
         public string ItemId { get; set; }
         public string saveItemId { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
-        public string Des { get; set; }
+        public string des { get; set; }
         public string Isvalid { get; set; }
         public string Unit { get; set; }
-        public string Qty { get; set; }
-        public string Rate { get; set; }
+      //  public string Qty { get; set; }
+       // public string Rate { get; set; }
         public string CF { get; set; }
         public string Amount { get; set; }
         public string Lot { get; set; }
@@ -83,7 +85,7 @@ namespace Arasan.Models
         public string DC { get; set; }
         public string UnitPrimary { get; set; }
         public string QtyPrimary { get; set; }
-        public string Quantity { get; set; }
+       
         public string CashDisc { get; set; }
         public string Introduction { get; set; }
         public string Trade { get; set; }
@@ -95,6 +97,82 @@ namespace Arasan.Models
         public string Tare { get; set; }
         public string Vechile { get; set; }
         public string Material { get; set; }
+
+
+
+
+
+        public string workid { get; set; }
+        public string schid { get; set; }
+        public string jobschid { get; set; }
+        public string DrumIds { get; set; }
+        public string jodetid { get; set; }
+        public double FrigCharge { get; set; }
+        public string ConFac { get; set; }
+       
+        public string shedate { get; set; }
+      
+        public double quantity { get; set; }
+        public double rate { get; set; }
+        
+        public string ItemType { get; set; }
+        public string ItemSpec { get; set; }
+        public string binid { get; set; }
+        public List<SelectListItem> binlst { get; set; }
+        public double Disc { get; set; }
+        public double DiscAmount { get; set; }
+    
+       
+     
+     
+        
+        public double introdisc { get; set; }
+      
+      
+     
+      
+      
+   
+        public string Drumsdesc { get; set; }
+        public string tarrifid { get; set; }
+        public string FrieghtItemId { get; set; }
+        public string HSNcode { get; set; }
+        public string Frieght { get; set; }
+        public string FriQty { get; set; }
+        public string FrieghtAmount { get; set; }
+
+        public string itemss { get; set; }
+        public string saveitem { get; set; }
+        public string hsncodes { get; set; }
+
+        public string work { get; set; }
+
+        public string drumds { get; set; }
+        public double frigcharges { get; set; }
+         
+        public string unitname { get; set; }
+        public double qty { get; set; }
+        public double amountt { get; set; }
+        public string itemtypes { get; set; }
+        public string itemdesc { get; set; }
+        public double disct { get; set; }
+        public double discamt { get; set; }
+        public double discountamounts { get; set; }
+        public double cashamt { get; set; }
+      
+        public double introDis { get; set; }
+        public double cashdis { get; set; }
+        public double tradedis { get; set; }
+        public double adddis { get; set; }
+        public double specdis { get; set; }
+        public double totalamt { get; set; }
+        public double currentstk { get; set; }
+        public string drumsdes { get; set; }
+        public string frieghtttem { get; set; }
+        public string hsnc { get; set; }
+        public string frieghta { get; set; }
+        public string friquatity { get; set; }
+        public string frieghtamt { get; set; }
 
     }
     public class ScrapItem
@@ -123,4 +201,6 @@ namespace Arasan.Models
         public string delrow { get; set; }
         public string view { get; set; }
     }
+
+ 
 }

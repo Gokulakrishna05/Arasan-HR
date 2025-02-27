@@ -12,22 +12,22 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Arasan.Controllers.Sales_Export
 {
-    public class WorkOrderController : Controller
+    public class ExWorkOrderCloseController : Controller
     {
         IWorkOrder WorkOrder;
         IConfiguration? _configuratio;
         private string? _connectionString;
         DataTransactions datatrans;
-        public WorkOrderController(IWorkOrder _WorkOrder, IConfiguration _configuratio)
+        public ExWorkOrderCloseController(IWorkOrder _WorkOrder, IConfiguration _configuratio)
         {
 
             WorkOrder = _WorkOrder;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult Work_Order(string id)
+        public IActionResult ExWorkOrderClose(string id)
         {
-            WorkOrder ca = new WorkOrder();
+            ExWorkOrderClose ca = new ExWorkOrderClose();
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
             ca.Loclst = BindWorkCenter();
@@ -66,13 +66,13 @@ namespace Arasan.Controllers.Sales_Export
                 if (dt.Rows.Count > 0)
                 {
                     ca.DocId = dt.Rows[0]["DOCID"].ToString();
-                    ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
-                    ca.Location = dt.Rows[0]["LOCID"].ToString();
+                    //ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+               
+                    ca.Customername = dt.Rows[0]["PARTYNAME"].ToString();
                     ca.Customer = dt.Rows[0]["PARTYID"].ToString();
-                    ca.Reason = dt.Rows[0]["REASON"].ToString();
-                    ca.RefNo = dt.Rows[0]["REFNO"].ToString();
-                    ca.RefDate = dt.Rows[0]["REFDT"].ToString();
-                    ca.Narration = dt.Rows[0]["NARRATION"].ToString();
+                    
+                     
+                   
                     ca.ID = id;
 
                 }
@@ -84,15 +84,16 @@ namespace Arasan.Controllers.Sales_Export
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new OrderItem();
-                        tda.JobId = dt2.Rows[i]["JOBORDID"].ToString();
-                        tda.Itemlst = BindItemlst();
+                        tda.JobId = dt2.Rows[i]["EJODETAILID"].ToString();
+                        
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["item"].ToString();
                         tda.Unit = dt2.Rows[i]["UNITID"].ToString();
-                        tda.OrdQty = dt2.Rows[i]["ORDQTY"].ToString();
-                        tda.Dc = dt2.Rows[i]["DCQTY"].ToString();
-                        tda.Excise = dt2.Rows[i]["EXCISEQTY"].ToString();
-                        tda.PendQty = dt2.Rows[i]["PENDQTY"].ToString();
-                        tda.ShortQty = dt2.Rows[i]["PRECLQTY"].ToString();
+                        tda.OrdQty = dt2.Rows[i]["QTY"].ToString();
+                        tda.Dc = dt2.Rows[i]["QTY"].ToString();
+                        tda.Excise = dt2.Rows[i]["QTY"].ToString();
+                        tda.PendQty = dt2.Rows[i]["QTY"].ToString();
+                        tda.ShortQty = dt2.Rows[i]["QTY"].ToString();
                         tda.Rate = dt2.Rows[i]["RATE"].ToString();
                         TData.Add(tda);
                     }
@@ -103,7 +104,7 @@ namespace Arasan.Controllers.Sales_Export
             return View(ca);
         }
         [HttpPost]
-        public ActionResult Work_Order(WorkOrder Cy, string id)
+        public ActionResult Work_Order(ExWorkOrderClose Cy, string id)
         {
 
             try
@@ -303,7 +304,7 @@ namespace Arasan.Controllers.Sales_Export
         }
         public IActionResult ViewWorkOrder(string id)
         {
-            WorkOrder ca = new WorkOrder();
+            ExWorkOrderClose ca = new ExWorkOrderClose();
 
             DataTable dt = new DataTable();
             //double total = 0;

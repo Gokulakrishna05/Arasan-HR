@@ -45,6 +45,7 @@
                 { name: 'view', type: 'string' },
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
+                { name: 'close', type: 'string' },
 
             ],
             id: 'id',
@@ -83,8 +84,9 @@
                     { text: 'Enquiry No', filtertype: 'input', datafield: 'jobno', width: 150 },
                     { text: 'Enquiry Date', datafield: 'jobdate', width: 150, align: 'center' },
                     { text: 'currency', filtertype: 'checkedlist', datafield: 'currency', width: 200 },
-                    { text: 'Send Mail', datafield: 'sendmail', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 80 },
+                   // { text: 'Send Mail', datafield: 'sendmail', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 80 },
                     { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 130 },
+                    { text: 'Close', datafield: 'close', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 130 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsrenderer: linkrenderer1, cellsalign: 'center', width: 70 },
                 ]

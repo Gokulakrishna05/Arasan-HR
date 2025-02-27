@@ -57,7 +57,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                             @*    <div class="col-md-4">
                                     <div class="form-group">
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
@@ -65,14 +65,16 @@
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
-                                </div>
+                                </div> *@
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Customer<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Customer, Model.Suplst, new { @id = "ddlCustomer", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DisplayFor(C => C.Customername, new { @id = "ddlCustomer", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.HiddenFor(C => C.Customer, new { @id = "ddlCustomer", @Class = "form-control _select", @TabIndex = 1 })
+                                           @*  @Html.DropDownListFor(C => C.Customer, Model.Suplst, new { @id = "ddlCustomer", @Class = "form-control _select", @TabIndex = 1 }) *@
                                         </div>
                                     </div>
                                 </div>
@@ -119,14 +121,14 @@
                                     <table class="table table-striped table-hover" id="dataTable">
                                         <thead>
                                             <tr>
-                                                <th>Job OrderId</th>
+                                                @* <th>Job OrderId</th> *@
                                                 <th>Item Id </th>
-                                                <th>Description</th>
+                                               
                                                 <th>Unit</th>
                                                 <th>Ord.Qty</th>
-                                                <th>Dc.Qty</th>
+                                               @*  <th>Dc.Qty</th>
                                                 <th>Excise.Qty</th>
-                                                <th>Pend.Qty</th>
+                                                <th>Pend.Qty</th> *@
                                                 <th>ShortClose.Qty</th>
                                                 <th>Rate</th>
                                                 <th>Amount</th>
@@ -141,23 +143,24 @@
                                                 {
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
+                                                        @*<td>
+                                                            @Html.TextBoxFor(o => o.OrderLst[i].JobId, new { @id = "txtJobId" + i, @class = "form-control", style = "width:220px;" })
+                                                        </td>*@
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.OrderLst[i].JobId, new { @id = "txtJobId" + i, @class = "form-control", style = "width:220px;"})
-                                                        </td>
-                                                        <td>
-                                                            @Html.DropDownListFor(o => o.OrderLst[i].ItemId, Model.OrderLst[i].Itemlst, "---Please Select---", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItemDetails(this.value," + i + ")" })
+
+                                                            @Html.TextBoxFor(o => o.OrderLst[i].ItemId, new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItemDetails(this.value," + i + ")" })
+                                                           @* @Html.DropDownListFor(o => o.OrderLst[i].ItemId, Model.OrderLst[i].Itemlst, "---Please Select---", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItemDetails(this.value," + i + ")" })*@
                                                             @Html.HiddenFor(o => o.OrderLst[i].saveItemId)
+                                                            @Html.HiddenFor(o => o.OrderLst[i].JobId)
                                                         </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.OrderLst[i].Des, new { @id = "txtDes" + i, @class = "form-control", style = "width:220px;", @readonly = "readonly" })
-                                                        </td>
+                                                       
                                                         <td>
                                                             @Html.TextBoxFor(o => o.OrderLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.OrderLst[i].OrdQty, new { @id = "txtOrdQty" + i, @class = "form-control", style = "width: 100px;", onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
+                                                            @Html.TextBoxFor(o => o.OrderLst[i].OrdQty, new { @id = "txtOrdQty" + i, @class = "form-control", style = "width: 100px;", onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly", @onkeyup = "changeQty(this," + i + ")" })
                                                         </td>
-                                                          <td>
+                                                        @*<td>
                                                             @Html.TextBoxFor(o => o.OrderLst[i].Dc, new { @id = "txtDc" + i, @class = "form-control", style = "width: 100px;", onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                         </td>
                                                         <td>
@@ -165,9 +168,9 @@
                                                         </td>
                                                         <td>
                                                             @Html.TextBoxFor(o => o.OrderLst[i].PendQty, new { @id = "txtPendQty" + i, @class = "form-control", style = "width: 100px;", onkeydown = "return isNumeric2(event.keyCode,this.value)" })
-                                                        </td>
+                                                        </td>*@
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.OrderLst[i].ShortQty, new { @id = "txtShortQty" + i, @class = "form-control", style = "width: 100px;", onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                            @Html.TextBoxFor(o => o.OrderLst[i].ShortQty, new { @id = "txtShortQty" + i, @class = "form-control", style = "width: 100px;", onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
                                                         </td>
                                                         <td>
                                                             @Html.TextBoxFor(o => o.OrderLst[i].Rate, new { @id = "txtRate" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly", onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
@@ -261,7 +264,7 @@
             success: function (result) {
                 document.getElementById("txtDes" + i).value = result.desc;
                 document.getElementById("txtUnit" + i).value = result.unit;
-                 
+
 
             },
             error: function () {
@@ -273,8 +276,8 @@
                     data: { "ItemId": ItemId, "custid": party ,"ratec": ratec,"ordtype":ordtype },
                         type: "GET",
                         success: function (result) {
-              
-               
+
+
                 if (typeid == "SAMPLE") {
 
 
@@ -288,7 +291,7 @@
                 else{
                     document.getElementById("txtRate" + i).value = result.price;
                 }
-              
+
 
                         },
                         error: function () {
@@ -302,9 +305,9 @@
             var j = 0;
             var sqty = 0;
             var tot = 0;
-            var qty = document.getElementById("txtOrdQty" + i).value;
+            var qty = document.getElementById("txtShortQty" + i).value;
             var up = document.getElementById("txtRate" + i).value;
-            var CF = 1;
+           
 
             if (qty == "")
                 qty = 0;
@@ -313,16 +316,14 @@
                 up = 0;
 
 
-            if (CF == "")
-                CF = 1;
+            
 
-
-            var tot = eval(qty) * eval(up) * eval(CF);
+            var tot = eval(qty) * eval(up) ;
             document.getElementById("txtAmount" + i).value = tot.toFixed(2);
 
             $('tr.chkitemlst').each(function () {
                 if ($(this).css('display') !== 'none') {
-                    sqty = $(this).find('#txtOrdQty' + j.toString()).val();
+                    sqty = $(this).find('#txtShortQty' + j.toString()).val();
                     if (sqty == "")
                         sqty = 0;
 

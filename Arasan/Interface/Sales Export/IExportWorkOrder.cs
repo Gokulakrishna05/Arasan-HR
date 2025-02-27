@@ -24,5 +24,17 @@ namespace Arasan.Interface
         DataTable GetExportWorkOrderItem(string id);
         DataTable GetExportWorkOrder(string id);
         DataTable GetExportWorkItem(string id);
+
+        string DispDrumCRUD(ExportWorkOrder cy);
+        DataTable GetAllListWorkScheduleItems();
+        string StatusStockRelease(string id, string jid, string bid);
+        DataTable GetDrumAllByID(string id);
+        DataTable GetDrumAllDetails(string id);
+        DataTable GetAllocationDrumDetails(string id);
+        DataTable GetWorkOrderByID(string id);
+        DataTable GetWorkOrderDetailsss(string id);
+        DataTable GetDrumDetails(string Itemid, string locid);
+
+        string DrumAllocationCRUD(EWDrumAllocation cy);
     }
 }
