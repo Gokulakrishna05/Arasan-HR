@@ -13,5 +13,6 @@ namespace Arasan.Interface
         DataTable GetCustomerDetails(string id);
         DataTable GetExRateDetails(string id);
         DataTable GetItem();
+        string slaesinvoiceCRUD(ExportInvoice cy);
     }
 }

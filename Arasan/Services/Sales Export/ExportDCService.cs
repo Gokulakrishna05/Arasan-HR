@@ -188,7 +188,7 @@ namespace Arasan.Services.Sales_Export
                 string StatementType = string.Empty; string svSQL = "";
                 datatrans = new DataTransactions(_connectionString);
 
-                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE TRANSTYPE = edelc' AND ACTIVESEQUENCE = 'T'");
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE TRANSTYPE = 'edelc' AND ACTIVESEQUENCE = 'T'");
                 string DCNo = string.Format("{0}{1}", "Dec-", (idc + 1).ToString());
 
                 string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE TRANSTYPE = 'edelc' AND ACTIVESEQUENCE ='T'";

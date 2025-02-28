@@ -39,6 +39,9 @@ namespace Arasan.Controllers.Sales_Export
             ca.Despatchlst = BindDespatch();
             ca.Inspectedlst = BindInspected();
             ca.Doclst = BindDoc();
+            ca.arealist = BindArea("");
+
+
             ca.Area = "NONE";
             ca.DCdate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Refdate = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -211,6 +214,72 @@ namespace Arasan.Controllers.Sales_Export
             }
 
             return View(Cy);
+        }
+        public JsonResult GetPartyaddrJSON(string custid)
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindArea(custid));
+        }
+        public List<SelectListItem> BindArea(string custid)
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("select ADDBOOKTYPE,PARTYMASTADDRESSID from PARTYMASTADDRESS where PARTYMASTID='" + custid + "' UNION SELECT 'None',0 FROM DUAL");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ADDBOOKTYPE"].ToString(), Value = dtDesg.Rows[i]["ADDBOOKTYPE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetAreaDetail(string sup)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+
+                string add1 = "";
+                string add2 = "";
+                string add3 = "";
+                string city = "";
+                string state = "";
+                string pin = "";
+                string phone = "";
+
+
+                dt = datatrans.GetData("SELECT SADD1,SADD2,SADD3,SCITY,SSTATE,SPINCODE,SPHONE FROM PARTYMASTADDRESS WHERE PARTYMASTID='" + sup + "'");
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    add1 = dt.Rows[0]["SADD1"].ToString();
+                    add2 = dt.Rows[0]["SADD2"].ToString();
+                    add3 = dt.Rows[0]["SADD3"].ToString();
+
+
+                    state = dt.Rows[0]["SSTATE"].ToString();
+                    city = dt.Rows[0]["SCITY"].ToString();
+
+
+                    pin = dt.Rows[0]["SPINCODE"].ToString();
+                    phone = dt.Rows[0]["SPHONE"].ToString();
+
+                }
+
+                var result = new { add1 = add1, add2 = add2, add3 = add3, pin = pin, state = state, phone = phone, city = city };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<SelectListItem> BindBranch()
         {
