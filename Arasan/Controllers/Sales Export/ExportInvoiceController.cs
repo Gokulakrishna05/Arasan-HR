@@ -33,6 +33,7 @@ namespace Arasan.Controllers
             ca.Orderlst = BindOrderType();
             ca.Schemelst = BindScheme();
             ca.Termslst = BindTerms();
+            ca.arealist = BindArea("");
             ca.InvDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
 
@@ -55,6 +56,42 @@ namespace Arasan.Controllers
             }
             ca.InvoiceLst = TData;
             return View(ca);
+        }
+        [HttpPost]
+        public ActionResult Export_Invoice(ExportInvoice Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                Cy.Branch = Request.Cookies["BranchId"];
+                string Strout = ExportInvoice.slaesinvoiceCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "ExportSalesInvoice Inserted Successfully...!";
+                    }
+                  
+                    return RedirectToAction("ListExportDC");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit Export_Invoice";
+                    TempData["notice"] = "Not Inserted";
+                    return RedirectToAction("ListExportInvoice");
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                TempData["notice"] = "Not Inserted";
+                return RedirectToAction("ListExportInvoice");
+            }
+
+            return View(Cy);
         }
         public List<SelectListItem> BindItemlst()
         {
@@ -228,6 +265,81 @@ namespace Arasan.Controllers
                 lstdesg.Add(new SelectListItem() { Text = "CIF", Value = "CIF" });
                 
                 return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public JsonResult GetPartyaddrJSON(string custid)
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindArea(custid));
+        }
+        public List<SelectListItem> BindArea(string custid)
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetData("select ADDBOOKTYPE,PARTYMASTADDRESSID from PARTYMASTADDRESS where PARTYMASTID='" + custid + "' UNION SELECT 'None',0 FROM DUAL");
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ADDBOOKTYPE"].ToString(), Value = dtDesg.Rows[i]["ADDBOOKTYPE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetAreaDetail(string ItemId, string custid)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string reciver = "";
+                //string address = "";
+                string state = "";
+                string city = "";
+                string pincode = "";
+                string phone = "";
+                string email = "";
+                string fax = "";
+                string add1 = "";
+                string add2 = "";
+                string add3 = "";
+                string shd = "";
+                string shipdist = "";
+
+
+                dt = datatrans.GetData("Select PARTYMASTADDRESSID,ADDBOOKCOMPANY,SPHONE,SFAX,SEMAIL,SSTATE,SCITY,SPINCODE,SADD1,SADD2,SADD3,SSHIPD from PARTYMASTADDRESS  where ADDBOOKTYPE='" + ItemId + "' AND PARTYMASTID='" + custid + "'");
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    reciver = dt.Rows[0]["ADDBOOKCOMPANY"].ToString();
+                    //address = dt.Rows[0]["address"].ToString();
+                    state = dt.Rows[0]["SSTATE"].ToString();
+                    city = dt.Rows[0]["SCITY"].ToString();
+                    pincode = dt.Rows[0]["SPINCODE"].ToString();
+                    phone = dt.Rows[0]["SPHONE"].ToString();
+                    email = dt.Rows[0]["SEMAIL"].ToString();
+                    fax = dt.Rows[0]["SFAX"].ToString();
+                    add1 = dt.Rows[0]["SADD1"].ToString();
+                    add2 = dt.Rows[0]["SADD2"].ToString();
+                    add3 = dt.Rows[0]["SADD3"].ToString();
+                    shd = dt.Rows[0]["SSHIPD"].ToString();
+
+
+                }
+                shipdist = datatrans.GetDataString("SELECT SDIST FROM PARTYMAST WHERE PARTYMASTID='" + custid + "'");
+
+                var result = new { reciver = reciver, state = state, city = city, pincode = pincode, phone = phone, email = email, fax = fax, add1 = add1, add2 = add2, add3 = add3, shd = shd, shipdist = shipdist };
+                return Json(result);
             }
             catch (Exception ex)
             {

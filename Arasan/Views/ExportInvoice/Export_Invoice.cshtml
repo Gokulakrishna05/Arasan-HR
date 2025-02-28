@@ -477,45 +477,66 @@
                                                         <div class="form-group">
                                                             <br /><label for="inputName3" class="col-sm-4 control-label">Area Id<label class="Mandatory"></label></label>
                                                             <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Area, new { @id = "txtArea", @class = "form-control", @TabIndex = 2 })
+                                                                        @Html.DropDownListFor(o => o.Area, Model.arealist, "Please Select", new { @class = "form-control _select newcss", @id = "ddlArea", style = "width: 200px;", onchange = "changeItem1(this.value)" })
 
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <br /><label for="inputName3" class="col-sm-4 control-label">Address<label class="Mandatory"></label></label>
-                                                            <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Address, new { @id = "txtAddress", @class = "form-control", @TabIndex = 2 })
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Add1<label class="mandatory"></label></label>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.TextBoxFor(C => C.Address, new { @id = "txtAddress", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
 
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <br /><label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
-                                                            <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.City, new { @id = "txtCity", @class = "form-control", @TabIndex = 2 })
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Add2<label class="mandatory"></label></label>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.TextBoxFor(C => C.add2, new { @id = "add2", @class = "form-control", @TabIndex = 2 , @readonly = "readonly"})
 
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
+                                                   
                                                 </div>
                                                 <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Add3<label class="mandatory"></label></label>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.TextBoxFor(C => C.add3, new { @id = "add3", @class = "form-control", @TabIndex = 2 , @readonly = "readonly"})
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <br /><label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.TextBoxFor(C => C.City, new { @id = "txtCity", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <br /><label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
                                                             <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.State, new { @id = "txtState", @class = "form-control", @TabIndex = 2 })
+                                                                        @Html.TextBoxFor(C => C.State, new { @id = "ddlState", @class = "form-control", @TabIndex = 2 , @readonly = "readonly"})
 
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    </div>
+                                                        <div class="row">
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <br /><label for="inputName3" class="col-sm-4 control-label">Pincode<label class="Mandatory"></label></label>
                                                             <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Pincode, new { @id = "txtPincode", @class = "form-control", @TabIndex = 2 })
+                                                                        @Html.TextBoxFor(C => C.Pincode, new { @id = "txtPinCode", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
 
                                                             </div>
                                                         </div>
@@ -524,23 +545,13 @@
                                                         <div class="form-group">
                                                             <br /><label for="inputName3" class="col-sm-4 control-label">Phone<label class="Mandatory"></label></label>
                                                             <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Phone, new { @id = "txtPhone", @class = "form-control", @TabIndex = 2 })
+                                                                        @Html.TextBoxFor(C => C.Phone, new { @id = "txtPhone", @class = "form-control", @TabIndex = 2 , @readonly = "readonly"})
 
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <br /><label for="inputName3" class="col-sm-4 control-label">Fax<label class="Mandatory"></label></label>
-                                                            <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Fax, new { @id = "txtFax", @class = "form-control", @TabIndex = 2 })
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                
                                                 <!-- 1st tab  -->
                                             </div>
                                             <div class="tab-pane" id="tab-2">
@@ -1350,6 +1361,42 @@
             return whole + 'Only ';
         }
     }
+    function changeItem1(ItemId) {
+        var custid = document.getElementById("ddlCustomer").value;
+        $.ajax({
+            url: 'GetAreaDetail',
+            data: { "ItemId": ItemId, "custid": custid },
+            type: "GET",
+            success: function (result) {
+
+                
+                document.getElementById("txtAddress").value = result.add1;
+               
+                document.getElementById("add2").value = result.add2;
+                 
+                document.getElementById("add3").value = result.add3;
+              
+                document.getElementById("ddlState").value = result.state;
+                
+                document.getElementById("txtCity").value = result.city;
+                 
+                document.getElementById("txtPinCode").value = result.pincode;
+                
+                document.getElementById("txtPhone").value = result.phone;
+                
+               
+                @*if (result.shd == "" || result.shd == "0") {
+                    document.getElementById("txtDistance").value = result.shipdist;
+                }
+                else {
+                    document.getElementById("txtDistance").value = result.shd;
+                }*@
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
     function changeItem(ItemId) {
         $.ajax({
             url: 'GetCustomerDetail',
@@ -1477,8 +1524,43 @@
                    alert("Data Not Found items");
                }
            });
-    
 
+        $.ajax({
+            url: "GetPartyaddrJSON",
+            type: "post",
+            data: { 'custid': ItemId },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                newlist = response.Arealst;
+                PopulateDropDownn("#ddlArea", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select job no");
+            }
+        });
+        $.ajax({
+            url: 'GetAreaDetail',
+            data: { "sup": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtAddress").value = result.add1;
+                document.getElementById("add2").value = result.add2;
+                document.getElementById("add3").value = result.add3;
+                document.getElementById("ddlState").value = result.state;
+                document.getElementById("txtCity").value = result.city;
+                document.getElementById("txtPinCode").value = result.pin;
+                document.getElementById("txtPhone").value = result.phone;
+
+
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
 
     }
     function changeItemDetails(ItemId, i) {

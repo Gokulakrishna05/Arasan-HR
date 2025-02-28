@@ -356,7 +356,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                        <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:100px;">
                                                             <table class="table table-striped table-hover" id="dataTable1">
                                                                 <thead>
                                                                     <tr>
@@ -433,7 +433,7 @@
 
                                 </div>
                             </div>
-                            <div style="height:30px;"></div>
+                       
                             <div class="row">
                                 <div class="col-md-12">
 
@@ -446,14 +446,14 @@
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab-1">
                                                 <!-- 1nd tab  -->
-                                                <div style="height:30px;"></div>
+                                                
                                                 <div class="row">
 
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="inputName3" class="col-sm-4 control-label">Area<label class="mandatory">*</label></label>
+                                                            <br />   <label for="inputName3" class="col-sm-4 control-label">Area<label class="mandatory"></label></label>
                                                             <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Area, new { @id = "txtArea", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.DropDownListFor(o => o.Area, Model.arealist, "Please Select", new { @class = "form-control _select newcss", @id = "ddlArea", style = "width: 200px;"})
 
                                                             </div>
                                                         </div>
@@ -461,78 +461,88 @@
 
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="inputName3" class="col-sm-4 control-label">Address<label class="mandatory">*</label></label>
+                                                            <br />   <label for="inputName3" class="col-sm-4 control-label">Add1<label class="mandatory"></label></label>
                                                             <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Address, new { @id = "txtAddress", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.Address, new { @id = "txtAddress", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
 
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="inputName3" class="col-sm-4 control-label">City<label class="mandatory"></label></label>
+                                                            <br />   <label for="inputName3" class="col-sm-4 control-label">Add2<label class="mandatory"></label></label>
                                                             <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.City, new { @id = "txtCity", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.add2, new { @id = "add2", @class = "form-control", @TabIndex = 2 , @readonly = "readonly"})
 
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                </div>
-                                                <div style="height:30px;"></div>
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
-                                                            <div class="col-sm-8">
-                                                                @Html.TextAreaFor(C => C.State, new { @id = "txtState", @class = "form-control", @TabIndex = 2 })
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="inputName3" class="col-sm-4 control-label">Phone<label class="Mandatory"></label></label>
-                                                            <div class="col-sm-8">
-                                                                @Html.TextAreaFor(C => C.Phone, new { @id = "txtPhone", @class = "form-control", @TabIndex = 2 })
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="inputName3" class="col-sm-4 control-label">PinCode<label class="Mandatory"></label></label>
-                                                            <div class="col-sm-8">
-                                                                @Html.TextAreaFor(C => C.Pincode, new { @id = "txtPincode", @class = "form-control", @TabIndex = 2 })
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div style="height:30px;"></div>
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="inputName3" class="col-sm-4 control-label">Fax<label class="Mandatory"></label></label>
-                                                            <div class="col-sm-8">
-                                                                @Html.TextAreaFor(C => C.Fax, new { @id = "txtFax", @class = "form-control", @TabIndex = 2 })
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                     
+
                                                 </div>
+                                               
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <br />   <label for="inputName3" class="col-sm-4 control-label">Add3<label class="mandatory"></label></label>
+                                                            <div class="col-sm-8">
+                                                                @Html.TextBoxFor(C => C.add3, new { @id = "add3", @class = "form-control", @TabIndex = 2 , @readonly = "readonly"})
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <br /> <label for="inputName3" class="col-sm-4 control-label">City<label class="mandatory"></label></label>
+                                                            <div class="col-sm-8">
+                                                                @Html.TextBoxFor(C => C.City, new { @id = "txtCity", @class = "form-control", @TabIndex = 2 , @readonly = "readonly"})
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <br />    <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
+                                                            <div class="col-sm-8">
+                                                                @Html.TextBoxFor(C => C.State, new { @id = "ddlState", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <br />    <label for="inputName3" class="col-sm-4 control-label">Phone<label class="Mandatory"></label></label>
+                                                            <div class="col-sm-8">
+                                                                @Html.TextBoxFor(C => C.Phone, new { @id = "txtPhone", @class = "form-control", @TabIndex = 2 , @readonly = "readonly"})
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <br />  <label for="inputName3" class="col-sm-4 control-label">PinCode<label class="Mandatory"></label></label>
+                                                            <div class="col-sm-8">
+                                                                @Html.TextBoxFor(C => C.Pincode, new { @id = "txtPin", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
                                                 <!-- 1nd tab  -->
                                             </div>
                                             <div class="tab-pane" id="tab-2">
                                                 <!-- 2nd tab  -->
-                                                <div style="height:30px;"></div>
+                                                
                                                 <div class="row">
 
                                                      
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="inputName3" class="col-sm-4 control-label">Email<label class="Mandatory"></label></label>
+                                                            <br />  <label for="inputName3" class="col-sm-4 control-label">Email<label class="Mandatory"></label></label>
                                                             <div class="col-sm-8">
                                                                 @Html.TextBoxFor(C => C.Email, new { @id = "txtEmail", @class = "form-control", @TabIndex = 2 })
 
@@ -540,12 +550,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div style="height:30px;"></div>
+                                                
                                                 <div class="row">
 
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="inputName3" class="col-sm-4 control-label">Delivery At<label class="Mandatory"></label></label>
+                                                            <br />  <label for="inputName3" class="col-sm-4 control-label">Delivery At<label class="Mandatory"></label></label>
                                                             <div class="col-sm-8">
                                                                 @Html.TextAreaFor(C => C.Deliver, new { @id = "txtDeliver", @class = "form-control", @TabIndex = 2 })
 
@@ -554,7 +564,7 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
+                                                            <br />  <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
                                                             <div class="col-sm-8">
                                                                 @Html.TextAreaFor(C => C.Narration, new { @id = "txtNarration", @class = "form-control", @TabIndex = 2 })
 
@@ -563,7 +573,7 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="inputName3" class="col-sm-4 control-label">Other Reference<label class="Mandatory"></label></label>
+                                                            <br />    <label for="inputName3" class="col-sm-4 control-label">Other Reference<label class="Mandatory"></label></label>
                                                             <div class="col-sm-8">
                                                                 @Html.TextAreaFor(C => C.other, new { @id = "txtother", @class = "form-control", @TabIndex = 2 })
 
@@ -981,18 +991,52 @@
                    document.getElementById("Customerid").value = result.custid;
                    document.getElementById("txtDeliver").value = result.adress;
                    document.getElementById("txtNarration").value = result.narr;
-                 
 
 
+              //  var custid = document.getElementById("Customerid").value;
+                $.ajax({
+                    url: "GetPartyaddrJSON",
+                    type: "post",
+                    data: { 'custid': result.custid },
+                    cache: false,
+                    success: function (response) {
+                        var newlist;
+                        newlist = response.Arealst;
+                        PopulateDropDownn("#ddlArea", response);
+                    },
+                    error: function () {
+                        debugger;
+                        alert("Please Select job no");
+                    }
+                });
+                $.ajax({
+                    url: 'GetAreaDetail',
+                    data: { "sup": result.custid },
+                    type: "GET",
+                    success: function (result) {
+
+                        document.getElementById("txtAddress").value = result.add1;
+                        document.getElementById("add2").value = result.add2;
+                        document.getElementById("add3").value = result.add3;
+                        document.getElementById("ddlState").value = result.state;
+                        document.getElementById("txtCity").value = result.city;
+                        document.getElementById("txtPin").value = result.pin;
+                        document.getElementById("txtPhone").value = result.phone;
+
+
+
+                    },
+                    error: function () {
+                        alert("Data Not Found");
+                    }
+                });
 
                },
                error: function () {
                    alert("Data Not Found");
                }
            });
-
-
-
+        
 
        }
 </script>

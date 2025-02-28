@@ -31,6 +31,7 @@ namespace Arasan.Models
         public List<SelectListItem> Despatchlst;
         public string Despatch { get; set; }
         public List<SelectListItem> Inspectedlst;
+        public List<SelectListItem> arealist;
         public string Inspected { get; set; }
         public List<SelectListItem> Doclst;
         public string Doc { get; set; }
@@ -42,6 +43,8 @@ namespace Arasan.Models
         public string CName { get; set; }
         public string Area { get; set; }
         public string Address { get; set; }
+        public string add2 { get; set; }
+        public string add3 { get; set; }
         public string City { get; set; }
         public string State { get; set; }
         public string Phone { get; set; }

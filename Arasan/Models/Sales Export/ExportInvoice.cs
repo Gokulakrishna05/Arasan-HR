@@ -51,11 +51,14 @@ namespace Arasan.Models
         public string Licence { get; set; }
 
         public List<SelectListItem> Termslst;
+        public List<SelectListItem> arealist;
         public string Terms { get; set; }
         public string Delivery { get; set; }
         public string Handling { get; set; }
         public string Area { get; set; }
         public string Address { get; set; }
+        public string add3 { get; set; }
+        public string add2 { get; set; }
         public string City { get; set; }
         public string State { get; set; }
         public string Pincode { get; set; }
