@@ -154,7 +154,7 @@ namespace Arasan.Models
         public double discamt { get; set; }
         public double quantity { get; set; }
         public double frigcharges { get; set; }
-        public double DrumIds { get; set; }
+        public string DrumIds { get; set; }
 
     }
 }

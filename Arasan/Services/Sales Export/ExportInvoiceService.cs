@@ -133,7 +133,7 @@ namespace Arasan.Services
                                     string partyarc = dtParty.Rows[0]["ratecode"].ToString();
                                     string PartyG = dtParty.Rows[0]["PartyGroup"].ToString();
                                     string mid = dtParty.Rows[0]["ACCOUNTNAME"].ToString();
-                                    DataTable psaledt = datatrans.GetData("Select nvl(sum(net),0) nets from ( Select sum(net) net from exinvbasic e, partymast p,partyadvdisc d where e.docdate between D.SD and D.ED and e.RateCode ='" + partyarc + "' and e.partyid = P.PARTYMASTID and(P.PARTYMASTID = '" + cy.Customer + "' or(P.PARTYGROUP ='" + PartyG + "' and 'None' <> '" + PartyG + "')) and D.RATECODE = E.RATECODE and D.PARTYMASTID = P.PARTYMASTID  and e.EORDTYPE = 'ORDER' Union All Select sum(net) net from Depinvbasic e, partymast p,partyadvdisc d where e.docdate between D.SD and D.ED and e.RateCode = '" + partyarc + "' and e.partyid = P.PARTYMASTID and(P.PARTYMASTID ='" + cy.Customer + "' or(P.PARTYGROUP = '" + PartyG + "' and 'None' <> '" + cy.PartyG + "')) and D.RATECODE = E.RATECODE and D.PARTYMASTID = P.PARTYMASTID  and e.EORDTYPE = 'ORDER')");
+                                    DataTable psaledt = datatrans.GetData("Select nvl(sum(net),0) nets from ( Select sum(net) net from exinvbasic e, partymast p,partyadvdisc d where e.docdate between D.SD and D.ED and e.RateCode ='" + partyarc + "' and e.partyid = P.PARTYMASTID and(P.PARTYMASTID = '" + cy.Customer + "' or(P.PARTYGROUP ='" + PartyG + "' and 'None' <> '" + PartyG + "')) and D.RATECODE = E.RATECODE and D.PARTYMASTID = P.PARTYMASTID  and e.EORDTYPE = 'ORDER' Union All Select sum(net) net from Depinvbasic e, partymast p,partyadvdisc d where e.docdate between D.SD and D.ED and e.RateCode = '" + partyarc + "' and e.partyid = P.PARTYMASTID and(P.PARTYMASTID ='" + cy.Customer + "' or(P.PARTYGROUP = '" + PartyG + "' and 'None' <> '" + PartyG + "')) and D.RATECODE = E.RATECODE and D.PARTYMASTID = P.PARTYMASTID  and e.EORDTYPE = 'ORDER')");
                                    double asale = (long)Convert.ToDouble(psaledt.Rows[0]["nets"].ToString());
                                     DataTable partybdt = datatrans.GetData("Select nvl(Sum(debit-Credit),0) bal from dailytrans where mid='" + mid + "' and t2vchdt<='" + cy.InvDate + "'");
                                     double PartyB = (long)Convert.ToDouble(partybdt.Rows[0]["bal"].ToString());
@@ -159,73 +159,73 @@ namespace Arasan.Services
                                     {
                                         Pid = cy.ID;
                                     }
-                                    if (cy.ExportDCLst != null)
-                                    {
-                                        if (cy.ID == null)
-                                        {
-                                            int r = 1;
-                                            foreach (ExportDCItem cp in cy.ExportDCLst)
-                                            {
-                                                string unit = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.Unit + "' ");
-                                                DataTable item = datatrans.GetData("SELECT LOTYN,SERIALYN,ITEMID FROM ITEMMASTER WHERE ITEMMASTERID='" + cp.saveItemId + "'");
-                                                if (cp.saveItemId != "0")
-                                                {
-                                                    string[] drumidlist = null;
-                                                    //double brate = Math.Round(acssamt / cp.quantity, 2);
-                                                    int totdrumscount = 0;
-                                                    double Crate1 = 0;
-                                                    double Camount = 0;
-                                                    string crate = "0";
-                                                    if (!string.IsNullOrEmpty(cp.DrumIds))
-                                                    {
-                                                        string drumids = cp.DrumIds;
-                                                        drumidlist = drumids.Split(",");
-                                                        totdrumscount = drumidlist.Length;
-                                                        crate = datatrans.GetDataString("SELECT ROUND((SUM(PL.Amount) / SUM(PL.QTY)),2) as CRATE  FROM plotmaSt PL,plstockvalue ps WHERE ps.lotno=pl.lotno AND ps.plstockvalueID IN (" + cp.DrumIds + ")");
+                                    //if (cy.ExportDCLst != null)
+                                    //{
+                                    //    if (cy.ID == null)
+                                    //    {
+                                    //        int r = 1;
+                                    //        foreach (ExportDCItem cp in cy.ExportDCLst)
+                                    //        {
+                                    //            string unit = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.Unit + "' ");
+                                    //            DataTable item = datatrans.GetData("SELECT LOTYN,SERIALYN,ITEMID FROM ITEMMASTER WHERE ITEMMASTERID='" + cp.saveItemId + "'");
+                                    //            if (cp.saveItemId != "0")
+                                    //            {
+                                    //                string[] drumidlist = null;
+                                    //                //double brate = Math.Round(acssamt / cp.quantity, 2);
+                                    //                int totdrumscount = 0;
+                                    //                double Crate1 = 0;
+                                    //                double Camount = 0;
+                                    //                string crate = "0";
+                                    //                if (!string.IsNullOrEmpty(cp.DrumIds))
+                                    //                {
+                                    //                    string drumids = cp.DrumIds;
+                                    //                    drumidlist = drumids.Split(",");
+                                    //                    totdrumscount = drumidlist.Length;
+                                    //                    crate = datatrans.GetDataString("SELECT ROUND((SUM(PL.Amount) / SUM(PL.QTY)),2) as CRATE  FROM plotmaSt PL,plstockvalue ps WHERE ps.lotno=pl.lotno AND ps.plstockvalueID IN (" + cp.DrumIds + ")");
 
-                                                        Crate1 = Convert.ToDouble(crate);
-                                                        Camount = Crate1 * cp.quantity;
-                                                    }
-                                                    command.CommandText = "Insert into EDCDETAIL (EDCBASICID,ITEMID,PACKSPEC,UNIT,MQTY,ISSRATE,ISSAMT,LOTYN,SERIALYN,SEALNO,ORDQTY,CLSTOCK,DCQTY,QTY,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,FREIGHT,DRUMDESC,CNO,TWT,VECHILENO,MATSUPP,M,CITEMID,EDCDETAILROW,SL,OPSTOCK,INVOICEDQTY,JODETAILID,TDRUM,PRIUNIT,UNNO) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + cp.des + "','" + unit + "','" + cp.qty + "','" + cp.rate + "','" + cp.Amount + "','" + item.Rows[0]["LOTYN"].ToString() + "','" + item.Rows[0]["SERIALYN"].ToString() + "','" + cp.Seal + "','" + cp.quantity + "','" + cp.Current + "','" + cp.quantity + "','" + cp.quantity + "','" + cp.discamt + "','" + cp.CashDisc + "','" + cp.Introduction + "','" + cp.Trade + "','" + cp.Addition + "','" + cp.Special + "','" + cp.Fright + "','" + cp.Drum + "','" + cp.Container + "','" + cp.Tare + "','" + cp.Vechile + "','OWN','Aluminium Powder Uncoated','" + item.Rows[0]["ITEMID"].ToString() + "','" + r + "','" + r + "','0','0','" + cp.jodetid + "','" + totdrums + "','0','0') RETURNING EDCDETAILID INTO :stkid";
-                                                    command.Parameters.Add("stkid", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                                    //                    Crate1 = Convert.ToDouble(crate);
+                                    //                    Camount = Crate1 * cp.quantity;
+                                    //                }
+                                    //                command.CommandText = "Insert into EDCDETAIL (EDCBASICID,ITEMID,PACKSPEC,UNIT,MQTY,ISSRATE,ISSAMT,LOTYN,SERIALYN,SEALNO,ORDQTY,CLSTOCK,DCQTY,QTY,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,FREIGHT,DRUMDESC,CNO,TWT,VECHILENO,MATSUPP,M,CITEMID,EDCDETAILROW,SL,OPSTOCK,INVOICEDQTY,JODETAILID,TDRUM,PRIUNIT,UNNO) VALUES ('" + Pid + "','" + cp.saveItemId + "','" + cp.des + "','" + unit + "','" + cp.qty + "','" + cp.rate + "','" + cp.Amount + "','" + item.Rows[0]["LOTYN"].ToString() + "','" + item.Rows[0]["SERIALYN"].ToString() + "','" + cp.Seal + "','" + cp.quantity + "','" + cp.Current + "','" + cp.quantity + "','" + cp.quantity + "','" + cp.discamt + "','" + cp.CashDisc + "','" + cp.Introduction + "','" + cp.Trade + "','" + cp.Addition + "','" + cp.Special + "','" + cp.Fright + "','" + cp.Drum + "','" + cp.Container + "','" + cp.Tare + "','" + cp.Vechile + "','OWN','Aluminium Powder Uncoated','" + item.Rows[0]["ITEMID"].ToString() + "','" + r + "','" + r + "','0','0','" + cp.jodetid + "','" + totdrums + "','0','0') RETURNING EDCDETAILID INTO :stkid";
+                                    //                command.Parameters.Add("stkid", OracleDbType.Int64, ParameterDirection.ReturnValue);
 
-                                                    command.ExecuteNonQuery();
-                                                    string did = command.Parameters["stkid"].Value.ToString();
+                                    //                command.ExecuteNonQuery();
+                                    //                string did = command.Parameters["stkid"].Value.ToString();
 
-                                                    command.Parameters.Clear();
+                                    //                command.Parameters.Clear();
 
-                                                    if (!string.IsNullOrEmpty(cp.DrumIds))
-                                                    {
-                                                        int n = 1;
-                                                        foreach (string drumid in drumidlist)
-                                                        {
-                                                            long plstockvalue = datatrans.GetDataIdlong("select LASTNO from NEWSEQUENCE where NAME='plstockvalue'");
-                                                            DataTable dt = datatrans.GetData("SELECT PL.PLOTMASTID,PL.RATE as LOTRATE,ps.PLUSQTY,ps.DRUMNO,ps.RATE,ps.LOTNO,ps.STOCKVALUE,PL.Amount FROM plotmaSt PL,plstockvalue ps WHERE ps.lotno=pl.lotno AND ps.plstockvalueID='" + drumid + "'");
-                                                            // command.CommandText = "Insert into plstockvalue (T1SOURCEID,DOCID,DOCDATE,LOTNO,MINUSQTY,DRUMNO,RATE,STOCKVALUE,ITEMID,LOCID,STOCKTRANSTYPE,APPROVAL,MAXAPPROVED,CANCEL,PLUSQTY,FROMLOCID) VALUES ('" + Pid + "','" + cy.InvNo + "','" + cy.InvDate + "','" + dt.Rows[0]["LOTNO"].ToString() + "','" + dt.Rows[0]["PLUSQTY"].ToString() + "','" + dt.Rows[0]["DRUMNO"].ToString() + "','" + dt.Rows[0]["RATE"].ToString() + "','" + dt.Rows[0]["STOCKVALUE"].ToString() + "','" + cp.saveItemId + "','" + cy.Location + "','Ex.Invoice','0','0','F','0','0')";
-                                                            //OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
-                                                            // command.ExecuteNonQuery();
+                                    //                if (!string.IsNullOrEmpty(cp.DrumIds))
+                                    //                {
+                                    //                    int n = 1;
+                                    //                    foreach (string drumid in drumidlist)
+                                    //                    {
+                                    //                        long plstockvalue = datatrans.GetDataIdlong("select LASTNO from NEWSEQUENCE where NAME='plstockvalue'");
+                                    //                        DataTable dt = datatrans.GetData("SELECT PL.PLOTMASTID,PL.RATE as LOTRATE,ps.PLUSQTY,ps.DRUMNO,ps.RATE,ps.LOTNO,ps.STOCKVALUE,PL.Amount FROM plotmaSt PL,plstockvalue ps WHERE ps.lotno=pl.lotno AND ps.plstockvalueID='" + drumid + "'");
+                                    //                        // command.CommandText = "Insert into plstockvalue (T1SOURCEID,DOCID,DOCDATE,LOTNO,MINUSQTY,DRUMNO,RATE,STOCKVALUE,ITEMID,LOCID,STOCKTRANSTYPE,APPROVAL,MAXAPPROVED,CANCEL,PLUSQTY,FROMLOCID) VALUES ('" + Pid + "','" + cy.InvNo + "','" + cy.InvDate + "','" + dt.Rows[0]["LOTNO"].ToString() + "','" + dt.Rows[0]["PLUSQTY"].ToString() + "','" + dt.Rows[0]["DRUMNO"].ToString() + "','" + dt.Rows[0]["RATE"].ToString() + "','" + dt.Rows[0]["STOCKVALUE"].ToString() + "','" + cp.saveItemId + "','" + cy.Location + "','Ex.Invoice','0','0','F','0','0')";
+                                    //                        //OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                    //                        // command.ExecuteNonQuery();
 
-                                                            //DataTable dt2 = datatrans.GetData("SELECT PL.PLOTMASTID,PL.RATE FROM plotmaSt PL,plstockvalue ps WHERE ps.lotno=pl.lotno AND ps.PLSTOCKVALUEID='"+ plstockvalue + "'");
-                                                            double amt = Convert.ToDouble(dt.Rows[0]["LOTRATE"].ToString()) * Convert.ToDouble(dt.Rows[0]["PLUSQTY"].ToString());
-                                                            double amt12 = Convert.ToDouble(dt.Rows[0]["RATE"].ToString()) * Convert.ToDouble(dt.Rows[0]["PLUSQTY"].ToString());
-                                                            command.CommandText = "Insert into EDCLOT (EDCBASICID,PARENTRECORDID,EDCLOTROW,DRUMNO,LSTOCK,LITEMID,PWT,BWT,LOTNO,LOTSTOCK,LQTY,LRATE,LAMOUNT,PARENTROW,LLOCID,LDNO,LBIN,LDOCDATE,LDOCID) VALUES ('" + Pid + "','" + did + "','" + n + "','" + dt.Rows[0]["DRUMNO"].ToString() + "','" + dt.Rows[0]["PLUSQTY"].ToString() + "','" + cp.saveItemId + "','" + dt.Rows[0]["PLUSQTY"].ToString() + "','0','" + dt.Rows[0]["LOTNO"].ToString() + "','" + dt.Rows[0]["PLUSQTY"].ToString() + "','" + dt.Rows[0]["PLUSQTY"].ToString() + "','" + dt.Rows[0]["RATE"].ToString() + "','" + amt + "','" + r + "','" + cy.Location + "','1','0','" + cy.DCdate + "','" + cy.DCNo + "')";
-                                                            //OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
-                                                            command.ExecuteNonQuery();
+                                    //                        //DataTable dt2 = datatrans.GetData("SELECT PL.PLOTMASTID,PL.RATE FROM plotmaSt PL,plstockvalue ps WHERE ps.lotno=pl.lotno AND ps.PLSTOCKVALUEID='"+ plstockvalue + "'");
+                                    //                        double amt = Convert.ToDouble(dt.Rows[0]["LOTRATE"].ToString()) * Convert.ToDouble(dt.Rows[0]["PLUSQTY"].ToString());
+                                    //                        double amt12 = Convert.ToDouble(dt.Rows[0]["RATE"].ToString()) * Convert.ToDouble(dt.Rows[0]["PLUSQTY"].ToString());
+                                    //                        command.CommandText = "Insert into EDCLOT (EDCBASICID,PARENTRECORDID,EDCLOTROW,DRUMNO,LSTOCK,LITEMID,PWT,BWT,LOTNO,LOTSTOCK,LQTY,LRATE,LAMOUNT,PARENTROW,LLOCID,LDNO,LBIN,LDOCDATE,LDOCID) VALUES ('" + Pid + "','" + did + "','" + n + "','" + dt.Rows[0]["DRUMNO"].ToString() + "','" + dt.Rows[0]["PLUSQTY"].ToString() + "','" + cp.saveItemId + "','" + dt.Rows[0]["PLUSQTY"].ToString() + "','0','" + dt.Rows[0]["LOTNO"].ToString() + "','" + dt.Rows[0]["PLUSQTY"].ToString() + "','" + dt.Rows[0]["PLUSQTY"].ToString() + "','" + dt.Rows[0]["RATE"].ToString() + "','" + amt + "','" + r + "','" + cy.Location + "','1','0','" + cy.InvDate + "','" + cy.InvNo + "')";
+                                    //                        //OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                    //                        command.ExecuteNonQuery();
 
-                                                            //datatrans.UpdateStatus("UPDATE NEWSEQUENCE SET LASTNO ='" + (plstockvalue + 1).ToString() + "' where NAME='plstockvalue'");
-                                                            n = n + 1;
-                                                        }
-
-
-                                                    }
-                                                }
+                                    //                        //datatrans.UpdateStatus("UPDATE NEWSEQUENCE SET LASTNO ='" + (plstockvalue + 1).ToString() + "' where NAME='plstockvalue'");
+                                    //                        n = n + 1;
+                                    //                    }
 
 
-                                                r++;
-                                            }
-                                        }
+                                    //                }
+                                    //            }
 
-                                    }
+
+                                    //            r++;
+                                    //        }
+                                    //    }
+
+                                    //}
 
                                     //if (cy.ScrapLst != null)
                                     //{
