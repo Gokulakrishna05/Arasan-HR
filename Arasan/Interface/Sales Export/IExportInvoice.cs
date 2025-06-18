@@ -12,6 +12,7 @@ namespace Arasan.Interface
         DataTable GetWorkCenter();
         DataTable GetCustomerDetails(string id);
         DataTable GetExRateDetails(string id);
+        DataTable GetAllListExportInv(string id);
         DataTable GetItem();
         string slaesinvoiceCRUD(ExportInvoice cy);
     }

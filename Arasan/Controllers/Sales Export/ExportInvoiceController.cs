@@ -1,5 +1,6 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
@@ -30,6 +31,7 @@ namespace Arasan.Controllers
             ca.Suplst2 = BindSupplier2();
             ca.Voclst = BindVocherType();
             ca.Templst = BindTemplete();
+            ca.user = Request.Cookies["UserName"];
             ca.Orderlst = BindOrderType();
             ca.Schemelst = BindScheme();
             ca.Termslst = BindTerms();
@@ -109,6 +111,53 @@ namespace Arasan.Controllers
             {
                 throw ex;
             }
+        }
+        public IActionResult ListExportInvoice()
+        {
+            return View();
+        }
+        public ActionResult MyListExportDCGrid(string strStatus)
+        {
+            List<ListESIItems> Reg = new List<ListESIItems>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)ExportInvoice.GetAllListExportInv(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string ViewRow = string.Empty;
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+
+                //if (dtUsers.Rows[i]["STATUS"].ToString() == "Y")
+                //{
+                //    EditRow = "<a href=Export_DC?id=" + dtUsers.Rows[i]["EDCBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                //    ViewRow = "<a href=ViewExportDC?id=" + dtUsers.Rows[i]["EDCBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View' /></a>";
+                //    DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["EDCBASICID"].ToString() + "";
+
+                //}
+                //else
+                //{
+                //    DeleteRow = "DeleteMR?tag=Active&id=" + dtUsers.Rows[i]["EDCBASICID"].ToString() + "";
+                //}
+                Reg.Add(new ListESIItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["EEXINVBASICID"].ToString()),
+                    docno = dtUsers.Rows[i]["INVNO"].ToString(),
+                    currency = dtUsers.Rows[i]["MAINCURR"].ToString(),
+                    date = dtUsers.Rows[i]["INVDATE"].ToString(),
+                    party = dtUsers.Rows[i]["PARTYID"].ToString(),
+ 
+                    gross = dtUsers.Rows[i]["GROSS"].ToString(),
+                    net = dtUsers.Rows[i]["NET"].ToString(),
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
         public List<SelectListItem> BindBranch()
         {

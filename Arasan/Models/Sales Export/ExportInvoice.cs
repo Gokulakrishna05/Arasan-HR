@@ -65,11 +65,12 @@ namespace Arasan.Models
         public string Phone { get; set; }
         public string Fax { get; set; }
         public string Gross { get; set; }
-        public string Discount { get; set; }
-        public string FrightCharge { get; set; }
-        public string igst { get; set; }
+        public string user { get; set; }
+        public double Discount { get; set; }
+        public double FrightCharge { get; set; }
+        public double igst { get; set; }
         public string Net { get; set; }
-        public string Round { get; set; }
+        public double Round { get; set; }
         public string Narration { get; set; }
         public string Truck { get; set; }
         public string Distance { get; set; }
@@ -122,13 +123,14 @@ namespace Arasan.Models
         public string Fc { get; set; }
         public string InsKgs { get; set; }
         public string InsAmount { get; set; }
-        public string AcessAmount { get; set; }
+        public double AcessAmount { get; set; }
         public string ExciseType { get; set; }
         public string Traiff { get; set; }
         public string Igsts { get; set; }
         public string IGST { get; set; }
         public string work { get; set; }
         public string workid { get; set; }
+        public string TotalAmount { get; set; }
         public string dcno { get; set; }
         public string dcid { get; set; }
         public string dcdate { get; set; }
@@ -156,5 +158,27 @@ namespace Arasan.Models
         public double frigcharges { get; set; }
         public string DrumIds { get; set; }
 
+    }
+    public class ListESIItems
+    {
+        public long id { get; set; }
+        public string docno { get; set; }
+        public string date { get; set; }
+        public string party { get; set; }
+        public string delrow { get; set; }
+        public string currency { get; set; }
+        public string edit { get; set; }
+        public string excelrow { get; set; }
+        public string jsonrow { get; set; }
+        public string viewrow { get; set; }
+        public string verify { get; set; }
+        public string pdf { get; set; }
+        public string gross { get; set; }
+        public string net { get; set; }
+        public string cgst { get; set; }
+        public string sgst { get; set; }
+        public string recpt { get; set; }
+        public string recpt1 { get; set; }
+        public string igst { get; set; }
     }
 }

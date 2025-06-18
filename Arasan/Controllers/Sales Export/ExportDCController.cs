@@ -31,6 +31,7 @@ namespace Arasan.Controllers.Sales_Export
             ExportDC ca = new ExportDC();
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
+          
             ca.Suplst = BindSupplier();
             ca.Loclst = BindWorkCenter();
             ca.joplst = BindJobno();
