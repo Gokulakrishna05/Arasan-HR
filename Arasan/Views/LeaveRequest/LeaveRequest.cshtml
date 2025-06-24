@@ -1,0 +1,214 @@
+﻿@model Arasan.Models.LeaveRequest
+
+@{
+    ViewData["Title"] = "Leave Request";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        @* <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action(" LeaveTypeMaster", " LeaveTypeMaster")">HR</a> </li>
+            <li class="active"> <strong>Leave Type Master </strong> </li>
+        </ol> *@
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Leave Request</h5>
+                    <hr>
+                    @using (Html.BeginForm("LeaveRequest", "LeaveRequest", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Employee ID<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.EmpID, Model.EmpLst, " -- Please Select -- ", new { @id = "EmpID", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.HiddenFor(C => C.LeaveID)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Leave Type<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.LeaveType, Model.LeaveTypeLst, " -- Please Select -- ", new { @id = "LeaveType", @Class = "form-control _select", @TabIndex = 1 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">From Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date to_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.FromDate, new { @id = "FromDate", @class = "form-control", @TabIndex = 2, @size = "31", @readonly = true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">To Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date to_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.ToDate, new { @id = "ToDate", @class = "form-control", @TabIndex = 2, @size = "31", @readonly = true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Total Days<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.TotDays, new { @id = "TotDays", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Reason<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextAreaFor(C => C.Reason, new { @id = "Reason", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-8"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListLeaveRequest", "LeaveRequest")'">Cancel</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+       $('._select').select2();
+    });
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("EmpID").value == "") {
+                isValid = false;
+                $(EmpID).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Employee ID");
+                return false;
+            }
+            else {
+                $(EmpID).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("LeaveType").value == "") {
+                isValid = false;
+                $(LeaveType).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Leave Type");
+                return false;
+            }
+            else {
+                $(LeaveType).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("FromDate").value == "") {
+                isValid = false;
+                $(FromDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select From Date");
+                return false;
+            }
+            else {
+                $(FromDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ToDate").value == "") {
+                isValid = false;
+                $(ToDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select To Date");
+                return false;
+            }
+            else {
+                $(ToDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Reason").value == "") {
+                isValid = false;
+                $(Reason).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Reason");
+                return false;
+            }
+            else {
+                $(Reason).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    });
+</script>
