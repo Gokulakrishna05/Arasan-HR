@@ -412,6 +412,7 @@
    </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\LeaveTypeMasterController1\" />
     <Folder Include="wwwroot\assets\js\vendor\editorsjs\" />
     <Folder Include="wwwroot\pdfdownload\" />
   </ItemGroup>

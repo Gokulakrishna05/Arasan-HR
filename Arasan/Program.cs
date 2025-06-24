@@ -118,6 +118,9 @@ internal class Program
         builder.Services.TryAddSingleton<IWorkOrder, ExWorkOrderCloseService>();
         builder.Services.TryAddSingleton<ICustomerComplaint, CustomerComplaintService>();
         builder.Services.TryAddSingleton<IExportInvoice, ExportInvoiceService>();
+        builder.Services.TryAddSingleton<ILeaveMaster, LeaveMasterService>();
+        builder.Services.TryAddSingleton<ILeaveTypeMaster, LeaveTypeMasterService>();
+        builder.Services.TryAddSingleton<IHolidayMaster, HolidayMasterService>();
 
 
 
