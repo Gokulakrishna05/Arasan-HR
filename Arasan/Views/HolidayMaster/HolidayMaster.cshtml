@@ -1,0 +1,265 @@
+﻿@model Arasan.Models.HolidayMaster
+
+@{
+    ViewData["Title"] = "Holiday Master";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        @* <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action(" LeaveTypeMaster", " LeaveTypeMaster")">HR</a> </li>
+            <li class="active"> <strong>Leave Type Master </strong> </li>
+        </ol> *@
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Holiday Master</h5>
+                    <hr>
+                    @using (Html.BeginForm("HolidayMaster", "HolidayMaster", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+                            <div class="row">
+                               @*  <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Holiday Id<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Holidayid, new { @id = "txtHolidayid", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div> *@
+                                @*  <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Leave Type Name<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(C => C.LTName, Model.LTNamelst, " -- Please Select -- ", new { @id = "ddlLTName", @class = "form-control _select", @Width = "200px" })
+                                    </div>
+                                </div>
+                            </div> *@
+                               @*  <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Description<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextAreaFor(C => C.Des, new { @id = "txtDes", @class = "form-control", @TabIndex = 2 })
+
+                                        </div>
+                                    </div>
+                                </div> *@
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Holiday Name<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Hname, new { @id = "txtHname", @class = "form-control", @TabIndex = 2 })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Holiday Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date for_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.Hdate, new { @id = "txtHdate", @class = "form-control", @TabIndex = 2, @size = "32", @readonly = true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                               @*  <div class="form-group">
+                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Holiday Date<label class="mandatory">*</label></label>
+                                    <div class="input-group date for_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                        @Html.TextBoxFor(C => C.Hdate, new { @id = "txtHdate", @class = "form-control", @TabIndex = 2, @size = "32", @readonly = true })
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div> *@
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Day Of Week<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.DWeek, new { @id = "txtDWeek", @class = "form-control", @TabIndex = 2 })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Holiday Type<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.HType, new { @id = "txtHType", @class = "form-control", @TabIndex = 2 })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Remarks<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextAreaFor(C => C.Rmk, new { @id = "txtRmk", @class = "form-control", @TabIndex = 2 })
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @* <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+
+                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Created Date<label class="mandatory">*</label></label>
+                                    <div class="input-group date for_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                        @Html.TextBoxFor(C => C.Cdate, new { @id = "txtCdate", @class = "form-control", @TabIndex = 2, @size = "32", @readonly = true })
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                              </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Created By<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Cby, new { @id = "txtCby", @class = "form-control", @TabIndex = 2 })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> *@
+                           @*  <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+
+                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Modified Date<label class="mandatory">*</label></label>
+                                    <div class="input-group date for_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                        @Html.TextBoxFor(C => C.Mdate, new { @id = "txtMdate", @class = "form-control", @TabIndex = 2, @size = "32", @readonly = true })
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Modified By<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Mby, new { @id = "txtMby", @class = "form-control", @TabIndex = 2 })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> *@
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-8"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("HolidayMasterList", "HolidayMaster")'">Cancel</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    //$(function () {
+    //    $('._select').select2();
+    //});
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("txtHdate").value == "") {
+                isValid = false;
+                $(txtHdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Holiday Date");
+                return false;
+            }
+            else {
+                $(txtHdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtCdate").value == "") {
+                isValid = false;
+                $(txtCdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Created Date");
+                return false;
+            }
+            else {
+                $(txtCdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtMdate").value == "") {
+                isValid = false;
+                $(txtMdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Modified Date");
+                return false;
+            }
+            else {
+                $(txtMdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+
+
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
+
+            $(function () {
+                $('._select').select2();
+            });
+
+            $(".chosen-select").chosen();
+            $('.for_date').datetimepicker({
+                //   language:  'fr',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0
+            });
+
+    </script>
+
+
+
+
+
