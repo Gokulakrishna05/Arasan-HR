@@ -181,7 +181,9 @@
                     <li class="nav-item">
                         <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-th-large"></i> <span class="title">Hr</span> <span class="arrow"></span> </a>
                         <ul class="sub-menu">
- 
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListEmployee", "Employee")"> <span class="title">Employee</span> </a>
+                            </li>
                                     <li class="nav-item ">
                                         <a class="nav-link" href="@Url.Action("EmployeeAttendancelist", "EmployeeAttendanceDetails")">  <span class="title">Employee Attendance Details</span> </a>
                                     </li>
@@ -207,7 +209,18 @@
                                 <a class="nav-link" href="@Url.Action("ListPayTransaction", "PayTransaction")"> </i><span class="title">PayTransaction</span> </a>
                             </li>
 
-                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListPayCategory", "PayCategory")"> <span class="title">PayCategory</span> </a>
+                             </li>
+                             <li class="nav-item">
+                                 <a class="nav-link" href="@Url.Action("ListPayCode", "PayCode")"> <span class="title">Pay Code</span> </a>
+                             </li>
+                            <li class="nav-item">
+                                 <a class="nav-link" href="@Url.Action("ListPayPeriod", "PayPeriod")"> <span class="title">Pay Period</span> </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListShift", "Shift")"> <span class="title">Shift</span> </a>
+                            </li>
                             </li>
                             @* </li> *@
                            

@@ -1,0 +1,193 @@
+﻿@model Arasan.Models.Shift
+
+@{
+    ViewData["Title"] = "Shift";
+    //string query = ViewContext.HttpContext.Request.Query["status"];
+    string Qid = string.Empty;
+    //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
+}
+
+<partial name="JqxGridPartial" />
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong>Branch</strong> </li>
+        </ol>
+    </div>
+</div>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            var source =
+            {
+                url: "/Shift/MyListItemgrid",
+
+                data: {
+                    strstatus: ""
+                },
+                datatype: "json",
+                updaterow: function (rowid, rowdata) {
+                    // synchronize with the server - send update command
+                },
+                datafields: [
+                      { name: 'shiftn', type: 'string' },
+                    { name: 'fromtime', type: 'string' },
+                    { name: 'totime', type: 'string' },
+                    { name: 'shifthrs', type: 'string' },
+                    { name: 'othrs', type: 'string' },
+
+
+                    { name: 'editrow', type: 'string' },
+                    { name: 'viewrow', type: 'string' },
+
+                    { name: 'delrow', type: 'string' },
+
+
+                ],
+                id: 'id',
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source,
+                { contentType: 'application/json; charset=utf-8' }, {
+                loadComplete: function () {
+
+                }
+            }
+            );
+            var linkrenderer1 = function (row, column, value) {
+                return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+            }
+
+            $("#grid").jqxGrid(
+                {
+
+                    width: '100%',
+                    source: dataAdapter,
+                    height: 450,
+                    source: source,
+                    //autoheight: true,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
+                    theme: 'ui-start',
+                    autorowheight: true,
+                    filterbarmode: 'simple',
+                    enablebrowserselection: true,
+                    columnsresize: true,
+                    selectionmode: 'multiplerowsextended',
+                    keyboardnavigation: false,
+                    columns: [
+
+                        { text: 'Shift Name', filtertype: 'checkedlist', datafield: 'shiftn', width: 150 },
+                        { text: 'From Time', filtertype: 'input', datafield: 'fromtime', width: 80 },
+                        { text: 'To Time', filtertype: 'input', datafield: 'totime', width: 80 },
+                        { text: 'Shift Hrs', filtertype: 'input', datafield: 'shifthrs', width: 80 },
+                        { text: 'OT Hrs', filtertype: 'input', datafield: 'othrs', width: 80 },
+
+                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 60 },
+                        { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, cellsrenderer: linkrenderer1, formatter: returnMyLink, edittype: 'select' },
+                    ]
+                });
+            $("#ddlStatus").change(function () {
+                var value = "ACTIVE";
+                if ($(this).val() != "") {
+                    value = $(this).val();
+                }
+                source.data = {
+                    strstatus: value
+                };
+                $("#grid").jqxGrid({ source: source });
+            });
+        });
+
+    function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
+    }
+
+</script>
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+
+                    <form>
+                        <div class="row">
+                            <div class="col-md-2 ">
+
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                         { new SelectListItem() {Text = "Enabled", Value="ACTIVE"},
+                                new SelectListItem() {Text = "Disabled", Value="INACTIVE"}},
+                                         new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                            </div>
+
+                            <div class="col-md-12 ">
+                                <div class=" textalignright">
+                                    <a href="@Url.Action("Shift","Shift")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Shift</a>
+                                    <br>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-10 ">
+                                <div id="grid">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
+    function changeStatus(status) {
+        var url = "/Branch/ListBranch?status=" + status;
+        window.location.href = url;
+        //$.ajax({
+        //    url: 'AssignSession',
+        //    data: { "status": status },
+        //    type: "GET",
+        //    success: function (result) {
+        //        document.getElementById("hdstatus").value = result;
+        //    },
+        //    error: function () {
+        //        alert("Data Not Found");
+        //    }
+        //});
+        //window.location.reload();
+
+    }
+    $(document).ready(function () {
+        var val2 = "@Qid";
+        $('#dllstatus').val(val2);
+    });
+</script>

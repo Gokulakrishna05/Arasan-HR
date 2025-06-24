@@ -10,6 +10,8 @@ using Arasan.Controllers;
 using Arasan.Interface.Report;
 using Arasan.Services.Report;
 using Arasan.Services.Sales_Export;
+using Arasan.Interface.Master;
+using Arasan.Services.Master;
 
 
 
@@ -119,12 +121,19 @@ internal class Program
         builder.Services.TryAddSingleton<ICustomerComplaint, CustomerComplaintService>();
         builder.Services.TryAddSingleton<IExportInvoice, ExportInvoiceService>();
 
+        builder.Services.TryAddSingleton<IPayPeriodService, PayPeriodService>();
+
+        builder.Services.TryAddSingleton<IDepartment, DepartmentService>();
 
 
+        builder.Services.TryAddSingleton<IPrivilegesService, PrivilegesService>();
+        builder.Services.TryAddSingleton<IDesignation, DesignationService>();
+        builder.Services.TryAddSingleton<IPaycodeService, PaycodeService>();
 
+        builder.Services.TryAddSingleton<IPayCategory, PayCategoryService>();
 
-
-
+        builder.Services.TryAddSingleton<IEmployee, EmployeeService>();
+        builder.Services.TryAddSingleton<IShift, ShiftService>();
 
 
 

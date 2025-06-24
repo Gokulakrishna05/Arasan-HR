@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["Title"] = "Menu Tree";
+}
+
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+
+
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Privileges</a> </li>
+            <li class="active"> <strong>Tree View</strong> </li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+
+                    <hr>
+                    @using (Html.BeginForm("Menutree", "Privileages", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div id="jstree">
+                                    </div>
+                                </div>
+
+                               
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#jstree').on('activate_node.jstree', function (e, data) {
+            var nodeid = "";
+            var nodename = "";
+            var parent = "";
+            if (data == undefined || data.node == undefined || data.node.id == undefined)
+                return;
+            nodeid = data.node.id;
+            if (data.instance.is_leaf(data.node)) {
+                nodename = data.node.text;
+                parent = data.instance.get_node(data.node.parent).id;
+            }
+          
+
+        }).jstree({
+            "core": {
+                "themes": {
+                    "variant": "large"
+                },
+                "data": @Html.Raw(ViewBag.Json)
+                        },
+
+            "plugins": ["wholerow"],
+        }).bind("loaded.jstree", function (event, data) {
+            $(this).jstree("open_all");
+        });
+    });
+</script>
