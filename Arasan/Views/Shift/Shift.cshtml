@@ -1,0 +1,252 @@
+﻿@model Arasan.Models.Shift
+
+@{
+    ViewData["Title"] = "Shift";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong> Shift </strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+
+                    <hr>
+                    @using (Html.BeginForm("Shift", "Shift", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+
+                            <div class="row">
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Shift Name<label class="mandatory">*</label></label>
+
+
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.shiftn, new { @id = "txtshiftn", @class = "form-control" , @TabIndex = 1  })<br>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                          
+
+                             
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">From Time <label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.ftime, new { @id = "txtftime", @class = "form-control", @TabIndex = 2 })<br>
+
+                                            @* for edit & delete*@
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.createby)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+
+
+                                        <label for="inputName3" class="col-sm-4 control-label">To Time<label class="mandatory">*</label></label>
+
+
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.ttime, new { @id = "txtttime", @class = "form-control", @TabIndex = 3 })<br>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Shift Hrs <label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.shifthrs, new { @id = "txtshifthrs", @class = "form-control", @TabIndex = 4 })<br>
+
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+
+
+                                        <label for="inputName3" class="col-sm-4 control-label">OT Hrs<label class="mandatory">*</label></label>
+
+
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.othrs, new { @id = "txtothrs", @class = "form-control", @TabIndex = 5 })<br>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                </div>
+
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-8"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ListShift", "Shift")">Cancel</a>
+
+
+                        </form>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<script>
+        $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete the row ")
+        }
+</script>
+
+<script>
+
+    $(function () {
+        $('._select').select2();
+    });
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+
+            if (document.getElementById("txtshiftn").value == "" || document.getElementById("txtshiftn").value == 0) {
+                isValid = false;
+                $(txtshiftn).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Shift Name");
+                return false;
+            }
+            else {
+                $(txtshiftn).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+            if (document.getElementById("txtftime").value == "" || document.getElementById("txtftime").value == 0) {
+                isValid = false;
+                $(txtftime).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter From Time");
+                return false;
+            }
+            else {
+                $(txtftime).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtttime").value == "" || document.getElementById("txtttime").value == 0) {
+                isValid = false;
+                $(txtttime).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter To Time");
+                return false;
+            }
+            else {
+                $(txtttime).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+
+</script>
