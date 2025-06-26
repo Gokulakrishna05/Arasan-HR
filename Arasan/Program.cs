@@ -122,6 +122,7 @@ internal class Program
         builder.Services.TryAddSingleton<IExportInvoice, ExportInvoiceService>();
         builder.Services.TryAddSingleton<ILeaveMaster, LeaveMasterService>();
         builder.Services.TryAddSingleton<ILeaveTypeMaster, LeaveTypeMasterService>();
+        builder.Services.TryAddSingleton<ILeaveRequest, LeaveRequestService>();
         builder.Services.TryAddSingleton<IHolidayMaster, HolidayMasterService>();
 
         builder.Services.TryAddSingleton<IPayPeriodService, PayPeriodService>();

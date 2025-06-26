@@ -1,0 +1,153 @@
+﻿@model Arasan.Models.LeaveRequest
+
+@{
+    Layout = "_PopupLayout";
+
+    ViewData["Title"] = "Leave Request";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action("ListLeaveRequest", "LeaveRequest")">HR</a> </li>
+            <li class="active"> <strong>Approve Leave Request</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Leave Request</h5>
+                    <hr>
+                    @using (Html.BeginForm("ViewLeaveRequest", "LeaveRequest", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Employee ID<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.EmpID, new { @id = "EmpID", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                            @Html.HiddenFor(C => C.LeaveID)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Leave Type<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.LeaveType, new { @id = "LeaveType", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">From Date<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.FromDate, new { @id = "FromDate", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">To Date<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.ToDate, new { @id = "ToDate", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Total Days<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.TotDays, new { @id = "TotDays", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Reason<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Reason, new { @id = "Reason", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Leave Status<label class="Mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                @Html.RadioButtonFor(C => C.Status, "Approve", new { @id = "Status", @TabIndex = 2 })
+                                                <label id="mt-radio">Approve</label>&emsp;
+                                                @Html.RadioButtonFor(C => C.Status, "Reject", new { @id = "Status", @TabIndex = 3 })
+                                                <label id="mt-radio">Reject</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-8"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListLeaveRequest", "LeaveRequest")'">Cancel</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+       $('._select').select2();
+    });
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("Status").value == "" || document.getElementById("Status").value == 0) {
+                isValid = false;
+                $(Status).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Leave Status");
+                return false;
+            }
+            else {
+                $(Status).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
+</script>
