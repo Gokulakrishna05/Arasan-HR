@@ -19,11 +19,12 @@ namespace Arasan.Models
         public string? ToDate { get; set; }
         public string? TotDays { get; set; }
         public string? Reason { get; set; }
+        public string? Status { get; set; }
         public string? Ddlstatus { get; set; }
 
     }
 
-    public class LeaveRequestgrid
+    public class ListLeaveRequest
     {
         public string? leaveid { get; set; }
         public string? empid { get; set; }
