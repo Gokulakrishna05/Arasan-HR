@@ -1,30 +1,29 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
-using Microsoft.AspNetCore.Http;
 using Oracle.ManagedDataAccess.Client;
 using System.Data;
 
+
 namespace Arasan.Services
 {
-    public class HolidayMasterService : IHolidayMaster
+    public class PermissionsService : IPermissions
     {
         private readonly string _connectionString;
         DataTransactions datatrans;
-        //private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public HolidayMasterService(IConfiguration _configuratio)
+        public PermissionsService(IConfiguration _configuratio)
 
 
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
-            //_httpContextAccessor = httpContextAccessor;
         }
-        public DataTable GetHolidayMasterEdit(string id)
+
+        public DataTable GetPermissionsEdit(string id)
         {
             string SvSql = string.Empty;
 
-            SvSql = "Select HOLIDAYID,HOLIDAYNAME,to_char(HOLIDAYDATE,'dd-MON-yyyy')HOLIDAYDATE ,DAYOFWEEK,HOLIDAYTYPE,REMARKS,CREATEDDATE,CREATEDBY,MODIFIEDDATE,MODIFIEDBY  from HOLIDAYMASTER WHERE HOLIDAYID='" + id + "'";
+            SvSql = "Select PERMISSIONID,EMPLOYEEID,to_char(PERMISSIONDATE,'dd-MON-yyyy')PERMISSIONDATE ,FROMTIME,TOTIME,REASON,REMARKS,APPLIEDON from PERMISSIONS WHERE PERMISSIONID='" + id + "'";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -33,17 +32,18 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable GetAllHolidayMaster(string status)
+
+        public DataTable GetAllPermissions(string status)
         {
             string SvSql = string.Empty;
             if (status == "Y" || status == null)
             {
-                SvSql = "Select HOLIDAYID,HOLIDAYNAME,to_char(HOLIDAYDATE,'dd-MON-yyyy')HOLIDAYDATE,DAYOFWEEK,HOLIDAYMASTER.IS_ACTIVE from HOLIDAYMASTER WHERE HOLIDAYMASTER.IS_ACTIVE='Y' ORDER BY HOLIDAYMASTER.HOLIDAYID DESC ";
+                SvSql = "Select to_char(PERMISSIONDATE,'dd-MON-yyyy')PERMISSIONDATE,FROMTIME,TOTIME,PERMISSIONS.IS_ACTIVE from PERMISSIONS WHERE PERMISSIONS.IS_ACTIVE='Y' ORDER BY PERMISSIONS.PERMISSIONID DESC ";
 
             }
             else
             {
-                SvSql = "Select HOLIDAYID,HOLIDAYNAME,to_char(HOLIDAYDATE,'dd-MON-yyyy')HOLIDAYDATE,DAYOFWEEK,HOLIDAYMASTER.IS_ACTIVE from HOLIDAYMASTER WHERE HOLIDAYMASTER.IS_ACTIVE='N' ORDER BY HOLIDAYMASTER.HOLIDAYID DESC ";
+                SvSql = "Select to_char(PERMISSIONDATE,'dd-MON-yyyy')PERMISSIONDATE,FROMTIME,TOTIME,PERMISSIONS.IS_ACTIVE from PERMISSIONS WHERE PERMISSIONS.IS_ACTIVE='N' ORDER BY PERMISSIONS.PERMISSIONID DESC ";
 
             }
             DataTable dtt = new DataTable();
@@ -53,10 +53,7 @@ namespace Arasan.Services
             return dtt;
         }
 
-
-
-
-        public string GetHMaster(HolidayMaster Em)
+        public string GetPermi(Permissions Em)
         {
             string msg = "";
             string svSQL = "";
@@ -72,12 +69,12 @@ namespace Arasan.Services
                     objconn.Open();
                     if (Em.ID == null)
                     {
-                        svSQL = "Insert into HOLIDAYMASTER (HOLIDAYID,HOLIDAYNAME,HOLIDAYDATE,DAYOFWEEK,HOLIDAYTYPE,REMARKS,CREATEDDATE,CREATEDBY) values ('" + Em.ID + "','" + Em.Hname + "','" + Em.Hdate + "','" + Em.DWeek + "','" + Em.HType + "','" + Em.Rmk + "','" + Em.Cdate + "','" + Em.Cby + "') ";
+                        svSQL = "Insert into PERMISSIONS (EMPLOYEEID,PERMISSIONDATE,FROMTIME,TOTIME,REASON,REMARKS) values ('" + Em.EmpID + "','" + Em.PerDate + "','" + Em.FTDate + "','" + Em.TTDate + "','" + Em.Reason + "','" + Em.Remarks + "') ";
                     }
 
                     else
                     {
-                        svSQL = " UPDATE HOLIDAYMASTER SET HOLIDAYNAME = '" + Em.Hname + "',HOLIDAYDATE = '" + Em.Hdate + "',DAYOFWEEK = '" + Em.DWeek + "',HOLIDAYTYPE = '" + Em.HType + "',REMARKS='" + Em.Rmk + "',MODIFIEDDATE='" + Em.Mdate + "',MODIFIEDBY='" + Em.Mby + "'  Where HOLIDAYID = '" + Em.ID + "' ";
+                        svSQL = " UPDATE PERMISSIONS SET EMPLOYEEID = '" + Em.EmpID + "',PERMISSIONDATE = '" + Em.PerDate + "',FROMTIME = '" + Em.FTDate + "',TOTIME='" + Em.TTDate + "',REASON='" + Em.Reason + "',REMARKS='" + Em.Remarks + "',  Where PERMISSIONID = '" + Em.PID + "' ";
 
                     }
                     OracleCommand oracleCommand = new OracleCommand(svSQL, objconn);
@@ -105,11 +102,11 @@ namespace Arasan.Services
 
                     if (tag == "Del")
                     {
-                        svSQL = "UPDATE HolidayMaster SET IS_ACTIVE ='N' WHERE HOLIDAYID='" + id + "'";
+                        svSQL = "UPDATE PERMISSIONS SET IS_ACTIVE ='N' WHERE PERMISSIONID='" + id + "'";
                     }
                     else
                     {
-                        svSQL = "UPDATE HolidayMaster SET IS_ACTIVE ='Y' WHERE HOLIDAYID='" + id + "'";
+                        svSQL = "UPDATE PERMISSIONS SET IS_ACTIVE ='Y' WHERE PERMISSIONID='" + id + "'";
                     }
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
@@ -124,7 +121,6 @@ namespace Arasan.Services
             }
             return "";
         }
-
 
     }
 }

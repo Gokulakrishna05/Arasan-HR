@@ -2,9 +2,9 @@
 using Arasan.Models;
 using System.Collections.Generic;
 using System.Collections;
- using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Arasan.Interface;
- using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
 using System.Reflection.PortableExecutable;
 using Intuit.Ipp.Data;

@@ -1,0 +1,218 @@
+﻿@model Arasan.Models.Permissions
+
+@{
+    ViewData["Title"] = "Permissions";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        @* <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action(" LeaveTypeMaster", " LeaveTypeMaster")">HR</a> </li>
+            <li class="active"> <strong>Leave Type Master </strong> </li>
+        </ol> *@
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Holiday Master</h5>
+                    <hr>
+                    @using (Html.BeginForm("Permissions", "Permissions", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+                            
+                                 @* <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Permissions Id<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.PID, new { @id = "txtPID", @class = "form-control", @TabIndex = 2 })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div> *@
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Employee Id<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.EmpID, new { @id = "txtEmpID", @class = "form-control", @TabIndex = 2 })
+                                         
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Permissions Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date for_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.PerDate, new { @id = "txtPerDate", @class = "form-control", @TabIndex = 2, @size = "32" })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">From Time<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.FTDate, new { @id = "txtFTDate",@type="time", @class = "form-control", @TabIndex = 2 })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">To Time<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.TTDate, new { @id = "txtTTDate", @type = "time", @class = "form-control", @TabIndex = 2 })
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Reason<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextAreaFor(C => C.Reason, new { @id = "txtReason", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Remarks<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextAreaFor(C => C.Remarks, new { @id = "txtRemarks", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                                @* <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Applied on Date Time Default Get Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date for_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.ADDGDate, new { @id = "txtADDGDate", @class = "form-control", @TabIndex = 2, @size = "32" })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div> *@
+                          
+                             
+                             
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-8"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("PermissionsList", "Permissions")'">Cancel</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    //$(function () {
+    //    $('._select').select2();
+    //});
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("txtPerDate").value == "") {
+                isValid = false;
+                $(txtPerDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Permission Date");
+                return false;
+            }
+            else {
+                $(txtPerDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtFTDate").value == "") {
+                isValid = false;
+                $(txtFTDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter From Time Date");
+                return false;
+            }
+            else {
+                $(txtFTDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtTTDate").value == "") {
+                isValid = false;
+                $(txtTTDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter ToTime Date");
+                return false;
+            }
+            else {
+                $(txtTTDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+
+
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
+
+            $(function () {
+                $('._select').select2();
+            });
+
+            $(".chosen-select").chosen();
+            $('.for_date').datetimepicker({
+                //   language:  'fr',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0
+            });
+
+</script>
+
+
+
+
