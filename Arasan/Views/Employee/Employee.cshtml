@@ -1,0 +1,2952 @@
+﻿@model Arasan.Models.Employee
+
+@{
+    ViewData["Title"] = "Employee Master";
+}
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong>Employee</strong> </li>
+        </ol>
+    </div>
+</div>
+
+<style>
+    .tab-content > .tab-pane {
+        display: none;
+        padding: 10px !important;
+    }
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+
+    .preview {
+        display: inline-block;
+        margin: 10px;
+        padding-left: 900px;
+    }
+
+        .preview img {
+            width: 70px;
+            height: 70px;
+            margin-right: 10px;
+        }
+
+    input[type=file] {
+        display: block;
+        padding-left: 700px;
+    }
+</style>
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+<link rel="stylesheet" href="~/src/css/lightbox.css">
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Employee</h5>
+                    <hr>
+                    @using (Html.BeginForm("Employee", "Employee", FormMethod.Post, new { @id = "form1", @enctype = "multipart/form-data" }))
+
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    @*                       <lable style="padding-left:500px;">Upload an Image</lable>
+                                *@                         <div class="row">
+                                        <div class="col-md-6">
+
+                                            <input type="file" id="file1" name="file1"
+                                                   onchange="return fileValidation()" />
+
+                                            <!-- Image preview -->
+                                            <div id="preview-container" class="preview"></div>
+                                            @if (Model.imgpath != "")
+                                            {
+                                                <a class="example-image-link" href="@Html.DisplayFor(C => C.imgpath)" data-lightbox="example-set" data-title="@Html.DisplayFor(C => C.EmpName)"><img class="example-image" src="@Html.DisplayFor(C => C.imgpath)" alt="" style="width:70px;height:70px" /></a>
+
+                                            }
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="tabs-container">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a href="#tab-1" data-toggle="tab">Employee Details</a></li>
+                                    <li><a href="#tab-3" data-toggle="tab">EducationDetails</a></li>
+                                    <li><a href="#tab-4" data-toggle="tab">Pay Code </a></li>
+                                    @* <li ><a href="#tab-5" data-toggle="tab" >Personal Details</a></li>*@
+                                    <li><a href="#tab-2" data-toggle="tab">Login Details</a></li>
+                                    <li><a href="#tab-6" data-toggle="tab">General Info</a></li>
+                                    <li><a href="#tab-7" data-toggle="tab">Other Info</a></li>
+                                    <li><a href="#tab-8" data-toggle="tab">Previous History</a></li>
+                                    <li><a href="#tab-9" data-toggle="tab">Insurance Detail</a></li>
+                                    <li><a href="#tab-10" data-toggle="tab">Emergency Contact</a></li>
+                                    <li><a href="#tab-11" data-toggle="tab">Performance</a></li>
+                                    <li><a href="#tab-12" data-toggle="tab">Dept Control</a></li>
+                                    <li><a href="#tab-13" data-toggle="tab">Branch Control</a></li>
+                                    <li><a href="#tab-14" data-toggle="tab">Employee Attendance</a></li>
+                                    <li><a href="#tab-15" data-toggle="tab">Leave Details</a></li>
+
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab-1">
+                                        @*1st atb*@
+
+                                        @*<div class="row">
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                    @Html.DropDownListFor(C => C.Branchs, Model.BranchsLst,"Please Select", new { @id = "Branchs", @Class = "form-control _select newcss", @TabIndex = 1})
+                                    <br />
+                                    <br />
+                                    </div>
+                                    </div>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">User Name<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                    @Html.TextBoxFor(C => C.UserName, new { @id = "UserName", @class = "form-control", @TabIndex = 1 }) <br />
+
+
+                                    <br />
+                                    </div>
+
+                                    </div>
+                                    </div>
+                                    </div>*@
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Employee Name<label class="mandatory">*</label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.EmpName, new { @id = "EmpName", @class = "form-control", @TabIndex = 1,onkeypress="return onlyAlphabets(event,this);" })
+                                                        @Html.HiddenFor(C => C.ID)
+                                                        @Html.HiddenFor(C => C.createby)
+                                                        <br />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Employee ID<label class="mandatory">*</label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.EmpNo, new { @id = "EmpNo", @class = "form-control", @TabIndex = 1 })
+                                                        <br />
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Joining Date<label class="mandatory">*</label></label>
+                                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                                        @Html.TextBoxFor(C => C.JoinDate, new { @id = "JoinDate", @class = "form-control", @TabIndex = 2, @size = "31", @readonly = true })
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">DOB<label class="mandatory">*</label></label>
+                                                    <div class="input-group date to_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                                        @Html.TextBoxFor(C => C.DOB, new { @id = "DOB", @class = "form-control", @TabIndex = 2, @size = "31", @readonly = true })
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Gender<label class="mandatory">*</label></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+
+                                                            @Html.RadioButtonFor(C => C.Gender, "Male", new { @TabIndex = 2 ,@id="gender", @name="gender"})
+                                                            <label id="mt-radio">Male</label>&emsp;
+                                                            @Html.RadioButtonFor(C => C.Gender, "Female", new { @TabIndex = 3 ,@id="gender",@name="gender"})
+                                                            <label id="mt-radio">Female</label>
+                                                            <br />
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Physically Challenged<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+
+                                                            @Html.RadioButtonFor(C => C.Phychal, "Yes", new { @TabIndex = 2 })
+                                                            <label id="mt-radio">Yes</label>&emsp;
+                                                            @Html.RadioButtonFor(C => C.Phychal, "No", new { @TabIndex = 3 })
+                                                            <label id="mt-radio">No</label>
+                                                            <br />
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Department<label class="mandatory">*</label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.EMPDeptment, Model.EMPDeptlst, " -- Please Select -- ", new { @id = "Dept", @Class = "form-control _select", @TabIndex = 1 })
+                                                        <br />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Designation<label class="mandatory">*</label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.EMPDesign, Model.EMPDesignlst, " -- Please Select -- ", new { @id = "EMPDesign", @Class = "form-control _select", @TabIndex = 1 })
+
+                                                        <br />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+
+                                                <div class="form-group">
+
+                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Pay Category<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.PayCate, Model.PayCateLst, "-- Please Select --", new { @id = "PayCate", @Class = "form-control _select newcss", @TabIndex = 1 })
+                                                        <br />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Shift Category<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.Shift, Model.ShiftLst, " -- Please Select -- ", new { @id = "Shift", @Class = "form-control _select", @TabIndex = 1 })
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <br />
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Payment Through<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.Payment, Model.PaymentLst, " -- Please Select -- ", new { @id = "Payment", @Class = "form-control _select", @TabIndex = 1 })
+
+                                                        <br /> <br />
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Bank<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-7">
+                                                        @Html.DropDownListFor(C => C.Bank, Model.BankLst, " -- Please Select -- ", new { @id = "txtBank", @Class = "form-control _select", @TabIndex = 1 })
+
+                                                        <br />
+                                                    </div>
+                                                    <div class="col-sm-1"><a href="@Url.Action("AddBank", "Employee")" class='fancybox' data-fancybox-type='iframe'><img src='../Images/plus.png' alt='Add' /></a></div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Bank Account No<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.BAccount, new { @id = "BAccount", @class = "form-control", @TabIndex = 9,onkeydown = "return isNumeric2(event.keyCode,this.value)" }) <br />
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Weekly Off<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.Week, Model.WeekLst, "Please Select", new { @id = "Week", @Class = "form-control _select newcss", @TabIndex = 1 })
+                                                        <br />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <br />
+
+                                        </div>
+                                        <div class="row">
+
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Internal Mail ID<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.EmailId, new { @id = "EmailId", @class = "form-control", @TabIndex = 1 }) <br />
+                                                        <br />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Aadhar No<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Aadhar, new { @id = "Aadhar", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" }) <br />
+                                                        <br />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">P.F.? No. / Dt.<label class="mandatory">*</label></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+
+                                                            @Html.RadioButtonFor(C => C.PF, "YES", new { @TabIndex = 2, onchange = "changebins(this.value)",@id="pf" })
+                                                            <label id="mt-radio">Yes</label>&emsp;
+                                                            @Html.RadioButtonFor(C => C.PF, "NO", new { @TabIndex = 3, onchange = "changebins(this.value)", @checked= "checked",@id="pf"})
+                                                            <label id="mt-radio">No</label>
+                                                            <br />
+                                                        </div>
+                                                        @if (Model.PF == "YES")
+                                                        {
+                                                            <div id="it">
+
+                                                                <label for="inputName3" class="col-sm-4 control-label">P.F No.<label class="mandatory"></label></label>
+
+
+                                                                <div class="col-sm-8">
+
+                                                                    @Html.TextBoxFor(C => C.PFNo, new { @id = "PF", @class = "form-control", @TabIndex = 1, @size = "10"  })
+                                                                </div>
+
+                                                                <br />
+
+
+                                                                <br />   <label for="inputName3" class="col-sm-4 control-label">P.F Date<label class="mandatory"></label></label>
+
+                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                                                    @Html.TextBoxFor(C => C.PFdate, new { @id = "PFdate", @class = "form-control", @TabIndex = 2, @size = "31", @readonly = true })
+                                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                </div> <br />
+
+
+
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div id="it" hidden>
+
+                                                                <label for="inputName3" class="col-sm-4 control-label">P.F No.<label class="mandatory"></label></label>
+
+
+                                                                <div class="col-sm-8">
+
+                                                                    @Html.TextBoxFor(C => C.PFNo, new { @id = "PF", @class = "form-control", @TabIndex = 1, @size = "10"  })
+
+
+                                                                </div>
+
+                                                                <br />
+
+
+                                                                <br />   <label for="inputName3" class="col-sm-4 control-label">P.F Date<label class="mandatory"></label></label>
+
+                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                                                    @Html.TextBoxFor(C => C.PFdate, new { @id = "PFdate", @class = "form-control", @TabIndex = 2, @size = "31", @readonly = true })
+                                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                </div> <br />
+
+
+
+                                                            </div>
+
+                                                        }
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">E.S.I.? No. / Dt.<label class="mandatory">*</label></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+
+                                                            @Html.RadioButtonFor(C => C.ESI, "YES", new { @TabIndex = 2, onchange = "changebin(this.value)",@id="esi" })
+                                                            <label id="mt-radio">Yes</label>&emsp;
+                                                            @Html.RadioButtonFor(C => C.ESI, "NO", new { @TabIndex = 3, onchange = "changebin(this.value)" ,@checked="checked",@id="esi"})
+                                                            <label id="mt-radio">No</label> <br />  <br />
+                                                        </div>
+                                                        @if (Model.ESI == "YES")
+                                                        {
+                                                            <div id="go">
+
+                                                                <label for="inputName3" class="col-sm-4 control-label">E.S.I No.<label class="mandatory"></label></label>
+
+
+                                                                <div class="col-sm-8">
+
+                                                                    @Html.TextBoxFor(C => C.ESINo, new { @id = "ESI", @class = "form-control", @TabIndex = 2, @size = "31"  })
+
+                                                                    @Html.HiddenFor(C => C.ID)
+                                                                    @Html.HiddenFor(C => C.createby)
+                                                                </div>
+
+                                                                <br />
+                                                                <br />   <label for="inputName3" class="col-sm-4 control-label">E.S.I Date<label class="mandatory"></label></label>
+
+                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                    @Html.TextBoxFor(C => C.ESIDate, new { @id = "ESIDate", @class = "form-control", @TabIndex = 2, @size = "31", @readonly = true })
+                                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div id="go" hidden>
+                                                                <label for="inputName3" class="col-sm-4 control-label">E.S.I No.<label class="mandatory"></label></label>
+
+
+                                                                <div class="col-sm-8">
+                                                                    @Html.TextBoxFor(C => C.ESINo, new { @id = "ESI", @class = "form-control", @TabIndex = 2, @size = "31"  })
+
+
+                                                                </div>
+                                                                <br />
+                                                                <br />   <label for="inputName3" class="col-sm-4 control-label">E.S.I Date<label class="mandatory"></label></label>
+
+                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                    @Html.TextBoxFor(C => C.ESIDate, new { @id = "ESIDate", @class = "form-control", @TabIndex = 2, @size = "31", @readonly = true })
+                                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                </div>
+                                                            </div>
+                                                        }
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Apprentice ?<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+
+                                                            @Html.RadioButtonFor(C => C.Appren, "Yes", new { @TabIndex = 2 })
+                                                            <label id="mt-radio">Yes</label>&emsp;
+                                                            @Html.RadioButtonFor(C => C.Appren, "No", new { @TabIndex = 3 })
+                                                            <label id="mt-radio">No</label>
+
+                                                            <br />
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">LOP ?<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+
+                                                            @Html.RadioButtonFor(C => C.LOP, "Yes", new { @TabIndex = 2 })
+                                                            <label id="mt-radio">Yes</label>&emsp;
+                                                            @Html.RadioButtonFor(C => C.LOP, "No", new { @TabIndex = 3 })
+                                                            <label id="mt-radio">No</label>
+                                                            <br />
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">OT ?<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+
+                                                            @Html.RadioButtonFor(C => C.OT, "Yes", new { @TabIndex = 2 })
+                                                            <label id="mt-radio">Yes</label>&emsp;
+                                                            @Html.RadioButtonFor(C => C.OT, "No", new { @TabIndex = 3 })
+                                                            <label id="mt-radio">No</label>
+                                                            <br />
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Meals Taken<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+
+                                                            @Html.RadioButtonFor(C => C.Meals, "Yes", new { @TabIndex = 2 })
+                                                            <label id="mt-radio">Yes</label>&emsp;
+                                                            @Html.RadioButtonFor(C => C.Meals, "No", new { @TabIndex = 3 })
+                                                            <label id="mt-radio">No</label>
+                                                            <br />
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Eligible For Bonus<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+
+                                                            @Html.RadioButtonFor(C => C.Bonus, "YES", new { @TabIndex = 2 })
+                                                            <label id="mt-radio">Yes</label>&emsp;
+                                                            @Html.RadioButtonFor(C => C.Bonus, "NO", new { @TabIndex = 3 })
+                                                            <label id="mt-radio">No</label>
+                                                            <br />
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Eligible For CL<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+
+                                                            @Html.RadioButtonFor(C => C.CL, "Yes", new { @TabIndex = 2 })
+                                                            <label id="mt-radio">Yes</label>&emsp;
+                                                            @Html.RadioButtonFor(C => C.CL, "No", new { @TabIndex = 3 })
+                                                            <label id="mt-radio">No</label>
+                                                            <br />
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">PF Close Y/N<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+
+                                                            @Html.RadioButtonFor(C => C.pfclose, "Yes", new { @TabIndex = 2 })
+                                                            <label id="mt-radio">Yes</label>&emsp;
+                                                            @Html.RadioButtonFor(C => C.pfclose, "No", new { @TabIndex = 3 })
+                                                            <label id="mt-radio">No</label>
+
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">IFSC CODE<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.IFSC, new { @id = "IFSC", @class = "form-control", @TabIndex = 1}) <br />
+                                                        <br />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">EPF NO<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.EPF, new { @id = "EPF", @class = "form-control", @TabIndex = 1}) <br />
+                                                        <br />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">UAN NO<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.UAN, new { @id = "UAN", @class = "form-control", @TabIndex = 1 }) <br />
+                                                        <br />
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Cost / Hours<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Cost, new { @id = "Cost", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" }) <br />
+                                                        <br />
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">OT Amount / Hours<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.OTamt, new { @id = "OTamt", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)"  }) <br />
+                                                        <br />
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        @*1st atb*@
+                                    </div>
+                                    <div class="tab-pane" id="tab-2">
+
+                                        @*2nd tab*@
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label"> User Name <label class="mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.UserName, new { @id = "txtuse ", @class = "form-control", @TabIndex = 10})<br />
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Password<label class="mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Password, new { @id = "Password ", @class = "form-control", @TabIndex = 11})<br />
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*       <div class="row">
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">EMP Department<label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                    @Html.DropDownListFor(C => C.EMPDeptment, Model.EMPDeptlst,"Please Select", new { @id = "ddlEMPDeptment", @Class = "form-control _select", @TabIndex = 6 ,style = "width: 350px;"})<br />
+                                    </div>
+
+                                    </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">EMP Design<label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                    @Html.DropDownListFor(C => C.EMPDesign, Model.EMPDesignlst,"Please Select", new { @id = "ddlEMPDesign", @Class = "form-control _select newcss", @TabIndex = 6,style = "width: 350px;"})
+                                    <br /><br>
+                                    </div>
+
+                                    </div>
+                                    </div>
+                                    </div>*@
+
+                                        @*<div class="row">
+
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label"> EMP Department<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                    @Html.DropDownListFor(C => C.EMPDeptment, Model.EMPDeptlst,"Please Select", new { @id = "ddlEMPDeptment", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                    </div>
+
+                                    </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">EMP Design<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                    @Html.DropDownListFor(C => C.EMPDesign, Model.EMPDesignlst,"Please Select", new { @id = "ddlEMPDesign", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
+                                    </div>
+
+                                    </div>
+                                    </div>
+                                    </div>*@
+
+                                        @* <div class="row">
+
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label"> EMP DeptCode <label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                    @Html.TextBoxFor(C => C.EMPDeptCode, new { @id = "EMPDeptCode ", @class = "form-control", @TabIndex = 14})<br />
+
+                                    </div>
+
+                                    </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Join Date<label class="mandatory">*</label></label>
+
+                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                    @Html.TextBoxFor(C => C.JoinDate, new { @id = "JoinDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+
+                                    </div>
+
+                                    </div>
+                                    </div>
+                                    </div>
+
+
+                                    <div class="row">
+
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Resign Date<label class="mandatory"> </label></label>
+
+                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                    @Html.TextBoxFor(C => C.ResignDate, new { @id = "ResignDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+
+                                    </div>
+
+                                    </div>
+                                    </div>
+
+                                    </div>*@
+
+
+
+                                        @* 2nd tab*@
+                                    </div>
+                                    <div class="tab-pane" id="tab-3">
+
+                                        @*3rd tab*@
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="btn-group">
+                                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow1()" class="btn sbold green" /></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                <table class="table table-striped table-hover" id="dataTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Qualification</th>
+                                                            <th>University / College / School</th>
+                                                            <th>Place</th>
+                                                            <th>Year Of Passing</th>
+                                                            <th>% Obtained</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbBooks1">
+                                                        @{
+
+                                                            int e = 0;
+                                                            int d = 0;
+
+
+                                                            foreach (var item in Model.Edlst.ToList())
+                                                            {
+                                                                <tr id="trBook1@(e)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Edlst[e].qua, new { @id = "txtqua" + e, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Edlst[e].clg, new { @id = "txtclg" + e, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Edlst[e].plc, new { @id = "txtplc" + e, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                            @Html.TextBoxFor(o => o.Edlst[e].yop, new { @id = "txtyop" + e, @class = "form-control", style = "width: 100px;", @readonly = "readonly" })<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Edlst[e].peo, new { @id = "txtpeo" + e, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.HiddenFor(o => o.Edlst[e].Isvalid, new { @id = "Isvalid" + e })
+                                                                        <img onclick="removeRow1(@(e));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Edlst.Index" type="hidden" value="@(e)" />
+                                                                    </td>
+                                                                </tr>
+                                                                e = e + 1;
+                                                                d = d + 1;
+
+
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab-4">
+                                        @*4th tab*@
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="btn-group">
+                                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                <table class="table table-striped table-hover" id="dataTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Pay Code</th>
+                                                            <th>Formula</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbBooks">
+                                                        @{
+
+                                                            int i = 0;
+                                                            int j = 0;
+
+
+                                                            foreach (var item in Model.Pclst.ToList())
+                                                            {
+                                                                <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Pclst[i].pc, new { @id = "txtpc" + i, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Pclst[i].pf, new { @id = "txtpf" + i, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.HiddenFor(o => o.Pclst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                        <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Pclst.Index" type="hidden" value="@(i)" />
+                                                                    </td>
+                                                                </tr>
+                                                                i = i + 1;
+                                                                j = j + 1;
+
+
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab-8">
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="btn-group">
+                                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow8()" class="btn sbold green" /></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                <table class="table table-striped table-hover" id="dataTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Employee</th>
+                                                            <th>City</th>
+                                                            <th>Designation</th>
+                                                            <th>Last Salary Drawn</th>
+                                                            <th>Worked Months</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbBooks8">
+                                                        @{
+
+                                                            int t = 0;
+                                                            int u = 0;
+
+
+                                                            foreach (var item in Model.Phlst.ToList())
+                                                            {
+                                                                <tr id="trBook8@(t)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Phlst[t].emp, new { @id = "txtemp" + t, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Phlst[t].city, new { @id = "txtcit" + t, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(o => o.Phlst[t].wc, Model.Phlst[t].wlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddhwc" + t, style = "width: 200px;" })
+                                                                        @Html.HiddenFor(o => o.Phlst[t].wc)
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Phlst[t].lsd, new { @id = "txtlsd" + t, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Phlst[t].wrm, new { @id = "txtwrm" + t, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.HiddenFor(o => o.Phlst[t].Isvalid, new { @id = "Isvalid" + t })
+                                                                        <img onclick="removeRow8(@(t));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Phlst.Index" type="hidden" value="@(t)" />
+                                                                    </td>
+                                                                </tr>
+                                                                t = t + 1;
+                                                                u = u + 1;
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*9th tab*@
+                                    <div class="tab-pane" id="tab-9">
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="btn-group">
+                                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow9()" class="btn sbold green" /></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                <table class="table table-striped table-hover" id="dataTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Policy Number</th>
+                                                            <th>Nature Of Policy</th>
+                                                            <th>Branch Address</th>
+                                                            <th>Actual Premium</th>
+                                                            <th>Deducted Premium</th>
+                                                            <th>Premium St. Date</th>
+                                                            <th>Premium End Date</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbBooks9">
+                                                        @{
+
+                                                            int r = 0;
+                                                            int s = 0;
+
+
+                                                            foreach (var item in Model.Inlst.ToList())
+                                                            {
+                                                                <tr id="trBook9@(r)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Inlst[r].pno, new { @id = "txtpno" + r, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Inlst[r].nop, new { @id = "txtnop" + r, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Inlst[r].bad, new { @id = "txtbad" + r, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Inlst[r].apr, new { @id = "txtapr" + r, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Inlst[r].dpr, new { @id = "txtdpr" + r, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                            @Html.TextBoxFor(o => o.Inlst[r].psd, new { @id = "txtpsd" + r, @class = "form-control", style = "width: 100px;", @readonly = "readonly" })<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                            @Html.TextBoxFor(o => o.Inlst[r].ped, new { @id = "txtped" + r, @class = "form-control", style = "width: 100px;", @readonly = "readonly" })<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.HiddenFor(o => o.Inlst[r].Isvalid, new { @id = "Isvalid" + r })
+                                                                        <img onclick="removeRow9(@(r));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Inlst.Index" type="hidden" value="@(r)" />
+                                                                    </td>
+                                                                </tr>
+                                                                r = r + 1;
+                                                                s = s + 1;
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*10th tab*@
+                                    <div class="tab-pane" id="tab-10">
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="btn-group">
+                                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow10()" class="btn sbold green" /></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                <table class="table table-striped table-hover" id="dataTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Contact Number</th>
+                                                            <th>Nature Of Relation</th>
+                                                            <th>Phone</th>
+                                                            <th>Mobile</th>
+                                                            <th>Fax</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbBooks10">
+                                                        @{
+
+                                                            int q = 0;
+                                                            int p = 0;
+
+
+                                                            foreach (var item in Model.Emlst.ToList())
+                                                            {
+                                                                <tr id="trBook10@(q)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Emlst[q].cna, new { @id = "txtcna" + q, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Emlst[q].nor, new { @id = "txtnor" + q, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Emlst[q].pho, new { @id = "txtpho" + q, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Emlst[q].mob, new { @id = "txtmob" + q, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Emlst[q].fax, new { @id = "txtfax" + q, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.HiddenFor(o => o.Emlst[q].Isvalid, new { @id = "Isvalid" + q })
+                                                                        <img onclick="removeRow10(@(q));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Emlst.Index" type="hidden" value="@(q)" />
+                                                                    </td>
+                                                                </tr>
+                                                                q = q + 1;
+                                                                p = p + 1;
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*11th tab*@
+                                    <div class="tab-pane" id="tab-11">
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="btn-group">
+                                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow11()" class="btn sbold green" /></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                <table class="table table-striped table-hover" id="dataTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Performance Particulars</th>
+                                                            <th>Result</th>
+                                                            <th>Rating</th>
+                                                            <th>Awards Given</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbBooks11">
+                                                        @{
+
+                                                            int m = 0;
+                                                            int n = 0;
+
+
+                                                            foreach (var item in Model.pelst.ToList())
+                                                            {
+                                                                <tr id="trBook11@(m)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.pelst[m].pps, new { @id = "txtpps" + m, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.pelst[m].res, new { @id = "txtres" + m, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.pelst[m].rat, new { @id = "txtrat" + m, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.pelst[m].awd, new { @id = "txtawd" + m, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.HiddenFor(o => o.pelst[m].Isvalid, new { @id = "Isvalid" + m })
+                                                                        <img onclick="removeRow11(@(m));" src="../Images/delete.png" style="cursor:pointer" /> <input name="pelst.Index" type="hidden" value="@(m)" />
+                                                                    </td>
+                                                                </tr>
+                                                                m = m + 1;
+                                                                n = n + 1;
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*12th tab*@
+                                    <div class="tab-pane" id="tab-12">
+                                        <!-- 2nd tab  -->
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="btn-group">
+                                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow12()" class="btn sbold green" /></p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                    <table class="table table-striped table-hover" id="dataTable1">
+                                                        <thead>
+                                                            <tr>
+
+                                                                <th>Dept Code</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tbBooks12">
+                                                            @{
+
+                                                                int k = 0;
+
+
+                                                                foreach (var item in Model.Dclst.ToList())
+                                                                {
+                                                                    <tr id="trBook12@(k)" class="chkitemlst1" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                        <td>
+                                                                            @Html.DropDownListFor(o => o.Dclst[k].wc, Model.Dclst[k].wlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddpwc" + k, style = "width: 200px;" })
+                                                                            @Html.HiddenFor(o => o.Dclst[k].wc)
+
+                                                                        </td>
+
+
+                                                                        <td>
+                                                                            @Html.HiddenFor(o => o.Dclst[k].Isvalid, new { @id = "Isvalid" + k })
+                                                                            <img onclick="removeRow12(@(k));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Dclst.Index" type="hidden" value="@(k)" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    k = k + 1;
+
+                                                                }
+                                                            }
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*13th tab*@
+                                    <div class="tab-pane" id="tab-13">
+                                        <!-- 2nd tab  -->
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="btn-group">
+                                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow13()" class="btn sbold green" /></p>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                    <table class="table table-striped table-hover" id="dataTable1">
+                                                        <thead>
+                                                            <tr>
+
+                                                                <th>Branch</th>
+
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tbBooks13">
+                                                            @{
+
+                                                                int g = 0;
+                                                                int h = 1;
+
+                                                                foreach (var item in Model.Brlst.ToList())
+                                                                {
+                                                                    <tr id="trBook13@(g)" class="chkitemlst1" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                        <td>
+                                                                            @Html.DropDownListFor(o => o.Brlst[g].wc, Model.Brlst[g].wlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlwc" + g, style = "width: 200px;" })
+                                                                            @Html.HiddenFor(o => o.Brlst[g].wc)
+
+                                                                        </td>
+
+
+                                                                        <td>
+                                                                            @Html.HiddenFor(o => o.Brlst[g].Isvalid, new { @id = "Isvalid" + g })
+                                                                            <img onclick="removeRow13(@(g));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Brlst.Index" type="hidden" value="@(g)" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    g = g + 1;
+                                                                    h = h + 1;
+
+                                                                }
+                                                            }
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab-14">
+
+                                        @*14th tab*@
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="btn-group">
+                                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow14()" class="btn sbold green" /></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                <table class="table table-striped table-hover" id="dataTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Month</th>
+                                                            <th>Present</th>
+                                                            <th>Absent</th>
+                                                            <th>Leave</th>
+                                                            <th>N.H</th>
+                                                            <th>N.H.W</th>
+                                                            <th>W.O</th>
+                                                            <th>W Days</th>
+                                                            <th>H Days</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbBooks14">
+                                                        @{
+
+                                                            int a = 0;
+                                                            int b = 0;
+
+
+                                                            foreach (var item in Model.Atlst.ToList())
+                                                            {
+                                                                <tr id="trBook14@(a)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Atlst[a].mon, new { @id = "txtmon" + a, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Atlst[a].pre, new { @id = "txtpre" + a, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Atlst[a].abs, new { @id = "txtabs" + a, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Atlst[a].lea, new { @id = "txtlea" + a, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Atlst[a].nhd, new { @id = "txtnhd" + a, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Atlst[a].nhw, new { @id = "txtnhw" + a, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Atlst[a].wo, new { @id = "txtwo" + a, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Atlst[a].wds, new { @id = "txtwds" + a, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Atlst[a].hds, new { @id = "txthds" + a, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.HiddenFor(o => o.Atlst[a].Isvalid, new { @id = "Isvalid" + a })
+                                                                        <img onclick="removeRow14(@(a));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Atlst.Index" type="hidden" value="@(a)" />
+                                                                    </td>
+                                                                </tr>
+                                                                a = a + 1;
+                                                                b = b + 1;
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab-7">
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label"> Marital Status<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+
+                                                            @Html.RadioButtonFor(C => C.MaterialStatus, "Single", new { @TabIndex = 2 })
+                                                            <label id="mt-radio">Single</label>&emsp;
+                                                            @Html.RadioButtonFor(C => C.MaterialStatus, "Married", new { @TabIndex = 3 })
+                                                            <label id="mt-radio">Married</label>
+
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Blood Group<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-7">
+                                                        @Html.DropDownListFor(C => C.BloodGroup, Model.BloodGroupLst, " -- Please Select -- ", new { @id = "txtBlodGroup", @Class = "form-control _select", @TabIndex = 1, style = "width: 200px;" })
+
+
+                                                    </div>
+                                                    <div class="col-sm-1"><a href="@Url.Action("AddBloodGroup", "Employee")" class='fancybox' data-fancybox-type='iframe'><img src='../Images/plus.png' alt='Add' /></a></div>
+                                                </div>
+                                            </div>   <br />
+
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <br />  <label for="inputName3" class="col-sm-4 control-label"> Community <label class="Mandatory"></label></label>
+                                                    <div class="col-sm-7">
+                                                        @Html.DropDownListFor(C => C.Community, Model.CommunityLst, " -- Please Select -- ", new { @id = "txtCommunity", @Class = "form-control _select", @TabIndex = 1, style = "width: 200px;" })
+
+                                                    </div>
+                                                    <div class="col-sm-1"><a href="@Url.Action("AddCommunity", "Employee")" class='fancybox' data-fancybox-type='iframe'><img src='../Images/plus.png' alt='Add' /></a></div>
+
+                                                </div> <br />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Pay Type<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.PayType, new { @id = "PayType ", @class = "form-control", @TabIndex = 15 })<br />
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label"> Emp Type <label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.EmpType, new { @id = "EmpType ", @class = "form-control", @TabIndex = 14 })<br />
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Disp<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-7">
+                                                        @Html.DropDownListFor(C => C.Disp, Model.DispLst, " -- Please Select -- ", new { @id = "txtDisp", @Class = "form-control _select", @TabIndex = 1, style = "width: 200px;" })
+
+                                                    </div>
+                                                    <div class="col-sm-1"><a href="@Url.Action("AddDisp", "Employee")" class='fancybox' data-fancybox-type='iframe'><img src='../Images/plus.png' alt='Add' /></a></div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Old PF NO<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.oldpf, new { @id = "oldpf ", @class = "form-control", @TabIndex = 15 })<br />
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">No Of Dependants<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.dependantes, new { @id = "dependantes ", @class = "form-control", @TabIndex = 15 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Maintanance exp<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Mainexp, new { @id = "Mainexp ", @class = "form-control", @TabIndex = 15 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Advanced Account<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.AdAccount, Model.AdAccountLst, " -- Please Select -- ", new { @id = "AdAccount", @Class = "form-control _select", @TabIndex = 1,style = "width: 200px;" })
+
+                                                        <br /> <br />
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">PF From<label class="mandatory"></label></label>
+                                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                        @Html.TextBoxFor(C => C.Pffrom, new { @id = "Pffrom ", @class = "form-control", @TabIndex = 15,@readonly="readonly" })<br />
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        <br />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">PF To<label class="mandatory"></label></label>
+                                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                        @Html.TextBoxFor(C => C.Pfto, new { @id = "Pfto ", @class = "form-control", @TabIndex = 15,@readonly="readonly" })<br />
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        <br />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Advanced Balance<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Adbal, new { @id = "Adbal ", @class = "form-control", @TabIndex = 15 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @*11th tab*@
+                                    <div class="tab-pane" id="tab-15">
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="btn-group">
+                                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRowle()" class="btn sbold green" /></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                <table class="table table-striped table-hover" id="dataTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Leave Code</th>
+                                                            <th>Leave Type</th>
+                                                            <th>Allowed Leaves</th>
+                                                            <th>Carried Status</th>
+                                                            <th>En Cashable</th>
+                                                            <th> </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbBookslea">
+                                                        @{
+
+                                                            int l = 0;
+
+
+
+                                                            foreach (var item in Model.Leavelst.ToList())
+                                                            {
+                                                                <tr id="trBooklea@(l)" class="chkitemlstle" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                    <td>
+                                                                        @Html.DropDownListFor(o => o.Leavelst[l].leavecode, Model.Leavelst[l].lelst, "Please Select", new { @class = "form-control _select newcss", @id = "leavecode" + l, style = "width: 200px;",@onchange="changeleave(this.value,"+l+")" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Leavelst[l].leavetype, new { @id = "txtleavetype" + l, @class = "form-control", style = "width: 200px;",@readonly="readonly" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Leavelst[l].allwoleaves, new { @id = "txtallwoleaves" + l, @class = "form-control", style = "width: 200px;" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBoxFor(o => o.Leavelst[l].caried, new { @id = "caried" + l, @class = "form-control", style = "width: 200px;",@readonly="readonly" })
+
+
+                                                                    <td>
+                                                                            @Html.TextBoxFor(o => o.Leavelst[l].encash, new { @id = "encash" + l, @class = "form-control", style = "width: 200px;",@readonly="readonly" })
+
+
+                                                                    </td>
+                                                                    <td>
+                                                                            @Html.HiddenFor(o => o.Leavelst[l].Isvalid, new { @id = "Isvalid" + l })
+                                                                        <img onclick="removeRowle(@(l));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Leavelst.Index" type="hidden" value="@(l)" />
+                                                                    </td>
+                                                                </tr>
+                                                                l = l + 1;
+
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab-6">
+
+                                        @*6th tab*@
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label"> Father Name <label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.FatherName, new { @id = "FatherName ", @class = "form-control", @TabIndex = 10})<br />
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Mother Name<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.MotherName, new { @id = "MotherName ", @class = "form-control", @TabIndex = 11})<br />
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Guard Name<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.GaurdName, new { @id = "GaurdName ", @class = "form-control", @TabIndex = 10 })<br />
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Voucher Per Day<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Voucher, new { @id = "Voucher ", @class = "form-control", @TabIndex = 11,onkeydown = "return isNumeric2(event.keyCode,this.value)"  })<br />
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Address 1<label class="Mandatory"></label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Address1, new { @id = "Address1 ", @class = "form-control", @TabIndex = 10 })<br />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Address 2<label class="Mandatory"></label></label>
+
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Address2, new { @id = "Address2 ", @class = "form-control", @TabIndex = 10 })<br />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
+
+                                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.CityId, Model.Citylst, " -- Please Select -- ", new { @id = "txtDisp", @Class = "form-control _select", @TabIndex = 1, style = "width: 200px;" })
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Pin Code<label class="Mandatory"></label></label>
+
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.PinCode, new { @id = "PinCode ", @class = "form-control", @TabIndex = 10,onkeydown = "return isNumeric2(event.keyCode,this.value)"  })<br />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
+
+                                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.StateId, Model.Statelst, " -- Please Select -- ", new { @id = "txtstate", @Class = "form-control _select", @TabIndex = 1, style = "width: 200px;" })
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Phone Number<label class="Mandatory"></label></label>
+
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.PhoneNo, new { @id = "PhoneNo ", @class = "form-control", @TabIndex = 10,onkeydown = "return isNumeric2(event.keyCode,this.value)"  })<br />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">Mail Id<label class="Mandatory"></label></label>
+
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.EmailId, new { @id = "EmailId ", @class = "form-control", @TabIndex = 10 })<br />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        @* 6th tab*@
+                                    </div>
+
+
+
+
+
+
+
+                                    <div style="height:30px;"></div>
+                                    <div class="col-lg-10"></div>
+                                    <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                                    <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListEmployee", "Employee")'">Cancel</button>
+                                </div>
+
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    $('.to_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    });
+    $(function () {
+        $('._select').select2();
+    });
+    function changebin(typeid) {
+        if (typeid == "YES") {
+            document.getElementById("go").style.display = "block";
+        }
+        else {
+            document.getElementById("go").style.display = "none";
+        }
+    }
+    function changeleave(ItemId, i) {
+        $.ajax({
+            url: 'GetLeaveDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtleavetype" + i).value = result.type;
+                document.getElementById("caried" + i).value = result.caried;
+                document.getElementById("encash" + i).value = result.cash;
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+
+    function AddBank(category) {
+        $.ajax({
+            url: "GetBankJSON",
+            type: "post",
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#txtBank", response);
+                $(txtBank).select2().val(category).trigger("change");
+                //  document.getElementById("txtBank").value =category;
+            },
+            error: function () {
+                alert("Please Select Bank");
+            }
+        });
+    }
+    function AddBloodGroup(category) {
+        $.ajax({
+            url: "GetBlodGroup",
+            type: "post",
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#txtBlodGroup", response);
+                $(txtBlodGroup).select2().val(category).trigger("change");
+                //  document.getElementById("txtBloodGroup").value =category;
+            },
+            error: function () {
+                alert("Please Select BloodGroup");
+            }
+        });
+    }
+    function AddCommunity(category) {
+        $.ajax({
+            url: "GetCommunityJSON",
+            type: "post",
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#txtCommunity", response);
+                $(txtCommunity).select2().val(category).trigger("change");
+                //  document.getElementById("txtCommunity").value =category;
+            },
+            error: function () {
+                alert("Please Select Community");
+            }
+        });
+    }
+    function AddDisp(category) {
+        $.ajax({
+            url: "GetDispJSON",
+            type: "post",
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#txtDisp", response);
+                $(txtDisp).select2().val(category).trigger("change");
+                //  document.getElementById("txtDisp").value =category;
+            },
+            error: function () {
+                alert("Please Select Disp");
+            }
+        });
+    }
+    @*  function AddCategoriesss(category) {
+        $.ajax({
+        url: "GetCategoryJSON",
+        type: "post",
+        cache: false,
+        success: function (response) {
+        PopulateDropDown("#txtCity", response);
+        $(txtCity).select2().val(category).trigger("change");
+        //  document.getElementById("txtCity").value =category;
+        },
+        error: function () {
+        alert("Please Select City");
+        }
+        });
+        } *@
+        function AddCategoriessss(category) {
+            $.ajax({
+                url: "GetCategoryJSON",
+                type: "post",
+                cache: false,
+                success: function (response) {
+                    PopulateDropDown("#txtState", response);
+                    $(txtState).select2().val(category).trigger("change");
+                    //  document.getElementById("txtState").value =category;
+                },
+                error: function () {
+                    alert("Please Select State");
+                }
+            });
+        }
+    function changebins(typeid) {
+        if (typeid == "YES") {
+            document.getElementById("it").style.display = "block";
+        }
+        else {
+            document.getElementById("it").style.display = "none";
+        }
+    }
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("EmpName").value == "" || document.getElementById("EmpName").value == 0) {
+                isValid = false;
+                $(EmpName).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Employee Name");
+                return false;
+            }
+            else {
+                $(EmpName).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("EmpNo").value == "" || document.getElementById("EmpNo").value == 0) {
+                isValid = false;
+                $(EmpNo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Employee ID");
+                return false;
+            }
+            else {
+                $(EmpNo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("JoinDate").value == "" || document.getElementById("JoinDate").value == 0) {
+                isValid = false;
+                $(JoinDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Join Date");
+                return false;
+            }
+            else {
+                $(JoinDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("DOB").value == "" || document.getElementById("DOB").value == 0) {
+                isValid = false;
+                $(DOB).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DOB");
+                return false;
+            }
+            else {
+                $(DOB).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            //    var gen = document.getElementById("gender").value;
+            //    alert(gen);
+            //   var gender = form.querySelectorAll('input[name="gender"]:checked');
+            //if (!gender.length) {
+            //    alert('You must select Gender');
+            //    return false;
+            //}
+            if (document.getElementById("Dept").value == "" || document.getElementById("Dept").value == 0) {
+                isValid = false;
+                $(Dept).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Deptment");
+                return false;
+            }
+            else {
+                $(Dept).css({
+                    "border": "",
+                    "background": ""
+                });
+            } if (document.getElementById("EMPDesign").value == "" || document.getElementById("EMPDesign").value == 0) {
+                isValid = false;
+                $(EMPDesign).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Designation");
+                return false;
+            }
+            else {
+                $(EMPDesign).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            // if (document.getElementById("pf").value!= "Yes"||document.getElementById("pf").value!= "No") {
+            //    isValid = false;
+            //    $(pf).css({
+            //        "border": "1px solid red",
+            //        "background": "#FFCECE"
+            //    });
+
+            //    alert("Please Select P.F.?");
+            //    return false;
+            //}
+            //else {
+            //    $(pf).css({
+            //        "border": "",
+            //        "background": ""
+            //    });
+            //}
+            // if (document.getElementById("esi").value!= "Yes"||document.getElementById("esi").value!= "No") {
+            //    isValid = false;
+            //    $(esi).css({
+            //        "border": "1px solid red",
+            //        "background": "#FFCECE"
+            //    });
+
+            //    alert("Please Select E.S.I.?");
+            //    return false;
+            //}
+            //else {
+            //    $(esi).css({
+            //        "border": "",
+            //        "background": ""
+            //    });
+            //}
+    @* if (document.getElementById("Phoneno").value == "") {
+                isValid = false;
+                $(Phoneno).css({
+                "border": "1px solid red",
+                "background": "#FFCECE"
+                });
+
+                alert("Please Select Mobile No");
+                return false;
+                }
+                else {
+                $(Phoneno).css({
+                "border": "",
+                "background": ""
+                });
+                } *@
+
+    @*    if (document.getElementById("txtuse").value == "") {
+                isValid = false;
+                $(txtuse).css({
+                "border": "1px solid red",
+                "background": "#FFCECE"
+                });
+
+                alert("Please Select User Name");
+                return false;
+                }
+                else {
+                $(txtuse).css({
+                "border": "",
+                "background": ""
+                });
+                }
+
+                if (document.getElementById("Password").value == "") {
+                isValid = false;
+                $(Password).css({
+                "border": "1px solid red",
+                "background": "#FFCECE"
+                });
+
+                alert("Please Select Password");
+                return false;
+                }
+                else {
+                $(Password).css({
+                "border": "",
+                "background": ""
+                });
+                } *@
+
+
+
+
+                if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+
+</script>
+
+<script>
+
+    $(function () {
+        $('._select').select2();
+    });
+    function State_Change(itemid, i) {
+        //alert(itemid);
+        //debugger;
+        $.ajax({
+            url: "GetStateJSON",
+            type: "post",
+            data: { 'supid': itemid },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                PopulateDropDown("#ddlCity", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select State");
+            }
+        });
+    }
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
+
+    function fileValidation() {
+        var fileInput =
+            document.getElementById('file1');
+
+        var filePath = fileInput.value;
+
+        // Allowing file type
+        var allowedExtensions =
+            /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Invalid file type (Please Select Image Type is .jpg,.jpeg,.png )');
+            fileInput.value = '';
+            return false;
+        }
+        else {
+
+            // Image preview
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById(
+                        'preview-container').innerHTML =
+                        '<img src="' + e.target.result
+                        + '"/>';
+                };
+
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+        $("#preview-container").on("click", ".delete", function () {
+            $(this).parent(".preview").remove();
+            $("#file").val(""); // Clear input value if needed
+        });
+    }
+
+
+
+
+
+    function AddRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetItemJSON',
+            success: function (data) {
+
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow(opt);
+            }
+        })
+    }
+    function AppendRow(opt) {
+        var index = $("#tbBooks").children("tr").length;
+
+        var Pcod = "<td><input class='form-control' id='txtpc" + index + "' name='Pclst[" + index + "].pc'  style='width: 200px;' type='text' /></td>";
+
+        var For = "<td><input class='form-control' id='txtpf" + index + "' name='Pclst[" + index + "].pf'  style='width: 200px;' type='text' /></td>";
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Pclst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Pclst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Pcod + For + removeCell + "</tr>";
+        //alert(Packing);
+        $("#tbBooks").append(newRow);
+
+        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
+    }
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+    function AddRowle() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetLeaJSON',
+            success: function (data) {
+
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRowle(opt);
+            }
+        })
+    }
+    function AppendRowle(opt) {
+        var index = $("#tbBookslea").children("tr").length;
+        var leavecode = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='leavecode" + index + "' name='Leavelst[" + index + "].leavecode' onchange='changeleave(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+
+        var type = "<td><input class='form-control' id='txtleavetype" + index + "' name='Leavelst[" + index + "].leavetype'  style='width: 200px;' type='text' readonly='true' /></td>";
+        var allowed = "<td><input class='form-control' id='txtallwoleaves" + index + "' name='Leavelst[" + index + "].allwoleaves'  style='width: 200px;' type='text' /></td>";
+        var carried = "<td><input class='form-control' id='caried" + index + "' name='Leavelst[" + index + "].caried'  style='width: 200px;' type='text' readonly='true' /></td>";
+        var encash = "<td><input class='form-control' id='encash" + index + "' name='Leavelst[" + index + "].encash'  style='width: 200px;' type='text' readonly='true' /></td>";
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Leavelst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRowle(" + index + ");'  style='cursor:pointer' /><input name='Leavelst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlstle'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBooklea" + index + "'>" + leavecode + type + allowed + carried + encash + removeCell + "</tr>";
+        //alert(Packing);
+        $("#tbBookslea").append(newRow);
+
+        $(function () {
+            $('._select').select2();
+        });
+    }
+    function removeRowle(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBooklea' + id);
+        var j = 0;
+        $('tr.chkitemlstle').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+    function AddRow1() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetItemJSON1',
+            success: function (data) {
+
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow1(opt);
+            }
+        })
+    }
+    function AppendRow1(opt) {
+        var index = $("#tbBooks1").children("tr").length;
+
+        var qua = "<td><input class='form-control' id='txtqua" + index + "' name='Edlst[" + index + "].qua'  style='width: 200px;' type='text' /></td>";
+
+        var cl = "<td><input class='form-control' id='txtclg" + index + "' name='Edlst[" + index + "].clg'  style='width: 200px;' type='text' /></td>";
+        var pl = "<td><input class='form-control' id='txtplc" + index + "' name='Edlst[" + index + "].plc'  style='width: 200px;' type='text' /></td>";
+        var pas = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtyop" + index + "' name='Edlst[" + index + "].yop' style='width: 100px;' type='text' value=''readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+        var per = "<td><input class='form-control' id='txtpeo" + index + "' name='Edlst[" + index + "].peo'  style='width: 200px;' type='text' /></td>";
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Edlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='Edlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + qua + cl + pl + pas + per + removeCell + "</tr>";
+        //alert(Packing);
+        $("#tbBooks1").append(newRow);
+
+        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
+        $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+
+    }
+    function removeRow1(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook1' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+
+
+    @*  add row 8*@
+        function AddRow8() {
+            var opt = "";
+            $.ajax({
+                type: "POST",
+                url: 'GetItemJSON8',
+                success: function (data) {
+
+                    $.each(data, function () {
+                        opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                    });
+                    AppendRow8(opt);
+                }
+            })
+        }
+    function AppendRow8(opt) {
+        var index = $("#tbBooks8").children("tr").length;
+
+        var em = "<td><input class='form-control' id='txtcna" + index + "' name='Phlst[" + index + "].emp'  style='width: 200px;' type='text' /></td>";
+        var ci = "<td><input class='form-control' id='txtnor" + index + "' name='Phlst[" + index + "].city'  style='width: 200px;' type='text' /></td>";
+        var de = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddhwc" + index + "' name='Phlst[" + index + "].wc'><option value=''>Please select</option>" + opt + "</select></td>";
+        var ls = "<td><input class='form-control' id='txtmob" + index + "' name='Phlst[" + index + "].lsd'  style='width: 200px;' type='text' /></td>";
+        var wm = "<td><input class='form-control' id='txtfax" + index + "' name='Phlst[" + index + "].wrm'  style='width: 200px;' type='text' /></td>";
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Phlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow8(" + index + ");'  style='cursor:pointer' /><input name='Phlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook8" + index + "'>" + em + ci + de + ls + wm + removeCell + "</tr>";
+        //alert(Packing);
+        $("#tbBooks8").append(newRow);
+
+        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
+    }
+    function removeRow8(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook8' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+
+    @*  add row 9*@
+        function AddRow9() {
+            var opt = "";
+            $.ajax({
+                type: "POST",
+                url: 'GetItemJSON9',
+                success: function (data) {
+
+                    $.each(data, function () {
+                        opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                    });
+                    AppendRow9(opt);
+                }
+            })
+        }
+    function AppendRow9(opt) {
+        var index = $("#tbBooks9").children("tr").length;
+
+        var plcnum = "<td><input class='form-control' id='txtpno" + index + "' name='Inlst[" + index + "].pno'  style='width: 200px;' type='text' /></td>";
+        var nat = "<td><input class='form-control' id='txtnop" + index + "' name='Inlst[" + index + "].nop'  style='width: 200px;' type='text' /></td>";
+        var badds = "<td><input class='form-control' id='txtbad" + index + "' name='Inlst[" + index + "].bad'  style='width: 200px;' type='text' /></td>";
+        var acpr = "<td><input class='form-control' id='txtapr" + index + "' name='Inlst[" + index + "].apr'  style='width: 200px;' type='text' /></td>";
+        var depr = "<td><input class='form-control' id='txtdpr" + index + "' name='Inlst[" + index + "].dpr'  style='width: 200px;' type='text' /></td>";
+        var pstd = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtpsd" + index + "' name='Inlst[" + index + "].psd' style='width: 100px;' type='text' value=''readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+        var pend = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtped" + index + "' name='Inlst[" + index + "].ped' style='width: 100px;' type='text' value=''readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Inlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow9(" + index + ");'  style='cursor:pointer' /><input name='Inlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook9" + index + "'>" + plcnum + nat + badds + acpr + depr + pstd + pend + removeCell + "</tr>";
+        //alert(Packing);
+        $("#tbBooks9").append(newRow);
+
+        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
+        $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+
+    }
+    function removeRow9(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook9' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+
+    @*  add row 10*@
+        function AddRow10() {
+            var opt = "";
+            $.ajax({
+                type: "POST",
+                url: 'GetItemJSON10',
+                success: function (data) {
+
+                    $.each(data, function () {
+                        opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                    });
+                    AppendRow10(opt);
+                }
+            })
+        }
+    function AppendRow10(opt) {
+        var index = $("#tbBooks10").children("tr").length;
+
+        var cont = "<td><input class='form-control' id='txtcna" + index + "' name='Emlst[" + index + "].cna'  style='width: 200px;' type='text' /></td>";
+        var nat = "<td><input class='form-control' id='txtnor" + index + "' name='Emlst[" + index + "].nor'  style='width: 200px;' type='text' /></td>";
+        var phone = "<td><input class='form-control' id='txtpho" + index + "' name='Emlst[" + index + "].pho'  style='width: 200px;' type='text' /></td>";
+        var mobile = "<td><input class='form-control' id='txtmob" + index + "' name='Emlst[" + index + "].mob'  style='width: 200px;' type='text' /></td>";
+        var fax = "<td><input class='form-control' id='txtfax" + index + "' name='Emlst[" + index + "].fax'  style='width: 200px;' type='text' /></td>";
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Emlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow10(" + index + ");'  style='cursor:pointer' /><input name='Emlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook10" + index + "'>" + cont + nat + phone + mobile + fax + removeCell + "</tr>";
+        //alert(Packing);
+        $("#tbBooks10").append(newRow);
+
+        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
+    }
+    function removeRow10(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook10' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+
+    @*  add row 11*@
+        function AddRow11() {
+            var opt = "";
+            $.ajax({
+                type: "POST",
+                url: 'GetItemJSON11',
+                success: function (data) {
+
+                    $.each(data, function () {
+                        opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                    });
+                    AppendRow11(opt);
+                }
+            })
+        }
+    function AppendRow11(opt) {
+        var index = $("#tbBooks11").children("tr").length;
+
+        var perf = "<td><input class='form-control' id='txtpps" + index + "' name='pelst[" + index + "].pps'  style='width: 200px;' type='text' /></td>";
+        var resu = "<td><input class='form-control' id='txtres" + index + "' name='pelst[" + index + "].res'  style='width: 200px;' type='text' /></td>";
+        var rating = "<td><input class='form-control' id='txtrat" + index + "' name='pelst[" + index + "].rat'  style='width: 200px;' type='text' /></td>";
+        var awg = "<td><input class='form-control' id='txtawd" + index + "' name='pelst[" + index + "].awd'  style='width: 200px;' type='text' /></td>";
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='pelst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow11(" + index + ");'  style='cursor:pointer' /><input name='pelst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook11" + index + "'>" + perf + resu + rating + awg + removeCell + "</tr>";
+        //alert(Packing);
+        $("#tbBooks11").append(newRow);
+
+        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
+    }
+    function removeRow11(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook11' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+
+
+    @*  add row 12*@
+        function AddRow12() {
+            var opt = "";
+            $.ajax({
+                type: "POST",
+                url: 'GetItemJSON12',
+                success: function (data) {
+
+                    $.each(data, function () {
+                        opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                    });
+                    AppendRow12(opt);
+                }
+            })
+        }
+    function AppendRow12(opt) {
+        var index = $("#tbBooks12").children("tr").length;
+
+        var wc = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddpwc" + index + "' name='Dclst[" + index + "].wc'><option value=''>Please select</option>" + opt + "</select></td>";
+
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Dclst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow12(" + index + ");'  style='cursor:pointer' /><input name='Dclst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook12" + index + "'>" + wc + removeCell + "</tr>";
+        //alert(Packing);
+        $("#tbBooks12").append(newRow);
+
+        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
+    }
+    function removeRow12(id) {
+        var table = document.getElementById("dataTable1");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook12' + id);
+        var j = 0;
+        $('tr.chkitemlst1').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+
+
+    @*  add row 13*@
+        function AddRow13() {
+            var opt = "";
+            $.ajax({
+                type: "POST",
+                url: 'GetItemJSON13',
+                success: function (data) {
+
+                    $.each(data, function () {
+                        opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                    });
+                    AppendRow13(opt);
+                }
+            })
+        }
+    function AppendRow13(opt) {
+        var index = $("#tbBooks13").children("tr").length;
+
+        var wc = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlwc" + index + "' name='Brlst[" + index + "].wc'><option value=''>Please select</option>" + opt + "</select></td>";
+
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Brlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow13(" + index + ");'  style='cursor:pointer' /><input name='Brlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook13" + index + "'>" + wc + removeCell + "</tr>";
+        //alert(Packing);
+        $("#tbBooks13").append(newRow);
+
+        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
+    }
+    function removeRow13(id) {
+        var table = document.getElementById("dataTable1");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook13' + id);
+        var j = 0;
+        $('tr.chkitemlst1').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+
+    @*  add row 14*@
+        function AddRow14() {
+            var opt = "";
+            $.ajax({
+                type: "POST",
+                url: 'GetItemJSON14',
+                success: function (data) {
+
+                    $.each(data, function () {
+                        opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                    });
+                    AppendRow14(opt);
+                }
+            })
+        }
+    function AppendRow14(opt) {
+        var index = $("#tbBooks14").children("tr").length;
+
+        var mon = "<td><input class='form-control' id='txtmon" + index + "' name='Atlst[" + index + "].mon'  style='width: 200px;' type='text' /></td>";
+        var pr = "<td><input class='form-control' id='txtpre" + index + "' name='Atlst[" + index + "].pre'  style='width: 200px;' type='text' /></td>";
+        var ab = "<td><input class='form-control' id='txtabs" + index + "' name='Atlst[" + index + "].abs'  style='width: 200px;' type='text' /></td>";
+        var le = "<td><input class='form-control' id='txtlea" + index + "' name='Atlst[" + index + "].lea'  style='width: 200px;' type='text' /></td>";
+        var nd = "<td><input class='form-control' id='txtnhd" + index + "' name='Atlst[" + index + "].nhd'  style='width: 200px;' type='text' /></td>";
+        var nw = "<td><input class='form-control' id='txtnhw" + index + "' name='Atlst[" + index + "].nhw'  style='width: 200px;' type='text' /></td>";
+        var wo = "<td><input class='form-control' id='txtwo" + index + "' name='Atlst[" + index + "].wo'  style='width: 200px;' type='text' /></td>";
+        var ws = "<td><input class='form-control' id='txtwds" + index + "' name='Atlst[" + index + "].wds'  style='width: 200px;' type='text' /></td>";
+        var hs = "<td><input class='form-control' id='txthds" + index + "' name='Atlst[" + index + "].hds'  style='width: 200px;' type='text' /></td>";
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Atlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow14(" + index + ");'  style='cursor:pointer' /><input name='Atlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook14" + index + "'>" + mon + pr + ab + le + nd + nw + wo + ws + hs + removeCell + "</tr>";
+        //alert(Packing);
+        $("#tbBooks14").append(newRow);
+
+        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
+    }
+    function removeRow14(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook14' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+
+
+</script>
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false
+        });
+        fancybox123 = $.fancybox;
+    });
+
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
+</script>
+<script language="Javascript" type="text/javascript">
+
+    function onlyAlphabets(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+
+</script>
+
+<script src="~/src/js/lightbox.js"></script>
+
+
+

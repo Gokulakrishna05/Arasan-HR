@@ -1,0 +1,669 @@
+﻿@model Arasan.Models.PayPeriod
+
+@{
+    ViewData["Title"] = "PayPeriod";
+
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action("ListPayPeriod", "PayPeriod")">PayPeriod</a> </li>
+            <li class="active"> <strong> PayPeriod </strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+
+                    <hr>
+                    @using (Html.BeginForm("PayPeriod", "PayPeriod", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form> 
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Doc.Id<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.DocId, new { @id = "DocId", @class = "form-control", style = "width: 200px;", @TabIndex = 1, ReadOnly = "readonly" })
+                                            @Html.HiddenFor(C => C.ID)
+                                            <br />
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                            @Html.TextBoxFor(C => C.Set, new { @id = "set", @class = "form-control", @TabIndex = 2, @size = "25", @readonly = true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br>  <label for="inputName3" class="col-sm-4 control-label">Pay Period Type<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.PayPeriodType, Model.PPLists, " -- Please Select -- ", new { @id = "PPType", @Class = "form-control _select", style = "width: 150px;", @TabIndex = 1 })
+                                            <br />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Starting Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                            @Html.TextBoxFor(C => C.StartingDate, new { @id = "StartingDate", @class = "form-control", @TabIndex = 2, @size = "25", @readonly = true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                 
+                            </div>
+                            <div class="row">
+                            
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">Ending Date<label class="mandatory">*</label></label>
+                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                        @Html.TextBoxFor(C => C.EndingDate, new { @id = "EndingDate", @class = "form-control", @TabIndex = 2, @size = "25", @readonly = true })
+                                            <br />
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                       
+
+                                    </div>
+                                </div>
+                               </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                         
+                                            <br> <label for="inputName3" class="col-sm-4 control-label">First Salary Date<label class="mandatory">*</label></label>
+                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                                @Html.TextBoxFor(C => C.SalaryDate, new { @id = "SalaryDate", @class = "form-control", @TabIndex = 2, @size = "25", @readonly = true })
+                                                <br />
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+
+                                                </div>
+                                             
+                                        </div>
+
+                                        
+
+                                        </div>
+                                    </div>
+                       
+                       
+                             
+ 
+                                            
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="btn-group">
+                                        <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                                  
+                                
+                            <div class="row">
+                                <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+
+
+                                    <table class="table table-striped table-hover" id="dataTable">
+                                        <thead>
+                                            <tr>
+
+                                                 
+                                                <th>Pay Period </th>
+                                                <th>Starts At </th>
+                                                <th>Ends At </th>
+                                                <th>Salary Date </th>
+                                                <th>Pay Period Days </th>
+                                                <th>Weekly Holidays </th>
+                                                <th>Monthly Holidays </th>
+                                                <th>Other Holidays </th>
+                                                <th>Working Holidays </th> 
+
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbBooks">
+                                            @{
+
+                                                int i = 0;
+
+                                                foreach (var item in Model.PayLists.ToList())
+                                                {
+
+                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.PayLists[i].PayPeriods, new { @id = "txtPayPeriod" + i, @class = "form-control", style = "width: 100px;" })
+                                                        </td>
+
+                                                       <td>
+                                                                
+                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                    @Html.TextBoxFor(o => o.PayLists[i].StartsAt, new { @id = "txtStartsAt" + i, @class = "form-control", style = "width: 100px;", ReadOnly = "readonly" })
+                                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                </div>
+
+                                                       </td>
+                                                       
+                                                     
+                                                       <td>
+                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                                                    @Html.TextBoxFor(o => o.PayLists[i].EndsAt, new { @id = "txtEndsAt" + i, @class = "form-control", style = "width: 100px;", ReadOnly = "readonly" })
+                                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+
+                                                                </div>
+
+                                                       </td>
+                                                      <td>
+                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                                                    @Html.TextBoxFor(o => o.PayLists[i].SalaryDate, new { @id = "txtSalaryDate" + i, @class = "form-control", style = "width: 100px;", ReadOnly = "readonly" })
+                                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+
+                                                            </div>
+
+                                                       </td>
+                                                         <td>
+                                                            @Html.TextBoxFor(o => o.PayLists[i].PayPeriodDays, new { @id = "txtPayPeriodDays" + i, @class = "form-control", style = "width: 100px;" })
+                                                       </td>
+                                                       <td>
+                                                            @Html.TextBoxFor(o => o.PayLists[i].WeeklyHolidays, new { @id = "txtWeeklyHolidays" + i, @class = "form-control", style = "width: 100px;" })
+                                                        </td>
+                                                         <td>
+                                                            @Html.TextBoxFor(o => o.PayLists[i].MonthlyHolidays, new { @id = "txtMonthlyHolidays" + i, @class = "form-control", style = "width: 100px;" })
+                                                        </td>
+
+                                                         <td>
+                                                            @Html.TextBoxFor(o => o.PayLists[i].OtherHols, new { @id = "txtOtherHolidays" + i, @class = "form-control", style = "width: 100px;" })
+                                                         </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.PayLists[i].WorkingDays, new { @id = "txtWorkingDays" + i, @class = "form-control", style = "width: 100px;" })
+                                                        </td>
+                                                            <td>
+                                                                @Html.HiddenFor(o => o.PayLists[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Sublst.Index" type="hidden" value="@(i)" />
+                                                            </td>
+                                                       
+                                                    </tr>
+
+                                                    i = i + 1;
+                                                }
+                                            }
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-lg-8"></div>
+                                <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                                <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListPayPeriod", "PayPeriod")'">Cancel</button>
+
+                            </div>
+
+                       </form>
+                    }
+                </div>
+            </div>
+        </div>
+</div>
+ 
+
+
+ 
+<script>
+    $('.to_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+
+    });
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('.to_date').datetimepicker('setStartDate', minDate);
+
+    });
+</script>
+<script>
+
+    $(function () {
+        $('._select').select2();
+    });
+
+
+  
+
+    function AppendRow(opt, remopt) 
+    {
+        var index = $("#tbBooks").children("tr").length;
+
+
+
+
+        var payperiod = "<td><input class='form-control' id='txtPayPeriod" + index + "' name='Pay[" + index + "].PayPeriod'  style='width: 80px;' type='text'   /></td>";
+        var startsat = "<td><input class='form-control' id='txtStartsAt" + index + "' name='Pay[" + index + "].SartsAt'  style='width: 80px;' type='text'   /></td>";
+                     
+        var endsat = "<td><input class='form-control' id='txtEndsAt" + index + "' name='Pay[" + index + "].EndsAt'  style='width: 80px;' type='text'  /></td>";
+
+
+        var saldate = "<td><input class='form-control' id='txtSalaryDate" + index + "' name='Pay[" + index + "].SalaryDate'  style='width: 80px;' type='text'  /></td>";
+ 
+                var payperiodsdays = "<td><input class='form-control' id='txtPayPeriodDays" + index + "' name='Pay[" + index + "].PayPeriodsDays'  style='width: 80px;' type='text'  /></td>";
+
+        var weeklyholidays = "<td><input class='form-control' id='txtWeeklyHolidays" + index + "' name='Pay[" + index + "].WeeklyHolidays'  style='width: 80px;' type='text'  /></td>";
+        var monthlyholiday = "<td><input class='form-control' id='txtMonthlyHolidays" + index + "' name='Pay[" + index + "].MonthlyHolidays'   style='width: 80px;' type='text'  /></td>";
+
+        var otherholidays = "<td><input class='form-control' id='txtOtherHolidays" + index + "' name='Pay[" + index + "].OtherHolidays'  style='width: 80px;' type='text'  /></td>";
+        var workingdays = "<td><input class='form-control' id='txtWorkingDays" + index + "' name='Pay[" + index + "].WorkingDays'  style='width: 80px;' type='text'  /></td>";
+
+
+         var remove = "<td><input id='Isvalid" + index + "' name='Pay[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Pay.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + payperiod + startsat + endsat + saldate + payperiodsdays + weeklyholidays + monthlyholiday + otherholidays + workingdays + remove + "</tr>";
+
+        $("#tbBooks").append(newRow);
+        $(".chosen-select").chosen();
+
+        $(function () {
+            $('._select').select2();
+        });
+
+    }
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+    function AddRow() {
+        var opt = "";
+        var remopt = "";
+
+        $.ajax({
+            type: "POST",
+            url: 'GetPayPeriodJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+            
+                        AppendRow(opt, remopt);
+                  
+
+            }
+        })
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("DocId").value == "")
+            {
+                isValid = false;
+                $(DocId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DocID");
+                return false;
+            }
+            else {
+                $(DocId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+            if (document.getElementById("set").value == "") {
+                isValid = false;
+                $(set).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DocDate");
+                return false;
+            }
+            else {
+                $(set).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("PPType").value == "") {
+                isValid = false;
+                $(PPType).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Pay Period Type");
+                return false;
+            }
+            else {
+                $(PPType).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("StartingDate").value == "") {
+                isValid = false;
+                $(StartingDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Starting Date");
+                return false;
+            }
+            else {
+                $(StartingDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("EndingDate").value == "") {
+                isValid = false;
+                $(EndingDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Ending Date");
+                return false;
+            }
+            else {
+                $(EndingDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("SalaryDate").value == "") {
+                isValid = false;
+                $(SalaryDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select First Salary Date");
+                return false;
+            }
+            else {
+                $(SalaryDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            //Grid validation
+            var i = 0;
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+
+
+                    if ($(this).find('#txtPayPeriod' + i.toString()).val() == "" || $(this).find('#txtPayPeriod' + i.toString()).val() == 0) {
+                        isValid = false;
+                        $(this).find('#txtPayPeriod' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        alert("Please Select Pay Period");
+                        $(this).find('#txtPayPeriod' + i.toString()).focus();
+                        return false;
+                    }
+                    else {
+                        $(this).find('#txtPayPeriod' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#txtStartsAt' + i.toString()).val() == "" || $(this).find('#txtStartsAt' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtStartsAt' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Starting Date");
+                        $(this).find('#txtStartsAt' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtStartsAt' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+
+
+
+                    if ($(this).find('#txtEndsAt' + i.toString()).val() == "" || $(this).find('#txtEndsAt' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtEndsAt' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select Ending Date");
+                        $(this).find('#txtEndsAt' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtEndsAt' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    if ($(this).find('#txtSalaryDate' + i.toString()).val() == "" || $(this).find('#txtSalaryDate' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtSalaryDate' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Salary Date");
+                        $(this).find('#txtSalaryDate' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtSalaryDate' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    if ($(this).find('#txtPayPeriodDays' + i.toString()).val() == "" || $(this).find('#txtPayPeriodDays' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtPayPeriodDays' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter PayPeriod Days");
+                        $(this).find('#txtPayPeriodDays' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtPayPeriodDays' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    if ($(this).find('#txtWeeklyHolidays' + i.toString()).val() == "" || $(this).find('#txtWeeklyHolidays' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtWeeklyHolidays' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter  WeeklyHolidays  ");
+                        $(this).find('#txtWeeklyHolidays' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtWeeklyHolidays' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#txtMonthlyHolidays' + i.toString()).val() == "" || $(this).find('#txtMonthlyHolidays' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtMonthlyHolidays' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter MonthlyHolidays  ");
+                        $(this).find('#txtMonthlyHolidays' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtMonthlyHolidays' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    if ($(this).find('#txtOtherHolidays' + i.toString()).val() == "" || $(this).find('#txtOtherHolidays' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtOtherHolidays' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter OtherHolidays  ");
+                        $(this).find('#txtOtherHolidays' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtOtherHolidays' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    if ($(this).find('#txtWorkingDays' + i.toString()).val() == "" || $(this).find('#txtWorkingDays' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtWorkingDays' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter WorkingDays  ");
+                        $(this).find('#txtWorkingDays' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtWorkingDays' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                }
+                i += 1;
+            });
+
+
+            if (isValid == false)
+                e.preventDefault();
+
+
+
+        });
+
+    });
+
+
+
+
+
+
+</script>
