@@ -123,6 +123,7 @@ internal class Program
         builder.Services.TryAddSingleton<ILeaveMaster, LeaveMasterService>();
         builder.Services.TryAddSingleton<ILeaveTypeMaster, LeaveTypeMasterService>();
         builder.Services.TryAddSingleton<ILeaveRequest, LeaveRequestService>();
+        builder.Services.TryAddSingleton<IPermissions, PermissionsService>();
         builder.Services.TryAddSingleton<IHolidayMaster, HolidayMasterService>();
         builder.Services.TryAddSingleton<IPermissions, PermissionsService>();
 
