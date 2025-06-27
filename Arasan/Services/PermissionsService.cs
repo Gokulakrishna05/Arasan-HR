@@ -10,10 +10,7 @@ namespace Arasan.Services
     {
         private readonly string _connectionString;
         DataTransactions datatrans;
-
         public PermissionsService(IConfiguration _configuratio)
-
-
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
@@ -22,9 +19,7 @@ namespace Arasan.Services
         public DataTable GetPermissionsEdit(string id)
         {
             string SvSql = string.Empty;
-
-            SvSql = "Select PERMISSIONID,EMPLOYEEID,to_char(PERMISSIONDATE,'dd-MON-yyyy')PERMISSIONDATE ,FROMTIME,TOTIME,REASON,REMARKS,APPLIEDON from PERMISSIONS WHERE PERMISSIONID='" + id + "'";
-
+            SvSql = "Select PERMISSIONID,EMPLOYEEID,to_char(PERMISSIONDATE,'dd-MON-yyyy')PERMISSIONDATE,FROMTIME,TOTIME,REASON from PERMISSIONS WHERE PERMISSIONID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -32,19 +27,46 @@ namespace Arasan.Services
             return dtt;
         }
 
+        public string PermissionCRUD(Permissions Cy)
+        {
+            string msg = "";
+            string svSQL = "";
+            try
+            {
+                using (OracleConnection objconn = new OracleConnection(_connectionString))
+                {
+                    objconn.Open();
+                    if (Cy.PID == null)
+                    {
+                        svSQL = "Insert into PERMISSIONS (EMPLOYEEID,PERMISSIONDATE,FROMTIME,TOTIME,REASON) values ('" + Cy.EmpName + "','" + Cy.PerDate + "','" + Cy.FromTime + "','" + Cy.ToTime + "','" + Cy.Reason + "') ";
+                    }
+                    else
+                    {
+                        svSQL = " UPDATE PERMISSIONS SET EMPLOYEEID = '" + Cy.EmpName + "',PERMISSIONDATE = '" + Cy.PerDate + "',FROMTIME = '" + Cy.FromTime + "',TOTIME='" + Cy.ToTime + "',REASON='" + Cy.Reason + "' Where PERMISSIONID = '" + Cy.PID + "' ";
+                    }
+                    OracleCommand oracleCommand = new OracleCommand(svSQL, objconn);
+                    oracleCommand.Parameters.Add("OUTID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                    oracleCommand.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+                throw;
+            }
+            return msg;
+        }
 
         public DataTable GetAllPermissions(string status)
         {
             string SvSql = string.Empty;
             if (status == "Y" || status == null)
             {
-                SvSql = "Select to_char(PERMISSIONDATE,'dd-MON-yyyy')PERMISSIONDATE,FROMTIME,TOTIME,PERMISSIONS.IS_ACTIVE from PERMISSIONS WHERE PERMISSIONS.IS_ACTIVE='Y' ORDER BY PERMISSIONS.PERMISSIONID DESC ";
-
+                SvSql = "Select PERMISSIONID,EMPMAST.EMPNAME,to_char(PERMISSIONDATE,'dd-MON-yyyy')PERMISSIONDATE,FROMTIME,TOTIME,STATUS,PERMISSIONS.IS_ACTIVE from PERMISSIONS LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = PERMISSIONS.EMPLOYEEID WHERE PERMISSIONS.IS_ACTIVE='Y' ORDER BY PERMISSIONS.PERMISSIONID DESC ";
             }
             else
             {
-                SvSql = "Select to_char(PERMISSIONDATE,'dd-MON-yyyy')PERMISSIONDATE,FROMTIME,TOTIME,PERMISSIONS.IS_ACTIVE from PERMISSIONS WHERE PERMISSIONS.IS_ACTIVE='N' ORDER BY PERMISSIONS.PERMISSIONID DESC ";
-
+                SvSql = "Select PERMISSIONID,EMPMAST.EMPNAME,to_char(PERMISSIONDATE,'dd-MON-yyyy')PERMISSIONDATE,FROMTIME,TOTIME,STATUS,PERMISSIONS.IS_ACTIVE from PERMISSIONS LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = PERMISSIONS.EMPLOYEEID WHERE PERMISSIONS.IS_ACTIVE='N' ORDER BY PERMISSIONS.PERMISSIONID DESC ";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -53,41 +75,43 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public string GetPermi(Permissions Em)
+        public DataTable GetEmpName()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select EMPMASTID,EMPNAME from EMPMAST where EMPMAST.IS_ACTIVE = 'Y' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public string ViewPermission(Permissions Cy)
         {
             string msg = "";
             string svSQL = "";
-            string updateCMd = "";
-            string Pid = "";
             try
             {
-                //var userid = _httpContextAccessor.HttpContext?.Request.Cookies["UserId"];
                 using (OracleConnection objconn = new OracleConnection(_connectionString))
-
-
                 {
                     objconn.Open();
-                    if (Em.ID == null)
+                    if (Cy.Status == "Approve")
                     {
-                        svSQL = "Insert into PERMISSIONS (EMPLOYEEID,PERMISSIONDATE,FROMTIME,TOTIME,REASON,REMARKS) values ('" + Em.EmpID + "','" + Em.PerDate + "','" + Em.FTDate + "','" + Em.TTDate + "','" + Em.Reason + "','" + Em.Remarks + "') ";
+                        svSQL = "UPDATE PERMISSIONS SET STATUS = 'Approve' Where PERMISSIONID = '" + Cy.PID + "' ";
                     }
-
                     else
                     {
-                        svSQL = " UPDATE PERMISSIONS SET EMPLOYEEID = '" + Em.EmpID + "',PERMISSIONDATE = '" + Em.PerDate + "',FROMTIME = '" + Em.FTDate + "',TOTIME='" + Em.TTDate + "',REASON='" + Em.Reason + "',REMARKS='" + Em.Remarks + "',  Where PERMISSIONID = '" + Em.PID + "' ";
-
+                        svSQL = "UPDATE PERMISSIONS SET STATUS = 'Reject' Where PERMISSIONID = '" + Cy.PID + "' ";
                     }
                     OracleCommand oracleCommand = new OracleCommand(svSQL, objconn);
                     oracleCommand.Parameters.Add("OUTID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                     oracleCommand.ExecuteNonQuery();
-
                 }
-
             }
             catch (Exception ex)
             {
                 msg = ex.Message;
-                throw ex;
+                throw;
             }
             return msg;
         }
@@ -115,12 +139,13 @@ namespace Arasan.Services
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
             return "";
         }
+
 
     }
 }

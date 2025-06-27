@@ -21,7 +21,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Hr</a> </li>
-            <li class="active"> <strong>PermissionsList </strong> </li>
+            <li class="active"> <strong>Permission List </strong> </li>
         </ol>
     </div>
 </div>
@@ -38,11 +38,10 @@
                 updaterow: function (rowid, rowdata) {
                 },
                 datafields: [
-                    // { name: 'id', type: 'string' },
-                   // { name: 'id', type: 'string' },
+                    { name: 'empname', type: 'string' },
                     { name: 'perdate', type: 'string' },
-                    { name: 'ftdate', type: 'string' },
-                    { name: 'ttdate', type: 'string' },
+                    { name: 'fromtime', type: 'string' },
+                    { name: 'totime', type: 'string' },
                     { name: 'editrow', type: 'string' },
                     { name: 'delrow', type: 'string' },
                     { name: 'viewrow', type: 'string' },
@@ -81,19 +80,13 @@
                     keyboardnavigation: false,
 
                     columns: [
-                        // { text: 'Item Category', filtertype: 'checkedlist', datafield: 'itemcate', width: 150 },
-                        // { text: 'Machine ID', filtertype: 'checkedlist', datafield: 'id', width: 150 },
-                        //{ text: 'ID', filtertype: 'checkedlist', datafield: 'id', width: 130 },
-                        { text: 'Permission Date', filtertype: 'input', datafield: 'perdate', width: 290 },
-                        { text: 'From Time', filtertype: 'input', datafield: 'ftdate', width: 290 },
-                        { text: 'To Time', filtertype: 'input', datafield: 'ttdate', width: 290 },
-
-
-
-                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsrenderer: linkrenderer1, cellsalign: 'center', width: 70 },
-                        // { text: 'Regenerate', datafield: 'rrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 90 },
+                        { text: 'Employee Name', filtertype: 'input', datafield: 'empname', width: 250 },
+                        { text: 'Permission Date', filtertype: 'input', datafield: 'perdate', width: 150 },
+                        { text: 'From Time', filtertype: 'input', datafield: 'fromtime', width: 150 },
+                        { text: 'To Time', filtertype: 'input', datafield: 'totime', width: 150 },
+                        { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
+                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsrenderer: linkrenderer1, cellsalign: 'center', width: 100 },
                     ]
                 });
             $("#ddlStatus").change(function () {
@@ -127,7 +120,7 @@
                             </div>
                             <div class="col-md-9 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("Permissions", "Permissions")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add  Permissions </a>
+                                    <a href="@Url.Action("Permissions", "Permissions")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add  Permission </a>
                                     <br>
                                 </div>
 
