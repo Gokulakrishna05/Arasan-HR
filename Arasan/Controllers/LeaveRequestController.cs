@@ -107,6 +107,7 @@ namespace Arasan.Controllers
                     if (dtUsers.Rows[i]["STATUS"].ToString() == "Approve" || dtUsers.Rows[i]["STATUS"].ToString() == "Reject")
                     {
                         EditRow = "";
+                        ViewRow = "";
                     }
                     
                 }
