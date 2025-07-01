@@ -99,7 +99,7 @@ namespace Arasan.Controllers
 
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
-                string Regenerate = string.Empty;
+                
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
                 string ViewRow = string.Empty;
@@ -112,6 +112,7 @@ namespace Arasan.Controllers
                     if (dtUsers.Rows[i]["STATUS"].ToString() == "Approve" || dtUsers.Rows[i]["STATUS"].ToString() == "Reject")
                     {
                         EditRow = "";
+                        ViewRow = "";
                     }
 
                 }

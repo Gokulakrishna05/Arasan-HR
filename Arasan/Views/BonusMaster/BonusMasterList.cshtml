@@ -1,7 +1,7 @@
-﻿@model Arasan.Models.Permissions
+﻿@model Arasan.Models.BonusMaster
 
 @{
-    ViewData["Title"] = "PermissionsList";
+    ViewData["Title"] = "BonusMasterList";
 }
 <partial name="JqxGridPartial" />
 <script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
@@ -21,7 +21,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Hr</a> </li>
-            <li class="active"> <strong>Permission List </strong> </li>
+            <li class="active"> <strong>BonusMaster </strong> </li>
         </ol>
     </div>
 </div>
@@ -30,7 +30,7 @@
         $(document).ready(function () {
             var source =
             {
-                url: "/Permissions/MyListPermissionsgrid",
+                url: "/BonusMaster/MyListBonusMastergrid",
                 data: {
                     strstatus: "Y"
                 },
@@ -38,10 +38,11 @@
                 updaterow: function (rowid, rowdata) {
                 },
                 datafields: [
-                    { name: 'empname', type: 'string' },
-                    { name: 'perdate', type: 'string' },
-                    { name: 'fromtime', type: 'string' },
-                    { name: 'totime', type: 'string' },
+                    // { name: 'id', type: 'string' },
+                   // { name: 'id', type: 'string' },
+                    { name: 'bonustype', type: 'string' },
+                    { name: 'applicabledesignations', type: 'string' },
+                    { name: 'bonusvalue', type: 'string' },
                     { name: 'editrow', type: 'string' },
                     { name: 'delrow', type: 'string' },
                     { name: 'viewrow', type: 'string' },
@@ -80,13 +81,19 @@
                     keyboardnavigation: false,
 
                     columns: [
-                        { text: 'Employee Name', filtertype: 'input', datafield: 'empname', width: 250 },
-                        { text: 'Permission Date', filtertype: 'input', datafield: 'perdate', width: 150 },
-                        { text: 'From Time', filtertype: 'input', datafield: 'fromtime', width: 150 },
-                        { text: 'To Time', filtertype: 'input', datafield: 'totime', width: 150 },
-                        { text: 'Approve/Reject', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
-                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
-                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsrenderer: linkrenderer1, cellsalign: 'center', width: 100 },
+                        // { text: 'Item Category', filtertype: 'checkedlist', datafield: 'itemcate', width: 150 },
+                        // { text: 'Machine ID', filtertype: 'checkedlist', datafield: 'id', width: 150 },
+                        //{ text: 'ID', filtertype: 'checkedlist', datafield: 'id', width: 130 },
+                        { text: 'Bonus Type', filtertype: 'input', datafield: 'bonustype', width: 290 },
+                        { text: 'Applicable Designations', filtertype: 'input', datafield: 'applicabledesignations', width: 290 },
+                        { text: 'Bonus Value', filtertype: 'input', datafield: 'bonusvalue', width: 290 },
+
+
+
+                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsrenderer: linkrenderer1, cellsalign: 'center', width: 70 },
+                        // { text: 'Regenerate', datafield: 'rrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 90 },
                     ]
                 });
             $("#ddlStatus").change(function () {
@@ -120,7 +127,7 @@
                             </div>
                             <div class="col-md-9 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("Permissions", "Permissions")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add  Permission </a>
+                                    <a href="@Url.Action("BonusMaster", "BonusMaster")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add BonusMaster </a>
                                     <br>
                                 </div>
 
