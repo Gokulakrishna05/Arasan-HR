@@ -12,6 +12,9 @@ using Arasan.Services.Report;
 using Arasan.Services.Sales_Export;
 using Arasan.Interface.Master;
 using Arasan.Services.Master;
+using Arasan.Interface.Transaction;
+using Arasan.Models.Transaction;
+using Arasan.Services.Transaction;
 
 
 
@@ -140,6 +143,7 @@ internal class Program
 
         builder.Services.TryAddSingleton<IEmployee, EmployeeService>();
         builder.Services.TryAddSingleton<IShift, ShiftService>();
+        builder.Services.TryAddSingleton<IMissingPunchEntry, MissingPunchEntryService>();
 
 
 
