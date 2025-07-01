@@ -1,0 +1,158 @@
+﻿@model Arasan.Models.Transaction.MissingPunchEntry
+
+@{
+    Layout = "_PopupLayout";
+
+    ViewData["Title"] = "MissingPunchEntry";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Transaction</a> </li>
+            <li class="active"> <strong> Missing Punch EntryScreen </strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+
+                    <hr>
+                    @using (Html.BeginForm("MissingPunchEntry", "MissingPunchEntry", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-6 control-label">Employee Name<label class="mandatory">*</label></label>
+                                        <div class="col-sm-6">
+                                            @Html.DisplayFor(C => C.EmployeeId)
+                                            @Html.HiddenFor(C => C.ID)
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-6 control-label">Attendance Date<label class="mandatory">*</label></label>
+                                        <div class="col-sm-6">
+                                            @Html.DisplayFor(C => C.PunchDate)
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-6 control-label">Device Name<label class="mandatory">*</label></label>
+                                        <div class="col-sm-6">
+                                            @Html.DisplayFor(C => C.Device)
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.createby)
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-6 control-label">Missing In & Out<label class="mandatory">*</label></label>
+                                        <div class="col-sm-6">
+                                            @Html.DisplayFor(C => C.Missing)
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" id="grpMissingIn">
+                                        <label for="inputName3" class="col-sm-6 control-label">Missing In<label class="mandatory">*</label></label>
+                                        <div class="col-sm-6">
+                                            @Html.DisplayFor(C => C.MissingIn)
+                                           
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" id="grpMissingOut">
+
+                                        <label for="inputName3" class="col-sm-6 control-label">Missing Out<label class="mandatory">*</label></label>
+                                        <div class="col-sm-6">
+                                            @Html.DisplayFor(C => C.MissingOut)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-6 control-label">Reason<label class="mandatory"></label></label>
+                                        <div class="col-sm-6">
+                                            @Html.DisplayFor(C => C.Reason)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                           @*  <a button class="btn btn-danger" type="submit" href="@Url.Action("ListMissingPunchEntry", "MissingPunchEntry")">Cancel</a> *@
+                        </form>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        toggleMissingFields();
+
+        $('#txtMissing').change(function () {
+            toggleMissingFields();
+        });
+
+        function toggleMissingFields() {
+            var value = $('#txtMissing').val();
+
+            if (value === "Missing In") {
+                $('#grpMissingIn').show();
+                $('#grpMissingOut').hide();
+            } else if (value === "Missing Out") {
+                $('#grpMissingIn').hide();
+                $('#grpMissingOut').show();
+            } else {
+                $('#grpMissingIn').show();
+                $('#grpMissingOut').show();
+            }
+        }
+    });
+</script>
+
+

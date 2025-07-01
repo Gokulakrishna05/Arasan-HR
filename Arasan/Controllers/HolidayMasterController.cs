@@ -116,7 +116,7 @@ namespace Arasan.Controllers
                 {
                     EditRow = "<a href=HolidayMaster?id=" + dtUsers.Rows[i]["HOLIDAYID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
 
-                    ViewRow = "<a href=ViewHolidayMaster?id=" + dtUsers.Rows[i]["HOLIDAYID"].ToString() + "><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
+                    ViewRow = "<a href=ViewHolidayMaster?id=" + dtUsers.Rows[i]["HOLIDAYID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
 
 
                     DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["HOLIDAYID"].ToString() + "";

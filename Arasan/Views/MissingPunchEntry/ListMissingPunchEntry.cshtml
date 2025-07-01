@@ -1,12 +1,15 @@
-﻿@model Arasan.Models.LeaveRequest
+﻿@model Arasan.Models.Transaction.MissingPunchEntry
 
 @{
-    ViewData["Title"] = "ListLeaveRequest";
+    ViewData["Title"] = "MissingPunchEntry";
+    //string query = ViewContext.HttpContext.Request.Query["status"];
+    string Qid = string.Empty;
+    //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
 }
+
 <partial name="JqxGridPartial" />
 <script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
 
-@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
 <script type="text/javascript">
     @if (TempData["notice"] != null)
     {
@@ -19,8 +22,8 @@
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Hr</a> </li>
-            <li class="active"> <strong>Leave Request </strong> </li>
+            <li> <a>Transaction</a> </li>
+            <li class="active"> <strong>Missing Punch EntryScreen</strong> </li>
         </ol>
     </div>
 </div>
@@ -29,20 +32,26 @@
         $(document).ready(function () {
             var source =
             {
-                url: "/LeaveRequest/MyListLeaveRequestgrid",
+                url: "/MissingPunchEntry/MyListMissingPunchEntrygrid",
+
                 data: {
-                    strstatus: "Y"
+                    strstatus: ""
                 },
                 datatype: "json",
                 updaterow: function (rowid, rowdata) {
+                    // synchronize with the server - send update command
                 },
                 datafields: [
-                    { name: 'empid', type: 'string' },
-                    { name: 'leavetype', type: 'string' },
-                    { name: 'totdays', type: 'string' },
+                    { name: 'emp', type: 'string' },
+                    { name: 'attendance', type: 'string' },
+                    { name: 'missing', type: 'string' },
+                    { name: 'device', type: 'string' },
+                    { name: 'reason', type: 'string' },
                     { name: 'editrow', type: 'string' },
-                    { name: 'delrow', type: 'string' },
                     { name: 'viewrow', type: 'string' },
+                    //{ name: 'delrow', type: 'string' },
+
+
                 ],
                 id: 'id',
             };
@@ -56,11 +65,13 @@
             var linkrenderer1 = function (row, column, value) {
                 return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
             }
+
             $("#grid").jqxGrid(
                 {
+
                     width: '100%',
                     source: dataAdapter,
-                    height: 650,
+                    height: 450,
                     source: source,
                     //autoheight: true,
                     sortable: true,
@@ -76,18 +87,20 @@
                     columnsresize: true,
                     selectionmode: 'multiplerowsextended',
                     keyboardnavigation: false,
-
                     columns: [
-                        { text: 'Employee ID', filtertype: 'input', datafield: 'empid', width: 230 },
-                        { text: 'Leave Type', filtertype: 'input', datafield: 'leavetype', width: 230 },
-                        { text: 'Total Days', filtertype: 'input', datafield: 'totdays', width: 150 },
-                        { text: 'Approve/Reject', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
-                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
-                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsrenderer: linkrenderer1, cellsalign: 'center', width: 100 },
+
+                        { text: 'Employee Name', filtertype: 'checkedlist', datafield: 'emp', width: 150 },
+                        { text: 'Attendance Date', filtertype: 'input', datafield: 'attendance', width: 150 },
+                        { text: 'Device Name', filtertype: 'input', datafield: 'missing', width: 120 },
+                        { text: 'Missing In & Out', filtertype: 'input', datafield: 'device', width: 150 },
+                        { text: 'Reason', filtertype: 'input', datafield: 'reason', width: 150 },
+                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 60 },
+                        { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        //{ text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, cellsrenderer: linkrenderer1, formatter: returnMyLink, edittype: 'select' },
                     ]
                 });
             $("#ddlStatus").change(function () {
-                var value = "Y";
+                var value = "ACTIVE";
                 if ($(this).val() != "") {
                     value = $(this).val();
                 }
@@ -97,10 +110,13 @@
                 $("#grid").jqxGrid({ source: source });
             });
         });
+
     function returnMyLink(cellValue, options, rowdata, action) {
         return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
     }
+
 </script>
+
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -109,31 +125,32 @@
 
                     <form>
                         <div class="row">
-                            <div class="col-md-2 ">
-                                @Html.DropDownListFor(n => n.Ddlstatus, new SelectListItem[]
-                                         { new SelectListItem() {Text = "Enabled", Value="Y"},
-                                new SelectListItem() {Text = "Disabled", Value="N"}},
+                           @*  <div class="col-md-2 ">
+
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                         { new SelectListItem() {Text = "Enabled", Value="ACTIVE"},
+                                new SelectListItem() {Text = "Disabled", Value="INACTIVE"}},
                                          new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
-                            </div>
-                            <div class="col-md-9 ">
+                            </div> *@
+
+                            <div class="col-md-12 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("LeaveRequest", "LeaveRequest")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Leave Request </a>
+                                    <a href="@Url.Action("MissingPunchEntry","MissingPunchEntry")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Missing Punch Entry</a>
                                     <br>
                                 </div>
 
-
                             </div>
                         </div>
+
                         <div class="row">
 
-
-                            <div class="col-md-12 ">
+                            <div class="col-md-10 ">
                                 <div id="grid">
                                 </div>
-
                             </div>
-
                         </div>
+
+
 
                     </form>
                 </div>
@@ -141,12 +158,34 @@
         </div>
     </div>
 </div>
+
+
 <script>
     function ConfirmDelete() {
         return confirm("Are you sure you want to delete?");
     }
-</script>
+    function changeStatus(status) {
+        var url = "/MissingPunchEntry/ListMissingPunchEntry?status=" + status;
+        window.location.href = url;
+        //$.ajax({
+        //    url: 'AssignSession',
+        //    data: { "status": status },
+        //    type: "GET",
+        //    success: function (result) {
+        //        document.getElementById("hdstatus").value = result;
+        //    },
+        //    error: function () {
+        //        alert("Data Not Found");
+        //    }
+        //});
+        //window.location.reload();
 
+    }
+    $(document).ready(function () {
+        var val2 = "@Qid";
+        $('#ddlStatus').val(val2);
+    });
+</script>
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />

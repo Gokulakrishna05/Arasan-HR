@@ -21,7 +21,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Hr</a> </li>
-            <li class="active"> <strong>EmployeeShiftSchedule </strong> </li>
+            <li class="active"> <strong>Employee Shift Schedule </strong> </li>
         </ol>
     </div>
 </div>
@@ -82,19 +82,15 @@
                     keyboardnavigation: false,
 
                     columns: [
-                        // { text: 'Item Category', filtertype: 'checkedlist', datafield: 'itemcate', width: 150 },
-                        // { text: 'Machine ID', filtertype: 'checkedlist', datafield: 'id', width: 150 },
+                        
                         { text: 'Document ID', filtertype: 'checkedlist', datafield: 'docid', width: 130 },
                         { text: 'Month', filtertype: 'input', datafield: 'month', width: 130 },
                         { text: 'Pay Category', filtertype: 'input', datafield: 'category', width: 130 },
                         { text: 'Department', filtertype: 'input', datafield: 'department', width: 130 },
-
-
-                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                         { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        //{ text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                         { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsrenderer: linkrenderer1, cellsalign: 'center', width: 70 },
-                        // { text: 'Regenerate', datafield: 'rrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 90 },
+                        
                     ]
                 });
             $("#ddlStatus").change(function () {

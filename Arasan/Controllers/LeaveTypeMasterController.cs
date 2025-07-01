@@ -107,7 +107,7 @@ namespace Arasan.Controllers
                 {
                     EditRow = "<a href=LeaveTypeMaster?id=" + dtUsers.Rows[i]["ID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
 
-                    ViewRow = "<a href=ViewLeaveTypeMaster?id=" + dtUsers.Rows[i]["ID"].ToString() + "><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
+                    ViewRow = "<a href=ViewLeaveTypeMaster?id=" + dtUsers.Rows[i]["ID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
 
 
                     DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["ID"].ToString() + "";
