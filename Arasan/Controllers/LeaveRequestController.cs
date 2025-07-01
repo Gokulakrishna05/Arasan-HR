@@ -101,7 +101,7 @@ namespace Arasan.Controllers
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
                     EditRow = "<a href=LeaveRequest?id=" + dtUsers.Rows[i]["LEAVE_ID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                    ViewRow = "<a href=ViewLeaveRequest?id=" + dtUsers.Rows[i]["LEAVE_ID"].ToString() + "><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
+                    ViewRow = "<a href=ViewLeaveRequest?id=" + dtUsers.Rows[i]["LEAVE_ID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
                     DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["LEAVE_ID"].ToString() + "";
 
                     if (dtUsers.Rows[i]["STATUS"].ToString() == "Approve" || dtUsers.Rows[i]["STATUS"].ToString() == "Reject")
