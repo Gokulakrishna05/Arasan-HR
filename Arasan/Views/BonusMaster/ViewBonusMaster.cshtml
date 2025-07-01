@@ -1,0 +1,412 @@
+﻿@model Arasan.Models.BonusMaster
+
+@{
+    Layout = "_PopupLayout";
+
+    ViewData["Title"] = "BonusMaster";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action("BonusMasterList", "BonusMaster")">HR</a> </li>
+            <li class="active"> <strong>BonusMaster</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">BonusMaster</h5>
+                    <hr>
+                    @using (Html.BeginForm("BonusMaster", "BonusMaster", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Bonus Type<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.BType, new { @id = "BType", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Application Designations<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.ADes, new { @id = "ADes", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Bonus Value<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.BValue, new { @id = "BValue", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Effective From / To<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.EFrom, new { @id = "EFrom", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Calculation<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.CType, new { @id = "CType", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    function changeItem(ItemId, i) {
+
+        $.ajax({
+            url: 'GetEmpDetails',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtEmpName" + i).value = result.emp;
+                document.getElementById("txtDepart" + i).value = result.dep;
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+
+
+
+    $('.to_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+
+    });
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('.to_date').datetimepicker('setStartDate', minDate);
+
+    });
+</script>
+<script>
+    $(function () {
+        $('._select').select2();
+    });
+
+    $(".chosen-select").chosen();
+    $('.for_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+
+
+    function changeQty(_this, i) {
+        try {
+
+            var j = 0;
+            var qty = 0;
+            var tot = 0;
+    @* var totfrieght = 0;*@
+
+                            var totamt = 0;
+    @* var totamount = 0;*@
+                            var qty = document.getElementById("txtQuantity" + i).value;
+            var up = document.getElementById("txtrate" + i).value;
+
+
+
+            if (qty == "")
+                qty = 0;
+
+            if (up == "")
+                up = 0;
+
+
+            var tot = eval(qty) * eval(up);
+            document.getElementById("txtAmount" + i).value = tot.toFixed(2);
+
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+
+
+                    var amt = $(this).find('#txtAmount' + j.toString()).val();
+                    if (amt == "")
+                        amt = 0;
+
+
+                    totamt += eval(amt);
+
+
+                }
+                j += 1;
+            });
+
+    @*document.getElementById("gross").value = totamt.toFixed(2);
+                document.getElementById("net").value = totamt.toFixed(2);*@
+
+                    }
+        catch (ex) {
+            alert(ex.message);
+        }
+    }
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+
+
+    function AddRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetEmpJSON',
+            success: function (data) {
+
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow(opt);
+            }
+        })
+    }
+    function AppendRow(opt, remopt) {
+        var index = $("#tbBooks").children("tr").length;
+
+
+        var EmployeeID = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='EmpID" + index + "' name='EmployeeAttendanceDetailslist[" + index + "].EmpID' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + remopt + "</select></td>";
+
+        var EmployeeName = "<td><input class='form-control' id='txtEmpName" + index + "' name='EmployeeAttendanceDetailslist[" + index + "].EmpName'  style='width: 200px;' type='text'  /></td>";
+        var EmpDepart = "<td><input class='form-control' id='txtDepart" + index + "' name='EmployeeAttendanceDetailslist[" + index + "].Depart'  style='width: 200px;' type='text' /></td>";
+        var EmpInOut = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='InOut" + index + "' name='EmployeeAttendanceDetailslist[" + index + "].InOut' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + remopt + "</select></td>";
+
+        var EmpTime = "<td><input class='form-control' id='txtTime" + index + "' name='EmployeeAttendanceDetailslist[" + index + "].Time'  style='width: 200px;' type='text'   /></td>";
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='EmployeeAttendanceDetailslist[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='EmployeeAttendancelist.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + EmployeeID + EmployeeName + EmpDepart + EmpInOut + EmpTime + removeCell + "</tr>";
+        $("#tbBooks").append(newRow);
+
+        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
+        $('.to_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            endDate: new Date(),
+            forceParse: 0
+
+        });
+        $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            endDate: new Date(),
+            forceParse: 0
+        }).on('changeDate', function (selected) {
+            var minDate = new Date(selected.date.valueOf());
+            $('.to_date').datetimepicker('setStartDate', minDate);
+
+        });
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("txtDocId").value == "") {
+                isValid = false;
+                $(txtDocId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DocID");
+                return false;
+            }
+            else {
+                $(txtDocId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtDocdate").value == "") {
+                isValid = false;
+                $(txtDocdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DocDate");
+                return false;
+            }
+            else {
+                $(txtDocdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlRatecode").value == "") {
+                isValid = false;
+                $(ddlRatecode).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select RateCode");
+                return false;
+            }
+            else {
+                $(ddlRatecode).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlRateName").value == "") {
+                isValid = false;
+                $(ddlRateName).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select RateName");
+                return false;
+            }
+            else {
+                $(ddlRateName).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+
+        });
+
+    });
+    function AddRatecode(ratecode) {
+        $.ajax({
+            url: "GetRateJSON",
+            type: "post",
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#ddlRatecode", response);
+                $(ddlRatecode).select2().val(ratecode).trigger("change");
+                //  document.getElementById("ddlRatecode").value =ratecode;
+            },
+            error: function () {
+                alert("Please Select Rate");
+            }
+        });
+    }
+</script>
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false
+        });
+        fancybox123 = $.fancybox;
+    });
+
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
+</script>
