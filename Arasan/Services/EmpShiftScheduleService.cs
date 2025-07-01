@@ -3,6 +3,7 @@ using Arasan.Models;
 using Microsoft.AspNetCore.Mvc;
 using Oracle.ManagedDataAccess.Client;
 using System.Data;
+using System.Data.SqlClient;
 using System.Reflection.PortableExecutable;
 
 namespace Arasan.Services
@@ -14,8 +15,6 @@ namespace Arasan.Services
         DataTransactions datatrans;
 
         public EmpShiftScheduleService(IConfiguration _configuratio)
-
-
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
@@ -61,6 +60,16 @@ namespace Arasan.Services
             return dtt;
         }
 
+        public DataTable GetEmployeeDetail(string ItemId)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT EMPMASTID, EMPID, EMPNAME FROM EMPMAST WHERE EMPMAST.EMPPAYCAT='" + ItemId + "' AND EMPMAST.IS_ACTIVE = 'Y'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
         public DataTable GetAllEmpShift(string status)
         {
@@ -85,10 +94,7 @@ namespace Arasan.Services
         public DataTable GetShiftScheduleBasicEdit(string id)
         {
             string SvSql = string.Empty;
-
             SvSql = "Select EMPSHIFTBASICID,DOCID,MONTH,PAYCATEGORY,DEPARTMENT from EMPSHIFTBASIC WHERE EMPSHIFTBASICID='" + id + "'";
-
-
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -99,10 +105,7 @@ namespace Arasan.Services
         public DataTable GetShiftScheduleDetailEdit(string id)
         {
             string SvSql = string.Empty;
-
             SvSql = "Select EMPSHIFTDETAILID,EMPLID,EMPID,EMPNAME,to_char(STARTDATE,'dd-MON-yyyy')STARTDATE,to_char(ENDDATE,'dd-MON-yyyy')ENDDATE,SHVALL,SHIFT,STTIME,ENDTIME,WOFF from  EMPSHIFTDETAIL WHERE EMPSHIFTBASICID='" + id + "'";
-
-
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -111,13 +114,11 @@ namespace Arasan.Services
         }
         public string StatusChange(string tag, string id)
         {
-
             try
             {
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-
                     if (tag == "Del")
                     {
                         svSQL = "UPDATE EMPSHIFTBASIC SET IS_ACTIVE ='N' WHERE EMPSHIFTBASICID='" + id + "'";
@@ -133,9 +134,9 @@ namespace Arasan.Services
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
             return "";
         }
@@ -165,11 +166,9 @@ namespace Arasan.Services
                     {
                         svSQL = "Insert into EMPSHIFTBASIC (DOCID,MONTH,PAYCATEGORY,DEPARTMENT) values ('" + Em.DocId + "','" + Em.Month + "','" + Em.EmpCategory + "','" + Em.Dep + "') RETURNING EMPSHIFTBASICID  INTO: OUTID";
                     }
-
                     else
                     {
                         svSQL = " UPDATE EMPSHIFTBASIC SET DOCID = '" + Em.DocId + "', MONTH = '" + Em.Month + "', PAYCATEGORY = '" + Em.EmpCategory + "', DEPARTMENT = '" + Em.Dep + "'  Where EMPSHIFTBASICID = '" + Em.ID + "'";
-
                     }
                     OracleCommand oracleCommand = new OracleCommand(svSQL, objconn);
                     oracleCommand.Parameters.Add("OUTID", OracleDbType.Int64, ParameterDirection.ReturnValue);
@@ -186,19 +185,15 @@ namespace Arasan.Services
                             int r = 1;
                             foreach (EmployeeShift cp in Em.EmpShiftSchedulelist)
                             {
-                                if (cp.Isvalid == "Y" && cp.EmpID != "")
+                                if (cp.Isvalid == "Y" && cp.empid != "")
                                 {
-
-
-                                    svSQL = "Insert into EMPSHIFTDETAIL (EMPSHIFTBASICID,EMPLID,EMPID,EMPNAME,STARTDATE,ENDDATE,SHVALL,SHIFT,STTIME,ENDTIME,WOFF) VALUES ('" + Pid + "','" + cp.EmplID + "','" + cp.EmpID + "','" + cp.EmpName + "','" + cp.StartDate + "','" + cp.EndDate + "','" + cp.ShVal + "','" + cp.Shift + "','" + cp.StTime + "','" + cp.EndTime + "','" + cp.WOFF + "')";
+                                    svSQL = "Insert into EMPSHIFTDETAIL (EMPSHIFTBASICID,EMPID,EMPNAME,STARTDATE,ENDDATE,SHVALL,SHIFT,STTIME,ENDTIME,WOFF) VALUES ('" + Pid + "','" + cp.empid + "','" + cp.empname + "','" + cp.StartDate + "','" + cp.EndDate + "','" + cp.ShVal + "','" + cp.Shift + "','" + cp.StTime + "','" + cp.EndTime + "','" + cp.WOFF + "')";
                                     OracleCommand objCmds = new OracleCommand(svSQL, objconn);
                                     objCmds.ExecuteNonQuery();
-
                                 }
                                
                                 r++;
                             }
-
                         }
                         else
                         {
@@ -208,12 +203,11 @@ namespace Arasan.Services
                             foreach (EmployeeShift cp in Em.EmpShiftSchedulelist)
                             {
                                 int r = 1;
-                                if (cp.Isvalid == "Y" && cp.EmpID != "")
+                                if (cp.Isvalid == "Y" && cp.empid != "")
                                 {
-                                    svSQL = "Insert into EMPSHIFTDETAIL (EMPSHIFTBASICID,EMPLID,EMPID,EMPNAME,STARTDATE,ENDDATE,SHVALL,SHIFT,STTIME,ENDTIME,WOFF) VALUES ('" + Em.ID + "','" + cp.EmplID + "','" + cp.EmpID + "','" + cp.EmpName + "','" + cp.StartDate + "','" + cp.EndDate + "','" + cp.ShVal + "','" + cp.Shift + "','" + cp.StTime + "','" + cp.EndTime + "','" + cp.WOFF + "')";
+                                    svSQL = "Insert into EMPSHIFTDETAIL (EMPSHIFTBASICID,EMPID,EMPNAME,STARTDATE,ENDDATE,SHVALL,SHIFT,STTIME,ENDTIME,WOFF) VALUES ('" + Em.ID + "','" + cp.empid + "','" + cp.empname + "','" + cp.StartDate + "','" + cp.EndDate + "','" + cp.ShVal + "','" + cp.Shift + "','" + cp.StTime + "','" + cp.EndTime + "','" + cp.WOFF + "')";
                                     OracleCommand objCmds = new OracleCommand(svSQL, objconn);
                                     objCmds.ExecuteNonQuery();
-
                                 }
                                 r++;
                             }
@@ -226,11 +220,10 @@ namespace Arasan.Services
             catch (Exception ex)
             {
                 msg = ex.Message;
-                throw ex;
+                throw;
             }
             return msg;
         }
-
 
     }
 }

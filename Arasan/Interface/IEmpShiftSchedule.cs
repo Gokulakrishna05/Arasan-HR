@@ -8,13 +8,12 @@ using Arasan.Models;
         DataTable GetShift();
         DataTable GetCategory();
         DataTable GetDep();
+        DataTable GetEmployeeDetail(string ItemId);
         string GetInsEmp(EmpShiftScheduleModel E);
         DataTable GetAllEmpShift(string strStatus);
-    DataTable GetShiftScheduleBasicEdit(string id);
-    DataTable GetShiftScheduleDetailEdit(string id);
-    string StatusChange(string tag, string id);
+        DataTable GetShiftScheduleBasicEdit(string id);
+        DataTable GetShiftScheduleDetailEdit(string id);
+        string StatusChange(string tag, string id);
 
-
-
-}
+    }
 

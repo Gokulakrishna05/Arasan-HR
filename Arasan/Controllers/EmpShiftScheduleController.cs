@@ -15,10 +15,8 @@ namespace Arasan.Controllers.Master
     public class EmpShiftScheduleController : Controller
     {
         IEmpShiftSchedule Shift;
-
         IConfiguration? _configuratio;
         private string? _connectionString;
-
         DataTransactions datatrans;
 
         public EmpShiftScheduleController(IEmpShiftSchedule _Shift, IConfiguration _configuratio)
@@ -27,9 +25,6 @@ namespace Arasan.Controllers.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-
-       
-
 
         public IActionResult EmpShiftSchedule(String id)
         {
@@ -56,7 +51,7 @@ namespace Arasan.Controllers.Master
                 for (int i = 0; i < 1; i++)
                 {
                     tda = new EmployeeShift();
-                    tda.EmplIdlst = BindEmplId();
+                    //tda.EmplIdlst = BindEmplId();
                     tda.Shiftlst = BindShift();
                     tda.WOFFlst = BindWOFF();
                     tda.Isvalid = "Y";
@@ -86,14 +81,14 @@ namespace Arasan.Controllers.Master
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new EmployeeShift();
-                        tda.EmplIdlst = BindEmplId();
+                        //tda.EmplIdlst = BindEmplId();
                         tda.Shiftlst = BindShift();
                         tda.WOFFlst = BindWOFF();
                         tda.Isvalid = "Y";
                       
-                        tda.EmplID = dt2.Rows[0]["EMPLID"].ToString();
-                        tda.EmpID = dt2.Rows[0]["EMPID"].ToString();
-                        tda.EmpName = dt2.Rows[0]["EMPNAME"].ToString();
+                        //tda.EmplID = dt2.Rows[0]["EMPLID"].ToString();
+                        tda.empid = dt2.Rows[0]["EMPID"].ToString();
+                        tda.empname = dt2.Rows[0]["EMPNAME"].ToString();
                         tda.StartDate = dt2.Rows[0]["STARTDATE"].ToString();
                         tda.EndDate = dt2.Rows[0]["ENDDATE"].ToString();
                         tda.ShVal = dt2.Rows[0]["SHVALL"].ToString();
@@ -171,9 +166,9 @@ namespace Arasan.Controllers.Master
 
 
                     tda = new EmployeeShift();
-                    tda.EmplID = dtt.Rows[0]["EMP"].ToString();
-                    tda.EmpID = dtt.Rows[0]["EMPID"].ToString();
-                    tda.EmpName = dtt.Rows[0]["EMPNAME"].ToString();
+                    //tda.EmplID = dtt.Rows[0]["EMP"].ToString();
+                    tda.empid = dtt.Rows[0]["EMPID"].ToString();
+                    tda.empname = dtt.Rows[0]["EMPNAME"].ToString();
                     tda.StartDate = dtt.Rows[0]["STARTDATE"].ToString();
                     tda.EndDate = dtt.Rows[0]["ENDDATE"].ToString();
                     tda.ShVal = dtt.Rows[0]["SHVALL"].ToString();
@@ -181,7 +176,7 @@ namespace Arasan.Controllers.Master
                     tda.StTime = dtt.Rows[0]["STTIME"].ToString();
                     tda.EndTime = dtt.Rows[0]["ENDTIME"].ToString();
                     tda.WOFF = dtt.Rows[0]["WOFF"].ToString();
-                    tda.EmplIdlst = BindEmplId();
+                    //tda.EmplIdlst = BindEmplId();
                     tda.Shiftlst = BindShift();
                     tda.WOFFlst = BindWOFF();
                     tda.Isvalid = "Y";
@@ -192,6 +187,42 @@ namespace Arasan.Controllers.Master
             return View(A);
 
         }
+
+        public ActionResult GetEmployeeDetails(string suppid)
+        {
+            try
+            {
+                EmpShiftScheduleModel ca = new EmpShiftScheduleModel();
+                List<EmployeeShift> TData = new List<EmployeeShift>();
+                EmployeeShift dta = new EmployeeShift();
+                //string grnno = "";
+                //string grnamt = "";
+                DataTable dtPR = new DataTable();
+
+                dtPR = Shift.GetEmployeeDetail(suppid);
+
+                if (dtPR.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtPR.Rows.Count; i++)
+                    {
+                        dta = new EmployeeShift();
+                        dta.empid = dtPR.Rows[i]["EMPID"].ToString();
+                        dta.empname = dtPR.Rows[i]["EMPNAME"].ToString();
+                        dta.Isvalid = "Y";
+                        TData.Add(dta);
+                    }
+                }
+                ca.EmpShiftSchedulelist = TData;
+                return Json(ca.EmpShiftSchedulelist);
+                //var result = new { grnno = grnno, grnamt = grnamt };
+                //return Json(result);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public List<SelectListItem> BindMonth()
         {
             try
@@ -223,9 +254,9 @@ namespace Arasan.Controllers.Master
                 lstdesg.Add(new SelectListItem() { Text = "DEC2024", Value = "DEC2024" });
                 return lstdesg;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -243,9 +274,9 @@ namespace Arasan.Controllers.Master
                 }
                 return lstdesg;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
         public List<SelectListItem> BindDep()
@@ -262,30 +293,30 @@ namespace Arasan.Controllers.Master
                 }
                 return lstdesg;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
-        public List<SelectListItem> BindEmplId()
-        {
-            try
-            {
-                DataTable dtDesg = Shift.GetEmplId();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["empid"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
+        //public List<SelectListItem> BindEmplId()
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = Shift.GetEmplId();
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["empid"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
 
 
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
         public List<SelectListItem> BindShift()
         {
@@ -301,9 +332,9 @@ namespace Arasan.Controllers.Master
                 }
                 return lstdesg;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
         public List<SelectListItem> BindWOFF()
@@ -320,17 +351,17 @@ namespace Arasan.Controllers.Master
                 lstdesg.Add(new SelectListItem() { Text = "SATUREDAY", Value = "SATUREDAY" });
                 return lstdesg;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 
-        public JsonResult GetEmpShiftJSON()
-        {
+        //public JsonResult GetEmpShiftJSON()
+        //{
           
-            return Json(BindEmplId());
-        }
+        //    return Json(BindEmplId());
+        //}
         public JsonResult GetEmpShift2JSON()
         {
 
@@ -341,42 +372,39 @@ namespace Arasan.Controllers.Master
 
             return Json(BindWOFF());
         }
-        public ActionResult GetEmpDetails(string ItemId)
-        {
-            try
-            {
-                DataTable dt = new DataTable();
+        //public ActionResult GetEmpDetails(string ItemId)
+        //{
+        //    try
+        //    {
+        //        DataTable dt = new DataTable();
 
-                string emp = "";
-                string dep = "";
+        //        string emp = "";
+        //        string dep = "";
 
-                dt = datatrans.GetData("SELECT EMPNAME,EMPID FROM EMPMAST WHERE EMPMASTID='" + ItemId + "'");
+        //        dt = datatrans.GetData("SELECT EMPNAME,EMPID FROM EMPMAST WHERE EMPMASTID='" + ItemId + "'");
 
-                if (dt.Rows.Count > 0)
-                {
+        //        if (dt.Rows.Count > 0)
+        //        {
 
-                    emp = dt.Rows[0]["EMPNAME"].ToString();
-                    dep = dt.Rows[0]["EMPID"].ToString();
+        //            emp = dt.Rows[0]["EMPNAME"].ToString();
+        //            dep = dt.Rows[0]["EMPID"].ToString();
 
-                }
+        //        }
 
-                var result = new { emp = emp, dep = dep };
-                return Json(result);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+        //        var result = new { emp = emp, dep = dep };
+        //        return Json(result);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
 
-        }
+        //}
        
-
-       
-            public IActionResult EmpShiftSchedulelist()
+        public IActionResult EmpShiftSchedulelist()
         {
             return View();
         }
-
 
         public ActionResult MyListEmpShiftSchedulegrid(string strStatus)
         {
@@ -387,32 +415,20 @@ namespace Arasan.Controllers.Master
 
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
-                string Regenerate = string.Empty;
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
                 string ViewRow = string.Empty;
                 if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 {
-
-
                     EditRow = "<a href=EmpShiftSchedule?id=" + dtUsers.Rows[i]["EMPSHIFTBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-
-
                     ViewRow = "<a href=ViewEmployeeShift?id=" + dtUsers.Rows[i]["EMPSHIFTBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
-
-
                     DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["EMPSHIFTBASICID"].ToString() + "";
                 }
                 else
                 {
                     EditRow = "";
-
-
                     DeleteRow = " DeleteItem?tag=Active&id=" + dtUsers.Rows[i]["EMPSHIFTBASICID"].ToString() + "";
                 }
-
-
-
 
                 Reg.Add(new EmployeeShifScheduletList
                 {
@@ -421,11 +437,10 @@ namespace Arasan.Controllers.Master
                     month = dtUsers.Rows[i]["Month"].ToString(),
                     category = dtUsers.Rows[i]["PAYCATEGORY"].ToString(),
                     department = dtUsers.Rows[i]["DEPTCODE"].ToString(),
-
                     editrow = EditRow,
                     viewrow = ViewRow,
                     delrow = DeleteRow,
-                    rrow = Regenerate
+                    
                 });
             }
             return Json(new
@@ -436,8 +451,6 @@ namespace Arasan.Controllers.Master
         [HttpPost]
         public ActionResult EmpShiftSchedule(EmpShiftScheduleModel E, string id)
         {
-
-
             try
             {
                 E.ID = id;
@@ -462,12 +475,10 @@ namespace Arasan.Controllers.Master
                     return View(E);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
-
-            return View(E);
 
         }
 
