@@ -130,6 +130,8 @@ internal class Program
         builder.Services.TryAddSingleton<IAllowanceMaster, AllowanceMasterService>();
         builder.Services.TryAddSingleton<IHolidayMaster, HolidayMasterService>();
         builder.Services.TryAddSingleton<IPermissions, PermissionsService>();
+        builder.Services.TryAddSingleton<IBonusMaster, BonusMasterService>();
+        builder.Services.TryAddSingleton<IAdvanceTM, AdvanceTMService>();
 
         builder.Services.TryAddSingleton<IPayPeriodService, PayPeriodService>();
 

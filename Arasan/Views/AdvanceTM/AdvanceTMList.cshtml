@@ -1,7 +1,7 @@
-﻿@model Arasan.Models.Permissions
+﻿@model Arasan.Models.AdvanceTM
 
 @{
-    ViewData["Title"] = "PermissionsList";
+    ViewData["Title"] = "AdvanceTMList";
 }
 <partial name="JqxGridPartial" />
 <script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
@@ -21,7 +21,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Hr</a> </li>
-            <li class="active"> <strong>Permission List </strong> </li>
+            <li class="active"> <strong>AdvanceTM </strong> </li>
         </ol>
     </div>
 </div>
@@ -30,7 +30,7 @@
         $(document).ready(function () {
             var source =
             {
-                url: "/Permissions/MyListPermissionsgrid",
+                url: "/AdvanceTM/MyListAdvanceTMgrid",
                 data: {
                     strstatus: "Y"
                 },
@@ -38,10 +38,12 @@
                 updaterow: function (rowid, rowdata) {
                 },
                 datafields: [
-                    { name: 'empname', type: 'string' },
-                    { name: 'perdate', type: 'string' },
-                    { name: 'fromtime', type: 'string' },
-                    { name: 'totime', type: 'string' },
+                    // { name: 'id', type: 'string' },
+                   // { name: 'id', type: 'string' },
+                    { name: 'atype', type: 'string' },
+                    { name: 'maxlmt', type: 'string' },
+                    { name: 'egrules', type: 'string' },
+                    { name: 'rtype', type: 'string' },
                     { name: 'editrow', type: 'string' },
                     { name: 'delrow', type: 'string' },
                     { name: 'viewrow', type: 'string' },
@@ -80,13 +82,20 @@
                     keyboardnavigation: false,
 
                     columns: [
-                        { text: 'Employee Name', filtertype: 'input', datafield: 'empname', width: 250 },
-                        { text: 'Permission Date', filtertype: 'input', datafield: 'perdate', width: 150 },
-                        { text: 'From Time', filtertype: 'input', datafield: 'fromtime', width: 150 },
-                        { text: 'To Time', filtertype: 'input', datafield: 'totime', width: 150 },
-                        { text: 'Approve/Reject', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
-                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
-                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsrenderer: linkrenderer1, cellsalign: 'center', width: 100 },
+                        // { text: 'Item Category', filtertype: 'checkedlist', datafield: 'itemcate', width: 150 },
+                        // { text: 'Machine ID', filtertype: 'checkedlist', datafield: 'id', width: 150 },
+                        //{ text: 'ID', filtertype: 'checkedlist', datafield: 'id', width: 130 },
+                        { text: 'Advance Type', filtertype: 'input', datafield: 'atype', width: 290 },
+                        { text: 'Max Amount Limit ', filtertype: 'input', datafield: 'maxlmt', width: 290 },
+                        { text: 'Eligibility Rules', filtertype: 'input', datafield: 'egrules', width: 290 },
+                        { text: 'Repayment Type', filtertype: 'input', datafield: 'rtype', width: 290 },
+
+
+
+                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsrenderer: linkrenderer1, cellsalign: 'center', width: 70 },
+                        // { text: 'Regenerate', datafield: 'rrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 90 },
                     ]
                 });
             $("#ddlStatus").change(function () {
@@ -120,7 +129,7 @@
                             </div>
                             <div class="col-md-9 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("Permissions", "Permissions")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add  Permission </a>
+                                    <a href="@Url.Action("AdvanceTM", "AdvanceTM")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add AdvanceTM </a>
                                     <br>
                                 </div>
 
@@ -149,6 +158,7 @@
         return confirm("Are you sure you want to delete?");
     }
 </script>
+
 
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
