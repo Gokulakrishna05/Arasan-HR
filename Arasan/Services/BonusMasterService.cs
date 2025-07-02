@@ -92,7 +92,8 @@ namespace Arasan.Services
         public DataTable GetDesignation()
         {
             string SvSql = string.Empty;
-            SvSql = "Select DDDETAILID,DESIGNATION from DDDETAIL";
+            //SvSql = "Select DDDETAILID,DESIGNATION from DDDETAIL";
+            SvSql = "SELECT DESIGNATION, COUNT(*) AS DDETAILID FROM DDDETAIL GROUP BY DESIGNATION HAVING COUNT(*) > 1";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
