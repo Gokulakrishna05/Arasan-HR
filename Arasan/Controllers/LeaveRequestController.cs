@@ -77,7 +77,6 @@ namespace Arasan.Controllers
             {
                 throw;
             }
-            return View(Cy);
         }
 
         public IActionResult ListLeaveRequest()
@@ -186,7 +185,6 @@ namespace Arasan.Controllers
             {
                 throw;
             }
-            return View(Cy);
         }
 
         private List<SelectListItem> BindLeaveType()

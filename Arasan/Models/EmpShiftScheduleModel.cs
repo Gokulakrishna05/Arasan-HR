@@ -63,7 +63,6 @@ namespace Arasan.Models
         public string? editrow { get; set; }
         public string? viewrow { get; set; }
         public string? delrow { get; set; }
-        public string? rrow { get; set; }
 
     }
 
