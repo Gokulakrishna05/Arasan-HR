@@ -132,7 +132,7 @@ namespace Arasan.Controllers
 
                 Reg.Add(new HolidayMasterList
                 {
-                    id = dtUsers.Rows[i]["PERMISSIONID"].ToString(),
+                    id = dtUsers.Rows[i]["HOLIDAYID"].ToString(),
                     hname = dtUsers.Rows[i]["HOLIDAYNAME"].ToString(),
                     hdate = dtUsers.Rows[i]["HOLIDAYDATE"].ToString(),
                     dweek = dtUsers.Rows[i]["DAYOFWEEK"].ToString(),
