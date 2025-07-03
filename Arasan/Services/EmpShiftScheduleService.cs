@@ -52,7 +52,7 @@ namespace Arasan.Services
         public DataTable GetShift()
         {
             string SvSql = string.Empty;
-            SvSql = "Select SHIFTMASTID,SHIFTNO from SHIFTMAST WHERE IS_ACTIVE='Y'";
+            SvSql = "Select SHIFTMASTID,SHIFTNO from SHIFTMAST";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

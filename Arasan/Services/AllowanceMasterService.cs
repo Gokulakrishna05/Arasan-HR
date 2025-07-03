@@ -18,7 +18,7 @@ namespace Arasan.Services
         public DataTable GetEditAllowanceMaster(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ID,ALLOWANCE_NAME,DESCRIPTION,ALLOWANCE_TYPE,APPLICABLE_LEVEL,IS_RECURRING,EFFECTIVE_DATE from ALLOWANCE_MASTER WHERE ID='" + id + "'";
+            SvSql = "Select ID,ALLOWANCE_NAME,DESCRIPTION,ALLOWANCE_TYPE,APPLICABLE_LEVEL,IS_RECURRING,to_char(EFFECTIVE_DATE,'dd-MON-yyyy')EFFECTIVE_DATE from ALLOWANCE_MASTER WHERE ID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

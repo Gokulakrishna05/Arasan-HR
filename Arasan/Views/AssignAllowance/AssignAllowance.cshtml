@@ -53,7 +53,7 @@
                                     <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">Allowance Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.AllowanceName, Model.AllowanceNamelst, " -- Please Select -- ", new { @id = "AllowanceName", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.AllowanceName, Model.AllowanceNamelst, " -- Please Select -- ", new { @id = "AllowanceName", @Class = "form-control _select", @TabIndex = 1, onchange = "changeAllType(this.value)" })
                                         </div>
                                     </div>
                                 </div>                               
@@ -115,6 +115,34 @@
     $(function () {
        $('._select').select2();
     });
+
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
+
+    function changeAllType(ALLOWANCE_NAME) {
+        $.ajax({
+            url: "GetAllTypeJSON",
+            type: "post",
+            data: { 'alltypeid': ALLOWANCE_NAME },
+            cache: false,
+            success: function (response) {
+                PopulateDropDown("#AllowanceType", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Allowance Name");
+            }
+        });
+    }
 
     $(document).ready(function () {
         $('#btnSave').click(function (e) {

@@ -131,7 +131,7 @@ namespace Arasan.Controllers
         {
             AllowanceMaster ic = new AllowanceMaster();
             DataTable dt = new DataTable();
-            dt = datatrans.GetData("Select ALLOWANCE_NAME,DESCRIPTION,ALLOWANCE_TYPE,APPLICABLE_LEVEL,IS_RECURRING,EFFECTIVE_DATE from ALLOWANCE_MASTER WHERE ID='" + id + "'");
+            dt = datatrans.GetData("Select ALLOWANCE_NAME,DESCRIPTION,ALLOWANCE_TYPE,APPLICABLE_LEVEL,IS_RECURRING,to_char(EFFECTIVE_DATE,'dd-MON-yyyy')EFFECTIVE_DATE from ALLOWANCE_MASTER WHERE ID='" + id + "'");
 
             if (dt.Rows.Count > 0)
             {
