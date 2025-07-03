@@ -112,7 +112,7 @@ namespace Arasan.Controllers
                 {
                     EditRow = "<a href=BonusMaster?id=" + dtUsers.Rows[i]["ID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
 
-                    ViewRow = "<a href=ViewBonusMaster?id=" + dtUsers.Rows[i]["ID"].ToString() + "><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
+                    ViewRow = "<a href=ViewBonusMaster?id=" + dtUsers.Rows[i]["ID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
 
 
                     DeleteRow = "DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["ID"].ToString() + "";
@@ -171,7 +171,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DESIGNATION"].ToString(), Value = dtDesg.Rows[i]["DDDETAILID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DESIGNATION"].ToString(), Value = dtDesg.Rows[i]["DDETAILID"].ToString() });
 
                 }
                 return lstdesg;

@@ -1,7 +1,7 @@
-﻿@model Arasan.Models.BonusMaster
+﻿@model Arasan.Models.AssignAllowance
 
 @{
-    ViewData["Title"] = "BonusMaster";
+    ViewData["Title"] = "Assign Allowance";
 }
 <style>
     .mandatory {
@@ -11,6 +11,12 @@
         left: 5px;
     }
 </style>
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -26,9 +32,9 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    <h5 style="font-size:14px">BonusMaster</h5>
+                    <h5 style="font-size:14px">Assign Allowance</h5>
                     <hr>
-                    @using (Html.BeginForm("BonusMaster", "BonusMaster", FormMethod.Post))
+                    @using (Html.BeginForm("AssignAllowance", "AssignAllowance", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         <form>
@@ -36,79 +42,66 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Bonus Type<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Employee Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.BType, new { @id = "txtBType", @class = "form-control", @TabIndex = 2 })
+                                            @Html.DropDownListFor(C => C.EmpName, Model.EmpNamelst, " -- Please Select -- ", new { @id = "EmpName", @Class = "form-control _select", @TabIndex = 1 })
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
                                 </div>
-                              <div class="col-md-6">
-                                <div class="form-group">
-                                    <br /><label for="inputName3" class="col-sm-4 control-label">ApplicationDesignations<label class="mandatory">*</label></label>
-                                    <div class="col-sm-8">
-                                    @Html.DropDownListFor(C => C.ADes, Model.Itemlst, " -- Please Select -- ", new { @id = "ddlADes", @class = "form-control _select", @Width = "200px" })
-                                    </div>
-                                </div>
-                              </div>
-                          </div>
-                        
-                               
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Calculation<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Allowance Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.CType, new { @id = "txtCType", @class = "form-control", @TabIndex = 2 })
-                                            <br />
-                                            <br />
+                                            @Html.DropDownListFor(C => C.AllowanceName, Model.AllowanceNamelst, " -- Please Select -- ", new { @id = "AllowanceName", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Bonus Value<label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.BValue, new { @id = "txtBValue", @class = "form-control", @TabIndex = 2 })
-                                        </div>
-                                    </div>
-                                </div>
+                                </div>                               
                             </div>
-
+                            <br />
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Effective From / To<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Allowance Type<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.AllowanceType, Model.AllowanceTypelst, " -- Please Select -- ", new { @id = "AllowanceType", @Class = "form-control _select", @TabIndex = 1 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Amount/Percentage<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.AmtPerc, new { @id = "AmtPerc", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Effective Date<label class="mandatory"></label></label>
                                         <div class="input-group date from_Date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @Html.TextBoxFor(C => C.EFrom, new { @id = "txtEFrom", @class = "form-control", @TabIndex = 2, @size = "31", @readonly = true })
+                                            @Html.TextBoxFor(C => C.EffectiveDate, new { @id = "EffectiveDate", @class = "form-control", @TabIndex = 2, @size = "31", @readonly = true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
                                     </div>
                                 </div>
-                                @* <div class="col-md-6">
-                                    <div class="form-group">
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Effective From / To<label class="mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.EFrom, new { @id = "txtEFrom", @class = "form-control", @TabIndex = 2 })
-
-                                        </div>
-                                    </div>
-                                </div> *@
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                       <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-@*                                             @Html.TextBoxFor(C => C.Remarks, new { @id = "txtRemarks", @class = "form-control", @TabIndex = 2 })
- *@                                            @Html.TextAreaFor(C => C.Remarks, new { @id = "txtRemarks", @class = "form-control", @TabIndex = 2 })
-
+                                            @Html.TextAreaFor(C => C.Description, new { @id = "Description", @class = "form-control", @TabIndex = 2 })
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                             <div style="height:30px;"></div>
                             <div class="col-lg-8"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
-                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("BonusMasterList", "BonusMaster")'">Cancel</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListAssignAllowance", "AssignAllowance")'">Cancel</button>
                         </form>
                     }
                 </div>
@@ -127,83 +120,83 @@
         $('#btnSave').click(function (e) {
             var isValid = true;
 
-            if (document.getElementById("txtBType").value == "") {
+            if (document.getElementById("EmpName").value == "") {
                 isValid = false;
-                $(txtBType).css({
+                $(EmpName).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Bonus Type");
+                alert("Please Select Employee Name");
                 return false;
             }
             else {
-                $(txtBType).css({
+                $(EmpName).css({
                     "border": "",
                     "background": ""
                 });
             }
-            if (document.getElementById("txtCType").value == "") {
+            if (document.getElementById("AllowanceName").value == "") {
                 isValid = false;
-                $(txtCType).css({
+                $(AllowanceName).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Calculation");
+                alert("Please Select Allowance Name");
                 return false;
             }
             else {
-                $(txtCType).css({
+                $(AllowanceName).css({
                     "border": "",
                     "background": ""
                 });
             }
-
-            if (document.getElementById("txtBValue").value == "") {
+            if (document.getElementById("AllowanceType").value == "") {
                 isValid = false;
-                $(txtBValue).css({
+                $(AllowanceType).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Bonus Value");
+                alert("Please Select Allowance Type");
                 return false;
             }
             else {
-                $(txtBValue).css({
+                $(AllowanceType).css({
                     "border": "",
                     "background": ""
                 });
             }
-
-             if (document.getElementById("ddlADes").value == "") {
+            
+            if (document.getElementById("AmtPerc").value == "") {
                 isValid = false;
-                $(ddlADes).css({
+                $(AmtPerc).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Application Designations");
+                alert("Please Enter Amount/Percentage");
                 return false;
             }
             else {
-                $(ddlADes).css({
+                $(AmtPerc).css({
                     "border": "",
                     "background": ""
                 });
             }
-
 
             if (isValid == false)
                 e.preventDefault();
         });
 
     });
-    </script>
-    <script>
 
-      // Initialize From Date picker
+    // Get tomorrow's date
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    // Initialize From Date picker
     $('.from_Date').datetimepicker({
         weekStart: 1,
         todayBtn: 1,
@@ -211,23 +204,19 @@
         todayHighlight: 1,
         startView: 2,
         minView: 2,
-        startDate: new Date(),
-        forceParse: 0
-    })
-    $('.form_date').datetimepicker({
-        //   language:  'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        endDate: new Date(),
+        startDate: tomorrow,
         forceParse: 0
     });
+
+    // // Initialize To Date picker
+    // $('.to_date').datetimepicker({
+    //     weekStart: 1,
+    //     todayBtn: 1,
+    //     autoclose: 1,
+    //     todayHighlight: 1,
+    //     startView: 2,
+    //     minView: 2,
+    //     startDate: tomorrow,
+    //     forceParse: 0
+    // });
 </script>
-
-
-
-
-
