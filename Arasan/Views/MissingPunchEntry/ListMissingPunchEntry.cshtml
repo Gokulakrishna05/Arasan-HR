@@ -47,8 +47,12 @@
                     { name: 'missing', type: 'string' },
                     { name: 'device', type: 'string' },
                     { name: 'reason', type: 'string' },
+                    { name: 'intime', type: 'string' },
+                    { name: 'outtime', type: 'string' },
                     { name: 'editrow', type: 'string' },
                     { name: 'viewrow', type: 'string' },
+                    { name: 'reject', type: 'string' },
+                    { name: 'apprve', type: 'string' },
                     //{ name: 'delrow', type: 'string' },
 
 
@@ -63,13 +67,25 @@
             }
             );
             var linkrenderer1 = function (row, column, value) {
-                return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+                if (value == "") { 
+                    return '';
+                }
+                else{
+                    return '<a href="' + value + '" onclick="return ConfirmApprove()"><img  src="../Images/Approved.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+
+                }
+            }
+            var linkrenderer2 = function (row, column, value) {
+                if (value == "") { return ''; }
+                else {
+                    return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/cancel.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+                }
             }
 
             $("#grid").jqxGrid(
                 {
 
-                    width: '100%',
+                    width: '1100px',
                     source: dataAdapter,
                     height: 450,
                     source: source,
@@ -89,13 +105,17 @@
                     keyboardnavigation: false,
                     columns: [
 
-                        { text: 'Employee Name', filtertype: 'checkedlist', datafield: 'emp', width: 150 },
-                        { text: 'Attendance Date', filtertype: 'input', datafield: 'attendance', width: 150 },
-                        { text: 'Device Name', filtertype: 'input', datafield: 'missing', width: 120 },
-                        { text: 'Missing In & Out', filtertype: 'input', datafield: 'device', width: 150 },
+                        { text: 'Employee Name', filtertype: 'checkedlist', datafield: 'emp', width: 145 },
+                        { text: 'Attendance Date', filtertype: 'input', datafield: 'attendance', width: 120 },
+                        { text: 'Device', filtertype: 'input', datafield: 'device', width: 70 },
+                        { text: 'In/Out', filtertype: 'input', datafield: 'missing', width: 100 },
+                        { text: 'In Time', filtertype: 'input', datafield: 'intime', width: 120 },
+                        { text: 'Out Time', filtertype: 'input', datafield: 'outtime', width: 120 },
                         { text: 'Reason', filtertype: 'input', datafield: 'reason', width: 150 },
-                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 60 },
+                      { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 60 },
                         { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                        { text: 'Approve', datafield: 'apprve', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, cellsrenderer: linkrenderer1 },
+                        { text: 'Reject', datafield: 'reject', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, cellsrenderer: linkrenderer2 },
                         //{ text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, cellsrenderer: linkrenderer1, formatter: returnMyLink, edittype: 'select' },
                     ]
                 });
@@ -162,7 +182,10 @@
 
 <script>
     function ConfirmDelete() {
-        return confirm("Are you sure you want to delete?");
+        return confirm("Are you sure you want to Reject?");
+    }
+    function ConfirmApprove() {
+        return confirm("Are you sure you want to Approve?");
     }
     function changeStatus(status) {
         var url = "/MissingPunchEntry/ListMissingPunchEntry?status=" + status;

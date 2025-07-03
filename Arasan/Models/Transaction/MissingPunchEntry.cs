@@ -34,8 +34,12 @@ namespace Arasan.Models.Transaction
         public string missing { get; set; }
         public string device { get; set; }
         public string reason { get; set; }
+        public string intime { get; set; }
+        public string outtime { get; set; }
         public string editrow { get; set; }
         public string viewrow { get; set; }
+        public string reject { get; set; }
+        public string apprve { get; set; }
         public string delrow { get; set; }
     }
 }

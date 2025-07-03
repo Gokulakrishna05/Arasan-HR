@@ -137,12 +137,19 @@ namespace Arasan.Controllers.Transaction
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
                 string ViewRow = string.Empty;
+                string apprve = string.Empty;
+                string reject = string.Empty;
 
 
                 //if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "Y")
                 //{
+                if(dtUsers.Rows[i]["STATUS"].ToString()=="Pending")
+                {
+                    EditRow = "<a href=MissingPunchEntry?id=" + dtUsers.Rows[i]["ID"].ToString() + "><img src='../Images/edit.png' alt='Edit'/></a>";
+                    apprve = "Approvedorreject?tag=approve&id=" + dtUsers.Rows[i]["ID"].ToString() + "";
+                    reject = "Approvedorreject?tag=reject&id=" + dtUsers.Rows[i]["ID"].ToString() + "";
 
-                EditRow = "<a href=MissingPunchEntry?id=" + dtUsers.Rows[i]["ID"].ToString() + "><img src='../Images/edit.png' alt='Edit'/></a>";
+                }
                 ViewRow = "<a href=ViewMissingPunchEntry?id=" + dtUsers.Rows[i]["ID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
 
                 DeleteRow = "DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ID"].ToString() + "";
@@ -162,8 +169,12 @@ namespace Arasan.Controllers.Transaction
                     missing = dtUsers.Rows[i]["MISSING_IN_OUT"].ToString(),
                     device = dtUsers.Rows[i]["DEVICE_ID"].ToString(),
                     reason = dtUsers.Rows[i]["REASON"].ToString(),
+                    intime = dtUsers.Rows[i]["MISSING_IN"].ToString(),
+                    outtime = dtUsers.Rows[i]["MISSING_OUT"].ToString(),
                     editrow = EditRow,
                     viewrow = ViewRow,
+                    apprve = apprve,
+                    reject = reject,
                     delrow = DeleteRow,
 
                 });
@@ -174,6 +185,23 @@ namespace Arasan.Controllers.Transaction
                 Reg
             });
 
+        }
+
+        public ActionResult  Approvedorreject(string tag,string id)
+        {
+            string user = Request.Cookies["UserId"];
+            datatrans = new DataTransactions(_connectionString);
+            if(tag=="approve")
+            {
+                bool result = datatrans.UpdateStatus("UPDATE HRM_MISSING_PUNCH SET STATUS ='Approved', APPROVEDBY='" + user + "',APPROVEDON='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where ID='" + id + "'");
+
+            }
+            else
+            {
+                bool result = datatrans.UpdateStatus("UPDATE HRM_MISSING_PUNCH SET STATUS ='Rejected', APPROVEDBY='" + user + "',APPROVEDON='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where ID='" + id + "'");
+
+            }
+            return RedirectToAction("List_PI_Approval");
         }
         public IActionResult ViewMissingPunchEntry(string id)
         {
