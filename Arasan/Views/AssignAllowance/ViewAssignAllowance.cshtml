@@ -39,16 +39,16 @@
                                     <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">Employee Name<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.HiddenFor(C => C.EmpName, new { @id = "EmpName", @Class = "form-control _select", @TabIndex = 1, @readonly = "readonly" })
+                                            @Html.DisplayFor(C => C.EmpName, new { @id = "EmpName", @Class = "form-control _select", @TabIndex = 1, @readonly = "readonly" })
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Allowance Name<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Allowance Name<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.HiddenFor(C => C.AllowanceName, new { @id = "AllowanceName", @Class = "form-control _select", @TabIndex = 1, @readonly = "readonly" })
+                                            @Html.DisplayFor(C => C.AllowanceName, new { @id = "AllowanceName", @Class = "form-control _select", @TabIndex = 1, @readonly = "readonly" })
                                         </div>
                                     </div>
                                 </div>
@@ -57,17 +57,17 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Allowance Type<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Allowance Type<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.HiddenFor(C => C.AllowanceType, new { @id = "AllowanceType", @Class = "form-control _select", @TabIndex = 1, @readonly = "readonly" })
+                                            @Html.DisplayFor(C => C.AllowanceType, new { @id = "AllowanceType", @Class = "form-control _select", @TabIndex = 1, @readonly = "readonly" })
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Amount/Percentage<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Amount/Percentage<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.HiddenFor(C => C.AmtPerc, new { @id = "AmtPerc", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                            @Html.DisplayFor(C => C.AmtPerc, new { @id = "AmtPerc", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
                                         </div>
                                     </div>
                                 </div>
@@ -86,15 +86,13 @@
                                     <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.HiddenFor(C => C.Description, new { @id = "Description", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                            @Html.DisplayFor(C => C.Description, new { @id = "Description", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div style="height:30px;"></div>
-                            <div class="col-lg-8"></div>
-                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListAssignAllowance", "AssignAllowance")'">Cancel</button>
+                            
                         </form>
                     }
                 </div>

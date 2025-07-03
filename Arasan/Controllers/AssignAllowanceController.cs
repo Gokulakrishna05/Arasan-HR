@@ -25,7 +25,7 @@ namespace Arasan.Controllers
             AssignAllowance ic = new AssignAllowance();
             ic.EmpNamelst = BindEmpName();
             ic.AllowanceNamelst = BindAllowanceName();
-            ic.AllowanceTypelst = BindAllowanceType();
+            ic.AllowanceTypelst = BindAllowanceType("");
             if(id == null)
             {
 
@@ -41,7 +41,7 @@ namespace Arasan.Controllers
                     ic.EmpName = dt.Rows[0]["EMP_NAME"].ToString();
                     ic.AllowanceNamelst = BindAllowanceName();
                     ic.AllowanceName = dt.Rows[0]["ALLOWANCE_NAME_ID"].ToString();
-                    ic.AllowanceTypelst = BindAllowanceType();
+                    ic.AllowanceTypelst = BindAllowanceType(ic.AllowanceName);
                     ic.AllowanceType = dt.Rows[0]["ALLOWANCE_TYPE_ID"].ToString();
                     ic.AmtPerc = dt.Rows[0]["AMT_PERC"].ToString();
                     ic.EffectiveDate = dt.Rows[0]["EFFECTIVE_DATE"].ToString();
@@ -133,7 +133,7 @@ namespace Arasan.Controllers
         {
             AssignAllowance ic = new AssignAllowance();
             DataTable dt = new DataTable();
-            dt = datatrans.GetData("Select EMPMAST.EMPNAME,ALLOWANCE_MASTER.ALLOWANCE_NAME,ALLOWANCE_MASTER.ALLOWANCE_TYPE,AMT_PERC,EFFECTIVE_DATE,DESCRIPTION from ASSIGN_ALLOWANCE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = ASSIGN_ALLOWANCE.EMP_NAME LEFT OUTER JOIN ALLOWANCE_MASTER ON ALLOWANCE_MASTER.ID = ASSIGN_ALLOWANCE.ALLOWANCE_NAME_ID LEFT OUTER JOIN ALLOWANCE_MASTER ON ALLOWANCE_MASTER.ID = ASSIGN_ALLOWANCE.ALLOWANCE_TYPE_ID WHERE ID='" + id + "'");
+            dt = datatrans.GetData("Select EMPMAST.EMPNAME,ALLOWANCE_MASTER.ALLOWANCE_NAME,ALLOWANCE_MASTER.ALLOWANCE_TYPE,ASSIGN_ALLOWANCE.AMT_PERC,to_char(ASSIGN_ALLOWANCE.EFFECTIVE_DATE,'dd-MON-yyyy') AS EFFECTIVE_DATE,ASSIGN_ALLOWANCE.DESCRIPTION from ASSIGN_ALLOWANCE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = ASSIGN_ALLOWANCE.EMP_NAME LEFT OUTER JOIN ALLOWANCE_MASTER ON ALLOWANCE_MASTER.ID = ASSIGN_ALLOWANCE.ALLOWANCE_NAME_ID LEFT OUTER JOIN ALLOWANCE_MASTER ON ALLOWANCE_MASTER.ID = ASSIGN_ALLOWANCE.ALLOWANCE_TYPE_ID WHERE ASSIGN_ALLOWANCE.ID='" + id + "'");
 
             if (dt.Rows.Count > 0)
             {
@@ -147,6 +147,24 @@ namespace Arasan.Controllers
             }
             return View(ic);
         }
+
+        //public List<SelectListItem> BindAllowanceType(string alltypeid)
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = AssignAllowanceService.GetAllowanceType(alltypeid);
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CITY_NAME"].ToString(), Value = dtDesg.Rows[i]["CITY_NAME"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
         private List<SelectListItem> BindEmpName()
         {
@@ -188,15 +206,22 @@ namespace Arasan.Controllers
             }
         }
 
-        private List<SelectListItem> BindAllowanceType()
+        public JsonResult GetAllTypeJSON(string alltypeid)
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindAllowanceType(alltypeid));
+        }
+
+        private List<SelectListItem> BindAllowanceType(string alltypeid)
         {
             try
             {
-                DataTable dtDesg = AssignAllowanceService.GetAllowanceType();
+                DataTable dtDesg = AssignAllowanceService.GetAllowanceType(alltypeid);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ALLOWANCE_TYPE"].ToString(), Value = dtDesg.Rows[i]["ID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ALLOWANCE_TYPE"].ToString(), Value = dtDesg.Rows[i]["ALLOWANCE_TYPE"].ToString() });
 
 
                 }

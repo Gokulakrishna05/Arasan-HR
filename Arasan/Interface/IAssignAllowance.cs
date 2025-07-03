@@ -8,7 +8,7 @@ namespace Arasan.Interface
         string AssignAllowanceCRUD(AssignAllowance Cy);
         DataTable GetAllAssignAllowanceGrid(string strStatus);
         DataTable GetAllowanceName();
-        DataTable GetAllowanceType();
+        DataTable GetAllowanceType(string alltypeid);
         DataTable GetEditAssignAllowance(string id);
         DataTable GetEmpName();
         string StatusChange(string tag, string id);

@@ -18,7 +18,7 @@ namespace Arasan.Services
         public DataTable GetEditAssignAllowance(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ID,EMP_NAME,ALLOWANCE_NAME_ID,DESCRIPTION,ALLOWANCE_TYPE_ID,AMT_PERC,EFFECTIVE_DATE from ASSIGN_ALLOWANCE WHERE ID='" + id + "'";
+            SvSql = "Select ID,EMP_NAME,ALLOWANCE_NAME_ID,DESCRIPTION,ALLOWANCE_TYPE_ID,AMT_PERC,to_char(EFFECTIVE_DATE,'dd-MON-yyyy')EFFECTIVE_DATE from ASSIGN_ALLOWANCE WHERE ID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -96,10 +96,10 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable GetAllowanceType()
+        public DataTable GetAllowanceType(string alltypeid)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ID,ALLOWANCE_TYPE from ALLOWANCE_MASTER WHERE IS_ACTIVE='Y'";
+            SvSql = "Select ID,ALLOWANCE_TYPE from ALLOWANCE_MASTER WHERE ID = '" + alltypeid + "' AND IS_ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
