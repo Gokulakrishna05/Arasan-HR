@@ -15,5 +15,9 @@ using Arasan.Models;
         DataTable GetShiftScheduleDetailEdit(string id);
         string StatusChange(string tag, string id);
 
-    }
+        //DataTable GetAllShiftType(string sitid, string endid);
+        //DataTable GetAllShiftTypeDetail(string id);
+    //DataTable GetAllShiftType(string id);
+    //DataTable GetShiftType(string id);
+}
 

@@ -1,13 +1,14 @@
-﻿using Arasan.Models;
-using System.Collections.Generic;
-using System.Collections;
+﻿using Arasan.Interface;
+using Arasan.Models;
+using Arasan.Services;
+using DocumentFormat.OpenXml.Drawing;
+using Intuit.Ipp.Data;
 using Microsoft.AspNetCore.Mvc;
-using Arasan.Interface;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Reflection.PortableExecutable;
-using Intuit.Ipp.Data;
-using Arasan.Services;
 
 
 namespace Arasan.Controllers.Master
@@ -84,6 +85,7 @@ namespace Arasan.Controllers.Master
                         //tda.EmplIdlst = BindEmplId();
                         tda.Shiftlst = BindShift();
                         tda.WOFFlst = BindWOFF();
+                        //tda.ShiftTypelst = BindShiftType("");
                         tda.Isvalid = "Y";
                       
                         //tda.EmplID = dt2.Rows[0]["EMPLID"].ToString();
@@ -110,8 +112,39 @@ namespace Arasan.Controllers.Master
           
             return View(A);
         }
+        [HttpPost]
+        public ActionResult EmpShiftSchedule(EmpShiftScheduleModel E, string id)
+        {
+            try
+            {
+                E.ID = id;
+                string Strout = Shift.GetInsEmp(E);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (E.ID == null)
+                    {
+                        TempData["notice"] = "Employee Shift Schedule Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Employee Shift Schedule Updated Successfully...!";
+                    }
+                    return RedirectToAction("EmpShiftSchedulelist");
+                }
+                else
+                {
+                    TempData["notice"] = Strout;
+                    ViewBag.PageTitle = "Edit EmpShiftSchedulelist";
 
+                    return View(E);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
+        }
 
         public IActionResult DeleteItem(string tag, string id)
         {
@@ -298,26 +331,7 @@ namespace Arasan.Controllers.Master
                 throw;
             }
         }
-        //public List<SelectListItem> BindEmplId()
-        //{
-        //    try
-        //    {
-        //        DataTable dtDesg = Shift.GetEmplId();
-        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
-        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
-        //        {
-        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["empid"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
-
-
-        //        }
-        //        return lstdesg;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
+        
         public List<SelectListItem> BindShift()
         {
             try
@@ -357,11 +371,6 @@ namespace Arasan.Controllers.Master
             }
         }
 
-        //public JsonResult GetEmpShiftJSON()
-        //{
-          
-        //    return Json(BindEmplId());
-        //}
         public JsonResult GetEmpShift2JSON()
         {
 
@@ -372,35 +381,32 @@ namespace Arasan.Controllers.Master
 
             return Json(BindWOFF());
         }
-        //public ActionResult GetEmpDetails(string ItemId)
+        //GetAllShiftTypeJSON
+        //public JsonResult GetShiftType(string id)
+        //{
+
+        //    return Json(BindShiftType(id));
+        //}
+
+        //public List<SelectListItem> BindShiftType(string id)
         //{
         //    try
         //    {
-        //        DataTable dt = new DataTable();
-
-        //        string emp = "";
-        //        string dep = "";
-
-        //        dt = datatrans.GetData("SELECT EMPNAME,EMPID FROM EMPMAST WHERE EMPMASTID='" + ItemId + "'");
-
-        //        if (dt.Rows.Count > 0)
+        //        DataTable dtDesg = Shift.GetShiftType(id);
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
         //        {
-
-        //            emp = dt.Rows[0]["EMPNAME"].ToString();
-        //            dep = dt.Rows[0]["EMPID"].ToString();
-
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SHIFT"].ToString(), Value = dtDesg.Rows[i]["EMPSHIFTDETAILID"].ToString() });
         //        }
-
-        //        var result = new { emp = emp, dep = dep };
-        //        return Json(result);
+        //        return lstdesg;
         //    }
         //    catch (Exception)
         //    {
         //        throw;
         //    }
-
         //}
-       
+
+
         public IActionResult EmpShiftSchedulelist()
         {
             return View();
@@ -448,40 +454,35 @@ namespace Arasan.Controllers.Master
                 Reg
             });
         }
-        [HttpPost]
-        public ActionResult EmpShiftSchedule(EmpShiftScheduleModel E, string id)
+
+
+        public ActionResult GetAllShiftType(string id)
         {
             try
             {
-                E.ID = id;
-                string Strout = Shift.GetInsEmp(E);
-                if (string.IsNullOrEmpty(Strout))
-                {
-                    if (E.ID == null)
-                    {
-                        TempData["notice"] = "Employee Shift Schedule Inserted Successfully...!";
-                    }
-                    else
-                    {
-                        TempData["notice"] = "Employee Shift Schedule Updated Successfully...!";
-                    }
-                    return RedirectToAction("EmpShiftSchedulelist");
-                }
-                else
-                {
-                    TempData["notice"] = Strout;
-                    ViewBag.PageTitle = "Edit EmpShiftSchedulelist";
+                DataTable dt = new DataTable();
+               
+                string sttime = "";
+                string endtime = "";
 
-                    return View(E);
+                dt = datatrans.GetData("Select FROMTIME,TOTIME from SHIFTMAST WHERE  SHIFTMAST.SHIFTMASTID='" + id + "'");
+               // dt = Shift.GetAllShiftType(id);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    sttime = dt.Rows[0]["FROMTIME"].ToString();
+                    endtime = dt.Rows[0]["TOTIME"].ToString();
+
                 }
+
+                var result = new { sttime = sttime, endtime = endtime };
+                return Json(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
-
         }
-
-
     }
 }

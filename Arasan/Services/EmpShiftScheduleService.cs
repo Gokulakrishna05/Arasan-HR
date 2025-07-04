@@ -71,6 +71,29 @@ namespace Arasan.Services
             return dtt;
         }
 
+
+        //public DataTable GetAllShiftType(string id)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "SELECT EMPSHIFTDETAILID, STTIME, ENDTIME FROM EMPSHIFTDETAIL WHERE EMPSHIFTDETAIL.EMPSHIFTDETAILID='" + id + "' AND EMPSHIFTDETAIL.IS_ACTIVE = 'Y'";
+        //    //SvSql = "SELECT EMPSHIFTDETAILID, STTIME, ENDTIME FROM EMPSHIFTDETAIL WHERE EMPSHIFTDETAIL.STTIME='" + id + "',EMPSHIFTDETAIL.ENDTIME='" + endid + "' AND EMPSHIFTDETAIL.IS_ACTIVE = 'Y'";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
+
+        //public DataTable GetShiftType(string id)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql ="SELECT SHIFTMASTID,SHIFTNO from SHIFTMAST WHERE SHIFTMAST.SHIFTNO= '" + id + "' AND SHIFTMAST.IS_ACTIVE = 'Y' ";
+        //    DataTable dtt = new DataTable();
+        //    SqlDataAdapter adapter = new SqlDataAdapter(SvSql, _connectionString);
+        //    SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable GetAllEmpShift(string status)
         {
             string SvSql = string.Empty;
