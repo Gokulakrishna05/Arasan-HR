@@ -1,0 +1,199 @@
+﻿@model Arasan.Models.AttendanceReport
+
+@{
+    ViewData["Title"] = "ListAttendanceReport";
+}
+<partial name="JqxGridPartial" />
+<script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
+
+<style>
+    .attendance-present {
+        color: green;
+        font-weight: bold;
+    }
+
+    .attendance-absent {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Hr</a> </li>
+            <li class="active"> <strong>List Attendance Report </strong> </li>
+        </ol>
+    </div>
+</div>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            var source =
+            {
+                url: "/AttendanceReport/MyListAttendanceReportgrid",
+                data: {
+                    strstatus: "Y"
+                },
+                datatype: "json",
+                updaterow: function (rowid, rowdata) {
+                },
+                datafields: [
+                    { name: 'empid', type: 'string' },
+                    { name: 'empname', type: 'string' },
+                    { name: 'attdate', type: 'string' },
+                    { name: 'missin', type: 'string' },
+                    { name: 'missout', type: 'string' },
+                    { name: 'shiftno', type: 'string' },
+                    { name: 'shiftstart', type: 'string' },
+                    { name: 'shiftend', type: 'string' },
+                    { name: 'weekoff', type: 'string' },
+                    { name: 'attendance', type: 'string' },
+                    { name: 'instatus', type: 'string' },
+                    { name: 'outstatus', type: 'string' },
+                    
+                ],
+                id: 'id',
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source,
+                { contentType: 'application/json; charset=utf-8' }, {
+                loadComplete: function () {
+
+                }
+            }
+            );
+            var linkrenderer1 = function (row, column, value) {
+                return '<a href="' + value + '" onclick="return ConfirmDelete()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+            }
+            $("#grid").jqxGrid(
+                {
+                    width: '100%',
+                    source: dataAdapter,
+                    height: 650,
+                    source: source,
+                    //autoheight: true,
+                    sortable: true,
+                    filterable: true,
+                    groupable: false,
+                    pageable: true,
+                    showfilterbar: true,
+                    //showfilterrow: true,
+                    theme: 'ui-start',
+                    autorowheight: true,
+                    filterbarmode: 'simple',
+                    enablebrowserselection: true,
+                    columnsresize: true,
+                    selectionmode: 'multiplerowsextended',
+                    keyboardnavigation: false,
+
+                    columns: [
+                        { text: 'Employee ID', filtertype: 'input', datafield: 'empid', width: 85 },
+                        { text: 'Employee Name', filtertype: 'input', datafield: 'empname', width: 150 },
+                        { text: 'Attendance Date', filtertype: 'input', datafield: 'attdate', width: 110 },
+                        { text: 'Missing In', filtertype: 'input', datafield: 'missin', width: 70 },
+                        { text: 'Missing Out', filtertype: 'input', datafield: 'missout', width: 80 },
+                        { text: 'Shift No', filtertype: 'input', datafield: 'shiftno', width: 65 },
+                        { text: 'Shift Start', filtertype: 'input', datafield: 'shiftstart', width: 75 },
+                        { text: 'Shift End', filtertype: 'input', datafield: 'shiftend', width: 70 },
+                        { text: 'Week Off', filtertype: 'input', datafield: 'weekoff', width: 100 },
+                        { text: 'Attendance', filtertype: 'input', datafield: 'attendance', width: 80 },
+                        { text: 'In Status', filtertype: 'input', datafield: 'instatus', width: 70 },
+                        { text: 'Out Status', filtertype: 'input', datafield: 'outstatus', width: 75 },
+          
+                    ]
+                });
+            $("#ddlStatus").change(function () {
+                var value = "Y";
+                if ($(this).val() != "") {
+                    value = $(this).val();
+                }
+                source.data = {
+                    strstatus: value
+                };
+                $("#grid").jqxGrid({ source: source });
+            });
+        });
+    function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
+    }
+</script>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+
+                    <form>
+                        @* <div class="row">
+                            <div class="col-md-2 ">
+                                @Html.DropDownListFor(n => n.Ddlstatus, new SelectListItem[]
+                                         { new SelectListItem() {Text = "Enabled", Value="Y"},
+                                new SelectListItem() {Text = "Disabled", Value="N"}},
+                                         new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                            </div>
+                            <div class="col-md-9 ">
+                                <div class=" textalignright">
+                                    <a href="@Url.Action("AssignAllowance", "AssignAllowance")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Assign Allowance </a>
+                                    <br>
+                                </div>
+
+
+                            </div>
+                        </div> *@
+                        <div class="row">
+
+
+                            <div class="col-md-12 ">
+                                <div id="grid">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
+</script>
+
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false,
+
+        });
+        fancybox123 = $.fancybox;
+    });
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
+</script>
