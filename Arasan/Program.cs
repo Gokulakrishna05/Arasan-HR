@@ -129,6 +129,7 @@ internal class Program
         builder.Services.TryAddSingleton<IPermissions, PermissionsService>();
         builder.Services.TryAddSingleton<IAllowanceMaster, AllowanceMasterService>();
         builder.Services.TryAddSingleton<IAssignAllowance, AssignAllowanceService>();
+        builder.Services.TryAddSingleton<IAttendanceReport, AttendanceReportService>();
         builder.Services.TryAddSingleton<IHolidayMaster, HolidayMasterService>();
         builder.Services.TryAddSingleton<IPermissions, PermissionsService>();
         builder.Services.TryAddSingleton<IBonusMaster, BonusMasterService>();
