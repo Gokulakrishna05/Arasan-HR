@@ -6,7 +6,6 @@ namespace Arasan.Models
     public class EmployeeAtttendanceDetailsModel
     {
 
-
         public string DocId { get; set; }
         public string ID { get; set; }
         public string Docdate { get; set; }

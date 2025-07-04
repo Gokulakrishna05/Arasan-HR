@@ -158,7 +158,7 @@
                                                             @Html.HiddenFor(o => o.EmpShiftSchedulelist[i].ShVal)
                                                         </td>
                                                         <td>
-                                                            @Html.DropDownListFor(o => o.EmpShiftSchedulelist[i].Shift, Model.EmpShiftSchedulelist[i].Shiftlst, "Please Select", new { @class = "form-control _select newcss", @id = "txtShift" + i, style = "width: 100px;" })
+                                                            @Html.DropDownListFor(o => o.EmpShiftSchedulelist[i].Shift, Model.EmpShiftSchedulelist[i].Shiftlst, "Please Select", new { @class = "form-control _select newcss", @id = "txtShift" + i, style = "width: 100px;", onchange = "changeAllShiftType(this.value," + i + ")" })
                                                             @Html.HiddenFor(o => o.EmpShiftSchedulelist[i].Shift)
                                                         </td>
                                                         <td>
@@ -305,8 +305,7 @@
 
                                     var ShValue = "<td><input class='form-control' id='txtShVal" + index + "' name='EmpShiftSchedulelist[" + index + "].ShVal' style='width: 200px;' type='text' /></td>";
 
-                                    var Shift = "<td><select style='width: 200px;' class='form-control _select newcss' id='txtShift" + index + "' name='EmpShiftSchedulelist[" + index + "].Shift' onchange='changeItem(this.value," + index + ")'><option value=''>Please select</option>" + remopt + "</select></td>";
-
+                                    var Shift = "<td><select style='width: 200px;' class='form-control _select newcss' id='txtShift" + index + "' name='EmpShiftSchedulelist[" + index + "].Shift' onchange='changeAllShiftType(this.value," + index + ")'><option value=''>Please select</option>" + remopt + "</select></td>";
                                     var StTime = "<td><div class='form-group'><div class='input-group date form_time col-md-4' data-date-format='hh.ii'><input class='form-control' id='txtStTime" + index + "' name='EmpShiftSchedulelist[" + index + "].StTime' style='width: 80px;' readonly='true' /><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span><span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div></div></td>";
 
                                     var EndTime = "<td><div class='form-group'><div class='input-group date form_time col-md-4' data-date-format='hh.ii'><input class='form-control' id='txtEndTime" + index + "' name='EmpShiftSchedulelist[" + index + "].EndTime' style='width: 80px;' readonly='true' /><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span><span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div></div></td>";
@@ -320,8 +319,11 @@
 
                                     $("#tbBooks").append(newRow);
 
+                                   
+                                     $(function () {
+                                     $('._select').select2();
+                                                    });
                                     // Initialize Start and End date pickers
-
                                     $("#txtStartDate" + index).datetimepicker({
                                         weekStart: 1,
                                         todayBtn: 1,
@@ -379,6 +381,58 @@
         });
     }
 
+   
+    
+
+        function changeAllShiftType(id, i) {
+        $.ajax({
+            url: 'GetAllShiftType',
+            data: { "id": id },
+            type: "GET",
+            success: function (result) {
+                document.getElementById("txtStTime" + i).value = result.sttime;
+                document.getElementById("txtEndTime" + i).value = result.endtime;
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+
+    //  function changeAllShiftType(id) {
+    //    // var cusid = document.getElementById("txtShift").value;
+    //     $.ajax({
+    //         url: 'GetAllShiftType',
+    //          data: { "id": id},
+    //          type: "GET",
+    //          success: function (result) {
+               
+    //             document.getElementById("txtStTime" + i).value = result.sttime;
+    //             document.getElementById("txtEndTime" + i).value = result.endtime;
+    //         },
+    //         error: function () {
+    //             alert("Data Not Found");
+    //         }
+    //     });
+    // }
+
+    // function changeAllShiftType(STTIME,ENDTIME) {
+    //      $.ajax({
+    //                         url: 'GetAllShiftTypeJSON',
+    //                         type: "POST",
+    //                         data: { "sitid": STTIME,"endid": ENDTIME},
+    //                         cache: false,
+    //                         success: function (response) {
+    //                             document.getElementById("txtStTime").value;
+    //                             document.getElementById("txtEndTime").value;
+    //                             //document.get("ShiftType",response)
+    //                         },
+    //                         error: function() {
+    //                             debugger;
+    //                             alert("Please Select ST.Time and ENDTime");
+    //                         }
+    //      });
+    // }
 
     // function AppendRow(opt, remopt, remsopt) {
     //     var index = $("#tbBooks").children("tr").length;

@@ -51,7 +51,7 @@ namespace Arasan.Models
         public List<SelectListItem>? WOFFlst { get; set; }
 
         public string? Isvalid { get; set; }
-
+        public List<SelectListItem> ShiftTypelst { get;  set; }
     }
     public class EmployeeShifScheduletList
     {
