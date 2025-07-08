@@ -1,0 +1,221 @@
+﻿@model Arasan.Models.SalaryStructure
+
+@{
+    ViewData["Title"] = "Salary Structure";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+            @:alert('@TempData["notice"]');
+    }
+</script>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        @* <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action(" LeaveTypeMaster", " LeaveTypeMaster")">HR</a> </li>
+            <li class="active"> <strong>Leave Type Master </strong> </li>
+        </ol> *@
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Salary Structure</h5>
+                    <hr>
+                    @using (Html.BeginForm("SalaryStructure", "SalaryStructure", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Employee Name<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.EmpName, Model.EmpNamelst, " -- Please Select -- ", new { @id = "EmpName", @Class = "form-control _select", @TabIndex = 1, onchange = "changeAllAmt(this.value)" })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Base Salary<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Salary, new { @id = "Salary", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">HRA<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.HRA, new { @id = "HRA", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Allowance Amount<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.AllowanceAmt, new { @id = "AllowanceAmt", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">OT Rate<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.OTRate, new { @id = "OTRate", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Incentive<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Incentive, new { @id = "Incentive", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Bonus IsEligible<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                @Html.RadioButtonFor(C => C.Bonus, "Yes", new { @TabIndex = 2, @id = "Bonus", @name = "Bonus" })
+                                                <label id="mt-radio">Yes</label>&emsp;
+                                                @Html.RadioButtonFor(C => C.Bonus, "No", new { @TabIndex = 3, @id = "Bonus", @name = "Bonus" })
+                                                <label id="mt-radio">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-8"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListSalaryStructure", "SalaryStructure")'">Cancel</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+       $('._select').select2();
+    });
+
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
+
+    function changeAllAmt(amtid) {
+        debugger;
+        $.ajax({
+            url: 'GetAllAmtJSON',
+            data: { "allamtid": amtid },
+            type: "GET",
+            success: function (response) {
+                document.getElementById("AllowanceAmt").value = response.amt;
+            },
+            error: function () {
+                
+                //alert("Data Not Found");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("EmpName").value == "") {
+                isValid = false;
+                $(EmpName).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Employee Name");
+                return false;
+            }
+            else {
+                $(EmpName).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Salary").value == "") {
+                isValid = false;
+                $(Salary).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Base Salary");
+                return false;
+            }
+            else {
+                $(Salary).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Bonus").value == "") {
+                isValid = false;
+                $(Bonus).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Bonus IsEligible");
+                return false;
+            }
+            else {
+                $(Bonus).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
+
+</script>
