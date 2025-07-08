@@ -164,110 +164,138 @@
 <div class="clearfix"> </div>
 <div class="page-container">
   <!-- Start page sidebar wrapper -->
-  <div class="page-sidebar-wrapper">
-    <div class="page-sidebar">
+    <div class="page-sidebar-wrapper">
+        <div class="page-sidebar">
                @* <div id="partialzone">*@
 
-                <ul class="page-sidebar-menu  page-header-fixed ">
-                        <li class="sidebar-search-wrapper">
+            <ul class="page-sidebar-menu  page-header-fixed ">
+                <li class="sidebar-search-wrapper">
 
-                            <!-- START RESPONSIVE SEARCH FORM -->
-                            <form class="sidebar-search  " action="search_results.html" method="POST">
-                                <a href="javascript:;" class="remove"> <i class="icon-close"></i> </a>
+                    <!-- START RESPONSIVE SEARCH FORM -->
+                    <form class="sidebar-search  " action="search_results.html" method="POST">
+                        <a href="javascript:;" class="remove"> <i class="icon-close"></i> </a>
 
-                            </form>
-                            <!-- END RESPONSIVE SEARCH FORM -->
+                    </form>
+                    <!-- END RESPONSIVE SEARCH FORM -->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-toggle" href="javascript:;"> <span class="title">Employee Details</span> <span class="arrow"></span> </a>
+                    <ul class="sub-menu">
+
+                        <li class="nav-item ">
+                            <a class="nav-link" href="@Url.Action("EmpLoginDetlist", "EmpLoginDet")"><span class="title">Employee Login Details</span> </a>
                         </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-th-large"></i> <span class="title">Hr</span> <span class="arrow"></span> </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ListEmployee", "Employee")"> <span class="title">Employee</span> </a>
-                            </li>
-                                    <li class="nav-item ">
-                                        <a class="nav-link" href="@Url.Action("EmployeeAttendancelist", "EmployeeAttendanceDetails")">  <span class="title">Employee Attendance Details</span> </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                <a class="nav-link" href="@Url.Action("EmpShiftSchedulelist", "EmpShiftSchedule")"> <span class="title">Employee Shift Schedule</span> </a>
-                                    </li>
-                                
-                                     <li class="nav-item ">
-                                <a class="nav-link" href="@Url.Action("Resignationlist", "Resignation")">  <span class="title">Resignation</span> </a>
-                                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListEmployee", "Employee")"> <span class="title">Employee</span> </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="@Url.Action("EmployeeAttendancelist", "EmployeeAttendanceDetails")">  <span class="title">Employee Attendance Details</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListMissingPunchEntry", "MissingPunchEntry")"> <span class="title">Missing Punch Entry</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListAttendanceReport", "AttendanceReport")"> <span class="title">Attendance Report</span> </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="@Url.Action("ListOnDuty", "OnDuty")"> <span class="title">On Duty</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListShift", "Shift")"> <span class="title">Shift</span> </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="@Url.Action("Resignationlist", "Resignation")">  <span class="title">Resignation</span> </a>
+                        </li>
 
-                            <li class="nav-item ">
-                                <a class="nav-link" href="@Url.Action("EmpLoginDetlist", "EmpLoginDet")"><span class="title">EmpLoginDet</span> </a>
-                                    </li>
+                        @* <li class="nav-item ">
+                            <a class="nav-link" href="@Url.Action("EmpShiftSchedulelist", "EmpShiftSchedule")"> <span class="title">Employee Shift Schedule</span> </a>
+                        </li> *@
 
-                                
+                    </ul>
 
+                </li>
+            </ul>
+
+            <ul class="page-sidebar-menu  page-header-fixed ">
+                <li class="sidebar-search-wrapper">
+
+                    <!-- START RESPONSIVE SEARCH FORM -->
+                    <form class="sidebar-search  " action="search_results.html" method="POST">
+                        <a href="javascript:;" class="remove"> <i class="icon-close"></i> </a>
+
+                    </form>
+                    <!-- END RESPONSIVE SEARCH FORM -->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-toggle" href="javascript:;"><span class="title">Leave Management</span> <span class="arrow"></span> </a>
+                    <ul class="sub-menu">
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("PermissionsList", "Permissions")"> <span class="title">Permission</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("LeaveTypeMasterList", "LeaveTypeMaster")"> <span class="title">Leave Type Master</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListLeaveRequest", "LeaveRequest")"> <span class="title">Leave Request</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("HolidayMasterList", "HolidayMaster")"> <span class="title">Holiday Master</span> </a>
+                        </li>
                             
-                             <li class="nav-item ">
-                                <a class="nav-link" href="@Url.Action("ListOnDuty", "OnDuty")"> <span class="title">OnDuty</span> </a>
-                            </li>
-                             <li class="nav-item ">
-                                <a class="nav-link" href="@Url.Action("ListPayTransaction", "PayTransaction")"> </i><span class="title">PayTransaction</span> </a>
-                            </li>
+                    </ul>
+                </li>
+            </ul>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ListPayCategory", "PayCategory")"> <span class="title">PayCategory</span> </a>
-                             </li>
-                             <li class="nav-item">
-                                 <a class="nav-link" href="@Url.Action("ListPayCode", "PayCode")"> <span class="title">Pay Code</span> </a>
-                             </li>
-                            <li class="nav-item">
-                                 <a class="nav-link" href="@Url.Action("ListPayPeriod", "PayPeriod")"> <span class="title">Pay Period</span> </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ListShift", "Shift")"> <span class="title">Shift</span> </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ListSalaryStructure", "SalaryStructure")"> <span class="title">Salary Structure</span> </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ListLeaveRequest", "LeaveRequest")"> <span class="title">Leave Request</span> </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ListAllowanceMaster", "AllowanceMaster")"> <span class="title">Allowance</span> </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ListAssignAllowance", "AssignAllowance")"> <span class="title">Assign Allowance</span> </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ListAttendanceReport", "AttendanceReport")"> <span class="title">Attendance Report</span> </a>
-                            </li>
-                             <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ListMissingPunchEntry", "MissingPunchEntry")"> <span class="title">Missing Punch Entry</span> </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("PermissionsList", "Permissions")"> <span class="title">Permission</span> </a>
-                            </li>
+            <ul class="page-sidebar-menu  page-header-fixed ">
+                <li class="sidebar-search-wrapper">
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("BonusMasterList", "BonusMaster")"> <span class="title">Bonus Master</span> </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("AdvanceTMList", "AdvanceTM")"> <span class="title">Advance Type Master</span> </a>
-                            </li>
+                    <!-- START RESPONSIVE SEARCH FORM -->
+                    <form class="sidebar-search  " action="search_results.html" method="POST">
+                        <a href="javascript:;" class="remove"> <i class="icon-close"></i> </a>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("HolidayMasterList", "HolidayMaster")"> <span class="title">Holiday Master</span> </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("LeaveTypeMasterList", "LeaveTypeMaster")"> <span class="title">Leave Type Master</span> </a>
-                            </li>
-
-
-                           </li>
-                            @* </li> *@
-                           
-                        </ul>
-@*                     </li>
- *@                  
+                    </form>
+                    <!-- END RESPONSIVE SEARCH FORM -->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-toggle" href="javascript:;"><span class="title">Pay Roll</span> <span class="arrow"></span> </a>
+                    <ul class="sub-menu">
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListPayCode", "PayCode")"> <span class="title">Pay Code</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListPayPeriod", "PayPeriod")"> <span class="title">Pay Period</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListPayCategory", "PayCategory")"> <span class="title">PayCategory</span> </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="@Url.Action("ListPayTransaction", "PayTransaction")"> </i><span class="title">PayTransaction</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListSalaryStructure", "SalaryStructure")"> <span class="title">Salary Structure</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListAllowanceMaster", "AllowanceMaster")"> <span class="title">Allowance</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListAssignAllowance", "AssignAllowance")"> <span class="title">Assign Allowance</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("AdvanceTMList", "AdvanceTM")"> <span class="title">Advance Type Master</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("BonusMasterList", "BonusMaster")"> <span class="title">Bonus Master</span> </a>
+                        </li>
+                            
+                    </ul>
+                </li>
+            </ul>
 
                 
-            </div>
-  </div>
+        </div>
+    </div>
   <!-- End page sidebar wrapper -->
   <!-- Start page content wrapper -->
   <div class="page-content-wrapper animated fadeInRight">
