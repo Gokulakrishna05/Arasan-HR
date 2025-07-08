@@ -1,0 +1,211 @@
+﻿@model Arasan.Models.OTEntry
+
+@{
+    ViewData["Title"] = "OTEntry";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action(" OTEntry", " OTEntry")">HR</a> </li>
+            <li class="active"> <strong>OverTime Entry</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">OTEntry</h5>
+                    <hr>
+                    @using (Html.BeginForm("OTEntry", "OTEntry", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Employee Name<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.EmpName, Model.EmpNamelst, " -- Please Select -- ", new { @id = "txtEmpID", @class = "form-control _select", @TabIndex = 2 })
+                                            @Html.HiddenFor(C => C.PID)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label"> Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date for_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.Date, new { @id = "txtDate", @class = "form-control", @TabIndex = 2, @size = "32" })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">OT performed on<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.OTON, new { @id = "txtOTON", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">OT Hours<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.OTHours, new { @id = "txtOTHours", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                                <br />
+                                <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Description<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextAreaFor(C => C.Description, new { @id = "txtDes", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-8"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("OTEntryList", "OTEntry")'">Cancel</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+       $('._select').select2();
+    });
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("txtEmpID").value == "") {
+                isValid = false;
+                $(txtEmpID).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Employee Name");
+                return false;
+            }
+            else {
+                $(txtEmpID).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtDate").value == "") {
+                isValid = false;
+                $(txtDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Date");
+                return false;
+            }
+            else {
+                $(txtDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtOTHours").value == "") {
+                isValid = false;
+                $(txtOTHours).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter OTHours");
+                return false;
+            }
+            else {
+                $(txtOTHours).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtOTON").value == "") {
+                isValid = false;
+                $(txtOTON).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter OT Performed ON");
+                return false;
+            }
+            else {
+                $(txtOTON).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtDes").value == "") {
+                isValid = false;
+                $(txtDes).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Description");
+                return false;
+            }
+            else {
+                $(txtDes).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+          
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
+
+    $('.for_date').datetimepicker({
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        startDate: new Date(),
+        forceParse: 0
+    });
+
+</script>
+
+
+
+

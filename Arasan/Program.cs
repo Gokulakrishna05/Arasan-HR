@@ -135,6 +135,7 @@ internal class Program
         builder.Services.TryAddSingleton<IPermissions, PermissionsService>();
         builder.Services.TryAddSingleton<IBonusMaster, BonusMasterService>();
         builder.Services.TryAddSingleton<IAdvanceTM, AdvanceTMService>();
+        builder.Services.TryAddSingleton<IOTEntry, OTEntryService>();
 
         builder.Services.TryAddSingleton<IPayPeriodService, PayPeriodService>();
 
