@@ -182,15 +182,15 @@
                     <a class="nav-link nav-toggle" href="javascript:;"> <span class="title">Employee Details</span> <span class="arrow"></span> </a>
                     <ul class="sub-menu">
 
-                        <li class="nav-item ">
+                        @* <li class="nav-item ">
                             <a class="nav-link" href="@Url.Action("EmpLoginDetlist", "EmpLoginDet")"><span class="title">Employee Login Details</span> </a>
-                        </li>
+                        </li> *@
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("ListEmployee", "Employee")"> <span class="title">Employee</span> </a>
                         </li>
-                        <li class="nav-item ">
+                        @* <li class="nav-item ">
                             <a class="nav-link" href="@Url.Action("EmployeeAttendancelist", "EmployeeAttendanceDetails")">  <span class="title">Employee Attendance Details</span> </a>
-                        </li>
+                        </li> *@
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("ListMissingPunchEntry", "MissingPunchEntry")"> <span class="title">Missing Punch Entry</span> </a>
                         </li>
@@ -219,17 +219,6 @@
 
             <ul class="page-sidebar-menu  page-header-fixed ">
                 <li class="sidebar-search-wrapper">
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("HolidayMasterList", "HolidayMaster")"> <span class="title">Holiday Master</span> </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("OTEntryList", "OTEntry")"> <span class="title">OverTime Entry</span> </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("LeaveTypeMasterList", "LeaveTypeMaster")"> <span class="title">Leave Type Master</span> </a>
-                            </li>
-
 
                     <!-- START RESPONSIVE SEARCH FORM -->
                     <form class="sidebar-search  " action="search_results.html" method="POST">
