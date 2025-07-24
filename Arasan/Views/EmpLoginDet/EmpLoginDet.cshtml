@@ -205,7 +205,6 @@
 
                                                         <td>
                                                             @Html.DropDownListFor(o => o.EmpLoginDetlists[i].EmpName, Model.EmpLoginDetlists[i].EmpNamelst, "Please Select", new { @class = "form-control _select newcss", @id = "txtEmpName" + i, style = "width: 100px;"  })
-
                                                         </td>
                                                         <td>
                                                             @Html.TextBoxFor(o => o.EmpLoginDetlists[i].Mission, new { @id = "txtMission" + i, @class = "form-control", style = "width: 100px;" })
@@ -223,58 +222,43 @@
                                                                 <label id="mt-radio">Yes</label>&emsp;
                                                                 @Html.RadioButtonFor(C => C.EmpLoginDetlists[i].WeekOff, "NO", new { @TabIndex = 3 })
                                                                 <label id="mt-radio">No</label>
-
-
                                                             </div>
 
                                                         </td>
                                                         <td>
                                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].ShiftLoginDate, new { @id = "txtShiftLoginDate" + i, @class = "form-control", style = "width: 100px;" })<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].ShiftLoginDate, new { @id = "txtShiftLoginDate" + i, @class = "form-control", style = "width: 100px", @readonly = "readonly" })<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh.ii">
-                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].ShiftLoginTime, new { @id = "txtShiftLoginTime" + i, @class = "form-control", style = "width: 100px; " })
-                                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                                            </div>
-                                                            <input type="hidden" id="dtp_input3" value="" />
+                                                            @Html.TextBoxFor(o => o.EmpLoginDetlists[i].ShiftLoginTime, new { @id = "txtShiftLoginTime" + i, @class = "form-control", style = "width: 100px;" })
                                                         </td>
+                                                      
                                                         <td>
                                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].LoginDate, new { @id = "txtLoginDate" + i, @class = "form-control", style = "width: 100px;" })<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].LoginDate, new { @id = "txtLoginDate" + i, @class = "form-control", style = "width: 100px", @readonly = "readonly" })<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh.ii">
-                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].LoginTime, new { @id = "txtLoginTime" + i, @class = "form-control", style = "width: 100px; " })
-                                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                                            </div>
-                                                            <input type="hidden" id="dtp_input3" value="" />
+                                                            @Html.TextBoxFor(o => o.EmpLoginDetlists[i].LoginTime, new { @id = "txtLoginTime" + i, @class = "form-control", style = "width: 100px;" })
                                                         </td>
+                                                        
                                                         <td>
                                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].ShiftLogoutDate, new { @id = "txtShiftLogoutDate" + i, @class = "form-control", style = "width: 100px;" })<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].ShiftLogoutDate, new { @id = "txtShiftLogoutDate" + i, @class = "form-control", style = "width: 100px", @readonly = "readonly" })<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh.ii">
-                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].ShiftLogoutTime, new { @id = "txtShiftLogoutTime" + i, @class = "form-control", style = "width: 100px; " })
-                                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                                            </div>
-                                                            <input type="hidden" id="dtp_input3" value="" />
+                                                            @Html.TextBoxFor(o => o.EmpLoginDetlists[i].ShiftLogoutTime, new { @id = "txtShiftLogoutTime" + i, @class = "form-control", style = "width: 100px;" })
                                                         </td>
+                                                      
                                                         <td>
                                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].LogoutDate, new { @id = "txtLogoutDate" + i, @class = "form-control", style = "width: 100px;" })<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].LogoutDate, new { @id = "txtLogoutDate" + i, @class = "form-control", style = "width: 100px", @readonly = "readonly" })<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <div class="input-group date form_time col-md-5" data-date="" data-date-format="hh.ii" data-link-field="dtp_input3" data-link-format="hh.ii">
-                                                                @Html.TextBoxFor(o => o.EmpLoginDetlists[i].LogoutTime, new { @id = "txtLogoutTime" + i, @class = "form-control", style = "width: 100px; " })
-                                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                                            </div>
-                                                            <input type="hidden" id="dtp_input3" value="" />
+                                                            @Html.TextBoxFor(o => o.EmpLoginDetlists[i].LogoutTime, new { @id = "txtLogoutTime" + i, @class = "form-control", style = "width: 100px;" })
                                                         </td>
                                                         <td>
                                                             @Html.TextBoxFor(o => o.EmpLoginDetlists[i].IntDiff, new { @id = "txtIntDiff" + i, @class = "form-control", style = "width: 100px;" })
@@ -677,27 +661,34 @@
         var ODTaken = "<td><input class='form-control' id='txtODTaken" + index + "' name='EmpLoginDetlists[" + index + "].ODTaken'  style='width: 100px;' type='text'  /></td>";
         var ODHrs = "<td><input class='form-control' id='txtODHrs" + index + "' name='EmpLoginDetlists[" + index + "].ODHrs'  style='width: 100px;' type='text'  /></td>";
         var WorkOff = "<td>  <div class='input-group'><input id='txtWeekOff" + index + "' name='EmpLoginDetlists[" + index + "].WeekOff' type='radio' value='Y'/>  <label id='mt-radio'>Yes</label><input id='txtWeekOff" + index + "' name='EmpLoginDetlists[" + index + "].txtWeekOff' type='radio' value='N'/>  <label id='mt-radio'>No</label><div></td>";
-         var ShiftLoginDate = "<td> <div class='input-group date form_date col-sm-8'  data - date - format='dd-M-yyyy'><input class='form-control' id='txtShiftLoginDate" + index + "' name='EmpLoginDetlists[" + index + "].ShiftLoginDate'  style='width: 100px;' type='text'   />          <span class='input-group-addon' > <span class='glyphicon glyphicon-remove' > </span></span > <span class='input-group-addon'> <span class='glyphicon glyphicon-calendar' > </span></span> </div></td>";
+         var ShiftLoginDate = "<td> <div class='input-group date form_date col-sm-8'  data - date - format='dd-M-yyyy'><input class='form-control' id='txtShiftLoginDate" + index + "' name='EmpLoginDetlists[" + index + "].ShiftLoginDate'  style='width: 100px'  readonly = 'readonly;' type='text'   />          <span class='input-group-addon' > <span class='glyphicon glyphicon-remove' > </span></span > <span class='input-group-addon'> <span class='glyphicon glyphicon-calendar' > </span></span> </div></td>";
 
 
         var ShiftLoginTime = " <td> <div class='form-group'><div class='input-group date form_time col-md-4' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control' id = 'txtShiftLoginTime' '" + index + "' name = 'EmpLoginDetlists[" + index + "].ShiftLoginTime'  style = 'width: 80px;' readonly = 'true'><span class='input-group-addon'> <span class='glyphicon glyphicon-remove'></span></span><span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div><input type='hidden' id='dtp_input3' value='' /></div></td> ";
+        var ShiftLoginTime = "<td><input class='form-control' id='txtShiftLoginTime" + index + "' name='EmpLoginDetlists[" + index + "].ShiftLoginTime'  style='width: 100px;' type='text'   /></td>";
 
          
          // var ShiftLoginTime = "<td><div class='input-group date form_time col - md - 5' data - date='' data - date - format='hh.ii' data - link - field='dtp_input3' data - link - format='hh.ii'><input class='form-control' id = 'txtShiftLoginTime" + index + "' name = 'EmpLoginDetlists[" + index + "].ShiftLoginTime'  style = 'width: 100px;' type = 'text' /> <span class='input-group-addon'> <span class='glyphicon glyphicon-remove'> </span></span> <span class='input-group-addon'> <span class='glyphicon glyphicon-time'> </span></span></div></td> ";
-        var LoginDate = "<td> <div class='input-group date form_date col-sm-8'  data - date - format='dd-M-yyyy'><input class='form-control' id='txtLoginDate" + index + "' name='EmpLoginDetlists[" + index + "].LoginDate'  style='width: 100px;' type='text'   />          <span class='input-group-addon' > <span class='glyphicon glyphicon-remove' > </span></span > <span class='input-group-addon'> <span class='glyphicon glyphicon-calendar' > </span></span> </div></td>";
+        var LoginDate = "<td> <div class='input-group date form_date col-sm-8'  data - date - format='dd-M-yyyy'><input class='form-control' id='txtLoginDate" + index + "' name='EmpLoginDetlists[" + index + "].LoginDate'  style='width: 100px' readonly='readonly;' type='text'   />          <span class='input-group-addon' > <span class='glyphicon glyphicon-remove' > </span></span > <span class='input-group-addon'> <span class='glyphicon glyphicon-calendar' > </span></span> </div></td>";
         
-        var LoginTime = " <td> <div class='form-group'><div class='input-group date form_time col-md-4' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control' id = 'txtLoginTime' '" + index + "' name = 'EmpLoginDetlists[" + index + "].LoginTime'  style = 'width: 80px;' readonly = 'true'><span class='input-group-addon'> <span class='glyphicon glyphicon-remove'></span></span><span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div><input type='hidden' id='dtp_input3' value='' /></div></td> ";
+        //var LoginTime = " <td> <div class='form-group'><div class='input-group date form_time col-md-4' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control' id = 'txtLoginTime' '" + index + "' name = 'EmpLoginDetlists[" + index + "].LoginTime'  style = 'width: 80px;' readonly = 'true'><span class='input-group-addon'> <span class='glyphicon glyphicon-remove'></span></span><span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div><input type='hidden' id='dtp_input3' value='' /></div></td> ";
+        var LoginTime = "<td><input class='form-control' id='txtLoginTime" + index + "' name='EmpLoginDetlists[" + index + "].LoginTime'  style='width: 100px;' type='text'   /></td>";
+
+        
         // var LoginTime = "<td><div class='input-group date form_time col - md - 5' data - date='' data - date - format='hh.ii' data - link - field='dtp_input3' data - link - format='hh.ii'><input class='form-control' id = 'txtLoginTime" + index + "' name = 'EmpLoginDetlists[" + index + "].LoginTime'  style = 'width: 100px;' type = 'text' /> <span class='input-group-addon'> <span class='glyphicon glyphicon-remove'> </span></span> <span class='input-group-addon'> <span class='glyphicon glyphicon-time'> </span></span></div></td> ";
-        var ShiftLogoutDate = "<td> <div class='input-group date form_date col-sm-8'  data - date - format='dd-M-yyyy'><input class='form-control' id='txtShiftLogoutDate" + index + "' name='EmpLoginDetlists[" + index + "].ShiftLogoutDate'  style='width: 100px;' type='text'   />          <span class='input-group-addon' > <span class='glyphicon glyphicon-remove' > </span></span > <span class='input-group-addon'> <span class='glyphicon glyphicon-calendar' > </span></span> </div></td>";
+        var ShiftLogoutDate = "<td> <div class='input-group date form_date col-sm-8'  data - date - format='dd-M-yyyy'><input class='form-control' id='txtShiftLogoutDate" + index + "' name='EmpLoginDetlists[" + index + "].ShiftLogoutDate'  style='width: 100px' readonly='readonly;' type='text'   />          <span class='input-group-addon' > <span class='glyphicon glyphicon-remove' > </span></span > <span class='input-group-addon'> <span class='glyphicon glyphicon-calendar' > </span></span> </div></td>";
         
 
-        var ShiftLogoutTime = " <td> <div class='form-group'><div class='input-group date form_time col-md-4' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control' id = 'txtShiftLogoutTime' '" + index + "' name = 'EmpLoginDetlists[" + index + "].ShiftLogoutTime'  style = 'width: 80px;' readonly = 'true'><span class='input-group-addon'> <span class='glyphicon glyphicon-remove'></span></span><span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div><input type='hidden' id='dtp_input3' value='' /></div></td> ";
+        //var ShiftLogoutTime = " <td> <div class='form-group'><div class='input-group date form_time col-md-4' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control' id = 'txtShiftLogoutTime' '" + index + "' name = 'EmpLoginDetlists[" + index + "].ShiftLogoutTime'  style = 'width: 80px;' readonly = 'true'><span class='input-group-addon'> <span class='glyphicon glyphicon-remove'></span></span><span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div><input type='hidden' id='dtp_input3' value='' /></div></td> ";
+        var ShiftLogoutTime = "<td><input class='form-control' id='txtShiftLogoutTime" + index + "' name='EmpLoginDetlists[" + index + "].ShiftLogoutTime'  style='width: 100px;' type='text'   /></td>";
+
 
         // var ShiftLogoutTime = "<td><div class='input-group date form_time col - md - 5' data - date='' data - date - format='hh.ii' data - link - field='dtp_input3' data - link - format='hh.ii'><input class='form-control' id = 'txtShiftLogoutTime" + index + "' name = 'EmpLoginDetlists[" + index + "].ShiftLogoutTime'  style = 'width: 100px;' type = 'text' /> <span class='input-group-addon'> <span class='glyphicon glyphicon-remove'> </span></span> <span class='input-group-addon'> <span class='glyphicon glyphicon-time'> </span></span></div></td> ";
-        var LogoutDate = "<td> <div class='input-group date form_date col-sm-8'  data - date - format='dd-M-yyyy'><input class='form-control' id='txtLogoutDate" + index + "' name='EmpLoginDetlists[" + index + "].LogoutDate'  style='width: 100px;' type='text'   />          <span class='input-group-addon' > <span class='glyphicon glyphicon-remove' > </span></span > <span class='input-group-addon'> <span class='glyphicon glyphicon-calendar' > </span></span> </div></td>";
+        var LogoutDate = "<td> <div class='input-group date form_date col-sm-8'  data - date - format='dd-M-yyyy'><input class='form-control' id='txtLogoutDate" + index + "' name='EmpLoginDetlists[" + index + "].LogoutDate'  style='width: 100px' readonly='readonly;' type='text'   />          <span class='input-group-addon' > <span class='glyphicon glyphicon-remove' > </span></span > <span class='input-group-addon'> <span class='glyphicon glyphicon-calendar' > </span></span> </div></td>";
         
-        var LogoutTime = " <td> <div class='form-group'><div class='input-group date form_time col-md-4' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control' id = 'txtLogoutTime' '" + index + "' name = 'EmpLoginDetlists[" + index + "].LogoutTime'  style = 'width: 80px;' readonly = 'true'><span class='input-group-addon'> <span class='glyphicon glyphicon-remove'></span></span><span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div><input type='hidden' id='dtp_input3' value='' /></div></td> ";
-        
+        //var LogoutTime = " <td> <div class='form-group'><div class='input-group date form_time col-md-4' data-date='' data-date-format='hh.ii' data-link-field='dtp_input3' data-link-format='hh.ii'><input class='form-control' id = 'txtLogoutTime' '" + index + "' name = 'EmpLoginDetlists[" + index + "].LogoutTime'  style = 'width: 80px;' readonly = 'true'><span class='input-group-addon'> <span class='glyphicon glyphicon-remove'></span></span><span class='input-group-addon'><span class='glyphicon glyphicon-time'></span></span></div><input type='hidden' id='dtp_input3' value='' /></div></td> ";
+        var LogoutTime = "<td><input class='form-control' id='txtLogoutTime" + index + "' name='EmpLoginDetlists[" + index + "].LogoutTime'  style='width: 100px;' type='text'   /></td>";
+
         // var LogoutTime = "<td><div class='input-group date form_time col - md - 5' data - date='' data - date - format='hh.ii' data - link - field='dtp_input3' data - link - format='hh.ii'><input class='form-control' id = 'txtLogoutTime" + index + "' name = 'EmpLoginDetlists[" + index + "].LogoutTime'  style = 'width: 100px;' type = 'text' /> <span class='input-group-addon'> <span class='glyphicon glyphicon-remove'> </span></span> <span class='input-group-addon'> <span class='glyphicon glyphicon-time'> </span></span></div></td> ";
         var IntDiff = "<td><input class='form-control' id='txtIntDiff" + index + "' name='EmpLoginDetlists[" + index + "].IntDiff'  style='width: 100px;' type='text'   /></td>";
         var OuttDiff = "<td><input class='form-control' id='txtOuttDiff" + index + "' name='EmpLoginDetlists[" + index + "].OuttDiff'  style='width: 100px;' type='text'    /></td>";

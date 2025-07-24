@@ -184,6 +184,43 @@
         </div>
     </div>
 </div>
+
+
+<script>
+      $(function () {
+       $('._select').select2();
+    });
+
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+             if (document.getElementById("set").value == "") {
+                isValid = false;
+                $(set).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                  alert("Please Enter Set Up Date");
+                return false;
+            }
+            else {
+                $(set).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+</script>
+
+
 <script>
     $('.to_date').datetimepicker({
         //   language:  'fr',
@@ -214,60 +251,8 @@
     });
 </script>
 
+
 <script>
-
-    $(function () {
-        $('._select').select2();
-    });
-   
-
-    $(document).ready(function () {
-        $('#btnSave').click(function (e) {
-            var isValid = true;
-
-
-
-            if (document.getElementById("txtItemGroups").value == "" || document.getElementById("txtItemGroups").value == 0) {
-                isValid = false;
-                $(txtItemGroups).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Item Group");
-                return false;
-            }
-            else {
-                $(txtItemGroups).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-            if (document.getElementById("txtItemGroupDescription").value == "" || document.getElementById("txtItemGroupDescription").value == 0) {
-                isValid = false;
-                $(txtItemGroupDescription).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Description");
-                return false;
-            }
-            else {
-                $(txtItemGroupDescription).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-
-            if (isValid == false)
-                e.preventDefault();
-
-        });
-
-    });
 
   
     function AppendRow(opt, remopt) {
