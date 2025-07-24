@@ -197,25 +197,79 @@
         $('#btnSave').click(function (e) {
             var isValid = true;
 
-            if (document.getElementById("DocDate").value == "") {
+             if (document.getElementById("ddlBrc").value == "") {
                 isValid = false;
-                $(DocDate).css({
+                $(ddlBrc).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select  Date");
+                alert("Please Enter Branch");
                 return false;
             }
             else {
-                $(DocDate).css({
+                $(ddlBrc).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("txtDocID").value == "") {
+                isValid = false;
+                $(txtDocID).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter DocID");
+                return false;
+            }
+            else {
+                $(txtDocID).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("ddlPayPer").value == "") {
+                isValid = false;
+                $(ddlPayPer).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Pay Period");
+                return false;
+            }
+            else {
+                $(ddlPayPer).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("ddlPayCod").value == "") {
+                isValid = false;
+                $(ddlPayCod).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Pay Code");
+                return false;
+            }
+            else {
+                $(ddlPayCod).css({
                     "border": "",
                     "background": ""
                 });
             }
 
+            if (isValid == false)
+                e.preventDefault();
         });
+
     });
+
+    
+   
 
     $('.form_date').datetimepicker({
         //   language:  'fr',

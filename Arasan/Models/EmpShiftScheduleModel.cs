@@ -34,8 +34,6 @@ namespace Arasan.Models
 
     public class EmployeeShift
     {
-      
-
         //public string EmplID { get; set; }
         //public List<SelectListItem> EmplIdlst { get; set; }
         public string? empid { get; set; }

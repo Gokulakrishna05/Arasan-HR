@@ -1,7 +1,7 @@
 ﻿@model Arasan.Models.BonusMaster
 
 @{
-    ViewData["Title"] = "BonusMaster";
+    ViewData["Title"] = "Bonus";
 }
 <style>
     .mandatory {
@@ -26,7 +26,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    <h5 style="font-size:14px">BonusMaster</h5>
+                    <h5 style="font-size:14px">Bonus</h5>
                     <hr>
                     @using (Html.BeginForm("BonusMaster", "BonusMaster", FormMethod.Post))
                     {
@@ -45,7 +45,7 @@
                                 </div>
                               <div class="col-md-6">
                                 <div class="form-group">
-                                    <br /><label for="inputName3" class="col-sm-4 control-label">ApplicationDesignations<label class="mandatory">*</label></label>
+                                    <br /><label for="inputName3" class="col-sm-4 control-label">Application Designations<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                     @Html.DropDownListFor(C => C.ADes, Model.Itemlst, " -- Please Select -- ", new { @id = "ddlADes", @class = "form-control _select", @Width = "200px" })
                                     </div>

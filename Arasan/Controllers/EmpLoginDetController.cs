@@ -119,9 +119,7 @@ namespace Arasan.Controllers
 
                     }
 
-
                 }
-
 
             }
             L.EmpLoginDetlists = TData;
@@ -178,7 +176,6 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PAYCATEGORY"].ToString(), Value = dtDesg.Rows[i]["PCBASICID"].ToString() });
-
 
                 }
                 return lstdesg;
