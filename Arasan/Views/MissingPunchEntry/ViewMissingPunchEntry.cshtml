@@ -5,14 +5,6 @@
 
     ViewData["Title"] = "MissingPunchEntry";
 }
-<style>
-    .mandatory {
-        color: red;
-        position: relative;
-        top: 2px;
-        left: 5px;
-    }
-</style>
 
 <script type="text/javascript">
     @if (TempData["notice"] != null)
@@ -45,7 +37,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-6 control-label">Employee Name<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-6 control-label">Employee Name<label class="mandatory"></label></label>
                                         <div class="col-sm-6">
                                             @Html.DisplayFor(C => C.EmployeeId)
                                             @Html.HiddenFor(C => C.ID)
@@ -55,7 +47,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-6 control-label">Attendance Date<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-6 control-label">Attendance Date<label class="mandatory"></label></label>
                                         <div class="col-sm-6">
                                             @Html.DisplayFor(C => C.PunchDate)
                                             <br>
@@ -64,7 +56,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-6 control-label">Device Name<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-6 control-label">Device Name<label class="mandatory"></label></label>
                                         <div class="col-sm-6">
                                             @Html.DisplayFor(C => C.Device)
                                             @Html.HiddenFor(C => C.ID)
@@ -78,7 +70,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-6 control-label">Missing In & Out<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-6 control-label">Missing In & Out<label class="mandatory"></label></label>
                                         <div class="col-sm-6">
                                             @Html.DisplayFor(C => C.Missing)
                                             <br>
@@ -87,7 +79,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group" id="grpMissingIn">
-                                        <label for="inputName3" class="col-sm-6 control-label">Missing In<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-6 control-label">Missing In<label class="mandatory"></label></label>
                                         <div class="col-sm-6">
                                             @Html.DisplayFor(C => C.MissingIn)
                                            
@@ -98,7 +90,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group" id="grpMissingOut">
 
-                                        <label for="inputName3" class="col-sm-6 control-label">Missing Out<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-6 control-label">Missing Out<label class="mandatory"></label></label>
                                         <div class="col-sm-6">
                                             @Html.DisplayFor(C => C.MissingOut)
                                         </div>
