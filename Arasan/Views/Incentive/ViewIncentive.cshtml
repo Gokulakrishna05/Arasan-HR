@@ -1,0 +1,117 @@
+﻿@model Arasan.Models.Incentive
+
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "AdvanceTM";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action("IncentiveList", "Incentive")">HR</a> </li>
+            <li class="active"> <strong>AdvanceTM</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Incentive</h5>
+                    <hr>
+                    @using (Html.BeginForm("Incentive", "Incentive", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                              <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputName3" class="col-sm-6 control-label">Employee Name<label class="mandatory"></label></label>
+                                            <div class="col-sm-6">
+                                                @Html.DisplayFor(C => C.Emp)
+                                                @Html.HiddenFor(C => C.ID)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputName3" class="col-sm-6 control-label">Designation<label class="mandatory"></label></label>
+                                            <div class="col-sm-6">
+                                                @Html.DisplayFor(C => C.Des)
+                                            </div>
+                                        </div>
+                                    </div>
+                               </div>
+                            <br />
+                              <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                            <label for="inputName3" class="col-sm-6 control-label">Department<label class="mandatory"></label></label>
+                                        <div class="col-sm-6">
+                                                @Html.DisplayFor(C => C.Dpt)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                            <label for="inputName3" class="col-sm-6 control-label">Incentive Name<label class="mandatory"></label></label>
+                                        <div class="col-sm-6">
+                                                @Html.DisplayFor(C => C.Icem)
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                            <br />
+                              <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputName3" class="col-sm-6 control-label">Incentive Type<label class="mandatory"></label></label>
+                                            <div class="col-sm-6">
+                                                @Html.DisplayFor(C => C.Ictpe)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputName3" class="col-sm-6 control-label">Amount<label class="mandatory"></label></label>
+                                            <div class="col-sm-6">
+                                                @Html.DisplayFor(C => C.Amt)
+                                            </div>
+                                        </div>
+                                    </div>
+                              </div>
+                            <br />
+                             <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-6 control-label">Reason<label class="mandatory"></label></label>
+                                        <div class="col-sm-6">
+                                         @Html.DisplayFor(C => C.Rean)
+                                        </div>
+                                    </div>
+                                  </div>
+                              </div> 
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+

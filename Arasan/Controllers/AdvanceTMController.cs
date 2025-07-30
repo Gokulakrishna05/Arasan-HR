@@ -43,11 +43,11 @@ namespace Arasan.Controllers
                     ic.ID = dt.Rows[0]["ID"].ToString();
                     ic.AType = dt.Rows[0]["ATYPE"].ToString();
                     ic.MALmt = dt.Rows[0]["MXLIMIT"].ToString();
-                    ic.ERules = dt.Rows[0]["EGTYRULES"].ToString();
-                    ic.RPType = dt.Rows[0]["RETYPE"].ToString();
+                    //ic.ERules = dt.Rows[0]["EGTYRULES"].ToString();
+                    //ic.RPType = dt.Rows[0]["RETYPE"].ToString();
                     ic.NOIns = dt.Rows[0]["NOFINS"].ToString();
-                    ic.Dedn = dt.Rows[0]["DEON"].ToString();
-                    ic.Rmarks = dt.Rows[0]["REMARKS"].ToString();
+                    //ic.Dedn = dt.Rows[0]["DEON"].ToString();
+                    //ic.Rmarks = dt.Rows[0]["REMARKS"].ToString();
                   
 
                 }
@@ -132,8 +132,8 @@ namespace Arasan.Controllers
                     id = dtUsers.Rows[i]["ID"].ToString(),
                     atype = dtUsers.Rows[i]["ATYPE"].ToString(),
                     maxlmt = dtUsers.Rows[i]["MXLIMIT"].ToString(),
-                    egrules = dtUsers.Rows[i]["EGTYRULES"].ToString(),
-                    rtype = dtUsers.Rows[i]["RETYPE"].ToString(),
+                    //egrules = dtUsers.Rows[i]["EGTYRULES"].ToString(),
+                    //rtype = dtUsers.Rows[i]["RETYPE"].ToString(),
                    
 
                     editrow = EditRow,
@@ -174,7 +174,7 @@ namespace Arasan.Controllers
 
             DataTable dt = new DataTable();
 
-            dt = datatrans.GetData("Select ID,ATYPE,MXLIMIT,EGTYRULES,RETYPE,NOFINS,DEON,REMARKS  from ADVTYPEMASTER WHERE ID='" + id + "'  ");
+            dt = datatrans.GetData("Select ID,ATYPE,MXLIMIT,NOFINS  from ADVTYPEMASTER WHERE ID='" + id + "'  ");
             //"Select IGROUP,ISUBGROUP,ITEMGROUP,SUBGROUPCODE,SUBCATEGORY,BINNO,BINYN,LOTYN,RHYN,RUNPERQTY,RUNHRS,COSTCATEGORY,AUTOCONSYN,QCT,DRUMYN,ITEMFROM,ETARIFFMASTER.TARIFFID,PURCAT,MAJORYN,to_char(LATPURDT,'dd-MON-yyyy')LATPURDT,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MINSTK,UNITMAST.UNITID,MASTER.MNAME,HSN,SELLINGPRICE,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,TESTTBASIC.TEMPLATEID,QCCOMPFLAG,LATPURPRICE,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMACC,PTEMPLATEID,CURINGDAY,AUTOINDENT from ITEMMASTER LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT LEFT OUTER JOIN MASTER ON MASTER.MASTERID=ITEMMASTER.ITEMACC LEFT OUTER JOIN TESTTBASIC ON TESTTBASIC.TESTTBASICID=ITEMMASTER.TEMPLATEID LEFT OUTER JOIN ETARIFFMASTER ON ETARIFFMASTER.ETARIFFMASTERID=ITEMMASTER.TARIFFID   where ITEMMASTERID=" + id + "");
 
             if (dt.Rows.Count > 0)
@@ -182,11 +182,11 @@ namespace Arasan.Controllers
                 Emp.ID = dt.Rows[0]["ID"].ToString();
                 Emp.AType = dt.Rows[0]["ATYPE"].ToString();
                 Emp.MALmt = dt.Rows[0]["MXLIMIT"].ToString();
-                Emp.ERules = dt.Rows[0]["EGTYRULES"].ToString();
-                Emp.RPType = dt.Rows[0]["RETYPE"].ToString();
+                //Emp.ERules = dt.Rows[0]["EGTYRULES"].ToString();
+                //Emp.RPType = dt.Rows[0]["RETYPE"].ToString();
                 Emp.NOIns = dt.Rows[0]["NOFINS"].ToString();
-                Emp.Dedn = dt.Rows[0]["DEON"].ToString();
-                Emp.Rmarks = dt.Rows[0]["REMARKS"].ToString();
+                //Emp.Dedn = dt.Rows[0]["DEON"].ToString();
+                //Emp.Rmarks = dt.Rows[0]["REMARKS"].ToString();
                 Emp.ID = id;
             }
             return View(Emp);

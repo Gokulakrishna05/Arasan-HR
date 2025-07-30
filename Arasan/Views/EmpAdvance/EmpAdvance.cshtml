@@ -1,0 +1,276 @@
+﻿@model Arasan.Models.EmpAdvance
+
+@{
+    ViewData["Title"] = "EmpAdvance";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action(" EmpAdvance", " EmpAdvance")">HR</a> </li>
+            <li class="active"> <strong>Employee Advance</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">EmpAdvance</h5>
+                    <hr>
+                    @using (Html.BeginForm("EmpAdvance", "EmpAdvance", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+                            
+                               @*  <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Advance <label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Adv, new { @id = "txtAdv", @class = "form-control", @TabIndex = 2 })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div> *@
+
+                               <div class="row">
+                                  <div class="col-md-6">
+                                     <div class="form-group">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Employee Name<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Empe, Model.EmpIDLst, "Please Select", new { @id = "EmpID", @Class = "form-control _select newcss", @TabIndex = 1, @onchange = "changeItem(this.value)" })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                     </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Advance Type<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.AdvTp, Model.AdvIDLst, "Please Select", new { @id = "AdvTp", @Class = "form-control _select newcss", @TabIndex = 1, @onchange = "changeItem(this.value)" })
+                                            @Html.HiddenFor(C => C.ID)
+@*                                             @Html.TextBoxFor(C => C.AdvTp, new { @id = "txtAdvTp", @class = "form-control", @TabIndex = 2 })
+ *@                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Advance Amount<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Advamt, new { @id = "txtAdvamt", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">EMI Amount<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Emi, new { @id = "txtEmi", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                 </div>
+                               </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Start Month<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                @Html.TextBoxFor(C => C.SMn, new { @id = "txtSMn", @class = "form-control", @TabIndex = 2, @size = "32", @readonly = "readonly" })
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">EMI Paid<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Emid, new { @id = "txtEmid", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Remarks<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextAreaFor(C => C.Rmks, new { @id = "txtRmks", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-8"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("EmpAdvanceList", "EmpAdvance")'">Cancel</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+   
+
+
+    $(function () {
+       $('._select').select2();
+    });
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("txtAdv").value == "") {
+                isValid = false;
+                $(txtAdv).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Advance");
+                return false;
+            }
+            else {
+                $(txtAdv).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("EmpID").value == "") {
+                isValid = false;
+                $(EmpID).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Employee Name");
+                return false;
+            }
+            else {
+                $(EmpID).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+               if (document.getElementById("AdvTp").value == "") {
+                isValid = false;
+                $(AdvTp).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Advance Type");
+                return false;
+            }
+            else {
+                $(AdvTp).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtEmi").value == "") {
+                 isValid = false;
+                 $(txtEmi).css({
+                     "border": "1px solid red",
+                     "background": "#FFCECE"
+                 });
+
+                 alert("Please Enter EMI Amount");
+                 return false;
+             }
+             else {
+                 $(txtEmi).css({
+                     "border": "",
+                     "background": ""
+                 });
+             }
+               if (document.getElementById("txtSMn").value == "") {
+                 isValid = false;
+                 $(txtSMn).css({
+                     "border": "1px solid red",
+                     "background": "#FFCECE"
+                 });
+
+                 alert("Please Enter Start Month");
+                 return false;
+             }
+             else {
+                 $(txtSMn).css({
+                     "border": "",
+                     "background": ""
+                 });
+             }
+              if (document.getElementById("txtEmid").value == "") {
+                 isValid = false;
+                 $(txtEmid).css({
+                     "border": "1px solid red",
+                     "background": "#FFCECE"
+                 });
+
+                 alert("Please Enter EMI Paid");
+                 return false;
+             }
+             else {
+                 $(txtEmid).css({
+                     "border": "",
+                     "background": ""
+                 });
+             }
+
+
+
+
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
+</script>
+<script>
+
+      // Initialize From Date picker
+    $('.from_Date').datetimepicker({
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        startDate: new Date(),
+        forceParse: 0
+    })
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    });
+</script>
+
+
+
+
+

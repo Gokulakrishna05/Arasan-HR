@@ -1,13 +1,12 @@
-﻿@model Arasan.Models.AdvanceTM
+﻿@model Arasan.Models.Incentive
 
 @{
-    ViewData["Title"] = "AdvanceTMList";
+    ViewData["Title"] = "ListIncentive";
 }
 <partial name="JqxGridPartial" />
 <script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
 
 @* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
-
 <script type="text/javascript">
     @if (TempData["notice"] != null)
     {
@@ -21,7 +20,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Hr</a> </li>
-            <li class="active"> <strong>Advance Type</strong> </li>
+            <li class="active"> <strong>Incentive </strong> </li>
         </ol>
     </div>
 </div>
@@ -30,7 +29,7 @@
         $(document).ready(function () {
             var source =
             {
-                url: "/AdvanceTM/MyListAdvanceTMgrid",
+                url: "/Incentive/MyListIncentivegrid",
                 data: {
                     strstatus: "Y"
                 },
@@ -38,11 +37,9 @@
                 updaterow: function (rowid, rowdata) {
                 },
                 datafields: [
-                    // { name: 'id', type: 'string' },
-                   // { name: 'id', type: 'string' },
-                    { name: 'atype', type: 'string' },
-                    { name: 'maxlmt', type: 'string' },
-                   
+                    { name: 'empid', type: 'string' },
+                    { name: 'desg', type: 'string' },
+                    { name: 'dpt', type: 'string' },
                     { name: 'editrow', type: 'string' },
                     { name: 'delrow', type: 'string' },
                     { name: 'viewrow', type: 'string' },
@@ -81,18 +78,12 @@
                     keyboardnavigation: false,
 
                     columns: [
-                        // { text: 'Item Category', filtertype: 'checkedlist', datafield: 'itemcate', width: 150 },
-                        // { text: 'Machine ID', filtertype: 'checkedlist', datafield: 'id', width: 150 },
-                        //{ text: 'ID', filtertype: 'checkedlist', datafield: 'id', width: 130 },
-                        { text: 'Advance Type', filtertype: 'input', datafield: 'atype', width: 290 },
-                        { text: 'Max Amount Limit ', filtertype: 'input', datafield: 'maxlmt', width: 290 },
-                      
-
-
-                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsrenderer: linkrenderer1, cellsalign: 'center', width: 70 },
-                        // { text: 'Regenerate', datafield: 'rrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 90 },
+                        { text: 'Employee Name', filtertype: 'input', datafield: 'empid', width: 230 },
+                        { text: 'Designation', filtertype: 'input', datafield: 'desg', width: 230 },
+                        { text: 'Department', filtertype: 'input', datafield: 'dpt', width: 230 },
+                        { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
+                        { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
+                        { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsrenderer: linkrenderer1, cellsalign: 'center', width: 100 },
                     ]
                 });
             $("#ddlStatus").change(function () {
@@ -119,14 +110,14 @@
                     <form>
                         <div class="row">
                             <div class="col-md-2 ">
-                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                @Html.DropDownListFor(n => n.Ddlstatus, new SelectListItem[]
                                          { new SelectListItem() {Text = "Enabled", Value="Y"},
                                 new SelectListItem() {Text = "Disabled", Value="N"}},
                                          new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
                             </div>
                             <div class="col-md-9 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("AdvanceTM", "AdvanceTM")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Advance Type </a>
+                                    <a href="@Url.Action("Incentive", "Incentive")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Incentive </a>
                                     <br>
                                 </div>
 
@@ -156,7 +147,6 @@
     }
 </script>
 
-
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
@@ -182,3 +172,4 @@
         $(".fancybox1").eq(0).trigger('click');
     }
 </script>
+  

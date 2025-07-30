@@ -36,7 +36,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Advance Type<label class="mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Advance Type Name<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.AType, new { @id = "AType", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
                                             @Html.HiddenFor(C => C.ID)
@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Max Amount Limit<label class="mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Max Allowed Amount<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.MALmt, new { @id = "MALmt", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
                                             @Html.HiddenFor(C => C.ID)
@@ -53,7 +53,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                           @*  <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Eligibility Rules<label class="mandatory"></label></label>
@@ -72,18 +72,18 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> *@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Number of Installments<label class="mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Maximum Installments<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.NOIns, new { @id = "NOIns", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                               @*  <div class="col-md-6">
                                     <div class="form-group">
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Deduction<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
@@ -91,9 +91,9 @@
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
-                                </div>
+                                </div> *@
                             </div>
-                            <div class="row">
+                            @* <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Remarks<label class="mandatory"></label></label>
@@ -103,7 +103,7 @@
                                         </div>
                                     </div>
                                 </div>
-                             </div>
+                             </div> *@
                         </form>
                     }
                 </div>
