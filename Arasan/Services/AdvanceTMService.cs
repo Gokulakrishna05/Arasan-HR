@@ -23,7 +23,7 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
 
-            SvSql = "Select ID,ATYPE,MXLIMIT,EGTYRULES,RETYPE,NOFINS,DEON,REMARKS  from ADVTYPEMASTER WHERE ID='" + id + "' ";
+            SvSql = "Select ID,ATYPE,MXLIMIT,NOFINS from ADVTYPEMASTER WHERE ID='" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -36,11 +36,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (status == "Y" || status == null)
             {
-                SvSql = "Select ID,ATYPE,MXLIMIT,EGTYRULES,RETYPE,NOFINS,DEON,REMARKS,IS_ACTIVE from ADVTYPEMASTER WHERE ADVTYPEMASTER.IS_ACTIVE='Y' ORDER BY ADVTYPEMASTER.ID DESC ";
+                SvSql = "Select ID,ATYPE,MXLIMIT,NOFINS,IS_ACTIVE from ADVTYPEMASTER WHERE ADVTYPEMASTER.IS_ACTIVE='Y' ORDER BY ADVTYPEMASTER.ID DESC";
             }
             else
             {
-                SvSql = "Select ID,ATYPE,MXLIMIT,EGTYRULES,RETYPE,NOFINS,DEON,REMARKS,IS_ACTIVE from ADVTYPEMASTER WHERE ADVTYPEMASTER.IS_ACTIVE='N' ORDER BY ADVTYPEMASTER.ID DESC ";
+                SvSql = "Select ID,ATYPE,MXLIMIT,NOFINS,IS_ACTIVE from ADVTYPEMASTER WHERE ADVTYPEMASTER.IS_ACTIVE='N' ORDER BY ADVTYPEMASTER.ID DESC";
 
             }
             DataTable dtt = new DataTable();
@@ -65,12 +65,12 @@ namespace Arasan.Services
                     objconn.Open();
                     if (Em.ID == null)
                     {
-                        svSQL = "Insert into ADVTYPEMASTER (ID,ATYPE,MXLIMIT,EGTYRULES,RETYPE,NOFINS,DEON,REMARKS) values ('" + Em.ID + "','" + Em.AType + "','" + Em.MALmt + "','" + Em.ERules + "','" + Em.RPType + "','" + Em.NOIns + "','"+ Em.Dedn + "','" + Em.Rmarks + "') ";
+                        svSQL = "Insert into ADVTYPEMASTER (ID,ATYPE,MXLIMIT,NOFINS) values ('" + Em.ID + "','" + Em.AType + "','" + Em.MALmt + "','" + Em.NOIns + "') ";
                     }
 
                     else
                     {
-                        svSQL = "UPDATE ADVTYPEMASTER SET ATYPE = '" + Em.AType + "',MXLIMIT = '" + Em.MALmt + "',EGTYRULES = '" + Em.ERules + "',RETYPE='" + Em.RPType + "',NOFINS='" + Em.NOIns + "',DEON='" + Em.Dedn + "',REMARKS='"+ Em.Rmarks + "'  Where ID = '" + Em.ID + "' ";
+                        svSQL = "UPDATE ADVTYPEMASTER SET ATYPE = '" + Em.AType + "',MXLIMIT = '" + Em.MALmt + "',NOFINS='" + Em.NOIns + "'  Where ID = '" + Em.ID + "' ";
 
                     }
                     OracleCommand oracleCommand = new OracleCommand(svSQL, objconn);

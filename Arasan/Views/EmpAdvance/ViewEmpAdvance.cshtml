@@ -1,0 +1,126 @@
+﻿@model Arasan.Models.EmpAdvance
+
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "AdvanceTM";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action("EmpAdvanceList", "EmpAdvance")">HR</a> </li>
+            <li class="active"> <strong>EmpAdvance</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">EmpAdvance</h5>
+                    <hr>
+                    @using (Html.BeginForm("EmpAdvance", "EmpAdvance", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            @* <div class="row"> *@
+                               @*  <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-6 control-label"> Advance<label class="mandatory"></label></label>
+                                        <div class="col-sm-6">
+                                            @Html.DisplayFor(C => C.Adv)
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div> *@
+                                <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-6 control-label">Employee Name<label class="mandatory"></label></label>
+                                        <div class="col-sm-6">
+                                            @Html.DisplayFor(C => C.Empe)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-6 control-label">Advance Type<label class="mandatory"></label></label>
+                                        <div class="col-sm-6">
+                                            @Html.DisplayFor(C => C.AdvTp)
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            <br />
+                                <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-6 control-label"> Advance Amount<label class="mandatory"></label></label>
+                                        <div class="col-sm-6">
+                                            @Html.DisplayFor(C => C.Advamt)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-6 control-label"> EMI Amount<label class="mandatory"></label></label>
+                                        <div class="col-sm-6">
+                                            @Html.DisplayFor(C => C.Emi)
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            <br />
+                                <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-6 control-label">Start Month<label class="mandatory"></label></label>
+                                        <div class="col-sm-6">
+                                            @Html.DisplayFor(C => C.SMn)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-6 control-label">EMI Paid<label class="mandatory"></label></label>
+                                        <div class="col-sm-6">
+                                            @Html.DisplayFor(C => C.Emid)
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            <br />
+                               <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-6 control-label"> Remarks <label class="mandatory"></label></label>
+                                        <div class="col-sm-6">
+                                            @Html.DisplayFor(C => C.Rmks)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+

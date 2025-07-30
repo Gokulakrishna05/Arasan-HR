@@ -1,20 +1,20 @@
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Arasan.Interface;
-using Arasan.Services;
-
-using Arasan.Models;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Hosting;
+using Arasan;
 using Arasan.Controllers;
+using Arasan.Interface;
+using Arasan.Interface.Master;
 using Arasan.Interface.Report;
+using Arasan.Interface.Transaction;
+using Arasan.Models;
+using Arasan.Models.Transaction;
+using Arasan.Services;
+using Arasan.Services.Master;
 using Arasan.Services.Report;
 using Arasan.Services.Sales_Export;
-using Arasan.Interface.Master;
-using Arasan.Services.Master;
-using Arasan.Interface.Transaction;
-using Arasan.Models.Transaction;
 using Arasan.Services.Transaction;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Collections.Generic;
 
 
 
@@ -54,9 +54,10 @@ internal class Program
 
 
         builder.Services.TryAddSingleton<IEmployeeAttendanceDetails, EmployeeAttendanceDetailsService>();
+        builder.Services.TryAddSingleton<IEmployeeAttendanceDetails, EmployeeAttendanceDetailsService>();
 
 
-        builder.Services.TryAddSingleton<IEmpShiftSchedule, EmpShiftScheduleService>();
+        builder.Services.TryAddSingleton<IIncentive, IncentiveService>();
 
         builder.Services.TryAddSingleton<IResignation, ResignationService>();
         builder.Services.TryAddSingleton<IEmpLoginDet, EmpLoginDetService>();
@@ -140,6 +141,7 @@ internal class Program
         builder.Services.TryAddSingleton<IPayPeriodService, PayPeriodService>();
 
         builder.Services.TryAddSingleton<IDepartment, DepartmentService>();
+        builder.Services.TryAddSingleton<IEmpAdvance, EmpAdvanceService>();
 
 
         builder.Services.TryAddSingleton<IPrivilegesService, PrivilegesService>();
