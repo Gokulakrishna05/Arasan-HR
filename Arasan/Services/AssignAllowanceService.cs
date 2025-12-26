@@ -26,6 +26,17 @@ namespace Arasan.Services
             return dtt;
         }
 
+        public DataTable GetEditAssignAllowanceDetails(string? id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ID,EMP_NAME,ALLOWANCE_NAME_ID,DESCRIPTION,ALLOWANCE_TYPE_ID,AMT_PERC,to_char(EFFECTIVE_DATE,'dd-MON-yyyy')EFFECTIVE_DATE from ASSIGN_ALLOWANCE WHERE ID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
         public string AssignAllowanceCRUD(AssignAllowance Cy)
         {
             string msg = "";
@@ -37,11 +48,11 @@ namespace Arasan.Services
                     objconn.Open();
                     if (Cy.ID == null)
                     {
-                        svSQL = "Insert into ASSIGN_ALLOWANCE (EMP_NAME,ALLOWANCE_NAME_ID,ALLOWANCE_TYPE_ID,AMT_PERC,EFFECTIVE_DATE,DESCRIPTION) values ('" + Cy.EmpName + "','" + Cy.AllowanceName + "','" + Cy.AllowanceType + "','" + Cy.AmtPerc + "','" + Cy.EffectiveDate + "','" + Cy.Description + "') ";
+                        //svSQL = "Insert into ASSIGN_ALLOWANCE (EMP_NAME,ALLOWANCE_NAME_ID,ALLOWANCE_TYPE_ID,AMT_PERC,EFFECTIVE_DATE,DESCRIPTION) values ('" + Cy.EmpName + "','" + Cy.AllowanceName + "','" + Cy.AllowanceType + "','" + Cy.AmtPerc + "','" + Cy.EffectiveDate + "','" + Cy.Description + "') ";
                     }
                     else
                     {
-                        svSQL = " UPDATE ASSIGN_ALLOWANCE SET EMP_NAME = '" + Cy.EmpName + "',ALLOWANCE_NAME_ID = '" + Cy.AllowanceName + "',ALLOWANCE_TYPE_ID = '" + Cy.AllowanceType + "',AMT_PERC = '" + Cy.AmtPerc + "',EFFECTIVE_DATE = '" + Cy.EffectiveDate + "',DESCRIPTION = '" + Cy.Description + "'  Where ID = '" + Cy.ID + "' ";
+                        //svSQL = " UPDATE ASSIGN_ALLOWANCE SET EMP_NAME = '" + Cy.EmpName + "',ALLOWANCE_NAME_ID = '" + Cy.AllowanceName + "',ALLOWANCE_TYPE_ID = '" + Cy.AllowanceType + "',AMT_PERC = '" + Cy.AmtPerc + "',EFFECTIVE_DATE = '" + Cy.EffectiveDate + "',DESCRIPTION = '" + Cy.Description + "'  Where ID = '" + Cy.ID + "' ";
                     }
                     OracleCommand oracleCommand = new OracleCommand(svSQL, objconn);
                     oracleCommand.Parameters.Add("OUTID", OracleDbType.Int64, ParameterDirection.ReturnValue);
@@ -135,5 +146,6 @@ namespace Arasan.Services
             }
             return "";
         }
+
     }
 }

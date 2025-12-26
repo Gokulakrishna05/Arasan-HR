@@ -7,21 +7,27 @@ namespace Arasan.Models
         public AssignAllowance()
         {
             this.EmpNamelst = new List<SelectListItem>();
-            this.AllowanceTypelst = new List<SelectListItem>();
-            this.AllowanceNamelst = new List<SelectListItem>();
         }
         public List<SelectListItem> EmpNamelst;
-        public List<SelectListItem> AllowanceTypelst;
-        public List<SelectListItem> AllowanceNamelst;
 
         public string? ID { get; set; }
         public string? EmpName { get; set; }
-        public string? AllowanceName { get; set; }
+        public string? Ddlstatus { get; set; }
+
+        public List<SelectAllowance> Allowancelst;
+    }
+
+    public class SelectAllowance
+    {
         public string? AllowanceType { get; set; }
+        public List<SelectListItem> AllowanceTypelst { get; set; }
+        public string? AllowanceName { get; set; }
+        public List<SelectListItem> AllowanceNamelst { get; set; }
         public string? AmtPerc { get; set; }
         public string? EffectiveDate { get; set; }
         public string? Description { get; set; }
-        public string? Ddlstatus { get; set; }
+        public string? Isvalid { get; set; }
+
     }
 
     public class AssignAllowancegrid
