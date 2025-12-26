@@ -10,6 +10,7 @@ namespace Arasan.Interface
         DataTable GetAllowanceName();
         DataTable GetAllowanceType(string alltypeid);
         DataTable GetEditAssignAllowance(string id);
+        DataTable GetEditAssignAllowanceDetails(string? id);
         DataTable GetEmpName();
         string StatusChange(string tag, string id);
     }

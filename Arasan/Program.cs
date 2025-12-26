@@ -153,6 +153,7 @@ internal class Program
         builder.Services.TryAddSingleton<IEmployee, EmployeeService>();
         builder.Services.TryAddSingleton<IShift, ShiftService>();
         builder.Services.TryAddSingleton<IMissingPunchEntry, MissingPunchEntryService>();
+        builder.Services.TryAddSingleton<ISalarySlipService, SalarySlipService>();
 
 
 
