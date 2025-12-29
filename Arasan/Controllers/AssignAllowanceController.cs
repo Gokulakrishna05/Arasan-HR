@@ -58,12 +58,12 @@ namespace Arasan.Controllers
                     tda = new SelectAllowance();
 
                     tda.AllowanceNamelst = BindAllowanceName();
-                    tda.AllowanceName = dt2.Rows[i]["FROMTIME"].ToString();
+                    tda.AllowanceName = dt2.Rows[i]["ALLOWANCE_NAME_ID"].ToString();
                     tda.AllowanceTypelst = BindAllowanceType(tda.AllowanceName);
-                    tda.AllowanceType = dt2.Rows[i]["TOTIME"].ToString();
-                    tda.AmtPerc = dt2.Rows[i]["TOHRS"].ToString();
-                    tda.EffectiveDate = dt2.Rows[i]["DSCN"].ToString();
-                    tda.Description = dt2.Rows[i]["REASON"].ToString();
+                    tda.AllowanceType = dt2.Rows[i]["ALLOWANCE_TYPE"].ToString();
+                    tda.AmtPerc = dt2.Rows[i]["AMT_PERC"].ToString();
+                    tda.EffectiveDate = dt2.Rows[i]["EFFECTIVE_DATE"].ToString();
+                    tda.Description = dt2.Rows[i]["REMARKS"].ToString();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -154,7 +154,7 @@ namespace Arasan.Controllers
         {
             AssignAllowance ic = new AssignAllowance();
             DataTable dt = new DataTable();
-            dt = datatrans.GetData("Select EMPMAST.EMPNAME,ALLOWANCE_MASTER.ALLOWANCE_NAME,ALLOWANCE_MASTER.ALLOWANCE_TYPE,ASSIGN_ALLOWANCE.AMT_PERC,to_char(ASSIGN_ALLOWANCE.EFFECTIVE_DATE,'dd-MON-yyyy') AS EFFECTIVE_DATE,ASSIGN_ALLOWANCE.DESCRIPTION from ASSIGN_ALLOWANCE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = ASSIGN_ALLOWANCE.EMP_NAME LEFT OUTER JOIN ALLOWANCE_MASTER ON ALLOWANCE_MASTER.ID = ASSIGN_ALLOWANCE.ALLOWANCE_NAME_ID LEFT OUTER JOIN ALLOWANCE_MASTER ON ALLOWANCE_MASTER.ID = ASSIGN_ALLOWANCE.ALLOWANCE_TYPE_ID WHERE ASSIGN_ALLOWANCE.ID='" + id + "'");
+            dt = datatrans.GetData("Select EMPMAST.EMPNAME from ASSIGN_ALLOWANCE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = ASSIGN_ALLOWANCE.EMP_NAME WHERE ASSIGN_ALLOWANCE.ID='" + id + "'");
 
             if (dt.Rows.Count > 0)
             {
@@ -165,7 +165,7 @@ namespace Arasan.Controllers
             SelectAllowance tda = new SelectAllowance();
 
             DataTable dtt = new DataTable();
-            dtt = datatrans.GetData("");
+            dtt = datatrans.GetData("SELECT ALLOWANCE_MASTER.ALLOWANCE_NAME,ALLOWANCE_MASTER.ALLOWANCE_TYPE,ASSIGN_ALLOWNACE_DETAILS.AMT_PERC,to_char(ASSIGN_ALLOWNACE_DETAILS.EFFECTIVE_DATE,'dd-MON-yyyy') AS EFFECTIVE_DATE,ASSIGN_ALLOWNACE_DETAILS.REMARKS FROM ASSIGN_ALLOWNACE_DETAILS LEFT OUTER JOIN ALLOWANCE_MASTER ON ALLOWANCE_MASTER.ID = ASSIGN_ALLOWNACE_DETAILS.ALLOWANCE_NAME_ID LEFT OUTER JOIN ALLOWANCE_MASTER ON ALLOWANCE_MASTER.ID = ASSIGN_ALLOWNACE_DETAILS.ALLOWANCE_TYPE WHERE ASSIGN_ALLOWNACE_DETAILS.ID='" + id + "'");
 
             if(dtt.Rows.Count > 0)
             {
@@ -176,7 +176,7 @@ namespace Arasan.Controllers
                     tda.AllowanceType = dt.Rows[0]["ALLOWANCE_TYPE"].ToString();
                     tda.AmtPerc = dt.Rows[0]["AMT_PERC"].ToString();
                     tda.EffectiveDate = dt.Rows[0]["EFFECTIVE_DATE"].ToString();
-                    tda.Description = dt.Rows[0]["DESCRIPTION"].ToString();
+                    tda.Description = dt.Rows[0]["REMARKS"].ToString();
                     TData.Add(tda);
                 }
             }

@@ -30,18 +30,39 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Employee Name<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Employee Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.EmpName, new { @id = "EmpName", @Class = "form-control _select", @TabIndex = 1 })
-                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.DisplayFor(C => C.EmpName)
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Basic Salary<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Base Salary<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.Salary, new { @id = "Salary", @class = "form-control", @TabIndex = 2 })
+                                            @Html.DisplayFor(C => C.BasicSalary)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @* Allowance & Bonus Details *@
+                            <br />
+                            <h6 style="font-size:14px; color:red;">Salary Details</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">DA<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.DA)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">HRA<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.HRA)
                                         </div>
                                     </div>
                                 </div>
@@ -50,17 +71,17 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">HRA<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Conveyance<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.HRA, new { @id = "HRA", @class = "form-control", @TabIndex = 2 })
+                                            @Html.DisplayFor(C => C.Conveyance)
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Allowance Amount<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">OT<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.AllowanceAmt, new { @id = "AllowanceAmt", @class = "form-control", @TabIndex = 2 })
+                                            @Html.DisplayFor(C => C.OT)
                                         </div>
                                     </div>
                                 </div>
@@ -69,17 +90,17 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">OT Rate<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Washing Allowance<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.OTRate, new { @id = "OTRate", @class = "form-control", @TabIndex = 2 })
+                                            @Html.DisplayFor(C => C.WA)
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Incentive<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Educational Allowance<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.Incentive, new { @id = "Incentive", @class = "form-control", @TabIndex = 2 })
+                                            @Html.DisplayFor(C => C.EA)
                                         </div>
                                     </div>
                                 </div>
@@ -88,15 +109,100 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Special Allowance<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.SA)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">Bonus IsEligible<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DisplayFor(C => C.Bonus, new { @id = "Bonus", @class = "form-control", @TabIndex = 2 })
+                                            @Html.DisplayFor(C => C.Bonus)
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-
+                            @* Salary Deductions *@
+                            <br />
+                            <h6 style="font-size:14px; color:red;">Salary Deductions</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">PF<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.PF)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">ESI<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.ESI)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Loan / Advance<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.LoanAdv)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Insurance<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Insurance)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Meals<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Meals)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Fine<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Fine)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">TDS<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.TDS)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Other Deductions<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.OtherDeductions)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     }
                 </div>

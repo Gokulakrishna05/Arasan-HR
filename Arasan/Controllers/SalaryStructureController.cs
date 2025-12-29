@@ -38,12 +38,23 @@ namespace Arasan.Controllers
                     ic.ID = dt.Rows[0]["ID"].ToString();
                     ic.EmpNamelst = BindEmpName();
                     ic.EmpName = dt.Rows[0]["EMP_NAME"].ToString();
-                    ic.Salary = dt.Rows[0]["BASIC_SALARY"].ToString();
-                    ic.HRA = dt.Rows[0]["HRA"].ToString();
-                    ic.AllowanceAmt = dt.Rows[0]["ALLOWANCE_AMT"].ToString();
-                    ic.OTRate = dt.Rows[0]["OT_RATE"].ToString();
-                    ic.Incentive = dt.Rows[0]["INCENTIVE"].ToString();
+                    ic.BasicSalary = Convert.ToInt64(dt.Rows[0]["BASIC_SALARY"].ToString());
+                    ic.DA = Convert.ToInt64(dt.Rows[0]["DA"].ToString());
+                    ic.HRA = Convert.ToInt64(dt.Rows[0]["HRA"].ToString());
+                    ic.Conveyance = Convert.ToInt64(dt.Rows[0]["CONVEYANCE"].ToString());
+                    ic.OT = Convert.ToInt64(dt.Rows[0]["OT_RATE"].ToString());
+                    ic.WA = Convert.ToInt64(dt.Rows[0]["WASH_ALL"].ToString());
+                    ic.EA = Convert.ToInt64(dt.Rows[0]["EDU_ALL"].ToString());
+                    ic.SA = Convert.ToInt64(dt.Rows[0]["SPEC_ALL"].ToString());
                     ic.Bonus = dt.Rows[0]["BONUS_ISELIGIBLE"].ToString();
+                    ic.PF = Convert.ToInt64(dt.Rows[0]["PF"].ToString());
+                    ic.ESI = Convert.ToInt64(dt.Rows[0]["ESI"].ToString());
+                    ic.LoanAdv = Convert.ToInt64(dt.Rows[0]["LOAN_ADV"].ToString());
+                    ic.Insurance = Convert.ToInt64(dt.Rows[0]["INSURANCE"].ToString());
+                    ic.Meals = Convert.ToInt64(dt.Rows[0]["MEALS"].ToString());
+                    ic.Fine = Convert.ToInt64(dt.Rows[0]["FINE"].ToString());
+                    ic.TDS = Convert.ToInt64(dt.Rows[0]["TDS"].ToString());
+                    ic.OtherDeductions = Convert.ToInt64(dt.Rows[0]["OTH_DEDS"].ToString());
                 }
             }
             return View(ic);
@@ -130,17 +141,29 @@ namespace Arasan.Controllers
         {
             SalaryStructure ic = new SalaryStructure();
             DataTable dt = new DataTable();
-            dt = datatrans.GetData("Select EMPMAST.EMPNAME,BASIC_SALARY,HRA,ALLOWANCE_AMT,OT_RATE,INCENTIVE,BONUS_ISELIGIBLE from SALARY_STRUCTURE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = SALARY_STRUCTURE.EMP_NAME WHERE SALARY_STRUCTURE.ID='" + id + "'");
+            dt = datatrans.GetData("Select EMPMAST.EMPNAME,BASIC_SALARY,DA,HRA,CONVEYANCE,OT_RATE,WASH_ALL,EDU_ALL,SPEC_ALL,BONUS_ISELIGIBLE,BONUS_AMT,PF,ESI,LOAN_ADV,INSURANCE,MEALS,FINE,TDS,OTH_DEDS from SALARY_STRUCTURE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = SALARY_STRUCTURE.EMP_NAME WHERE SALARY_STRUCTURE.ID='" + id + "'");
 
             if (dt.Rows.Count > 0)
             {
                 ic.EmpName = dt.Rows[0]["EMPNAME"].ToString();
-                ic.Salary = dt.Rows[0]["BASIC_SALARY"].ToString();
-                ic.HRA = dt.Rows[0]["HRA"].ToString();
-                ic.AllowanceAmt = dt.Rows[0]["ALLOWANCE_AMT"].ToString();
-                ic.OTRate = dt.Rows[0]["OT_RATE"].ToString();
-                ic.Incentive = dt.Rows[0]["INCENTIVE"].ToString();
+                ic.BasicSalary = Convert.ToInt64(dt.Rows[0]["BASIC_SALARY"].ToString());
+                ic.DA = Convert.ToInt64(dt.Rows[0]["DA"].ToString());
+                ic.HRA = Convert.ToInt64(dt.Rows[0]["HRA"].ToString());
+                ic.Conveyance = Convert.ToInt64(dt.Rows[0]["CONVEYANCE"].ToString());
+                ic.OT = Convert.ToInt64(dt.Rows[0]["OT_RATE"].ToString());
+                ic.WA = Convert.ToInt64(dt.Rows[0]["WASH_ALL"].ToString());
+                ic.EA = Convert.ToInt64(dt.Rows[0]["EDU_ALL"].ToString());
+                ic.SA = Convert.ToInt64(dt.Rows[0]["SPEC_ALL"].ToString());
                 ic.Bonus = dt.Rows[0]["BONUS_ISELIGIBLE"].ToString();
+                ic.BonusAmt = Convert.ToInt64(dt.Rows[0]["BONUS_AMT"].ToString());
+                ic.PF = Convert.ToInt64(dt.Rows[0]["PF"].ToString());
+                ic.ESI = Convert.ToInt64(dt.Rows[0]["ESI"].ToString());
+                ic.LoanAdv = Convert.ToInt64(dt.Rows[0]["LOAN_ADV"].ToString());
+                ic.Insurance = Convert.ToInt64(dt.Rows[0]["INSURANCE"].ToString());
+                ic.Meals = Convert.ToInt64(dt.Rows[0]["MEALS"].ToString());
+                ic.Fine = Convert.ToInt64(dt.Rows[0]["FINE"].ToString());
+                ic.TDS = Convert.ToInt64(dt.Rows[0]["TDS"].ToString());
+                ic.OtherDeductions = Convert.ToInt64(dt.Rows[0]["OTH_DEDS"].ToString());
                 ic.ID = id;
             }
             return View(ic);
