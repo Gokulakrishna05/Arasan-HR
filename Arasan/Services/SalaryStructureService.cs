@@ -19,7 +19,7 @@ namespace Arasan.Services
         public DataTable GetEditSalaryStructure(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ID,EMP_NAME,BASIC_SALARY,HRA,ALLOWANCE_AMT,OT_RATE,INCENTIVE,BONUS_ISELIGIBLE from SALARY_STRUCTURE WHERE ID='" + id + "'";
+            SvSql = "Select EMPNAME,BASIC_SALARY,DA,HRA,CONVEYANCE,OT_RATE,WASH_ALL,EDU_ALL,SPEC_ALL,BONUS_ISELIGIBLE,BONUS_AMT,PF,ESI,LOAN_ADV,INSURANCE,MEALS,FINE,TDS,OTH_DEDS from SALARY_STRUCTURE WHERE ID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -38,11 +38,11 @@ namespace Arasan.Services
                     objconn.Open();
                     if (Cy.ID == null)
                     {
-                        svSQL = "Insert into SALARY_STRUCTURE (EMP_NAME,BASIC_SALARY,HRA,ALLOWANCE_AMT,OT_RATE,INCENTIVE,BONUS_ISELIGIBLE) values ('" + Cy.EmpName + "','" + Cy.Salary + "','" + Cy.HRA + "','" + Cy.AllowanceAmt + "','" + Cy.OTRate + "','" + Cy.Incentive + "','" + Cy.Bonus + "') ";
+                        svSQL = "Insert into SALARY_STRUCTURE (EMPNAME,BASIC_SALARY,DA,HRA,CONVEYANCE,OT_RATE,WASH_ALL,EDU_ALL,SPEC_ALL,BONUS_ISELIGIBLE,BONUS_AMT,PF,ESI,LOAN_ADV,INSURANCE,MEALS,FINE,TDS,OTH_DEDS) values ('" + Cy.EmpName + "','" + Cy.BasicSalary + "','" + Cy.DA + "','" + Cy.HRA + "','" + Cy.Conveyance + "','" + Cy.OT + "','" + Cy.WA + "','" + Cy.EA + "','" + Cy.SA + "','" + Cy.Bonus + "','" + Cy.BonusAmt + "','" + Cy.PF + "','" + Cy.ESI + "','" + Cy.LoanAdv + "','" + Cy.Insurance + "','" + Cy.Meals + "','" + Cy.Fine + "','" + Cy.TDS + "','" + Cy.OtherDeductions + "') ";
                     }
                     else
                     {
-                        svSQL = " UPDATE SALARY_STRUCTURE SET EMP_NAME = '" + Cy.EmpName + "',BASIC_SALARY = '" + Cy.Salary + "',HRA = '" + Cy.HRA + "',ALLOWANCE_AMT = '" + Cy.AllowanceAmt + "',OT_RATE = '" + Cy.OTRate + "',INCENTIVE = '" + Cy.Incentive + "',BONUS_ISELIGIBLE = '" + Cy.Bonus + "'  Where ID = '" + Cy.ID + "' ";
+                        svSQL = " UPDATE SALARY_STRUCTURE SET EMP_NAME = '" + Cy.EmpName + "',BASIC_SALARY = '" + Cy.BasicSalary + "',DA = '" + Cy.DA + "',HRA = '" + Cy.HRA + "',CONVEYANCE = '" + Cy.Conveyance + "',OT_RATE = '" + Cy.OT + "',WASH_ALL = '" + Cy.WA + "',EDU_ALL = '" + Cy.EA + "',SPEC_ALL = '" + Cy.SA + "',BONUS_ISELIGIBLE = '" + Cy.Bonus + "',BONUS_AMT = '" + Cy.BonusAmt + "',PF = '" + Cy.PF + "',ESI = '" + Cy.ESI + "',LOAN_ADV = '" + Cy.LoanAdv + "',INSURANCE = '" + Cy.Insurance + "',MEALS = '" + Cy.Meals + "',FINE = '" + Cy.Fine + "',TDS = '" + Cy.TDS + "',OTH_DEDS = '" + Cy.OtherDeductions + "'  Where ID = '" + Cy.ID + "' ";
                     }
                     OracleCommand oracleCommand = new OracleCommand(svSQL, objconn);
                     oracleCommand.Parameters.Add("OUTID", OracleDbType.Int64, ParameterDirection.ReturnValue);
@@ -62,11 +62,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select SALARY_STRUCTURE.ID,EMPMAST.EMPNAME,BONUS_ISELIGIBLE,SALARY_STRUCTURE.IS_ACTIVE from SALARY_STRUCTURE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = SALARY_STRUCTURE.EMP_NAME WHERE SALARY_STRUCTURE.IS_ACTIVE='Y' ORDER BY SALARY_STRUCTURE.ID DESC ";
+                SvSql = "Select SALARY_STRUCTURE.ID,EMPMAST.EMPNAME,BONUS_ISELIGIBLE from SALARY_STRUCTURE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = SALARY_STRUCTURE.EMP_NAME WHERE SALARY_STRUCTURE.IS_ACTIVE='Y' ORDER BY SALARY_STRUCTURE.ID DESC ";
             }
             else
             {
-                SvSql = "Select SALARY_STRUCTURE.ID,EMPMAST.EMPNAME,BONUS_ISELIGIBLE,SALARY_STRUCTURE.IS_ACTIVE from SALARY_STRUCTURE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = SALARY_STRUCTURE.EMP_NAME WHERE SALARY_STRUCTURE.IS_ACTIVE='N' ORDER BY SALARY_STRUCTURE.ID DESC ";
+                SvSql = "Select SALARY_STRUCTURE.ID,EMPMAST.EMPNAME,BONUS_ISELIGIBLE from SALARY_STRUCTURE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = SALARY_STRUCTURE.EMP_NAME WHERE SALARY_STRUCTURE.IS_ACTIVE='N' ORDER BY SALARY_STRUCTURE.ID DESC ";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
