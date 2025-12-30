@@ -2,6 +2,7 @@
 using Arasan.Interface;
 using Arasan.Models;
 using Arasan.Services;
+using Intuit.Ipp.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -25,6 +26,7 @@ namespace Arasan.Controllers
         {
             SalaryStructure ic = new SalaryStructure();
             ic.EmpNamelst = BindEmpName();
+            ic.Bonus = "No";
             if(id == null)
             {
 
@@ -38,23 +40,24 @@ namespace Arasan.Controllers
                     ic.ID = dt.Rows[0]["ID"].ToString();
                     ic.EmpNamelst = BindEmpName();
                     ic.EmpName = dt.Rows[0]["EMP_NAME"].ToString();
-                    ic.BasicSalary = Convert.ToInt64(dt.Rows[0]["BASIC_SALARY"].ToString());
-                    ic.DA = Convert.ToInt64(dt.Rows[0]["DA"].ToString());
-                    ic.HRA = Convert.ToInt64(dt.Rows[0]["HRA"].ToString());
-                    ic.Conveyance = Convert.ToInt64(dt.Rows[0]["CONVEYANCE"].ToString());
-                    ic.OT = Convert.ToInt64(dt.Rows[0]["OT_RATE"].ToString());
-                    ic.WA = Convert.ToInt64(dt.Rows[0]["WASH_ALL"].ToString());
-                    ic.EA = Convert.ToInt64(dt.Rows[0]["EDU_ALL"].ToString());
-                    ic.SA = Convert.ToInt64(dt.Rows[0]["SPEC_ALL"].ToString());
+                    ic.BasicSalary = (double)Convert.ToDecimal(dt.Rows[0]["BASIC_SALARY"]);
+                    ic.DA = (double)Convert.ToDecimal(dt.Rows[0]["DA"]);
+                    ic.HRA = (double)Convert.ToDecimal(dt.Rows[0]["HRA"].ToString());
+                    ic.Conveyance = (double)Convert.ToDecimal(dt.Rows[0]["CONVEYANCE"]);
+                    ic.OT = (double)Convert.ToDecimal(dt.Rows[0]["OT_RATE"]);
+                    ic.WA = (double)Convert.ToDecimal(dt.Rows[0]["WASH_ALL"]);
+                    ic.EA = (double)Convert.ToDecimal(dt.Rows[0]["EDU_ALL"]);
+                    ic.SA = (double)Convert.ToDecimal(dt.Rows[0]["SPEC_ALL"]);
                     ic.Bonus = dt.Rows[0]["BONUS_ISELIGIBLE"].ToString();
-                    ic.PF = Convert.ToInt64(dt.Rows[0]["PF"].ToString());
-                    ic.ESI = Convert.ToInt64(dt.Rows[0]["ESI"].ToString());
-                    ic.LoanAdv = Convert.ToInt64(dt.Rows[0]["LOAN_ADV"].ToString());
-                    ic.Insurance = Convert.ToInt64(dt.Rows[0]["INSURANCE"].ToString());
-                    ic.Meals = Convert.ToInt64(dt.Rows[0]["MEALS"].ToString());
-                    ic.Fine = Convert.ToInt64(dt.Rows[0]["FINE"].ToString());
-                    ic.TDS = Convert.ToInt64(dt.Rows[0]["TDS"].ToString());
-                    ic.OtherDeductions = Convert.ToInt64(dt.Rows[0]["OTH_DEDS"].ToString());
+                    ic.BonusAmt = (double)Convert.ToDecimal(dt.Rows[0]["BONUS_AMT"]);
+                    ic.PF = (double)Convert.ToDecimal(dt.Rows[0]["PF"]);
+                    ic.ESI = (double)Convert.ToDecimal(dt.Rows[0]["ESI"]);
+                    ic.LoanAdv = (double)Convert.ToDecimal(dt.Rows[0]["LOAN_ADV"]);
+                    ic.Insurance = (double)Convert.ToDecimal(dt.Rows[0]["INSURANCE"]);
+                    ic.Meals = (double)Convert.ToDecimal(dt.Rows[0]["MEALS"]);
+                    ic.Fine = (double)Convert.ToDecimal(dt.Rows[0]["FINE"]);
+                    ic.TDS = (double)Convert.ToDecimal(dt.Rows[0]["TDS"]);
+                    ic.OtherDeductions = (double)Convert.ToDecimal(dt.Rows[0]["OTH_DEDS"]);
                 }
             }
             return View(ic);
@@ -146,24 +149,24 @@ namespace Arasan.Controllers
             if (dt.Rows.Count > 0)
             {
                 ic.EmpName = dt.Rows[0]["EMPNAME"].ToString();
-                ic.BasicSalary = Convert.ToInt64(dt.Rows[0]["BASIC_SALARY"].ToString());
-                ic.DA = Convert.ToInt64(dt.Rows[0]["DA"].ToString());
-                ic.HRA = Convert.ToInt64(dt.Rows[0]["HRA"].ToString());
-                ic.Conveyance = Convert.ToInt64(dt.Rows[0]["CONVEYANCE"].ToString());
-                ic.OT = Convert.ToInt64(dt.Rows[0]["OT_RATE"].ToString());
-                ic.WA = Convert.ToInt64(dt.Rows[0]["WASH_ALL"].ToString());
-                ic.EA = Convert.ToInt64(dt.Rows[0]["EDU_ALL"].ToString());
-                ic.SA = Convert.ToInt64(dt.Rows[0]["SPEC_ALL"].ToString());
+                ic.BasicSalary = (double)Convert.ToDecimal(dt.Rows[0]["BASIC_SALARY"]);
+                ic.DA = (double)Convert.ToDecimal(dt.Rows[0]["DA"]);
+                ic.HRA = (double)Convert.ToDecimal(dt.Rows[0]["HRA"].ToString());
+                ic.Conveyance = (double)Convert.ToDecimal(dt.Rows[0]["CONVEYANCE"]);
+                ic.OT = (double)Convert.ToDecimal(dt.Rows[0]["OT_RATE"]);
+                ic.WA = (double)Convert.ToDecimal(dt.Rows[0]["WASH_ALL"]);
+                ic.EA = (double)Convert.ToDecimal(dt.Rows[0]["EDU_ALL"]);
+                ic.SA = (double)Convert.ToDecimal(dt.Rows[0]["SPEC_ALL"]);
                 ic.Bonus = dt.Rows[0]["BONUS_ISELIGIBLE"].ToString();
-                ic.BonusAmt = Convert.ToInt64(dt.Rows[0]["BONUS_AMT"].ToString());
-                ic.PF = Convert.ToInt64(dt.Rows[0]["PF"].ToString());
-                ic.ESI = Convert.ToInt64(dt.Rows[0]["ESI"].ToString());
-                ic.LoanAdv = Convert.ToInt64(dt.Rows[0]["LOAN_ADV"].ToString());
-                ic.Insurance = Convert.ToInt64(dt.Rows[0]["INSURANCE"].ToString());
-                ic.Meals = Convert.ToInt64(dt.Rows[0]["MEALS"].ToString());
-                ic.Fine = Convert.ToInt64(dt.Rows[0]["FINE"].ToString());
-                ic.TDS = Convert.ToInt64(dt.Rows[0]["TDS"].ToString());
-                ic.OtherDeductions = Convert.ToInt64(dt.Rows[0]["OTH_DEDS"].ToString());
+                ic.BonusAmt = (double)Convert.ToDecimal(dt.Rows[0]["BONUS_AMT"]);
+                ic.PF = (double)Convert.ToDecimal(dt.Rows[0]["PF"]);
+                ic.ESI = (double)Convert.ToDecimal(dt.Rows[0]["ESI"]);
+                ic.LoanAdv = (double)Convert.ToDecimal(dt.Rows[0]["LOAN_ADV"]);
+                ic.Insurance = (double)Convert.ToDecimal(dt.Rows[0]["INSURANCE"]);
+                ic.Meals = (double)Convert.ToDecimal(dt.Rows[0]["MEALS"]);
+                ic.Fine = (double)Convert.ToDecimal(dt.Rows[0]["FINE"]);
+                ic.TDS = (double)Convert.ToDecimal(dt.Rows[0]["TDS"]);
+                ic.OtherDeductions = (double)Convert.ToDecimal(dt.Rows[0]["OTH_DEDS"]);
                 ic.ID = id;
             }
             return View(ic);
@@ -194,17 +197,47 @@ namespace Arasan.Controllers
             try
             {
                 DataTable dt = new DataTable();
-                string amt = "";
+                string da = "", hra = "", conv = "", ot = "", wa = "", ea = "", sa = "";
                 
-                dt = SalaryStructureService.GetAllAmtDetails(allamtid);
+                //dt = SalaryStructureService.GetAllAmtDetails(allamtid);
+                dt = datatrans.GetData("SELECT AAD.ID, AAD.ASSALLDETAILID, AM.ALLOWANCE_NAME, AAD.AMT_PERC FROM ASSIGN_ALLOWNACE_DETAILS AAD LEFT OUTER JOIN ALLOWANCE_MASTER AM ON AM.ID=AAD.ALLOWANCE_NAME_ID WHERE EMP_ID = '" + allamtid + "' ");
 
                 if (dt.Rows.Count > 0)
                 {
-                    amt = dt.Rows[0]["AMT_PERC"].ToString();
-                    
+                    for(int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        if (dt.Rows[i]["ALLOWANCE_NAME"].ToString() == "Dearness Allowance(DA)")
+                        {
+                            da = dt.Rows[i]["AMT_PERC"].ToString();
+                        }
+                        if (dt.Rows[i]["ALLOWANCE_NAME"].ToString() == "House Rent Allowance(HRA)")
+                        {
+                            hra = dt.Rows[i]["AMT_PERC"].ToString();
+                        }
+                        if (dt.Rows[i]["ALLOWANCE_NAME"].ToString() == "Conveyance")
+                        {
+                            conv = dt.Rows[i]["AMT_PERC"].ToString();
+                        }
+                        if (dt.Rows[i]["ALLOWANCE_NAME"].ToString() == "Over Time Allowance(OT)")
+                        {
+                            ot = dt.Rows[i]["AMT_PERC"].ToString();
+                        }
+                        if (dt.Rows[i]["ALLOWANCE_NAME"].ToString() == "Washing Allowance(WA)")
+                        {
+                            wa = dt.Rows[i]["AMT_PERC"].ToString();
+                        }
+                        if (dt.Rows[i]["ALLOWANCE_NAME"].ToString() == "Education Allowance(EA)")
+                        {
+                            ea = dt.Rows[i]["AMT_PERC"].ToString();
+                        }
+                        if (dt.Rows[i]["ALLOWANCE_NAME"].ToString() == "Special Allowance(SA)")
+                        {
+                            sa = dt.Rows[i]["AMT_PERC"].ToString();
+                        }
+                    }
                 }
 
-                var response = new { amt = amt };
+                var response = new { da = da, hra = hra, conv = conv, ot = ot, wa = wa, ea = ea, sa = sa };
                 return Json(response);
             }
             catch (Exception)

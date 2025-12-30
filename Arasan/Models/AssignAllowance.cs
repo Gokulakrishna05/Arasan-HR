@@ -14,7 +14,7 @@ namespace Arasan.Models
         public string? EmpName { get; set; }
         public string? Ddlstatus { get; set; }
 
-        public List<SelectAllowance> Allowancelst;
+        public List<SelectAllowance> Allowancelst { get; set; }
     }
 
     public class SelectAllowance

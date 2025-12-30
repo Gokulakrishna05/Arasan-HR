@@ -186,17 +186,25 @@ namespace Arasan.Controllers
             try
             {
                 DataTable dt = new DataTable();
-                string amt = "";
+                string emplid = "", dept = "", desg = "", join = "", fath = "", bank = "", bankacc = "", pfno = "", esino = "", empdob = "", bassalary = "", da = "", hra = "", conv = "", wa = "", ea = "", sa = "", ot = "", pf = "", esi = "", loanadv = "", ins = "", meals = "", fine = "", tds = "", othdeds = "", woff = "";
 
-                dt = SalarySlipService.GetEmpDetails(empid);
-
+                //dt = SalarySlipService.GetEmpDetails(empid);
+                dt = datatrans.GetData("SELECT EM.EMPMASTID,EM.EMPID,EM.EMPNAME,EM.EMPDOB,EM.JOINDATE,EM.EMPDESIGN,EM.PFNO,EM.ESINO,EM.FATHERNAME,EM.WOFF,EM.BANK,EM.BANKACCNO,SS.BASIC_SALARY,SS.DA,SS.HRA,SS.CONVEYANCE,SS.OT_RATE,SS.WASH_ALL,SS.EDU_ALL,SS.SPEC_ALL,SS.PF,SS.ESI,SS.LOAN_ADV,SS.INSURANCE,SS.MEALS,SS.FINE,SS.TDS,SS.OTH_DEDS,DB.DEPTNAME FROM EMPMAST EM LEFT OUTER JOIN SALARY_STRUCTURE SS ON SS.EMP_NAME=EM.EMPMASTID LEFT OUTER JOIN DDBASIC DB ON DB.DDBASICID=EM.EMPDEPT WHERE EM.EMPMASTID = '" + empid + "'");
                 if (dt.Rows.Count > 0)
                 {
-                    amt = dt.Rows[0]["AMT_PERC"].ToString();
+                    emplid = dt.Rows[0]["EMPID"].ToString(); dept = dt.Rows[0]["DEPTNAME"].ToString(); desg = dt.Rows[0]["EMPDESIGN"].ToString();
+                    join = dt.Rows[0]["JOINDATE"].ToString(); fath = dt.Rows[0]["FATHERNAME"].ToString(); bank = dt.Rows[0]["BANK"].ToString();
+                    bankacc = dt.Rows[0]["BANKACCNO"].ToString(); pfno = dt.Rows[0]["PFNO"].ToString(); esino = dt.Rows[0]["ESINO"].ToString();
+                    empdob = dt.Rows[0]["EMPDOB"].ToString(); bassalary = dt.Rows[0]["BASIC_SALARY"].ToString(); da = dt.Rows[0]["DA"].ToString();
+                    hra = dt.Rows[0]["HRA"].ToString(); conv = dt.Rows[0]["CONVEYANCE"].ToString(); wa = dt.Rows[0]["WASH_ALL"].ToString();
+                    ea = dt.Rows[0]["EDU_ALL"].ToString(); sa = dt.Rows[0]["SPEC_ALL"].ToString(); ot = dt.Rows[0]["OT_RATE"].ToString();
+                    pf = dt.Rows[0]["PF"].ToString(); esi = dt.Rows[0]["ESI"].ToString(); loanadv = dt.Rows[0]["LOAN_ADV"].ToString();
+                    ins = dt.Rows[0]["INSURANCE"].ToString(); meals = dt.Rows[0]["MEALS"].ToString(); fine = dt.Rows[0]["FINE"].ToString();
+                    tds = dt.Rows[0]["TDS"].ToString(); othdeds = dt.Rows[0]["OTH_DEDS"].ToString(); woff = dt.Rows[0]["WOFF"].ToString();
 
                 }
 
-                var response = new { amt = amt };
+                var response = new { emplid = emplid, dept = dept, desg = desg, join = join, fath = fath, bank = bank, bankacc = bankacc, pfno = pfno, esino = esino, empdob = empdob, bassalary = bassalary, da = da, hra = hra, conv = conv, wa = wa, ea = ea, sa = sa, ot = ot, pf = pf, esi = esi, loanadv = loanadv, ins = ins, meals = meals, fine = fine, tds = tds, othdeds = othdeds, woff = woff };
                 return Json(response);
             }
             catch (Exception)
