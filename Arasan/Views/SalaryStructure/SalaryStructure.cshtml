@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Base Salary<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Base Salary<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.BasicSalary, new { @id = "BasicSalary", @class = "form-control", @TabIndex = 2 })
                                         </div>
@@ -67,7 +67,7 @@
                                     <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">DA<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.DA, new { @id = "DA", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.DA, new { @id = "DA", @class = "form-control", @readonly = "true", @TabIndex = 2 })
                                         </div>
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@
                                     <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">HRA<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.HRA, new { @id = "HRA", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.HRA, new { @id = "HRA", @class = "form-control", @readonly = "true", @TabIndex = 2 })
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +86,7 @@
                                     <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">Conveyance<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Conveyance, new { @id = "Conveyance", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.Conveyance, new { @id = "Conveyance", @class = "form-control", @readonly = "true", @TabIndex = 2 })
                                         </div>
                                     </div>
                                 </div>
@@ -94,7 +94,7 @@
                                     <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">OT<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.OT, new { @id = "OT", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.OT, new { @id = "OT", @class = "form-control", @readonly = "true", @TabIndex = 2 })
                                         </div>
                                     </div>
                                 </div>
@@ -105,7 +105,7 @@
                                     <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">Washing Allowance<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.WA, new { @id = "WA", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.WA, new { @id = "WA", @class = "form-control", @readonly = "true", @TabIndex = 2 })
                                         </div>
                                     </div>
                                 </div>
@@ -113,7 +113,7 @@
                                     <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">Educational Allowance<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.EA, new { @id = "EA", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.EA, new { @id = "EA", @class = "form-control", @readonly = "true", @TabIndex = 2 })
                                         </div>
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@
                                     <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">Special Allowance<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.SA, new { @id = "SA", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.SA, new { @id = "SA", @class = "form-control", @readonly = "true", @TabIndex = 2 })
                                         </div>
                                     </div>
                                 </div>
@@ -135,7 +135,7 @@
                                             <div class="input-group">
                                                 @Html.RadioButtonFor(C => C.Bonus, "Yes", new { @TabIndex = 2, @id = "Bonus", onchange = "changebonus(this.value)", @name = "Bonus" })
                                                 <label id="mt-radio">Yes</label>&emsp;
-                                                @Html.RadioButtonFor(C => C.Bonus, "No", new { @TabIndex = 3, @id = "Bonus", onchange = "changebonus(this.value)", @name = "Bonus", @checked = "checked" })
+                                                @Html.RadioButtonFor(C => C.Bonus, "No", new { @TabIndex = 3, @id = "Bonus", onchange = "changebonus(this.value)", @name = "Bonus" })
                                                 <label id="mt-radio">No</label>
                                             </div>
                                         </div>
@@ -145,7 +145,7 @@
                                     @if (Model.Bonus == "Yes")
                                     {
                                         <div id="it">
-                                            <label for="inputName3" class="col-sm-4 control-label">Bonus Amount<label class="mandatory"></label></label>
+                                            <label for="inputName3" class="col-sm-4 control-label">Bonus Amount<label class="mandatory">*</label></label>
                                             <div class="col-sm-8">
                                                 @Html.TextBoxFor(C => C.BonusAmt, new { @id = "BonusAmt", @class = "form-control", @TabIndex = 1 })
                                             </div>
@@ -289,11 +289,26 @@
             data: { "allamtid": amtid },
             type: "GET",
             success: function (response) {
-                document.getElementById("AllowanceAmt").value = response.amt;
+                document.getElementById("DA").value = response && response.da ? response.da : 0;
+                document.getElementById("HRA").value = response && response.hra ? response.hra : 0;
+                document.getElementById("Conveyance").value = response && response.conv ? response.conv : 0;
+                document.getElementById("OT").value = response && response.ot ? response.ot : 0;
+                document.getElementById("WA").value = response && response.wa ? response.wa : 0;
+                document.getElementById("EA").value = response && response.ea ? response.ea : 0;
+                document.getElementById("SA").value = response && response.sa ? response.sa : 0;
             },
             error: function () {
                 
-                //alert("Data Not Found");
+                // If AJAX fails, reset all to 0
+                document.getElementById("DA").value = 0;
+                document.getElementById("HRA").value = 0;
+                document.getElementById("Conveyance").value = 0;
+                document.getElementById("OT").value = 0;
+                document.getElementById("WA").value = 0;
+                document.getElementById("EA").value = 0;
+                document.getElementById("SA").value = 0;
+
+                alert("Data Not Found");
             }
         });
     }
@@ -318,9 +333,9 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("Salary").value == "") {
+            if (document.getElementById("BasicSalary").value == "" || document.getElementById("BasicSalary").value == '0') {
                 isValid = false;
-                $(Salary).css({
+                $(BasicSalary).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
@@ -329,7 +344,7 @@
                 return false;
             }
             else {
-                $(Salary).css({
+                $(BasicSalary).css({
                     "border": "",
                     "background": ""
                 });
@@ -350,6 +365,32 @@
                     "background": ""
                 });
             }
+            // if(document.getElementById("Bonus").value == "Yes")
+            // {
+            //     if (document.getElementById("BonusAmt").value == "" || document.getElementById("BonusAmt").value == '0') {
+            //         isValid = false;
+            //         $(BonusAmt).css({
+            //             "border": "1px solid red",
+            //             "background": "#FFCECE"
+            //         });
+
+            //         alert("Please Enter Bonus Amount");
+            //         return false;
+            //     }
+            //     else {
+            //         $(BonusAmt).css({
+            //             "border": "",
+            //             "background": ""
+            //         });
+            //     }
+            // }
+            // else {
+            //     $(Bonus).css({
+            //         "border": "",
+            //         "background": ""
+            //     });
+            // }
+            
 
             if (isValid == false)
                 e.preventDefault();

@@ -15,17 +15,17 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public DataTable GetEmpDetails(string empid)
-        {
-            string SvSql = string.Empty;
-            //SvSql = "select ASSIGN_ALLOWANCE.ID,AMT_PERC from ASSIGN_ALLOWANCE WHERE ASSIGN_ALLOWANCE.EMP_NAME='" + allamtid + "' AND ASSIGN_ALLOWANCE.IS_ACTIVE = 'Y'";
-            SvSql = "SELECT EM.EMPMASTID,EM.EMPID,EM.EMPNAME,EM.EMPDOB,EM.JOINDATE,EM.EMPDESIGN,EM.PFNO,EM.ESINO,EM.FATHERNAME,EM.WOFF,EM.BANK,EM.BANKACCNO,SS.BASIC_SALARY,SS.HRA, FROM EMPMAST EM LEFT OUTER JOIN SALARY_STRUCTURE SS ON SS.EMP_NAME=EM.EMPMASTID";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //public DataTable GetEmpDetails(string empid)
+        //{
+        //    string SvSql = string.Empty;
+        //    //SvSql = "select ASSIGN_ALLOWANCE.ID,AMT_PERC from ASSIGN_ALLOWANCE WHERE ASSIGN_ALLOWANCE.EMP_NAME='" + allamtid + "' AND ASSIGN_ALLOWANCE.IS_ACTIVE = 'Y'";
+        //    SvSql = "SELECT EM.EMPMASTID,EM.EMPID,EM.EMPNAME,EM.EMPDOB,EM.JOINDATE,EM.EMPDESIGN,EM.PFNO,EM.ESINO,EM.FATHERNAME,EM.WOFF,EM.BANK,EM.BANKACCNO,SS.BASIC_SALARY,SS.HRA, FROM EMPMAST EM LEFT OUTER JOIN SALARY_STRUCTURE SS ON SS.EMP_NAME=EM.EMPMASTID";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
 
         public DataTable GetAllSalarySlipGrid(string strStatus)
         {

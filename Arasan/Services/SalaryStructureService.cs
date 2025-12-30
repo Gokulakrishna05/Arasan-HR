@@ -19,7 +19,7 @@ namespace Arasan.Services
         public DataTable GetEditSalaryStructure(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select EMPNAME,BASIC_SALARY,DA,HRA,CONVEYANCE,OT_RATE,WASH_ALL,EDU_ALL,SPEC_ALL,BONUS_ISELIGIBLE,BONUS_AMT,PF,ESI,LOAN_ADV,INSURANCE,MEALS,FINE,TDS,OTH_DEDS from SALARY_STRUCTURE WHERE ID='" + id + "'";
+            SvSql = "Select ID,EMP_NAME,BASIC_SALARY,DA,HRA,CONVEYANCE,OT_RATE,WASH_ALL,EDU_ALL,SPEC_ALL,BONUS_ISELIGIBLE,BONUS_AMT,PF,ESI,LOAN_ADV,INSURANCE,MEALS,FINE,TDS,OTH_DEDS from SALARY_STRUCTURE WHERE ID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -38,7 +38,7 @@ namespace Arasan.Services
                     objconn.Open();
                     if (Cy.ID == null)
                     {
-                        svSQL = "Insert into SALARY_STRUCTURE (EMPNAME,BASIC_SALARY,DA,HRA,CONVEYANCE,OT_RATE,WASH_ALL,EDU_ALL,SPEC_ALL,BONUS_ISELIGIBLE,BONUS_AMT,PF,ESI,LOAN_ADV,INSURANCE,MEALS,FINE,TDS,OTH_DEDS) values ('" + Cy.EmpName + "','" + Cy.BasicSalary + "','" + Cy.DA + "','" + Cy.HRA + "','" + Cy.Conveyance + "','" + Cy.OT + "','" + Cy.WA + "','" + Cy.EA + "','" + Cy.SA + "','" + Cy.Bonus + "','" + Cy.BonusAmt + "','" + Cy.PF + "','" + Cy.ESI + "','" + Cy.LoanAdv + "','" + Cy.Insurance + "','" + Cy.Meals + "','" + Cy.Fine + "','" + Cy.TDS + "','" + Cy.OtherDeductions + "') ";
+                        svSQL = "Insert into SALARY_STRUCTURE (EMP_NAME,BASIC_SALARY,DA,HRA,CONVEYANCE,OT_RATE,WASH_ALL,EDU_ALL,SPEC_ALL,BONUS_ISELIGIBLE,BONUS_AMT,PF,ESI,LOAN_ADV,INSURANCE,MEALS,FINE,TDS,OTH_DEDS) values ('" + Cy.EmpName + "','" + Cy.BasicSalary + "','" + Cy.DA + "','" + Cy.HRA + "','" + Cy.Conveyance + "','" + Cy.OT + "','" + Cy.WA + "','" + Cy.EA + "','" + Cy.SA + "','" + Cy.Bonus + "','" + Cy.BonusAmt + "','" + Cy.PF + "','" + Cy.ESI + "','" + Cy.LoanAdv + "','" + Cy.Insurance + "','" + Cy.Meals + "','" + Cy.Fine + "','" + Cy.TDS + "','" + Cy.OtherDeductions + "') ";
                     }
                     else
                     {
@@ -62,11 +62,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select SALARY_STRUCTURE.ID,EMPMAST.EMPNAME,BONUS_ISELIGIBLE from SALARY_STRUCTURE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = SALARY_STRUCTURE.EMP_NAME WHERE SALARY_STRUCTURE.IS_ACTIVE='Y' ORDER BY SALARY_STRUCTURE.ID DESC ";
+                SvSql = "Select SALARY_STRUCTURE.ID,EMPMAST.EMPNAME,BONUS_ISELIGIBLE,SALARY_STRUCTURE.IS_ACTIVE from SALARY_STRUCTURE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = SALARY_STRUCTURE.EMP_NAME WHERE SALARY_STRUCTURE.IS_ACTIVE='Y' ORDER BY SALARY_STRUCTURE.ID DESC ";
             }
             else
             {
-                SvSql = "Select SALARY_STRUCTURE.ID,EMPMAST.EMPNAME,BONUS_ISELIGIBLE from SALARY_STRUCTURE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = SALARY_STRUCTURE.EMP_NAME WHERE SALARY_STRUCTURE.IS_ACTIVE='N' ORDER BY SALARY_STRUCTURE.ID DESC ";
+                SvSql = "Select SALARY_STRUCTURE.ID,EMPMAST.EMPNAME,BONUS_ISELIGIBLE,SALARY_STRUCTURE.IS_ACTIVE from SALARY_STRUCTURE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = SALARY_STRUCTURE.EMP_NAME WHERE SALARY_STRUCTURE.IS_ACTIVE='N' ORDER BY SALARY_STRUCTURE.ID DESC ";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -75,16 +75,16 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable GetAllAmtDetails(string allamtid)
-        {
-            string SvSql = string.Empty;
-            SvSql = "select ASSIGN_ALLOWANCE.ID,AMT_PERC from ASSIGN_ALLOWANCE WHERE ASSIGN_ALLOWANCE.EMP_NAME='" + allamtid + "' AND ASSIGN_ALLOWANCE.IS_ACTIVE = 'Y'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //public DataTable GetAllAmtDetails(string allamtid)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select ASSIGN_ALLOWANCE.ID,AMT_PERC from ASSIGN_ALLOWANCE WHERE ASSIGN_ALLOWANCE.EMP_NAME='" + allamtid + "' AND ASSIGN_ALLOWANCE.IS_ACTIVE = 'Y'";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
 
         public DataTable GetEmpName()
         {

@@ -84,7 +84,7 @@ namespace Arasan.Services
                                     if (cp.Isvalid == "Y" && cp.EffectiveDate != "")
                                     {
 
-                                        svSQL = "Insert into ASSIGN_ALLOWNACE_DETAILS (ASSALLDETAILID,ALLOWANCE_NAME_ID,ALLOWANCE_TYPE,AMT_PERC,EFFECTIVE_DATE,REMARKS) VALUES ('" + Pid + "','" + cp.AllowanceName + "','" + cp.AllowanceType + "','" + cp.AmtPerc + "','" + cp.EffectiveDate + "','" + cp.Description + "')";
+                                        svSQL = "Insert into ASSIGN_ALLOWNACE_DETAILS (ID,EMP_ID,ALLOWANCE_NAME_ID,ALLOWANCE_TYPE,AMT_PERC,EFFECTIVE_DATE,REMARKS) VALUES ('" + Pid + "','" + Cy.EmpName + "','" + cp.AllowanceName + "','" + cp.AllowanceType + "','" + cp.AmtPerc + "','" + cp.EffectiveDate + "','" + cp.Description + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                     }
@@ -93,7 +93,7 @@ namespace Arasan.Services
                             }
                             else
                             {
-                                svSQL = "Delete ASSIGN_ALLOWNACE_DETAILS WHERE ASSALLDETAILID='" + Cy.ID + "'";
+                                svSQL = "Delete ASSIGN_ALLOWNACE_DETAILS WHERE ID='" + Cy.ID + "'";
                                 OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
                                 objCmdd.ExecuteNonQuery();
                                 foreach (SelectAllowance cp in Cy.Allowancelst)
@@ -101,7 +101,7 @@ namespace Arasan.Services
                                     if (cp.Isvalid == "Y" && cp.EffectiveDate != "")
                                     {
 
-                                        svSQL = "Insert into ASSIGN_ALLOWNACE_DETAILS (ASSALLDETAILID,ALLOWANCE_NAME_ID,ALLOWANCE_TYPE,AMT_PERC,EFFECTIVE_DATE,REMARKS) VALUES ('" + Cy.ID + "','" + cp.AllowanceName + "','" + cp.AllowanceType + "','" + cp.AmtPerc + "','" + cp.EffectiveDate + "','" + cp.Description + "')";
+                                        svSQL = "Insert into ASSIGN_ALLOWNACE_DETAILS (ID,EMP_ID,ALLOWANCE_NAME_ID,ALLOWANCE_TYPE,AMT_PERC,EFFECTIVE_DATE,REMARKS) VALUES ('" + Cy.ID + "','" + Cy.EmpName + "','" + cp.AllowanceName + "','" + cp.AllowanceType + "','" + cp.AmtPerc + "','" + cp.EffectiveDate + "','" + cp.Description + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                     }
@@ -130,11 +130,13 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "SELECT AA.ID, EM.EMPNAME, AMN.ALLOWANCE_NAME, AMT.ALLOWANCE_TYPE, AA.IS_ACTIVE FROM ASSIGN_ALLOWANCE AA LEFT JOIN EMPMAST EM ON EM.EMPMASTID = AA.EMP_NAME LEFT JOIN ASSIGN_ALLOWNACE_DETAILS AD ON AD.ID = AA.ID LEFT JOIN ALLOWANCE_MASTER AMN ON AMN.ID = AD.ALLOWANCE_NAME_ID LEFT JOIN ALLOWANCE_MASTER AMT ON AMT.ID = AD.ALLOWANCE_TYPE WHERE AA.IS_ACTIVE = 'Y' ORDER BY AA.ID DESC";
+                //SvSql = "SELECT AA.ID, EM.EMPNAME, AMN.ALLOWANCE_NAME, AMT.ALLOWANCE_TYPE, AA.IS_ACTIVE FROM ASSIGN_ALLOWANCE AA LEFT JOIN EMPMAST EM ON EM.EMPMASTID = AA.EMP_NAME LEFT JOIN ASSIGN_ALLOWNACE_DETAILS AD ON AD.ID = AA.ID LEFT JOIN ALLOWANCE_MASTER AMN ON AMN.ID = AD.ALLOWANCE_NAME_ID LEFT JOIN ALLOWANCE_MASTER AMT ON AMT.ID = AD.ALLOWANCE_TYPE WHERE AA.IS_ACTIVE = 'Y' ORDER BY AA.ID DESC";
+                SvSql = "SELECT AA.ID, EM.EMPNAME, AA.IS_ACTIVE FROM ASSIGN_ALLOWANCE AA LEFT JOIN EMPMAST EM ON EM.EMPMASTID = AA.EMP_NAME WHERE AA.IS_ACTIVE = 'Y' ORDER BY AA.ID DESC";
             }
             else
             {
-                SvSql = "SELECT AA.ID, EM.EMPNAME, AMN.ALLOWANCE_NAME, AMT.ALLOWANCE_TYPE, AA.IS_ACTIVE FROM ASSIGN_ALLOWANCE AA LEFT JOIN EMPMAST EM ON EM.EMPMASTID = AA.EMP_NAME LEFT JOIN ASSIGN_ALLOWNACE_DETAILS AD ON AD.ID = AA.ID LEFT JOIN ALLOWANCE_MASTER AMN ON AMN.ID = AD.ALLOWANCE_NAME_ID LEFT JOIN ALLOWANCE_MASTER AMT ON AMT.ID = AD.ALLOWANCE_TYPE WHERE AA.IS_ACTIVE = 'N' ORDER BY AA.ID DESC";
+                //SvSql = "SELECT AA.ID, EM.EMPNAME, AMN.ALLOWANCE_NAME, AMT.ALLOWANCE_TYPE, AA.IS_ACTIVE FROM ASSIGN_ALLOWANCE AA LEFT JOIN EMPMAST EM ON EM.EMPMASTID = AA.EMP_NAME LEFT JOIN ASSIGN_ALLOWNACE_DETAILS AD ON AD.ID = AA.ID LEFT JOIN ALLOWANCE_MASTER AMN ON AMN.ID = AD.ALLOWANCE_NAME_ID LEFT JOIN ALLOWANCE_MASTER AMT ON AMT.ID = AD.ALLOWANCE_TYPE WHERE AA.IS_ACTIVE = 'N' ORDER BY AA.ID DESC";
+                SvSql = "SELECT AA.ID, EM.EMPNAME AA.IS_ACTIVE FROM ASSIGN_ALLOWANCE AA LEFT JOIN EMPMAST EM ON EM.EMPMASTID = AA.EMP_NAME WHERE AA.IS_ACTIVE = 'N' ORDER BY AA.ID DESC";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);

@@ -83,10 +83,10 @@
                                                             @Html.DisplayFor(o => o.Allowancelst[i].Description)
                                                         </td>
 
-                                                        <td>
+                                                        @* <td>
                                                             @Html.HiddenFor(o => o.Allowancelst[i].Isvalid, new { @id = "Isvalid" + i })
                                                             <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Allowancelst.Index" type="hidden" value="@(i)" />
-                                                        </td>
+                                                        </td> *@
 
                                                     </tr>
                                                     i = i + 1;
