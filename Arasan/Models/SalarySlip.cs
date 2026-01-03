@@ -55,15 +55,15 @@ namespace Arasan.Models
         public double TotalDeductions { get; set; }
 
         // Days Detail
-        public double TotWorkDays { get; set; }
-        public double NHDays { get; set; }
-        public double WeekOff { get; set; }
-        public double WorkedDays { get; set; }
-        public double LeaveDays { get; set; }
+        public string TotWorkDays { get; set; }
+        public string NHDays { get; set; }
+        public string WeekOff { get; set; }
+        public string WorkedDays { get; set; }
+        public string LeaveDays { get; set; }
         public double OpCL { get; set; }
         public double CLTaken { get; set; }
         public double CloCL { get; set; }
-        public double SalaryDays { get; set; }
+        public string SalaryDays { get; set; }
         public double NetSalary { get; set; }
     }
 

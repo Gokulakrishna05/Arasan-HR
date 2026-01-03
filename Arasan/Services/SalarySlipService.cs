@@ -15,28 +15,16 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-        //public DataTable GetEmpDetails(string empid)
-        //{
-        //    string SvSql = string.Empty;
-        //    //SvSql = "select ASSIGN_ALLOWANCE.ID,AMT_PERC from ASSIGN_ALLOWANCE WHERE ASSIGN_ALLOWANCE.EMP_NAME='" + allamtid + "' AND ASSIGN_ALLOWANCE.IS_ACTIVE = 'Y'";
-        //    SvSql = "SELECT EM.EMPMASTID,EM.EMPID,EM.EMPNAME,EM.EMPDOB,EM.JOINDATE,EM.EMPDESIGN,EM.PFNO,EM.ESINO,EM.FATHERNAME,EM.WOFF,EM.BANK,EM.BANKACCNO,SS.BASIC_SALARY,SS.HRA, FROM EMPMAST EM LEFT OUTER JOIN SALARY_STRUCTURE SS ON SS.EMP_NAME=EM.EMPMASTID";
-        //    DataTable dtt = new DataTable();
-        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-        //    adapter.Fill(dtt);
-        //    return dtt;
-        //}
-
         public DataTable GetAllSalarySlipGrid(string strStatus)
         {
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                //SvSql = "Select SALARY_STRUCTURE.ID,EMPMAST.EMPNAME,BONUS_ISELIGIBLE,SALARY_STRUCTURE.IS_ACTIVE from SALARY_STRUCTURE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = SALARY_STRUCTURE.EMP_NAME WHERE SALARY_STRUCTURE.IS_ACTIVE='Y' ORDER BY SALARY_STRUCTURE.ID DESC ";
+                SvSql = "Select SS.SALARY_SLIP_ID,EMPMAST.EMPNAME,SS.DEPT,SS.DESIG,SS.IS_ACTIVE from SALARY_SLIP SS LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = SS.EMP_NAME WHERE SS.IS_ACTIVE='Y' ORDER BY SS.SALARY_SLIP_ID DESC ";
             }
             else
             {
-                //SvSql = "Select SALARY_STRUCTURE.ID,EMPMAST.EMPNAME,BONUS_ISELIGIBLE,SALARY_STRUCTURE.IS_ACTIVE from SALARY_STRUCTURE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = SALARY_STRUCTURE.EMP_NAME WHERE SALARY_STRUCTURE.IS_ACTIVE='N' ORDER BY SALARY_STRUCTURE.ID DESC ";
+                SvSql = "Select SS.SALARY_SLIP_ID,EMPMAST.EMPNAME,SS.DEPT,SS.DESIG,SS.IS_ACTIVE from SALARY_SLIP SS LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = SS.EMP_NAME WHERE SS.IS_ACTIVE='N' ORDER BY SS.SALARY_SLIP_ID DESC ";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -67,11 +55,11 @@ namespace Arasan.Services
                     objconn.Open();
                     if (Cy.ID == null)
                     {
-                        //svSQL = "Insert into SALARY_STRUCTURE (EMP_NAME,BASIC_SALARY,HRA,ALLOWANCE_AMT,OT_RATE,INCENTIVE,BONUS_ISELIGIBLE) values ('" + Cy.EmpName + "','" + Cy.Salary + "','" + Cy.HRA + "','" + Cy.AllowanceAmt + "','" + Cy.OTRate + "','" + Cy.Incentive + "','" + Cy.Bonus + "') ";
+                        svSQL = "Insert into SALARY_SLIP (EMP_NAME,EMP_CODE,DOJ,DEPT,DESIG,FATHER_NAME,DOB,BANK_NAME,ACC_NO,IFSC,PF_NO,ESI_NO,SAL_DIST_DATE,GROSS_SAL_DAY,BASIC_SALARY,DA,HRA,CONVEYANCE,OT_RATE,WASH_ALL,EDU_ALL,SPEC_ALL,PF,ESI,LOAN_ADV,INSURANCE,MEALS,FINE,TDS,OTH_DEDS,TOT_WORK_DAYS,NH_DAYS,WEEKOFF,WORKED_DAYS,LEAVE_DAYS,OP_CL,CL_TAKEN,CLO_CL,SALARY_DAYS,NET_SALARY) values ('" + Cy.EmpName + "','" + Cy.EmpCode + "','" + Cy.DOJ + "','" + Cy.Dept + "','" + Cy.Desg + "','" + Cy.FatherName + "','" + Cy.DOB + "','" + Cy.BankName + "','" + Cy.AccNo + "','" + Cy.IFSC + "','" + Cy.PFNo + "','" + Cy.ESINo + "','" + Cy.SalDistDate + "','" + Cy.GrossSalaryDay + "','" + Cy.BasicSalary + "','" + Cy.DA + "','" + Cy.HRA + "','" + Cy.Conveyance + "','" + Cy.OT + "','" + Cy.WA + "','" + Cy.EA + "','" + Cy.SA + "','" + Cy.PF + "','" + Cy.ESI + "','" + Cy.LoanAdv + "','" + Cy.Insurance + "','" + Cy.Meals + "','" + Cy.Fine + "','" + Cy.TDS + "','" + Cy.OtherDeductions + "','" + Cy.TotWorkDays + "','" + Cy.NHDays + "','" + Cy.WeekOff + "','" + Cy.WorkedDays + "','" + Cy.LeaveDays + "','" + Cy.OpCL + "','" + Cy.CLTaken + "','" + Cy.CloCL + "','" + Cy.SalaryDays + "','" + Cy.NetSalary + "') ";
                     }
                     else
                     {
-                        //svSQL = " UPDATE SALARY_STRUCTURE SET EMP_NAME = '" + Cy.EmpName + "',BASIC_SALARY = '" + Cy.Salary + "',HRA = '" + Cy.HRA + "',ALLOWANCE_AMT = '" + Cy.AllowanceAmt + "',OT_RATE = '" + Cy.OTRate + "',INCENTIVE = '" + Cy.Incentive + "',BONUS_ISELIGIBLE = '" + Cy.Bonus + "'  Where ID = '" + Cy.ID + "' ";
+                        svSQL = " UPDATE SALARY_SLIP SET EMP_NAME = '" + Cy.EmpName + "',EMP_CODE = '" + Cy.EmpCode + "',DOJ = '" + Cy.DOJ + "',DEPT = '" + Cy.Dept + "',DESIG = '" + Cy.Desg + "',FATHER_NAME = '" + Cy.FatherName + "',DOB = '" + Cy.DOB + "',BANK_NAME = '" + Cy.BankName + "',ACC_NO = '" + Cy.AccNo + "',IFSC = '" + Cy.IFSC + "',PF_NO = '" + Cy.PFNo + "',ESI_NO = '" + Cy.ESINo + "',SAL_DIST_DATE = '" + Cy.SalDistDate + "',GROSS_SAL_DAY = '" + Cy.GrossSalaryDay + "',BASIC_SALARY = '" + Cy.BasicSalary + "',DA = '" + Cy.DA + "',HRA = '" + Cy.HRA + "',CONVEYANCE = '" + Cy.Conveyance + "',OT_RATE = '" + Cy.OT + "',WASH_ALL = '" + Cy.WA + "',EDU_ALL = '" + Cy.EA + "',SPEC_ALL = '" + Cy.SA + "',PF = '" + Cy.PF + "',ESI = '" + Cy.ESI + "',LOAN_ADV = '" + Cy.LoanAdv + "',INSURANCE = '" + Cy.Insurance + "',MEALS = '" + Cy.Meals + "',FINE = '" + Cy.Fine + "',TDS = '" + Cy.TDS + "',OTH_DEDS = '" + Cy.OtherDeductions + "',TOT_WORK_DAYS = '" + Cy.TotWorkDays + "',NH_DAYS = '" + Cy.NHDays + "',WEEKOFF = '" + Cy.WeekOff + "',WORKED_DAYS = '" + Cy.WorkedDays + "',LEAVE_DAYS = '" + Cy.LeaveDays + "',OP_CL = '" + Cy.OpCL + "',CL_TAKEN = '" + Cy.CLTaken + "',CLO_CL = '" + Cy.CloCL + "',SALARY_DAYS = '" + Cy.SalaryDays + "',NET_SALARY = '" + Cy.NetSalary + "'  Where SALARY_SLIP_ID = '" + Cy.ID + "' ";
                     }
                     OracleCommand oracleCommand = new OracleCommand(svSQL, objconn);
                     oracleCommand.Parameters.Add("OUTID", OracleDbType.Int64, ParameterDirection.ReturnValue);
@@ -95,11 +83,11 @@ namespace Arasan.Services
                 {
                     if (tag == "Del")
                     {
-                        svSQL = "UPDATE SALARY_SLIP SET IS_ACTIVE ='N' WHERE ID='" + id + "'";
+                        svSQL = "UPDATE SALARY_SLIP SET IS_ACTIVE ='N' WHERE SALARY_SLIP_ID='" + id + "'";
                     }
                     else
                     {
-                        svSQL = "UPDATE SALARY_SLIP SET IS_ACTIVE ='Y' WHERE ID='" + id + "'";
+                        svSQL = "UPDATE SALARY_SLIP SET IS_ACTIVE ='Y' WHERE SALARY_SLIP_ID='" + id + "'";
                     }
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
