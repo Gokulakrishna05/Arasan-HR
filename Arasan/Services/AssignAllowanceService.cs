@@ -18,7 +18,18 @@ namespace Arasan.Services
         public DataTable GetEditAssignAllowance(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ID,EMP_NAME,ALLOWANCE_NAME_ID,DESCRIPTION,ALLOWANCE_TYPE_ID,AMT_PERC,to_char(EFFECTIVE_DATE,'dd-MON-yyyy')EFFECTIVE_DATE from ASSIGN_ALLOWANCE WHERE ID='" + id + "'";
+            SvSql = "Select ID,EMP_NAME from ASSIGN_ALLOWANCE WHERE ID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetEditAssignAllowanceDetails(string? id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ASSALLDETAILID,ID,ALLOWANCE_NAME_ID,REMARKS,ALLOWANCE_TYPE,AMT_PERC,to_char(EFFECTIVE_DATE,'dd-MON-yyyy')EFFECTIVE_DATE from ASSIGN_ALLOWNACE_DETAILS WHERE ID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -29,30 +40,88 @@ namespace Arasan.Services
         public string AssignAllowanceCRUD(AssignAllowance Cy)
         {
             string msg = "";
-            string svSQL = "";
             try
             {
-                using (OracleConnection objconn = new OracleConnection(_connectionString))
+                string StatementType = string.Empty; string svSQL = "";
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    objconn.Open();
+                    OracleCommand objCmd = new OracleCommand("ASSALLBASICPROC", objConn);
+
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
                     if (Cy.ID == null)
                     {
-                        svSQL = "Insert into ASSIGN_ALLOWANCE (EMP_NAME,ALLOWANCE_NAME_ID,ALLOWANCE_TYPE_ID,AMT_PERC,EFFECTIVE_DATE,DESCRIPTION) values ('" + Cy.EmpName + "','" + Cy.AllowanceName + "','" + Cy.AllowanceType + "','" + Cy.AmtPerc + "','" + Cy.EffectiveDate + "','" + Cy.Description + "') ";
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                     }
                     else
                     {
-                        svSQL = " UPDATE ASSIGN_ALLOWANCE SET EMP_NAME = '" + Cy.EmpName + "',ALLOWANCE_NAME_ID = '" + Cy.AllowanceName + "',ALLOWANCE_TYPE_ID = '" + Cy.AllowanceType + "',AMT_PERC = '" + Cy.AmtPerc + "',EFFECTIVE_DATE = '" + Cy.EffectiveDate + "',DESCRIPTION = '" + Cy.Description + "'  Where ID = '" + Cy.ID + "' ";
+                        StatementType = "Update";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = Cy.ID;
                     }
-                    OracleCommand oracleCommand = new OracleCommand(svSQL, objconn);
-                    oracleCommand.Parameters.Add("OUTID", OracleDbType.Int64, ParameterDirection.ReturnValue);
-                    oracleCommand.ExecuteNonQuery();
+
+                    objCmd.Parameters.Add("EmpName", OracleDbType.NVarchar2).Value = Cy.EmpName;
+
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (Cy.ID != null)
+                        {
+                            Pid = Cy.ID;
+                        }
+                        if (Cy.Allowancelst != null)
+                        {
+                            if (Cy.ID == null)
+                            {
+                                foreach (SelectAllowance cp in Cy.Allowancelst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.EffectiveDate != "")
+                                    {
+
+                                        svSQL = "Insert into ASSIGN_ALLOWNACE_DETAILS (ID,EMP_ID,ALLOWANCE_NAME_ID,ALLOWANCE_TYPE,AMT_PERC,EFFECTIVE_DATE,REMARKS) VALUES ('" + Pid + "','" + Cy.EmpName + "','" + cp.AllowanceName + "','" + cp.AllowanceType + "','" + cp.AmtPerc + "','" + cp.EffectiveDate + "','" + cp.Description + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                svSQL = "Delete ASSIGN_ALLOWNACE_DETAILS WHERE ID='" + Cy.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+                                foreach (SelectAllowance cp in Cy.Allowancelst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.EffectiveDate != "")
+                                    {
+
+                                        svSQL = "Insert into ASSIGN_ALLOWNACE_DETAILS (ID,EMP_ID,ALLOWANCE_NAME_ID,ALLOWANCE_TYPE,AMT_PERC,EFFECTIVE_DATE,REMARKS) VALUES ('" + Cy.ID + "','" + Cy.EmpName + "','" + cp.AllowanceName + "','" + cp.AllowanceType + "','" + cp.AmtPerc + "','" + cp.EffectiveDate + "','" + cp.Description + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
                 }
             }
             catch (Exception ex)
             {
-                msg = ex.Message;
-                throw;
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
             }
+
             return msg;
         }
 
@@ -61,11 +130,13 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select ASSIGN_ALLOWANCE.ID,EMPMAST.EMPNAME,ALLOWANCE_MASTER.ALLOWANCE_NAME,ALLOWANCE_MASTER.ALLOWANCE_TYPE,ASSIGN_ALLOWANCE.IS_ACTIVE from ASSIGN_ALLOWANCE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = ASSIGN_ALLOWANCE.EMP_NAME LEFT OUTER JOIN ALLOWANCE_MASTER ON ALLOWANCE_MASTER.ID = ASSIGN_ALLOWANCE.ALLOWANCE_NAME_ID LEFT OUTER JOIN ALLOWANCE_MASTER ON ALLOWANCE_MASTER.ID = ASSIGN_ALLOWANCE.ALLOWANCE_TYPE_ID WHERE ASSIGN_ALLOWANCE.IS_ACTIVE='Y' ORDER BY ASSIGN_ALLOWANCE.ID DESC ";
+                //SvSql = "SELECT AA.ID, EM.EMPNAME, AMN.ALLOWANCE_NAME, AMT.ALLOWANCE_TYPE, AA.IS_ACTIVE FROM ASSIGN_ALLOWANCE AA LEFT JOIN EMPMAST EM ON EM.EMPMASTID = AA.EMP_NAME LEFT JOIN ASSIGN_ALLOWNACE_DETAILS AD ON AD.ID = AA.ID LEFT JOIN ALLOWANCE_MASTER AMN ON AMN.ID = AD.ALLOWANCE_NAME_ID LEFT JOIN ALLOWANCE_MASTER AMT ON AMT.ID = AD.ALLOWANCE_TYPE WHERE AA.IS_ACTIVE = 'Y' ORDER BY AA.ID DESC";
+                SvSql = "SELECT AA.ID, EM.EMPNAME, AA.IS_ACTIVE FROM ASSIGN_ALLOWANCE AA LEFT JOIN EMPMAST EM ON EM.EMPMASTID = AA.EMP_NAME WHERE AA.IS_ACTIVE = 'Y' ORDER BY AA.ID DESC";
             }
             else
             {
-                SvSql = "Select ASSIGN_ALLOWANCE.ID,EMPMAST.EMPNAME,ALLOWANCE_MASTER.ALLOWANCE_NAME,ALLOWANCE_MASTER.ALLOWANCE_TYPE,ASSIGN_ALLOWANCE.IS_ACTIVE from ASSIGN_ALLOWANCE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = ASSIGN_ALLOWANCE.EMP_NAME LEFT OUTER JOIN ALLOWANCE_MASTER ON ALLOWANCE_MASTER.ID = ASSIGN_ALLOWANCE.ALLOWANCE_NAME_ID LEFT OUTER JOIN ALLOWANCE_MASTER ON ALLOWANCE_MASTER.ID = ASSIGN_ALLOWANCE.ALLOWANCE_TYPE_ID WHERE ASSIGN_ALLOWANCE.IS_ACTIVE='N' ORDER BY ASSIGN_ALLOWANCE.ID DESC ";
+                //SvSql = "SELECT AA.ID, EM.EMPNAME, AMN.ALLOWANCE_NAME, AMT.ALLOWANCE_TYPE, AA.IS_ACTIVE FROM ASSIGN_ALLOWANCE AA LEFT JOIN EMPMAST EM ON EM.EMPMASTID = AA.EMP_NAME LEFT JOIN ASSIGN_ALLOWNACE_DETAILS AD ON AD.ID = AA.ID LEFT JOIN ALLOWANCE_MASTER AMN ON AMN.ID = AD.ALLOWANCE_NAME_ID LEFT JOIN ALLOWANCE_MASTER AMT ON AMT.ID = AD.ALLOWANCE_TYPE WHERE AA.IS_ACTIVE = 'N' ORDER BY AA.ID DESC";
+                SvSql = "SELECT AA.ID, EM.EMPNAME AA.IS_ACTIVE FROM ASSIGN_ALLOWANCE AA LEFT JOIN EMPMAST EM ON EM.EMPMASTID = AA.EMP_NAME WHERE AA.IS_ACTIVE = 'N' ORDER BY AA.ID DESC";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -135,5 +206,6 @@ namespace Arasan.Services
             }
             return "";
         }
+
     }
 }

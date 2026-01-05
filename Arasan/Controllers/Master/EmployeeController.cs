@@ -679,7 +679,7 @@ namespace Arasan.Controllers.Master
                 lstdesg.Add(new SelectListItem() { Text = "WEDNESDAY", Value = "WEDNESDAY" });
                 lstdesg.Add(new SelectListItem() { Text = "THURSDAY", Value = "THURSDAY" });
                 lstdesg.Add(new SelectListItem() { Text = "FRIDAY", Value = "FRIDAY" });
-                lstdesg.Add(new SelectListItem() { Text = "SATUREDAY", Value = "SATUREDAY" });
+                lstdesg.Add(new SelectListItem() { Text = "SATURDAY", Value = "SATURDAY" });
                 lstdesg.Add(new SelectListItem() { Text = "SUNDAY", Value = "SUNDAY" });
                 return lstdesg;
             }

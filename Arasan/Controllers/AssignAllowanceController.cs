@@ -24,11 +24,19 @@ namespace Arasan.Controllers
         {
             AssignAllowance ic = new AssignAllowance();
             ic.EmpNamelst = BindEmpName();
-            ic.AllowanceNamelst = BindAllowanceName();
-            ic.AllowanceTypelst = BindAllowanceType("");
-            if(id == null)
-            {
 
+            List<SelectAllowance> TData = new List<SelectAllowance>();
+            SelectAllowance tda = new SelectAllowance();
+            if (id == null)
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new SelectAllowance();
+                    tda.AllowanceNamelst = BindAllowanceName();
+                    tda.AllowanceTypelst = BindAllowanceType("");
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
             }
             else
             {
@@ -36,18 +44,32 @@ namespace Arasan.Controllers
                 dt = AssignAllowanceService.GetEditAssignAllowance(id);
                 if(dt.Rows.Count > 0)
                 {
-                    ic.ID = dt.Rows[0]["ID"].ToString();
+                    ic.ID = id;
                     ic.EmpNamelst = BindEmpName();
                     ic.EmpName = dt.Rows[0]["EMP_NAME"].ToString();
-                    ic.AllowanceNamelst = BindAllowanceName();
-                    ic.AllowanceName = dt.Rows[0]["ALLOWANCE_NAME_ID"].ToString();
-                    ic.AllowanceTypelst = BindAllowanceType(ic.AllowanceName);
-                    ic.AllowanceType = dt.Rows[0]["ALLOWANCE_TYPE_ID"].ToString();
-                    ic.AmtPerc = dt.Rows[0]["AMT_PERC"].ToString();
-                    ic.EffectiveDate = dt.Rows[0]["EFFECTIVE_DATE"].ToString();
-                    ic.Description = dt.Rows[0]["DESCRIPTION"].ToString();
+                }
+                DataTable dt2 = new DataTable();
+                dt2 = AssignAllowanceService.GetEditAssignAllowanceDetails(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new SelectAllowance();
+
+                        tda.AllowanceNamelst = BindAllowanceName();
+                        tda.AllowanceName = dt2.Rows[i]["ALLOWANCE_NAME_ID"].ToString();
+                        tda.AllowanceTypelst = BindAllowanceType(tda.AllowanceName);
+                        tda.AllowanceType = dt2.Rows[i]["ALLOWANCE_TYPE"].ToString();
+                        tda.AmtPerc = dt2.Rows[i]["AMT_PERC"].ToString();
+                        tda.EffectiveDate = dt2.Rows[i]["EFFECTIVE_DATE"].ToString();
+                        tda.Description = dt2.Rows[i]["REMARKS"].ToString();
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
                 }
             }
+            
+            ic.Allowancelst = TData;
             return View(ic);
         }
         [HttpPost]
@@ -115,8 +137,8 @@ namespace Arasan.Controllers
                 {
                     id = dtUsers.Rows[i]["ID"].ToString(),
                     empname = dtUsers.Rows[i]["EMPNAME"].ToString(),
-                    allowancename = dtUsers.Rows[i]["ALLOWANCE_NAME"].ToString(),
-                    allowancetype = dtUsers.Rows[i]["ALLOWANCE_TYPE"].ToString(),
+                    //allowancename = dtUsers.Rows[i]["ALLOWANCE_NAME"].ToString(),
+                    //allowancetype = dtUsers.Rows[i]["ALLOWANCE_TYPE"].ToString(),
                     editrow = EditRow,
                     viewrow = ViewRow,
                     delrow = DeleteRow,
@@ -133,18 +155,33 @@ namespace Arasan.Controllers
         {
             AssignAllowance ic = new AssignAllowance();
             DataTable dt = new DataTable();
-            dt = datatrans.GetData("Select EMPMAST.EMPNAME,ALLOWANCE_MASTER.ALLOWANCE_NAME,ALLOWANCE_MASTER.ALLOWANCE_TYPE,ASSIGN_ALLOWANCE.AMT_PERC,to_char(ASSIGN_ALLOWANCE.EFFECTIVE_DATE,'dd-MON-yyyy') AS EFFECTIVE_DATE,ASSIGN_ALLOWANCE.DESCRIPTION from ASSIGN_ALLOWANCE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = ASSIGN_ALLOWANCE.EMP_NAME LEFT OUTER JOIN ALLOWANCE_MASTER ON ALLOWANCE_MASTER.ID = ASSIGN_ALLOWANCE.ALLOWANCE_NAME_ID LEFT OUTER JOIN ALLOWANCE_MASTER ON ALLOWANCE_MASTER.ID = ASSIGN_ALLOWANCE.ALLOWANCE_TYPE_ID WHERE ASSIGN_ALLOWANCE.ID='" + id + "'");
+            dt = datatrans.GetData("Select EMPMAST.EMPNAME from ASSIGN_ALLOWANCE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID = ASSIGN_ALLOWANCE.EMP_NAME WHERE ASSIGN_ALLOWANCE.ID='" + id + "'");
 
             if (dt.Rows.Count > 0)
             {
                 ic.EmpName = dt.Rows[0]["EMPNAME"].ToString();
-                ic.AllowanceName = dt.Rows[0]["ALLOWANCE_NAME"].ToString();
-                ic.AllowanceType = dt.Rows[0]["ALLOWANCE_TYPE"].ToString();
-                ic.AmtPerc = dt.Rows[0]["AMT_PERC"].ToString();
-                ic.EffectiveDate = dt.Rows[0]["EFFECTIVE_DATE"].ToString();
-                ic.Description = dt.Rows[0]["DESCRIPTION"].ToString();
                 ic.ID = id;
             }
+            List<SelectAllowance> TData = new List<SelectAllowance>();
+            SelectAllowance tda = new SelectAllowance();
+
+            DataTable dtt = new DataTable();
+            dtt = datatrans.GetData("SELECT ALLOWANCE_MASTER.ALLOWANCE_NAME,ASSIGN_ALLOWNACE_DETAILS.ALLOWANCE_TYPE,ASSIGN_ALLOWNACE_DETAILS.AMT_PERC,to_char(ASSIGN_ALLOWNACE_DETAILS.EFFECTIVE_DATE,'dd-MON-yyyy') AS EFFECTIVE_DATE,ASSIGN_ALLOWNACE_DETAILS.REMARKS FROM ASSIGN_ALLOWNACE_DETAILS LEFT OUTER JOIN ALLOWANCE_MASTER ON ALLOWANCE_MASTER.ID = ASSIGN_ALLOWNACE_DETAILS.ALLOWANCE_NAME_ID WHERE ASSIGN_ALLOWNACE_DETAILS.ID='" + id + "' ");
+
+            if(dtt.Rows.Count > 0)
+            {
+                for(int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new SelectAllowance();
+                    tda.AllowanceName = dtt.Rows[i]["ALLOWANCE_NAME"].ToString();
+                    tda.AllowanceType = dtt.Rows[i]["ALLOWANCE_TYPE"].ToString();
+                    tda.AmtPerc = dtt.Rows[i]["AMT_PERC"].ToString();
+                    tda.EffectiveDate = dtt.Rows[i]["EFFECTIVE_DATE"].ToString();
+                    tda.Description = dtt.Rows[i]["REMARKS"].ToString();
+                    TData.Add(tda);
+                }
+            }
+            ic.Allowancelst = TData;
             return View(ic);
         }
 
@@ -184,6 +221,11 @@ namespace Arasan.Controllers
             {
                 throw;
             }
+        }
+
+        public JsonResult GetAllNameJSON()
+        {
+            return Json(BindAllowanceName());
         }
 
         private List<SelectListItem> BindAllowanceName()

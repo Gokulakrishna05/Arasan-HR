@@ -1,0 +1,662 @@
+﻿@model Arasan.Models.SalarySlip
+
+@{
+    ViewData["Title"] = "Salary Slip";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        @* <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a href="@Url.Action(" LeaveTypeMaster", " LeaveTypeMaster")">HR</a> </li>
+            <li class="active"> <strong>Leave Type Master </strong> </li>
+        </ol> *@
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Salary Slip</h5>
+                    <hr>
+                    @using (Html.BeginForm("SalarySlip", "SalarySlip", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+                            @* Employee Details *@
+                            <h6 style="font-size:14px; color:red;">Employee Details</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Employee Name<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.EmpName, Model.EmpNamelst, " -- Please Select -- ", new { @id = "EmpName", @Class = "form-control _select", @TabIndex = 1, onchange = "changeEmpDetails(this.value)" })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Employee ID<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.EmpCode, new { @id = "EmpCode", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Department<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Dept, new { @id = "Dept", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Designation<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Desg, new { @id = "Desg", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Date Of Joining<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.DOJ, new { @id = "DOJ", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Father Name<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.FatherName, new { @id = "FatherName", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @* Bank Details *@                           
+                            <br />
+                            <h6 style="font-size:14px; color:red;">Bank Details</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Bank Name<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.BankName, new { @id = "BankName", @readonly = true, @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Account Number<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.AccNo, new { @id = "AccNo", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">IFSC Code<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.IFSC, new { @id = "IFSC", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">P.F UAN No<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.PFNo, new { @id = "PFNo", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">ESI No<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.ESINo, new { @id = "ESINo", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Date Of Birth<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.DOB, new { @id = "DOB", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Salary Distribution Date<label class="mandatory"></label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.SalDistDate, new { @id = "SalDistDate", @class = "form-control", @TabIndex = 2, @readonly = true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Gross Salary Per Day<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.GrossSalaryDay, new { @id = "GrossSalaryDay", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @* Salary Details *@
+                            <br />
+                            <h6 style="font-size:14px; color:red;">Salary Details</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Base Salary<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.BasicSalary, new { @id = "BasicSalary", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">DA<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.DA, new { @id = "DA", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">HRA<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.HRA, new { @id = "HRA", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Conveyance<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Conveyance, new { @id = "Conveyance", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Washing Allowance<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.WA, new { @id = "WA", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Educational Allowance<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.EA, new { @id = "EA", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Special Allowance<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.SA, new { @id = "SA", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">OT<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.OT, new { @id = "OT", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @* <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Total Earnings<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.TotalEarnings, new { @id = "TotalEarnings", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>` *@
+
+                            @* Salary Deductions *@
+                            <br />
+                            <h6 style="font-size:14px; color:red;">Salary Deductions</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">PF<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.PF, new { @id = "PF", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">ESI<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.ESI, new { @id = "ESI", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Loan / Advance<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.LoanAdv, new { @id = "LoanAdv", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Insurance<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Insurance, new { @id = "Insurance", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Meals<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Meals, new { @id = "Meals", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Fine<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Fine, new { @id = "Fine", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">TDS<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.TDS, new { @id = "TDS", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Other Deductions<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.OtherDeductions, new { @id = "OtherDeductions", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @* <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Total Deductions<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.TotalDeductions, new { @id = "TotalDeductions", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> *@
+
+                            @* Days Detail *@
+                            <br />
+                            <h6 style="font-size:14px; color:red;">Days Detail</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Working Days<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.TotWorkDays, new { @id = "TotWorkDays", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">NH Days<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.NHDays, new { @id = "NHDays", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Week Off<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.WeekOff, new { @id = "WeekOff", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Worked Days<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.WorkedDays, new { @id = "WorkedDays", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Leave Days<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.LeaveDays, new { @id = "LeaveDays", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Op. C.L<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.OpCL, new { @id = "OpCL", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">CL Taken<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.CLTaken, new { @id = "CLTaken", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Clo. C.L<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.CloCL, new { @id = "CloCL", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Salary Days<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.SalaryDays, new { @id = "SalaryDays", @class = "form-control", @readonly = true, @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                @* <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Net Salary<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.NetSalary, new { @id = "NetSalary", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div> *@
+                            </div>
+
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-8"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListSalarySlip", "SalarySlip")'">Cancel</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+       $('._select').select2();
+    });
+
+    $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            startDate : new Date()
+    });
+
+    // Script to calculate no of working and salary days
+    $(document).ready(function () {
+
+        var today = new Date();
+
+        // Get year and month (month is 0-based)
+        var year = today.getFullYear();
+        var month = today.getMonth();
+
+        // Get total days in current month
+        var totalDays = new Date(year, month + 1, 0).getDate();
+
+        // Set values
+        $('#TotWorkDays').val(totalDays);
+        $('#SalaryDays').val(totalDays);
+    });
+
+    // Script to calculate no of weekoff
+    // $(document).ready(function () {
+
+    //     var today = new Date();
+    //     var year = today.getFullYear();
+    //     var month = today.getMonth(); // 0-based
+
+    //     var sundays = 0;
+
+    //     // Get total days in month
+    //     var totalDays = new Date(year, month + 1, 0).getDate();
+
+    //     // Loop through each day of the month
+    //     for (var day = 1; day <= totalDays; day++) {
+    //         var date = new Date(year, month, day);
+    //         if (date.getDay() === 0) { // 0 = Sunday
+    //             sundays++;
+    //         }
+    //     }
+
+    //     // Set value to WeekOff textbox
+    //     $('#WeekOff').val(sundays);
+    // });
+
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
+
+    function changeEmpDetails(empid) {
+        debugger;
+        $.ajax({
+            url: 'GetEmpDetailsJSON',
+            data: { "empid": empid },
+            type: "GET",
+            success: function (response) {
+                document.getElementById("EmpCode").value = response.emplid;
+                document.getElementById("Dept").value = response.dept;
+                document.getElementById("Desg").value = response.desg;
+                document.getElementById("DOJ").value = response.join;
+                document.getElementById("FatherName").value = response.fath;
+                document.getElementById("BankName").value = response.bank;
+                document.getElementById("AccNo").value = response.bankacc;
+                document.getElementById("PFNo").value = response.pfno;
+                document.getElementById("ESINo").value = response.esino;
+                document.getElementById("DOB").value = response.empdob;
+                document.getElementById("BasicSalary").value = response.bassalary;
+                document.getElementById("DA").value = response.da;
+                document.getElementById("HRA").value = response.hra;
+                document.getElementById("Conveyance").value = response.conv;
+                document.getElementById("WA").value = response.wa;
+                document.getElementById("EA").value = response.ea;
+                document.getElementById("SA").value = response.sa;
+                document.getElementById("OT").value = response.ot;
+                document.getElementById("PF").value = response.pf;
+                document.getElementById("ESI").value = response.esi;
+                document.getElementById("LoanAdv").value = response.loanadv;
+                document.getElementById("Insurance").value = response.ins;
+                document.getElementById("Meals").value = response.meals;
+                document.getElementById("Fine").value = response.fine;
+                document.getElementById("TDS").value = response.tds;
+                document.getElementById("OtherDeductions").value = response.othdeds;
+                //document.getElementById("WeekOff").value = response.woff;
+                document.getElementById("LeaveDays").value = response.totleave;
+                document.getElementById("CLTaken").value = response.cltaken;
+                document.getElementById("NHDays").value = response.nhdays;
+
+                var weekOffDay = response.woff; // e.g. "Sunday", "Monday"
+
+                var today = new Date();
+                var year = today.getFullYear();
+                var month = today.getMonth(); // 0-based
+
+                // Map day name to JS day number
+                var dayMap = {
+                    "SUNDAY": 0,
+                    "MONDAY": 1,
+                    "TUESDAY": 2,
+                    "WEDNESDAY": 3,
+                    "THURSDAY": 4,
+                    "FRIDAY": 5,
+                    "SATURDAY": 6
+                };
+
+                var targetDay = dayMap[weekOffDay];
+                var totalDays = new Date(year, month + 1, 0).getDate();
+                var count = 0;
+
+                for (var d = 1; d <= totalDays; d++) {
+                    var date = new Date(year, month, d);
+                    if (date.getDay() === targetDay) {
+                        count++;
+                    }
+                }
+
+                document.getElementById("WeekOff").value = count;
+
+                    // ---- Calculate Worked Days ----
+                var totWorkDays = parseFloat(document.getElementById("TotWorkDays").value) || 0;
+                var weekOff = parseFloat(document.getElementById("WeekOff").value) || 0;
+                var leaveDays = parseFloat(document.getElementById("LeaveDays").value) || 0;
+                var clTaken = parseFloat(document.getElementById("CLTaken").value) || 0;
+                var nhDays = parseFloat(document.getElementById("NHDays").value) || 0;
+
+                var workedDays = totWorkDays - (weekOff + leaveDays + clTaken + nhDays);
+
+                // Prevent negative values
+                if (workedDays < 0) {
+                    workedDays = 0;
+                }
+
+                document.getElementById("WorkedDays").value = workedDays;
+
+            },
+            error: function () {
+
+                alert("Data Not Found");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("EmpName").value == "") {
+                isValid = false;
+                $(EmpName).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Employee Name");
+                return false;
+            }
+            else {
+                $(EmpName).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
+
+</script>

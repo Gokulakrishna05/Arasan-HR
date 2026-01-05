@@ -53,7 +53,29 @@
                                     <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">Base Salary<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Salary, new { @id = "Salary", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.BasicSalary, new { @id = "BasicSalary", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @* Allowance & Bonus Details *@
+                            <br />
+                            <h6 style="font-size:14px; color:red;">Salary Details</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">DA<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.DA, new { @id = "DA", @class = "form-control", @readonly = "true", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">HRA<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.HRA, new { @id = "HRA", @class = "form-control", @readonly = "true", @TabIndex = 2 })
                                         </div>
                                     </div>
                                 </div>
@@ -62,17 +84,17 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">HRA<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Conveyance<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.HRA, new { @id = "HRA", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.Conveyance, new { @id = "Conveyance", @class = "form-control", @readonly = "true", @TabIndex = 2 })
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Allowance Amount<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">OT<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.AllowanceAmt, new { @id = "AllowanceAmt", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.OT, new { @id = "OT", @class = "form-control", @readonly = "true", @TabIndex = 2 })
                                         </div>
                                     </div>
                                 </div>
@@ -81,17 +103,17 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">OT Rate<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Washing Allowance<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.OTRate, new { @id = "OTRate", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.WA, new { @id = "WA", @class = "form-control", @readonly = "true", @TabIndex = 2 })
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Incentive<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Educational Allowance<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Incentive, new { @id = "Incentive", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.EA, new { @id = "EA", @class = "form-control", @readonly = "true", @TabIndex = 2 })
                                         </div>
                                     </div>
                                 </div>
@@ -100,18 +122,126 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Special Allowance<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.SA, new { @id = "SA", @class = "form-control", @readonly = "true", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">Bonus IsEligible<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             <div class="input-group">
-                                                @Html.RadioButtonFor(C => C.Bonus, "Yes", new { @TabIndex = 2, @id = "Bonus", @name = "Bonus" })
+                                                @Html.RadioButtonFor(C => C.Bonus, "Yes", new { @TabIndex = 2, @id = "Bonus", onchange = "changebonus(this.value)", @name = "Bonus" })
                                                 <label id="mt-radio">Yes</label>&emsp;
-                                                @Html.RadioButtonFor(C => C.Bonus, "No", new { @TabIndex = 3, @id = "Bonus", @name = "Bonus" })
+                                                @Html.RadioButtonFor(C => C.Bonus, "No", new { @TabIndex = 3, @id = "Bonus", onchange = "changebonus(this.value)", @name = "Bonus" })
                                                 <label id="mt-radio">No</label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-3">
+                                    @if (Model.Bonus == "Yes")
+                                    {
+                                        <div id="it">
+                                            <label for="inputName3" class="col-sm-4 control-label">Bonus Amount<label class="mandatory">*</label></label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(C => C.BonusAmt, new { @id = "BonusAmt", @class = "form-control", @TabIndex = 1 })
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div id="it" hidden>
+                                            <label for="inputName3" class="col-sm-4 control-label">Bonus Amount<label class="mandatory"></label></label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(C => C.BonusAmt, new { @id = "BonusAmt", @class = "form-control", @TabIndex = 1 })
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
                             </div>
+                            
+                            @* Salary Deductions *@
+                            <br />
+                            <h6 style="font-size:14px; color:red;">Salary Deductions</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">PF<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.PF, new { @id = "PF", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">ESI<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.ESI, new { @id = "ESI", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Loan / Advance<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.LoanAdv, new { @id = "LoanAdv", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Insurance<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Insurance, new { @id = "Insurance", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Meals<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Meals, new { @id = "Meals", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Fine<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Fine, new { @id = "Fine", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">TDS<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.TDS, new { @id = "TDS", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Other Deductions<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.OtherDeductions, new { @id = "OtherDeductions", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
 
                             <div style="height:30px;"></div>
                             <div class="col-lg-8"></div>
@@ -143,6 +273,15 @@
         $(dropDownId).trigger("liszt:updated");
     }
 
+    function changebonus(typeid) {
+        if (typeid == "Yes") {
+            document.getElementById("it").style.display = "block";
+        }
+        else {
+            document.getElementById("it").style.display = "none";
+        }
+    }
+
     function changeAllAmt(amtid) {
         debugger;
         $.ajax({
@@ -150,11 +289,26 @@
             data: { "allamtid": amtid },
             type: "GET",
             success: function (response) {
-                document.getElementById("AllowanceAmt").value = response.amt;
+                document.getElementById("DA").value = response && response.da ? response.da : 0;
+                document.getElementById("HRA").value = response && response.hra ? response.hra : 0;
+                document.getElementById("Conveyance").value = response && response.conv ? response.conv : 0;
+                document.getElementById("OT").value = response && response.ot ? response.ot : 0;
+                document.getElementById("WA").value = response && response.wa ? response.wa : 0;
+                document.getElementById("EA").value = response && response.ea ? response.ea : 0;
+                document.getElementById("SA").value = response && response.sa ? response.sa : 0;
             },
             error: function () {
                 
-                //alert("Data Not Found");
+                // If AJAX fails, reset all to 0
+                document.getElementById("DA").value = 0;
+                document.getElementById("HRA").value = 0;
+                document.getElementById("Conveyance").value = 0;
+                document.getElementById("OT").value = 0;
+                document.getElementById("WA").value = 0;
+                document.getElementById("EA").value = 0;
+                document.getElementById("SA").value = 0;
+
+                alert("Data Not Found");
             }
         });
     }
@@ -179,9 +333,9 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("Salary").value == "") {
+            if (document.getElementById("BasicSalary").value == "" || document.getElementById("BasicSalary").value == '0') {
                 isValid = false;
-                $(Salary).css({
+                $(BasicSalary).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
@@ -190,7 +344,7 @@
                 return false;
             }
             else {
-                $(Salary).css({
+                $(BasicSalary).css({
                     "border": "",
                     "background": ""
                 });
@@ -211,6 +365,32 @@
                     "background": ""
                 });
             }
+            // if(document.getElementById("Bonus").value == "Yes")
+            // {
+            //     if (document.getElementById("BonusAmt").value == "" || document.getElementById("BonusAmt").value == '0') {
+            //         isValid = false;
+            //         $(BonusAmt).css({
+            //             "border": "1px solid red",
+            //             "background": "#FFCECE"
+            //         });
+
+            //         alert("Please Enter Bonus Amount");
+            //         return false;
+            //     }
+            //     else {
+            //         $(BonusAmt).css({
+            //             "border": "",
+            //             "background": ""
+            //         });
+            //     }
+            // }
+            // else {
+            //     $(Bonus).css({
+            //         "border": "",
+            //         "background": ""
+            //     });
+            // }
+            
 
             if (isValid == false)
                 e.preventDefault();

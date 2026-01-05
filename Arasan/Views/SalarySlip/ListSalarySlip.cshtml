@@ -1,7 +1,7 @@
-﻿@model Arasan.Models.AssignAllowance
+﻿@model Arasan.Models.SalarySlip
 
 @{
-    ViewData["Title"] = "ListAssignAllowance";
+    ViewData["Title"] = "ListSalarySlip";
 }
 <partial name="JqxGridPartial" />
 <script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
@@ -20,7 +20,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Hr</a> </li>
-            <li class="active"> <strong>List Assign Allowance </strong> </li>
+            <li class="active"> <strong>List Salary Slip </strong> </li>
         </ol>
     </div>
 </div>
@@ -29,7 +29,7 @@
         $(document).ready(function () {
             var source =
             {
-                url: "/AssignAllowance/MyListAssignAllowancegrid",
+                url: "/SalarySlip/MyListSalarySlipgrid",
                 data: {
                     strstatus: "Y"
                 },
@@ -38,11 +38,13 @@
                 },
                 datafields: [
                     { name: 'empname', type: 'string' },
-                    //{ name: 'allowancename', type: 'string' },
-                    //{ name: 'allowancetype', type: 'string' },
+                    { name: 'dept', type: 'string' },
+                    { name: 'desg', type: 'string' },
+                    { name: 'pdf', type: 'string' },
                     { name: 'editrow', type: 'string' },
-                    { name: 'delrow', type: 'string' },
                     { name: 'viewrow', type: 'string' },
+                    { name: 'delrow', type: 'string' }
+                    
                 ],
                 id: 'id',
             };
@@ -79,8 +81,9 @@
 
                     columns: [
                         { text: 'Employee Name', filtertype: 'input', datafield: 'empname', width: 230 },
-                        //{ text: 'Allowance Name', filtertype: 'input', datafield: 'allowancename', width: 230 },
-                        //{ text: 'Allowance Type', filtertype: 'input', datafield: 'allowancetype', width: 230 },
+                        { text: 'Department', filtertype: 'input', datafield: 'dept', width: 230 },
+                        { text: 'Designation', filtertype: 'input', datafield: 'desg', width: 230 },
+                        { text: 'PDF', datafield: 'pdf', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
                         { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
                         { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 100 },
                         { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsrenderer: linkrenderer1, cellsalign: 'center', width: 100 },
@@ -117,7 +120,7 @@
                             </div>
                             <div class="col-md-9 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("AssignAllowance", "AssignAllowance")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Assign Allowance </a>
+                                    <a href="@Url.Action("SalarySlip", "SalarySlip")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Salary Slip </a>
                                     <br>
                                 </div>
 

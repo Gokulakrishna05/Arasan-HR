@@ -49,16 +49,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                @* <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">Allowance Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.AllowanceName, Model.AllowanceNamelst, " -- Please Select -- ", new { @id = "AllowanceName", @Class = "form-control _select", @TabIndex = 1, onchange = "changeAllType(this.value)" })
                                         </div>
                                     </div>
-                                </div>                               
+                                </div> *@                               
                             </div>
-                            <br />
+                            @* <br />
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -96,6 +96,85 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div> *@
+
+                            @* Table *@
+
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="btn-group">
+                                        <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+
+
+                                    <table class="table table-striped table-hover" id="dataTable">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Allowance Name</th>
+                                                <th>Allowance Type</th>
+                                                <th>Amount/Percentage</th>
+                                                <th>Effective Date</th>
+                                                <th>Remarks</th>
+                                                
+                                            </tr>
+
+                                        </thead>
+                                        <tbody id="tbBooks">
+                                            @{
+
+                                                int i = 0;
+
+                                                foreach (var item in Model.Allowancelst.ToList())
+                                                {
+                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                        <td>
+                                                            @Html.DropDownListFor(o => o.Allowancelst[i].AllowanceName, Model.Allowancelst[i].AllowanceNamelst, " -- Please Select -- ", new { @id = "AllowanceName" + i, @Class = "form-control _select", @TabIndex = 1, onchange = "changeAllType(this.value," + i + ")" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.DropDownListFor(o => o.Allowancelst[i].AllowanceType, Model.Allowancelst[i].AllowanceTypelst, " -- Please Select -- ", new { @id = "AllowanceType" + i, @Class = "form-control _select", @TabIndex = 1 })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.Allowancelst[i].AmtPerc, new { @id = "AmtPerc" + i, @class = "form-control", @TabIndex = 2 })
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <div class="input-group date from_Date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                    @Html.TextBoxFor(o => o.Allowancelst[i].EffectiveDate, new { @id = "EffectiveDate" + i, @class = "form-control", @TabIndex = 2, style = "width: 120px;", @readonly = true })
+                                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextAreaFor(o => o.Allowancelst[i].Description, new { @id = "Description" + i, @class = "form-control", @TabIndex = 2 })
+                                                        </td>
+                                                        
+                                                        <td>
+                                                            @Html.HiddenFor(o => o.Allowancelst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Allowancelst.Index" type="hidden" value="@(i)" />
+                                                        </td>
+
+                                                    </tr>
+                                                    i = i + 1;
+
+
+                                                }
+                                            }
+
+                                        </tbody>
+
+
+
+
+                                    </table>
+                                </div>
                             </div>
 
                             <div style="height:30px;"></div>
@@ -128,14 +207,16 @@
         $(dropDownId).trigger("liszt:updated");
     }
 
-    function changeAllType(ALLOWANCE_NAME) {
+    function changeAllType(ALLOWANCE_NAME, i) {
+        var product = "#AllowanceType" + i;
+        $(product).select2("val", "0");
         $.ajax({
             url: "GetAllTypeJSON",
             type: "post",
             data: { 'alltypeid': ALLOWANCE_NAME },
             cache: false,
             success: function (response) {
-                PopulateDropDown("#AllowanceType", response);
+                PopulateDropDown("#AllowanceType" + i, response);
             },
             error: function () {
                 debugger;
@@ -164,61 +245,167 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("AllowanceName").value == "") {
-                isValid = false;
-                $(AllowanceName).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
 
-                alert("Please Select Allowance Name");
-                return false;
-            }
-            else {
-                $(AllowanceName).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("AllowanceType").value == "") {
-                isValid = false;
-                $(AllowanceType).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+            var i = 0;
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
 
-                alert("Please Select Allowance Type");
-                return false;
-            }
-            else {
-                $(AllowanceType).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            
-            if (document.getElementById("AmtPerc").value == "") {
-                isValid = false;
-                $(AmtPerc).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
 
-                alert("Please Enter Amount/Percentage");
-                return false;
-            }
-            else {
-                $(AmtPerc).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+                    if ($(this).find('#AllowanceName' + i.toString()).val() == "" || $(this).find('#AllowanceName' + i.toString()).val() == 0) {
+                        isValid = false;
+                        $(this).find('#AllowanceName' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        alert("Please Select Allowance Name");
+                        $(this).find('#AllowanceName' + i.toString()).focus();
+                        return false;
+                    }
+                    else {
+                        $(this).find('#AllowanceName' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#AllowanceType' + i.toString()).val() == "" || $(this).find('#AllowanceType' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#AllowanceType' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select Allowance Type");
+                        $(this).find('#AllowanceType' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#AllowanceType' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#AmtPerc' + i.toString()).val() == "" || $(this).find('#AmtPerc' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#AmtPerc' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Amount/Percentage");
+                        $(this).find('#AmtPerc' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#AmtPerc' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#EffectiveDate' + i.toString()).val() == "" || $(this).find('#EffectiveDate' + i.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#EffectiveDate' + i.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select Effective Date");
+                        $(this).find('#EffectiveDate' + i.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#EffectiveDate' + i.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                }
+                i += 1;
+            });
 
             if (isValid == false)
                 e.preventDefault();
         });
 
     });
+
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+
+    function AddRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetAllNameJSON',
+            success: function (data) {
+
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow(opt);
+            }
+        })
+    }
+    function AppendRow(opt) {
+        var index = $("#tbBooks").children("tr").length;
+
+        var allname = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='AllowanceName" + index + "' name='Allowancelst[" + index + "].AllowanceName', onchange = 'changeAllType(this.value," + index + ")'><option value=''>Please Select</option>" + opt + "</select></td>";
+        var alltype = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='AllowanceType" + index + "' name='Allowancelst[" + index + "].AllowanceType'><option value=''>Please Select</option>" + opt + "</select></td>";
+        var amtper = "<td><input class='form-control' id='AmtPerc" + index + "' name='Allowancelst[" + index + "].AmtPerc'  style='width: 200px;' type='text' /></td>";
+        // var effdate = "<td><div class='input-group date from_date col-sm-8' data-date='' data-date-format='dd-M-yyyy'><input class='form-control' id='EffectiveDate' '" + index + "' name='Allowancelst[" + index + "].EffectiveDate' style='width: 120px;' readonly='true' ><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+        var effdate = "<td>" + "<div class='input-group date from_Date col-sm-8' data-date='' data-date-format='dd-M-yyyy'>" + "<input class='form-control' " +
+                    "id='EffectiveDate" + index + "' " + "name='Allowancelst[" + index + "].EffectiveDate' " + "style='width: 120px;' readonly='true' />" +
+                    "<span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span>" + "<span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span>" + "</div>" + "</td>";
+        var remarks = "<td><textarea class='form-control' id='Description" + index + "' name='Allowancelst[" + index + "].Description'  style='width: 200px;' type='text'></textarea> </td>";
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Allowancelst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Allowancelst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + allname + alltype + amtper + effdate + remarks + removeCell + "</tr>";
+        $("#tbBooks").append(newRow);
+
+        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
+        
+        // Get tomorrow's date
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        // Initialize From Date picker
+        $('.from_Date').datetimepicker({
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            startDate: tomorrow,
+            forceParse: 0
+        });
+
+    }
 
     // Get tomorrow's date
     var tomorrow = new Date();
@@ -235,16 +422,4 @@
         startDate: tomorrow,
         forceParse: 0
     });
-
-    // // Initialize To Date picker
-    // $('.to_date').datetimepicker({
-    //     weekStart: 1,
-    //     todayBtn: 1,
-    //     autoclose: 1,
-    //     todayHighlight: 1,
-    //     startView: 2,
-    //     minView: 2,
-    //     startDate: tomorrow,
-    //     forceParse: 0
-    // });
 </script>
